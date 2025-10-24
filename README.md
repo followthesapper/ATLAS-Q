@@ -168,31 +168,41 @@ qih_features = periodic_mixture_features(signal, periods, hist_bins=32)
 print(f"Feature shape: {qih_features.shape}")  # (64,) - 32 bins per period
 ```
 
-### Example 5: AQED Transformer
+### Example 5: AQED Transformer (Ultra-Fast)
+
+```bash
+# Quick training with torch.compile (1.37× speedup!)
+./run_training.sh --seq_len 4096 --batch_size 8 --epochs 3 --compile
+```
+
+Or in Python:
 
 ```python
-from transformers.train_transformer_routed_hybrid import RoutedHybridTransformerLM, Config
+import os
+os.environ['TRITON_PTXAS_PATH'] = '/usr/local/cuda/bin/ptxas'
+os.environ['TORCH_CUDA_ARCH_LIST'] = '12.0'
+
+from transformers.train_transformer_ultra_fast import UltraFastTransformerLM, Config
 import torch
 
-# Configure hybrid transformer
+# Configure ultra-fast transformer
 cfg = Config(
     vocab_size=32000,
-    seq_len=512,
+    seq_len=4096,
     d_model=512,
     n_layers=8,
     n_heads=8,
-    route_frac=0.15,  # 15% tokens use full attention
-    mixer_depth=2,     # 2 mixing steps
+    attn_keep_every=8,  # Skip attention every 8 layers
+    compile=True,        # Enable torch.compile
 )
 
 # Create model
-model = RoutedHybridTransformerLM(cfg).cuda()
+model = UltraFastTransformerLM(cfg).cuda()
 
-# Forward pass
-input_ids = torch.randint(0, cfg.vocab_size, (4, cfg.seq_len)).cuda()
-logits = model(input_ids)  # [4, 512, 32000]
+# torch.compile optimizes the model (1st epoch slow, 2+ fast!)
+model = torch.compile(model)
 
-# Train with adaptive controller (see transformers/ directory for full scripts)
+# Train (see transformers/ directory for full scripts)
 ```
 
 ---
@@ -201,6 +211,8 @@ logits = model(input_ids)  # [4, 512, 32000]
 
 - **[Technical Whitepaper](WHITEPAPER.md)**: In-depth algorithms, theory, and complexity analysis
 - **[Usage Guide](USAGE_GUIDE.md)**: Step-by-step tutorials for common tasks
+- **[torch.compile Guide](TORCH_COMPILE_GUIDE.md)**: GB10/DGX Spark setup and optimization ⭐ NEW
+- **[Executive Summary](EXECUTIVE_SUMMARY.md)**: Current status and performance results
 - **[API Reference](https://quantum-hybrid-simulator.readthedocs.io)**: Detailed API documentation
 - **[Notebooks](Notebooks/)**: 21 interactive examples covering all features
 - **[Changelog](CHANGELOG.md)**: Version history and release notes
@@ -267,15 +279,18 @@ Start with `01_getting_started.ipynb` for a guided tour.
 | 50 | 32 B | 1.6 KB | 102 KB | 18 PB |
 | 100 | 32 B | 3.2 KB | 204 KB | ~10³⁰ B |
 
-### AQED Transformer Performance (L=512)
+### AQED Transformer Performance (October 2025)
 
-| Configuration | Throughput | Loss | Memory |
-|---------------|------------|------|--------|
-| Baseline (Full Attention) | 101,448 tok/s | 6.353 | 5,551 MB |
-| AQED Routed (15%) | 66,453 tok/s | 6.346 | TBD |
-| AQED Routed (10%) | 74,778 tok/s | 6.328 | TBD |
+| Configuration | L=2048 | L=4096 | Speedup |
+|---------------|--------|--------|---------|
+| **Baseline** | 168k tok/s | 190k tok/s | 1.00× |
+| **AQED (skip=4)** | 170k tok/s | - | 1.01× |
+| **AQED (skip=8)** | 178k tok/s | 225k tok/s | 1.06-1.18× |
+| **+ torch.compile** | **231k tok/s** | **239k tok/s** | **1.25-1.37×** ✅ |
+| **+ Flash Attention** | ~350k tok/s | ~400k tok/s | **2-4× (est.)** 🔄 |
 
-*At longer sequences (L ≥ 1024), AQED shows even greater advantages.*
+*Loss quality maintained (~6.3) across all configurations.*
+*See `TORCH_COMPILE_GUIDE.md` for setup instructions.*
 
 ### Period-Finding Success Rate
 

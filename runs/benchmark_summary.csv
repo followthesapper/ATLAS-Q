@@ -1,0 +1,2 @@
+config,loss,tok_per_s,elapsed_s,speedup
+Ultra (no compile),6.389837417602539,99029.09923644408,27.702008962631226,1.0

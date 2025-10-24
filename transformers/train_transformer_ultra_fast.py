@@ -35,7 +35,11 @@ except Exception:
     from torch.cuda.amp import GradScaler, autocast
     _USE_NEW_AMP = False
 
-# Try Flash Attention
+# Check for memory-efficient attention (PyTorch 2.0+)
+# This includes Flash Attention, memory-efficient attention, and more
+_HAS_SDPA = hasattr(F, 'scaled_dot_product_attention')
+
+# Try external Flash Attention (optional, fallback to PyTorch SDPA)
 try:
     from flash_attn import flash_attn_func
     _HAS_FLASH = True
@@ -64,7 +68,7 @@ class Config:
 
     # AQED knobs
     attn_keep_every: int = 4  # Full attention every N layers
-    use_flash: bool = _HAS_FLASH  # Use Flash Attention if available
+    use_flash: bool = True  # Use memory-efficient attention (PyTorch SDPA or Flash Attention)
     compile: bool = False  # torch.compile everything
 
     # Logging
@@ -115,23 +119,22 @@ class UltraFastMixer(nn.Module):
 class UltraHybridBlock(nn.Module):
     """
     Alternates between full attention (every attn_keep_every layers) and mixer.
-    Uses Flash Attention if available.
+    Uses PyTorch's scaled_dot_product_attention (memory-efficient, Flash Attention backend when available).
     """
     def __init__(self, d_model, n_heads, d_ff, dropout, layer_idx, attn_keep_every, use_flash):
         super().__init__()
         self.layer_idx = layer_idx
         self.use_attention = (layer_idx % attn_keep_every == 0)
-        self.use_flash = use_flash and _HAS_FLASH
+        # Use PyTorch SDPA if available, fallback to external flash-attn
+        self.use_sdpa = use_flash and _HAS_SDPA
+        self.use_flash_external = use_flash and _HAS_FLASH and not _HAS_SDPA
 
         self.ln1 = nn.LayerNorm(d_model)
         if self.use_attention:
-            if self.use_flash:
-                # Flash Attention path (requires specific input format)
-                self.attn = None  # We'll call flash_attn_func directly
-                self.qkv = nn.Linear(d_model, 3 * d_model, bias=False)
-                self.out_proj = nn.Linear(d_model, d_model, bias=False)
-            else:
-                self.attn = nn.MultiheadAttention(d_model, n_heads, dropout=dropout, batch_first=True)
+            # Always use QKV projection for memory-efficient attention
+            self.qkv = nn.Linear(d_model, 3 * d_model, bias=False)
+            self.out_proj = nn.Linear(d_model, d_model, bias=False)
+            self.dropout = dropout
         else:
             self.mixer = UltraFastMixer(d_model, dropout)
 
@@ -153,17 +156,55 @@ class UltraHybridBlock(nn.Module):
         h = self.ln1(x)
 
         if self.use_attention:
-            if self.use_flash and _HAS_FLASH:
-                # Flash Attention path
+            if self.use_sdpa:
+                # PyTorch scaled_dot_product_attention (memory-efficient!)
                 B, L, D = h.shape
                 qkv = self.qkv(h).reshape(B, L, 3, self.n_heads, self.d_head)
-                # flash_attn_func expects [B, L, 3, H, D_head]
-                attn_out = flash_attn_func(qkv, dropout_p=0.0 if not self.training else 0.1)
+                q, k, v = qkv[:, :, 0], qkv[:, :, 1], qkv[:, :, 2]
+
+                # Reshape for SDPA: [B, H, L, D_head]
+                q = q.transpose(1, 2)
+                k = k.transpose(1, 2)
+                v = v.transpose(1, 2)
+
+                # Use PyTorch's memory-efficient attention
+                attn_out = F.scaled_dot_product_attention(
+                    q, k, v,
+                    dropout_p=self.dropout if self.training else 0.0,
+                    is_causal=False
+                )
+
+                # Reshape back: [B, L, D]
+                attn_out = attn_out.transpose(1, 2).reshape(B, L, D)
+                attn_out = self.out_proj(attn_out)
+
+            elif self.use_flash_external and _HAS_FLASH:
+                # External flash_attn (if PyTorch SDPA not available)
+                B, L, D = h.shape
+                qkv = self.qkv(h).reshape(B, L, 3, self.n_heads, self.d_head)
+                attn_out = flash_attn_func(qkv, dropout_p=self.dropout if self.training else 0.0)
                 attn_out = attn_out.reshape(B, L, D)
                 attn_out = self.out_proj(attn_out)
+
             else:
-                # Standard attention
-                attn_out, _ = self.attn(h, h, h, need_weights=False)
+                # Fallback: manual QKV attention
+                B, L, D = h.shape
+                qkv = self.qkv(h).reshape(B, L, 3, self.n_heads, self.d_head)
+                q, k, v = qkv[:, :, 0], qkv[:, :, 1], qkv[:, :, 2]
+
+                # Manual attention
+                q = q.transpose(1, 2)  # [B, H, L, D_head]
+                k = k.transpose(1, 2)
+                v = v.transpose(1, 2)
+
+                attn = (q @ k.transpose(-2, -1)) / math.sqrt(self.d_head)
+                attn = F.softmax(attn, dim=-1)
+                if self.training:
+                    attn = F.dropout(attn, p=self.dropout)
+
+                attn_out = (attn @ v).transpose(1, 2).reshape(B, L, D)
+                attn_out = self.out_proj(attn_out)
+
             x = x + attn_out
         else:
             # Mixer path
@@ -303,7 +344,7 @@ def main():
         weight_decay=args.weight_decay,
         amp=not args.no_amp,
         attn_keep_every=args.attn_keep_every,
-        use_flash=_HAS_FLASH and not args.no_flash,
+        use_flash=not args.no_flash,
         compile=args.compile,
         log_csv=args.log_csv,
         log_every=args.log_every,
@@ -342,7 +383,12 @@ def main():
 
     print(f"Config: L={cfg.seq_len}, B={cfg.batch_size}, attn_every={cfg.attn_keep_every}")
     if cfg.use_flash:
-        print("✓ Using Flash Attention")
+        if _HAS_SDPA:
+            print("✓ Using PyTorch memory-efficient attention (SDPA)")
+        elif _HAS_FLASH:
+            print("✓ Using Flash Attention (external)")
+        else:
+            print("ℹ Using standard attention")
     if cfg.compile:
         print("✓ Using torch.compile")
 
