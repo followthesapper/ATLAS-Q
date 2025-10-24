@@ -1,0 +1,45 @@
+# Include documentation files
+include README.md
+include LICENSE
+include CHANGELOG.md
+include CONTRIBUTING.md
+include USAGE_GUIDE.md
+include WHITEPAPER.md
+include RELEASE.md
+
+# Include configuration files
+include pyproject.toml
+include *.toml
+include *.cfg
+include *.ini
+
+# Include all test files
+recursive-include Tests *.py
+recursive-include Tests *.txt
+recursive-include Tests *.json
+
+# Include notebooks
+recursive-include Notebooks *.ipynb
+recursive-include Notebooks *.md
+
+# Include scripts and examples
+recursive-include scripts *.py
+recursive-include transformers *.py
+
+# Include benchmark results and plots (selective)
+include runs/README.md
+
+# Exclude build artifacts
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude __pycache__
+global-exclude *.so
+global-exclude *.egg-info
+
+# Exclude development files
+exclude .gitignore
+exclude .git*
+prune .venv
+prune venv
+prune build
+prune dist

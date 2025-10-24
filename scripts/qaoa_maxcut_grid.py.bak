@@ -1,0 +1,281 @@
+#!/usr/bin/env python3
+import math, argparse, time, numpy as np, torch
+from pathlib import Path
+import importlib.util
+import copy
+
+# --- load tn_core from your repo ---
+tn_path = Path(__file__).parent.parent / 'src' / 'quantum_hybrid_system' / 'tools_qih' / 'tn_core.py'
+spec = importlib.util.spec_from_file_location("tn_core", tn_path)
+tn_core = importlib.util.module_from_spec(spec); spec.loader.exec_module(tn_core)
+
+# --- optional AI predictor (fine-tuned + compiled supported) ---
+ft_path = Path(__file__).parent.parent / 'src' / 'quantum_hybrid_system' / 'tools_qih' / 'finetuned_predictor.py'
+spec_ft = importlib.util.spec_from_file_location("finetuned_predictor", ft_path)
+finetuned = importlib.util.module_from_spec(spec_ft); spec_ft.loader.exec_module(finetuned)
+FinetunedPredictorWrapper = finetuned.FinetunedPredictorWrapper
+
+# ------------------ helpers ------------------
+
+def grid_edges(rows, cols):
+    edges = []
+    for r in range(rows):
+        for c in range(cols):
+            i = r*cols + c
+            if c+1 < cols:
+                j = r*cols + (c+1); edges.append((i,j))
+            if r+1 < rows:
+                j = (r+1)*cols + c; edges.append((i,j))
+    return edges
+
+def x_rotation(theta, device, dtype):
+    # RX(θ) = exp(-i θ/2 X) = cos(θ/2) I - i sin(θ/2) X
+    c = math.cos(theta/2.0); s = math.sin(theta/2.0)
+    I = torch.eye(2, dtype=dtype, device=device)
+    X = torch.tensor([[0,1],[1,0]], dtype=dtype, device=device)
+    U = c*I - (1j*s)*X
+    return U
+
+def rzz_gate(theta, device, dtype):
+    # RZZ(θ) = exp(-i θ/2 Z⊗Z) = diag(e^{-iθ/2}, e^{iθ/2}, e^{iθ/2}, e^{-iθ/2})
+    ph = -1j*theta/2.0
+    a = torch.exp(torch.tensor(ph, dtype=dtype, device=device))
+    b = torch.exp(torch.tensor(-ph, dtype=dtype, device=device))
+    return torch.diag(torch.stack([a,b,b,a]))
+
+def swap_gate(device, dtype):
+    # |00>,|01>,|10>,|11>  ->  |00>,|10>,|01>,|11|
+    SW = torch.zeros((4,4), dtype=dtype, device=device)
+    SW[0,0] = 1; SW[1,2] = 1; SW[2,1] = 1; SW[3,3] = 1
+    return SW
+
+def _apply_swap_neighbors(cores, k, device, dtype, chi_max, svd_driver, adaptive, tol, ai):
+    SW = swap_gate(device, dtype)
+    return tn_core.mps_apply_2q(
+        cores, k, k+1, SW,
+        chi_max=chi_max, svd_driver=svd_driver,
+        adaptive=adaptive, tol=tol, ai_predictor=ai
+    )
+
+def apply_2q_any(cores, i, j, U, *, device, dtype, chi_max, svd_driver, adaptive, tol, ai):
+    """
+    Apply a 2-qubit unitary U between arbitrary sites i and j by routing with SWAPs.
+    Restores the original MPS site order afterwards.
+    Returns: (cores, peak_chi_increment, total_trunc_error_increment)
+    """
+    if i == j:
+        return cores, 1, 0.0
+    if j < i:
+        i, j = j, i
+    peak = 1
+    tot_err = 0.0
+    # bubble j left to i+1
+    for k in range(j-1, i, -1):
+        cores, chi, err = _apply_swap_neighbors(cores, k-1, device, dtype, chi_max, svd_driver, adaptive, tol, ai)
+        peak = max(peak, chi); tot_err += float(err or 0.0)
+    # apply U at (i, i+1)
+    cores, chi, err = tn_core.mps_apply_2q(
+        cores, i, i+1, U,
+        chi_max=chi_max, svd_driver=svd_driver,
+        adaptive=adaptive, tol=tol, ai_predictor=ai
+    )
+    peak = max(peak, chi); tot_err += float(err or 0.0)
+    # bubble back to restore order
+    for k in range(i+1, j):
+        cores, chi, err = _apply_swap_neighbors(cores, k, device, dtype, chi_max, svd_driver, adaptive, tol, ai)
+        peak = max(peak, chi); tot_err += float(err or 0.0)
+    return cores, peak, tot_err
+
+def apply_cost_edge(cores, i, j, U, *, device, dtype, chi_max, svd_driver, adaptive, tol, ai):
+    # fast-path if adjacent
+    if abs(i - j) == 1:
+        ii, jj = (i, j) if i < j else (j, i)
+        return tn_core.mps_apply_2q(
+            cores, ii, jj, U,
+            chi_max=chi_max, svd_driver=svd_driver,
+            adaptive=adaptive, tol=tol, ai_predictor=ai
+        )
+    # otherwise SWAP-route
+    return apply_2q_any(
+        cores, i, j, U,
+        device=device, dtype=dtype, chi_max=chi_max,
+        svd_driver=svd_driver, adaptive=adaptive, tol=tol, ai=ai
+    )
+
+# ------------------ layers & scoring ------------------
+
+def apply_cost_layer(cores, edges, gamma, device, dtype, chi_max, svd_driver, adaptive, tol, ai):
+    Uzz = rzz_gate(gamma, device, dtype)
+    peak = 1
+    total_err = 0.0
+    for (i,j) in edges:
+        cores, chi, err = apply_cost_edge(
+            cores, i, j, Uzz,
+            device=device, dtype=dtype, chi_max=chi_max,
+            svd_driver=svd_driver, adaptive=adaptive, tol=tol, ai=ai
+        )
+        # apply_cost_edge returns (cores, chi, err). If it came from apply_2q_any, err is the cumulative increment.
+        # For tn_core.mps_apply_2q direct path, err is a scalar too.
+        # Normalize types:
+        if isinstance(chi, (list, tuple)): chi = chi[0]
+        if isinstance(err, (list, tuple)): err = float(err[0])
+        peak = max(peak, int(chi))
+        total_err += float(err or 0.0)
+    return cores, peak, total_err
+
+def apply_mixer_layer(cores, n, beta, device, dtype):
+    Ux = x_rotation(beta, device, dtype)
+    for q in range(n):
+        cores = tn_core.mps_apply_1q(cores, q, Ux)
+    return cores
+
+def estimate_cut_value(samples, edges):
+    # Cut value = # edges with endpoints different
+    s = np.array(samples, dtype=np.int8)  # shape (shots, n)
+    cut = 0
+    for (i,j) in edges:
+        cut += np.count_nonzero(s[:,i] ^ s[:,j])
+    return cut / len(samples)
+
+
+
+def sweep_sample(cores, shots=256):
+    """
+    Local, tn_core-agnostic sweep sampler for MPS in computational basis.
+    Left-to-right projective sampling with environment updates:
+      L_0 = [1]; for site q, probs p(b) = Tr(M_b^† L_q M_b),
+      sample b, then L_{q+1} = (M_b^† L_q M_b) / p(b).
+    Returns: ndarray shape (shots, n), entries {0,1}.
+    """
+    import numpy as _np
+    import torch as _torch
+
+    n = len(cores)
+    device = cores[0].device
+    dtype  = cores[0].dtype
+
+    out = _np.empty((shots, n), dtype=_np.int8)
+
+    with _torch.no_grad():
+        for t in range(shots):
+            # Start with 1x1 left env
+            L = _torch.ones((1,1), device=device, dtype=dtype)
+            bits = []
+            for q in range(n):
+                A = cores[q]                 # (l, 2, r)
+                l, _, r = A.shape
+                # M_b are (l, r)
+                M0 = A[:, 0, :]
+                M1 = A[:, 1, :]
+
+                # p(b) = Tr( M_b^† L M_b )
+                # shapes: M_b^† (r,l), L(l,l), M_b(l,r) -> (r,r) -> trace scalar
+                p0_mat = M0.conj().transpose(0,1) @ L @ M0
+                p1_mat = M1.conj().transpose(0,1) @ L @ M1
+                p0 = _torch.real(_torch.trace(p0_mat)).item()
+                p1 = _torch.real(_torch.trace(p1_mat)).item()
+                s = p0 + p1
+
+                # Stabilize if tiny/negative due to fp error
+                if not _np.isfinite(s) or s <= 0:
+                    # Renormalize L to avoid blow-ups
+                    L = L / (L.norm() + 1e-12)
+                    p0_mat = M0.conj().transpose(0,1) @ L @ M0
+                    p1_mat = M1.conj().transpose(0,1) @ L @ M1
+                    p0 = float(_torch.real(_torch.trace(p0_mat)).clamp_min(0.0).item())
+                    p1 = float(_torch.real(_torch.trace(p1_mat)).clamp_min(0.0).item())
+                    s = max(p0 + p1, 1e-12)
+
+                p0 = max(p0 / s, 0.0)
+                p1 = max(p1 / s, 0.0)
+                # fix any drift
+                norm = p0 + p1
+                if norm <= 0:
+                    p0, p1 = 0.5, 0.5
+                else:
+                    p0 /= norm; p1 /= norm
+
+                # Sample bit
+                b = 1 if _np.random.random() < p1 else 0
+                bits.append(b)
+
+                # Update L = (M_b^† L M_b) / p(b)
+                Mb = M1 if b == 1 else M0
+                L = Mb.conj().transpose(0,1) @ L @ Mb
+                # Normalize environment to keep numbers sane
+                scale = float(_torch.real(_torch.trace(L)).abs().item())
+                if scale > 0:
+                    L = L / scale
+
+            out[t] = _np.array(bits, dtype=_np.int8)
+    return out
+def run(args):
+    device = 'cuda' if (args.device=='cuda' and torch.cuda.is_available()) else 'cpu'
+    dtype = torch.complex64 if args.dtype=='c64' else torch.complex128
+    n = args.rows * args.cols
+    edges = grid_edges(args.rows, args.cols)
+
+    # init |+>^n
+    cores = tn_core.mps_init_plus(n, device=device, dtype=dtype)
+
+    ai = None
+    if args.ai_compression and args.ai_model:
+        ai = FinetunedPredictorWrapper(model_path=args.ai_model, device=device)
+
+    t0 = time.time()
+    peak_chi = 1
+    total_err = 0.0
+
+    # simple p-layer schedule; user can pass (beta,gamma) or defaults
+    betas = [args.beta]*args.p if args.beta is not None else [0.8*(1-k/args.p) for k in range(args.p)]
+    gammas= [args.gamma]*args.p if args.gamma is not None else [0.6*(1+k/args.p) for k in range(args.p)]
+
+    for l in range(args.p):
+        # cost
+        cores, pk, terr = apply_cost_layer(
+            cores, edges, gammas[l], device, dtype,
+            chi_max=args.chi, svd_driver=args.svd_driver,
+            adaptive=args.adaptive, tol=args.tol, ai=ai
+        )
+        peak_chi = max(peak_chi, pk); total_err += terr
+        # mixer
+        cores = apply_mixer_layer(cores, n, betas[l], device, dtype)
+
+        if args.verbose:
+            print(f"  layer {l+1}/{args.p}: χ_peak={peak_chi}, cum_trunc_err={total_err:.2e}")
+
+    sim_time = time.time()-t0
+
+    # sample and score
+    samples = sweep_sample(cores, shots=args.shots)  # returns shape (shots, n) of {0,1}
+    cut = estimate_cut_value(samples, edges)
+    max_edges = len(edges)
+    cut_ratio = cut / max_edges
+
+    print("\n================ RESULT ================")
+    print(f"Graph: {args.rows}x{args.cols} (n={n}, |E|={max_edges})")
+    print(f"QAOA depth p={args.p}   (svd={args.svd_driver}, χ_max={args.chi}, tol={args.tol}, adaptive={args.adaptive}, AI={bool(ai)})")
+    print(f"Time: {sim_time:.2f}s   Peak χ: {peak_chi}   Sum trunc. err: {total_err:.3e}")
+    print(f"Estimated cut: {cut:.1f} / {max_edges}  (ratio={cut_ratio:.3f})")
+    print("========================================")
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--rows", type=int, default=8)
+    ap.add_argument("--cols", type=int, default=8)
+    ap.add_argument("--p", type=int, default=3)
+    ap.add_argument("--chi", type=int, default=512)
+    ap.add_argument("--tol", type=float, default=1e-4)
+    ap.add_argument("--adaptive", action="store_true")
+    ap.add_argument("--svd-driver", type=str, default="gesvda", choices=["gesvda","gesvdj","gesvd"])
+    ap.add_argument("--shots", type=int, default=512)
+    ap.add_argument("--beta", type=float, default=None)
+    ap.add_argument("--gamma", type=float, default=None)
+    ap.add_argument("--device", type=str, default="cuda")
+    ap.add_argument("--dtype", type=str, default="c64", choices=["c64","c128"])
+    ap.add_argument("--verbose", action="store_true")
+    # AI options
+    ap.add_argument("--ai-compression", action="store_true")
+    ap.add_argument("--ai-model", type=str, default="")
+    args = ap.parse_args()
+    run(args)

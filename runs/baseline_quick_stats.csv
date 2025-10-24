@@ -1,0 +1,2 @@
+epoch,step,split,loss,ppl,tok_per_s,max_mem_mib,elapsed_s
+1,16,val,5.551387691497803,257.59477006922606,76010.00897508951,5551.1,6.74
