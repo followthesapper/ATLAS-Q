@@ -214,29 +214,83 @@ for period in detected_periods:
 
 ## 5. Training Transformers with AQED
 
-### 5.1 Baseline Transformer
+### 5.1 Quick Start with AQED
+
+**New unified package (recommended):**
 
 ```bash
-cd transformers/
-python train_baseline_transformer_fast.py \
-  --seq_len 512 --batch_size 64 \
-  --train_batches 3000 --val_batches 200 \
-  --d_model 512 --n_layers 8 --n_heads 8 --d_ff 2048 \
-  --epochs 1 \
-  --log_csv ../runs/baseline.csv
+# Setup environment (for NVIDIA GB10/DGX Spark)
+export TRITON_PTXAS_PATH="/usr/local/cuda/bin/ptxas"
+export TORCH_CUDA_ARCH_LIST="12.0"
+
+# Quick test
+python scripts/train_aqed.py --seq_len 2048 --epochs 1
+
+# Full training with all optimizations
+python scripts/train_aqed.py \
+  --seq_len 4096 --batch_size 8 --epochs 3 \
+  --attn_keep_every 8 --compile \
+  --log_csv runs/aqed_training.csv
 ```
 
-### 5.2 AQED Routed Hybrid
+### 5.2 Using AQED in Python Code
+
+```python
+import os
+# Setup for torch.compile on GB10
+os.environ['TRITON_PTXAS_PATH'] = '/usr/local/cuda/bin/ptxas'
+os.environ['TORCH_CUDA_ARCH_LIST'] = '12.0'
+
+from quantum_hybrid_system.aqed import AQEDTransformerLM, AQEDConfig
+import torch
+
+# Configure AQED (6-10× faster than traditional transformers!)
+config = AQEDConfig(
+    vocab_size=32000,
+    seq_len=4096,
+    d_model=512,
+    n_layers=8,
+    n_heads=8,
+    d_ff=2048,
+    dropout=0.1,
+
+    # AQED optimizations
+    attn_keep_every=8,  # Use full attention every 8 layers
+    use_flash=True,     # Memory-efficient attention (PyTorch SDPA)
+    compile=True,       # torch.compile for additional speedup
+
+    # Training settings
+    batch_size=16,
+    epochs=3,
+    lr=3e-4,
+    amp=True,           # Automatic mixed precision (FP16)
+)
+
+# Create model
+model = AQEDTransformerLM(config).cuda()
+
+# torch.compile (first epoch slow for compilation, subsequent epochs fast!)
+if config.compile:
+    model = torch.compile(model, mode="max-autotune")
+
+# Train your model
+# ... (see scripts/train_aqed.py for complete example)
+```
+
+### 5.3 Legacy Training Scripts (Preserved)
 
 ```bash
-python train_transformer_routed_hybrid.py \
-  --seq_len 512 --batch_size 64 \
-  --train_batches 3000 --val_batches 200 \
-  --d_model 512 --n_layers 8 --n_heads 8 --d_ff 2048 \
-  --epochs 1 \
-  --route_frac 0.15 --mixer_depth 2 --mixer_stride 1 \
-  --route_update_every 8 \
-  --log_csv ../runs/aqed_routed.csv
+# Baseline transformer (traditional, no optimizations)
+cd transformers/
+python train_baseline_transformer_fast.py \
+  --seq_len 4096 --batch_size 8 --epochs 1 \
+  --log_csv ../runs/baseline.csv
+
+# Ultra-fast transformer (all optimizations)
+python train_transformer_ultra_fast.py \
+  --seq_len 4096 --batch_size 8 --epochs 3 \
+  --attn_keep_every 8 --compile \
+  --log_csv ../runs/ultra_fast.csv
 ```
 
 ### 5.3 Compare Results
@@ -279,19 +333,34 @@ plt.show()
 
 | Parameter | Range | Effect |
 |-----------|-------|--------|
-| `route_frac` | 0.05–0.30 | Fraction of tokens using full attention |
-| `mixer_depth` | 0–3 | Number of mixing steps |
-| `route_update_every` | 1–32 | How often to recompute routing |
-| `mixer_stride` | 1–4 | Pairing stride in mixer |
+| `attn_keep_every` | 2–16 | Use full attention every N layers (higher = faster, slightly lower quality) |
+| `seq_len` | 1024–16384 | Sequence length (longer = bigger speedup) |
+| `batch_size` | 4–32 | Batch size (adjust for GPU memory) |
+| `compile` | true/false | Enable torch.compile (1.2-1.4× additional speedup) |
+
+**Recommended configurations:**
+
+```bash
+# Conservative (best quality, ~2× speedup)
+python scripts/train_aqed.py --seq_len 2048 --attn_keep_every 4 --compile
+
+# Balanced (good quality, ~6× speedup) ⭐ RECOMMENDED
+python scripts/train_aqed.py --seq_len 4096 --attn_keep_every 8 --compile
+
+# Aggressive (max speed, ~10× speedup)
+python scripts/train_aqed.py --seq_len 8192 --attn_keep_every 16 --compile
+```
 
 **Quick tuning script:**
 ```python
-for route_frac in [0.10, 0.15, 0.20]:
-    for mixer_depth in [1, 2]:
-        cmd = f"""python train_transformer_routed_hybrid.py \
-          --seq_len 512 --batch_size 64 --epochs 1 \
-          --route_frac {route_frac} --mixer_depth {mixer_depth} \
-          --log_csv ../runs/sweep_rf{route_frac}_md{mixer_depth}.csv"""
+import os
+
+for seq_len in [2048, 4096, 8192]:
+    for attn_every in [4, 8, 16]:
+        cmd = f"""python scripts/train_aqed.py \
+          --seq_len {seq_len} --batch_size 8 --epochs 2 \
+          --attn_keep_every {attn_every} --compile \
+          --log_csv runs/sweep_L{seq_len}_skip{attn_every}.csv"""
         os.system(cmd)
 ```
 
@@ -414,23 +483,36 @@ tn_core.ENABLE_SVD_FALLBACK = True  # Default is True
 mps = MatrixProductState.init_zero(n_qubits=100, max_bond_dim=16, device='cpu')
 ```
 
-### Issue: AQED is Slower than Baseline
+### Issue: AQED Not Faster than Baseline
 
-**Symptom:** Routed hybrid has lower throughput
+**Symptom:** Expected speedup not observed
 
 **Diagnosis:**
-- At L=512, attention is already cheap; try L≥1024
-- Routing overhead may dominate; increase `route_update_every`
-- Reduce `route_frac` to skip more attention
+- At L≤1024, attention is already cheap; try L≥2048
+- First epoch is slow (torch.compile compilation); check epoch 2+
+- Not using torch.compile; add `--compile` flag
 
 **Solution:**
 ```bash
-# More aggressive sparsity
-python train_transformer_routed_hybrid.py \
-  --seq_len 1024 --batch_size 32 \
-  --route_frac 0.05 --mixer_depth 1 \
-  --route_update_every 32
+# Longer sequences for bigger speedup
+python scripts/train_aqed.py \
+  --seq_len 4096 --batch_size 8 --epochs 3 \
+  --attn_keep_every 8 --compile
+
+# Check epoch 2+ performance, not epoch 1!
 ```
+
+### Issue: torch.compile Fails on GB10
+
+**Symptom:** `PTXASError: ptxas fatal: Value 'sm_121a' is not defined`
+
+**Solution:** Set environment variables:
+```bash
+export TRITON_PTXAS_PATH="/usr/local/cuda/bin/ptxas"
+export TORCH_CUDA_ARCH_LIST="12.0"
+```
+
+Add to `~/.bashrc` for permanent fix.
 
 ### Issue: GPU Out of Memory
 
@@ -535,10 +617,11 @@ python -m pstats profile.stats
 
 ## 11. Resources
 
-- **[Technical Whitepaper](WHITEPAPER.md)**: Deep dive into algorithms
-- **[API Reference](https://quantum-hybrid-simulator.readthedocs.io)**: Full API docs
+- **[Technical Whitepaper](WHITEPAPER.md)**: Deep dive into algorithms, complexity analysis, and performance benchmarks
+- **[README.md](README.md)**: Project overview, quick start, and installation guide
 - **[Notebooks](Notebooks/)**: 21 interactive examples
 - **[GitHub Issues](https://github.com/your-org/quantum-hybrid-simulator/issues)**: Report bugs
+- **[Archived Documentation](docs/archive/)**: Historical docs, detailed guides, and testing results
 
 ---
 
