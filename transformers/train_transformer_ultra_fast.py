@@ -71,6 +71,13 @@ class Config:
     use_flash: bool = True  # Use memory-efficient attention (PyTorch SDPA or Flash Attention)
     compile: bool = False  # torch.compile everything
 
+    # NEW: model selector & AQED v2 knobs
+    model: str = "baseline"   # baseline | aqed_old | aqed_v2 | aqed_lowrank
+    chi_max: int = 32
+    route_frac: float = 0.10
+    prefer_triton: bool = False
+    rank: int = 64  # Low-rank projection dimension for aqed_lowrank
+
     # Logging
     log_csv: Optional[str] = None
     log_every: int = 50
@@ -222,14 +229,86 @@ class UltraFastTransformerLM(nn.Module):
         self.cfg = cfg
         self.tok = nn.Embedding(cfg.vocab_size, cfg.d_model)
         self.pos = nn.Parameter(torch.zeros(1, cfg.seq_len, cfg.d_model))
-        self.blocks = nn.ModuleList([
-            UltraHybridBlock(
-                cfg.d_model, cfg.n_heads, cfg.d_ff, cfg.dropout,
-                layer_idx=i,
-                attn_keep_every=cfg.attn_keep_every,
-                use_flash=cfg.use_flash
-            ) for i in range(cfg.n_layers)
-        ])
+
+        # ----- Block factory (baseline, aqed_old, aqed_v2) -----
+        def make_block(i):
+            if cfg.model == "baseline":
+                # full attention every layer
+                return UltraHybridBlock(cfg.d_model, cfg.n_heads, cfg.d_ff, cfg.dropout,
+                                        layer_idx=i, attn_keep_every=1, use_flash=cfg.use_flash)
+            elif cfg.model == "aqed_old":
+                # your previous "AQED" (attention skipping)
+                return UltraHybridBlock(cfg.d_model, cfg.n_heads, cfg.d_ff, cfg.dropout,
+                                        layer_idx=i, attn_keep_every=cfg.attn_keep_every, use_flash=cfg.use_flash)
+            elif cfg.model == "aqed_v2":
+                # real HybridAQEDLayer v2 wrapper
+                import sys
+                import os
+                sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+                from src.quantum_hybrid_system.hybrid_aqed_layer_v2 import HybridAQEDLayer
+                class AQEDV2Block(nn.Module):
+                    def __init__(self, d_model, d_ff, dropout):
+                        super().__init__()
+                        self.ln1 = nn.LayerNorm(d_model)
+                        self.aqed = HybridAQEDLayer(
+                            d_model=d_model,
+                            n_heads=cfg.n_heads,
+                            seq_len=cfg.seq_len,
+                            chi_max=cfg.chi_max,
+                            route_frac=cfg.route_frac,
+                            prefer_triton=cfg.prefer_triton,  # keep False per policy
+                            train_safe=True,   # Autograd-safe (no in-place ops)
+                            force_fp32=True    # AMP-safe (compute in FP32, cast back to FP16)
+                        )
+                        self.ln2 = nn.LayerNorm(d_model)
+                        self.ffn = nn.Sequential(
+                            nn.Linear(d_model, d_ff), nn.GELU(), nn.Dropout(dropout),
+                            nn.Linear(d_ff, d_model), nn.Dropout(dropout),
+                        )
+                    def forward(self, x):
+                        h = self.ln1(x)
+                        out = self.aqed(h)
+                        # HybridAQEDLayer may return (y, stats). Handle both.
+                        if isinstance(out, tuple) and len(out) >= 1:
+                            out = out[0]
+                        x = x + out
+                        y = self.ffn(self.ln2(x))
+                        return x + y
+                return AQEDV2Block(cfg.d_model, cfg.d_ff, cfg.dropout)
+            elif cfg.model == "aqed_lowrank":
+                # Real-valued low-rank AQED layer with Triton-fused projections
+                import sys
+                import os
+                sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+                from src.quantum_hybrid_system.lowrank_aqed_layer import LowRankAQEDLayer
+                class AQEDLowRankBlock(nn.Module):
+                    def __init__(self, d_model, d_ff, dropout):
+                        super().__init__()
+                        self.ln1 = nn.LayerNorm(d_model)
+                        self.aqed = LowRankAQEDLayer(
+                            d_model=d_model,
+                            n_heads=cfg.n_heads,
+                            seq_len=cfg.seq_len,
+                            rank=cfg.rank,
+                            route_frac=cfg.route_frac,
+                            dropout=dropout
+                        )
+                        self.ln2 = nn.LayerNorm(d_model)
+                        self.ffn = nn.Sequential(
+                            nn.Linear(d_model, d_ff), nn.GELU(), nn.Dropout(dropout),
+                            nn.Linear(d_ff, d_model), nn.Dropout(dropout),
+                        )
+                    def forward(self, x):
+                        h = self.ln1(x)
+                        y = self.aqed(h)
+                        x = x + y
+                        y = self.ffn(self.ln2(x))
+                        return x + y
+                return AQEDLowRankBlock(cfg.d_model, cfg.d_ff, cfg.dropout)
+            else:
+                raise ValueError(f"Unknown model kind: {cfg.model}")
+
+        self.blocks = nn.ModuleList([make_block(i) for i in range(cfg.n_layers)])
         self.ln_f = nn.LayerNorm(cfg.d_model)
         self.head = nn.Linear(cfg.d_model, cfg.vocab_size, bias=False)
 
@@ -324,6 +403,13 @@ def main():
     ap.add_argument("--no_flash", action="store_true")
     ap.add_argument("--compile", action="store_true")
 
+    # NEW
+    ap.add_argument("--model", choices=["baseline","aqed_old","aqed_v2","aqed_lowrank"], default="baseline")
+    ap.add_argument("--chi_max", type=int, default=32)
+    ap.add_argument("--route_frac", type=float, default=0.10)
+    ap.add_argument("--prefer_triton", action="store_true")
+    ap.add_argument("--rank", type=int, default=64)
+
     ap.add_argument("--log_csv", type=str, default=None)
     ap.add_argument("--log_every", type=int, default=50)
 
@@ -346,24 +432,54 @@ def main():
         attn_keep_every=args.attn_keep_every,
         use_flash=not args.no_flash,
         compile=args.compile,
+        model=args.model,
+        chi_max=args.chi_max,
+        route_frac=args.route_frac,
+        prefer_triton=bool(args.prefer_triton),
+        rank=args.rank,
         log_csv=args.log_csv,
         log_every=args.log_every,
     )
 
+    # AQED v2 uses complex parameters - AMP grad scaler doesn't support complex
+    if cfg.model == "aqed_v2":
+        cfg.amp = False
+
     device = "cuda" if torch.cuda.is_available() else "cpu"
     torch.manual_seed(1337); random.seed(1337)
+
+    # Enable TF32 for faster matmul on Ampere+ GPUs (free 5-15% speedup)
+    if torch.cuda.is_available():
+        torch.backends.cuda.matmul.allow_tf32 = True
+        torch.backends.cudnn.allow_tf32 = True
+        torch.set_float32_matmul_precision("high")
+
+        # Force Flash SDPA path (avoid slow math fallback, reduce kernel count)
+        torch.backends.cuda.sdp_kernel(enable_flash=True, enable_mem_efficient=False, enable_math=False)
 
     # Data
     train_ds = ZipfDataset(cfg.vocab_size, cfg.seq_len, cfg.train_batches, device=device)
     val_ds   = ZipfDataset(cfg.vocab_size, cfg.seq_len, cfg.val_batches,   device=device)
 
     # Model
-    model = UltraFastTransformerLM(cfg).to(device)
+    print(f"Creating model ({cfg.model})... (this takes ~1-2 min per layer for AQED v2 with L={cfg.seq_len})")
+    model = UltraFastTransformerLM(cfg)
+    print(f"Moving model to {device}...")
+    model = model.to(device)
+    print("Model ready!")
+
+    # Warmup Triton kernels for AQED LowRank (avoids autotuning during first real step)
+    if cfg.model == "aqed_lowrank":
+        print("Warming up Triton kernels...")
+        for block in model.blocks:
+            if hasattr(block, 'aqed') and hasattr(block.aqed, 'warmup_triton'):
+                block.aqed.warmup_triton(device=device)
 
     # torch.compile if requested
     if cfg.compile:
         print("⚡ Compiling model with torch.compile()...")
-        model = torch.compile(model, mode="max-autotune")
+        # Use fullgraph=True for better fusion with static shapes (no graph breaks)
+        model = torch.compile(model, mode="max-autotune", fullgraph=True)
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay)
     scaler = GradScaler(enabled=cfg.amp)
@@ -381,7 +497,9 @@ def main():
     global_step = 0
     best_val = float("inf")
 
-    print(f"Config: L={cfg.seq_len}, B={cfg.batch_size}, attn_every={cfg.attn_keep_every}")
+    print(f"Config: model={cfg.model}  L={cfg.seq_len}, B={cfg.batch_size}, attn_every={cfg.attn_keep_every}")
+    if cfg.model == "aqed_v2":
+        print("ℹ  AMP disabled for AQED v2 (complex parameters)")
     if cfg.use_flash:
         if _HAS_SDPA:
             print("✓ Using PyTorch memory-efficient attention (SDPA)")

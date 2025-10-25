@@ -1,0 +1,222 @@
+<svg viewBox="0 0 1600 1200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="traditionalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dc2626;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="aqedGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="lowrankGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d97706;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Title -->
+  <text x="800" y="50" font-size="36" font-weight="bold" text-anchor="middle" fill="#1f2937">
+    AQED Transformer Architecture Comparison
+  </text>
+  <text x="800" y="85" font-size="18" text-anchor="middle" fill="#6b7280">
+    Traditional vs AQED vs LowRank AQED Architectures
+  </text>
+
+  <!-- Column 1: Traditional Transformer -->
+  <g transform="translate(100, 150)">
+    <rect x="0" y="0" width="400" height="900" fill="#fef2f2" stroke="#ef4444" stroke-width="3" rx="10" filter="url(#shadow)"/>
+
+    <text x="200" y="40" font-size="24" font-weight="bold" text-anchor="middle" fill="#991b1b">
+      Traditional Transformer
+    </text>
+
+    <!-- Input Layer -->
+    <rect x="50" y="80" width="300" height="60" fill="url(#traditionalGrad)" stroke="#991b1b" stroke-width="2" rx="5"/>
+    <text x="200" y="115" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Input Embeddings</text>
+
+    <!-- Transformer Blocks -->
+    <g transform="translate(0, 170)">
+      <!-- Block 1 -->
+      <rect x="50" y="0" width="300" height="100" fill="#fee2e2" stroke="#dc2626" stroke-width="2" rx="5"/>
+      <text x="200" y="30" font-size="14" font-weight="bold" text-anchor="middle" fill="#7f1d1d">Layer 1</text>
+      <rect x="70" y="40" width="260" height="25" fill="#fca5a5" rx="3"/>
+      <text x="200" y="57" font-size="12" text-anchor="middle" fill="#450a0a">Full Self-Attention O(L²)</text>
+      <rect x="70" y="70" width="260" height="20" fill="#fecaca" rx="3"/>
+      <text x="200" y="84" font-size="11" text-anchor="middle" fill="#7f1d1d">Feed-Forward</text>
+
+      <!-- Block 2 -->
+      <rect x="50" y="120" width="300" height="100" fill="#fee2e2" stroke="#dc2626" stroke-width="2" rx="5"/>
+      <text x="200" y="150" font-size="14" font-weight="bold" text-anchor="middle" fill="#7f1d1d">Layer 2</text>
+      <rect x="70" y="160" width="260" height="25" fill="#fca5a5" rx="3"/>
+      <text x="200" y="177" font-size="12" text-anchor="middle" fill="#450a0a">Full Self-Attention O(L²)</text>
+      <rect x="70" y="190" width="260" height="20" fill="#fecaca" rx="3"/>
+      <text x="200" y="204" font-size="11" text-anchor="middle" fill="#7f1d1d">Feed-Forward</text>
+
+      <!-- ... -->
+      <text x="200" y="245" font-size="20" font-weight="bold" text-anchor="middle" fill="#991b1b">⋮</text>
+      <text x="200" y="265" font-size="12" text-anchor="middle" fill="#7f1d1d">(N layers)</text>
+
+      <!-- Block N -->
+      <rect x="50" y="285" width="300" height="100" fill="#fee2e2" stroke="#dc2626" stroke-width="2" rx="5"/>
+      <text x="200" y="315" font-size="14" font-weight="bold" text-anchor="middle" fill="#7f1d1d">Layer N</text>
+      <rect x="70" y="325" width="260" height="25" fill="#fca5a5" rx="3"/>
+      <text x="200" y="342" font-size="12" text-anchor="middle" fill="#450a0a">Full Self-Attention O(L²)</text>
+      <rect x="70" y="355" width="260" height="20" fill="#fecaca" rx="3"/>
+      <text x="200" y="369" font-size="11" text-anchor="middle" fill="#7f1d1d">Feed-Forward</text>
+    </g>
+
+    <!-- Output -->
+    <rect x="50" y="740" width="300" height="60" fill="url(#traditionalGrad)" stroke="#991b1b" stroke-width="2" rx="5"/>
+    <text x="200" y="775" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Output Logits</text>
+
+    <!-- Metrics -->
+    <g transform="translate(0, 830)">
+      <text x="200" y="0" font-size="14" font-weight="bold" text-anchor="middle" fill="#991b1b">Performance</text>
+      <text x="200" y="20" font-size="12" text-anchor="middle" fill="#7f1d1d">Tokens/sec: 34k @ L=4096</text>
+      <text x="200" y="38" font-size="12" text-anchor="middle" fill="#7f1d1d">Complexity: O(N·L²·d)</text>
+    </g>
+  </g>
+
+  <!-- Column 2: AQED v1 -->
+  <g transform="translate(600, 150)">
+    <rect x="0" y="0" width="400" height="900" fill="#ecfdf5" stroke="#10b981" stroke-width="3" rx="10" filter="url(#shadow)"/>
+
+    <text x="200" y="40" font-size="24" font-weight="bold" text-anchor="middle" fill="#065f46">
+      AQED v1 ⭐ Winner
+    </text>
+
+    <!-- Input Layer -->
+    <rect x="50" y="80" width="300" height="60" fill="url(#aqedGrad)" stroke="#065f46" stroke-width="2" rx="5"/>
+    <text x="200" y="115" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Input Embeddings</text>
+
+    <!-- Transformer Blocks with Skipping -->
+    <g transform="translate(0, 170)">
+      <!-- Block 1 - FULL ATTENTION -->
+      <rect x="50" y="0" width="300" height="100" fill="#d1fae5" stroke="#10b981" stroke-width="3" rx="5"/>
+      <text x="200" y="30" font-size="14" font-weight="bold" text-anchor="middle" fill="#065f46">Layer 1 (Compute)</text>
+      <rect x="70" y="40" width="260" height="25" fill="#6ee7b7" rx="3"/>
+      <text x="200" y="57" font-size="12" text-anchor="middle" fill="#064e3b">✓ Full Self-Attention</text>
+      <rect x="70" y="70" width="260" height="20" fill="#a7f3d0" rx="3"/>
+      <text x="200" y="84" font-size="11" text-anchor="middle" fill="#065f46">Feed-Forward</text>
+
+      <!-- Block 2-7 - SKIPPED -->
+      <rect x="50" y="120" width="300" height="140" fill="#f0fdf4" stroke="#86efac" stroke-width="2" stroke-dasharray="5,5" rx="5"/>
+      <text x="200" y="150" font-size="14" font-weight="bold" text-anchor="middle" fill="#16a34a">Layers 2-7 (Skipped)</text>
+      <text x="200" y="175" font-size="28" text-anchor="middle" fill="#bbf7d0">⚡</text>
+      <text x="200" y="200" font-size="12" text-anchor="middle" fill="#15803d">Attention Computation</text>
+      <text x="200" y="218" font-size="12" text-anchor="middle" fill="#15803d">SKIPPED</text>
+      <text x="200" y="240" font-size="11" font-style="italic" text-anchor="middle" fill="#4ade80">6-10× Speedup!</text>
+
+      <!-- Block 8 - FULL ATTENTION -->
+      <rect x="50" y="280" width="300" height="100" fill="#d1fae5" stroke="#10b981" stroke-width="3" rx="5"/>
+      <text x="200" y="310" font-size="14" font-weight="bold" text-anchor="middle" fill="#065f46">Layer 8 (Compute)</text>
+      <rect x="70" y="320" width="260" height="25" fill="#6ee7b7" rx="3"/>
+      <text x="200" y="337" font-size="12" text-anchor="middle" fill="#064e3b">✓ Full Self-Attention</text>
+      <rect x="70" y="350" width="260" height="20" fill="#a7f3d0" rx="3"/>
+      <text x="200" y="364" font-size="11" text-anchor="middle" fill="#065f46">Feed-Forward</text>
+    </g>
+
+    <!-- Key Parameter -->
+    <rect x="80" y="620" width="240" height="60" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" rx="5"/>
+    <text x="200" y="645" font-size="13" font-weight="bold" text-anchor="middle" fill="#92400e">Key Parameter:</text>
+    <text x="200" y="663" font-size="12" text-anchor="middle" fill="#78350f">attn_keep_every = 8</text>
+
+    <!-- Output -->
+    <rect x="50" y="740" width="300" height="60" fill="url(#aqedGrad)" stroke="#065f46" stroke-width="2" rx="5"/>
+    <text x="200" y="775" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Output Logits</text>
+
+    <!-- Metrics -->
+    <g transform="translate(0, 830)">
+      <text x="200" y="0" font-size="14" font-weight="bold" text-anchor="middle" fill="#065f46">Performance</text>
+      <text x="200" y="20" font-size="12" text-anchor="middle" fill="#047857">Tokens/sec: 211k @ L=4096</text>
+      <text x="200" y="38" font-size="12" font-weight="bold" text-anchor="middle" fill="#10b981">6.18× Speedup! 🚀</text>
+    </g>
+  </g>
+
+  <!-- Column 3: LowRank AQED -->
+  <g transform="translate(1100, 150)">
+    <rect x="0" y="0" width="400" height="900" fill="#fffbeb" stroke="#f59e0b" stroke-width="3" rx="10" filter="url(#shadow)"/>
+
+    <text x="200" y="40" font-size="24" font-weight="bold" text-anchor="middle" fill="#92400e">
+      AQED LowRank
+    </text>
+    <text x="200" y="65" font-size="13" font-style="italic" text-anchor="middle" fill="#b45309">
+      (Not Recommended)
+    </text>
+
+    <!-- Input Layer -->
+    <rect x="50" y="90" width="300" height="60" fill="url(#lowrankGrad)" stroke="#92400e" stroke-width="2" rx="5"/>
+    <text x="200" y="125" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Input Embeddings</text>
+
+    <!-- Dual-Path Architecture -->
+    <g transform="translate(0, 180)">
+      <!-- Layer with both paths -->
+      <rect x="50" y="0" width="300" height="280" fill="#fef3c7" stroke="#d97706" stroke-width="2" rx="5"/>
+      <text x="200" y="30" font-size="14" font-weight="bold" text-anchor="middle" fill="#92400e">Layer 1 (Dual-Path)</text>
+
+      <!-- Path 1: Full Attention -->
+      <g transform="translate(70, 45)">
+        <rect x="0" y="0" width="120" height="90" fill="#fcd34d" stroke="#b45309" stroke-width="2" rx="4"/>
+        <text x="60" y="20" font-size="11" font-weight="bold" text-anchor="middle" fill="#78350f">Path 1</text>
+        <text x="60" y="38" font-size="10" text-anchor="middle" fill="#92400e">Full</text>
+        <text x="60" y="52" font-size="10" text-anchor="middle" fill="#92400e">Attention</text>
+        <text x="60" y="70" font-size="9" text-anchor="middle" fill="#b45309">O(L²)</text>
+      </g>
+
+      <!-- Path 2: Low-Rank -->
+      <g transform="translate(210, 45)">
+        <rect x="0" y="0" width="120" height="90" fill="#fde68a" stroke="#b45309" stroke-width="2" rx="4"/>
+        <text x="60" y="20" font-size="11" font-weight="bold" text-anchor="middle" fill="#78350f">Path 2</text>
+        <text x="60" y="38" font-size="10" text-anchor="middle" fill="#92400e">Low-Rank</text>
+        <text x="60" y="52" font-size="10" text-anchor="middle" fill="#92400e">Projection</text>
+        <text x="60" y="70" font-size="9" text-anchor="middle" fill="#b45309">O(L·k)</text>
+      </g>
+
+      <!-- Merge -->
+      <path d="M 130 145 L 200 165 M 270 145 L 200 165" stroke="#92400e" stroke-width="2" fill="none"/>
+      <circle cx="200" cy="165" r="8" fill="#f59e0b" stroke="#92400e" stroke-width="2"/>
+      <text x="200" y="190" font-size="10" font-weight="bold" text-anchor="middle" fill="#92400e">Merge</text>
+
+      <!-- Feed-Forward -->
+      <rect x="70" y="200" width="260" height="25" fill="#fde68a" rx="3"/>
+      <text x="200" y="217" font-size="11" text-anchor="middle" fill="#78350f">Feed-Forward</text>
+
+      <!-- Problem indicator -->
+      <text x="200" y="250" font-size="12" font-weight="bold" text-anchor="middle" fill="#dc2626">⚠️ Bottleneck</text>
+      <text x="200" y="268" font-size="10" text-anchor="middle" fill="#991b1b">101 kernels/step</text>
+    </g>
+
+    <!-- ... -->
+    <text x="200" y="490" font-size="20" font-weight="bold" text-anchor="middle" fill="#b45309">⋮</text>
+
+    <!-- Issue Box -->
+    <rect x="70" y="540" width="260" height="120" fill="#fee2e2" stroke="#dc2626" stroke-width="2" rx="5"/>
+    <text x="200" y="565" font-size="13" font-weight="bold" text-anchor="middle" fill="#991b1b">Issues:</text>
+    <text x="200" y="585" font-size="11" text-anchor="middle" fill="#7f1d1d">• Too many small kernels</text>
+    <text x="200" y="603" font-size="11" text-anchor="middle" fill="#7f1d1d">• GPU utilization: 10-50%</text>
+    <text x="200" y="621" font-size="11" text-anchor="middle" fill="#7f1d1d">• Sawtooth pattern</text>
+    <text x="200" y="639" font-size="11" text-anchor="middle" fill="#7f1d1d">• Architectural overhead</text>
+
+    <!-- Output -->
+    <rect x="50" y="730" width="300" height="60" fill="url(#lowrankGrad)" stroke="#92400e" stroke-width="2" rx="5"/>
+    <text x="200" y="765" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Output Logits</text>
+
+    <!-- Metrics -->
+    <g transform="translate(0, 820)">
+      <text x="200" y="0" font-size="14" font-weight="bold" text-anchor="middle" fill="#92400e">Performance</text>
+      <text x="200" y="20" font-size="12" text-anchor="middle" fill="#b45309">Slower than AQED v1</text>
+      <text x="200" y="38" font-size="11" font-weight="bold" text-anchor="middle" fill="#dc2626">Not recommended ❌</text>
+    </g>
+  </g>
+
+  <!-- Bottom Legend -->
+  <g transform="translate(200, 1100)">
+    <text x="0" y="0" font-size="16" font-weight="bold" fill="#374151">Key Insights:</text>
+    <text x="0" y="25" font-size="13" fill="#4b5563">✓ AQED v1 achieves 6-10× speedup by selectively skipping attention computation</text>
+    <text x="0" y="45" font-size="13" fill="#4b5563">✓ Simple architecture (single path) enables torch.compile optimization</text>
+    <text x="0" y="65" font-size="13" fill="#4b5563">✗ LowRank dual-path creates kernel launch overhead despite lower complexity</text>
+  </g>
+</svg>

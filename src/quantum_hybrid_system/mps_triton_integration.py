@@ -36,7 +36,7 @@ def apply_two_qubit_gate(
     U: torch.Tensor,
     max_bond: Optional[int] = None,
     cutoff: Optional[float] = None,
-    prefer_triton: bool = True,
+    prefer_triton: bool = False,
 ) -> Tuple[torch.Tensor, torch.Tensor]:
     """
     Apply two-qubit gate to neighboring MPS tensors and split back.
@@ -44,13 +44,17 @@ def apply_two_qubit_gate(
     This is a drop-in replacement for standard MPS gate application with
     optional Triton acceleration for improved performance.
 
+    Backend Policy:
+        Phase-3 (MPS/SVD) operations DEFAULT to PyTorch/cuBLAS (2-20× faster).
+        Set prefer_triton=True only for very large bond dimensions (χ≥64, batch≥16).
+
     Args:
         Ai: Left MPS tensor [li, 2, ri]
         Aj: Right MPS tensor [ri, 2, rj]
         U: Two-qubit gate matrix [4, 4]
         max_bond: Maximum bond dimension after truncation (None = no limit)
         cutoff: Singular value cutoff threshold (None = no cutoff)
-        prefer_triton: Use Triton acceleration if available (falls back to PyTorch)
+        prefer_triton: Use Triton acceleration (default False, PyTorch is faster for typical workloads)
 
     Returns:
         (Ai_new, Aj_new): Updated MPS tensors after gate and truncation
@@ -114,7 +118,10 @@ def _pytorch_fallback(
     Vh = Vh[:chi_new, :]
 
     Ai_new = U_svd.reshape(li, 2, chi_new)
-    Aj_new = (torch.diag(S) @ Vh).reshape(chi_new, 2, rj)
+
+    # Promote S to complex to match Vh dtype (S from SVD is always real)
+    S_complex = S.to(dtype=Vh.dtype)
+    Aj_new = (torch.diag(S_complex) @ Vh).reshape(chi_new, 2, rj)
 
     return Ai_new.contiguous(), Aj_new.contiguous()
 

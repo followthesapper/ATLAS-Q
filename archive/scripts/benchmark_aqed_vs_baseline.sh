@@ -34,13 +34,17 @@ echo "Sequence Length: $SEQ_LEN"
 echo "Batch Size: $BATCH_SIZE"
 echo "Epochs: $EPOCHS (first is compilation, judge by epoch 2-3)"
 echo ""
+echo "Tests 1-4: AQED v1 (attention skipping)"
+echo "Tests 5-6: AQED LowRank (real-valued Linformer + routing)"
+echo ""
 echo "This will take ~15 minutes total"
 echo "================================================================"
 echo ""
 
 # Test 1: Baseline (traditional transformer - full attention every layer)
-echo "[1/4] Running BASELINE (traditional, no optimizations)..."
+echo "[1/6] Running BASELINE (traditional, no optimizations)..."
 python3 transformers/train_transformer_ultra_fast.py \
+  --model baseline \
   --seq_len $SEQ_LEN \
   --batch_size $BATCH_SIZE \
   --epochs $EPOCHS \
@@ -55,8 +59,9 @@ echo "   ✓ Complete"
 echo ""
 
 # Test 2: Baseline + GPU optimizations
-echo "[2/4] Running BASELINE + GPU optimizations (compile + SDPA)..."
+echo "[2/6] Running BASELINE + GPU optimizations (compile + SDPA)..."
 python3 transformers/train_transformer_ultra_fast.py \
+  --model baseline \
   --seq_len $SEQ_LEN \
   --batch_size $BATCH_SIZE \
   --epochs $EPOCHS \
@@ -70,9 +75,10 @@ python3 transformers/train_transformer_ultra_fast.py \
 echo "   ✓ Complete"
 echo ""
 
-# Test 3: AQED algorithm (attention skipping, no GPU optimizations)
-echo "[3/4] Running AQED algorithm (attention skipping, no optimizations)..."
+# Test 3: AQED v1 (attention skipping, no GPU optimizations)
+echo "[3/6] Running AQED v1 (attention skipping, no optimizations)..."
 python3 transformers/train_transformer_ultra_fast.py \
+  --model aqed_old \
   --seq_len $SEQ_LEN \
   --batch_size $BATCH_SIZE \
   --epochs $EPOCHS \
@@ -80,15 +86,16 @@ python3 transformers/train_transformer_ultra_fast.py \
   --no_flash \
   --train_batches $TRAIN_BATCHES \
   --val_batches $VAL_BATCHES \
-  --log_csv runs/aqed_benchmark/3_aqed_noopt.csv \
+  --log_csv runs/aqed_benchmark/3_aqed_v1_noopt.csv \
   > /dev/null 2>&1
 
 echo "   ✓ Complete"
 echo ""
 
-# Test 4: AQED + GPU optimizations (full stack)
-echo "[4/4] Running AQED + GPU optimizations (full stack)..."
+# Test 4: AQED v1 + GPU optimizations (full stack)
+echo "[4/6] Running AQED v1 + GPU optimizations (full stack)..."
 python3 transformers/train_transformer_ultra_fast.py \
+  --model aqed_old \
   --seq_len $SEQ_LEN \
   --batch_size $BATCH_SIZE \
   --epochs $EPOCHS \
@@ -96,7 +103,45 @@ python3 transformers/train_transformer_ultra_fast.py \
   --compile \
   --train_batches $TRAIN_BATCHES \
   --val_batches $VAL_BATCHES \
-  --log_csv runs/aqed_benchmark/4_aqed_optimized.csv \
+  --log_csv runs/aqed_benchmark/4_aqed_v1_optimized.csv \
+  > /dev/null 2>&1
+
+echo "   ✓ Complete"
+echo ""
+
+# NEW: AQED LowRank (real-valued with Triton-fused projections, no compile)
+echo "[5/6] Running AQED LowRank (real-valued + Triton, no compile)..."
+python3 transformers/train_transformer_ultra_fast.py \
+  --model aqed_lowrank \
+  --seq_len $SEQ_LEN \
+  --batch_size $BATCH_SIZE \
+  --epochs $EPOCHS \
+  --attn_keep_every 1 \
+  --no_flash \
+  --rank 64 \
+  --route_frac 0.10 \
+  --train_batches $TRAIN_BATCHES \
+  --val_batches $VAL_BATCHES \
+  --log_csv runs/aqed_benchmark/5_aqed_lowrank_noopt.csv \
+  > /dev/null 2>&1
+
+echo "   ✓ Complete"
+echo ""
+
+# NEW: AQED LowRank + compile
+echo "[6/6] Running AQED LowRank + compile..."
+python3 transformers/train_transformer_ultra_fast.py \
+  --model aqed_lowrank \
+  --seq_len $SEQ_LEN \
+  --batch_size $BATCH_SIZE \
+  --epochs $EPOCHS \
+  --attn_keep_every 1 \
+  --compile \
+  --rank 64 \
+  --route_frac 0.10 \
+  --train_batches $TRAIN_BATCHES \
+  --val_batches $VAL_BATCHES \
+  --log_csv runs/aqed_benchmark/6_aqed_lowrank_optimized.csv \
   > /dev/null 2>&1
 
 echo "   ✓ Complete"
@@ -114,16 +159,18 @@ import sys
 configs = [
     ("1. Baseline (traditional)", "runs/aqed_benchmark/1_baseline_noopt.csv"),
     ("2. Baseline + GPU opt", "runs/aqed_benchmark/2_baseline_optimized.csv"),
-    ("3. AQED algorithm", "runs/aqed_benchmark/3_aqed_noopt.csv"),
-    ("4. AQED + GPU opt", "runs/aqed_benchmark/4_aqed_optimized.csv"),
+    ("3. AQED v1 (skip-attn)", "runs/aqed_benchmark/3_aqed_v1_noopt.csv"),
+    ("4. AQED v1 + compile", "runs/aqed_benchmark/4_aqed_v1_optimized.csv"),
+    ("5. AQED LowRank (Triton)", "runs/aqed_benchmark/5_aqed_lowrank_noopt.csv"),
+    ("6. AQED LowRank + compile", "runs/aqed_benchmark/6_aqed_lowrank_optimized.csv"),
 ]
 
 results = []
 baseline_tps = None
 
 print("")
-print(f"{'Configuration':<25} {'Throughput':>15} {'Loss':>8} {'Speedup':>10}")
-print("-" * 70)
+print(f"{'Configuration':<28} {'Throughput':>15} {'Loss':>8} {'Speedup':>10}")
+print("-" * 75)
 
 for name, csv_path in configs:
     try:
@@ -141,45 +188,47 @@ for name, csv_path in configs:
             speedup = tps / baseline_tps
             speedup_str = f"{speedup:.2f}×"
 
-        print(f"{name:<25} {tps:>12,.0f} tok/s {loss:>7.4f} {speedup_str:>10}")
+        print(f"{name:<28} {tps:>12,.0f} tok/s {loss:>7.4f} {speedup_str:>10}")
         results.append((name, tps, loss, speedup_str))
 
     except Exception as e:
-        print(f"{name:<25} ERROR: {e}")
+        print(f"{name:<28} ERROR: {e}")
 
-print("-" * 70)
+print("-" * 75)
 print("")
 
-# Key insights
-if len(results) >= 4:
+# Key insights (relative to 1. Baseline noopt)
+if len(results) >= 6:
     baseline_noopt = results[0][1]
     baseline_opt = results[1][1]
-    aqed_noopt = results[2][1]
-    aqed_opt = results[3][1]
+    aqed_v1_noopt = results[2][1]
+    aqed_v1_opt = results[3][1]
+    aqed_lowrank_noopt = results[4][1]
+    aqed_lowrank_opt = results[5][1]
 
     print("KEY INSIGHTS:")
-    print("-" * 70)
-    print(f"1. Algorithm Benefit (AQED vs Baseline, no opts):")
-    print(f"   {aqed_noopt / baseline_noopt:.2f}× faster")
-    print(f"   This is the PURE AQED algorithm speedup!")
+    print("-" * 75)
+    print("1. AQED v1 vs Baseline (no opts):")
+    print(f"   {aqed_v1_noopt / baseline_noopt:.2f}×")
     print("")
-    print(f"2. GPU Optimization Benefit (for baseline):")
+    print("2. AQED LowRank vs Baseline (no opts):")
+    print(f"   {aqed_lowrank_noopt / baseline_noopt:.2f}× (real-valued Triton-fused)")
+    print("")
+    print(f"3. GPU Optimization Benefit (for baseline):")
     print(f"   {baseline_opt / baseline_noopt:.2f}× faster")
-    print(f"   Standard optimizations help traditional training")
     print("")
-    print(f"3. Total Benefit (AQED + opts vs Baseline):")
-    print(f"   {aqed_opt / baseline_noopt:.2f}× faster")
-    print(f"   This is your complete system advantage!")
+    print("4. Total Benefit (AQED LowRank + compile vs Baseline noopt):")
+    print(f"   {aqed_lowrank_opt / baseline_noopt:.2f}×")
     print("")
 
-    if aqed_opt / baseline_noopt >= 2.0:
-        print("✓ RESULT: AQED provides SIGNIFICANT speedup (>2×)!")
-    elif aqed_opt / baseline_noopt >= 1.5:
-        print("✓ RESULT: AQED provides MEANINGFUL speedup (1.5-2×)")
-    elif aqed_opt / baseline_noopt >= 1.2:
-        print("ℹ RESULT: AQED provides MODEST speedup (1.2-1.5×)")
+    if aqed_lowrank_opt / baseline_noopt >= 2.0:
+        print("✓ RESULT: AQED LowRank provides SIGNIFICANT speedup (>2×)!")
+    elif aqed_lowrank_opt / baseline_noopt >= 1.5:
+        print("✓ RESULT: AQED LowRank provides MEANINGFUL speedup (1.5-2×)")
+    elif aqed_lowrank_opt / baseline_noopt >= 1.2:
+        print("ℹ RESULT: AQED LowRank provides MODEST speedup (1.2-1.5×)")
     else:
-        print("⚠ RESULT: AQED speedup is MINIMAL (<1.2×)")
+        print("⚠ RESULT: AQED LowRank speedup is MINIMAL (<1.2×)")
         print("   Consider testing at longer sequences (L=8192+)")
 
 print("")
