@@ -6,10 +6,11 @@ title: ATLAS-Q Documentation
 description: GPU-Accelerated Quantum Tensor Network Simulator
 baseurl: "/ATLAS-Q"
 url: "https://followthsapper.github.io"
+logo: /assets/logo.png
 
-# Theme
-theme: jekyll-theme-cayman
-remote_theme: pages-themes/cayman@v0.2.0
+# Theme - Using Slate (dark theme)
+theme: jekyll-theme-slate
+remote_theme: pages-themes/slate@v0.2.0
 
 # Navigation
 navigation:

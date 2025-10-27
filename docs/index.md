@@ -1,7 +1,16 @@
+<div class="logo-container">
+  <img src="{{ site.baseurl }}/assets/logo.png" alt="ATLAS-Q Logo">
+</div>
+
 # ATLAS-Q Documentation
 **Adaptive Tensor Learning And Simulation – Quantum**
 
-**Version 0.5.0** | **October 2025**
+<div style="text-align: center; margin: 2rem 0;">
+  <span class="badge">Version 0.5.0</span>
+  <span class="badge">77K+ ops/sec</span>
+  <span class="badge">626,000× compression</span>
+  <span class="badge">7/7 tests passing</span>
+</div>
 
 ---
 
