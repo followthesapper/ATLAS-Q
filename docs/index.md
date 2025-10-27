@@ -1,7 +1,3 @@
-<div class="logo-container">
-  <img src="{{ site.baseurl }}/assets/logo.png" alt="ATLAS-Q Logo">
-</div>
-
 # ATLAS-Q Documentation
 **Adaptive Tensor Learning And Simulation – Quantum**
 
