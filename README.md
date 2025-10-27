@@ -375,7 +375,7 @@ times, energies = tdvp.run()
 
 ## 🚧 Roadmap
 
-### Current Status (v0.6.0)
+### Current Status (v0.6.1)
 - ✅ GPU-accelerated tensor networks with custom Triton kernels
 - ✅ Adaptive MPS with error tracking
 - ✅ Stabilizer backend (20× speedup)
@@ -391,7 +391,7 @@ times, energies = tdvp.run()
 ### Planned Features
 - [ ] Integration adapters for Qiskit/Cirq circuits
 - [ ] Additional tutorial notebooks
-- [ ] PyPI package update to v0.6.0 (currently at v0.5.0)
+- [ ] PyPI package update to v0.6.1 (currently at v0.6.0)
 
 ---
 
