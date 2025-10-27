@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ ATLAS-Q ]
+    branches: [ ATLAS-Q, Dev ]
   pull_request:
-    branches: [ ATLAS-Q ]
+    branches: [ ATLAS-Q, Dev ]
 
 jobs:
   test:
