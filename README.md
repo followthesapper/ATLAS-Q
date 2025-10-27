@@ -3,7 +3,7 @@
 
 **Version 0.5.0** | **October 2025**
 
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-yellow?logo=buy-me-a-coffee&logoColor=white)](https://www.buymeacoffee.com/FollowTheSapper)
+[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://www.buymeacoffee.com/FollowTheSapper)
 
 > **High-performance quantum simulation using GPU-accelerated tensor networks with custom Triton kernels**
 
