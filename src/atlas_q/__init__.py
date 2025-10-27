@@ -30,10 +30,10 @@ Example - Adaptive MPS for moderate entanglement:
 def get_quantum_sim():
     """Get quantum simulation classes (requires numpy)"""
     from .quantum_hybrid_system import (
-        QuantumClassicalHybrid,
+        MatrixProductState,
         PeriodicState,
         ProductState,
-        MatrixProductState,
+        QuantumClassicalHybrid,
     )
     return QuantumClassicalHybrid, PeriodicState, ProductState, MatrixProductState
 
@@ -47,9 +47,9 @@ def get_mps_pytorch():
 def get_adaptive_mps():
     """Get Adaptive MPS for moderate-to-high entanglement (requires torch)"""
     from .adaptive_mps import AdaptiveMPS, DTypePolicy
-    from .linalg_robust import robust_svd, robust_qr, condition_number
-    from .truncation import choose_rank_from_sigma, compute_global_error_bound, check_entropy_sanity
     from .diagnostics import MPSStatistics, bond_entropy_from_S, effective_rank, spectral_gap
+    from .linalg_robust import condition_number, robust_qr, robust_svd
+    from .truncation import check_entropy_sanity, choose_rank_from_sigma, compute_global_error_bound
     return {
         'AdaptiveMPS': AdaptiveMPS,
         'DTypePolicy': DTypePolicy,
@@ -69,8 +69,11 @@ def get_adaptive_mps():
 def get_noise_models():
     """Get NISQ noise models and channels"""
     from .noise_models import (
-        NoiseModel, NoiseChannel, StochasticNoiseApplicator,
-        kraus_to_choi, choi_to_kraus
+        NoiseChannel,
+        NoiseModel,
+        StochasticNoiseApplicator,
+        choi_to_kraus,
+        kraus_to_choi,
     )
     return {
         'NoiseModel': NoiseModel,
@@ -84,8 +87,10 @@ def get_noise_models():
 def get_stabilizer():
     """Get Clifford/stabilizer fast path simulator"""
     from .stabilizer_backend import (
-        StabilizerSimulator, StabilizerState, HybridSimulator,
-        is_clifford_gate
+        HybridSimulator,
+        StabilizerSimulator,
+        StabilizerState,
+        is_clifford_gate,
     )
     return {
         'StabilizerSimulator': StabilizerSimulator,
@@ -97,10 +102,7 @@ def get_stabilizer():
 # MPO operations (requires torch)
 def get_mpo_ops():
     """Get Matrix Product Operator operations"""
-    from .mpo_ops import (
-        MPO, MPOBuilder, apply_mpo_to_mps, expectation_value,
-        correlation_function
-    )
+    from .mpo_ops import MPO, MPOBuilder, apply_mpo_to_mps, correlation_function, expectation_value
     return {
         'MPO': MPO,
         'MPOBuilder': MPOBuilder,
@@ -112,9 +114,7 @@ def get_mpo_ops():
 # TDVP time evolution (requires torch)
 def get_tdvp():
     """Get Time-Dependent Variational Principle time evolution"""
-    from .tdvp import (
-        TDVP1Site, TDVP2Site, TDVPConfig, run_tdvp
-    )
+    from .tdvp import TDVP1Site, TDVP2Site, TDVPConfig, run_tdvp
     return {
         'TDVP1Site': TDVP1Site,
         'TDVP2Site': TDVP2Site,
@@ -126,8 +126,12 @@ def get_tdvp():
 def get_vqe_qaoa():
     """Get Variational Quantum Eigensolver and QAOA"""
     from .vqe_qaoa import (
-        VQE, QAOA, VQEConfig, HardwareEfficientAnsatz, QAOAAnsatz,
-        build_molecular_hamiltonian
+        QAOA,
+        VQE,
+        HardwareEfficientAnsatz,
+        QAOAAnsatz,
+        VQEConfig,
+        build_molecular_hamiltonian,
     )
     return {
         'VQE': VQE,
@@ -142,8 +146,12 @@ def get_vqe_qaoa():
 def get_cuquantum():
     """Get cuQuantum acceleration backend (optional)"""
     from .cuquantum_backend import (
-        CuQuantumBackend, CuStateVecBackend, CuQuantumConfig,
-        is_cuquantum_available, get_cuquantum_version, benchmark_backend
+        CuQuantumBackend,
+        CuQuantumConfig,
+        CuStateVecBackend,
+        benchmark_backend,
+        get_cuquantum_version,
+        is_cuquantum_available,
     )
     return {
         'CuQuantumBackend': CuQuantumBackend,
@@ -158,8 +166,13 @@ def get_cuquantum():
 def get_circuit_cutting():
     """Get circuit cutting and entanglement forging tools"""
     from .circuit_cutting import (
-        CircuitCutter, CouplingGraph, MinCutPartitioner, CuttingConfig,
-        CutPoint, CircuitPartition, visualize_entanglement_heatmap
+        CircuitCutter,
+        CircuitPartition,
+        CouplingGraph,
+        CutPoint,
+        CuttingConfig,
+        MinCutPartitioner,
+        visualize_entanglement_heatmap,
     )
     return {
         'CircuitCutter': CircuitCutter,
@@ -175,8 +188,13 @@ def get_circuit_cutting():
 def get_planar_2d():
     """Get 2D/planar circuit support"""
     from .planar_2d import (
-        Planar2DCircuit, SnakeMapper, SWAPSynthesizer, ChiScheduler,
-        Layout2D, Topology, MappingConfig
+        ChiScheduler,
+        Layout2D,
+        MappingConfig,
+        Planar2DCircuit,
+        SnakeMapper,
+        SWAPSynthesizer,
+        Topology,
     )
     return {
         'Planar2DCircuit': Planar2DCircuit,
@@ -192,8 +210,11 @@ def get_planar_2d():
 def get_distributed_mps():
     """Get distributed multi-GPU MPS simulator"""
     from .distributed_mps import (
-        DistributedMPS, DistributedConfig, DistMode, MPSPartition,
-        launch_distributed_simulation
+        DistMode,
+        DistributedConfig,
+        DistributedMPS,
+        MPSPartition,
+        launch_distributed_simulation,
     )
     return {
         'DistributedMPS': DistributedMPS,
@@ -207,8 +228,12 @@ def get_distributed_mps():
 def get_peps():
     """Get PEPS (Projected Entangled Pair States) 2D tensor networks"""
     from .peps import (
-        PEPS, PatchPEPS, PEPSConfig, PEPSTensor, ContractionStrategy,
-        benchmark_peps_vs_mps
+        PEPS,
+        ContractionStrategy,
+        PatchPEPS,
+        PEPSConfig,
+        PEPSTensor,
+        benchmark_peps_vs_mps,
     )
     return {
         'PEPS': PEPS,
