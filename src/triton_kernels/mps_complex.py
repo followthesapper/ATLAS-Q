@@ -20,7 +20,6 @@ import torch
 import triton
 import triton.language as tl
 
-
 # ============================================================================
 # Triton Kernel: 2×2 Tiled MPS Gate Operation
 # ============================================================================
