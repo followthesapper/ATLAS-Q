@@ -1,13 +1,14 @@
 # ATLAS-Q: GPU-Accelerated Quantum Tensor Network Simulator
 **Adaptive Tensor Learning And Simulation – Quantum**
 
-**Version 0.5.0** | **October 2025**
+**Version 0.6.0** | **October 2025**
 
-> **High-performance quantum simulation using GPU-accelerated tensor networks with custom Triton kernels**
+> **High-performance quantum simulation using GPU-accelerated tensor networks with molecular chemistry, circuit cutting, and cuQuantum integration**
 
-[![Performance](https://img.shields.io/badge/Performance-⭐⭐⭐⭐-blue)]()
-[![GPU](https://img.shields.io/badge/GPU-CUDA%20%2B%20Triton-green)]()
+[![Performance](https://img.shields.io/badge/Performance-⭐⭐⭐⭐⭐-blue)]()
+[![GPU](https://img.shields.io/badge/GPU-CUDA%20%2B%20Triton%20%2B%20cuQuantum-green)]()
 [![Memory](https://img.shields.io/badge/Memory-626k×%20Compression-red)]()
+[![Tests](https://img.shields.io/badge/Tests-46%2F46%20Passing-brightgreen)]()
 
 ---
 
@@ -17,7 +18,7 @@
 - **626,000× memory compression** vs full statevector (30 qubits)
 - **20× speedup** on Clifford circuits (Stabilizer backend)
 - **1.5-3× speedup** on gate operations (custom Triton kernels)
-- **All 7/7 benchmarks passing**
+- **All 46/46 integration tests passing** (Priority 1 + 2 features)
 
 ---
 
@@ -347,18 +348,21 @@ times, energies = tdvp.run()
 
 ## 🚧 Roadmap
 
-### Current Status (v0.5.0)
+### Current Status (v0.6.0)
 - ✅ GPU-accelerated tensor networks with custom Triton kernels
 - ✅ Adaptive MPS with error tracking
 - ✅ Stabilizer backend (20× speedup)
 - ✅ TDVP, VQE/QAOA implementations
-- ✅ All 7/7 benchmark suites passing
+- ✅ **NEW:** Molecular Hamiltonians (PySCF integration)
+- ✅ **NEW:** MaxCut QAOA Hamiltonians
+- ✅ **NEW:** Circuit Cutting & partitioning
+- ✅ **NEW:** PEPS 2D tensor networks
+- ✅ **NEW:** Distributed MPS (multi-GPU ready)
+- ✅ **NEW:** cuQuantum 25.x backend integration
+- ✅ All 46/46 integration tests passing
 
 ### Planned Features
-- [ ] Multi-GPU distributed MPS
-- [ ] Enhanced PEPS implementation
 - [ ] Integration adapters for Qiskit/Cirq circuits
-- [ ] Extended cuQuantum backend support
 - [ ] Additional tutorial notebooks
 - [ ] PyPI package distribution
 

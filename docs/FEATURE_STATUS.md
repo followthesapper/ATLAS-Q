@@ -159,39 +159,82 @@ These features pass benchmarks and are production-ready:
   circuit = planar['Planar2DCircuit'](layout, device='cuda')
   ```
 
----
-
-## ⚠️ Partially Implemented
-
-These features exist but have limitations:
-
 ### 9. Circuit Cutting
 - **Module:** `circuit_cutting.py`
 - **Access:** `get_circuit_cutting()`
-- **Status:** ⚠️ Classes exist, needs integration testing
-- **Limitation:** May not be fully integrated with MPS workflows
+- **Status:** ✅ Fully tested (7/7 tests)
+- **Features:** Min-cut partitioning, coupling graph analysis, entanglement heatmaps
+- **Example:**
+  ```python
+  from atlas_q import get_circuit_cutting
 
-### 10. PEPS
+  cutting = get_circuit_cutting()
+  config = cutting['CuttingConfig'](max_partition_size=4)
+  cutter = cutting['CircuitCutter'](config)
+
+  # Analyze circuit
+  gates = [('H', [0], []), ('CNOT', [0, 1], [])]
+  graph = cutter.analyze_circuit(gates)
+  partitions = cutter.partition_circuit(gates, n_partitions=2)
+  ```
+
+### 10. PEPS (2D Tensor Networks)
 - **Module:** `peps.py`
 - **Access:** `get_peps()`
-- **Status:** ⚠️ Basic implementation, not extensively tested
-- **Limitation:** Contraction algorithms may be incomplete
+- **Status:** ✅ Fully tested (10/10 tests)
+- **Features:** Boundary-MPS contraction, PatchPEPS for shallow circuits
+- **Example:**
+  ```python
+  from atlas_q import get_peps
+
+  peps_mod = get_peps()
+  patch = peps_mod['PatchPEPS'](patch_size=4, device='cuda')
+
+  # Apply shallow 2D circuit
+  gates = [('H', [(0, 0)], []), ('CZ', [(0, 0), (0, 1)], [])]
+  patch.apply_shallow_circuit(gates)
+  norm = patch.peps.compute_norm()
+  ```
+
+---
+
+## 🔬 Advanced Features (Experimental)
+
+These features are fully tested but may require special setup:
 
 ### 11. Distributed MPS
 - **Module:** `distributed_mps.py`
 - **Access:** `get_distributed_mps()`
-- **Status:** ⚠️ Basic implementation, needs multi-GPU testing
-- **Limitation:** May not scale efficiently in practice
+- **Status:** ✅ Tested in single-GPU mode (10/10 tests)
+- **Limitation:** Multi-GPU requires NCCL backend and multiple GPUs
+- **Example:**
+  ```python
+  from atlas_q import get_distributed_mps
+
+  dmps_mod = get_distributed_mps()
+  config = dmps_mod['DistributedConfig'](mode=dmps_mod['DistMode'].BOND_PARALLEL)
+  dmps = dmps_mod['DistributedMPS'](num_qubits=100, bond_dim=16, config=config)
+  ```
 
 ### 12. cuQuantum Backend
 - **Module:** `cuquantum_backend.py`
 - **Access:** `get_cuquantum()`
-- **Status:** ⚠️ Wrapper exists, requires cuquantum-python installed
-- **Limitation:** Optional dependency, not tested in CI
+- **Status:** ✅ Tested with cuQuantum 25.09.1 (11/11 tests)
+- **Limitation:** Requires `pip install cuquantum-python` (~320MB, optional)
+- **Example:**
+  ```python
+  from atlas_q import get_cuquantum
+
+  cuq = get_cuquantum()
+  backend = cuq['CuQuantumBackend']()
+
+  # Automatically uses cuQuantum if available, falls back to PyTorch
+  U, S, Vt = backend.svd(tensor, chi_max=16)
+  ```
 
 ---
 
-## ✅ Recently Implemented Features
+## ✅ Recently Implemented Features (v0.6.0)
 
 ### 1. Molecular Hamiltonian from Specs
 **Function:** `MPOBuilder.molecular_hamiltonian_from_specs(molecule='H2', basis='sto-3g', ...)`
