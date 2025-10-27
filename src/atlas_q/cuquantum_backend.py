@@ -23,7 +23,7 @@ import numpy as np
 # Check cuQuantum availability
 try:
     import cuquantum
-    from cuquantum import cutensornet as cutn
+    from cuquantum import tensornet as cutn
     CUQUANTUM_AVAILABLE = True
     CUQUANTUM_VERSION = cuquantum.__version__
 except ImportError:
@@ -67,7 +67,10 @@ class CuQuantumBackend:
     def _init_cutensornet(self):
         """Initialize cuTensorNet handle"""
         try:
-            self.handle = cutn.create()
+            # cuQuantum 25.x uses functional API, no handle needed
+            # Just verify we can access the module
+            _ = cutn.contract
+            self.handle = True  # Placeholder to indicate cuTensorNet is available
         except Exception as e:
             print(f"Warning: Failed to initialize cuTensorNet: {e}")
             print("Falling back to PyTorch backend")
@@ -196,11 +199,8 @@ class CuQuantumBackend:
 
     def __del__(self):
         """Cleanup cuQuantum resources"""
-        if self.handle is not None:
-            try:
-                cutn.destroy(self.handle)
-            except Exception:
-                pass
+        # cuQuantum 25.x uses functional API, no cleanup needed
+        pass
 
 
 class CuStateVecBackend:

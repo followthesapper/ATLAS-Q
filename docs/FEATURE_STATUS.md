@@ -14,6 +14,45 @@
 
 ---
 
+## 🚀 Current Development Status (Dev Branch)
+
+**Latest Update:** 2025-10-27 - Commit d82c9fc
+
+### Recently Completed (Priority 1)
+- ✅ **Molecular Hamiltonian Builder** - Fully implemented and tested
+  - Function: `MPOBuilder.molecular_hamiltonian_from_specs()`
+  - Integration: PySCF with Jordan-Wigner transformation
+  - Tests: 4/4 passing in `test_molecular_hamiltonians.py`
+  - Supports: H2, LiH, H2O, custom geometries
+
+- ✅ **MaxCut Hamiltonian Builder** - Fully implemented and tested
+  - Function: `MPOBuilder.maxcut_hamiltonian()`
+  - QAOA graph optimization problems
+  - Tests: 4/4 passing in `test_maxcut.py`
+  - Supports: Weighted/unweighted graphs, edge normalization
+
+### Completed (Priority 2)
+- ✅ **Circuit Cutting Integration** - Fully tested and working
+  - 7/7 tests passing in `test_circuit_cutting.py`
+  - Min-cut partitioning, coupling graph analysis, entanglement heatmaps
+- ✅ **PEPS (Projected Entangled Pair States)** - Fully tested and working
+  - 10/10 tests passing in `test_peps.py`
+  - 2D tensor networks, boundary-MPS contraction, PatchPEPS
+- ✅ **Distributed MPS** - Tested in single-GPU mode
+  - 10/10 tests passing in `test_distributed_mps.py`
+  - Bond-parallel decomposition, multi-GPU ready (requires NCCL)
+- ✅ **cuQuantum Backend** - Tested with cuQuantum 25.09.1 (OPTIONAL)
+  - 11/11 tests passing in `test_cuquantum.py`
+  - Auto-detection, PyTorch fallback verified
+  - **Tested with:** cuQuantum 25.09.1, cuTensorNet API
+  - **Install:** `pip install cuquantum-python` (optional, ~320MB)
+
+**Branch:** Dev
+**Latest Work:** Priority 1 + 2 complete (46 tests, all passing)
+**Status:** Ready for merge to main
+
+---
+
 ## ✅ Fully Implemented & Tested
 
 These features pass benchmarks and are production-ready:

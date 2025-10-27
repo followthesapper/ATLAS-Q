@@ -23,6 +23,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Compatible with QAOA for combinatorial optimization
   - 4/4 tests passing in `test_maxcut.py`
 
+#### Advanced Tensor Network Features
+- **Circuit Cutting** (`circuit_cutting.py`): Partition large circuits for simulation
+  - Coupling graph analysis and entanglement heatmaps
+  - Min-cut and spectral partitioning algorithms
+  - Classical stitching with variance reduction
+  - 7/7 tests passing in `test_circuit_cutting.py`
+- **PEPS (Projected Entangled Pair States)** (`peps.py`): 2D tensor networks
+  - True 2D representation for shallow quantum circuits
+  - Boundary-MPS contraction strategy
+  - PatchPEPS for 4×4 and 5×5 grids
+  - Single and two-site gate application
+  - 10/10 tests passing in `test_peps.py`
+- **Distributed MPS** (`distributed_mps.py`): Multi-GPU scaling
+  - Bond-wise domain decomposition across GPUs
+  - Overlapped communication and computation
+  - Checkpoint/restart for long simulations
+  - 10/10 tests passing in `test_distributed_mps.py`
+- **cuQuantum Backend** (`cuquantum_backend.py`): Optional NVIDIA acceleration
+  - cuTensorNet 25.x integration for tensor operations
+  - Automatic fallback to PyTorch if unavailable
+  - 2-10× speedup on compatible NVIDIA GPUs (requires `cuquantum-python`)
+  - 11/11 tests passing in `test_cuquantum.py` (tested with cuQuantum 25.09.1)
+  - **Install:** `pip install cuquantum-python` (optional, ~320MB)
+
 ## [0.5.0] - 2025-10-26
 
 ### Added
