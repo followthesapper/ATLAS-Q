@@ -25,8 +25,8 @@ Examples:
     python -m atlas_q info
 """
 
-import sys
 import argparse
+import sys
 from pathlib import Path
 
 __version__ = '0.6.0'
@@ -89,6 +89,7 @@ def cmd_benchmark(args):
 def cmd_info(args):
     """Display system information"""
     import torch
+
     from atlas_q import __version__
 
     print("\n📊 ATLAS-Q System Information")
