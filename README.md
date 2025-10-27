@@ -10,6 +10,8 @@
 [![Memory](https://img.shields.io/badge/Memory-626k×%20Compression-red)]()
 [![Tests](https://img.shields.io/badge/Tests-46%2F46%20Passing-brightgreen)]()
 
+[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://www.buymeacoffee.com/FollowTheSapper)
+
 ---
 
 ## ⚡ Performance Highlights
