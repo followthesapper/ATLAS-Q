@@ -31,7 +31,7 @@ This document summarizes how to build, test, and publish ATLAS-Q as a Python pac
 make build
 
 # Test build locally
-pip install dist/atlas_q-0.5.0-py3-none-any.whl
+pip install dist/atlas_quantum-0.5.0-py3-none-any.whl
 
 # Publish to TestPyPI (test first!)
 make publish-test
@@ -106,16 +106,16 @@ git push origin main
 
 ```bash
 # Verify PyPI
-pip install --upgrade atlas-q
+pip install --upgrade atlas-quantum
 python -c "import atlas_q; print(atlas_q.__version__)"
 
 # Verify Docker
-docker pull ghcr.io/followthsapper/atlas-q:cuda
-docker run --rm ghcr.io/followthsapper/atlas-q:cuda python -c "import atlas_q; print(atlas_q.__version__)"
+docker pull ghcr.io/followthesapper/atlas-q:cuda
+docker run --rm ghcr.io/followthesapper/atlas-q:cuda python -c "import atlas_q; print(atlas_q.__version__)"
 
 # Check pages
-# PyPI: https://pypi.org/project/atlas-q/
-# Docker: https://github.com/followthsapper/ATLAS-Q/pkgs/container/atlas-q
+# PyPI: https://pypi.org/project/atlas-quantum/
+# Docker: https://github.com/followthesapper/ATLAS-Q/pkgs/container/atlas-q
 ```
 
 ---
@@ -161,16 +161,16 @@ docker push ghcr.io/followthsapper/atlas-q:cpu
 
 ```bash
 # Basic installation (CPU)
-pip install atlas-q
+pip install atlas-quantum
 
 # With GPU support
-pip install atlas-q[gpu]
+pip install atlas-quantum[gpu]
 
 # All optional features
-pip install atlas-q[all]
+pip install atlas-quantum[all]
 
 # From source
-git clone https://github.com/followthsapper/ATLAS-Q.git
+git clone https://github.com/followthesapper/ATLAS-Q.git
 cd ATLAS-Q
 pip install -e .[gpu,dev]
 ```
@@ -228,7 +228,7 @@ This setup added/modified these files:
 ### PyPI Upload Fails
 
 **Error:** `403 Forbidden`
-**Solution:** Check API token is correct and has permissions for `atlas-q` project
+**Solution:** Check API token is correct and has permissions for `atlas-quantum` project
 
 **Error:** `400 Bad Request: File already exists`
 **Solution:** Version already published. Bump version number and try again.
@@ -276,7 +276,7 @@ Check workflow logs at: https://github.com/followthsapper/ATLAS-Q/actions
 ## Support
 
 - **GitHub Actions:** Check `.github/workflows/*.yml` for workflow details
-- **PyPI:** https://pypi.org/project/atlas-q/
+- **PyPI:** https://pypi.org/project/atlas-quantum/
 - **Docker Hub:** https://github.com/followthsapper/ATLAS-Q/pkgs/container/atlas-q
 - **Full Guide:** See `docs/MAINTENANCE_GUIDE.md` Workflows 5-7
 
