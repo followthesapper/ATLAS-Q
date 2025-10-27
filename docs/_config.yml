@@ -1,0 +1,59 @@
+# ATLAS-Q Documentation Site Configuration
+# GitHub Pages with Jekyll
+
+# Site settings
+title: ATLAS-Q Documentation
+description: GPU-Accelerated Quantum Tensor Network Simulator
+baseurl: "/ATLAS-Q"
+url: "https://followthsapper.github.io"
+
+# Theme
+theme: jekyll-theme-cayman
+remote_theme: pages-themes/cayman@v0.2.0
+
+# Navigation
+navigation:
+  - title: Home
+    url: /
+  - title: Complete Guide
+    url: /COMPLETE_GUIDE
+  - title: Feature Status
+    url: /FEATURE_STATUS
+  - title: Whitepaper
+    url: /WHITEPAPER
+  - title: Research Paper
+    url: /RESEARCH_PAPER
+  - title: Overview
+    url: /OVERVIEW
+
+# Plugins
+plugins:
+  - jekyll-remote-theme
+  - jekyll-relative-links
+
+# Relative links settings
+relative_links:
+  enabled: true
+  collections: false
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Exclude from processing
+exclude:
+  - LICENSE
+  - CHANGELOG.md
+  - MAINTENANCE_GUIDE.md
+  - MATH_GUIDE.md
+  - ENGINEERING_GUIDE.md
+
+# Include files
+include:
+  - COMPLETE_GUIDE.md
+  - FEATURE_STATUS.md
+  - WHITEPAPER.md
+  - RESEARCH_PAPER.md
+  - OVERVIEW.md

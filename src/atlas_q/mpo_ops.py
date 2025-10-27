@@ -16,11 +16,14 @@ import torch
 import numpy as np
 from typing import List, Tuple, Optional, Union, Dict
 from dataclasses import dataclass
+from pathlib import Path
 
 # GPU-optimized operations (if available)
 try:
     import sys
-    sys.path.insert(0, '/home/admin/ATLAS-Q')
+    # Add project root dynamically
+    project_root = Path(__file__).parent.parent.parent.resolve()
+    sys.path.insert(0, str(project_root))
     from triton_kernels.tdvp_mpo_ops import mpo_expectation_step_optimized
     GPU_OPTIMIZED_AVAILABLE = True
 except ImportError:

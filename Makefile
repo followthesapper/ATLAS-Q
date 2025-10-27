@@ -1,5 +1,5 @@
 # ATLAS-Q Makefile - Developer shortcuts
-.PHONY: help test test-unit test-integration test-performance test-nogpu bench bench-quick demo demo-qaoa probe install dev-install clean
+.PHONY: help test test-unit test-integration test-performance test-nogpu bench bench-quick demo demo-qaoa probe install dev-install clean build publish docker-build-gpu docker-build-cpu docker-run-gpu docker-run-cpu
 
 help:
 	@echo "ATLAS-Q Development Commands:"
@@ -23,6 +23,17 @@ help:
 	@echo "  make demo             - Run feature demonstrations"
 	@echo "  make demo-qaoa        - Run QAOA demo"
 	@echo "  make probe            - Run capacity probe"
+	@echo ""
+	@echo "Packaging:"
+	@echo "  make build            - Build Python package (wheel + sdist)"
+	@echo "  make publish          - Publish package to PyPI (requires credentials)"
+	@echo "  make publish-test     - Publish to TestPyPI"
+	@echo ""
+	@echo "Docker:"
+	@echo "  make docker-build-gpu - Build GPU Docker image"
+	@echo "  make docker-build-cpu - Build CPU Docker image"
+	@echo "  make docker-run-gpu   - Run GPU Docker container"
+	@echo "  make docker-run-cpu   - Run CPU Docker container"
 	@echo ""
 	@echo "Utilities:"
 	@echo "  make clean            - Clean build artifacts"
@@ -75,3 +86,37 @@ clean:
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 	find . -type f -name "*.pyc" -delete
 	find . -type f -name "*.pyo" -delete
+
+# Package building
+build:
+	@echo "Building Python package..."
+	python -m pip install --upgrade build
+	python -m build
+	@echo "Build artifacts in dist/"
+
+publish: build
+	@echo "Publishing to PyPI..."
+	python -m pip install --upgrade twine
+	twine upload dist/*
+
+publish-test: build
+	@echo "Publishing to TestPyPI..."
+	python -m pip install --upgrade twine
+	twine upload --repository testpypi dist/*
+
+# Docker
+docker-build-gpu:
+	@echo "Building GPU Docker image..."
+	docker build -t atlas-q:cuda -f Dockerfile .
+
+docker-build-cpu:
+	@echo "Building CPU Docker image..."
+	docker build -t atlas-q:cpu -f Dockerfile.cpu .
+
+docker-run-gpu:
+	@echo "Running GPU Docker container..."
+	docker run --rm -it --gpus all atlas-q:cuda
+
+docker-run-cpu:
+	@echo "Running CPU Docker container..."
+	docker run --rm -it atlas-q:cpu

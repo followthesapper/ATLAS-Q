@@ -23,6 +23,7 @@ import math
 import time
 from dataclasses import dataclass
 from typing import List, Optional, Dict, Union
+from pathlib import Path
 
 from .mps_pytorch import MatrixProductStatePyTorch
 from .linalg_robust import robust_svd, robust_qr
@@ -32,7 +33,9 @@ from .diagnostics import MPSStatistics
 # Triton-accelerated gate operations (if available)
 try:
     import sys
-    sys.path.insert(0, '/home/admin/ATLAS-Q')
+    # Add project root dynamically
+    project_root = Path(__file__).parent.parent.parent.resolve()
+    sys.path.insert(0, str(project_root))
     from triton_kernels.mps_complex import fused_two_qubit_gate_triton, fused_two_qubit_gate_pytorch
     TRITON_AVAILABLE = True
 except ImportError:

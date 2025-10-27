@@ -22,7 +22,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-
+.claude
 # Virtual environments
 venv/
 .venv/
@@ -91,3 +91,14 @@ tmp/
 # OS
 .DS_Store
 Thumbs.db
+
+# Package distribution
+*.whl
+*.tar.gz
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# GitHub Actions
+.github/workflows/*.log

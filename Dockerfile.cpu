@@ -1,0 +1,41 @@
+# ATLAS-Q Docker Image (CPU-only)
+# Lightweight image for CPU-based quantum simulation
+
+FROM python:3.10-slim
+
+LABEL maintainer="ATLAS-Q Development Team"
+LABEL description="ATLAS-Q: CPU-based quantum tensor network simulator"
+LABEL version="0.5.0"
+
+# Prevent interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip
+RUN pip install --upgrade pip setuptools wheel
+
+# Install PyTorch (CPU-only)
+RUN pip install torch>=2.0.0 --index-url https://download.pytorch.org/whl/cpu
+
+# Set working directory
+WORKDIR /opt/atlas-q
+
+# Copy package files first (for layer caching)
+COPY pyproject.toml README.md MANIFEST.in ./
+COPY src/ ./src/
+COPY triton_kernels/ ./triton_kernels/
+COPY models/ ./models/
+
+# Install ATLAS-Q (CPU-only, no Triton)
+RUN pip install .
+
+# Create non-root user
+RUN useradd -m -u 1000 atlasq && chown -R atlasq:atlasq /opt/atlas-q
+USER atlasq
+
+# Default command: Python REPL
+CMD ["python3"]

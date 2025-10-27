@@ -27,6 +27,7 @@ import numpy as np
 from typing import Optional, Callable, List, Tuple
 from dataclasses import dataclass
 from scipy.linalg import expm
+from pathlib import Path
 
 from .mpo_ops import MPO, expectation_value
 from .adaptive_mps import AdaptiveMPS
@@ -35,7 +36,9 @@ from .linalg_robust import robust_svd
 # GPU-optimized operations (if available)
 try:
     import sys
-    sys.path.insert(0, '/home/admin/ATLAS-Q')
+    # Add project root dynamically
+    project_root = Path(__file__).parent.parent.parent.resolve()
+    sys.path.insert(0, str(project_root))
     from triton_kernels.tdvp_mpo_ops import (
         tdvp_left_environment_init_optimized,
         tdvp_right_environment_init_optimized,

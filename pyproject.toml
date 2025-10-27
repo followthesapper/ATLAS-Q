@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "atlas-q"
 version = "0.5.0"
-description = "ATLAS-Q: GPU-accelerated quantum simulator with tensor networks, period-finding, TDVP, VQE/QAOA, and custom Triton kernels"
+description = "GPU-accelerated quantum tensor network simulator with adaptive MPS, TDVP, VQE/QAOA, and custom Triton kernels"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
@@ -20,12 +20,12 @@ keywords = [
     "simulation",
     "tensor-networks",
     "mps",
-    "qft",
-    "machine-learning",
-    "aqed",
+    "vqe",
+    "qaoa",
+    "tdvp",
     "period-finding",
-    "cryptography",
-    "compression"
+    "gpu-acceleration",
+    "nisq"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -46,71 +46,52 @@ classifiers = [
 
 dependencies = [
     "numpy>=1.22",
+    "scipy>=1.10.0",
     "matplotlib>=3.6",
+    "torch>=2.0.0",
 ]
 
 [project.optional-dependencies]
-# Machine learning components
-ml = [
-    "scikit-learn>=1.2",
-    "torch>=2.0.0",
-    "pandas>=1.5.0",
-    "einops>=0.6.0",
-]
-
-# GPU acceleration (CUDA)
+# GPU acceleration (Triton kernels)
 gpu = [
-    "cupy-cuda12x>=12.0.0; platform_machine=='x86_64'",
     "triton>=2.0.0",
 ]
 
-# Advanced GPU optimizations (optional, may not build on all platforms)
-gpu_advanced = [
-    "flash-attn>=2.0.0",
+# cuQuantum backend (advanced GPU optimization)
+cuquantum = [
+    "cuquantum-python>=23.0.0",
 ]
 
-# Hugging Face integration
-hf = [
-    "transformers>=4.30.0",
-    "datasets>=2.12.0",
+# ML tools (rank prediction, AI-guided truncation)
+ml = [
+    "scikit-learn>=1.0.0",
 ]
 
-# Development tools
+# Development and testing
 dev = [
     "pytest>=7.3",
     "pytest-cov>=4.0",
-    "pytest-xdist>=3.2",
     "black>=23.0",
     "ruff>=0.0.260",
-    "mypy>=1.2",
 ]
 
-# Documentation generation
-docs = [
-    "sphinx>=6.0",
-    "sphinx-rtd-theme>=1.2",
-    "sphinx-autodoc-typehints>=1.23",
-    "myst-parser>=1.0",
-]
-
-# Notebook support
+# Jupyter notebooks
 notebooks = [
     "jupyter>=1.0",
     "ipykernel>=6.22",
-    "ipywidgets>=8.0",
 ]
 
 # All optional dependencies
 all = [
-    "atlas-q[ml,gpu,gpu_advanced,hf,dev,docs,notebooks]",
+    "atlas-q[gpu,cuquantum,ml,dev,notebooks]",
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-org/ATLAS-Q"
-Documentation = "https://atlas-q.readthedocs.io"
-Repository = "https://github.com/your-org/ATLAS-Q"
-"Bug Tracker" = "https://github.com/your-org/ATLAS-Q/issues"
-Changelog = "https://github.com/your-org/ATLAS-Q/blob/main/docs/CHANGELOG.md"
+Homepage = "https://github.com/followthsapper/ATLAS-Q"
+Documentation = "https://github.com/followthsapper/ATLAS-Q/tree/main/docs"
+Repository = "https://github.com/followthsapper/ATLAS-Q"
+"Bug Tracker" = "https://github.com/followthsapper/ATLAS-Q/issues"
+Changelog = "https://github.com/followthsapper/ATLAS-Q/blob/main/docs/CHANGELOG.md"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -125,7 +106,7 @@ atlas_q = ["py.typed"]
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "-ra -q --strict-markers"
-testpaths = ["Tests"]
+testpaths = ["tests"]
 markers = [
     "gpu: tests that exercise optional GPU paths (deselect with '-m \"not gpu\"')",
     "slow: longer-running tests (deselect with '-m \"not slow\"')",

@@ -1,4 +1,5 @@
 # ATLAS-Q: GPU-Accelerated Quantum Tensor Network Simulator
+**Adaptive Tensor Learning And Simulation – Quantum**
 
 **Version 0.5.0** | **October 2025**
 
@@ -22,9 +23,14 @@
 
 ## 🚀 Quick Start
 
+### Try the Interactive Demo
+**[📓 Open ATLAS_Q_Demo.ipynb](ATLAS_Q_Demo.ipynb)** - Complete interactive tutorial for Jupyter Notebook or Google Colab
+
+### Install from Source
+
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/ATLAS-Q.git
+git clone https://github.com/followthsapper/ATLAS-Q.git
 cd ATLAS-Q
 
 # Install dependencies
@@ -33,14 +39,14 @@ pip install -r requirements.txt
 # Install ATLAS-Q in editable mode
 pip install -e .
 
-# Setup Triton GPU kernels (recommended for GPU acceleration)
+# Setup Triton GPU kernels (auto-detects your GPU)
 ./setup_triton.sh
 
-# Run benchmarks
-python benchmarks/comprehensive_benchmark.py
+# Run feature validation
+python scripts/benchmarks/validate_all_features.py
 
 # Run performance comparison
-python benchmarks/competitive_comparison.py
+python scripts/benchmarks/compare_with_competitors.py
 ```
 
 ### GPU Setup (Recommended)
@@ -48,19 +54,17 @@ python benchmarks/competitive_comparison.py
 For optimal performance with custom Triton kernels on NVIDIA GPUs:
 
 ```bash
-# Run automated setup script
+# Run automated setup script (auto-detects GPU architecture)
 ./setup_triton.sh
-
-# Or manually set environment variables
-export TRITON_PTXAS_PATH="/usr/local/cuda/bin/ptxas"
-export TORCH_CUDA_ARCH_LIST="12.0"
-
-# Add to ~/.bashrc for persistence
-echo 'export TRITON_PTXAS_PATH="/usr/local/cuda/bin/ptxas"' >> ~/.bashrc
-echo 'export TORCH_CUDA_ARCH_LIST="12.0"' >> ~/.bashrc
 ```
 
-**Note**: Adjust `TORCH_CUDA_ARCH_LIST` based on your GPU architecture (e.g., "8.0" for A100, "12.0" for H100/GB10)
+The setup script automatically:
+- Detects your GPU model (V100, A100, H100, GB100, etc.)
+- Sets optimal `TORCH_CUDA_ARCH_LIST` for your hardware
+- Configures `TRITON_PTXAS_PATH` for kernel compilation
+- Adds settings to `~/.bashrc` for persistence
+
+**Supported GPUs**: V100 (7.0), A100 (8.0), H100 (9.0), GB100/GB200 (12.0), and future architectures
 
 ### Example 1: Tensor Network Simulation
 
@@ -117,7 +121,7 @@ print(f"143 = {factors[0]} × {factors[1]}")
 | **Tensor Networks** | ✅ Native | ❌ | ❌ | **ATLAS-Q** |
 | **Ease of Use** | Good | Excellent | Excellent | Qiskit/Cirq |
 
-**See**: [PERFORMANCE_COMPARISON.md](PERFORMANCE_COMPARISON.md) for detailed benchmarks
+**Note**: Run `python scripts/benchmarks/compare_with_competitors.py` for detailed performance comparisons
 
 ---
 
@@ -147,12 +151,20 @@ ATLAS-Q is a **GPU-accelerated quantum simulator** with two complementary capabi
 
 ---
 
-## 📚 Full Documentation
+## 📚 Documentation
 
-- **[Quantum Simulator Guide](docs/README_QUANTUM.md)** - Complete usage guide
-- **[Research Paper](docs/ATLAS_Q_RESEARCH_PAPER.md)** - Technical details
-- **[Performance Comparison](PERFORMANCE_COMPARISON.md)** - Benchmarks vs competition
-- **[API Reference](docs/)** - Detailed API documentation
+### Interactive Tutorial
+- **[📓 Jupyter Notebook](ATLAS_Q_Demo.ipynb)** - Complete interactive demo (works in Colab!)
+
+### Online Documentation
+- **[📖 Documentation Site](https://followthsapper.github.io/ATLAS-Q/)** - Browse all docs online
+
+### Guides & References
+- **[Complete Guide](docs/COMPLETE_GUIDE.md)** - Installation, tutorials, API reference (start here!)
+- **[Feature Status](docs/FEATURE_STATUS.md)** - What's actually implemented
+- **[Research Paper](docs/RESEARCH_PAPER.md)** - Mathematical foundations and algorithms
+- **[Whitepaper](docs/WHITEPAPER.md)** - Technical architecture and implementation
+- **[Overview](docs/OVERVIEW.md)** - High-level explanation for all audiences
 
 ---
 
@@ -277,35 +289,32 @@ times, energies = tdvp.run()
 
 ## 🚧 Roadmap
 
-### v0.6.0 (Next Month)
+### Current Status (v0.5.0)
+- ✅ GPU-accelerated tensor networks with custom Triton kernels
+- ✅ Adaptive MPS with error tracking
+- ✅ Stabilizer backend (20× speedup)
+- ✅ TDVP, VQE/QAOA implementations
+- ✅ All 7/7 benchmark suites passing
+
+### Planned Features
 - [ ] Multi-GPU distributed MPS
-- [ ] Complete PEPS implementation
-- [ ] Integration with Qiskit/Cirq
-- [ ] Tutorial notebooks
-
-### v0.7.0 (Month 2)
-- [ ] cuQuantum integration
-- [ ] Circuit cutting optimization
-- [ ] Performance optimization paper
-- [ ] API documentation
-
-### v1.0.0 (Month 3)
-- [ ] Production-ready release
-- [ ] Full test coverage (>95%)
-- [ ] Comprehensive documentation
-- [ ] PyPI package
+- [ ] Enhanced PEPS implementation
+- [ ] Integration adapters for Qiskit/Cirq circuits
+- [ ] Extended cuQuantum backend support
+- [ ] Additional tutorial notebooks
+- [ ] PyPI package distribution
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](archive/CONTRIBUTING.md) for guidelines.
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ### Development Setup
 
 ```bash
 # Clone with submodules
-git clone --recursive https://github.com/yourusername/ATLAS-Q.git
+git clone --recursive https://github.com/followthsapper/ATLAS-Q.git
 
 # Install dev dependencies
 pip install -r requirements.txt
@@ -315,7 +324,7 @@ pip install pytest pytest-cov black isort
 pytest tests/ -v
 
 # Run benchmarks
-python benchmarks/comprehensive_benchmark.py
+python scripts/benchmarks/validate_all_features.py
 ```
 
 ---
@@ -326,10 +335,10 @@ If you use ATLAS-Q in your research, please cite:
 
 ```bibtex
 @software{atlasq2025,
-  title={ATLAS-Q: GPU-Accelerated Quantum Tensor Network Simulator},
+  title={ATLAS-Q: Adaptive Tensor Learning And Simulation – Quantum},
   author={ATLAS-Q Development Team},
   year={2025},
-  url={https://github.com/yourusername/ATLAS-Q},
+  url={https://github.com/followthsapper/ATLAS-Q},
   version={0.5.0}
 }
 ```
@@ -353,12 +362,9 @@ MIT License - see [LICENSE](LICENSE) for details
 
 ## 📞 Contact
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/ATLAS-Q/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/ATLAS-Q/discussions)
-- **Email**: atlas-q@example.com
+- **Issues**: [GitHub Issues](https://github.com/followthsapper/ATLAS-Q/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/followthsapper/ATLAS-Q/discussions)
 
 ---
 
-**Status**: ⭐⭐⭐⭐ (4/5 stars) | **Tier 1.5 Quantum Simulator**
-
-*GPU-accelerated tensor network methods with world-class memory efficiency*
+**ATLAS-Q**: GPU-accelerated tensor network simulator achieving 626,000× memory compression through adaptive MPS, custom Triton kernels, and specialized quantum state representations.

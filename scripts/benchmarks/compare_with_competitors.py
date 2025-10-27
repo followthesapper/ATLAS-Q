@@ -23,12 +23,14 @@ Date: October 2025
 import time
 import sys
 import os
+from pathlib import Path
 import numpy as np
 import torch
 
-# Add paths
-sys.path.insert(0, '/home/admin/ATLAS-Q/src')
-sys.path.insert(0, '/home/admin/ATLAS-Q')
+# Add project root to path dynamically
+project_root = Path(__file__).parent.parent.parent.resolve()
+sys.path.insert(0, str(project_root / 'src'))
+sys.path.insert(0, str(project_root))
 
 from atlas_q.adaptive_mps import AdaptiveMPS
 from atlas_q.mpo_ops import MPOBuilder, expectation_value
@@ -327,6 +329,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # Set environment
-    os.environ['PYTHONPATH'] = '/home/admin/ATLAS-Q/venv/lib/python3.12/site-packages:/home/admin/ATLAS-Q/src'
     main()
