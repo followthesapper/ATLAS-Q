@@ -102,3 +102,16 @@ docker-compose.override.yml
 
 # GitHub Actions
 .github/workflows/*.log
+
+# Security - Secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
+secrets.yml
+secrets.json
+credentials.json
+config.local.yml

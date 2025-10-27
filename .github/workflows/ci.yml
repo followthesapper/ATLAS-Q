@@ -84,8 +84,23 @@ jobs:
         python -m pip install twine
         twine check dist/*
 
+    - name: Generate SBOM
+      run: |
+        pip install cyclonedx-bom
+        cyclonedx-py requirements <(echo "numpy>=1.22
+        scipy>=1.10.0
+        matplotlib>=3.6
+        torch>=2.0.0
+        triton>=2.0.0") --pyproject pyproject.toml --of JSON -o sbom.json
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: python-package
         path: dist/
+
+    - name: Upload SBOM
+      uses: actions/upload-artifact@v4
+      with:
+        name: sbom
+        path: sbom.json
