@@ -14,10 +14,11 @@ Author: ATLAS-Q Contributors
 Date: October 24, 2025
 """
 
+from typing import Optional, Tuple
+
 import torch
 import triton
 import triton.language as tl
-from typing import Optional, Tuple
 
 
 # ============================================================================

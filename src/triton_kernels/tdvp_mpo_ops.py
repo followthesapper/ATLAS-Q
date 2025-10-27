@@ -17,9 +17,10 @@ Date: October 2025
 License: MIT
 """
 
-import torch
-from typing import Tuple, Optional
 import os
+from typing import Optional, Tuple
+
+import torch
 
 # Disable CUDA graphs (causes tensor reuse issues)
 os.environ['TORCH_CUDAGRAPHS_DISABLE'] = '1'
@@ -223,6 +224,7 @@ def benchmark_tdvp_contractions(
     Benchmark TDVP contractions: baseline vs optimized
     """
     import time
+
     import numpy as np
 
     print(f"\n{'='*70}")
