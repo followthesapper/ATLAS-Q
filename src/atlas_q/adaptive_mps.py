@@ -18,25 +18,22 @@ Date: October 2025
 License: MIT
 """
 
-import torch
 import math
 import time
 from dataclasses import dataclass
-from typing import List, Optional, Dict, Union
 from pathlib import Path
+from typing import Dict, List, Optional, Union
 
-from .mps_pytorch import MatrixProductStatePyTorch
-from .linalg_robust import robust_svd, robust_qr
-from .truncation import choose_rank_from_sigma, check_entropy_sanity
+import torch
+
 from .diagnostics import MPSStatistics
+from .linalg_robust import robust_qr, robust_svd
+from .mps_pytorch import MatrixProductStatePyTorch
+from .truncation import check_entropy_sanity, choose_rank_from_sigma
 
 # Triton-accelerated gate operations (if available)
 try:
-    import sys
-    # Add project root dynamically
-    project_root = Path(__file__).parent.parent.parent.resolve()
-    sys.path.insert(0, str(project_root))
-    from triton_kernels.mps_complex import fused_two_qubit_gate_triton, fused_two_qubit_gate_pytorch
+    from triton_kernels.mps_complex import fused_two_qubit_gate_pytorch, fused_two_qubit_gate_triton
     TRITON_AVAILABLE = True
 except ImportError:
     TRITON_AVAILABLE = False
@@ -46,6 +43,7 @@ except ImportError:
 @dataclass
 class DTypePolicy:
     """Mixed precision policy configuration"""
+
     default: torch.dtype = torch.complex64
     promote_if_cond_gt: float = 1e6  # Promote to complex128 if cond(S) exceeds this
 
@@ -64,7 +62,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
 
     Example:
         >>> mps = AdaptiveMPS(16, bond_dim=8, eps_bond=1e-6, chi_max_per_bond=64)
-        >>> H = torch.tensor([[1,1],[1,-1]], dtype=torch.complex64)/np.sqrt(2)
+        >>> H = torch.tensor([[1,1],[1,-1]], dtype=torch.complex64)/torch.sqrt(torch.tensor(2.0))
         >>> for q in range(16):
         >>>     mps.apply_single_qubit_gate(q, H)
         >>> CZ = torch.diag(torch.tensor([1,1,1,-1], dtype=torch.complex64))
@@ -82,7 +80,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
         chi_max_per_bond: Optional[Union[int, List[int]]] = 256,
         budget_global_mb: Optional[float] = None,
         dtype_policy: DTypePolicy = DTypePolicy(),
-        device: str = 'cuda'
+        device: str = "cuda",
     ):
         """
         Initialize Adaptive MPS
@@ -106,8 +104,9 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
         if isinstance(chi_max_per_bond, int):
             self.chi_max_per_bond = [chi_max_per_bond] * (num_qubits - 1)
         else:
-            assert len(chi_max_per_bond) == num_qubits - 1, \
-                f"chi_max_per_bond must have length {num_qubits-1}"
+            assert (
+                len(chi_max_per_bond) == num_qubits - 1
+            ), f"chi_max_per_bond must have length {num_qubits-1}"
             self.chi_max_per_bond = list(chi_max_per_bond)
 
         # Track actual bond dimensions (initially uniform)
@@ -129,8 +128,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
             # Zero out the |1⟩ component
             T[:, 1, :] = 0
             # Set |0⟩ component to identity (or close to it)
-            T[:, 0, :] = torch.eye(T.shape[0], T.shape[2],
-                                    dtype=T.dtype, device=T.device)
+            T[:, 0, :] = torch.eye(T.shape[0], T.shape[2], dtype=T.dtype, device=T.device)
         # Normalize
         self._normalize()
 
@@ -170,7 +168,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
         # Contract: T[a,s,b] * U[s,t] -> T[a,t,b]
         # Move gate to same device and dtype as tensor
         U2_device = U2.to(device=T.device, dtype=T.dtype)
-        self.tensors[q] = torch.einsum('st,asb->atb', U2_device, T)
+        self.tensors[q] = torch.einsum("st,asb->atb", U2_device, T)
 
     @torch.no_grad()
     def apply_two_site_gate(self, i: int, U4: torch.Tensor):
@@ -196,7 +194,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
 
         start_time = time.time()
 
-        A, B = self.tensors[i], self.tensors[i+1]
+        A, B = self.tensors[i], self.tensors[i + 1]
         χL, χM, χR = A.shape[0], A.shape[2], B.shape[2]
         device = A.device
 
@@ -217,7 +215,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
 
         # Steps 1-3: Fused gate application (using Triton if available on CUDA)
         # This fuses: merge tensors + apply gate + reshape for SVD
-        use_triton = TRITON_AVAILABLE and device.type == 'cuda'
+        use_triton = TRITON_AVAILABLE and device.type == "cuda"
 
         if use_triton:
             try:
@@ -225,7 +223,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
                 # Input: A[li,2,ri], B[ri,2,rj], U[4,4]
                 # Output: X[li*2, 2*rj] ready for SVD
                 X = fused_two_qubit_gate_triton(A, B, U_matrix)
-            except Exception as e:
+            except Exception:
                 # Fall back to PyTorch if Triton fails
                 X = fused_two_qubit_gate_pytorch(A, B, U_matrix)
         else:
@@ -234,9 +232,9 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
                 X = fused_two_qubit_gate_pytorch(A, B, U_matrix)
             else:
                 # Fallback: manual einsum operations
-                Theta = torch.einsum('asm,mtb->astb', A, B)  # [χL, 2, 2, χR]
+                Theta = torch.einsum("asm,mtb->astb", A, B)  # [χL, 2, 2, χR]
                 U = U_matrix.view(2, 2, 2, 2)
-                Theta_new = torch.einsum('stuv,astb->auvb', U, Theta)
+                Theta_new = torch.einsum("stuv,astb->auvb", U, Theta)
                 X = Theta_new.reshape(χL * 2, 2 * χR)
 
         # Step 4: SVD with fallback
@@ -294,7 +292,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
             svd_driver=driver,
             dtype=str(local_dtype),
             ms_elapsed=elapsed_ms,
-            condS=condS
+            condS=condS,
         )
 
     @torch.no_grad()
@@ -320,7 +318,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
 
             # Absorb R into next tensor
             B = self.tensors[i + 1]
-            self.tensors[i + 1] = torch.einsum('ij,jkl->ikl', R, B)
+            self.tensors[i + 1] = torch.einsum("ij,jkl->ikl", R, B)
 
             # Update bond dimension
             if i < len(self.bond_dims):
@@ -352,7 +350,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
             χmid = Q.shape[1]
             self.tensors[i] = Q.reshape(χL, p, χmid)
             B = self.tensors[i + 1]
-            self.tensors[i + 1] = torch.einsum('ij,jkl->ikl', R, B)
+            self.tensors[i + 1] = torch.einsum("ij,jkl->ikl", R, B)
 
         # Right-canonicalize from end down to center+1
         for i in range(self.num_qubits - 1, center, -1):
@@ -367,7 +365,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
             # Absorb R into previous tensor
             if i > 0:
                 A = self.tensors[i - 1]
-                self.tensors[i - 1] = torch.einsum('ijk,kl->ijl', A, R.t())
+                self.tensors[i - 1] = torch.einsum("ijk,kl->ijl", A, R.t())
 
     def snapshot(self, path: str):
         """
@@ -376,17 +374,20 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
         Args:
             path: File path to save to
         """
-        torch.save({
-            'tensors': [t.cpu() for t in self.tensors],
-            'bond_dims': self.bond_dims,
-            'num_qubits': self.num_qubits,
-            'eps_bond': self.eps_bond,
-            'chi_max_per_bond': self.chi_max_per_bond,
-            'statistics': self.statistics.logs,
-        }, path)
+        torch.save(
+            {
+                "tensors": [t.cpu() for t in self.tensors],
+                "bond_dims": self.bond_dims,
+                "num_qubits": self.num_qubits,
+                "eps_bond": self.eps_bond,
+                "chi_max_per_bond": self.chi_max_per_bond,
+                "statistics": self.statistics.logs,
+            },
+            path,
+        )
 
     @staticmethod
-    def load_snapshot(path: str, device: str = 'cuda') -> 'AdaptiveMPS':
+    def load_snapshot(path: str, device: str = "cuda") -> "AdaptiveMPS":
         """
         Load MPS from checkpoint file
 
@@ -400,17 +401,17 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
         data = torch.load(path)
 
         mps = AdaptiveMPS(
-            num_qubits=data['num_qubits'],
-            bond_dim=max(data['bond_dims']),
-            eps_bond=data['eps_bond'],
-            chi_max_per_bond=data['chi_max_per_bond'],
-            device=device
+            num_qubits=data["num_qubits"],
+            bond_dim=max(data["bond_dims"]),
+            eps_bond=data["eps_bond"],
+            chi_max_per_bond=data["chi_max_per_bond"],
+            device=device,
         )
 
-        mps.tensors = [t.to(device) for t in data['tensors']]
-        mps.bond_dims = data['bond_dims']
-        if 'statistics' in data:
-            mps.statistics.logs = data['statistics']
+        mps.tensors = [t.to(device) for t in data["tensors"]]
+        mps.bond_dims = data["bond_dims"]
+        if "statistics" in data:
+            mps.statistics.logs = data["statistics"]
 
         return mps
 
@@ -436,9 +437,11 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
             small systems (n ≤ 20). For larger systems, use get_amplitude().
         """
         if self.num_qubits > 20:
-            raise ValueError(f"Converting {self.num_qubits} qubits to statevector "
-                           f"would require {2**self.num_qubits} amplitudes. "
-                           f"Use get_amplitude() for large systems.")
+            raise ValueError(
+                f"Converting {self.num_qubits} qubits to statevector "
+                f"would require {2**self.num_qubits} amplitudes. "
+                f"Use get_amplitude() for large systems."
+            )
 
         # Contract all tensors: T[0] * T[1] * ... * T[n-1]
         result = self.tensors[0]  # [1, 2, χ₁]
@@ -447,7 +450,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
             # result: [..., χᵢ]
             # T[i]: [χᵢ, 2, χᵢ₊₁]
             # Contract over χᵢ dimension
-            result = torch.einsum('...i,ijk->...jk', result, self.tensors[i])
+            result = torch.einsum("...i,ijk->...jk", result, self.tensors[i])
 
         # Final tensor: [2, 2, ..., 2, 1]
         # Squeeze the trailing dimension and flatten

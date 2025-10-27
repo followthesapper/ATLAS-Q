@@ -5,7 +5,7 @@ FROM python:3.10-slim
 
 LABEL maintainer="ATLAS-Q Development Team"
 LABEL description="ATLAS-Q: CPU-based quantum tensor network simulator"
-LABEL version="0.5.0"
+LABEL version="0.6.0"
 
 # Prevent interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
@@ -27,7 +27,6 @@ WORKDIR /opt/atlas-q
 # Copy package files first (for layer caching)
 COPY pyproject.toml README.md MANIFEST.in ./
 COPY src/ ./src/
-COPY triton_kernels/ ./triton_kernels/
 COPY models/ ./models/
 
 # Install ATLAS-Q (CPU-only, no Triton)
