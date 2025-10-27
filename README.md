@@ -23,50 +23,101 @@
 
 ## 🚀 Quick Start
 
-### Try the Interactive Demo
-**[📓 Open ATLAS_Q_Demo.ipynb](ATLAS_Q_Demo.ipynb)** - Complete interactive tutorial for Jupyter Notebook or Google Colab
+### Option 1: Interactive Notebook (No Install!)
 
-### Install from Source
+Try ATLAS-Q instantly in Google Colab or Jupyter:
+
+**[📓 Open ATLAS_Q_Demo.ipynb in Colab](https://colab.research.google.com/github/followthesapper/ATLAS-Q/blob/ATLAS-Q/ATLAS_Q_Demo.ipynb)**
+
+Or download and run locally:
+```bash
+wget https://github.com/followthesapper/ATLAS-Q/raw/ATLAS-Q/ATLAS_Q_Demo.ipynb
+jupyter notebook ATLAS_Q_Demo.ipynb
+```
+
+---
+
+### Option 2: Python Package (Recommended)
+
+```bash
+# Install from PyPI
+pip install atlas-q
+
+# With GPU support
+pip install atlas-q[gpu]
+
+# Verify installation
+python -c "from atlas_q import get_quantum_sim; print('✅ ATLAS-Q installed!')"
+```
+
+**First example:**
+```python
+from atlas_q import get_quantum_sim
+
+QCH, _, _, _ = get_quantum_sim()
+sim = QCH()
+factors = sim.factor_number(221)
+print(f"221 = {factors[0]} × {factors[1]}")  # 221 = 13 × 17
+```
+
+---
+
+### Option 3: Docker
+
+**GPU version (recommended):**
+```bash
+docker pull ghcr.io/followthesapper/atlas-q:cuda
+docker run --rm -it --gpus all ghcr.io/followthesapper/atlas-q:cuda python3
+```
+
+**CPU version:**
+```bash
+docker pull ghcr.io/followthesapper/atlas-q:cpu
+docker run --rm -it ghcr.io/followthesapper/atlas-q:cpu python3
+```
+
+**Run benchmarks in Docker:**
+```bash
+docker run --rm --gpus all ghcr.io/followthesapper/atlas-q:cuda \
+  python3 /opt/atlas-q/scripts/benchmarks/validate_all_features.py
+```
+
+---
+
+### Option 4: From Source
 
 ```bash
 # Clone repository
 git clone https://github.com/followthsapper/ATLAS-Q.git
 cd ATLAS-Q
 
-# Install dependencies
-pip install -r requirements.txt
+# Install ATLAS-Q
+pip install -e .[gpu]
 
-# Install ATLAS-Q in editable mode
-pip install -e .
-
-# Setup Triton GPU kernels (auto-detects your GPU)
+# Setup GPU acceleration (auto-detects your GPU)
 ./setup_triton.sh
 
-# Run feature validation
+# Run benchmarks
 python scripts/benchmarks/validate_all_features.py
-
-# Run performance comparison
-python scripts/benchmarks/compare_with_competitors.py
 ```
 
-### GPU Setup (Recommended)
+---
 
-For optimal performance with custom Triton kernels on NVIDIA GPUs:
+### GPU Acceleration Setup
 
-```bash
-# Run automated setup script (auto-detects GPU architecture)
-./setup_triton.sh
-```
+The `setup_triton.sh` script automatically detects your GPU and configures Triton kernels:
 
-The setup script automatically:
-- Detects your GPU model (V100, A100, H100, GB100, etc.)
-- Sets optimal `TORCH_CUDA_ARCH_LIST` for your hardware
-- Configures `TRITON_PTXAS_PATH` for kernel compilation
-- Adds settings to `~/.bashrc` for persistence
+- **Auto-detects:** V100, A100, H100, GB100/GB200, and future architectures
+- **Configures:** `TORCH_CUDA_ARCH_LIST` and `TRITON_PTXAS_PATH`
+- **Persists:** Adds settings to `~/.bashrc`
 
-**Supported GPUs**: V100 (7.0), A100 (8.0), H100 (9.0), GB100/GB200 (12.0), and future architectures
+**Performance gains:** 1.5-3× faster gate operations, 100-1000× faster period-finding
 
-### Example 1: Tensor Network Simulation
+---
+
+## 💡 Examples
+
+### Tensor Network Simulation
 
 ```python
 from atlas_q.adaptive_mps import AdaptiveMPS
@@ -90,7 +141,7 @@ print(f"Max bond dimension: {mps.stats_summary()['max_chi']}")
 print(f"Memory usage: {mps.memory_usage() / (1024**2):.2f} MB")
 ```
 
-### Example 2: Period-Finding & Factorization
+### Period-Finding & Factorization
 
 ```python
 from atlas_q import get_quantum_sim
