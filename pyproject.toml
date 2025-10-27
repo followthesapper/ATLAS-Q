@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "atlas-quantum"
-version = "0.5.0"
-description = "GPU-accelerated quantum tensor network simulator with adaptive MPS, TDVP, VQE/QAOA, and custom Triton kernels"
+version = "0.6.0"
+description = "GPU-accelerated quantum tensor network simulator with adaptive MPS, molecular chemistry, circuit cutting, PEPS 2D networks, and cuQuantum backend"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
@@ -20,11 +20,15 @@ keywords = [
     "simulation",
     "tensor-networks",
     "mps",
+    "peps",
     "vqe",
     "qaoa",
     "tdvp",
     "period-finding",
+    "molecular-chemistry",
+    "circuit-cutting",
     "gpu-acceleration",
+    "cuquantum",
     "nisq"
 ]
 classifiers = [
@@ -62,6 +66,11 @@ cuquantum = [
     "cuquantum-python>=23.0.0",
 ]
 
+# Molecular chemistry (PySCF integration)
+chemistry = [
+    "pyscf>=2.0.0",
+]
+
 # ML tools (rank prediction, AI-guided truncation)
 ml = [
     "scikit-learn>=1.0.0",
@@ -83,15 +92,15 @@ notebooks = [
 
 # All optional dependencies
 all = [
-    "atlas-quantum[gpu,cuquantum,ml,dev,notebooks]",
+    "atlas-quantum[gpu,cuquantum,chemistry,ml,dev,notebooks]",
 ]
 
 [project.urls]
-Homepage = "https://github.com/followthsapper/ATLAS-Q"
-Documentation = "https://github.com/followthsapper/ATLAS-Q/tree/main/docs"
-Repository = "https://github.com/followthsapper/ATLAS-Q"
-"Bug Tracker" = "https://github.com/followthsapper/ATLAS-Q/issues"
-Changelog = "https://github.com/followthsapper/ATLAS-Q/blob/main/docs/CHANGELOG.md"
+Homepage = "https://github.com/followthesapper/ATLAS-Q"
+Documentation = "https://github.com/followthesapper/ATLAS-Q/tree/main/docs"
+Repository = "https://github.com/followthesapper/ATLAS-Q"
+"Bug Tracker" = "https://github.com/followthesapper/ATLAS-Q/issues"
+Changelog = "https://github.com/followthesapper/ATLAS-Q/blob/main/docs/CHANGELOG.md"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
