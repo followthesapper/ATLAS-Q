@@ -116,6 +116,31 @@ The `setup_triton.sh` script automatically detects your GPU and configures Trito
 
 ---
 
+### Command-Line Interface
+
+ATLAS-Q includes a CLI for quick operations:
+
+```bash
+# Show help
+python -m atlas_q --help
+
+# Factor a number
+python -m atlas_q factor 221
+
+# Run all benchmarks
+python -m atlas_q benchmark
+
+# Show system info
+python -m atlas_q info
+
+# Interactive demo
+python -m atlas_q demo
+```
+
+See [COMPLETE_GUIDE.md](docs/COMPLETE_GUIDE.md#command-line-interface) for full CLI documentation.
+
+---
+
 ## 💡 Examples
 
 ### Tensor Network Simulation

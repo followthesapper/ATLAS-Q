@@ -353,13 +353,13 @@ These numbers appear in multiple documents. If they change, update EVERYWHERE:
 - **Max demonstrated qubits:** 100,000 (with low-to-moderate entanglement)
 
 ### Version Info
-- **Current version:** 0.5.0
+- **Current version:** 0.6.0
 - **Release date:** October 2025
 - **Python requirement:** 3.8+
 - **PyTorch requirement:** 2.0+
 
 ### Test Coverage
-- **Benchmark suites passing:** 7/7
+- **Integration tests passing:** 46/46
 - **Total tests:** 75+
 - **Test categories:** Unit, integration, performance, legacy
 
