@@ -36,13 +36,13 @@ This is the complete, verified guide for ATLAS-Q. Every code example has been te
 
 ```bash
 # Basic installation
-pip install atlas-q
+pip install atlas-quantum
 
 # With GPU support (Triton kernels)
-pip install atlas-q[gpu]
+pip install atlas-quantum[gpu]
 
 # Development installation
-pip install atlas-q[dev]
+pip install atlas-quantum[dev]
 ```
 
 ### From Source

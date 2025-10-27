@@ -502,7 +502,7 @@ ATLAS-Q demonstrates that classical simulation of quantum algorithms is practica
 
 Our results validate the quantum-inspired computing paradigm: classical algorithms can capture quantum advantages for specific problem classes. ATLAS-Q provides an accessible platform for quantum algorithm research, education, and practical applications without requiring quantum hardware.
 
-**Code Availability:** https://github.com/[your-repo]/atlas-q
+**Code Availability:** https://github.com/followthsapper/ATLAS-Q
 **Documentation:** Comprehensive whitepaper and API reference included
 
 ---

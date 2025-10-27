@@ -421,7 +421,7 @@ make publish            # Publish to PyPI
 # → GitHub Actions will automatically build and publish to PyPI
 
 # Verify installation:
-pip install atlas-q
+pip install atlas-quantum
 python -c "import atlas_q; print(atlas_q.__version__)"
 ```
 
@@ -430,7 +430,7 @@ python -c "import atlas_q; print(atlas_q.__version__)"
 - [ ] CHANGELOG.md updated with release notes
 - [ ] All tests passing (`make test`)
 - [ ] Package builds successfully (`make build`)
-- [ ] README.md renders correctly on PyPI (check at https://pypi.org/project/atlas-q/)
+- [ ] README.md renders correctly on PyPI (check at https://pypi.org/project/atlas-quantum/)
 - [ ] Dependencies are correct in `pyproject.toml`
 
 ---
@@ -454,13 +454,13 @@ make docker-run-cpu      # Test CPU image
 # 1. Create GitHub release (same as PyPI workflow)
 # 2. GitHub Actions will build and push images to GitHub Container Registry
 # 3. Images available at:
-#    - ghcr.io/followthsapper/atlas-q:cuda
-#    - ghcr.io/followthsapper/atlas-q:cpu
-#    - ghcr.io/followthsapper/atlas-q:latest (=cuda)
+#    - ghcr.io/followthsapper/atlas-quantum:cuda
+#    - ghcr.io/followthsapper/atlas-quantum:cpu
+#    - ghcr.io/followthsapper/atlas-quantum:latest (=cuda)
 
 # Users can pull and run:
-docker pull ghcr.io/followthsapper/atlas-q:cuda
-docker run --rm -it --gpus all ghcr.io/followthsapper/atlas-q:cuda python
+docker pull ghcr.io/followthsapper/atlas-quantum:cuda
+docker run --rm -it --gpus all ghcr.io/followthsapper/atlas-quantum:cuda python
 ```
 
 **Docker Publishing Checklist:**
@@ -531,14 +531,14 @@ git push origin vX.Y.Z
 # Step 4: Verify
 # --------------
 # Wait 5-10 minutes, then verify:
-pip install --upgrade atlas-q
+pip install --upgrade atlas-quantum
 python -c "import atlas_q; print(atlas_q.__version__)"  # Should be X.Y.Z
 
-docker pull ghcr.io/followthsapper/atlas-q:cuda
-docker run --rm ghcr.io/followthsapper/atlas-q:cuda python -c "import atlas_q; print(atlas_q.__version__)"
+docker pull ghcr.io/followthsapper/atlas-quantum:cuda
+docker run --rm ghcr.io/followthsapper/atlas-quantum:cuda python -c "import atlas_q; print(atlas_q.__version__)"
 
-# Check PyPI page: https://pypi.org/project/atlas-q/
-# Check GitHub Container Registry: https://github.com/followthsapper/ATLAS-Q/pkgs/container/atlas-q
+# Check PyPI page: https://pypi.org/project/atlas-quantum/
+# Check GitHub Container Registry: https://github.com/followthsapper/ATLAS-Q/pkgs/container/atlas-quantum
 ```
 
 ---
@@ -550,7 +550,7 @@ For automated publishing, configure these secrets in GitHub repository settings:
 **Required GitHub Secrets:**
 - `PYPI_API_TOKEN`: PyPI API token for publishing packages
   - Get from: https://pypi.org/manage/account/token/
-  - Scope: Project-level token for atlas-q
+  - Scope: Project-level token for atlas-quantum
   - Add at: GitHub → Settings → Secrets → Actions → New repository secret
 
 **Docker Registry:**
@@ -565,13 +565,13 @@ After publishing, test installation on fresh environments:
 ```bash
 # Test CPU installation
 docker run --rm -it python:3.10-slim bash
-pip install atlas-q
+pip install atlas-quantum
 python -c "import atlas_q; atlas_q.get_quantum_sim()"
 
 # Test GPU installation
 docker run --rm -it --gpus all nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04 bash
 apt-get update && apt-get install -y python3 python3-pip
-pip install atlas-q[gpu]
+pip install atlas-quantum[gpu]
 python3 -c "import atlas_q; print(atlas_q.__version__)"
 ```
 

@@ -35,7 +35,7 @@ ATLAS-Q is a GPU-accelerated quantum tensor network simulator featuring:
 
 ```bash
 # From PyPI
-pip install atlas-q[gpu]
+pip install atlas-quantum[gpu]
 
 # From source
 git clone https://github.com/followthsapper/ATLAS-Q.git

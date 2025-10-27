@@ -3,7 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "atlas-q"
+name = "atlas-quantum"
 version = "0.5.0"
 description = "GPU-accelerated quantum tensor network simulator with adaptive MPS, TDVP, VQE/QAOA, and custom Triton kernels"
 readme = "README.md"
@@ -83,7 +83,7 @@ notebooks = [
 
 # All optional dependencies
 all = [
-    "atlas-q[gpu,cuquantum,ml,dev,notebooks]",
+    "atlas-quantum[gpu,cuquantum,ml,dev,notebooks]",
 ]
 
 [project.urls]

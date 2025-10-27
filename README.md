@@ -41,10 +41,10 @@ jupyter notebook ATLAS_Q_Demo.ipynb
 
 ```bash
 # Install from PyPI
-pip install atlas-q
+pip install atlas-quantum
 
 # With GPU support
-pip install atlas-q[gpu]
+pip install atlas-quantum[gpu]
 
 # Verify installation
 python -c "from atlas_q import get_quantum_sim; print('✅ ATLAS-Q installed!')"
