@@ -17,16 +17,18 @@ Author: ATLAS-Q Contributors
 Date: October 2025
 """
 
-from typing import List, Tuple, Dict, Optional, Set
+from collections import defaultdict
 from dataclasses import dataclass
+from typing import Dict, List, Optional, Set, Tuple
+
 import numpy as np
 import torch
-from collections import defaultdict
 
 
 @dataclass
 class CutPoint:
     """Represents a cut location in the circuit"""
+
     qubit1: int
     qubit2: int
     time_step: int  # When in the circuit this cut occurs
@@ -37,6 +39,7 @@ class CutPoint:
 @dataclass
 class CircuitPartition:
     """Represents a partition of the circuit"""
+
     partition_id: int
     qubits: Set[int]
     gates: List[Tuple]  # List of (gate_type, qubits, params)
@@ -46,9 +49,10 @@ class CircuitPartition:
 @dataclass
 class CuttingConfig:
     """Configuration for circuit cutting"""
+
     max_partition_size: int = 10  # Max qubits per partition
     max_cuts: int = 3  # Maximum number of cuts
-    algorithm: str = 'min_cut'  # 'min_cut', 'spectral', 'manual'
+    algorithm: str = "min_cut"  # 'min_cut', 'spectral', 'manual'
     variance_reduction: bool = True
     samples_per_cut: int = 100  # Classical samples per cut
 
@@ -130,11 +134,7 @@ class MinCutPartitioner:
     def __init__(self, config: CuttingConfig):
         self.config = config
 
-    def partition(
-        self,
-        graph: CouplingGraph,
-        n_partitions: int = 2
-    ) -> List[CircuitPartition]:
+    def partition(self, graph: CouplingGraph, n_partitions: int = 2) -> List[CircuitPartition]:
         """
         Partition the coupling graph.
 
@@ -168,18 +168,8 @@ class MinCutPartitioner:
 
         # Create partitions
         partitions = [
-            CircuitPartition(
-                partition_id=0,
-                qubits=partition1_qubits,
-                gates=[],
-                cut_points=[]
-            ),
-            CircuitPartition(
-                partition_id=1,
-                qubits=partition2_qubits,
-                gates=[],
-                cut_points=[]
-            )
+            CircuitPartition(partition_id=0, qubits=partition1_qubits, gates=[], cut_points=[]),
+            CircuitPartition(partition_id=1, qubits=partition2_qubits, gates=[], cut_points=[]),
         ]
 
         # Find cut points
@@ -190,7 +180,7 @@ class MinCutPartitioner:
                     qubit2=q2,
                     time_step=0,  # Would need circuit structure to determine
                     partition1=0,
-                    partition2=1
+                    partition2=1,
                 )
                 partitions[0].cut_points.append(cut)
                 partitions[1].cut_points.append(cut)
@@ -198,9 +188,7 @@ class MinCutPartitioner:
         return partitions
 
     def _partition_recursive(
-        self,
-        graph: CouplingGraph,
-        n_partitions: int
+        self, graph: CouplingGraph, n_partitions: int
     ) -> List[CircuitPartition]:
         """Recursive partitioning for n > 2"""
         # Start with 2-way partition
@@ -247,10 +235,10 @@ class CutOperator:
         Returns dictionary of Pauli operators {I, X, Y, Z}
         """
         return {
-            'I': torch.eye(2, dtype=torch.complex64),
-            'X': torch.tensor([[0, 1], [1, 0]], dtype=torch.complex64),
-            'Y': torch.tensor([[0, -1j], [1j, 0]], dtype=torch.complex64),
-            'Z': torch.tensor([[1, 0], [0, -1]], dtype=torch.complex64)
+            "I": torch.eye(2, dtype=torch.complex64),
+            "X": torch.tensor([[0, 1], [1, 0]], dtype=torch.complex64),
+            "Y": torch.tensor([[0, -1j], [1j, 0]], dtype=torch.complex64),
+            "Z": torch.tensor([[1, 0], [0, -1]], dtype=torch.complex64),
         }
 
     def sample(self, rng: np.random.Generator) -> Tuple[str, torch.Tensor]:
@@ -264,7 +252,7 @@ class CutOperator:
             (operator_name, operator_matrix) tuple
         """
         # Uniform sampling over Pauli group
-        pauli_names = ['I', 'X', 'Y', 'Z']
+        pauli_names = ["I", "X", "Y", "Z"]
         choice = rng.choice(pauli_names)
         return choice, self.decomposition[choice]
 
@@ -283,10 +271,7 @@ class CircuitCutter:
         self.config = config
         self.partitioner = MinCutPartitioner(config)
 
-    def analyze_circuit(
-        self,
-        gates: List[Tuple]
-    ) -> CouplingGraph:
+    def analyze_circuit(self, gates: List[Tuple]) -> CouplingGraph:
         """
         Analyze circuit and build coupling graph.
 
@@ -310,9 +295,7 @@ class CircuitCutter:
         return graph
 
     def partition_circuit(
-        self,
-        gates: List[Tuple],
-        n_partitions: int = 2
+        self, gates: List[Tuple], n_partitions: int = 2
     ) -> List[CircuitPartition]:
         """
         Partition circuit into subcircuits.
@@ -330,17 +313,13 @@ class CircuitCutter:
         # Assign gates to partitions
         for partition in partitions:
             partition.gates = [
-                (gt, qs, ps) for (gt, qs, ps) in gates
-                if all(q in partition.qubits for q in qs)
+                (gt, qs, ps) for (gt, qs, ps) in gates if all(q in partition.qubits for q in qs)
             ]
 
         return partitions
 
     def execute_with_cuts(
-        self,
-        partitions: List[CircuitPartition],
-        observable: torch.Tensor,
-        device: str = 'cuda'
+        self, partitions: List[CircuitPartition], observable: torch.Tensor, device: str = "cuda"
     ) -> Tuple[float, float]:
         """
         Execute partitioned circuit and stitch results.
@@ -372,11 +351,7 @@ class CircuitCutter:
             # Execute each partition
             partition_results = []
             for partition in partitions:
-                mps = AdaptiveMPS(
-                    num_qubits=len(partition.qubits),
-                    bond_dim=64,
-                    device=device
-                )
+                mps = AdaptiveMPS(num_qubits=len(partition.qubits), bond_dim=64, device=device)
 
                 # Apply gates (simplified - would need full gate application logic)
                 for gate_type, qubits, params in partition.gates:
@@ -402,8 +377,7 @@ class CircuitCutter:
 
 
 def visualize_entanglement_heatmap(
-    graph: CouplingGraph,
-    filename: Optional[str] = None
+    graph: CouplingGraph, filename: Optional[str] = None
 ) -> np.ndarray:
     """
     Visualize entanglement heatmap.
@@ -421,14 +395,14 @@ def visualize_entanglement_heatmap(
         import matplotlib.pyplot as plt
 
         plt.figure(figsize=(8, 6))
-        plt.imshow(heatmap, cmap='hot', interpolation='nearest')
-        plt.colorbar(label='Entanglement Strength')
-        plt.xlabel('Qubit')
-        plt.ylabel('Qubit')
-        plt.title('Circuit Entanglement Heatmap')
+        plt.imshow(heatmap, cmap="hot", interpolation="nearest")
+        plt.colorbar(label="Entanglement Strength")
+        plt.xlabel("Qubit")
+        plt.ylabel("Qubit")
+        plt.title("Circuit Entanglement Heatmap")
 
         if filename:
-            plt.savefig(filename, dpi=150, bbox_inches='tight')
+            plt.savefig(filename, dpi=150, bbox_inches="tight")
         else:
             plt.show()
 
@@ -439,16 +413,12 @@ def visualize_entanglement_heatmap(
 
 
 # Example usage
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("Circuit Cutting Example")
     print("=" * 50)
 
     # Example circuit: 8-qubit chain with entangling gates
-    gates = [
-        ('H', [i], []) for i in range(8)
-    ] + [
-        ('CNOT', [i, i+1], []) for i in range(7)
-    ]
+    gates = [("H", [i], []) for i in range(8)] + [("CNOT", [i, i + 1], []) for i in range(7)]
 
     # Create cutter
     config = CuttingConfig(max_partition_size=4, max_cuts=2)
@@ -465,6 +435,6 @@ if __name__ == '__main__':
 
     # Find bottleneck edges
     bottlenecks = graph.find_bottleneck_edges(k=3)
-    print(f"\nBest cut candidates:")
-    for (q1, q2, w) in bottlenecks:
+    print("\nBest cut candidates:")
+    for q1, q2, w in bottlenecks:
         print(f"  Edge ({q1}, {q2}) weight={w}")

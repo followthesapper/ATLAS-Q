@@ -1,8 +1,15 @@
-import os, gzip, json, time, threading
+import gzip
+import json
+import os
+import threading
+import time
 from pathlib import Path
 
+
 class _NullLogger:
-    def log(self, **kwargs): pass
+    def log(self, **kwargs):
+        pass
+
 
 class _JSONLGZLogger:
     def __init__(self, out_dir: str):
@@ -25,6 +32,7 @@ class _JSONLGZLogger:
         with self._lock:
             self._fh.write(json.dumps(rec, separators=(",", ":")) + "\n")
             self._fh.flush()
+
 
 def get_logger():
     out = os.getenv("QIH_SVD_LOG_DIR")

@@ -18,10 +18,11 @@ Date: October 2025
 License: MIT
 """
 
+from dataclasses import dataclass
+from typing import List, Optional
+
 import numpy as np
 import torch
-from typing import List, Tuple, Optional, Union
-from dataclasses import dataclass
 
 
 @dataclass
@@ -38,6 +39,7 @@ class StabilizerState:
     Example for |+⟩: stabilizer is X
     Example for Bell |Φ+⟩: stabilizers are XX and ZZ
     """
+
     n_qubits: int
     tableau: np.ndarray  # Shape: (2n, 2n+1)
     # tableau[:n, :] = X parts, tableau[n:, :] = Z parts
@@ -47,7 +49,7 @@ class StabilizerState:
         assert self.tableau.shape == (2 * self.n_qubits, 2 * self.n_qubits + 1)
 
     @staticmethod
-    def init_zero(n_qubits: int) -> 'StabilizerState':
+    def init_zero(n_qubits: int) -> "StabilizerState":
         """Initialize |00...0⟩ state (stabilized by Z on each qubit)"""
         tableau = np.zeros((2 * n_qubits, 2 * n_qubits + 1), dtype=np.uint8)
         # Set stabilizers to Z_i for each qubit i
@@ -56,7 +58,7 @@ class StabilizerState:
         return StabilizerState(n_qubits, tableau)
 
     @staticmethod
-    def init_plus(n_qubits: int) -> 'StabilizerState':
+    def init_plus(n_qubits: int) -> "StabilizerState":
         """Initialize |++...+⟩ state (stabilized by X on each qubit)"""
         tableau = np.zeros((2 * n_qubits, 2 * n_qubits + 1), dtype=np.uint8)
         # Set stabilizers to X_i for each qubit i
@@ -64,7 +66,7 @@ class StabilizerState:
             tableau[i, i] = 1
         return StabilizerState(n_qubits, tableau)
 
-    def copy(self) -> 'StabilizerState':
+    def copy(self) -> "StabilizerState":
         """Create a copy of this state"""
         return StabilizerState(self.n_qubits, self.tableau.copy())
 
@@ -102,9 +104,9 @@ class StabilizerSimulator:
 
         # Extract X and Z parts
         x_h = tab[h, :n]
-        z_h = tab[h, n:2*n]
+        z_h = tab[h, n : 2 * n]
         x_i = tab[i, :n]
-        z_i = tab[i, n:2*n]
+        z_i = tab[i, n : 2 * n]
 
         # Phase update according to Pauli multiplication rules
         phase_update = 0
@@ -127,7 +129,7 @@ class StabilizerSimulator:
 
         # Update tableau
         tab[h, :n] = (x_h + x_i) % 2
-        tab[h, n:2*n] = (z_h + z_i) % 2
+        tab[h, n : 2 * n] = (z_h + z_i) % 2
         tab[h, -1] = (tab[h, -1] + tab[i, -1] + (phase_update // 2)) % 2
 
     # Clifford gates
@@ -280,7 +282,7 @@ class StabilizerSimulator:
 
     # Handoff to MPS
 
-    def to_mps(self, device: str = 'cuda'):
+    def to_mps(self, device: str = "cuda"):
         """
         Convert stabilizer state to MPS representation
 
@@ -301,8 +303,7 @@ class StabilizerSimulator:
         # Set MPS tensors from statevector
         # This is a simple inefficient method - proper conversion would use
         # successive SVDs along the chain
-        statevector_tensor = torch.tensor(statevector, dtype=torch.complex64,
-                                          device=device)
+        statevector_tensor = torch.tensor(statevector, dtype=torch.complex64, device=device)
 
         # Reshape to tensor train format and perform SVD decomposition
         # For now, use a simplified approach
@@ -321,11 +322,13 @@ class StabilizerSimulator:
             Statevector of shape (2^n,)
         """
         if self.n_qubits > 20:
-            raise ValueError(f"Cannot convert {self.n_qubits} qubits to statevector "
-                            f"(would require {2**self.n_qubits} amplitudes)")
+            raise ValueError(
+                f"Cannot convert {self.n_qubits} qubits to statevector "
+                f"(would require {2**self.n_qubits} amplitudes)"
+            )
 
         # Start with |0...0⟩
-        psi = np.zeros(2 ** self.n_qubits, dtype=np.complex128)
+        psi = np.zeros(2**self.n_qubits, dtype=np.complex128)
         psi[0] = 1.0
 
         # Apply Clifford gates to generate the stabilizer state
@@ -337,8 +340,7 @@ class StabilizerSimulator:
 
 def is_clifford_gate(gate_name: str) -> bool:
     """Check if a gate is in the Clifford group"""
-    clifford_gates = {'H', 'S', 'CNOT', 'CZ', 'SWAP', 'X', 'Y', 'Z',
-                      'S_DAG', 'CX', 'ID', 'I'}
+    clifford_gates = {"H", "S", "CNOT", "CZ", "SWAP", "X", "Y", "Z", "S_DAG", "CX", "ID", "I"}
     return gate_name.upper() in clifford_gates
 
 
@@ -355,30 +357,31 @@ class HybridSimulator:
         sim.measure_all()
     """
 
-    def __init__(self, n_qubits: int, use_stabilizer: bool = True,
-                 chi_max: int = 64, device: str = 'cuda'):
+    def __init__(
+        self, n_qubits: int, use_stabilizer: bool = True, chi_max: int = 64, device: str = "cuda"
+    ):
         self.n_qubits = n_qubits
         self.use_stabilizer = use_stabilizer
         self.chi_max = chi_max
         self.device = device
 
         # Start with stabilizer
-        self.mode = 'stabilizer' if use_stabilizer else 'mps'
+        self.mode = "stabilizer" if use_stabilizer else "mps"
 
-        if self.mode == 'stabilizer':
+        if self.mode == "stabilizer":
             self.stabilizer_sim = StabilizerSimulator(n_qubits)
             self.mps = None
         else:
             from .adaptive_mps import AdaptiveMPS
-            self.mps = AdaptiveMPS(n_qubits, bond_dim=2, chi_max_per_bond=chi_max,
-                                   device=device)
+
+            self.mps = AdaptiveMPS(n_qubits, bond_dim=2, chi_max_per_bond=chi_max, device=device)
             self.stabilizer_sim = None
 
-        self.gate_count = {'clifford': 0, 'non_clifford': 0}
+        self.gate_count = {"clifford": 0, "non_clifford": 0}
 
     def _switch_to_mps(self):
         """Switch from stabilizer to MPS representation"""
-        if self.mode == 'mps':
+        if self.mode == "mps":
             return  # Already in MPS mode
 
         print(f"Switching to MPS after {self.gate_count['clifford']} Clifford gates")
@@ -386,38 +389,35 @@ class HybridSimulator:
         # Convert stabilizer state to MPS
         self.mps = self.stabilizer_sim.to_mps(device=self.device)
         self.stabilizer_sim = None
-        self.mode = 'mps'
+        self.mode = "mps"
 
     def h(self, qubit: int):
         """Hadamard gate"""
-        if self.mode == 'stabilizer':
+        if self.mode == "stabilizer":
             self.stabilizer_sim.h(qubit)
-            self.gate_count['clifford'] += 1
+            self.gate_count["clifford"] += 1
         else:
             H = torch.tensor([[1, 1], [1, -1]], dtype=torch.complex64) / np.sqrt(2)
             self.mps.apply_single_qubit_gate(qubit, H.to(self.device))
 
     def s(self, qubit: int):
         """Phase gate"""
-        if self.mode == 'stabilizer':
+        if self.mode == "stabilizer":
             self.stabilizer_sim.s(qubit)
-            self.gate_count['clifford'] += 1
+            self.gate_count["clifford"] += 1
         else:
             S = torch.tensor([[1, 0], [0, 1j]], dtype=torch.complex64)
             self.mps.apply_single_qubit_gate(qubit, S.to(self.device))
 
     def cnot(self, control: int, target: int):
         """CNOT gate"""
-        if self.mode == 'stabilizer':
+        if self.mode == "stabilizer":
             self.stabilizer_sim.cnot(control, target)
-            self.gate_count['clifford'] += 1
+            self.gate_count["clifford"] += 1
         else:
-            CNOT = torch.tensor([
-                [1, 0, 0, 0],
-                [0, 1, 0, 0],
-                [0, 0, 0, 1],
-                [0, 0, 1, 0]
-            ], dtype=torch.complex64)
+            CNOT = torch.tensor(
+                [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]], dtype=torch.complex64
+            )
             if abs(control - target) == 1:
                 bond_idx = min(control, target)
                 self.mps.apply_two_site_gate(bond_idx, CNOT.to(self.device))
@@ -427,16 +427,16 @@ class HybridSimulator:
 
     def t(self, qubit: int):
         """T gate (non-Clifford!)"""
-        if self.mode == 'stabilizer':
+        if self.mode == "stabilizer":
             self._switch_to_mps()
 
         T = torch.tensor([[1, 0], [0, np.exp(1j * np.pi / 4)]], dtype=torch.complex64)
         self.mps.apply_single_qubit_gate(qubit, T.to(self.device))
-        self.gate_count['non_clifford'] += 1
+        self.gate_count["non_clifford"] += 1
 
     def measure(self, qubit: int) -> int:
         """Measure qubit"""
-        if self.mode == 'stabilizer':
+        if self.mode == "stabilizer":
             return self.stabilizer_sim.measure(qubit)
         else:
             # MPS measurement
@@ -446,12 +446,12 @@ class HybridSimulator:
     def get_statistics(self) -> dict:
         """Get simulation statistics"""
         stats = {
-            'mode': self.mode,
-            'clifford_gates': self.gate_count['clifford'],
-            'non_clifford_gates': self.gate_count['non_clifford'],
+            "mode": self.mode,
+            "clifford_gates": self.gate_count["clifford"],
+            "non_clifford_gates": self.gate_count["non_clifford"],
         }
 
-        if self.mode == 'mps':
-            stats['mps_stats'] = self.mps.stats_summary()
+        if self.mode == "mps":
+            stats["mps_stats"] = self.mps.stats_summary()
 
         return stats

@@ -9,8 +9,9 @@ Date: October 2025
 License: MIT
 """
 
-import torch
 from typing import Tuple
+
+import torch
 
 
 def robust_svd(X: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, str]:
@@ -34,7 +35,7 @@ def robust_svd(X: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, torch.Tenso
     # Try 1: Direct CUDA SVD
     try:
         U, S, Vh = torch.linalg.svd(X, full_matrices=False)
-        return U, S, Vh, 'torch_cuda'
+        return U, S, Vh, "torch_cuda"
     except Exception:
         pass
 
@@ -42,13 +43,13 @@ def robust_svd(X: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, torch.Tenso
     try:
         Xj = X + (1e-12 * torch.randn_like(X))
         U, S, Vh = torch.linalg.svd(Xj, full_matrices=False)
-        return U, S, Vh, 'torch_cuda_jitter'
+        return U, S, Vh, "torch_cuda_jitter"
     except Exception:
         pass
 
     # Try 3: CPU fallback (always works, slower)
     U, S, Vh = torch.linalg.svd(X.cpu(), full_matrices=False)
-    return U.to(device), S.to(device), Vh.to(device), 'torch_cpu'
+    return U.to(device), S.to(device), Vh.to(device), "torch_cpu"
 
 
 def robust_qr(X: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, str]:
@@ -66,13 +67,13 @@ def robust_qr(X: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, str]:
     # Try 1: Direct CUDA QR
     try:
         Q, R = torch.linalg.qr(X)
-        return Q, R, 'torch_cuda'
+        return Q, R, "torch_cuda"
     except Exception:
         pass
 
     # Try 2: CPU fallback
     Q, R = torch.linalg.qr(X.cpu())
-    return Q.to(device), R.to(device), 'torch_cpu'
+    return Q.to(device), R.to(device), "torch_cpu"
 
 
 def condition_number(S: torch.Tensor) -> float:
@@ -86,5 +87,5 @@ def condition_number(S: torch.Tensor) -> float:
         Condition number (σ_max / σ_min)
     """
     if len(S) == 0 or S[-1] == 0:
-        return float('inf')
+        return float("inf")
     return float((S[0] / S[-1]).item())

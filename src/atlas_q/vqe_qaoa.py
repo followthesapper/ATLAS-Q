@@ -12,33 +12,36 @@ Date: October 2025
 License: MIT
 """
 
-import torch
-import numpy as np
-from typing import List, Tuple, Optional, Callable, Dict
-from dataclasses import dataclass
 import warnings
+from dataclasses import dataclass
+from typing import Optional, Tuple
+
+import numpy as np
+import torch
 
 try:
     from scipy.optimize import minimize
+
     SCIPY_AVAILABLE = True
 except ImportError:
     SCIPY_AVAILABLE = False
     warnings.warn("SciPy not available. VQE/QAOA optimization will be limited.")
 
 from .adaptive_mps import AdaptiveMPS
-from .mpo_ops import MPO, MPOBuilder, expectation_value
+from .mpo_ops import MPO, expectation_value
 
 
 @dataclass
 class VQEConfig:
     """Configuration for VQE"""
-    ansatz: str = 'hardware_efficient'  # 'hardware_efficient', 'uccsd', 'custom'
+
+    ansatz: str = "hardware_efficient"  # 'hardware_efficient', 'uccsd', 'custom'
     n_layers: int = 3
-    optimizer: str = 'COBYLA'  # 'COBYLA', 'L-BFGS-B', 'Adam'
+    optimizer: str = "COBYLA"  # 'COBYLA', 'L-BFGS-B', 'Adam'
     max_iter: int = 100
     tol: float = 1e-6
     chi_max: int = 64
-    device: str = 'cuda'
+    device: str = "cuda"
 
 
 class HardwareEfficientAnsatz:
@@ -51,7 +54,7 @@ class HardwareEfficientAnsatz:
     This mimics real quantum hardware constraints (linear connectivity)
     """
 
-    def __init__(self, n_qubits: int, n_layers: int, device: str = 'cuda'):
+    def __init__(self, n_qubits: int, n_layers: int, device: str = "cuda"):
         self.n_qubits = n_qubits
         self.n_layers = n_layers
         self.device = device
@@ -80,8 +83,7 @@ class HardwareEfficientAnsatz:
                 param_idx += 1
 
             # Entangling layer (CZ on neighboring qubits)
-            CZ = torch.diag(torch.tensor([1, 1, 1, -1], dtype=torch.complex64,
-                                         device=self.device))
+            CZ = torch.diag(torch.tensor([1, 1, 1, -1], dtype=torch.complex64, device=self.device))
 
             for q in range(0, self.n_qubits - 1, 2):
                 # Even pairs (0-1, 2-3, ...)
@@ -95,8 +97,7 @@ class HardwareEfficientAnsatz:
         """Ry rotation gate"""
         c = np.cos(theta / 2)
         s = np.sin(theta / 2)
-        return torch.tensor([[c, -s], [s, c]], dtype=torch.complex64,
-                           device=self.device)
+        return torch.tensor([[c, -s], [s, c]], dtype=torch.complex64, device=self.device)
 
 
 class VQE:
@@ -117,11 +118,9 @@ class VQE:
         self.config = config
 
         # Initialize ansatz
-        if config.ansatz == 'hardware_efficient':
+        if config.ansatz == "hardware_efficient":
             self.ansatz = HardwareEfficientAnsatz(
-                n_qubits=self.H.n_sites,
-                n_layers=config.n_layers,
-                device=config.device
+                n_qubits=self.H.n_sites, n_layers=config.n_layers, device=config.device
             )
         else:
             raise ValueError(f"Unknown ansatz: {config.ansatz}")
@@ -146,7 +145,7 @@ class VQE:
             num_qubits=self.H.n_sites,
             bond_dim=2,
             chi_max_per_bond=self.config.chi_max,
-            device=self.config.device
+            device=self.config.device,
         )
 
         # Apply ansatz
@@ -188,10 +187,7 @@ class VQE:
             self._cost_function,
             initial_params,
             method=self.config.optimizer,
-            options={
-                'maxiter': self.config.max_iter,
-                'ftol': self.config.tol
-            }
+            options={"maxiter": self.config.max_iter, "ftol": self.config.tol},
         )
 
         print(f"\nVQE converged: E = {result.fun:.6f} after {self.iteration} iterations")
@@ -211,7 +207,7 @@ class QAOAAnsatz:
     - U_B(β) = exp(-i β H_mixer) with H_mixer = Σᵢ Xᵢ
     """
 
-    def __init__(self, cost_hamiltonian: MPO, n_layers: int, device: str = 'cuda'):
+    def __init__(self, cost_hamiltonian: MPO, n_layers: int, device: str = "cuda"):
         self.H_cost = cost_hamiltonian
         self.n_qubits = cost_hamiltonian.n_sites
         self.n_layers = n_layers
@@ -265,19 +261,17 @@ class QAOAAnsatz:
 
     def _rz_gate(self, theta: float) -> torch.Tensor:
         """Rz rotation gate"""
-        return torch.tensor([
-            [np.exp(-1j * theta / 2), 0],
-            [0, np.exp(1j * theta / 2)]
-        ], dtype=torch.complex64, device=self.device)
+        return torch.tensor(
+            [[np.exp(-1j * theta / 2), 0], [0, np.exp(1j * theta / 2)]],
+            dtype=torch.complex64,
+            device=self.device,
+        )
 
     def _rx_gate(self, theta: float) -> torch.Tensor:
         """Rx rotation gate"""
         c = np.cos(theta / 2)
         s = np.sin(theta / 2)
-        return torch.tensor([
-            [c, -1j * s],
-            [-1j * s, c]
-        ], dtype=torch.complex64, device=self.device)
+        return torch.tensor([[c, -1j * s], [-1j * s, c]], dtype=torch.complex64, device=self.device)
 
 
 class QAOA:
@@ -293,8 +287,13 @@ class QAOA:
         energy, params = qaoa.run()
     """
 
-    def __init__(self, cost_hamiltonian: MPO, n_layers: int = 3,
-                 optimizer: str = 'COBYLA', device: str = 'cuda'):
+    def __init__(
+        self,
+        cost_hamiltonian: MPO,
+        n_layers: int = 3,
+        optimizer: str = "COBYLA",
+        device: str = "cuda",
+    ):
         self.H_cost = cost_hamiltonian
         self.n_layers = n_layers
         self.optimizer = optimizer
@@ -309,15 +308,11 @@ class QAOA:
         """Evaluate QAOA cost function"""
         # Create initial state |+⟩^⊗n
         mps = AdaptiveMPS(
-            num_qubits=self.H_cost.n_sites,
-            bond_dim=2,
-            chi_max_per_bond=64,
-            device=self.device
+            num_qubits=self.H_cost.n_sites, bond_dim=2, chi_max_per_bond=64, device=self.device
         )
 
         # Apply Hadamards to get |+⟩^⊗n
-        H = torch.tensor([[1, 1], [1, -1]], dtype=torch.complex64,
-                        device=self.device) / np.sqrt(2)
+        H = torch.tensor([[1, 1], [1, -1]], dtype=torch.complex64, device=self.device) / np.sqrt(2)
         for q in range(mps.num_qubits):
             mps.apply_single_qubit_gate(q, H)
 
@@ -345,10 +340,7 @@ class QAOA:
             initial_params = np.random.randn(self.ansatz.n_params) * 0.1
 
         result = minimize(
-            self._cost_function,
-            initial_params,
-            method=self.optimizer,
-            options={'maxiter': 200}
+            self._cost_function, initial_params, method=self.optimizer, options={"maxiter": 200}
         )
 
         print(f"\nQAOA converged: Cost = {result.fun:.6f}")
@@ -358,9 +350,10 @@ class QAOA:
 
 # Chemistry-specific utilities
 
-def build_molecular_hamiltonian(h1: np.ndarray, h2: np.ndarray,
-                                mapping: str = 'jordan_wigner',
-                                device: str = 'cuda') -> MPO:
+
+def build_molecular_hamiltonian(
+    h1: np.ndarray, h2: np.ndarray, mapping: str = "jordan_wigner", device: str = "cuda"
+) -> MPO:
     """
     Build molecular Hamiltonian MPO from 1- and 2-electron integrals
 

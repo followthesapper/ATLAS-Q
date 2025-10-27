@@ -12,8 +12,9 @@ Author: ATLAS-Q Contributors
 Date: October 24, 2025
 """
 
+from typing import Dict, Optional
+
 import torch
-from typing import Tuple, Optional, Dict
 
 
 def check_unitary_gate(U: torch.Tensor, atol: float = 1e-5, rtol: float = 1e-4) -> Dict[str, float]:
@@ -46,8 +47,8 @@ def check_unitary_gate(U: torch.Tensor, atol: float = 1e-5, rtol: float = 1e-4) 
     is_unitary = bool(torch.allclose(UUdagger, eye, atol=atol, rtol=rtol))
 
     return {
-        'is_unitary': is_unitary,
-        'max_error': max_error,
+        "is_unitary": is_unitary,
+        "max_error": max_error,
     }
 
 
@@ -81,9 +82,9 @@ def check_norm_preservation(
     is_preserved = abs(norm_before - norm_after) < atol + rtol * norm_before
 
     return {
-        'norm_before': norm_before,
-        'norm_after': norm_after,
-        'is_preserved': is_preserved,
+        "norm_before": norm_before,
+        "norm_after": norm_after,
+        "is_preserved": is_preserved,
     }
 
 
@@ -122,11 +123,11 @@ def check_rdm_properties(
     is_positive = min_eigenvalue >= -atol
 
     return {
-        'is_hermitian': is_hermitian,
-        'trace': trace,
-        'trace_ok': trace_ok,
-        'min_eigenvalue': min_eigenvalue,
-        'is_positive': is_positive,
+        "is_hermitian": is_hermitian,
+        "trace": trace,
+        "trace_ok": trace_ok,
+        "min_eigenvalue": min_eigenvalue,
+        "is_positive": is_positive,
     }
 
 
@@ -152,7 +153,7 @@ def check_truncation_error(
     S = torch.sort(singular_values, descending=True)[0]
 
     # Total weight
-    total_weight = (S ** 2).sum().item()
+    total_weight = (S**2).sum().item()
 
     # Kept weight
     kept_weight = (S[:chi_kept] ** 2).sum().item()
@@ -163,16 +164,16 @@ def check_truncation_error(
     else:
         discarded_weight = 0.0
 
-    truncation_error = discarded_weight ** 0.5
+    truncation_error = discarded_weight**0.5
     error_ok = truncation_error <= max_error
 
     weight_fraction = kept_weight / total_weight if total_weight > 0 else 1.0
 
     return {
-        'truncation_error': truncation_error,
-        'error_ok': error_ok,
-        'weight_kept': weight_fraction,
-        'discarded_weight': discarded_weight,
+        "truncation_error": truncation_error,
+        "error_ok": error_ok,
+        "weight_kept": weight_fraction,
+        "discarded_weight": discarded_weight,
     }
 
 
@@ -213,7 +214,7 @@ def _compute_mps_norm(cores: list) -> float:
 
     # Final: should be [1, 1], extract scalar
     norm_sq = E[0, 0].real.item() if E.shape == (1, 1) else torch.trace(E).real.item()
-    return norm_sq ** 0.5
+    return norm_sq**0.5
 
 
 def run_full_validation(
@@ -249,17 +250,19 @@ def run_full_validation(
 
     # 1. Norm preservation
     norm_check = check_norm_preservation(cores_before, cores_after, atol, rtol)
-    results['norm'] = norm_check
-    if not norm_check['is_preserved']:
+    results["norm"] = norm_check
+    if not norm_check["is_preserved"]:
         passed = False
         if verbose:
-            print(f"❌ Norm not preserved: {norm_check['norm_before']:.6f} → {norm_check['norm_after']:.6f}")
+            print(
+                f"❌ Norm not preserved: {norm_check['norm_before']:.6f} → {norm_check['norm_after']:.6f}"
+            )
 
     # 2. Gate unitarity (if provided)
     if gate is not None:
         unitary_check = check_unitary_gate(gate, atol, rtol)
-        results['unitary'] = unitary_check
-        if not unitary_check['is_unitary']:
+        results["unitary"] = unitary_check
+        if not unitary_check["is_unitary"]:
             passed = False
             if verbose:
                 print(f"❌ Gate not unitary: max error = {unitary_check['max_error']:.2e}")
@@ -267,13 +270,15 @@ def run_full_validation(
     # 3. Truncation error (if provided)
     if singular_values is not None and chi_kept is not None:
         trunc_check = check_truncation_error(singular_values, chi_kept, max_trunc_error)
-        results['truncation'] = trunc_check
-        if not trunc_check['error_ok']:
+        results["truncation"] = trunc_check
+        if not trunc_check["error_ok"]:
             passed = False
             if verbose:
-                print(f"❌ Truncation error too large: {trunc_check['truncation_error']:.2e} > {max_trunc_error:.2e}")
+                print(
+                    f"❌ Truncation error too large: {trunc_check['truncation_error']:.2e} > {max_trunc_error:.2e}"
+                )
 
-    results['passed'] = passed
+    results["passed"] = passed
 
     if verbose and passed:
         print("✅ All validation checks passed")
@@ -282,9 +287,9 @@ def run_full_validation(
 
 
 __all__ = [
-    'check_unitary_gate',
-    'check_norm_preservation',
-    'check_rdm_properties',
-    'check_truncation_error',
-    'run_full_validation',
+    "check_unitary_gate",
+    "check_norm_preservation",
+    "check_rdm_properties",
+    "check_truncation_error",
+    "run_full_validation",
 ]

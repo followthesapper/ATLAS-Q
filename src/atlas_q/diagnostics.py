@@ -8,9 +8,10 @@ Date: October 2025
 License: MIT
 """
 
-import torch
 import math
 from typing import Dict, List
+
+import torch
 
 
 def bond_entropy_from_S(S: torch.Tensor) -> float:
@@ -68,10 +69,10 @@ def spectral_gap(S: torch.Tensor, k: int) -> float:
         Spectral gap ratio (or inf if k+1 doesn't exist or is zero)
     """
     if k >= len(S) or k < 1:
-        return float('inf')
+        return float("inf")
     if S[k] == 0:
-        return float('inf')
-    return float((S[k-1] / S[k]).item())
+        return float("inf")
+    return float((S[k - 1] / S[k]).item())
 
 
 class MPSStatistics:
@@ -88,17 +89,17 @@ class MPSStatistics:
 
     def __init__(self):
         self.logs: Dict[str, List] = {
-            'step': [],
-            'bond': [],
-            'k_star': [],
-            'chi_before': [],
-            'chi_after': [],
-            'eps_local': [],
-            'entropy': [],
-            'svd_driver': [],
-            'dtype': [],
-            'ms_elapsed': [],
-            'condS': []
+            "step": [],
+            "bond": [],
+            "k_star": [],
+            "chi_before": [],
+            "chi_after": [],
+            "eps_local": [],
+            "entropy": [],
+            "svd_driver": [],
+            "dtype": [],
+            "ms_elapsed": [],
+            "condS": [],
         }
 
     def record(self, **kwargs):
@@ -120,30 +121,30 @@ class MPSStatistics:
                 return 0.0
 
         return {
-            'total_operations': len(self.logs['step']),
-            'max_chi': safe_agg('chi_after', np.max),
-            'mean_chi': safe_agg('chi_after', np.mean),
-            'sum_eps2': safe_agg('eps_local', lambda x: (x**2).sum()),
-            'max_eps': safe_agg('eps_local', np.max),
-            'mean_entropy': safe_agg('entropy', np.mean),
-            'p95_entropy': safe_agg('entropy', lambda x: np.percentile(x, 95)),
-            'total_time_ms': safe_agg('ms_elapsed', np.sum),
-            'cuda_svd_pct': self._driver_percentage('torch_cuda'),
-            'cpu_fallback_pct': self._driver_percentage('torch_cpu'),
+            "total_operations": len(self.logs["step"]),
+            "max_chi": safe_agg("chi_after", np.max),
+            "mean_chi": safe_agg("chi_after", np.mean),
+            "sum_eps2": safe_agg("eps_local", lambda x: (x**2).sum()),
+            "max_eps": safe_agg("eps_local", np.max),
+            "mean_entropy": safe_agg("entropy", np.mean),
+            "p95_entropy": safe_agg("entropy", lambda x: np.percentile(x, 95)),
+            "total_time_ms": safe_agg("ms_elapsed", np.sum),
+            "cuda_svd_pct": self._driver_percentage("torch_cuda"),
+            "cpu_fallback_pct": self._driver_percentage("torch_cpu"),
         }
 
     def _driver_percentage(self, driver_name: str) -> float:
         """Compute percentage of operations using specific driver"""
-        if not self.logs['svd_driver']:
+        if not self.logs["svd_driver"]:
             return 0.0
-        count = sum(1 for d in self.logs['svd_driver'] if d == driver_name)
-        return 100.0 * count / len(self.logs['svd_driver'])
+        count = sum(1 for d in self.logs["svd_driver"] if d == driver_name)
+        return 100.0 * count / len(self.logs["svd_driver"])
 
     def global_error_bound(self) -> float:
         """Compute global error upper bound"""
-        if not self.logs['eps_local']:
+        if not self.logs["eps_local"]:
             return 0.0
-        return math.sqrt(sum(e**2 for e in self.logs['eps_local']))
+        return math.sqrt(sum(e**2 for e in self.logs["eps_local"]))
 
     def reset(self):
         """Clear all logs"""

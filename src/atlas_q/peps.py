@@ -17,15 +17,17 @@ Author: ATLAS-Q Contributors
 Date: October 2025
 """
 
-from typing import List, Tuple, Optional, Dict
 from dataclasses import dataclass
-import torch
-import numpy as np
 from enum import Enum
+from typing import Dict, List, Tuple
+
+import numpy as np
+import torch
 
 
 class ContractionStrategy(Enum):
     """Strategies for contracting PEPS networks"""
+
     BOUNDARY_MPS = "boundary_mps"  # Contract rows into MPSs
     COLUMN_BY_COLUMN = "column_by_column"
     SIMPLE_UPDATE = "simple_update"  # Iterative tensor updates
@@ -35,13 +37,14 @@ class ContractionStrategy(Enum):
 @dataclass
 class PEPSConfig:
     """Configuration for PEPS"""
+
     rows: int
     cols: int
     physical_dim: int = 2  # Qubit dimension
     bond_dim: int = 4  # Virtual bond dimension χ
     contraction_strategy: ContractionStrategy = ContractionStrategy.BOUNDARY_MPS
     boundary_chi: int = 32  # Bond dimension for boundary MPS
-    device: str = 'cuda'
+    device: str = "cuda"
 
 
 @dataclass
@@ -52,6 +55,7 @@ class PEPSTensor:
     Shape: [χ_up, χ_left, d, χ_right, χ_down]
     where d is the physical dimension (2 for qubits)
     """
+
     row: int
     col: int
     tensor: torch.Tensor  # Shape: [χU, χL, d, χR, χD]
@@ -107,9 +111,13 @@ class PEPS:
 
                 # Create tensor [χU, χL, d, χR, χD]
                 tensor = torch.zeros(
-                    chi_up, chi_left, 2, chi_right, chi_down,
+                    chi_up,
+                    chi_left,
+                    2,
+                    chi_right,
+                    chi_down,
                     dtype=torch.complex64,
-                    device=self.device
+                    device=self.device,
                 )
 
                 # Initialize to |0⟩ state
@@ -139,16 +147,11 @@ class PEPS:
         peps_tensor = self.tensors[(row, col)]
 
         # Contract gate with physical index: [χU, χL, d, χR, χD] × [d, d'] → [χU, χL, d', χR, χD]
-        tensor_new = torch.einsum('ijklm,kn->ijnlm', peps_tensor.tensor, gate)
+        tensor_new = torch.einsum("ijklm,kn->ijnlm", peps_tensor.tensor, gate)
 
         peps_tensor.tensor = tensor_new
 
-    def apply_two_site_gate(
-        self,
-        row1: int, col1: int,
-        row2: int, col2: int,
-        gate: torch.Tensor
-    ):
+    def apply_two_site_gate(self, row1: int, col1: int, row2: int, col2: int, gate: torch.Tensor):
         """
         Apply two-qubit gate to neighboring PEPS tensors.
 
@@ -195,7 +198,9 @@ class PEPS:
         if self.config.contraction_strategy == ContractionStrategy.BOUNDARY_MPS:
             return self._contract_boundary_mps(observable)
         else:
-            raise NotImplementedError(f"Strategy {self.config.contraction_strategy} not implemented")
+            raise NotImplementedError(
+                f"Strategy {self.config.contraction_strategy} not implemented"
+            )
 
     def _contract_boundary_mps(self, observable: torch.Tensor) -> complex:
         """
@@ -208,7 +213,6 @@ class PEPS:
            - Compress back to MPS
         3. Final contraction gives scalar
         """
-        from atlas_q.adaptive_mps import AdaptiveMPS
 
         # Initialize boundary MPS from top row
         boundary_mps = self._contract_row_to_mps(row=0)
@@ -261,9 +265,7 @@ class PEPS:
         return mps_tensors
 
     def _merge_mps_layers(
-        self,
-        mps1: List[torch.Tensor],
-        mps2: List[torch.Tensor]
+        self, mps1: List[torch.Tensor], mps2: List[torch.Tensor]
     ) -> List[torch.Tensor]:
         """
         Merge two MPS layers (boundary + new row).
@@ -309,7 +311,7 @@ class PatchPEPS:
     Specialized for 4×4 or 5×5 patches that can be contracted exactly.
     """
 
-    def __init__(self, patch_size: int = 4, device: str = 'cuda'):
+    def __init__(self, patch_size: int = 4, device: str = "cuda"):
         """
         Initialize patch PEPS.
 
@@ -323,15 +325,12 @@ class PatchPEPS:
             rows=patch_size,
             cols=patch_size,
             bond_dim=4,  # Small patches can use larger χ
-            device=device
+            device=device,
         )
 
         self.peps = PEPS(config)
 
-    def apply_shallow_circuit(
-        self,
-        gates: List[Tuple[str, List[Tuple[int, int]], List]]
-    ):
+    def apply_shallow_circuit(self, gates: List[Tuple[str, List[Tuple[int, int]], List]]):
         """
         Apply shallow 2D circuit to patch.
 
@@ -356,15 +355,13 @@ class PatchPEPS:
         """Get gate matrix for gate type"""
         device = self.peps.device
 
-        if gate_type == 'H':
-            return torch.tensor(
-                [[1, 1], [1, -1]], dtype=torch.complex64, device=device
-            ) / np.sqrt(2)
-
-        elif gate_type == 'CZ':
-            return torch.diag(
-                torch.tensor([1, 1, 1, -1], dtype=torch.complex64, device=device)
+        if gate_type == "H":
+            return torch.tensor([[1, 1], [1, -1]], dtype=torch.complex64, device=device) / np.sqrt(
+                2
             )
+
+        elif gate_type == "CZ":
+            return torch.diag(torch.tensor([1, 1, 1, -1], dtype=torch.complex64, device=device))
 
         else:
             # Default to identity
@@ -384,7 +381,7 @@ def benchmark_peps_vs_mps(patch_size: int = 4, depth: int = 10) -> Dict:
     """
     import time
 
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    device = "cuda" if torch.cuda.is_available() else "cpu"
 
     # Create random shallow circuit
     gates = []
@@ -392,13 +389,13 @@ def benchmark_peps_vs_mps(patch_size: int = 4, depth: int = 10) -> Dict:
         # Layer of Hadamards
         for r in range(patch_size):
             for c in range(patch_size):
-                gates.append(('H', [(r, c)], []))
+                gates.append(("H", [(r, c)], []))
 
         # Layer of CZ gates (checkerboard)
         for r in range(patch_size):
             for c in range(patch_size - 1):
                 if (r + c + layer) % 2 == 0:
-                    gates.append(('CZ', [(r, c), (r, c + 1)], []))
+                    gates.append(("CZ", [(r, c), (r, c + 1)], []))
 
     # PEPS simulation
     print(f"PEPS simulation ({patch_size}×{patch_size}, depth {depth})...")
@@ -414,21 +411,16 @@ def benchmark_peps_vs_mps(patch_size: int = 4, depth: int = 10) -> Dict:
     # MPS simulation (for comparison - would need snake mapping)
     # TODO: Implement MPS version
 
-    return {
-        'patch_size': patch_size,
-        'depth': depth,
-        'peps_time': peps_time,
-        'norm': norm
-    }
+    return {"patch_size": patch_size, "depth": depth, "peps_time": peps_time, "norm": norm}
 
 
 # Example usage
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("PEPS Example")
     print("=" * 50)
 
     # Create 4×4 PEPS
-    config = PEPSConfig(rows=4, cols=4, bond_dim=3, device='cpu')
+    config = PEPSConfig(rows=4, cols=4, bond_dim=3, device="cpu")
     peps = PEPS(config)
 
     print(f"Created {config.rows}×{config.cols} PEPS")
@@ -451,7 +443,7 @@ if __name__ == '__main__':
     print("\n" + "=" * 50)
     print("Running benchmark...")
     results = benchmark_peps_vs_mps(patch_size=4, depth=5)
-    print(f"\nBenchmark complete!")
+    print("\nBenchmark complete!")
     print(f"  Patch size: {results['patch_size']}×{results['patch_size']}")
     print(f"  Circuit depth: {results['depth']}")
     print(f"  PEPS time: {results['peps_time']:.3f}s")

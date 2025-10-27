@@ -1,15 +1,21 @@
 from __future__ import annotations
-import math, numpy as np, torch
+
+import math
 from dataclasses import dataclass
 from typing import Optional
 
+import numpy as np
+import torch
+
+
 @dataclass
 class PolicyConfig:
-    f_min: float = 0.70           # minimum keep fraction
-    f_max: float = 0.98           # maximum keep fraction
+    f_min: float = 0.70  # minimum keep fraction
+    f_max: float = 0.98  # maximum keep fraction
     chi_budget: Optional[int] = None
     cal_x: Optional[np.ndarray] = None
     cal_y: Optional[np.ndarray] = None
+
 
 class CalibratedPolicyAdapter:
     """
@@ -18,13 +24,15 @@ class CalibratedPolicyAdapter:
     - clamps to [f_min, f_max]
     - enforces chi_budget/chi_max at the call site
     """
+
     def __init__(self, base_predictor, cfg: PolicyConfig, chi_max: int):
         self.base = base_predictor
         self.cfg = cfg
         self.chi_max = int(chi_max)
 
     def _calibrate(self, f: float) -> float:
-        if self.cfg.cal_x is None or self.cfg.cal_y is None: return float(np.clip(f,0.0,1.0))
+        if self.cfg.cal_x is None or self.cfg.cal_y is None:
+            return float(np.clip(f, 0.0, 1.0))
         return float(np.interp(f, self.cfg.cal_x, self.cfg.cal_y))
 
     def _fraction_to_rank(self, f: float, n_sv: int) -> int:

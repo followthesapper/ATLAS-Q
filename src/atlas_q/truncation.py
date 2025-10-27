@@ -13,15 +13,16 @@ Date: October 2025
 License: MIT
 """
 
+from typing import Callable, Tuple
+
 import torch
-from typing import Tuple, Callable
 
 
 def choose_rank_from_sigma(
     S: torch.Tensor,
     eps_bond: float,
     chi_cap: int,
-    budget_ok: Callable[[int], bool] = lambda k: True
+    budget_ok: Callable[[int], bool] = lambda k: True,
 ) -> Tuple[int, float, float, float]:
     """
     Adaptive rank selection from singular values
@@ -45,14 +46,14 @@ def choose_rank_from_sigma(
     4. Compute diagnostics (entropy, condition number, error)
     """
     if len(S) == 0:
-        return 0, 0.0, 0.0, float('inf')
+        return 0, 0.0, 0.0, float("inf")
 
     # Energy criterion: keep singular values until (1-ε²) of energy retained
     E = (S * S).cumsum(0)
     total = E[-1]
 
     if total < 1e-30:  # Degenerate case
-        return 1, 0.0, 0.0, float('inf')
+        return 1, 0.0, 0.0, float("inf")
 
     thresh = (1.0 - eps_bond**2) * total
     k_tol = int(torch.searchsorted(E, thresh).item()) + 1
@@ -66,7 +67,7 @@ def choose_rank_from_sigma(
         k -= 1
 
     # Compute local truncation error
-    eps_local = torch.sqrt(torch.clamp(total - E[k-1], min=0.0))
+    eps_local = torch.sqrt(torch.clamp(total - E[k - 1], min=0.0))
 
     # Compute entanglement entropy
     S_kept = S[:k]
@@ -74,10 +75,10 @@ def choose_rank_from_sigma(
     entropy = float(-(p * torch.log(torch.clamp(p, min=1e-30))).sum().item())
 
     # Compute condition number
-    if k > 1 and S[k-1] > 0:
-        condS = float((S[0] / S[k-1]).item())
+    if k > 1 and S[k - 1] > 0:
+        condS = float((S[0] / S[k - 1]).item())
     else:
-        condS = float('inf')
+        condS = float("inf")
 
     return k, float(eps_local.item()), entropy, condS
 
@@ -96,6 +97,7 @@ def compute_global_error_bound(local_errors: list) -> float:
         Upper bound on global state error
     """
     import math
+
     return math.sqrt(sum(e**2 for e in local_errors))
 
 
@@ -115,5 +117,6 @@ def check_entropy_sanity(entropy: float, chi_left: int, chi_right: int) -> bool:
         True if entropy is physically reasonable
     """
     import math
+
     max_entropy = math.log2(min(chi_left * 2, 2 * chi_right))
     return entropy <= max_entropy + 1e-6  # Allow small numerical error

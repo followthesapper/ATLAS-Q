@@ -22,28 +22,31 @@ Date: October 2025
 License: MIT
 """
 
-import torch
-import numpy as np
-from typing import Optional, Callable, List, Tuple
 from dataclasses import dataclass
-from scipy.linalg import expm
 from pathlib import Path
+from typing import List, Optional, Tuple
 
-from .mpo_ops import MPO, expectation_value
+import numpy as np
+import torch
+from scipy.linalg import expm
+
 from .adaptive_mps import AdaptiveMPS
 from .linalg_robust import robust_svd
+from .mpo_ops import MPO, expectation_value
 
 # GPU-optimized operations (if available)
 try:
     import sys
+
     # Add project root dynamically
     project_root = Path(__file__).parent.parent.parent.resolve()
     sys.path.insert(0, str(project_root))
     from triton_kernels.tdvp_mpo_ops import (
+        tdvp_apply_local_H_optimized,
         tdvp_left_environment_init_optimized,
         tdvp_right_environment_init_optimized,
-        tdvp_apply_local_H_optimized
     )
+
     GPU_OPTIMIZED_AVAILABLE = True
 except ImportError:
     GPU_OPTIMIZED_AVAILABLE = False
@@ -52,6 +55,7 @@ except ImportError:
 @dataclass
 class TDVPConfig:
     """Configuration for TDVP simulation"""
+
     dt: float = 0.01  # Time step
     t_final: float = 10.0  # Final time
     order: int = 2  # 1 or 2 site TDVP
@@ -97,10 +101,12 @@ class TDVP1Site:
         for i in range(n):
             aL_i = self.mps.tensors[i].shape[0]
             aR_i = self.mps.tensors[i].shape[2]
-            assert self.left_envs[i].shape[2]  == aL_i, \
-                f"L[{i}] right-bond {self.left_envs[i].shape[2]} != aL[{i}] {aL_i}"
-            assert self.right_envs[i+1].shape[0] == aR_i, \
-                f"R[{i+1}] left-bond {self.right_envs[i+1].shape[0]} != aR[{i}] {aR_i}"
+            assert (
+                self.left_envs[i].shape[2] == aL_i
+            ), f"L[{i}] right-bond {self.left_envs[i].shape[2]} != aL[{i}] {aL_i}"
+            assert (
+                self.right_envs[i + 1].shape[0] == aR_i
+            ), f"R[{i+1}] left-bond {self.right_envs[i+1].shape[0]} != aR[{i}] {aR_i}"
 
     def _init_left_environments(self) -> List[torch.Tensor]:
         """
@@ -119,21 +125,21 @@ class TDVP1Site:
         L = [torch.ones(1, 1, 1, dtype=dtype, device=device)]
 
         # Use GPU-optimized version if available and enabled
-        use_optimized = (GPU_OPTIMIZED_AVAILABLE and
-                        self.config.use_gpu_optimized and
-                        device.type == 'cuda')
+        use_optimized = (
+            GPU_OPTIMIZED_AVAILABLE and self.config.use_gpu_optimized and device.type == "cuda"
+        )
 
         for i in range(n):
-            A  = self.mps.tensors[i]                      # [i, s, j]
-            W  = self.H.tensors[i].to(device=device, dtype=dtype)  # [l, s, t, n]
+            A = self.mps.tensors[i]  # [i, s, j]
+            W = self.H.tensors[i].to(device=device, dtype=dtype)  # [l, s, t, n]
 
             if use_optimized:
                 # GPU-optimized contraction (torch.compile + optimized order)
                 L_next = tdvp_left_environment_init_optimized(L[i], A, W)
             else:
                 # Standard einsum
-                Ac = A.conj()                                 # [q, t, u]
-                L_next = torch.einsum('qli, qtu, lstn, isj -> unj', L[i], Ac, W, A)
+                Ac = A.conj()  # [q, t, u]
+                L_next = torch.einsum("qli, qtu, lstn, isj -> unj", L[i], Ac, W, A)
 
             L.append(L_next)
 
@@ -158,21 +164,21 @@ class TDVP1Site:
         R[n] = torch.ones(1, 1, 1, dtype=dtype, device=device)
 
         # Use GPU-optimized version if available and enabled
-        use_optimized = (GPU_OPTIMIZED_AVAILABLE and
-                        self.config.use_gpu_optimized and
-                        device.type == 'cuda')
+        use_optimized = (
+            GPU_OPTIMIZED_AVAILABLE and self.config.use_gpu_optimized and device.type == "cuda"
+        )
 
         for i in range(n - 1, -1, -1):
-            A  = self.mps.tensors[i]                      # [i, s, j]
-            W  = self.H.tensors[i].to(device=device, dtype=dtype)  # [l, s, t, n]
+            A = self.mps.tensors[i]  # [i, s, j]
+            W = self.H.tensors[i].to(device=device, dtype=dtype)  # [l, s, t, n]
 
             if use_optimized:
                 # GPU-optimized contraction (torch.compile + optimized order)
                 R[i] = tdvp_right_environment_init_optimized(R[i + 1], A, W)
             else:
                 # Standard einsum
-                Ac = A.conj()                                 # [q, t, u]
-                R[i] = torch.einsum('unj, qtu, lstn, isj -> qli', R[i + 1], Ac, W, A)
+                Ac = A.conj()  # [q, t, u]
+                R[i] = torch.einsum("unj, qtu, lstn, isj -> qli", R[i + 1], Ac, W, A)
 
         return R
 
@@ -187,19 +193,19 @@ class TDVP1Site:
         # L[site] [q,l,i], W[site] [l,s,t,n], A [i,s,j], R[site+1] [u,n,j]
         Ls = self.left_envs[site]
         Rs = self.right_envs[site + 1]
-        W  = self.H.tensors[site].to(device=A.device, dtype=A.dtype)
+        W = self.H.tensors[site].to(device=A.device, dtype=A.dtype)
 
         # Use GPU-optimized version if available and enabled
-        use_optimized = (GPU_OPTIMIZED_AVAILABLE and
-                        self.config.use_gpu_optimized and
-                        A.device.type == 'cuda')
+        use_optimized = (
+            GPU_OPTIMIZED_AVAILABLE and self.config.use_gpu_optimized and A.device.type == "cuda"
+        )
 
         if use_optimized:
             # GPU-optimized contraction
             return tdvp_apply_local_H_optimized(Ls, W, A, Rs)
         else:
             # Standard einsum
-            return torch.einsum('qli, lstn, isj, unj -> itj', Ls, W, A, Rs)
+            return torch.einsum("qli, lstn, isj, unj -> itj", Ls, W, A, Rs)
 
     def sweep_forward(self, dt: float):
         """Forward sweep: evolve sites 0 → n-1"""
@@ -216,10 +222,11 @@ class TDVP1Site:
 
             # Update left environment (same as initialization)
             if site < n - 1:
-                W  = self.H.tensors[site].to(device=A_new.device, dtype=A_new.dtype)
+                W = self.H.tensors[site].to(device=A_new.device, dtype=A_new.dtype)
                 Ac = A_new.conj()
-                self.left_envs[site + 1] = torch.einsum('qli, qtu, lstn, isj -> unj',
-                                                        self.left_envs[site], Ac, W, A_new)
+                self.left_envs[site + 1] = torch.einsum(
+                    "qli, qtu, lstn, isj -> unj", self.left_envs[site], Ac, W, A_new
+                )
 
     def sweep_backward(self, dt: float):
         """Backward sweep: evolve sites n-1 → 0"""
@@ -234,13 +241,15 @@ class TDVP1Site:
 
             # Update right environment (same as initialization)
             if site > 0:
-                W  = self.H.tensors[site].to(device=A_new.device, dtype=A_new.dtype)
+                W = self.H.tensors[site].to(device=A_new.device, dtype=A_new.dtype)
                 Ac = A_new.conj()
-                self.right_envs[site] = torch.einsum('unj, qtu, lstn, isj -> qli',
-                                                     self.right_envs[site + 1], Ac, W, A_new)
+                self.right_envs[site] = torch.einsum(
+                    "unj, qtu, lstn, isj -> qli", self.right_envs[site + 1], Ac, W, A_new
+                )
 
-    def _expm_multiply(self, factor: complex, A: torch.Tensor, site: int,
-                      max_iter: int = 30, tol: float = 1e-10) -> torch.Tensor:
+    def _expm_multiply(
+        self, factor: complex, A: torch.Tensor, site: int, max_iter: int = 30, tol: float = 1e-10
+    ) -> torch.Tensor:
         """
         Compute exp(factor * H_eff) |A⟩ using Krylov subspace method
 
@@ -386,8 +395,10 @@ class TDVP2Site:
             energies.append(energy)
 
             if len(times) % 10 == 0:
-                print(f"t = {t:.3f}, E = {energy.real:.6f}, "
-                      f"max_χ = {self.mps.stats_summary()['max_chi']}")
+                print(
+                    f"t = {t:.3f}, E = {energy.real:.6f}, "
+                    f"max_χ = {self.mps.stats_summary()['max_chi']}"
+                )
 
         return times, energies
 
@@ -397,7 +408,7 @@ class TDVP2Site:
         A = self.mps.tensors[site]
         B = self.mps.tensors[site + 1]
 
-        Theta = torch.einsum('ijk,klm->ijlm', A, B)
+        Theta = torch.einsum("ijk,klm->ijlm", A, B)
 
         # Apply two-site Hamiltonian (simplified - needs proper MPO contraction)
         # For now, use a placeholder
@@ -412,7 +423,7 @@ class TDVP2Site:
         k = min(len(S), self.config.chi_max)
 
         # Filter by energy threshold
-        S2 = S ** 2
+        S2 = S**2
         cumsum = torch.cumsum(S2, dim=0)
         total = cumsum[-1]
         k_trunc = torch.searchsorted(cumsum, (1 - self.config.eps_bond) * total).item() + 1
@@ -427,8 +438,9 @@ class TDVP2Site:
             self.mps.bond_dims[site] = k
 
 
-def run_tdvp(hamiltonian: MPO, initial_mps: AdaptiveMPS,
-             config: Optional[TDVPConfig] = None) -> Tuple[AdaptiveMPS, List[float], List[complex]]:
+def run_tdvp(
+    hamiltonian: MPO, initial_mps: AdaptiveMPS, config: Optional[TDVPConfig] = None
+) -> Tuple[AdaptiveMPS, List[float], List[complex]]:
     """
     Convenience function to run TDVP
 

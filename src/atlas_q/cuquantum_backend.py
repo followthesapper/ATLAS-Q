@@ -14,16 +14,17 @@ Author: ATLAS-Q Contributors
 Date: October 2025
 """
 
-from typing import Tuple, Optional, Any
 from dataclasses import dataclass
-import torch
-import numpy as np
+from typing import Optional, Tuple
 
+import numpy as np
+import torch
 
 # Check cuQuantum availability
 try:
     import cuquantum
     from cuquantum import cutensornet as cutn
+
     CUQUANTUM_AVAILABLE = True
     CUQUANTUM_VERSION = cuquantum.__version__
 except ImportError:
@@ -34,11 +35,12 @@ except ImportError:
 @dataclass
 class CuQuantumConfig:
     """Configuration for cuQuantum backend"""
+
     use_cutensornet: bool = True  # Use cuTensorNet for tensor ops
-    use_custatevec: bool = True   # Use cuStateVec for state vectors
+    use_custatevec: bool = True  # Use cuStateVec for state vectors
     workspace_size: int = 1024 * 1024 * 1024  # 1 GB workspace
-    algorithm: str = 'auto'  # 'auto', 'gesvd', 'gesvdj', 'gesvdp'
-    device: str = 'cuda'
+    algorithm: str = "auto"  # 'auto', 'gesvd', 'gesvdj', 'gesvdp'
+    device: str = "cuda"
 
 
 class CuQuantumBackend:
@@ -75,10 +77,7 @@ class CuQuantumBackend:
             self.handle = None
 
     def svd(
-        self,
-        tensor: torch.Tensor,
-        chi_max: Optional[int] = None,
-        cutoff: float = 1e-14
+        self, tensor: torch.Tensor, chi_max: Optional[int] = None, cutoff: float = 1e-14
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """
         Compute SVD with optional cuQuantum acceleration.
@@ -102,10 +101,7 @@ class CuQuantumBackend:
             return self._pytorch_svd(tensor, chi_max, cutoff)
 
     def _cuquantum_svd(
-        self,
-        tensor: torch.Tensor,
-        chi_max: Optional[int],
-        cutoff: float
+        self, tensor: torch.Tensor, chi_max: Optional[int], cutoff: float
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """
         SVD using cuTensorNet.
@@ -127,10 +123,7 @@ class CuQuantumBackend:
         return self._pytorch_svd(tensor, chi_max, cutoff)
 
     def _pytorch_svd(
-        self,
-        tensor: torch.Tensor,
-        chi_max: Optional[int],
-        cutoff: float
+        self, tensor: torch.Tensor, chi_max: Optional[int], cutoff: float
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """Standard PyTorch SVD (fallback)"""
         U, S, Vt = torch.linalg.svd(tensor, full_matrices=False)
@@ -150,12 +143,7 @@ class CuQuantumBackend:
 
         return U, S, Vt
 
-    def contract(
-        self,
-        tensors: list,
-        indices: str,
-        optimize: str = 'auto'
-    ) -> torch.Tensor:
+    def contract(self, tensors: list, indices: str, optimize: str = "auto") -> torch.Tensor:
         """
         Tensor contraction with optional cuQuantum acceleration.
 
@@ -175,22 +163,12 @@ class CuQuantumBackend:
         except Exception:
             return self._pytorch_contract(tensors, indices, optimize)
 
-    def _cuquantum_contract(
-        self,
-        tensors: list,
-        indices: str,
-        optimize: str
-    ) -> torch.Tensor:
+    def _cuquantum_contract(self, tensors: list, indices: str, optimize: str) -> torch.Tensor:
         """Tensor contraction using cuTensorNet"""
         # TODO: Implement cuTensorNet einsum when API is stable
         return self._pytorch_contract(tensors, indices, optimize)
 
-    def _pytorch_contract(
-        self,
-        tensors: list,
-        indices: str,
-        optimize: str
-    ) -> torch.Tensor:
+    def _pytorch_contract(self, tensors: list, indices: str, optimize: str) -> torch.Tensor:
         """Standard PyTorch einsum (fallback)"""
         return torch.einsum(indices, *tensors)
 
@@ -231,12 +209,7 @@ class CuStateVecBackend:
             self.available = False
             self.handle = None
 
-    def apply_gate(
-        self,
-        state: torch.Tensor,
-        gate: torch.Tensor,
-        qubits: list
-    ) -> torch.Tensor:
+    def apply_gate(self, state: torch.Tensor, gate: torch.Tensor, qubits: list) -> torch.Tensor:
         """
         Apply quantum gate to state vector.
 
@@ -257,20 +230,14 @@ class CuStateVecBackend:
             return self._pytorch_apply_gate(state, gate, qubits)
 
     def _custatevec_apply_gate(
-        self,
-        state: torch.Tensor,
-        gate: torch.Tensor,
-        qubits: list
+        self, state: torch.Tensor, gate: torch.Tensor, qubits: list
     ) -> torch.Tensor:
         """Apply gate using cuStateVec"""
         # TODO: Implement cuStateVec gate application
         return self._pytorch_apply_gate(state, gate, qubits)
 
     def _pytorch_apply_gate(
-        self,
-        state: torch.Tensor,
-        gate: torch.Tensor,
-        qubits: list
+        self, state: torch.Tensor, gate: torch.Tensor, qubits: list
     ) -> torch.Tensor:
         """Apply gate using PyTorch (fallback)"""
         # Basic tensor reshaping and contraction
@@ -355,7 +322,7 @@ def benchmark_backend(n_trials: int = 10, matrix_size: int = 256) -> dict:
     """
     import time
 
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    device = "cuda" if torch.cuda.is_available() else "cpu"
 
     # Create test tensor
     tensor = torch.randn(matrix_size, matrix_size, dtype=torch.complex64, device=device)
@@ -378,18 +345,18 @@ def benchmark_backend(n_trials: int = 10, matrix_size: int = 256) -> dict:
     pytorch_time = (time.time() - start) / n_trials
 
     results = {
-        'pytorch_time_ms': pytorch_time * 1000,
-        'cuquantum_time_ms': cuquantum_time * 1000 if cuquantum_time else None,
-        'speedup': pytorch_time / cuquantum_time if cuquantum_time else None,
-        'cuquantum_available': backend.available,
-        'device': device
+        "pytorch_time_ms": pytorch_time * 1000,
+        "cuquantum_time_ms": cuquantum_time * 1000 if cuquantum_time else None,
+        "speedup": pytorch_time / cuquantum_time if cuquantum_time else None,
+        "cuquantum_available": backend.available,
+        "device": device,
     }
 
     return results
 
 
 # Example usage
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("cuQuantum Backend Status")
     print("=" * 50)
     print(f"Available: {is_cuquantum_available()}")
@@ -399,9 +366,9 @@ if __name__ == '__main__':
         print("\nRunning benchmark...")
         results = benchmark_backend(n_trials=5, matrix_size=256)
 
-        print(f"\nBenchmark Results:")
+        print("\nBenchmark Results:")
         print(f"  PyTorch SVD: {results['pytorch_time_ms']:.2f} ms")
-        if results['cuquantum_time_ms']:
+        if results["cuquantum_time_ms"]:
             print(f"  cuQuantum SVD: {results['cuquantum_time_ms']:.2f} ms")
             print(f"  Speedup: {results['speedup']:.2f}×")
     else:

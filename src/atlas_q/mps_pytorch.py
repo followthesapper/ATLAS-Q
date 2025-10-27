@@ -16,19 +16,20 @@ Date: October 2025
 License: MIT
 """
 
-import torch
 import random
-from typing import List, Optional
 from abc import ABC, abstractmethod
+from typing import List
+
+import torch
 
 
 class CompressedQuantumStatePyTorch(ABC):
     """Base class for PyTorch-based quantum state representations"""
 
-    def __init__(self, num_qubits: int, device: str = 'cuda'):
+    def __init__(self, num_qubits: int, device: str = "cuda"):
         self.num_qubits = num_qubits
-        self.dim = 2 ** num_qubits
-        self.device = torch.device(device if torch.cuda.is_available() else 'cpu')
+        self.dim = 2**num_qubits
+        self.device = torch.device(device if torch.cuda.is_available() else "cpu")
 
     @abstractmethod
     def get_amplitude(self, basis_state: int) -> complex:
@@ -55,7 +56,7 @@ class MatrixProductStatePyTorch(CompressedQuantumStatePyTorch):
     - Same API as NumPy version
     """
 
-    def __init__(self, num_qubits: int, bond_dim: int = 8, device: str = 'cuda'):
+    def __init__(self, num_qubits: int, bond_dim: int = 8, device: str = "cuda"):
         super().__init__(num_qubits, device)
         self.bond_dim = bond_dim
         self.is_canonical = False
@@ -175,21 +176,21 @@ class MatrixProductStatePyTorch(CompressedQuantumStatePyTorch):
 
                 if i == 0:
                     # First tensor: shape [1, 2, bond_dim]
-                    prob_0 = torch.abs(torch.sum(tensor[0, 0, :]))**2
-                    prob_1 = torch.abs(torch.sum(tensor[0, 1, :]))**2
+                    prob_0 = torch.abs(torch.sum(tensor[0, 0, :])) ** 2
+                    prob_1 = torch.abs(torch.sum(tensor[0, 1, :])) ** 2
                 elif i == self.num_qubits - 1:
                     # Last tensor: shape [bond_dim, 2, 1]
                     temp_0 = left_state @ tensor[:, 0, 0]
                     temp_1 = left_state @ tensor[:, 1, 0]
-                    prob_0 = torch.abs(temp_0)**2
-                    prob_1 = torch.abs(temp_1)**2
+                    prob_0 = torch.abs(temp_0) ** 2
+                    prob_1 = torch.abs(temp_1) ** 2
                 else:
                     # Middle tensor: shape [bond_dim, 2, bond_dim]
                     # Contract left_state with tensor for each outcome
                     temp_0 = left_state @ tensor[:, 0, :]
                     temp_1 = left_state @ tensor[:, 1, :]
-                    prob_0 = torch.sum(torch.abs(temp_0)**2)
-                    prob_1 = torch.sum(torch.abs(temp_1)**2)
+                    prob_0 = torch.sum(torch.abs(temp_0) ** 2)
+                    prob_1 = torch.sum(torch.abs(temp_1) ** 2)
 
                 # Normalize probabilities (convert to Python floats)
                 prob_0_val = prob_0.item()
@@ -243,7 +244,7 @@ class MatrixProductStatePyTorch(CompressedQuantumStatePyTorch):
         # After canonicalization, norm is in the rightmost tensor
         if self.num_qubits > 0:
             last_tensor = self.tensors[-1]
-            norm_sq = torch.sum(torch.abs(last_tensor)**2)
+            norm_sq = torch.sum(torch.abs(last_tensor) ** 2)
             if norm_sq > 0:
                 self.tensors[-1] /= torch.sqrt(norm_sq)
 
@@ -255,8 +256,7 @@ class MatrixProductStatePyTorch(CompressedQuantumStatePyTorch):
             return complex(amp.real.item(), amp.imag.item())
 
         # Extract bits for each qubit
-        bits = [(basis_state >> (self.num_qubits - 1 - i)) & 1
-                for i in range(self.num_qubits)]
+        bits = [(basis_state >> (self.num_qubits - 1 - i)) & 1 for i in range(self.num_qubits)]
 
         # Contract tensors left to right
         result = self.tensors[0][:, bits[0], :]  # [1, bond_dim]
@@ -285,7 +285,6 @@ class MatrixProductStatePyTorch(CompressedQuantumStatePyTorch):
 
         Returns a dictionary with the same structure as NumPy MPS
         """
-        import numpy as np
 
         numpy_tensors = []
         for tensor in self.tensors:
@@ -294,14 +293,14 @@ class MatrixProductStatePyTorch(CompressedQuantumStatePyTorch):
             numpy_tensors.append(numpy_tensor)
 
         return {
-            'tensors': numpy_tensors,
-            'num_qubits': self.num_qubits,
-            'bond_dim': self.bond_dim,
-            'is_canonical': self.is_canonical
+            "tensors": numpy_tensors,
+            "num_qubits": self.num_qubits,
+            "bond_dim": self.bond_dim,
+            "is_canonical": self.is_canonical,
         }
 
     @staticmethod
-    def from_numpy_mps(numpy_mps_dict, device: str = 'cuda'):
+    def from_numpy_mps(numpy_mps_dict, device: str = "cuda"):
         """
         Create PyTorch MPS from NumPy MPS dictionary
 
@@ -309,26 +308,27 @@ class MatrixProductStatePyTorch(CompressedQuantumStatePyTorch):
             numpy_mps_dict: Dictionary with 'tensors', 'num_qubits', 'bond_dim'
             device: Device to place tensors on
         """
-        num_qubits = numpy_mps_dict['num_qubits']
-        bond_dim = numpy_mps_dict['bond_dim']
+        num_qubits = numpy_mps_dict["num_qubits"]
+        bond_dim = numpy_mps_dict["bond_dim"]
 
         # Create empty MPS
         mps = MatrixProductStatePyTorch(num_qubits, bond_dim, device)
 
         # Replace tensors with converted versions
         mps.tensors = []
-        for numpy_tensor in numpy_mps_dict['tensors']:
+        for numpy_tensor in numpy_mps_dict["tensors"]:
             torch_tensor = torch.from_numpy(numpy_tensor).to(device)
             mps.tensors.append(torch_tensor)
 
-        mps.is_canonical = numpy_mps_dict.get('is_canonical', False)
+        mps.is_canonical = numpy_mps_dict.get("is_canonical", False)
 
         return mps
 
 
 # Optional: torch.compile wrapper for additional speedup
-def create_compiled_mps(num_qubits: int, bond_dim: int = 8,
-                        device: str = 'cuda', compile: bool = False):
+def create_compiled_mps(
+    num_qubits: int, bond_dim: int = 8, device: str = "cuda", compile: bool = False
+):
     """
     Create MPS with optional torch.compile for additional speedup
 
@@ -343,15 +343,13 @@ def create_compiled_mps(num_qubits: int, bond_dim: int = 8,
     """
     mps = MatrixProductStatePyTorch(num_qubits, bond_dim, device)
 
-    if compile and hasattr(torch, 'compile'):
+    if compile and hasattr(torch, "compile"):
         # Compile key methods for speedup
         mps.canonicalize_left_to_right = torch.compile(
-            mps.canonicalize_left_to_right,
-            mode="max-autotune"
+            mps.canonicalize_left_to_right, mode="max-autotune"
         )
         mps.canonicalize_right_to_left = torch.compile(
-            mps.canonicalize_right_to_left,
-            mode="max-autotune"
+            mps.canonicalize_right_to_left, mode="max-autotune"
         )
 
     return mps

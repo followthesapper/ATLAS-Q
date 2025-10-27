@@ -12,19 +12,21 @@ Date: October 2025
 License: MIT
 """
 
-import torch
-import numpy as np
-from typing import List, Tuple, Optional, Union, Dict
 from dataclasses import dataclass
 from pathlib import Path
+from typing import List
+
+import torch
 
 # GPU-optimized operations (if available)
 try:
     import sys
+
     # Add project root dynamically
     project_root = Path(__file__).parent.parent.parent.resolve()
     sys.path.insert(0, str(project_root))
     from triton_kernels.tdvp_mpo_ops import mpo_expectation_step_optimized
+
     GPU_OPTIMIZED_AVAILABLE = True
 except ImportError:
     GPU_OPTIMIZED_AVAILABLE = False
@@ -42,6 +44,7 @@ class MPO:
     - χ_L, χ_R: left and right bond dimensions
     - d: physical dimension (2 for qubits)
     """
+
     tensors: List[torch.Tensor]  # List of 4-tensors [χ_L, d, d, χ_R]
     n_sites: int
 
@@ -53,7 +56,7 @@ class MPO:
             assert W.shape[1] == W.shape[2], f"Physical dims must match at site {i}"
 
     @staticmethod
-    def identity(n_sites: int, device: str = 'cuda', dtype=torch.complex64) -> 'MPO':
+    def identity(n_sites: int, device: str = "cuda", dtype=torch.complex64) -> "MPO":
         """Create identity MPO"""
         tensors = []
         for i in range(n_sites):
@@ -65,7 +68,7 @@ class MPO:
         return MPO(tensors, n_sites)
 
     @staticmethod
-    def from_local_ops(ops: List[torch.Tensor], device: str = 'cuda') -> 'MPO':
+    def from_local_ops(ops: List[torch.Tensor], device: str = "cuda") -> "MPO":
         """
         Create MPO from list of local operators (one per site)
 
@@ -84,7 +87,7 @@ class MPO:
         return MPO(tensors, n_sites)
 
     @staticmethod
-    def from_operators(ops: List[torch.Tensor], device: str = 'cuda') -> 'MPO':
+    def from_operators(ops: List[torch.Tensor], device: str = "cuda") -> "MPO":
         """Alias for from_local_ops"""
         return MPO.from_local_ops(ops, device=device)
 
@@ -93,13 +96,14 @@ class MPOBuilder:
     """Helper class to build common MPOs"""
 
     @staticmethod
-    def identity_mpo(n_sites: int, device: str = 'cuda', dtype=torch.complex64) -> MPO:
+    def identity_mpo(n_sites: int, device: str = "cuda", dtype=torch.complex64) -> MPO:
         """Create identity MPO (wrapper for MPO.identity)"""
         return MPO.identity(n_sites, device=device, dtype=dtype)
 
     @staticmethod
-    def ising_hamiltonian(n_sites: int, J: float = 1.0, h: float = 0.5,
-                         device: str = 'cuda', dtype=torch.complex64) -> MPO:
+    def ising_hamiltonian(
+        n_sites: int, J: float = 1.0, h: float = 0.5, device: str = "cuda", dtype=torch.complex64
+    ) -> MPO:
         """
         Transverse-field Ising Hamiltonian:
         H = -J Σᵢ ZᵢZᵢ₊₁ - h Σᵢ Xᵢ
@@ -148,12 +152,12 @@ class MPOBuilder:
                 # bulk: shape [D, 2, 2, D]
                 W = torch.zeros(D, 2, 2, D, dtype=dtype, device=device)
                 # identity track
-                W[0, :, :, 0] = I            # 0->0
-                W[2, :, :, 2] = I            # 2->2
+                W[0, :, :, 0] = I  # 0->0
+                W[2, :, :, 2] = I  # 2->2
                 # propagate a single Z
-                W[0, :, :, 1] = Z            # 0->1
+                W[0, :, :, 1] = Z  # 0->1
                 # close ZZ with -J Z
-                W[1, :, :, 2] = -J * Z       # 1->2
+                W[1, :, :, 2] = -J * Z  # 1->2
                 # local field goes 0->2
                 if h != 0.0:
                     W[0, :, :, 2] = -h * X
@@ -163,9 +167,14 @@ class MPOBuilder:
         return MPO(tensors, n_sites)
 
     @staticmethod
-    def heisenberg_hamiltonian(n_sites: int, Jx: float = 1.0, Jy: float = 1.0,
-                               Jz: float = 1.0, device: str = 'cuda',
-                               dtype=torch.complex64) -> MPO:
+    def heisenberg_hamiltonian(
+        n_sites: int,
+        Jx: float = 1.0,
+        Jy: float = 1.0,
+        Jz: float = 1.0,
+        device: str = "cuda",
+        dtype=torch.complex64,
+    ) -> MPO:
         """
         Heisenberg Hamiltonian:
         H = Σᵢ (Jₓ XᵢXᵢ₊₁ + Jᵧ YᵢYᵢ₊₁ + Jᵧ ZᵢZᵢ₊₁)
@@ -205,7 +214,7 @@ class MPOBuilder:
         return MPO(tensors, n_sites)
 
 
-def apply_mpo_to_mps(mpo: MPO, mps, chi_max: int = 128, eps: float = 1e-8) -> 'AdaptiveMPS':
+def apply_mpo_to_mps(mpo: MPO, mps, chi_max: int = 128, eps: float = 1e-8) -> "AdaptiveMPS":
     """
     Apply MPO to MPS: |ψ'⟩ = O |ψ⟩
 
@@ -221,7 +230,6 @@ def apply_mpo_to_mps(mpo: MPO, mps, chi_max: int = 128, eps: float = 1e-8) -> 'A
         New MPS after applying MPO
     """
     from .adaptive_mps import AdaptiveMPS
-    from .linalg_robust import robust_svd
 
     assert mpo.n_sites == mps.num_qubits, "MPO and MPS must have same number of sites"
 
@@ -241,9 +249,9 @@ def apply_mpo_to_mps(mpo: MPO, mps, chi_max: int = 128, eps: float = 1e-8) -> 'A
 
         # Contract over s'
         # M[l a, s, r b] = Σ_{s′} W[l, s, s′, r] * A[a, s′, b]
-        M = torch.einsum('lstr, atb -> lasrb', W, A)          # [l, a, s, r, b]
+        M = torch.einsum("lstr, atb -> lasrb", W, A)  # [l, a, s, r, b]
         l, a, s, r, b = M.shape
-        M = M.reshape(l * a, s, r * b)                        # [l a, s, r b]
+        M = M.reshape(l * a, s, r * b)  # [l a, s, r b]
 
         new_tensors.append(M)
 
@@ -276,26 +284,24 @@ def expectation_value(mpo: MPO, mps, use_gpu_optimized: bool = True) -> complex:
     device = mps.tensors[0].device
 
     # Use GPU-optimized version if available and enabled
-    use_optimized = (GPU_OPTIMIZED_AVAILABLE and
-                    use_gpu_optimized and
-                    device.type == 'cuda')
+    use_optimized = GPU_OPTIMIZED_AVAILABLE and use_gpu_optimized and device.type == "cuda"
 
     # E has shape [l, ā, a]; start with scalars (1×1×1)
     E = torch.ones(1, 1, 1, dtype=dtype, device=device)
 
     for i in range(n):
         W = mpo.tensors[i].to(device=device, dtype=dtype)  # [l, s, s', r]
-        A = mps.tensors[i]                                 # [a, s, b]
+        A = mps.tensors[i]  # [a, s, b]
 
         if use_optimized:
             # GPU-optimized contraction (torch.compile + optimized order)
             E = mpo_expectation_step_optimized(E, A, W)
         else:
             # Standard einsum
-            Ac = A.conj()                                      # [ā, s', b̄]
+            Ac = A.conj()  # [ā, s', b̄]
             # E' [χR, aR, bR] = Σ E[χL,aL,bL] * Ac[aL,σ',aR] * W[χL,σ,σ',χR] * A[bL,σ,bR]
             # Indices: L=χL, a=aL, b=bL, t=σ', r=aR, s=σ, R=χR, B=bR
-            E = torch.einsum('Lab, atr, LstR, bsB -> RrB', E, Ac, W, A)
+            E = torch.einsum("Lab, atr, LstR, bsB -> RrB", E, Ac, W, A)
 
     # Now E should be [1, 1, 1] -> scalar
     if E.numel() == 1:
@@ -305,8 +311,9 @@ def expectation_value(mpo: MPO, mps, use_gpu_optimized: bool = True) -> complex:
         return complex(E[0, 0, 0].item())
 
 
-def correlation_function(op1: torch.Tensor, site1: int, op2: torch.Tensor, site2: int,
-                         mps) -> complex:
+def correlation_function(
+    op1: torch.Tensor, site1: int, op2: torch.Tensor, site2: int, mps
+) -> complex:
     """
     Compute two-point correlation function: ⟨ψ| O₁(site1) O₂(site2) |ψ⟩
 

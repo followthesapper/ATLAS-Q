@@ -1,4 +1,3 @@
-
 """
 QIH-LLM: Quantum-Inspired Hybrid features for language modeling.
 
@@ -11,6 +10,7 @@ import numpy as np
 try:
     import torch
     import torch.nn as nn
+
     _HAVE_TORCH = True
 except Exception:
     _HAVE_TORCH = False
@@ -49,18 +49,23 @@ def qih_features_for_tokens(token_ids, win=256, stride=128, n=10, shots=1024, bi
 try:
     import torch
     import torch.nn as nn
+
     _HAVE_TORCH = True
 except Exception:
     _HAVE_TORCH = False
 
 if _HAVE_TORCH:
+
     class QIHFusionEmbedding(nn.Module):
         """
         Fuse QIH-PAT side-channel into token embeddings.
         Given token embeddings E [B, T, d], windows slide along T; each window gets a QIH histogram -> proj
         and is broadcast-add to token embeddings in that window.
         """
-        def __init__(self, win: int, stride: int, bins: int = 64, proj_dim: int = None, embed_dim: int = 128):
+
+        def __init__(
+            self, win: int, stride: int, bins: int = 64, proj_dim: int = None, embed_dim: int = 128
+        ):
             super().__init__()
             self.win = win
             self.stride = stride
@@ -80,16 +85,22 @@ if _HAVE_TORCH:
             for b in range(B):
                 ids = token_ids[b].detach().cpu().numpy().astype(int)
                 # Compute QIH per-window histograms for this sequence
-                H, _ = qih_pat_sequence_features(tokens_to_signal(ids),
-                                                 win=self.win, stride=self.stride, bins=self.bins)
+                H, _ = qih_pat_sequence_features(
+                    tokens_to_signal(ids), win=self.win, stride=self.stride, bins=self.bins
+                )
                 import numpy as _np
                 import torch as _torch
-                H = _torch.tensor(_np.stack(H, axis=0), dtype=token_embeds.dtype, device=device)  # [Wn, bins]
+
+                H = _torch.tensor(
+                    _np.stack(H, axis=0), dtype=token_embeds.dtype, device=device
+                )  # [Wn, bins]
                 Z = self.proj(H)  # [Wn, d]
                 # Broadcast-add over the corresponding token ranges
                 w_idx = 0
                 for start in range(0, max(1, T - self.win + 1), self.stride):
                     end = min(start + self.win, T)
-                    fused[b, start:end, :] = fused[b, start:end, :] + Z[w_idx].unsqueeze(0).expand(end-start, -1)
+                    fused[b, start:end, :] = fused[b, start:end, :] + Z[w_idx].unsqueeze(0).expand(
+                        end - start, -1
+                    )
                     w_idx += 1
             return fused

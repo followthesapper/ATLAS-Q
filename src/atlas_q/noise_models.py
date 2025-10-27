@@ -13,10 +13,11 @@ Date: October 2025
 License: MIT
 """
 
-import torch
-import numpy as np
-from typing import List, Tuple, Optional, Dict, Callable
 from dataclasses import dataclass
+from typing import Dict, List, Optional, Tuple
+
+import numpy as np
+import torch
 
 
 @dataclass
@@ -26,6 +27,7 @@ class NoiseChannel:
 
     A channel Φ(ρ) = Σᵢ Kᵢ ρ Kᵢ† where Σᵢ Kᵢ†Kᵢ = I (completeness)
     """
+
     name: str
     kraus_ops: List[torch.Tensor]  # List of Kraus operators
     num_qubits: int = 1
@@ -33,12 +35,11 @@ class NoiseChannel:
     def __post_init__(self):
         """Validate completeness relation"""
         # Check Σᵢ Kᵢ†Kᵢ ≈ I
-        identity_check = sum(
-            K.conj().T @ K for K in self.kraus_ops
+        identity_check = sum(K.conj().T @ K for K in self.kraus_ops)
+        dim = 2**self.num_qubits
+        expected_identity = torch.eye(
+            dim, dtype=self.kraus_ops[0].dtype, device=self.kraus_ops[0].device
         )
-        dim = 2 ** self.num_qubits
-        expected_identity = torch.eye(dim, dtype=self.kraus_ops[0].dtype,
-                                      device=self.kraus_ops[0].device)
 
         error = torch.norm(identity_check - expected_identity).item()
         if error > 1e-6:
@@ -81,8 +82,7 @@ class NoiseModel:
         self.custom_channels[qubits] = channel
 
     @staticmethod
-    def depolarizing(p1q: float = 0.001, p2q: float = 0.01,
-                     device: str = 'cuda') -> 'NoiseModel':
+    def depolarizing(p1q: float = 0.001, p2q: float = 0.01, device: str = "cuda") -> "NoiseModel":
         """
         Depolarizing noise: ρ → (1-p)ρ + p·I/d
 
@@ -106,15 +106,11 @@ class NoiseModel:
         Y = torch.tensor([[0, -1j], [1j, 0]], dtype=torch.complex64, device=device)
         Z = torch.tensor([[1, 0], [0, -1]], dtype=torch.complex64, device=device)
 
-        kraus_1q = [
-            sqrt_1_p1 * I,
-            sqrt_p1 * X,
-            sqrt_p1 * Y,
-            sqrt_p1 * Z
-        ]
+        kraus_1q = [sqrt_1_p1 * I, sqrt_p1 * X, sqrt_p1 * Y, sqrt_p1 * Z]
 
-        model.add_1q_channel('depolarizing',
-                            NoiseChannel('depolarizing_1q', kraus_1q, num_qubits=1))
+        model.add_1q_channel(
+            "depolarizing", NoiseChannel("depolarizing_1q", kraus_1q, num_qubits=1)
+        )
 
         # 2-qubit depolarizing: 16 Kraus operators (Pauli basis)
         sqrt_p2 = np.sqrt(p2q / 15)
@@ -132,13 +128,14 @@ class NoiseModel:
                     # Kᵢⱼ = √(p/15) Pᵢ⊗Pⱼ
                     kraus_2q.append(sqrt_p2 * torch.kron(P1, P2))
 
-        model.add_2q_channel('depolarizing',
-                            NoiseChannel('depolarizing_2q', kraus_2q, num_qubits=2))
+        model.add_2q_channel(
+            "depolarizing", NoiseChannel("depolarizing_2q", kraus_2q, num_qubits=2)
+        )
 
         return model
 
     @staticmethod
-    def dephasing(p: float = 0.001, device: str = 'cuda') -> 'NoiseModel':
+    def dephasing(p: float = 0.001, device: str = "cuda") -> "NoiseModel":
         """
         Phase damping (T2 dephasing): ρ → (1-p)ρ + p·Z ρ Z
 
@@ -156,13 +153,12 @@ class NoiseModel:
 
         kraus = [sqrt_1_p * I, sqrt_p * Z]
 
-        model.add_1q_channel('dephasing',
-                            NoiseChannel('dephasing', kraus, num_qubits=1))
+        model.add_1q_channel("dephasing", NoiseChannel("dephasing", kraus, num_qubits=1))
 
         return model
 
     @staticmethod
-    def amplitude_damping(gamma: float = 0.001, device: str = 'cuda') -> 'NoiseModel':
+    def amplitude_damping(gamma: float = 0.001, device: str = "cuda") -> "NoiseModel":
         """
         Amplitude damping (T1 relaxation): |1⟩ → |0⟩ decay
 
@@ -175,21 +171,19 @@ class NoiseModel:
         sqrt_gamma = np.sqrt(gamma)
         sqrt_1_gamma = np.sqrt(1 - gamma)
 
-        K0 = torch.tensor([[1, 0], [0, sqrt_1_gamma]],
-                         dtype=torch.complex64, device=device)
-        K1 = torch.tensor([[0, sqrt_gamma], [0, 0]],
-                         dtype=torch.complex64, device=device)
+        K0 = torch.tensor([[1, 0], [0, sqrt_1_gamma]], dtype=torch.complex64, device=device)
+        K1 = torch.tensor([[0, sqrt_gamma], [0, 0]], dtype=torch.complex64, device=device)
 
         kraus = [K0, K1]
 
-        model.add_1q_channel('amplitude_damping',
-                            NoiseChannel('amplitude_damping', kraus, num_qubits=1))
+        model.add_1q_channel(
+            "amplitude_damping", NoiseChannel("amplitude_damping", kraus, num_qubits=1)
+        )
 
         return model
 
     @staticmethod
-    def pauli_channel(px: float, py: float, pz: float,
-                      device: str = 'cuda') -> 'NoiseModel':
+    def pauli_channel(px: float, py: float, pz: float, device: str = "cuda") -> "NoiseModel":
         """
         Pauli channel: apply X/Y/Z with probabilities px/py/pz
 
@@ -209,21 +203,16 @@ class NoiseModel:
         Y = torch.tensor([[0, -1j], [1j, 0]], dtype=torch.complex64, device=device)
         Z = torch.tensor([[1, 0], [0, -1]], dtype=torch.complex64, device=device)
 
-        kraus = [
-            np.sqrt(1 - p_total) * I,
-            np.sqrt(px) * X,
-            np.sqrt(py) * Y,
-            np.sqrt(pz) * Z
-        ]
+        kraus = [np.sqrt(1 - p_total) * I, np.sqrt(px) * X, np.sqrt(py) * Y, np.sqrt(pz) * Z]
 
-        model.add_1q_channel('pauli',
-                            NoiseChannel('pauli', kraus, num_qubits=1))
+        model.add_1q_channel("pauli", NoiseChannel("pauli", kraus, num_qubits=1))
 
         return model
 
     @staticmethod
-    def thermal_relaxation(t1: float, t2: float, gate_time: float,
-                          device: str = 'cuda') -> 'NoiseModel':
+    def thermal_relaxation(
+        t1: float, t2: float, gate_time: float, device: str = "cuda"
+    ) -> "NoiseModel":
         """
         Thermal relaxation combining T1 (amplitude) and T2 (phase) damping
 
@@ -287,9 +276,7 @@ class StochasticNoiseApplicator:
 
         # Sample a Kraus operator based on probabilities
         # P(Kᵢ) = Tr(Kᵢ ρ Kᵢ†) but we approximate with |Kᵢ|²_F / Σ|Kⱼ|²_F
-        kraus_weights = torch.tensor([
-            torch.norm(K).item() ** 2 for K in channel.kraus_ops
-        ])
+        kraus_weights = torch.tensor([torch.norm(K).item() ** 2 for K in channel.kraus_ops])
         kraus_weights /= kraus_weights.sum()
 
         # Sample one Kraus operator
@@ -321,9 +308,7 @@ class StochasticNoiseApplicator:
         channel = next(iter(self.noise_model.channels_2q.values()))
 
         # Sample Kraus operator
-        kraus_weights = torch.tensor([
-            torch.norm(K).item() ** 2 for K in channel.kraus_ops
-        ])
+        kraus_weights = torch.tensor([torch.norm(K).item() ** 2 for K in channel.kraus_ops])
         kraus_weights /= kraus_weights.sum()
 
         idx = self.rng.choice(len(channel.kraus_ops), p=kraus_weights.cpu().numpy())
@@ -360,7 +345,7 @@ def kraus_to_choi(kraus_ops: List[torch.Tensor]) -> torch.Tensor:
         Choi matrix (d² × d²)
     """
     d = kraus_ops[0].shape[0]
-    choi = torch.zeros(d*d, d*d, dtype=kraus_ops[0].dtype, device=kraus_ops[0].device)
+    choi = torch.zeros(d * d, d * d, dtype=kraus_ops[0].dtype, device=kraus_ops[0].device)
 
     for K in kraus_ops:
         K_vec = K.reshape(-1, 1)  # Vectorize

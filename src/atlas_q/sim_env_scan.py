@@ -19,9 +19,9 @@ Author: ATLAS-Q Contributors
 Date: October 24, 2025
 """
 
+from typing import Optional, Tuple
+
 import torch
-import torch.nn as nn
-from typing import Tuple, Optional, List
 
 
 def _tile_inclusive_scan(cum: torch.Tensor) -> torch.Tensor:
@@ -44,7 +44,7 @@ def _tile_inclusive_scan(cum: torch.Tensor) -> torch.Tensor:
             P_shift[:, d:] = P[:, :-d]
 
         if d < m:
-            P[:, d:] = torch.einsum('bnij,bnjk->bnik', P_shift[:, d:], P[:, d:])
+            P[:, d:] = torch.einsum("bnij,bnjk->bnik", P_shift[:, d:], P[:, d:])
         d <<= 1
 
     return P
@@ -82,7 +82,9 @@ def build_left_envs(
 
         if normalize and (k + 1) % tile_size == 0:
             # Renormalize at tile boundaries to prevent blow-up
-            norms = torch.norm(L_envs[:, k + 1], p='fro', dim=(-2, -1), keepdim=True).clamp_min(1e-12)
+            norms = torch.norm(L_envs[:, k + 1], p="fro", dim=(-2, -1), keepdim=True).clamp_min(
+                1e-12
+            )
             L_envs[:, k + 1] = L_envs[:, k + 1] / norms
 
     return L_envs
@@ -120,7 +122,7 @@ def build_right_envs(
 
         if normalize and k % tile_size == 0:
             # Renormalize at tile boundaries to prevent blow-up
-            norms = torch.norm(R_envs[:, k], p='fro', dim=(-2, -1), keepdim=True).clamp_min(1e-12)
+            norms = torch.norm(R_envs[:, k], p="fro", dim=(-2, -1), keepdim=True).clamp_min(1e-12)
             R_envs[:, k] = R_envs[:, k] / norms
 
     return R_envs
@@ -188,7 +190,9 @@ def block_prefix_scan(
     left_tile_pref[:, 0] = eye.unsqueeze(0).expand(B, -1, -1)
 
     for t in range(ntiles):
-        left_tile_pref[:, t + 1] = torch.einsum('bij,bjk->bik', left_tile_pref[:, t], tile_prod[:, t])
+        left_tile_pref[:, t + 1] = torch.einsum(
+            "bij,bjk->bik", left_tile_pref[:, t], tile_prod[:, t]
+        )
 
     # Expand to position states
     # T_cum is now in reversed order: T_cum[0] = T[L-1], T_cum[1] = T[L-1]@T[L-2], etc.
@@ -200,8 +204,7 @@ def block_prefix_scan(
 
     # left[k] = T[k-1] @ T[k-2] @ ... @ T[0] @ evec
     # T_cum[k-1] should now be in right-to-left order
-    left_states[:, 1:] = torch.einsum('blij,j->bli', T_cum, evec)
-
+    left_states[:, 1:] = torch.einsum("blij,j->bli", T_cum, evec)
 
     # === RIGHT SCAN ===
 
@@ -225,13 +228,15 @@ def block_prefix_scan(
     right_tile_pref[:, 0] = eye.unsqueeze(0).expand(B, -1, -1)
 
     for t in range(ntiles):
-        right_tile_pref[:, t + 1] = torch.einsum('bij,bjk->bik', right_tile_pref[:, t], tile_prod_rev[:, t])
+        right_tile_pref[:, t + 1] = torch.einsum(
+            "bij,bjk->bik", right_tile_pref[:, t], tile_prod_rev[:, t]
+        )
 
     right_states_rev = torch.empty(B, L + 1, chi, dtype=dtype, device=device)
     right_states_rev[:, 0] = evec.unsqueeze(0).expand(B, -1)
 
     # Vectorized: right[1:L+1] = T_cum_rev @ evec
-    right_states_rev[:, 1:] = torch.einsum('blij,j->bli', T_cum_rev, evec)
+    right_states_rev[:, 1:] = torch.einsum("blij,j->bli", T_cum_rev, evec)
 
     right_states = right_states_rev.flip(dims=[1])
 
@@ -294,7 +299,14 @@ def build_mps_environments(
 
         # Pad cores to uniform shape [L, chi_max, d, chi_max]
         # Shape: [chi_l, d, chi_r] for each core
-        cores_pad = torch.zeros(L, chi_max, d, chi_max, dtype=torch.complex128 if use_float64 else torch.complex64, device=device)
+        cores_pad = torch.zeros(
+            L,
+            chi_max,
+            d,
+            chi_max,
+            dtype=torch.complex128 if use_float64 else torch.complex64,
+            device=device,
+        )
         for k in range(L):
             chi_l, d_k, chi_r = mps_cores[k].shape
             assert d_k == d, f"Inconsistent physical dimension at site {k}"
@@ -314,7 +326,7 @@ def build_mps_environments(
     # cores_pad: [L, chi_max, d, chi_max] → need [L, chi_l, d, chi_r]
     # E = einsum('lidm,ljdm->lij', cores_pad, cores_pad.conj())
 
-    E = torch.einsum('lidm,ljdm->lij', cores_pad, cores_pad.conj())  # [L, chi_max, chi_max]
+    E = torch.einsum("lidm,ljdm->lij", cores_pad, cores_pad.conj())  # [L, chi_max, chi_max]
 
     # Keep E complex! Transfer operator is Hermitian but can have complex entries.
     # Optional safety check (debug only):
@@ -372,7 +384,7 @@ def check_environment_correctness(
 
     # Helper: Frobenius normalization for scale-invariant comparison
     def _normF(M):
-        return M.norm(p='fro').clamp_min(1e-12)
+        return M.norm(p="fro").clamp_min(1e-12)
 
     def _unit(M):
         return M / _normF(M)
@@ -385,7 +397,7 @@ def check_environment_correctness(
         # Transfer: E = sum_s core[:, s, :] @ core[:, s, :].H
         # Using correct einsum: E[i,j] = sum_{s,m} core[i,s,m] * conj(core[j,s,m])
         # Keep complex! E is Hermitian PSD but can have complex entries.
-        E_k = torch.einsum('ism,jsm->ij', core_k, core_k.conj())
+        E_k = torch.einsum("ism,jsm->ij", core_k, core_k.conj())
 
         left_naive = torch.mm(left_naive, E_k)
 
@@ -410,7 +422,7 @@ def check_environment_correctness(
 
 
 __all__ = [
-    'block_prefix_scan',
-    'build_mps_environments',
-    'check_environment_correctness',
+    "block_prefix_scan",
+    "build_mps_environments",
+    "check_environment_correctness",
 ]

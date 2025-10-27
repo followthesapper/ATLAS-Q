@@ -13,15 +13,14 @@ Author: ATLAS-Q Contributors
 Date: October 2025
 """
 
-from typing import List, Tuple, Dict, Optional, Set
 from dataclasses import dataclass
-import numpy as np
-import torch
 from enum import Enum
+from typing import Dict, List, Optional, Tuple
 
 
 class Topology(Enum):
     """2D qubit layout topologies"""
+
     SQUARE_GRID = "square_grid"
     HEAVY_HEX = "heavy_hex"
     TRIANGULAR = "triangular"
@@ -31,6 +30,7 @@ class Topology(Enum):
 @dataclass
 class Qubit2D:
     """Represents a qubit in 2D layout"""
+
     row: int
     col: int
     index_1d: Optional[int] = None  # Index in 1D MPS ordering
@@ -39,6 +39,7 @@ class Qubit2D:
 @dataclass
 class Layout2D:
     """2D qubit layout specification"""
+
     rows: int
     cols: int
     topology: Topology
@@ -49,10 +50,11 @@ class Layout2D:
 @dataclass
 class MappingConfig:
     """Configuration for 2D → 1D mapping"""
-    strategy: str = 'snake'  # 'snake', 'row_major', 'col_major', 'hilbert'
+
+    strategy: str = "snake"  # 'snake', 'row_major', 'col_major', 'hilbert'
     optimize_swaps: bool = True
     max_swap_layers: int = 100
-    chi_schedule: str = 'adaptive'  # 'adaptive', 'fixed', 'exponential'
+    chi_schedule: str = "adaptive"  # 'adaptive', 'fixed', 'exponential'
 
 
 class SnakeMapper:
@@ -153,11 +155,7 @@ class SWAPSynthesizer:
         self.mapper = mapper
         self.n_qubits = mapper.n_qubits
 
-    def synthesize_swap_network(
-        self,
-        control: int,
-        target: int
-    ) -> List[Tuple[int, int]]:
+    def synthesize_swap_network(self, control: int, target: int) -> List[Tuple[int, int]]:
         """
         Generate SWAP gates to bring control and target qubits adjacent.
 
@@ -182,10 +180,7 @@ class SWAPSynthesizer:
             # Find neighbor of current_target that's closer to control
             neighbors = self._get_neighbors_1d(current_target)
 
-            best_neighbor = min(
-                neighbors,
-                key=lambda n: self.mapper.get_distance(control, n)
-            )
+            best_neighbor = min(neighbors, key=lambda n: self.mapper.get_distance(control, n))
 
             # SWAP current_target with best_neighbor
             swaps.append(tuple(sorted([current_target, best_neighbor])))
@@ -242,13 +237,7 @@ class ChiScheduler:
     def __init__(self, config: MappingConfig):
         self.config = config
 
-    def get_chi(
-        self,
-        layer: int,
-        total_layers: int,
-        gate_type: str,
-        distance: int
-    ) -> int:
+    def get_chi(self, layer: int, total_layers: int, gate_type: str, distance: int) -> int:
         """
         Compute adaptive bond dimension for given layer.
 
@@ -261,17 +250,17 @@ class ChiScheduler:
         Returns:
             Recommended bond dimension
         """
-        if self.config.chi_schedule == 'fixed':
+        if self.config.chi_schedule == "fixed":
             return 64
 
-        elif self.config.chi_schedule == 'exponential':
+        elif self.config.chi_schedule == "exponential":
             # Exponential growth with depth
             base_chi = 8
             max_chi = 128
             chi = int(base_chi * (1.5 ** (layer / 10)))
             return min(chi, max_chi)
 
-        elif self.config.chi_schedule == 'adaptive':
+        elif self.config.chi_schedule == "adaptive":
             # Adaptive based on gate distance
             base_chi = 16
 
@@ -279,7 +268,7 @@ class ChiScheduler:
             distance_factor = 1.0 + 0.2 * min(distance, 5)
 
             # Entangling gates need higher χ
-            if gate_type in ['CNOT', 'CZ', 'SWAP']:
+            if gate_type in ["CNOT", "CZ", "SWAP"]:
                 entangle_factor = 1.5
             else:
                 entangle_factor = 1.0
@@ -307,7 +296,7 @@ class Planar2DCircuit:
         rows: int,
         cols: int,
         topology: Topology = Topology.SQUARE_GRID,
-        config: Optional[MappingConfig] = None
+        config: Optional[MappingConfig] = None,
     ):
         """
         Initialize 2D planar circuit.
@@ -367,12 +356,11 @@ class Planar2DCircuit:
             cols=self.cols,
             topology=self.topology,
             coupling_map=coupling_map,
-            qubits=qubits
+            qubits=qubits,
         )
 
     def compile_circuit(
-        self,
-        gates_2d: List[Tuple[str, List[Tuple[int, int]], List]]
+        self, gates_2d: List[Tuple[str, List[Tuple[int, int]], List]]
     ) -> List[Tuple[str, List[int], List]]:
         """
         Compile 2D circuit to 1D MPS-compatible circuit with SWAPs.
@@ -387,9 +375,7 @@ class Planar2DCircuit:
 
         for gate_type, qubits_2d, params in gates_2d:
             # Map to 1D indices
-            qubits_1d = [
-                self.mapper.map_2d_to_1d(r, c) for (r, c) in qubits_2d
-            ]
+            qubits_1d = [self.mapper.map_2d_to_1d(r, c) for (r, c) in qubits_2d]
 
             # For 2-qubit gates, insert SWAPs if needed
             if len(qubits_1d) == 2:
@@ -401,14 +387,14 @@ class Planar2DCircuit:
                     swaps = self.swap_synth.synthesize_swap_network(control, target)
 
                     for swap_pair in swaps:
-                        gates_1d.append(('SWAP', list(swap_pair), []))
+                        gates_1d.append(("SWAP", list(swap_pair), []))
 
                     # Original gate (qubits now adjacent)
                     gates_1d.append((gate_type, qubits_1d, params))
 
                     # Reverse SWAPs to restore layout
                     for swap_pair in reversed(swaps):
-                        gates_1d.append(('SWAP', list(swap_pair), []))
+                        gates_1d.append(("SWAP", list(swap_pair), []))
                 else:
                     gates_1d.append((gate_type, qubits_1d, params))
             else:
@@ -418,9 +404,7 @@ class Planar2DCircuit:
         return gates_1d
 
     def simulate(
-        self,
-        gates_2d: List[Tuple[str, List[Tuple[int, int]], List]],
-        device: str = 'cuda'
+        self, gates_2d: List[Tuple[str, List[Tuple[int, int]], List]], device: str = "cuda"
     ):
         """
         Simulate 2D circuit using MPS backend.
@@ -440,8 +424,8 @@ class Planar2DCircuit:
         # Create MPS
         mps = AdaptiveMPS(
             num_qubits=self.rows * self.cols,
-            bond_dim=self.chi_scheduler.get_chi(0, len(gates_1d), 'H', 1),
-            device=device
+            bond_dim=self.chi_scheduler.get_chi(0, len(gates_1d), "H", 1),
+            device=device,
         )
 
         # Apply gates with adaptive χ
@@ -476,39 +460,39 @@ class Planar2DCircuit:
             for r in range(self.rows):
                 for c in range(self.cols):
                     idx_1d = self.mapper.map_2d_to_1d(r, c)
-                    ax1.scatter(c, -r, s=500, c='lightblue', edgecolors='black')
-                    ax1.text(c, -r, str(idx_1d), ha='center', va='center', fontsize=12)
+                    ax1.scatter(c, -r, s=500, c="lightblue", edgecolors="black")
+                    ax1.text(c, -r, str(idx_1d), ha="center", va="center", fontsize=12)
 
             # Draw edges
-            for (q1, q2) in self.layout.coupling_map:
+            for q1, q2 in self.layout.coupling_map:
                 r1, c1 = self.mapper.map_1d_to_2d(q1)
                 r2, c2 = self.mapper.map_1d_to_2d(q2)
-                ax1.plot([c1, c2], [-r1, -r2], 'k-', alpha=0.3)
+                ax1.plot([c1, c2], [-r1, -r2], "k-", alpha=0.3)
 
-            ax1.set_title('2D Qubit Layout (Snake Mapped)')
-            ax1.set_xlabel('Column')
-            ax1.set_ylabel('Row')
+            ax1.set_title("2D Qubit Layout (Snake Mapped)")
+            ax1.set_xlabel("Column")
+            ax1.set_ylabel("Row")
             ax1.grid(True, alpha=0.3)
 
             # Plot 1D MPS ordering
             positions = list(range(self.rows * self.cols))
-            ax2.scatter(positions, [0] * len(positions), s=500, c='lightgreen', edgecolors='black')
+            ax2.scatter(positions, [0] * len(positions), s=500, c="lightgreen", edgecolors="black")
             for i, pos in enumerate(positions):
-                ax2.text(pos, 0, str(i), ha='center', va='center', fontsize=12)
+                ax2.text(pos, 0, str(i), ha="center", va="center", fontsize=12)
 
             # Draw MPS bonds
             for i in range(len(positions) - 1):
-                ax2.plot([i, i+1], [0, 0], 'k-', linewidth=2)
+                ax2.plot([i, i + 1], [0, 0], "k-", linewidth=2)
 
-            ax2.set_title('1D MPS Ordering')
-            ax2.set_xlabel('MPS Index')
+            ax2.set_title("1D MPS Ordering")
+            ax2.set_xlabel("MPS Index")
             ax2.set_ylim(-0.5, 0.5)
-            ax2.grid(True, alpha=0.3, axis='x')
+            ax2.grid(True, alpha=0.3, axis="x")
 
             plt.tight_layout()
 
             if filename:
-                plt.savefig(filename, dpi=150, bbox_inches='tight')
+                plt.savefig(filename, dpi=150, bbox_inches="tight")
             else:
                 plt.show()
 
@@ -517,7 +501,7 @@ class Planar2DCircuit:
 
 
 # Example usage
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("2D Planar Circuit Support Example")
     print("=" * 50)
 
@@ -535,18 +519,18 @@ if __name__ == '__main__':
 
     # Example gates in 2D coordinates
     gates_2d = [
-        ('H', [(0, 0)], []),
-        ('H', [(0, 1)], []),
-        ('CNOT', [(0, 0), (0, 1)], []),  # Nearest neighbor
-        ('CNOT', [(0, 0), (2, 2)], []),  # Long range - needs SWAPs
+        ("H", [(0, 0)], []),
+        ("H", [(0, 1)], []),
+        ("CNOT", [(0, 0), (0, 1)], []),  # Nearest neighbor
+        ("CNOT", [(0, 0), (2, 2)], []),  # Long range - needs SWAPs
     ]
 
     # Compile to 1D
     gates_1d = circuit_2d.compile_circuit(gates_2d)
-    print(f"\nCompiled circuit:")
+    print("\nCompiled circuit:")
     print(f"  Original gates: {len(gates_2d)}")
     print(f"  With SWAPs: {len(gates_1d)}")
 
     # Count SWAPs
-    swap_count = sum(1 for g, _, _ in gates_1d if g == 'SWAP')
+    swap_count = sum(1 for g, _, _ in gates_1d if g == "SWAP")
     print(f"  Total SWAPs inserted: {swap_count}")

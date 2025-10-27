@@ -1,18 +1,17 @@
-
 import numpy as np
 
 # Optional torch
 try:
     import torch
     import torch.nn as nn
-    import torch.nn.functional as F
+
     _HAVE_TORCH = True
 except Exception:
     _HAVE_TORCH = False
 
 try:
     from atlas_q import PeriodicState
-except Exception as e:
+except Exception:
     PeriodicState = None
 
 
@@ -33,7 +32,7 @@ def _estimate_period_fft(x, rmin=2, rmax=128):
     # mask out-of-range periods
     mask = (periods >= rmin) & (periods <= rmax)
     if not np.any(mask):
-        return max(rmin, min(rmax, n//4 if n>=8 else rmin))
+        return max(rmin, min(rmax, n // 4 if n >= 8 else rmin))
     k = np.argmax(mag[mask])
     return int(np.clip(np.round(periods[mask][k]), rmin, rmax))
 
@@ -72,7 +71,7 @@ def qih_pat_sequence_features(x, win=256, stride=128, n=10, shots=1024, bins=64)
     x = np.asarray(x, dtype=float)
     feats, periods = [], []
     for start in range(0, max(1, len(x) - win + 1), stride):
-        w = x[start:start+win]
+        w = x[start : start + win]
         if len(w) < win:
             # pad with mean to keep FFT behavior stable
             pad = np.full(win - len(w), w.mean() if len(w) else 0.0, dtype=float)
@@ -84,16 +83,19 @@ def qih_pat_sequence_features(x, win=256, stride=128, n=10, shots=1024, bins=64)
 
 
 if _HAVE_TORCH:
+
     class QIHPATSideChannel(nn.Module):
         """Torch module that turns a window of scalar values into a fused feature with QIH-PAT histogram.
         Usage:
             z = module(x_window_tensor)  # x_window_tensor: [B, W]
         """
+
         def __init__(self, win, bins=64, proj_dim=32):
             super().__init__()
             self.win = win
             self.bins = bins
             self.fc = nn.Linear(bins, proj_dim)
+
         def forward(self, xw):
             # xw: [B, W] CPU tensor. We run the numpy-based QFT histogram per item.
             xs = xw.detach().cpu().numpy()

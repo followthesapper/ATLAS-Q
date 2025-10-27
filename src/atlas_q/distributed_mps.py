@@ -16,16 +16,18 @@ Author: ATLAS-Q Contributors
 Date: October 2025
 """
 
-from typing import List, Tuple, Optional, Dict
 from dataclasses import dataclass
+from enum import Enum
+from typing import List, Optional, Tuple
+
+import numpy as np
 import torch
 import torch.distributed as dist
-import numpy as np
-from enum import Enum
 
 
 class DistMode(Enum):
     """Distribution strategy"""
+
     NONE = "none"  # Single GPU
     DATA_PARALLEL = "data_parallel"  # Replicate MPS, parallel measurements
     BOND_PARALLEL = "bond_parallel"  # Partition MPS by bonds across GPUs
@@ -34,17 +36,19 @@ class DistMode(Enum):
 @dataclass
 class DistributedConfig:
     """Configuration for distributed MPS"""
+
     mode: DistMode = DistMode.BOND_PARALLEL
-    backend: str = 'nccl'  # 'nccl', 'gloo', 'mpi'
+    backend: str = "nccl"  # 'nccl', 'gloo', 'mpi'
     world_size: int = 1  # Number of GPUs
     overlap_comm: bool = True  # Overlap communication with computation
     checkpoint_every: int = 100  # Checkpoint frequency (gates)
-    checkpoint_dir: str = './checkpoints'
+    checkpoint_dir: str = "./checkpoints"
 
 
 @dataclass
 class MPSPartition:
     """Represents a partition of MPS tensors on one GPU"""
+
     rank: int  # GPU rank
     start_site: int  # First site on this GPU
     end_site: int  # Last site on this GPU
@@ -64,12 +68,7 @@ class DistributedMPS:
     Bonds between partitions require cross-GPU communication.
     """
 
-    def __init__(
-        self,
-        num_qubits: int,
-        bond_dim: int,
-        config: Optional[DistributedConfig] = None
-    ):
+    def __init__(self, num_qubits: int, bond_dim: int, config: Optional[DistributedConfig] = None):
         """
         Initialize distributed MPS.
 
@@ -123,7 +122,7 @@ class DistributedMPS:
             end_site = start_site + sites_per_gpu
 
         # Create local tensors
-        device = torch.device(f'cuda:{self.rank}' if torch.cuda.is_available() else 'cpu')
+        device = torch.device(f"cuda:{self.rank}" if torch.cuda.is_available() else "cpu")
         tensors = []
 
         for i in range(start_site, end_site):
@@ -137,17 +136,15 @@ class DistributedMPS:
                 tensor[0, 0, 0] = 1.0
             else:
                 # Bulk
-                tensor = torch.zeros(self.bond_dim, 2, self.bond_dim, dtype=torch.complex64, device=device)
+                tensor = torch.zeros(
+                    self.bond_dim, 2, self.bond_dim, dtype=torch.complex64, device=device
+                )
                 tensor[:, 0, :] = torch.eye(self.bond_dim, dtype=torch.complex64, device=device)
 
             tensors.append(tensor)
 
         return MPSPartition(
-            rank=self.rank,
-            start_site=start_site,
-            end_site=end_site,
-            tensors=tensors,
-            device=device
+            rank=self.rank, start_site=start_site, end_site=end_site, tensors=tensors, device=device
         )
 
     def apply_single_qubit_gate(self, qubit: int, gate: torch.Tensor):
@@ -167,13 +164,15 @@ class DistributedMPS:
 
         # Contract gate with MPS tensor: [χL, d, χR] × [d, d'] → [χL, d', χR]
         tensor = self.partition.tensors[local_idx]
-        tensor_new = torch.einsum('ijk,jl->ilk', tensor, gate)
+        tensor_new = torch.einsum("ijk,jl->ilk", tensor, gate)
         self.partition.tensors[local_idx] = tensor_new
 
         self.gate_counter += 1
         self._maybe_checkpoint()
 
-    def apply_two_qubit_gate(self, qubit1: int, qubit2: int, gate: torch.Tensor, chi_max: int = 128):
+    def apply_two_qubit_gate(
+        self, qubit1: int, qubit2: int, gate: torch.Tensor, chi_max: int = 128
+    ):
         """
         Apply two-qubit gate (may require cross-GPU communication).
 
@@ -185,8 +184,8 @@ class DistributedMPS:
         """
         # Check if both qubits are on same GPU
         on_same_gpu = (
-            self.partition.start_site <= qubit1 < self.partition.end_site and
-            self.partition.start_site <= qubit2 < self.partition.end_site
+            self.partition.start_site <= qubit1 < self.partition.end_site
+            and self.partition.start_site <= qubit2 < self.partition.end_site
         )
 
         if on_same_gpu:
@@ -208,14 +207,14 @@ class DistributedMPS:
         A = self.partition.tensors[local_idx1]
         B = self.partition.tensors[local_idx2]
 
-        theta = torch.einsum('ijk,klm->ijlm', A, B)
+        theta = torch.einsum("ijk,klm->ijlm", A, B)
 
         # Apply gate: [χL, d1, d2, χR] × [d1d2, d1'd2'] → [χL, d1', d2', χR]
         chi_L, d1, d2, chi_R = theta.shape
         theta_flat = theta.reshape(chi_L, d1 * d2, chi_R)
         gate_reshaped = gate.reshape(d1 * d2, d1 * d2)
 
-        theta_new_flat = torch.einsum('ijk,jl->ilk', theta_flat, gate_reshaped)
+        theta_new_flat = torch.einsum("ijk,jl->ilk", theta_flat, gate_reshaped)
         theta_new = theta_new_flat.reshape(chi_L, d1, d2, chi_R)
 
         # SVD to split back
@@ -235,7 +234,9 @@ class DistributedMPS:
         self.partition.tensors[local_idx1] = A_new
         self.partition.tensors[local_idx2] = B_new
 
-    def _apply_distributed_two_site(self, qubit1: int, qubit2: int, gate: torch.Tensor, chi_max: int):
+    def _apply_distributed_two_site(
+        self, qubit1: int, qubit2: int, gate: torch.Tensor, chi_max: int
+    ):
         """
         Apply two-site gate across GPU boundary.
 
@@ -278,7 +279,7 @@ class DistributedMPS:
             B = self.partition.tensors[local_idx]
 
             # Merge, apply gate, SVD (same as local case)
-            theta = torch.einsum('ijk,klm->ijlm', A, B)
+            theta = torch.einsum("ijk,klm->ijlm", A, B)
             # ... (gate application and SVD code)
 
             # Send updated A back to gpu1
@@ -308,17 +309,19 @@ class DistributedMPS:
         os.makedirs(self.config.checkpoint_dir, exist_ok=True)
 
         checkpoint_path = os.path.join(
-            self.config.checkpoint_dir,
-            f'mps_rank{self.rank}_gate{self.gate_counter}.pt'
+            self.config.checkpoint_dir, f"mps_rank{self.rank}_gate{self.gate_counter}.pt"
         )
 
-        torch.save({
-            'rank': self.rank,
-            'start_site': self.partition.start_site,
-            'end_site': self.partition.end_site,
-            'tensors': self.partition.tensors,
-            'gate_counter': self.gate_counter
-        }, checkpoint_path)
+        torch.save(
+            {
+                "rank": self.rank,
+                "start_site": self.partition.start_site,
+                "end_site": self.partition.end_site,
+                "tensors": self.partition.tensors,
+                "gate_counter": self.gate_counter,
+            },
+            checkpoint_path,
+        )
 
     def load_checkpoint(self, gate_counter: int):
         """
@@ -328,14 +331,13 @@ class DistributedMPS:
             gate_counter: Which checkpoint to load
         """
         checkpoint_path = os.path.join(
-            self.config.checkpoint_dir,
-            f'mps_rank{self.rank}_gate{gate_counter}.pt'
+            self.config.checkpoint_dir, f"mps_rank{self.rank}_gate{gate_counter}.pt"
         )
 
         checkpoint = torch.load(checkpoint_path)
 
-        self.partition.tensors = checkpoint['tensors']
-        self.gate_counter = checkpoint['gate_counter']
+        self.partition.tensors = checkpoint["tensors"]
+        self.gate_counter = checkpoint["gate_counter"]
 
     def gather_full_mps(self) -> Optional[List[torch.Tensor]]:
         """
@@ -379,10 +381,7 @@ class DistributedMPS:
 
 
 def launch_distributed_simulation(
-    num_qubits: int,
-    bond_dim: int,
-    gates: List[Tuple[str, List[int], List]],
-    world_size: int = 2
+    num_qubits: int, bond_dim: int, gates: List[Tuple[str, List[int], List]], world_size: int = 2
 ):
     """
     Launch distributed MPS simulation.
@@ -399,7 +398,7 @@ def launch_distributed_simulation(
     config = DistributedConfig(
         mode=DistMode.BOND_PARALLEL,
         world_size=world_size,
-        backend='nccl' if torch.cuda.is_available() else 'gloo'
+        backend="nccl" if torch.cuda.is_available() else "gloo",
     )
 
     mps = DistributedMPS(num_qubits, bond_dim, config)
@@ -420,7 +419,7 @@ def launch_distributed_simulation(
 
 
 # Example usage
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("Distributed MPS Example")
     print("=" * 50)
 
