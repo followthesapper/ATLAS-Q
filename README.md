@@ -1,15 +1,16 @@
 # ATLAS-Q: GPU-Accelerated Quantum Tensor Network Simulator
 **Adaptive Tensor Learning And Simulation – Quantum**
 
-**Version 0.5.0** | **October 2025**
+**Version 0.6.1** | **October 2025**
+
+> **High-performance quantum simulation using GPU-accelerated tensor networks with molecular chemistry, circuit cutting, and cuQuantum integration**
+
+[![Performance](https://img.shields.io/badge/Performance-⭐⭐⭐⭐⭐-blue)]()
+[![GPU](https://img.shields.io/badge/GPU-CUDA%20%2B%20Triton%20%2B%20cuQuantum-green)]()
+[![Memory](https://img.shields.io/badge/Memory-626k×%20Compression-red)]()
+[![Tests](https://img.shields.io/badge/Tests-46%2F46%20Passing-brightgreen)]()
 
 [![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://www.buymeacoffee.com/FollowTheSapper)
-
-> **High-performance quantum simulation using GPU-accelerated tensor networks with custom Triton kernels**
-
-[![Performance](https://img.shields.io/badge/Performance-⭐⭐⭐⭐-blue)]()
-[![GPU](https://img.shields.io/badge/GPU-CUDA%20%2B%20Triton-green)]()
-[![Memory](https://img.shields.io/badge/Memory-626k×%20Compression-red)]()
 
 ---
 
@@ -19,7 +20,7 @@
 - **626,000× memory compression** vs full statevector (30 qubits)
 - **20× speedup** on Clifford circuits (Stabilizer backend)
 - **1.5-3× speedup** on gate operations (custom Triton kernels)
-- **All 7/7 benchmarks passing**
+- **All 46/46 integration tests passing** (Priority 1 + 2 features)
 
 ---
 
@@ -117,6 +118,31 @@ The `setup_triton.sh` script automatically detects your GPU and configures Trito
 
 ---
 
+### Command-Line Interface
+
+ATLAS-Q includes a CLI for quick operations:
+
+```bash
+# Show help
+python -m atlas_q --help
+
+# Factor a number
+python -m atlas_q factor 221
+
+# Run all benchmarks
+python -m atlas_q benchmark
+
+# Show system info
+python -m atlas_q info
+
+# Interactive demo
+python -m atlas_q demo
+```
+
+See [COMPLETE_GUIDE.md](docs/COMPLETE_GUIDE.md#command-line-interface) for full CLI documentation.
+
+---
+
 ## 💡 Examples
 
 ### Tensor Network Simulation
@@ -187,7 +213,8 @@ ATLAS-Q is a **GPU-accelerated quantum simulator** with two complementary capabi
 2. **NISQ Algorithms**: VQE, QAOA with noise models
 3. **Time Evolution**: TDVP for Hamiltonian dynamics
 4. **Specialized Backends**: Stabilizer for Clifford circuits, MPO for observables
-5. **GPU Acceleration**: Custom Triton kernels + cuBLAS tensor cores
+5. **Hamiltonians**: Ising, Heisenberg, Molecular (PySCF), MaxCut (QAOA)
+6. **GPU Acceleration**: Custom Triton kernels + cuBLAS tensor cores
 
 ### Period-Finding & Factorization
 1. **Shor's Algorithm**: Integer factorization via quantum period-finding
@@ -308,19 +335,21 @@ ATLAS-Q/
 ### VQE for Quantum Chemistry
 
 ```python
-from atlas_q.vqe_qaoa import VQE, VQEConfig
-from atlas_q.mpo_ops import MPOBuilder
+from atlas_q import get_mpo_ops, get_vqe_qaoa
 
-# Build Heisenberg Hamiltonian
-H = MPOBuilder.heisenberg_hamiltonian(n_sites=6, device='cuda')
+# Build molecular Hamiltonian (requires: pip install pyscf)
+mpo = get_mpo_ops()
+H = mpo['MPOBuilder'].molecular_hamiltonian_from_specs(
+    molecule='H2',
+    basis='sto-3g',
+    device='cuda'
+)
 
-# Configure VQE
-config = VQEConfig(n_layers=3, max_iter=50)
-vqe = VQE(H, config)
-
-# Run optimization
-energy, params = vqe.run()
-print(f"Ground state energy: {energy:.6f}")
+# Run VQE to find ground state energy
+vqe_mod = get_vqe_qaoa()
+vqe = vqe_mod['VQE'](H, ansatz_depth=3, device='cuda')
+energy, params = vqe.optimize(max_iter=50)
+print(f"Ground state energy: {energy.real:.6f} Ha")
 ```
 
 ### TDVP Time Evolution
@@ -346,20 +375,23 @@ times, energies = tdvp.run()
 
 ## 🚧 Roadmap
 
-### Current Status (v0.5.0)
+### Current Status (v0.6.0)
 - ✅ GPU-accelerated tensor networks with custom Triton kernels
 - ✅ Adaptive MPS with error tracking
 - ✅ Stabilizer backend (20× speedup)
 - ✅ TDVP, VQE/QAOA implementations
-- ✅ All 7/7 benchmark suites passing
+- ✅ **NEW:** Molecular Hamiltonians (PySCF integration)
+- ✅ **NEW:** MaxCut QAOA Hamiltonians
+- ✅ **NEW:** Circuit Cutting & partitioning
+- ✅ **NEW:** PEPS 2D tensor networks
+- ✅ **NEW:** Distributed MPS (multi-GPU ready)
+- ✅ **NEW:** cuQuantum 25.x backend integration
+- ✅ All 46/46 integration tests passing
 
 ### Planned Features
-- [ ] Multi-GPU distributed MPS
-- [ ] Enhanced PEPS implementation
 - [ ] Integration adapters for Qiskit/Cirq circuits
-- [ ] Extended cuQuantum backend support
 - [ ] Additional tutorial notebooks
-- [ ] PyPI package distribution
+- [ ] PyPI package update to v0.6.0 (currently at v0.5.0)
 
 ---
 
