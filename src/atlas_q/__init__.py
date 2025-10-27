@@ -244,4 +244,4 @@ __all__ = [
     'get_peps',
 ]
 
-__version__ = '0.6.0'  # Molecular Hamiltonians, Circuit Cutting, PEPS, cuQuantum (Oct 2025)
+__version__ = '0.6.1'  # Import fixes for PyPI users (Oct 2025)

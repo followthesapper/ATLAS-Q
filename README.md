@@ -1,7 +1,7 @@
 # ATLAS-Q: GPU-Accelerated Quantum Tensor Network Simulator
 **Adaptive Tensor Learning And Simulation – Quantum**
 
-**Version 0.6.0** | **October 2025**
+**Version 0.6.1** | **October 2025**
 
 > **High-performance quantum simulation using GPU-accelerated tensor networks with molecular chemistry, circuit cutting, and cuQuantum integration**
 
