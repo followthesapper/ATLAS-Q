@@ -413,7 +413,7 @@ class MPOBuilder:
             Requires pyscf package: pip install pyscf
         """
         try:
-            from pyscf import gto, scf, ao2mo
+            from pyscf import ao2mo, gto, scf
         except ImportError:
             raise ImportError(
                 "PySCF is required for molecular Hamiltonians. "
