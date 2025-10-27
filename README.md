@@ -389,7 +389,7 @@ times, energies = tdvp.run()
 ### Planned Features
 - [ ] Integration adapters for Qiskit/Cirq circuits
 - [ ] Additional tutorial notebooks
-- [ ] PyPI package distribution
+- [ ] PyPI package update to v0.6.0 (currently at v0.5.0)
 
 ---
 
