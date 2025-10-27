@@ -16,16 +16,20 @@ remote_theme: pages-themes/slate@v0.2.0
 navigation:
   - title: Home
     url: /
+  - title: Overview
+    url: /OVERVIEW
   - title: Complete Guide
     url: /COMPLETE_GUIDE
   - title: Feature Status
     url: /FEATURE_STATUS
+  - title: Engineering Guide
+    url: /ENGINEERING_GUIDE
+  - title: Math Guide
+    url: /MATH_GUIDE
   - title: Whitepaper
     url: /WHITEPAPER
   - title: Research Paper
     url: /RESEARCH_PAPER
-  - title: Overview
-    url: /OVERVIEW
 
 # Plugins
 plugins:
@@ -48,8 +52,6 @@ exclude:
   - LICENSE
   - CHANGELOG.md
   - MAINTENANCE_GUIDE.md
-  - MATH_GUIDE.md
-  - ENGINEERING_GUIDE.md
 
 # Include files
 include:
@@ -58,3 +60,5 @@ include:
   - WHITEPAPER.md
   - RESEARCH_PAPER.md
   - OVERVIEW.md
+  - MATH_GUIDE.md
+  - ENGINEERING_GUIDE.md
