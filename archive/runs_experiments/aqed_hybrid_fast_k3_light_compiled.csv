@@ -1,1 +1,0 @@
-step,split,loss,ppl,tok_per_s,max_mem_mib,elapsed_s,attn_keep_every,mixer_depth,pair_frac

@@ -1,12 +1,17 @@
-# Test Suite
+# ATLAS-Q Test Suite
 
-Comprehensive test suite for the Quantum Hybrid Simulator.
+Comprehensive test suite for ATLAS-Q quantum tensor network simulator.
 
 ## Running Tests
 
 ```bash
 # All tests
 pytest
+
+# Specific test directory
+pytest tests/unit/              # Unit tests only
+pytest tests/integration/        # Integration tests only
+pytest tests/performance/        # Performance tests only
 
 # Skip GPU tests (if no GPU available)
 pytest -m "not gpu"
@@ -15,48 +20,52 @@ pytest -m "not gpu"
 pytest -m "not slow"
 
 # With coverage
-pytest --cov=quantum_hybrid_system --cov-report=html
+pytest --cov=atlas_q --cov-report=html
 
 # Specific test file
-pytest tests/test_quantum_system.py
+pytest tests/unit/test_quantum_system.py
 
 # Specific test function
-pytest tests/test_quantum_system.py::test_period_finding
+pytest tests/unit/test_quantum_system.py::test_period_finding
 ```
 
 ## Test Organization
 
-### Quantum Simulator Tests
-- `test_quantum_system.py` - Core quantum simulation
+### Unit Tests (`unit/`)
+Core component tests for individual modules:
+- `test_adaptive_mps.py` - Adaptive MPS with GPU support
+- `test_mpo_ops.py` - MPO operations (Hamiltonians)
+- `test_tdvp.py` - TDVP time evolution
+- `test_vqe_qaoa.py` - VQE and QAOA algorithms
+- `test_noise_models.py` - NISQ noise models
+- `test_stabilizer_backend.py` - Clifford circuit simulation
+- `test_mps_pytorch.py` - PyTorch MPS backend
 - `test_period_finding.py` - Period-finding algorithms
+- `test_quantum_system.py` - Core quantum simulation
+
+### Integration Tests (`integration/`)
+Multi-component tests and API verification:
+- `test_circuit_api.py` - Circuit builder API
+- `test_cpu_gpu_consistency.py` - CPU/GPU consistency
 - `test_qft_sampling.py` - QFT and sampling
 - `test_state_memory_and_sampling.py` - State representations
-- `test_mps_*.py` - Matrix Product State tests
-- `test_circuit_*.py` - Quantum circuit tests
-
-### AQED Tests
-- `test_hybrid_aqed.py` - Hybrid AQED transformer
-- `test_phase3_mps.py` - MPS-based attention
-- `test_triton_integration.py` - Triton kernel integration
-
-### ML Features Tests
-- `test_qih_pat_smoke.py` - QIH pattern recognition
-- `test_learned_period_head.py` - Neural period detection
-- `test_chirp_features.py` - Chirp feature extraction
-- `test_periodic_mixture_features.py` - Multi-period features
-- `test_tn_layers_smoke.py` - Tensor network layers
-
-### Infrastructure Tests
-- `test_cpu_gpu_consistency.py` - CPU/GPU consistency
-- `test_gpu_paths.py` - GPU acceleration paths
+- `test_mps_gates_batched.py` - Batched gate operations
 - `test_regression_api_surface.py` - API regression tests
+
+### Performance Tests (`performance/`)
+GPU acceleration and performance validation:
+- `test_gpu_paths.py` - GPU acceleration paths
+- `test_triton_integration.py` - Custom Triton kernels
+
+### Legacy Tests (`legacy/`)
+Older tests that may need updating or archiving (15 tests)
 
 ## Test Coverage
 
 Run with coverage to see which code is tested:
 
 ```bash
-pytest --cov=quantum_hybrid_system --cov-report=html
+pytest --cov=atlas_q --cov-report=html
 open htmlcov/index.html  # View coverage report
 ```
 

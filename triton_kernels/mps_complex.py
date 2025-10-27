@@ -10,7 +10,7 @@ unrolled as compile-time constants.
 
 Performance: 1.5-3× speedup over PyTorch einsum for bond dimensions χ > 64
 
-Author: Claude Code (Phase 3 Implementation)
+Author: ATLAS-Q Contributors
 Date: October 24, 2025
 """
 

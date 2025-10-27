@@ -27,8 +27,8 @@ Thank you for your interest in contributing! This project welcomes contributions
 ## Development Setup
 
 ```bash
-git clone https://github.com/your-org/quantum-hybrid-simulator
-cd quantum-hybrid-simulator
+git clone https://github.com/your-org/ATLAS-Q
+cd ATLAS-Q
 pip install -e .[dev]
 pytest  # Run tests
 ```
@@ -50,7 +50,7 @@ pytest
 pytest -m "not gpu"
 
 # With coverage
-pytest --cov=quantum_hybrid_system --cov-report=html
+pytest --cov=atlas_q --cov-report=html
 ```
 
 ## Pull Request Process
@@ -73,7 +73,7 @@ pytest --cov=quantum_hybrid_system --cov-report=html
 
 ## Reporting Bugs
 
-Use [GitHub Issues](https://github.com/your-org/quantum-hybrid-simulator/issues) with:
+Use [GitHub Issues](https://github.com/your-org/ATLAS-Q/issues) with:
 
 - **Clear title** describing the issue
 - **Steps to reproduce** (minimal example)

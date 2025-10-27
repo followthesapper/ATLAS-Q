@@ -7,8 +7,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 import tn_grid8x8_shallow as base
 
 # Optional adapter for clamp variants
-from quantum_hybrid_system.tools_qih.ai_rank_policy import CalibratedPolicyAdapter, PolicyConfig
-from quantum_hybrid_system.tools_qih.ai_rank_predictor import RankPredictorWrapper
+from atlas_q.tools_qih.ai_rank_policy import CalibratedPolicyAdapter, PolicyConfig
+from atlas_q.tools_qih.ai_rank_predictor import RankPredictorWrapper
 
 def parse_args():
     p = argparse.ArgumentParser(description="Run grid TN with switchable AI policy")

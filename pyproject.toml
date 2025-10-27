@@ -3,17 +3,17 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "quantum-hybrid-simulator"
-version = "0.2.0"
-description = "Quantum-inspired hybrid simulator with tensor networks, analytic QFT sampling, AQED, and ML integration for research and education"
+name = "atlas-q"
+version = "0.5.0"
+description = "ATLAS-Q: GPU-accelerated quantum simulator with tensor networks, period-finding, TDVP, VQE/QAOA, and custom Triton kernels"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [
-    {name = "Quantum Hybrid Simulator Contributors"},
+    {name = "ATLAS-Q Development Team"},
 ]
 maintainers = [
-    {name = "Quantum Hybrid Simulator Contributors"},
+    {name = "ATLAS-Q Development Team"},
 ]
 keywords = [
     "quantum",
@@ -102,25 +102,25 @@ notebooks = [
 
 # All optional dependencies
 all = [
-    "quantum-hybrid-simulator[ml,gpu,gpu_advanced,hf,dev,docs,notebooks]",
+    "atlas-q[ml,gpu,gpu_advanced,hf,dev,docs,notebooks]",
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-org/quantum-hybrid-simulator"
-Documentation = "https://quantum-hybrid-simulator.readthedocs.io"
-Repository = "https://github.com/your-org/quantum-hybrid-simulator"
-"Bug Tracker" = "https://github.com/your-org/quantum-hybrid-simulator/issues"
-Changelog = "https://github.com/your-org/quantum-hybrid-simulator/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/your-org/ATLAS-Q"
+Documentation = "https://atlas-q.readthedocs.io"
+Repository = "https://github.com/your-org/ATLAS-Q"
+"Bug Tracker" = "https://github.com/your-org/ATLAS-Q/issues"
+Changelog = "https://github.com/your-org/ATLAS-Q/blob/main/docs/CHANGELOG.md"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["quantum_hybrid_system*"]
+include = ["atlas_q*"]
 
 [tool.setuptools.package-data]
-quantum_hybrid_system = ["py.typed"]
+atlas_q = ["py.typed"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"
@@ -138,7 +138,7 @@ filterwarnings = [
 ]
 
 [tool.coverage.run]
-source = ["quantum_hybrid_system"]
+source = ["atlas_q"]
 omit = [
     "*/tests/*",
     "*/test_*.py",

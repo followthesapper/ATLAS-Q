@@ -1,1 +1,1 @@
-from quantum_hybrid_system.tools_qih.tn_layers import *  # noqa
+from atlas_q.tools_qih.tn_layers import *  # noqa

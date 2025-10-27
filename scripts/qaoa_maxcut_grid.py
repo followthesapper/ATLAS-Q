@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 QAOA MaxCut on a grid graph using tensor-network simulation.
-Supports adaptive or AI-guided truncation via tn_core.mps_apply_2q.
+Supports adaptive or ML-guided truncation via tn_core.mps_apply_2q.
 """
 
 import math
@@ -17,7 +17,7 @@ sys.path.append(str(Path(__file__).resolve().parent.parent))
 from src.quantum_hybrid_system.tools_qih import tn_core
 
 
-def _qh_load_ai_predictor(model_path: str, device: str):
+def _qh_load_ml_predictor(model_path: str, device: str):
     """Load either the original RankPredictorWrapper or the fine-tuned/compiled wrapper.
     Returns None if model_path is falsy."""
     if not model_path:
@@ -180,15 +180,15 @@ def run(args):
     device = args.device if args.device == 'cuda' and torch.cuda.is_available() else 'cpu'
     dtype = torch.complex64 if args.dtype == 'c64' else torch.complex128
     
-    # AI predictor object (None unless --ai-compression)
+    # ML predictor object (None unless --ai-compression)
     ai = None
     if args.ai_compression and args.ai_model:
         try:
-            ai = _qh_load_ai_predictor(args.ai_model, device)
+            ai = _qh_load_ml_predictor(args.ai_model, device)
             if args.verbose:
-                print(f"✅ Loaded AI predictor from {args.ai_model}")
+                print(f"✅ Loaded ML predictor from {args.ai_model}")
         except Exception as e:
-            print(f'⚠️  AI predictor load failed: {e}')
+            print(f'⚠️  ML predictor load failed: {e}')
 
     # Initialize state
     cores = tn_core.mps_init_plus(n, device=device, dtype=dtype)
@@ -228,7 +228,7 @@ def run(args):
     
     print("\n================ RESULT ================")
     print(f"Graph: {args.rows}x{args.cols} (n={n}, |E|={len(edges)})")
-    print(f"QAOA depth p={args.p}   (svd={args.svd_driver}, χ_max={args.chi}, tol={args.tol}, adaptive={args.adaptive}, AI={bool(ai)})")
+    print(f"QAOA depth p={args.p}   (svd={args.svd_driver}, χ_max={args.chi}, tol={args.tol}, adaptive={args.adaptive}, ML={bool(ai)})")
     print(f"Time: {elapsed:.2f}s   Peak χ: {peak_chi}   Sum trunc. err: {total_err:.3e}")
     print(f"Estimated cut: {mean_cut:.1f} / {len(edges)} (ratio={mean_cut/len(edges):.3f}, ±{std_cut:.1f})")
     print("========================================")

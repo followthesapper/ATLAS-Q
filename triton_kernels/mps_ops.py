@@ -11,7 +11,7 @@ Key optimizations:
 
 Expected speedup: 2-5× over PyTorch for MPS gate operations
 
-Author: Claude Code
+Author: ATLAS-Q Contributors
 Date: October 2025
 """
 

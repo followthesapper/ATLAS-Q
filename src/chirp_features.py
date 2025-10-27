@@ -1,1 +1,1 @@
-from quantum_hybrid_system.tools_qih.chirp_features import *  # noqa
+from atlas_q.tools_qih.chirp_features import *  # noqa

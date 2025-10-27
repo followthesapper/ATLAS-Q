@@ -1,33 +1,35 @@
 # Include documentation files
 include README.md
 include LICENSE
-include CHANGELOG.md
-include CONTRIBUTING.md
-include USAGE_GUIDE.md
-include WHITEPAPER.md
-include RELEASE.md
+include PERFORMANCE_COMPARISON.md
+recursive-include docs *.md
 
 # Include configuration files
 include pyproject.toml
+include requirements.txt
+include Makefile
 include *.toml
 include *.cfg
 include *.ini
 
 # Include all test files
-recursive-include Tests *.py
-recursive-include Tests *.txt
-recursive-include Tests *.json
-
-# Include notebooks
-recursive-include Notebooks *.ipynb
-recursive-include Notebooks *.md
+recursive-include tests *.py
+recursive-include tests *.txt
+recursive-include tests *.json
 
 # Include scripts and examples
 recursive-include scripts *.py
-recursive-include transformers *.py
+recursive-include scripts *.sh
 
-# Include benchmark results and plots (selective)
-include runs/README.md
+# Include benchmarks
+recursive-include benchmarks *.py
+
+# Include Triton kernels
+recursive-include triton_kernels *.py
+
+# Include AI models
+recursive-include models *.pt
+recursive-include models *.md
 
 # Exclude build artifacts
 global-exclude *.pyc

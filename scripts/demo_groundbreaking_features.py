@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
-Demonstrate the groundbreaking features of the AI-enhanced quantum simulator.
-Run this to see what makes the system novel!
+Demonstrate advanced features of the ATLAS-Q quantum simulator.
+Shows adaptive truncation, robust numerics, and large-scale simulation.
 """
 import sys
 from pathlib import Path
@@ -12,12 +12,12 @@ import time
 # Direct imports
 import importlib.util
 
-tn_core_path = Path(__file__).parent.parent / 'src' / 'quantum_hybrid_system' / 'tools_qih' / 'tn_core.py'
+tn_core_path = Path(__file__).parent.parent / 'src' / 'atlas_q' / 'tools_qih' / 'tn_core.py'
 spec = importlib.util.spec_from_file_location("tn_core", tn_core_path)
 tn_core = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(tn_core)
 
-ai_predictor_path = Path(__file__).parent.parent / 'src' / 'quantum_hybrid_system' / 'tools_qih' / 'ai_rank_predictor.py'
+ai_predictor_path = Path(__file__).parent.parent / 'src' / 'atlas_q' / 'tools_qih' / 'ai_rank_predictor.py'
 spec_ai = importlib.util.spec_from_file_location("ai_rank_predictor", ai_predictor_path)
 ai_predictor_module = importlib.util.module_from_spec(spec_ai)
 spec_ai.loader.exec_module(ai_predictor_module)
@@ -48,24 +48,24 @@ def demo_robust_svd():
         print(f"✅ SUCCESS! Robust SVD completed in {elapsed:.3f}s")
         print(f"   Recovered {S.shape[0]} singular values")
         print(f"   Range: {S.max():.2e} to {S.min():.2e}")
-        print("\n🌟 This automatic fallback is NOVEL - most simulators would fail here!")
+        print("\n✓ Automatic fallback handles numerical instability robustly.")
     except Exception as e:
         print(f"❌ Failed: {e}")
 
-def demo_ai_compression():
-    """Demo 2: AI predicts optimal truncation ranks."""
-    print_header("DEMO 2: AI-Assisted Compression - Neural Truncation Predictor")
+def demo_ml_compression():
+    """Demo 2: ML-based optimal truncation rank prediction."""
+    print_header("DEMO 2: ML-Assisted Compression - Neural Truncation Predictor")
     
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model_path = Path(__file__).parent.parent / 'models' / 'rank_predictor.pt'
     
     if not model_path.exists():
-        print("⚠️  AI model not trained yet. Run: python scripts/train_rank_predictor.py")
+        print("⚠️  ML model not trained yet. Run: python scripts/train_rank_predictor.py")
         return
-    
-    # Load AI predictor
-    ai_pred = ai_predictor_module.RankPredictorWrapper(model_path=str(model_path), device=device)
-    print("✅ AI predictor loaded (trained on 50,000 samples)\n")
+
+    # Load ML predictor
+    ml_pred = ai_predictor_module.RankPredictorWrapper(model_path=str(model_path), device=device)
+    print("✅ ML predictor loaded (trained on 50,000 samples)\n")
     
     # Test on different spectra
     test_cases = [
@@ -74,15 +74,15 @@ def demo_ai_compression():
         ("Fast decay", torch.exp(-torch.linspace(0, 8, 500))),
     ]
     
-    print("Testing AI predictions on different singular value spectra:\n")
+    print("Testing ML predictions on different singular value spectra:\n")
     for name, sigmas in test_cases:
         sigmas = sigmas.to(device)
-        pred_rank = ai_pred.predict(sigmas)
+        pred_rank = ml_pred.predict(sigmas)
         percentage = 100 * pred_rank / len(sigmas)
         print(f"  {name:15s}: Keep {pred_rank:3d}/{len(sigmas):3d} SVs ({percentage:5.1f}%)")
-    
-    print("\n🌟 AI learns optimal truncation - 98.5% training accuracy!")
-    print("   This is CUTTING-EDGE for 2025 tensor network research!")
+
+    print("\n✓ Neural network learns optimal truncation - 98.5% training accuracy!")
+    print("   Demonstrates machine learning for tensor compression.")
 
 def demo_large_scale():
     """Demo 3: Simulate beyond full-state limits."""
@@ -126,12 +126,12 @@ def demo_large_scale():
         print(f"   Peak χ: {peak_chi}")
         print(f"   Memory: ~{mem_gb:.1f} GB (vs {2**n_q * 16 / 1e9:.0e} GB for full-state)")
     
-    print("\n🌟 This demonstrates PRACTICAL quantum simulation at scale!")
+    print("\n✓ Demonstrates practical large-scale quantum simulation.")
 
 def main():
-    print("\n" + "🚀"*35)
-    print(" "*10 + "AI-ENHANCED QUANTUM SIMULATOR - GROUNDBREAKING FEATURES")
-    print("🚀"*35)
+    print("\n" + "="*70)
+    print(" "*15 + "ATLAS-Q QUANTUM SIMULATOR - FEATURE DEMONSTRATIONS")
+    print("="*70)
     
     # Check GPU
     if torch.cuda.is_available():
@@ -141,47 +141,39 @@ def main():
     
     # Run demos
     demo_robust_svd()
-    demo_ai_compression()
+    demo_ml_compression()
     demo_large_scale()
     
     # Summary
-    print_header("SUMMARY: Why This is Groundbreaking")
+    print_header("SUMMARY: Key Features")
     print("""
-✨ NOVEL CONTRIBUTIONS:
+Key Features Demonstrated:
 
-1. AI-Assisted Tensor Compression (FIRST OF ITS KIND)
-   → Neural network predicts optimal truncation ranks
-   → 98.5% accuracy on 50K training samples
-   → Explores different compression strategies than hand-coded methods
+1. ML-Assisted Tensor Compression
+   - Neural network predicts optimal truncation ranks
+   - 98.5% accuracy on training samples
+   - Learns compression strategies from data
 
-2. Robust Numerical Stability (PRODUCTION-READY)
-   → Automatic multi-driver SVD fallback
-   → Handles ill-conditioned matrices that crash other simulators
-   → No manual intervention needed
+2. Robust Numerical Stability
+   - Automatic multi-driver SVD fallback
+   - Handles ill-conditioned matrices
+   - No manual intervention needed
 
-3. Adaptive Bond Dimension Control (INTELLIGENT)
-   → Dynamic χ adjustment based on truncation error
-   → Real-time error tracking
-   → Memory-efficient scaling
+3. Adaptive Bond Dimension Control
+   - Dynamic χ adjustment based on truncation error
+   - Real-time error tracking
+   - Memory-efficient scaling
 
-4. Scale Beyond Limits (PRACTICAL)
-   → 100-200+ qubits vs ~33 for full-state
-   → Fast enough for research iteration
-   → Suitable for NISQ-era algorithm development
+4. Large-Scale Simulation
+   - 100-200+ qubits (vs ~33 for full-state)
+   - Suitable for quantum algorithm development
+   - Moderate-entanglement regime optimization
 
-📚 PUBLICATION POTENTIAL:
-   → Conferences: NeurIPS, ICML, QIP
-   → Journals: Nature Quantum Info, PRX Quantum
-   → Patents: AI-assisted tensor compression methods
-
-🎯 APPLICATIONS:
-   → Quantum algorithm R&D (QAOA, VQE)
-   → Quantum-inspired ML
-   → Combinatorial optimization
-   → Molecular simulation
-   → Hardware benchmarking
-
-🔥 This is CUTTING-EDGE research for 2025!
+Applications:
+   - Quantum algorithm R&D (QAOA, VQE, period-finding)
+   - Combinatorial optimization
+   - Quantum-inspired machine learning
+   - Hardware algorithm benchmarking
     """)
     
     print("="*70 + "\n")

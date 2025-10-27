@@ -6,12 +6,12 @@ import torch
 import importlib.util
 
 # Load modules
-tn_core_path = Path(__file__).parent.parent / 'src' / 'quantum_hybrid_system' / 'tools_qih' / 'tn_core.py'
+tn_core_path = Path(__file__).parent.parent / 'src' / 'atlas_q' / 'tools_qih' / 'tn_core.py'
 spec = importlib.util.spec_from_file_location("tn_core", tn_core_path)
 tn_core = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(tn_core)
 
-finetuned_path = Path(__file__).parent.parent / 'src' / 'quantum_hybrid_system' / 'tools_qih' / 'finetuned_predictor.py'
+finetuned_path = Path(__file__).parent.parent / 'src' / 'atlas_q' / 'tools_qih' / 'finetuned_predictor.py'
 spec_ft = importlib.util.spec_from_file_location("finetuned_predictor", finetuned_path)
 finetuned_module = importlib.util.module_from_spec(spec_ft)
 spec_ft.loader.exec_module(finetuned_module)

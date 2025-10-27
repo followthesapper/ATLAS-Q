@@ -12,7 +12,7 @@ Key optimizations:
 
 Expected speedup: 2-3× over CuPy CUDA kernel
 
-Author: Claude Code
+Author: ATLAS-Q Contributors
 Date: October 2025
 """
 

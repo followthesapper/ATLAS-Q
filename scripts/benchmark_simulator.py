@@ -72,12 +72,12 @@ def main():
                           ['--adaptive', '--tol', '1e-4'], "Adaptive Truncation")
         results.append(r2)
         
-        # Test 3: AI-assisted (if model exists)
+        # Test 3: ML-assisted (if model exists)
         model_path = Path('models/rank_predictor.pt')
         if model_path.exists():
             r3 = run_benchmark(rows, cols, depth, chi, entangler,
                               ['--ai-compression', '--adaptive', '--tol', '1e-4'],
-                              "AI-Assisted Compression")
+                              "ML-Assisted Compression")
             results.append(r3)
     
     # Print summary

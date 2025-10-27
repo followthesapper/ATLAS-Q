@@ -2,7 +2,7 @@
 import argparse, json, time
 from pathlib import Path
 import torch, numpy as np
-from quantum_hybrid_system.tools_qih.tn_core import mps_init_plus, build_entangler, mps_apply_2q
+from atlas_q.tools_qih.tn_core import mps_init_plus, build_entangler, mps_apply_2q
 
 def main():
     ap = argparse.ArgumentParser()

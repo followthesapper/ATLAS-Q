@@ -8,14 +8,14 @@ import torch
 import numpy as np
 
 # Import tn_core directly
-tn_core_path = Path(__file__).parent.parent / 'src' / 'quantum_hybrid_system' / 'tools_qih' / 'tn_core.py'
+tn_core_path = Path(__file__).parent.parent / 'src' / 'atlas_q' / 'tools_qih' / 'tn_core.py'
 import importlib.util
 spec = importlib.util.spec_from_file_location("tn_core", tn_core_path)
 tn_core = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(tn_core)
 
-# Import AI predictor
-ai_predictor_path = Path(__file__).parent.parent / 'src' / 'quantum_hybrid_system' / 'tools_qih' / 'ai_rank_predictor.py'
+# Import ML predictor
+ai_predictor_path = Path(__file__).parent.parent / 'src' / 'atlas_q' / 'tools_qih' / 'ai_rank_predictor.py'
 spec_ai = importlib.util.spec_from_file_location("ai_rank_predictor", ai_predictor_path)
 ai_predictor_module = importlib.util.module_from_spec(spec_ai)
 spec_ai.loader.exec_module(ai_predictor_module)
@@ -30,7 +30,7 @@ RankPredictorWrapper = ai_predictor_module.RankPredictorWrapper
 
 # Fine-tuned predictor loader
 from pathlib import Path as _PTH
-_finetuned_path = _PTH(__file__).parent.parent / 'src' / 'quantum_hybrid_system' / 'tools_qih' / 'finetuned_predictor.py'
+_finetuned_path = _PTH(__file__).parent.parent / 'src' / 'atlas_q' / 'tools_qih' / 'finetuned_predictor.py'
 _spec_ft = importlib.util.spec_from_file_location("finetuned_predictor", _finetuned_path)
 _mod_ft = importlib.util.module_from_spec(_spec_ft)
 _spec_ft.loader.exec_module(_mod_ft)
@@ -44,7 +44,7 @@ def main():
         pass
     # 'args' defined below; seed after parse
 
-    ap = argparse.ArgumentParser(description="Quantum-inspired tensor network simulator with AI compression")
+    ap = argparse.ArgumentParser(description="Quantum-inspired tensor network simulator with ML compression")
     ap.add_argument("--rows", type=int, default=8)
     ap.add_argument("--cols", type=int, default=8)
     ap.add_argument("--depth", type=int, default=4, help="number of brickwork layers")
@@ -60,9 +60,9 @@ def main():
     ap.add_argument("--tol", type=float, default=1e-4,
                     help="Adaptive truncation tolerance")
     ap.add_argument("--ai-compression", action="store_true",
-                    help="Use AI predictor for rank selection")
+                    help="Use ML predictor for rank selection")
     ap.add_argument("--ai-model", type=str, default="models/rank_predictor.pt",
-                    help="Path to trained AI rank predictor model")
+                    help="Path to trained ML rank predictor model")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--verbose", action="store_true",
                     help="Print detailed per-layer statistics")
@@ -72,29 +72,29 @@ def main():
     dtype = torch.complex64 if args.dtype == "c64" else torch.complex128
     n = args.rows * args.cols
 
-    # Load AI predictor if requested
+    # Load ML predictor if requested
     ai_predictor = None
     if args.ai_compression:
         model_path = Path(args.ai_model) if hasattr(args, 'ai_model') and args.ai_model else Path(args.ai_model)
         if not model_path.exists():
             model_path = Path("models/rank_predictor.pt")
-        
+
         if model_path.exists():
             try:
                 # Check if it's a fine-tuned model (simpler architecture)
                 if 'ft' in str(model_path).lower() or '_ft' in str(model_path):
                     print(f"Loading FINE-TUNED model from {model_path}")
                     ai_predictor = FinetunedPredictorWrapper(model_path=str(model_path), device=args.device)
-                    print(f"✅ Loaded FINE-TUNED AI rank predictor")
+                    print(f"✅ Loaded FINE-TUNED ML rank predictor")
                 else:
                     print(f"Loading standard model from {model_path}")
                     ai_predictor = RankPredictorWrapper(model_path=str(model_path), device=args.device)
-                    print(f"✅ Loaded AI rank predictor")
+                    print(f"✅ Loaded ML rank predictor")
             except Exception as e:
-                print(f"⚠️  Failed to load AI predictor: {e}")
+                print(f"⚠️  Failed to load ML predictor: {e}")
                 print("   Falling back to standard adaptive truncation")
         else:
-            print(f"⚠️  AI model not found at {model_path}")
+            print(f"⚠️  ML model not found at {model_path}")
             print("   Run: python scripts/train_rank_predictor.py")
             print("   Falling back to standard adaptive truncation")
 
@@ -132,7 +132,7 @@ def main():
     total_truncation_error = 0.0
     t0 = time.time()
 
-    compression_mode = "AI" if ai_predictor else ("adaptive" if args.adaptive else "fixed")
+    compression_mode = "ML" if ai_predictor else ("adaptive" if args.adaptive else "fixed")
     print(f"\n{'='*70}")
     print(f"Quantum-Inspired Tensor Network Simulator")
     print(f"{'='*70}")

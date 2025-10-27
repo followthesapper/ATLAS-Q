@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import argparse, numpy as np, torch
 from pathlib import Path
-from quantum_hybrid_system.tools_qih.ai_rank_predictor import RankPredictorWrapper
+from atlas_q.tools_qih.ai_rank_predictor import RankPredictorWrapper
 
 def main():
     ap = argparse.ArgumentParser()

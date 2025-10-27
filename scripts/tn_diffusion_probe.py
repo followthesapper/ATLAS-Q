@@ -13,7 +13,7 @@ import torch
 import matplotlib.pyplot as plt
 
 # --- Import your simulator’s tensor-network core ---
-from quantum_hybrid_system.tools_qih.tn_core import (
+from atlas_q.tools_qih.tn_core import (
     mps_init_plus, mps_apply_2q, build_entangler
 )
 
