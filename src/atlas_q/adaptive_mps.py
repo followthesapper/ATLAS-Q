@@ -33,13 +33,7 @@ from .truncation import check_entropy_sanity, choose_rank_from_sigma
 
 # Triton-accelerated gate operations (if available)
 try:
-    import sys
-
-    # Add project root dynamically
-    project_root = Path(__file__).parent.parent.parent.resolve()
-    sys.path.insert(0, str(project_root))
     from triton_kernels.mps_complex import fused_two_qubit_gate_pytorch, fused_two_qubit_gate_triton
-
     TRITON_AVAILABLE = True
 except ImportError:
     TRITON_AVAILABLE = False
@@ -68,7 +62,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
 
     Example:
         >>> mps = AdaptiveMPS(16, bond_dim=8, eps_bond=1e-6, chi_max_per_bond=64)
-        >>> H = torch.tensor([[1,1],[1,-1]], dtype=torch.complex64)/np.sqrt(2)
+        >>> H = torch.tensor([[1,1],[1,-1]], dtype=torch.complex64)/torch.sqrt(torch.tensor(2.0))
         >>> for q in range(16):
         >>>     mps.apply_single_qubit_gate(q, H)
         >>> CZ = torch.diag(torch.tensor([1,1,1,-1], dtype=torch.complex64))

@@ -107,7 +107,7 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["atlas_q*"]
+include = ["atlas_q*", "triton_kernels*"]
 
 [tool.setuptools.package-data]
 atlas_q = ["py.typed"]

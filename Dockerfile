@@ -5,7 +5,7 @@ FROM nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04
 
 LABEL maintainer="ATLAS-Q Development Team"
 LABEL description="ATLAS-Q: GPU-accelerated quantum tensor network simulator"
-LABEL version="0.5.0"
+LABEL version="0.6.0"
 
 # Prevent interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
@@ -29,7 +29,6 @@ WORKDIR /opt/atlas-q
 # Copy package files first (for layer caching)
 COPY pyproject.toml README.md MANIFEST.in ./
 COPY src/ ./src/
-COPY triton_kernels/ ./triton_kernels/
 COPY models/ ./models/
 
 # Install ATLAS-Q with GPU support

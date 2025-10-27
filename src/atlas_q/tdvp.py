@@ -36,17 +36,11 @@ from .mpo_ops import MPO, expectation_value
 
 # GPU-optimized operations (if available)
 try:
-    import sys
-
-    # Add project root dynamically
-    project_root = Path(__file__).parent.parent.parent.resolve()
-    sys.path.insert(0, str(project_root))
     from triton_kernels.tdvp_mpo_ops import (
         tdvp_apply_local_H_optimized,
         tdvp_left_environment_init_optimized,
         tdvp_right_environment_init_optimized,
     )
-
     GPU_OPTIMIZED_AVAILABLE = True
 except ImportError:
     GPU_OPTIMIZED_AVAILABLE = False
