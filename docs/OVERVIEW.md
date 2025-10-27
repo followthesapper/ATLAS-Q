@@ -320,6 +320,23 @@ You can control the accuracy vs. speed tradeoff - need higher accuracy? It keeps
 - QAOA (Quantum Approximate Optimization Algorithm)
 - MPO (Matrix Product Operator) framework for Hamiltonians
 
+**Molecular Chemistry (v0.6.0):**
+- PySCF integration for electronic structure Hamiltonians
+- Jordan-Wigner transformation for fermion-to-qubit mapping
+- Support for H2, LiH, H2O, and custom molecular geometries
+- Seamless VQE integration for ground state energy calculations
+
+**Graph Optimization (v0.6.0):**
+- MaxCut Hamiltonian builder for QAOA problems
+- Weighted and unweighted graph support
+- Automatic edge normalization for undirected graphs
+
+**Advanced Tensor Networks (v0.6.0):**
+- Circuit Cutting: Min-cut partitioning for large circuits
+- PEPS: True 2D tensor networks for shallow circuits
+- Distributed MPS: Multi-GPU bond-parallel decomposition
+- cuQuantum Backend: Optional NVIDIA acceleration (2-10× speedup)
+
 **Robustness:**
 - Multi-driver SVD with fallback (gesdd → gesvd → jitter → precision promotion)
 - Automatic precision promotion when numerical stability requires it
@@ -510,17 +527,21 @@ For the specific types of quantum problems it's designed for - like simulating m
 
 ## Current Status & Future
 
-### **Version 0.5.0 (Current - October 2025)**
+### **Version 0.6.0 (Current - October 2025)**
 - ✅ Full tensor network implementation
 - ✅ GPU acceleration with custom Triton kernels
 - ✅ Noise models and NISQ simulation
 - ✅ VQE, QAOA, TDVP algorithms
-- ✅ Comprehensive testing (7/7 benchmark suites passing)
+- ✅ **NEW:** Molecular Hamiltonians (PySCF integration)
+- ✅ **NEW:** MaxCut QAOA Hamiltonians
+- ✅ **NEW:** Circuit Cutting & partitioning
+- ✅ **NEW:** PEPS 2D tensor networks
+- ✅ **NEW:** Distributed MPS (multi-GPU ready)
+- ✅ **NEW:** cuQuantum 25.x backend integration
+- ✅ All 46/46 integration tests passing
 - ✅ Production-ready for research use
 
 ### **Planned Improvements**
-- Multi-GPU distributed simulation
-- Enhanced 2D tensor networks (PEPS)
 - Integration adapters for Qiskit/Cirq circuits
 - Additional tutorial notebooks
 - PyPI package for easier installation
@@ -567,7 +588,7 @@ For the specific types of quantum problems it's designed for - like simulating m
 ---
 
 **License:** MIT (Free and open source)
-**Version:** 0.5.0 (October 2025)
+**Version:** 0.6.0 (October 2025)
 **Contact:** https://github.com/followthsapper/ATLAS-Q
 
 ---

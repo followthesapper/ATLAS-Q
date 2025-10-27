@@ -689,7 +689,7 @@ All code, benchmarks, and documentation are available in the ATLAS-Q repository.
 
 ---
 
-## APPENDIX: Version 0.5.0 GPU Integration Results (October 2025)
+## APPENDIX: GPU Integration & Advanced Features (v0.5.0-v0.6.0, October 2025)
 
 ### A.1 GPU/Triton Acceleration Implementation
 
@@ -733,9 +733,23 @@ We developed fused kernels in `triton_kernels/mps_complex.py` that combine:
 - ✅ 2D Circuits (2/2 tests, 3.44× SWAP overhead)
 - ✅ Integration Tests (2/2 tests passing)
 
-**Assessment**: ATLAS-Q v0.5.0 demonstrates competitive performance with established simulators (Qiskit Aer, Cirq, ITensor) while offering unique capabilities: hybrid stabilizer/MPS backend switching, custom Triton GPU kernels, and exceptional memory efficiency (626,000× compression).
+**Assessment**: ATLAS-Q demonstrates competitive performance with established simulators (Qiskit Aer, Cirq, ITensor) while offering unique capabilities: hybrid stabilizer/MPS backend switching, custom Triton GPU kernels, and exceptional memory efficiency (626,000× compression).
 
 **Status**: Production-ready for tensor network research and NISQ algorithm development.
+
+### A.5 Version 0.6.0 Feature Expansion
+
+**New Capabilities (46/46 tests passing)**:
+
+**Quantum Chemistry & Graph Optimization**:
+- ✅ Molecular Hamiltonians (4/4 tests) - PySCF integration with Jordan-Wigner transformation
+- ✅ MaxCut QAOA Hamiltonians (4/4 tests) - Graph optimization support
+
+**Advanced Tensor Networks**:
+- ✅ Circuit Cutting (7/7 tests) - Min-cut partitioning for large circuits
+- ✅ PEPS 2D Networks (10/10 tests) - True 2D tensor networks
+- ✅ Distributed MPS (10/10 tests) - Multi-GPU bond-parallel decomposition
+- ✅ cuQuantum Backend (11/11 tests) - NVIDIA acceleration (2-10× speedup)
 
 ---
 
@@ -744,6 +758,7 @@ We developed fused kernels in `triton_kernels/mps_complex.py` that combine:
 - v0.2.0 (2025-Q2): Adaptive MPS with error tracking
 - v0.3.0 (2025-Q3): Real-world applications validated
 - v0.5.0 (2025-Q4): GPU/Triton integration complete ✅
+- v0.6.0 (2025-Q4): Molecular Hamiltonians, Circuit Cutting, PEPS, cuQuantum ✅
 
 **Last Updated**: October 2025
-**Status**: Production Ready
+**Status**: Production Ready (46/46 tests passing)

@@ -61,7 +61,7 @@
 └───────────────┬──────────────────────┬────────────────────────────┘
                 │                      │
       ┌─────────▼─────────┐   ┌────────▼─────────┐
-      │  Stabilizer Core  │   │   MPS/TN Core    │  (PEPS WIP)
+      │  Stabilizer Core  │   │   MPS/TN Core    │  (PEPS v0.6.0)
       │  (tableau, O(n²)) │   │ (adaptive χ, SVD │
       └─────────┬─────────┘   │  ctrl, MPO/TDVP) │
                 │             └────────┬─────────┘
@@ -489,11 +489,11 @@ Singular Values at Bond (sorted)        Truncation Decision
 * **Adapters**: Import/export from Qiskit/Cirq with layout heuristics and SWAP synthesis policies
 
 ### Medium Term
-* **PEPS track**: Tiled 2D contractions with cut-based partitioning, planner that respects device memory ceilings
+* **PEPS enhancements**: Advanced tiled 2D contractions with adaptive planner (base PEPS implemented in v0.6.0)
 * **Adaptive solvers**: Randomized/Nyström SVD for very large χ regimes (policy-driven)
 
 ### Long Term
-* **Distributed simulation**: Network-aware bond partitioning across nodes
+* **Multi-node distributed simulation**: Network-aware bond partitioning across nodes (single-node multi-GPU implemented in v0.6.0)
 * **Hardware-specific optimizations**: Custom kernels for specific GPU architectures
 * **Automatic circuit optimization**: ML-driven layout and gate ordering
 

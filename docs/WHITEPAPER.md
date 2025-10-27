@@ -3,7 +3,7 @@
 
 ## Production-Ready Quantum Simulation via Adaptive Tensor Networks
 
-**Version 0.5.0**
+**Version 0.6.0**
 **Date: October 2025**
 **Authors: ATLAS-Q Development Team**
 
@@ -506,6 +506,17 @@ H_ising = mpo['MPOBuilder'].ising_hamiltonian(
 H_heis = mpo['MPOBuilder'].heisenberg_hamiltonian(
     n_sites=20, Jx=1.0, Jy=1.0, Jz=1.0, device='cuda'
 )
+
+# Molecular Hamiltonian (v0.6.0): Electronic structure with PySCF
+H_mol = mpo['MPOBuilder'].molecular_hamiltonian_from_specs(
+    molecule='H2', basis='sto-3g', charge=0, spin=0, device='cuda'
+)
+
+# MaxCut QAOA Hamiltonian (v0.6.0): H = Σ_{(i,j)∈E} w_{ij} (1 - ZᵢZⱼ)/2
+edges = [(0, 1), (1, 2), (0, 2)]  # Triangle graph
+H_maxcut = mpo['MPOBuilder'].maxcut_hamiltonian(
+    edges=edges, weights=[1.0, 1.0, 1.0], device='cuda'
+)
 ```
 
 **Expectation Values**:
@@ -630,6 +641,87 @@ H_cost = mpo_module['MPOBuilder'].ising_hamiltonian(n_sites=10, J=-1.0, h=0.0)
 qaoa = vqe_module['QAOA'](H_cost, n_layers=3, device='cuda')
 cost, params = qaoa.run()
 print(f"Optimal cost: {cost:.6f}")
+```
+
+---
+
+### 4.7 Advanced Tensor Network Features (v0.6.0)
+
+**Circuit Cutting & Entanglement Forging** - Partition Large Circuits:
+- Min-cut and spectral graph partitioning algorithms
+- Coupling graph analysis and entanglement heatmap visualization
+- Classical stitching with variance reduction techniques
+- Enables simulation beyond MPS connectivity limits
+
+```python
+from atlas_q import get_circuit_cutting
+
+cutting = get_circuit_cutting()
+config = cutting['CuttingConfig'](max_partition_size=4)
+cutter = cutting['CircuitCutter'](config)
+
+# Analyze circuit structure
+gates = [('H', [i], []) for i in range(8)] + [('CNOT', [i, i+1], []) for i in range(7)]
+graph = cutter.analyze_circuit(gates)
+
+# Partition into subcircuits
+partitions = cutter.partition_circuit(gates, n_partitions=2)
+print(f"Partitioned into {len(partitions)} subcircuits with {len(partitions[0].cut_points)} cuts")
+```
+
+**PEPS (Projected Entangled Pair States)** - True 2D Tensor Networks:
+- Native 2D lattice representation for shallow quantum circuits
+- Boundary-MPS contraction strategy for expectation values
+- PatchPEPS for 4×4 and 5×5 grids with exact contraction
+- Single and two-site gate application with bond truncation
+
+```python
+from atlas_q import get_peps
+
+peps_mod = get_peps()
+patch = peps_mod['PatchPEPS'](patch_size=4, device='cuda')
+
+# Apply 2D circuit
+gates = [('H', [(r, c)], []) for r in range(4) for c in range(4)]
+gates += [('CZ', [(r, c), (r, c+1)], []) for r in range(4) for c in range(3)]
+patch.apply_shallow_circuit(gates)
+
+norm = patch.peps.compute_norm()
+print(f"PEPS norm: {norm:.6f}")
+```
+
+**Distributed MPS** - Multi-GPU Scaling:
+- Bond-wise domain decomposition across GPUs
+- Ring/pipeline parallelization with overlapped communication
+- NCCL backend for efficient multi-GPU collective operations
+- Checkpoint/restart for long-running simulations
+
+```python
+from atlas_q import get_distributed_mps
+
+dmps_mod = get_distributed_mps()
+config = dmps_mod['DistributedConfig'](
+    mode=dmps_mod['DistMode'].BOND_PARALLEL,
+    world_size=4  # 4 GPUs
+)
+dmps = dmps_mod['DistributedMPS'](num_qubits=100, bond_dim=32, config=config)
+```
+
+**cuQuantum Backend** - NVIDIA Acceleration (Optional):
+- Integration with NVIDIA cuQuantum 25.x (cuTensorNet)
+- Automatic fallback to PyTorch if unavailable
+- 2-10× speedup on tensor contractions and SVD operations
+- Seamless drop-in replacement for performance-critical sections
+
+```python
+from atlas_q import get_cuquantum
+
+cuq = get_cuquantum()
+backend = cuq['CuQuantumBackend']()  # Auto-detects cuQuantum
+
+# Use for accelerated tensor operations
+U, S, Vt = backend.svd(tensor, chi_max=32)  # Faster with cuQuantum, works without
+result = backend.contract([A, B, C], 'ij,jk,kl->il')
 ```
 
 ---

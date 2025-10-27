@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ ATLAS-Q ]
+    branches: [ ATLAS-Q, Dev ]
   pull_request:
-    branches: [ ATLAS-Q ]
+    branches: [ ATLAS-Q, Dev ]
 
 jobs:
   test:
@@ -30,6 +30,7 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         pip install torch>=2.0.0 --index-url https://download.pytorch.org/whl/cpu
         pip install -e .[dev]
+        pip install pyscf  # For molecular Hamiltonian tests
 
     - name: Lint with ruff
       run: |
