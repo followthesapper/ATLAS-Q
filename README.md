@@ -185,7 +185,8 @@ ATLAS-Q is a **GPU-accelerated quantum simulator** with two complementary capabi
 2. **NISQ Algorithms**: VQE, QAOA with noise models
 3. **Time Evolution**: TDVP for Hamiltonian dynamics
 4. **Specialized Backends**: Stabilizer for Clifford circuits, MPO for observables
-5. **GPU Acceleration**: Custom Triton kernels + cuBLAS tensor cores
+5. **Hamiltonians**: Ising, Heisenberg, Molecular (PySCF), MaxCut (QAOA)
+6. **GPU Acceleration**: Custom Triton kernels + cuBLAS tensor cores
 
 ### Period-Finding & Factorization
 1. **Shor's Algorithm**: Integer factorization via quantum period-finding
@@ -306,19 +307,21 @@ ATLAS-Q/
 ### VQE for Quantum Chemistry
 
 ```python
-from atlas_q.vqe_qaoa import VQE, VQEConfig
-from atlas_q.mpo_ops import MPOBuilder
+from atlas_q import get_mpo_ops, get_vqe_qaoa
 
-# Build Heisenberg Hamiltonian
-H = MPOBuilder.heisenberg_hamiltonian(n_sites=6, device='cuda')
+# Build molecular Hamiltonian (requires: pip install pyscf)
+mpo = get_mpo_ops()
+H = mpo['MPOBuilder'].molecular_hamiltonian_from_specs(
+    molecule='H2',
+    basis='sto-3g',
+    device='cuda'
+)
 
-# Configure VQE
-config = VQEConfig(n_layers=3, max_iter=50)
-vqe = VQE(H, config)
-
-# Run optimization
-energy, params = vqe.run()
-print(f"Ground state energy: {energy:.6f}")
+# Run VQE to find ground state energy
+vqe_mod = get_vqe_qaoa()
+vqe = vqe_mod['VQE'](H, ansatz_depth=3, device='cuda')
+energy, params = vqe.optimize(max_iter=50)
+print(f"Ground state energy: {energy.real:.6f} Ha")
 ```
 
 ### TDVP Time Evolution

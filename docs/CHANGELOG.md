@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Quantum Chemistry & Optimization Hamiltonians
+- **Molecular Hamiltonian Builder** (`mpo_ops.py`): PySCF integration for quantum chemistry
+  - `molecular_hamiltonian_from_specs()` - Build electronic structure Hamiltonians
+  - Support for H2, LiH, H2O, and custom geometry strings
+  - Jordan-Wigner fermion-to-qubit transformation
+  - Compatible with VQE for ground state energy calculations
+  - 4/4 tests passing in `test_molecular_hamiltonians.py`
+- **MaxCut Hamiltonian Builder** (`mpo_ops.py`): QAOA graph optimization
+  - `maxcut_hamiltonian()` - Build MaxCut problem Hamiltonians
+  - Weighted and unweighted graph support
+  - Automatic edge normalization for undirected graphs
+  - Compatible with QAOA for combinatorial optimization
+  - 4/4 tests passing in `test_maxcut.py`
+
 ## [0.5.0] - 2025-10-26
 
 ### Added

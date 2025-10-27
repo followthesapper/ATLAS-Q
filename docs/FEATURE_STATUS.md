@@ -68,8 +68,8 @@ These features pass benchmarks and are production-ready:
 ### 5. MPO Operations
 - **Module:** `mpo_ops.py`
 - **Access:** `get_mpo_ops()`
-- **Status:** ✅ Ising, Heisenberg Hamiltonians tested
-- **Limitations:** Molecular Hamiltonians are PLACEHOLDERS
+- **Status:** ✅ Ising, Heisenberg, Molecular, MaxCut Hamiltonians tested
+- **Limitations:** None
 - **Example:**
   ```python
   from atlas_q import get_mpo_ops
@@ -152,20 +152,63 @@ These features exist but have limitations:
 
 ---
 
-## ❌ Not Implemented (Placeholders)
-
-These functions exist but are not functional:
+## ✅ Recently Implemented Features
 
 ### 1. Molecular Hamiltonian from Specs
-**Function:** `build_molecular_hamiltonian(molecule='H2', basis='sto-3g', ...)`
-- **Status:** ❌ Does NOT exist
-- **What exists:** `build_molecular_hamiltonian(h1, h2, mapping, device)` returns identity (placeholder)
-- **Workaround:** Use external tools (PySCF, OpenFermion) to get h1/h2 matrices
+**Function:** `MPOBuilder.molecular_hamiltonian_from_specs(molecule='H2', basis='sto-3g', ...)`
+- **Status:** ✅ IMPLEMENTED & TESTED
+- **Integration:** PySCF for quantum chemistry calculations
+- **Mapping:** Jordan-Wigner transformation
+- **Supported molecules:** H2, LiH, H2O, or custom geometry strings
+- **Tests:** 4/4 passing in `tests/integration/test_molecular_hamiltonians.py`
+- **Example:**
+  ```python
+  from atlas_q import get_mpo_ops
+  mpo = get_mpo_ops()
+
+  # Build H2 Hamiltonian
+  H = mpo['MPOBuilder'].molecular_hamiltonian_from_specs(
+      molecule='H2',
+      basis='sto-3g',
+      charge=0,
+      spin=0,
+      device='cuda'
+  )
+
+  # Use with VQE for ground state energy
+  from atlas_q import get_vqe_qaoa
+  vqe_mod = get_vqe_qaoa()
+  vqe = vqe_mod['VQE'](H, ansatz_depth=3, device='cuda')
+  energy, params = vqe.optimize(max_iter=100)
+  ```
 
 ### 2. MaxCut Hamiltonian Builder
-**Function:** `build_maxcut_hamiltonian(edges, ...)`
-- **Status:** ❌ Does NOT exist
-- **Workaround:** Build Ising Hamiltonian manually with appropriate J coefficients
+**Function:** `MPOBuilder.maxcut_hamiltonian(edges, weights, ...)`
+- **Status:** ✅ IMPLEMENTED & TESTED
+- **Description:** Build QAOA Hamiltonian for graph MaxCut problems
+- **Formulation:** H = Σ_{(i,j)∈E} w_{ij} (1 - Z_i Z_j) / 2
+- **Tests:** 4/4 passing in `tests/integration/test_maxcut.py`
+- **Example:**
+  ```python
+  from atlas_q import get_mpo_ops, get_vqe_qaoa
+  mpo = get_mpo_ops()
+
+  # Define graph edges (triangle)
+  edges = [(0, 1), (1, 2), (0, 2)]
+  weights = [1.0, 1.0, 1.0]
+
+  # Build MaxCut Hamiltonian
+  H = mpo['MPOBuilder'].maxcut_hamiltonian(
+      edges=edges,
+      weights=weights,
+      device='cuda'
+  )
+
+  # Solve with QAOA
+  qaoa_mod = get_vqe_qaoa()
+  qaoa = qaoa_mod['QAOA'](H, depth=3, device='cuda')
+  energy, params = qaoa.optimize(max_iter=100)
+  ```
 
 ---
 

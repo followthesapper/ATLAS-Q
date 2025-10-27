@@ -514,15 +514,80 @@ print(f"Correlation <Z_0 Z_5>: {corr.real:.6f}")
 **Available Hamiltonians:**
 - `ising_hamiltonian(n_sites, J, h, device)` - Transverse-field Ising
 - `heisenberg_hamiltonian(n_sites, Jx, Jy, Jz, device)` - Heisenberg XXZ
+- `molecular_hamiltonian_from_specs(molecule, basis, charge, spin, device)` - Quantum chemistry (NEW)
+- `maxcut_hamiltonian(edges, weights, n_sites, device)` - Graph MaxCut QAOA (NEW)
 
 **Key Methods:**
 - `expectation_value(mpo, mps)` - Compute <ψ|O|ψ>
 - `correlation_function(mps, op_i, op_j, site_i, site_j)` - Two-point correlations
 - `apply_mpo_to_mps(mpo, mps)` - Apply operator to state
 
-**⚠️ NOT Implemented:**
-- High-level molecular Hamiltonian builder from molecule specs
-- Use external tools (PySCF, OpenFermion) to generate h1/h2 matrices
+**✅ New Features:**
+
+**Molecular Hamiltonians (Quantum Chemistry):**
+```python
+# Requires: pip install pyscf
+from atlas_q import get_mpo_ops, get_vqe_qaoa
+
+mpo = get_mpo_ops()
+MPOBuilder = mpo['MPOBuilder']
+
+# Build H2 molecular Hamiltonian
+H = MPOBuilder.molecular_hamiltonian_from_specs(
+    molecule='H2',      # H2, LiH, H2O, or custom geometry
+    basis='sto-3g',     # Basis set
+    charge=0,           # Molecular charge
+    spin=0,             # Spin multiplicity
+    device='cuda'
+)
+
+# Use with VQE to find ground state energy
+vqe_mod = get_vqe_qaoa()
+vqe = vqe_mod['VQE'](H, ansatz_depth=3, device='cuda')
+energy, params = vqe.optimize(max_iter=100)
+print(f"Ground state energy: {energy.real:.6f} Ha")
+
+# Custom geometry example
+custom_h2 = "H 0 0 0; H 0 0 0.74"  # 0.74 Angstrom bond
+H_custom = MPOBuilder.molecular_hamiltonian_from_specs(
+    molecule=custom_h2,
+    basis='sto-3g',
+    device='cuda'
+)
+```
+
+**MaxCut Hamiltonians (Graph Optimization):**
+```python
+from atlas_q import get_mpo_ops, get_vqe_qaoa
+
+mpo = get_mpo_ops()
+MPOBuilder = mpo['MPOBuilder']
+
+# Define graph: triangle with 3 nodes
+edges = [(0, 1), (1, 2), (0, 2)]
+weights = [1.0, 1.0, 1.0]  # Optional edge weights
+
+# Build MaxCut Hamiltonian
+H = MPOBuilder.maxcut_hamiltonian(
+    edges=edges,
+    weights=weights,
+    device='cuda'
+)
+
+# Solve with QAOA
+qaoa_mod = get_vqe_qaoa()
+qaoa = qaoa_mod['QAOA'](H, depth=3, device='cuda')
+max_cut_value, params = qaoa.optimize(max_iter=100)
+print(f"MaxCut value: {-max_cut_value.real:.2f}")
+
+# Larger graph with explicit n_sites
+edges_gap = [(0, 2), (2, 4), (4, 6)]
+H_large = MPOBuilder.maxcut_hamiltonian(
+    edges=edges_gap,
+    n_sites=7,  # Explicit number of nodes
+    device='cuda'
+)
+```
 
 ---
 
