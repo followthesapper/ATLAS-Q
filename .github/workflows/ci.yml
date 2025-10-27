@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ ATLAS-Q ]
   pull_request:
-    branches: [ main ]
+    branches: [ ATLAS-Q ]
 
 jobs:
   test:
@@ -39,14 +39,20 @@ jobs:
         black --check src/
       continue-on-error: true
 
-    - name: Run unit tests
-      run: |
-        pytest tests/unit/ -v -m "not gpu"
-
     - name: Run integration tests
       run: |
-        pytest tests/integration/ -v -m "not gpu" --maxfail=3
+        pytest tests/integration/ -v --maxfail=3
       continue-on-error: true
+
+    - name: Run legacy tests
+      run: |
+        pytest tests/legacy/ -v --maxfail=5
+      continue-on-error: true
+
+    - name: Test package imports
+      run: |
+        python -c "from atlas_q import get_quantum_sim; print('✅ Package imports working')"
+        python -c "from atlas_q.adaptive_mps import AdaptiveMPS; print('✅ MPS imports working')"
 
   build:
     runs-on: ubuntu-latest

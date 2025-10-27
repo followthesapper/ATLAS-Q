@@ -239,10 +239,14 @@ ATLAS-Q/
 │   ├── mps_complex.py              # Custom Triton kernels (1.5-3× faster)
 │   ├── mps_ops.py                  # MPS tensor operations
 │   └── modpow.py                   # Modular exponentiation
-├── benchmarks/
-│   ├── comprehensive_benchmark.py  # 7/7 tensor network benchmarks
-│   └── competitive_comparison.py   # vs Qiskit/Cirq/ITensor
-└── tests/                          # 75+ unit tests
+├── scripts/benchmarks/
+│   ├── validate_all_features.py      # 7/7 tensor network benchmarks
+│   ├── compare_with_competitors.py   # vs Qiskit/Cirq/ITensor
+│   └── max_qubits_scaling_test.py    # Maximum qubits scaling
+├── tests/
+│   ├── integration/                # Integration & API tests
+│   └── legacy/                     # Legacy quantum-inspired tests
+└── docs/                           # Documentation & guides
 ```
 
 ### Technology Stack
