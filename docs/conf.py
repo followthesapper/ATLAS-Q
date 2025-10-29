@@ -100,7 +100,7 @@ html_favicon = '_static/favicon.png'
 html_theme_options = {
     "logo": {
         "text": "ATLAS-Q",
-        "image_light": "_static/logo.png",
+        "image_light": "_static/logo-lm.png",
         "image_dark": "_static/logo.png",
     },
     "show_prev_next": True,

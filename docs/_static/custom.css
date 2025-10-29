@@ -1,5 +1,53 @@
 /* Custom CSS for ATLAS-Q documentation */
 
+/* Custom Dark Mode Color Scheme */
+html[data-theme="dark"] {
+    --pst-color-background: #140005;  /* Jet Black - main background */
+    --pst-color-surface: #464033;     /* Ebony - surface/cards */
+    --pst-color-border: #7e7c73;      /* Gray - borders */
+    --pst-color-text-base: #ffffff;   /* White text */
+    --pst-color-text-muted: #bbc4c2;  /* Pewter - muted text */
+    --pst-color-sidebar-bg: #140005;  /* Jet Black - sidebar background */
+    --pst-color-navbar-bg: #464033;   /* Ebony - navbar background */
+}
+
+html[data-theme="dark"] .bd-sidebar {
+    background-color: #140005;  /* Jet Black */
+}
+
+html[data-theme="dark"] .bd-header {
+    background-color: #464033;  /* Ebony */
+    border-bottom: 1px solid #7e7c73;  /* Gray border */
+}
+
+html[data-theme="dark"] .bd-article-container {
+    background-color: #140005;  /* Jet Black */
+    color: #ffffff;  /* White text */
+}
+
+html[data-theme="dark"] .bd-content {
+    background-color: #140005;
+}
+
+html[data-theme="dark"] code,
+html[data-theme="dark"] pre {
+    background-color: #464033;  /* Ebony */
+    border: 1px solid #7e7c73;  /* Gray */
+    color: #bbc4c2;  /* Pewter text */
+}
+
+html[data-theme="dark"] .highlight {
+    background-color: #464033;  /* Ebony */
+}
+
+html[data-theme="dark"] a {
+    color: #bbc4c2;  /* Pewter */
+}
+
+html[data-theme="dark"] a:hover {
+    color: #ffffff;  /* White on hover */
+}
+
 /* Widen main content area by adjusting sidebar widths */
 .bd-sidebar-primary {
     max-width: 200px !important;
