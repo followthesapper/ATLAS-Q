@@ -6,8 +6,9 @@ Opt-in dense path is safest for small N; includes robust SVD fallback.
 """
 
 from __future__ import annotations
-import torch
+
 import numpy as np
+import torch
 
 
 def _pauli_matrix(letter: str, dtype, device):

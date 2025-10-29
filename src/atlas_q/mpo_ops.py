@@ -700,7 +700,7 @@ class MPOBuilder:
 
         # Apply fermion-to-qubit mapping using OpenFermion (production-grade)
         try:
-            from openfermion import FermionOperator, jordan_wigner, QubitOperator
+            from openfermion import FermionOperator, QubitOperator, jordan_wigner
         except ImportError:
             raise ImportError(
                 "OpenFermion is required for molecular Hamiltonians. "
@@ -982,8 +982,8 @@ def _pauli_terms_to_mpo(pauli_terms: Dict, n_qubits: int, device: str, dtype) ->
         pip install openfermion openfermionpyscf
     """
     try:
-        from openfermion import QubitOperator, get_sparse_operator
         import scipy.sparse as sp
+        from openfermion import QubitOperator, get_sparse_operator
     except ImportError:
         raise ImportError(
             "OpenFermion is required for compressed MPOs. "

@@ -13,12 +13,13 @@ License: MIT
 """
 
 from __future__ import annotations
-import os
+
 import json
+import os
 import time
 import warnings
 from dataclasses import dataclass
-from typing import Optional, Tuple, List, Dict
+from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 import torch
@@ -30,11 +31,12 @@ except ImportError:
     SCIPY_AVAILABLE = False
     warnings.warn("SciPy not available. VQE/QAOA optimization will be limited.")
 
+# Matplotlib headless for saving plots
+import matplotlib
+
 from .adaptive_mps import AdaptiveMPS
 from .mpo_ops import MPO, expectation_value
 
-# Matplotlib headless for saving plots
-import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
