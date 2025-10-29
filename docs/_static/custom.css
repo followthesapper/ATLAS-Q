@@ -1,5 +1,30 @@
 /* Custom CSS for ATLAS-Q documentation */
 
+/* Widen main content area by adjusting sidebar widths */
+.bd-sidebar-primary {
+    max-width: 200px !important;
+    width: 200px !important;
+}
+
+.bd-sidebar-secondary {
+    max-width: 200px !important;
+    width: 200px !important;
+}
+
+.bd-main .bd-content {
+    max-width: none !important;
+}
+
+/* Increase main container width */
+.bd-container {
+    max-width: 100% !important;
+}
+
+/* Better content spacing */
+.bd-article-container {
+    max-width: none !important;
+}
+
 /* Improve code block appearance */
 .highlight pre {
     border-radius: 4px;

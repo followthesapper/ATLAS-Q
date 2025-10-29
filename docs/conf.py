@@ -109,6 +109,8 @@ html_theme_options = {
     "show_toc_level": 2,
     "navigation_depth": 4,
     "collapse_navigation": False,
+    "primary_sidebar_end": ["sidebar-ethical-ads"],
+    "secondary_sidebar_items": ["page-toc", "edit-this-page"],
     "icon_links": [
         {
             "name": "GitHub",
@@ -130,6 +132,10 @@ html_context = {
 html_sidebars = {
     "**": ["sidebar-nav-bs"]
 }
+
+html_css_files = [
+    "custom.css",
+]
 
 # -- Options for LaTeX output ------------------------------------------------
 
