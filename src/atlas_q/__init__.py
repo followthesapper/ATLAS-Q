@@ -142,6 +142,30 @@ def get_vqe_qaoa():
         'build_molecular_hamiltonian': build_molecular_hamiltonian,
     }
 
+# Grover's algorithm (requires torch)
+def get_grover():
+    """Get Grover's quantum search algorithm"""
+    from .grover import (
+        GroverSearch,
+        GroverConfig,
+        OracleBase,
+        FunctionOracle,
+        BitmapOracle,
+        DiffusionOperator,
+        grover_search,
+        calculate_grover_iterations,
+    )
+    return {
+        'GroverSearch': GroverSearch,
+        'GroverConfig': GroverConfig,
+        'OracleBase': OracleBase,
+        'FunctionOracle': FunctionOracle,
+        'BitmapOracle': BitmapOracle,
+        'DiffusionOperator': DiffusionOperator,
+        'grover_search': grover_search,
+        'calculate_grover_iterations': calculate_grover_iterations,
+    }
+
 # cuQuantum backend (requires cuquantum, optional)
 def get_cuquantum():
     """Get cuQuantum acceleration backend (optional)"""
@@ -250,23 +274,69 @@ def get_qih_tools():
     from . import tools_qih
     return tools_qih
 
+# Direct module access (preferred, simpler API)
+# These are lazily loaded when first accessed
+from . import mpo_ops
+from . import tdvp
+from . import vqe_qaoa
+from . import grover
+from . import adaptive_mps
+from . import mps_pytorch
+from . import noise_models
+from . import stabilizer_backend
+from . import circuit_cutting
+from . import planar_2d
+from . import distributed_mps
+from . import peps
+
 __all__ = [
-    # Lazy loaders - Core
+    # Direct module imports (PREFERRED - use these!)
+    'mpo_ops',
+    'tdvp',
+    'vqe_qaoa',
+    'grover',
+    'adaptive_mps',
+    'mps_pytorch',
+    'noise_models',
+    'stabilizer_backend',
+    'circuit_cutting',
+    'planar_2d',
+    'distributed_mps',
+    'peps',
+    # Direct class imports (for backwards compatibility)
+    'QuantumClassicalHybrid',
+    # Lazy loaders (legacy compatibility - getters return dicts)
     'get_quantum_sim',
     'get_mps_pytorch',
     'get_adaptive_mps',
     'get_qih_tools',
-    # Lazy loaders - New features (v0.5.0)
     'get_noise_models',
     'get_stabilizer',
     'get_mpo_ops',
     'get_tdvp',
     'get_vqe_qaoa',
+    'get_grover',
     'get_cuquantum',
     'get_circuit_cutting',
     'get_planar_2d',
     'get_distributed_mps',
     'get_peps',
 ]
+
+# Direct imports for backwards compatibility
+try:
+    from .quantum_hybrid_system import (
+        QuantumClassicalHybrid,
+        PeriodicState,
+        ProductState,
+        MatrixProductState,
+        GPUAccelerator,
+    )
+except ImportError:
+    QuantumClassicalHybrid = None
+    PeriodicState = None
+    ProductState = None
+    MatrixProductState = None
+    GPUAccelerator = None
 
 __version__ = '0.6.1'  # Import fixes for PyPI users (Oct 2025)

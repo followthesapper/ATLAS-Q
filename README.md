@@ -292,6 +292,7 @@ ATLAS-Q/
 ### ✅ BEST FOR:
 - **Tensor Networks**: 20-50 qubits with moderate entanglement
 - **VQE/QAOA**: Optimization on NISQ devices with noise
+- **Grover Search**: Unstructured database search with quadratic speedup
 - **Time Evolution**: Hamiltonian dynamics via TDVP
 - **Period-Finding**: Shor's algorithm for integer factorization
 - **Memory-Constrained**: 626,000× compression vs statevector
@@ -352,6 +353,31 @@ energy, params = vqe.optimize(max_iter=50)
 print(f"Ground state energy: {energy.real:.6f} Ha")
 ```
 
+### Grover's Quantum Search
+
+```python
+from atlas_q.grover import grover_search
+
+# Search for state 7 in 4-qubit space (16 states total)
+result = grover_search(
+    n_qubits=4,
+    marked_states={7},  # Mark state |0111⟩
+    device='cpu'
+)
+
+print(f"Found state: {result['measured_state']}")  # Found state: 7
+print(f"Success probability: {result['success_probability']:.3f}")  # ~0.96
+print(f"Iterations: {result['iterations_used']}")  # 3 iterations (O(√N))
+
+# Search using function oracle (e.g., find even numbers)
+result = grover_search(
+    n_qubits=4,
+    marked_states=lambda x: x % 2 == 0,
+    device='cpu'
+)
+print(f"Found even number: {result['measured_state']}")
+```
+
 ### TDVP Time Evolution
 
 ```python
@@ -380,6 +406,7 @@ times, energies = tdvp.run()
 - ✅ Adaptive MPS with error tracking
 - ✅ Stabilizer backend (20× speedup)
 - ✅ TDVP, VQE/QAOA implementations
+- ✅ **NEW:** Grover's quantum search (MPO-based oracles, 94-100% accuracy)
 - ✅ **NEW:** Molecular Hamiltonians (PySCF integration)
 - ✅ **NEW:** MaxCut QAOA Hamiltonians
 - ✅ **NEW:** Circuit Cutting & partitioning

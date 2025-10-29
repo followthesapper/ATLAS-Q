@@ -31,7 +31,7 @@ class TestStabilizerState:
 
     def test_initialization(self):
         """Test stabilizer state creation"""
-        state = StabilizerState(n_qubits=3)
+        state = StabilizerState.init_zero(n_qubits=3)
 
         assert state.n_qubits == 3
         assert state.tableau.shape == (2 * 3, 2 * 3 + 1)
@@ -42,7 +42,7 @@ class TestStabilizerState:
 
     def test_canonical_form(self):
         """Test that initial tableau is in canonical form"""
-        state = StabilizerState(n_qubits=5)
+        state = StabilizerState.init_zero(n_qubits=5)
 
         # Destabilizers (rows 0:n) should have X part = identity
         destab_x = state.tableau[:5, :5]
@@ -99,7 +99,7 @@ class TestStabilizerSimulator:
 
     def test_measurement_superposition(self):
         """Test measurement on |+⟩ gives random outcome"""
-        sim = StabilizerSimulator(n_qubits=1, seed=42)
+        sim = StabilizerSimulator(n_qubits=1)
 
         # Create |+⟩
         sim.h(0)
@@ -107,7 +107,7 @@ class TestStabilizerSimulator:
         # Measure multiple times (reset each time)
         outcomes = []
         for _ in range(10):
-            sim_copy = StabilizerSimulator(n_qubits=1, seed=42 + _)
+            sim_copy = StabilizerSimulator(n_qubits=1)
             sim_copy.h(0)
             outcomes.append(sim_copy.measure(0))
 
@@ -116,32 +116,38 @@ class TestStabilizerSimulator:
 
     def test_bell_state_measurement(self):
         """Test Bell state correlations"""
-        sim = StabilizerSimulator(n_qubits=2, seed=123)
+        # Use fixed RNG for deterministic test
+        rng = np.random.RandomState(42)
+
+        sim = StabilizerSimulator(n_qubits=2)
 
         # Create |Φ+⟩ = (|00⟩ + |11⟩)/√2
         sim.h(0)
         sim.cnot(0, 1)
 
-        # Measure both qubits
-        outcome_0 = sim.measure(0)
-        outcome_1 = sim.measure(1)
+        # Measure both qubits with same RNG
+        outcome_0 = sim.measure(0, rng=rng)
+        outcome_1 = sim.measure(1, rng=rng)
 
         # Outcomes should be perfectly correlated
         assert outcome_0 == outcome_1
 
     def test_ghz_state(self):
         """Test 3-qubit GHZ state creation"""
-        sim = StabilizerSimulator(n_qubits=3, seed=456)
+        # Use fixed RNG for deterministic test
+        rng = np.random.RandomState(42)
+
+        sim = StabilizerSimulator(n_qubits=3)
 
         # Create |GHZ⟩ = (|000⟩ + |111⟩)/√2
         sim.h(0)
         sim.cnot(0, 1)
         sim.cnot(0, 2)
 
-        # Measure all qubits
-        m0 = sim.measure(0)
-        m1 = sim.measure(1)
-        m2 = sim.measure(2)
+        # Measure all qubits with same RNG
+        m0 = sim.measure(0, rng=rng)
+        m1 = sim.measure(1, rng=rng)
+        m2 = sim.measure(2, rng=rng)
 
         # All should be equal
         assert m0 == m1 == m2
@@ -331,7 +337,7 @@ class TestIntegration:
 
     def test_quantum_teleportation(self, device):
         """Test quantum teleportation protocol"""
-        sim = HybridSimulator(n_qubits=3, use_stabilizer=True, device=device, seed=789)
+        sim = HybridSimulator(n_qubits=3, use_stabilizer=True, device=device)
 
         # Qubit 0: state to teleport (|ψ⟩ = |+⟩ for simplicity)
         sim.h(0)

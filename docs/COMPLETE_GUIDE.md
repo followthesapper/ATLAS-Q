@@ -120,6 +120,48 @@ python -m atlas_q demo
 
 ---
 
+### Import Patterns
+
+ATLAS-Q v0.6.1+ supports **two import patterns**. The new direct import pattern is recommended for better IDE support and simpler code:
+
+#### ✅ Recommended: Direct Imports (v0.6.1+)
+
+```python
+# Import modules directly
+from atlas_q import mpo_ops, tdvp, vqe_qaoa
+
+# Use module attributes
+H = mpo_ops.MPOBuilder.ising_hamiltonian(10, J=1.0, h=0.5)
+
+# Or import classes directly
+from atlas_q.mpo_ops import MPOBuilder
+from atlas_q.tdvp import AdaptiveMPS, run_tdvp
+from atlas_q.vqe_qaoa import VQE, VQEConfig
+
+H = MPOBuilder.ising_hamiltonian(10, 1.0, 0.5)
+```
+
+**Benefits:**
+- IDE autocomplete and type hints work
+- Matches standard Python conventions (like NumPy, PyTorch)
+- Simpler, more readable code
+
+#### ⚠️  Legacy: Getter Functions (v0.5.0, still supported)
+
+```python
+# Old pattern - still works for backwards compatibility
+import atlas_q
+
+mpo_dict = atlas_q.get_mpo_ops()
+MPOBuilder = mpo_dict['MPOBuilder']
+
+H = MPOBuilder.ising_hamiltonian(10, 1.0, 0.5)
+```
+
+**Note:** Examples in this guide show both patterns. New code should use direct imports.
+
+---
+
 ## 2. Quick Start - 5 Working Examples
 
 ### Example 1: Factor a Number

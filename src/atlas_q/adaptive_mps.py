@@ -81,6 +81,7 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
         budget_global_mb: Optional[float] = None,
         dtype_policy: DTypePolicy = DTypePolicy(),
         device: str = "cuda",
+        dtype: Optional[torch.dtype] = None,
     ):
         """
         Initialize Adaptive MPS
@@ -93,8 +94,13 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
             budget_global_mb: Global memory budget in MB (None = unlimited)
             dtype_policy: Mixed precision policy
             device: 'cuda' or 'cpu'
+            dtype: Explicit dtype (overrides dtype_policy.default if provided)
         """
-        super().__init__(num_qubits, bond_dim, device)
+        # Use explicit dtype if provided, otherwise fall back to dtype_policy
+        if dtype is None:
+            dtype = dtype_policy.default
+
+        super().__init__(num_qubits, bond_dim, device, dtype)
 
         self.eps_bond = eps_bond
         self.dtype_policy = dtype_policy
@@ -444,13 +450,18 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
             )
 
         # Contract all tensors: T[0] * T[1] * ... * T[n-1]
-        result = self.tensors[0]  # [1, 2, χ₁]
+        # Determine target dtype (use the highest precision dtype present)
+        target_dtype = self.dtype if hasattr(self, 'dtype') else self.tensors[0].dtype
+
+        result = self.tensors[0].to(dtype=target_dtype)  # [1, 2, χ₁]
 
         for i in range(1, self.num_qubits):
             # result: [..., χᵢ]
             # T[i]: [χᵢ, 2, χᵢ₊₁]
             # Contract over χᵢ dimension
-            result = torch.einsum("...i,ijk->...jk", result, self.tensors[i])
+            # Ensure both tensors have same dtype
+            tensor_i = self.tensors[i].to(dtype=target_dtype)
+            result = torch.einsum("...i,ijk->...jk", result, tensor_i)
 
         # Final tensor: [2, 2, ..., 2, 1]
         # Squeeze the trailing dimension and flatten

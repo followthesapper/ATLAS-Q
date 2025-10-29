@@ -46,10 +46,11 @@ class TestVQEConfig:
         config = VQEConfig()
 
         assert config.ansatz == 'hardware_efficient'
-        assert config.n_layers == 2
-        assert config.optimizer == 'COBYLA'
-        assert config.max_iter == 100
-        assert config.chi_max == 64
+        assert config.n_layers == 3
+        assert config.optimizer == 'L-BFGS-B'  # Updated for better performance
+        assert config.max_iter == 200  # Increased for better convergence
+        assert config.chi_max == 256  # Increased for higher accuracy
+        assert config.gradient_method == 'group'  # Batched gradients for speed
 
     @pytest.mark.skipif(not SCIPY_AVAILABLE, reason="SciPy not installed")
     def test_custom_config(self):
@@ -143,7 +144,7 @@ class TestVQE:
         config = VQEConfig(n_layers=2, device=device)
         vqe = VQE(H, config)
 
-        assert vqe.hamiltonian == H
+        assert vqe.H == H
         assert vqe.config == config
 
     @pytest.mark.skipif(not SCIPY_AVAILABLE, reason="SciPy not installed")
@@ -265,7 +266,7 @@ class TestQAOA:
         qaoa = QAOA(H_cost, n_layers=2, device=device)
 
         assert qaoa.n_layers == 2
-        assert qaoa.n_sites == n_sites
+        assert qaoa.H_cost.n_sites == n_sites
 
     @pytest.mark.skipif(not SCIPY_AVAILABLE, reason="SciPy not installed")
     def test_qaoa_parameter_count(self, device):
@@ -309,14 +310,14 @@ class TestQAOA:
         # MaxCut on chain: H = - Σ ZᵢZᵢ₊₁
         H_cost = MPOBuilder.ising_hamiltonian(n_sites=n_sites, J=-1.0, h=0.0, device=device)
 
-        qaoa = QAOA(H_cost, n_layers=1, max_iter=30, device=device, chi_max=8)
+        qaoa = QAOA(H_cost, n_layers=1, device=device)
 
         cost, params = qaoa.run()
 
         # MaxCut on 4-node chain: optimal cut value = 3
         # Cost = -3 (since we minimize -ZZ)
         # QAOA p=1 may not find optimal, but should be reasonable
-        assert cost <= 0  # Should be negative (cutting edges)
+        assert cost <= 1e-6  # Should be ≤ 0 (allow numerical noise)
 
     @pytest.mark.skipif(not SCIPY_AVAILABLE, reason="SciPy not installed")
     def test_qaoa_mixer_hamiltonian(self, device):
@@ -342,11 +343,11 @@ class TestQAOA:
         H_cost = MPOBuilder.ising_hamiltonian(n_sites=n_sites, J=-1.0, h=0.0, device=device)
 
         # p=1
-        qaoa1 = QAOA(H_cost, n_layers=1, max_iter=30, device=device, chi_max=8)
+        qaoa1 = QAOA(H_cost, n_layers=1, device=device)
         cost1, _ = qaoa1.run()
 
         # p=2 (more layers, should be better or equal)
-        qaoa2 = QAOA(H_cost, n_layers=2, max_iter=30, device=device, chi_max=8)
+        qaoa2 = QAOA(H_cost, n_layers=2, device=device)
         cost2, _ = qaoa2.run()
 
         # p=2 should achieve lower or equal cost (not always guaranteed with limited iterations)
@@ -394,7 +395,7 @@ class TestIntegration:
         # For simplicity, use nearest-neighbor as proxy
         H_cost = MPOBuilder.ising_hamiltonian(n_sites=n_sites, J=-1.0, h=0.0, device=device)
 
-        qaoa = QAOA(H_cost, n_layers=2, max_iter=40, device=device, chi_max=16)
+        qaoa = QAOA(H_cost, n_layers=2, device=device)
 
         cost, params = qaoa.run()
 

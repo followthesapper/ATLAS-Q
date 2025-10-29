@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### UCCSD Ansatz for Molecular VQE
+- **UCCSD (Unitary Coupled-Cluster Singles and Doubles)** (`ansatz_uccsd.py`): Chemistry-aware variational ansatz
+  - OpenFermion integration for fermionic operator generation
+  - MPS-compatible implementation (no exponential memory)
+  - Pauli string decomposition with `apply_pauli_exp_to_mps()`
+  - Hartree-Fock reference state initialization
+  - Compatible with VQE for ground state chemistry calculations
+
 #### Quantum Chemistry & Optimization Hamiltonians
 - **Molecular Hamiltonian Builder** (`mpo_ops.py`): PySCF integration for quantum chemistry
   - `molecular_hamiltonian_from_specs()` - Build electronic structure Hamiltonians
@@ -47,7 +55,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 11/11 tests passing in `test_cuquantum.py` (tested with cuQuantum 25.09.1)
   - **Install:** `pip install cuquantum-python` (optional, ~320MB)
 
-## [0.5.0] - 2025-10-26
+### Changed
+
+#### Improved Import System (Better UX)
+- **Direct module imports now supported** (`__init__.py`): Pythonic import pattern
+  - **New (recommended)**: `from atlas_q import mpo_ops, tdvp, vqe_qaoa`
+  - **Legacy (still works)**: `atlas_q.get_mpo_ops()` returns dict
+  - Enables IDE autocomplete and type hints
+  - Matches standard Python package conventions (like NumPy, PyTorch)
+  - Backwards compatible - old getter pattern still supported
+
+##  [0.5.0] - 2025-10-26
 
 ### Added
 

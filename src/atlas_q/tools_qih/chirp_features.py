@@ -4,7 +4,7 @@ Chirp family utilities: generate chirps and track period via sliding QIH feature
 
 import numpy as np
 
-from learned_period_head import learned_periods_or_fft
+from .learned_period_head import learned_periods_or_fft
 
 
 def synth_chirp(T=4096, r_start=20, r_end=80, noise=0.2, seed=0):

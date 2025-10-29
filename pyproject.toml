@@ -66,9 +66,11 @@ cuquantum = [
     "cuquantum-python>=23.0.0",
 ]
 
-# Molecular chemistry (PySCF integration)
+# Molecular chemistry (PySCF integration + OpenFermion for VQE)
 chemistry = [
     "pyscf>=2.0.0",
+    "openfermion>=1.5.0",
+    "openfermionpyscf>=0.5.0",
 ]
 
 # ML tools (rank prediction, AI-guided truncation)

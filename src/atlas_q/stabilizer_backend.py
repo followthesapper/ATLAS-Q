@@ -52,7 +52,10 @@ class StabilizerState:
     def init_zero(n_qubits: int) -> "StabilizerState":
         """Initialize |00...0⟩ state (stabilized by Z on each qubit)"""
         tableau = np.zeros((2 * n_qubits, 2 * n_qubits + 1), dtype=np.uint8)
-        # Set stabilizers to Z_i for each qubit i
+        # Set destabilizers to X_i for each qubit i (rows 0:n, columns 0:n)
+        for i in range(n_qubits):
+            tableau[i, i] = 1
+        # Set stabilizers to Z_i for each qubit i (rows n:2n, columns n:2n)
         for i in range(n_qubits):
             tableau[n_qubits + i, n_qubits + i] = 1
         return StabilizerState(n_qubits, tableau)
@@ -160,10 +163,17 @@ class StabilizerSimulator:
             x_bit = tab[i, qubit]
             z_bit = tab[i, n + qubit]
 
-            # S: X → Y = iXZ, so add Z
+            # S transforms:
+            # X → Y: add Z bit, flip phase
+            # Y → -X: remove Z bit, flip phase
+            # Z → Z: unchanged
             if x_bit and not z_bit:
+                # X → Y
                 tab[i, n + qubit] = 1
-                # X → Y introduces a phase: X → iXZ, so phase + 1
+                tab[i, -1] = (tab[i, -1] + 1) % 2
+            elif x_bit and z_bit:
+                # Y → -X
+                tab[i, n + qubit] = 0
                 tab[i, -1] = (tab[i, -1] + 1) % 2
 
     def s_dag(self, qubit: int):
@@ -214,23 +224,36 @@ class StabilizerSimulator:
 
     def x(self, qubit: int):
         """Pauli-X gate"""
-        # X = HZH
-        self.h(qubit)
-        self.z(qubit)
-        self.h(qubit)
+        # X flips Z ↔ -Z in stabilizers
+        n = self.n_qubits
+        tab = self.state.tableau
+
+        for i in range(2 * n):
+            # If the row has Z on this qubit, flip the phase
+            if tab[i, n + qubit] == 1:
+                tab[i, -1] = (tab[i, -1] + 1) % 2
 
     def y(self, qubit: int):
         """Pauli-Y gate"""
-        # Y = SHS†
-        self.s_dag(qubit)
-        self.h(qubit)
-        self.s(qubit)
+        # Y flips both X and Z in stabilizers
+        n = self.n_qubits
+        tab = self.state.tableau
+
+        for i in range(2 * n):
+            # If the row has X or Z (or both) on this qubit, flip the phase
+            if tab[i, qubit] == 1 or tab[i, n + qubit] == 1:
+                tab[i, -1] = (tab[i, -1] + 1) % 2
 
     def z(self, qubit: int):
         """Pauli-Z gate"""
-        # Z = S²
-        self.s(qubit)
-        self.s(qubit)
+        # Z flips X ↔ -X in stabilizers
+        n = self.n_qubits
+        tab = self.state.tableau
+
+        for i in range(2 * n):
+            # If the row has X on this qubit, flip the phase
+            if tab[i, qubit] == 1:
+                tab[i, -1] = (tab[i, -1] + 1) % 2
 
     # Measurement
 
@@ -249,20 +272,25 @@ class StabilizerSimulator:
 
         # Check if any stabilizer has X on this qubit
         # If so, measurement outcome is random
-        x_column = tab[:n, qubit]
+        x_column = tab[n:2*n, qubit]
 
         # Find first stabilizer with X on this qubit
         p = -1
         for i in range(n):
             if x_column[i] == 1:
-                p = i
+                p = n + i  # Actual row index in tableau
                 break
 
         if p == -1:
             # Deterministic outcome
-            # The outcome is determined by the destabilizers
-            # For simplicity, return 0 (this needs proper implementation)
-            outcome = 0
+            # Find which stabilizer row has Z (but not X) on this qubit
+            outcome = 0  # default
+            for i in range(n, 2 * n):  # Only search stabilizer rows
+                if tab[i, qubit] == 0 and tab[i, n + qubit] == 1:
+                    # This row has Z but not X on this qubit
+                    # Phase bit convention: 0 means +Z stabilizer (|0⟩), 1 means -Z stabilizer (|1⟩)
+                    outcome = int(tab[i, -1])
+                    break
         else:
             # Random outcome
             outcome = rng.randint(0, 2)
@@ -409,6 +437,24 @@ class HybridSimulator:
             S = torch.tensor([[1, 0], [0, 1j]], dtype=torch.complex64)
             self.mps.apply_single_qubit_gate(qubit, S.to(self.device))
 
+    def x(self, qubit: int):
+        """Pauli-X gate"""
+        if self.mode == "stabilizer":
+            self.stabilizer_sim.x(qubit)
+            self.gate_count["clifford"] += 1
+        else:
+            X = torch.tensor([[0, 1], [1, 0]], dtype=torch.complex64)
+            self.mps.apply_single_qubit_gate(qubit, X.to(self.device))
+
+    def z(self, qubit: int):
+        """Pauli-Z gate"""
+        if self.mode == "stabilizer":
+            self.stabilizer_sim.z(qubit)
+            self.gate_count["clifford"] += 1
+        else:
+            Z = torch.tensor([[1, 0], [0, -1]], dtype=torch.complex64)
+            self.mps.apply_single_qubit_gate(qubit, Z.to(self.device))
+
     def cnot(self, control: int, target: int):
         """CNOT gate"""
         if self.mode == "stabilizer":
@@ -433,6 +479,16 @@ class HybridSimulator:
         T = torch.tensor([[1, 0], [0, np.exp(1j * np.pi / 4)]], dtype=torch.complex64)
         self.mps.apply_single_qubit_gate(qubit, T.to(self.device))
         self.gate_count["non_clifford"] += 1
+
+    def swap(self, qubit1: int, qubit2: int):
+        """SWAP gate (Clifford)"""
+        if self.mode == "stabilizer":
+            self.stabilizer_sim.swap(qubit1, qubit2)
+            self.gate_count["clifford"] += 1
+        else:
+            # For MPS, SWAP can be done with 3 CNOTs
+            # SWAP = CNOT(a,b) CNOT(b,a) CNOT(a,b)
+            raise NotImplementedError("SWAP in MPS mode not yet implemented")
 
     def measure(self, qubit: int) -> int:
         """Measure qubit"""

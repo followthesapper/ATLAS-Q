@@ -1,0 +1,33 @@
+/* Custom CSS for ATLAS-Q documentation */
+
+/* Improve code block appearance */
+.highlight pre {
+    border-radius: 4px;
+    padding: 12px;
+}
+
+/* Make tables more readable */
+table.docutils {
+    border-collapse: collapse;
+}
+
+table.docutils td, table.docutils th {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Improve admonition boxes */
+.admonition {
+    border-radius: 4px;
+    padding: 12px;
+}
+
+/* Better spacing for parameter lists */
+dl.field-list {
+    margin-bottom: 1em;
+}
+
+dl.field-list dt {
+    font-weight: bold;
+    margin-top: 0.5em;
+}

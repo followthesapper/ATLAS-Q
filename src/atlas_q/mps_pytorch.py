@@ -56,30 +56,34 @@ class MatrixProductStatePyTorch(CompressedQuantumStatePyTorch):
     - Same API as NumPy version
     """
 
-    def __init__(self, num_qubits: int, bond_dim: int = 8, device: str = "cuda"):
+    def __init__(self, num_qubits: int, bond_dim: int = 8, device: str = "cuda", dtype: torch.dtype = torch.complex64):
         super().__init__(num_qubits, device)
         self.bond_dim = bond_dim
+        self.dtype = dtype
         self.is_canonical = False
+
+        # Determine the real dtype for random initialization
+        real_dtype = torch.float32 if dtype == torch.complex64 else torch.float64
 
         # Initialize MPS tensors on GPU
         # Tensor shape: [left_bond, physical_dim=2, right_bond]
         self.tensors = []
 
         # First tensor: [1, 2, bond_dim]
-        real_part = torch.randn(1, 2, bond_dim, device=self.device)
-        imag_part = torch.randn(1, 2, bond_dim, device=self.device)
+        real_part = torch.randn(1, 2, bond_dim, device=self.device, dtype=real_dtype)
+        imag_part = torch.randn(1, 2, bond_dim, device=self.device, dtype=real_dtype)
         self.tensors.append(torch.complex(real_part, imag_part))
 
         # Middle tensors: [bond_dim, 2, bond_dim]
         for _ in range(num_qubits - 2):
-            real_part = torch.randn(bond_dim, 2, bond_dim, device=self.device)
-            imag_part = torch.randn(bond_dim, 2, bond_dim, device=self.device)
+            real_part = torch.randn(bond_dim, 2, bond_dim, device=self.device, dtype=real_dtype)
+            imag_part = torch.randn(bond_dim, 2, bond_dim, device=self.device, dtype=real_dtype)
             self.tensors.append(torch.complex(real_part, imag_part))
 
         # Last tensor: [bond_dim, 2, 1]
         if num_qubits > 1:
-            real_part = torch.randn(bond_dim, 2, 1, device=self.device)
-            imag_part = torch.randn(bond_dim, 2, 1, device=self.device)
+            real_part = torch.randn(bond_dim, 2, 1, device=self.device, dtype=real_dtype)
+            imag_part = torch.randn(bond_dim, 2, 1, device=self.device, dtype=real_dtype)
             self.tensors.append(torch.complex(real_part, imag_part))
 
         self._normalize()
