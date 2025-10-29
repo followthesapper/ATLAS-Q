@@ -17,16 +17,17 @@ Date: October 2025
 License: MIT
 """
 
+from typing import Any, Dict, List, Tuple
+
 import numpy as np
 import torch
-from typing import Tuple, Dict, Any, List
 
 try:
     from openfermion import (
         MolecularData,
+        QubitOperator,
         get_fermion_operator,
         jordan_wigner,
-        QubitOperator,
         uccsd_singlet_generator,
         uccsd_singlet_paramsize,
     )
@@ -124,7 +125,7 @@ def _build_param_groups(n_qubits: int, n_elec: int) -> List[List[Tuple[complex, 
     Returns:
         List where entry k contains all (coeff, pauli_string) pairs for parameter k
     """
-    from openfermion import uccsd_singlet_paramsize, uccsd_singlet_generator, jordan_wigner
+    from openfermion import jordan_wigner, uccsd_singlet_generator, uccsd_singlet_paramsize
 
     groups: List[List[Tuple[complex, str]]] = []
     n_params = uccsd_singlet_paramsize(n_qubits, n_elec)
@@ -203,8 +204,8 @@ def build_uccsd_ansatz(
         )
 
     try:
-        from pyscf import gto, scf, ao2mo
         from openfermionpyscf import run_pyscf
+        from pyscf import ao2mo, gto, scf
     except ImportError:
         raise ImportError(
             "PySCF and OpenFermion-PySCF required. "

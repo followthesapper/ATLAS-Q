@@ -146,14 +146,14 @@ def get_vqe_qaoa():
 def get_grover():
     """Get Grover's quantum search algorithm"""
     from .grover import (
-        GroverSearch,
-        GroverConfig,
-        OracleBase,
-        FunctionOracle,
         BitmapOracle,
         DiffusionOperator,
-        grover_search,
+        FunctionOracle,
+        GroverConfig,
+        GroverSearch,
+        OracleBase,
         calculate_grover_iterations,
+        grover_search,
     )
     return {
         'GroverSearch': GroverSearch,
@@ -276,18 +276,20 @@ def get_qih_tools():
 
 # Direct module access (preferred, simpler API)
 # These are lazily loaded when first accessed
-from . import mpo_ops
-from . import tdvp
-from . import vqe_qaoa
-from . import grover
-from . import adaptive_mps
-from . import mps_pytorch
-from . import noise_models
-from . import stabilizer_backend
-from . import circuit_cutting
-from . import planar_2d
-from . import distributed_mps
-from . import peps
+from . import (
+    adaptive_mps,
+    circuit_cutting,
+    distributed_mps,
+    grover,
+    mpo_ops,
+    mps_pytorch,
+    noise_models,
+    peps,
+    planar_2d,
+    stabilizer_backend,
+    tdvp,
+    vqe_qaoa,
+)
 
 __all__ = [
     # Direct module imports (PREFERRED - use these!)
@@ -326,11 +328,11 @@ __all__ = [
 # Direct imports for backwards compatibility
 try:
     from .quantum_hybrid_system import (
-        QuantumClassicalHybrid,
+        GPUAccelerator,
+        MatrixProductState,
         PeriodicState,
         ProductState,
-        MatrixProductState,
-        GPUAccelerator,
+        QuantumClassicalHybrid,
     )
 except ImportError:
     QuantumClassicalHybrid = None
