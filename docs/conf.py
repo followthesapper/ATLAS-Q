@@ -94,9 +94,15 @@ master_doc = 'index'
 
 html_theme = 'pydata_sphinx_theme'
 html_static_path = ['_static']
+html_logo = '_static/logo.png'
+html_favicon = '_static/favicon.png'
 
 html_theme_options = {
-    "github_url": "https://github.com/followthesapper/ATLAS-Q",
+    "logo": {
+        "text": "ATLAS-Q",
+        "image_light": "_static/logo.png",
+        "image_dark": "_static/logo.png",
+    },
     "show_prev_next": True,
     "navbar_align": "left",
     "navbar_end": ["navbar-icon-links", "theme-switcher"],
