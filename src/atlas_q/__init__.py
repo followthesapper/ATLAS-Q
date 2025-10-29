@@ -341,4 +341,4 @@ except ImportError:
     MatrixProductState = None
     GPUAccelerator = None
 
-__version__ = '0.6.1'  # Import fixes for PyPI users (Oct 2025)
+__version__ = '0.6.2'  # Documentation and Grover's algorithm (Oct 2025)
