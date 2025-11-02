@@ -9,6 +9,7 @@ These tutorials provide step-by-step learning paths for ATLAS-Q. Each tutorial i
    beginners
    mps_basics
    vqe_tutorial
+   coherence_aware_vqe
    tdvp_tutorial
    molecular_vqe
    qaoa_tutorial
