@@ -34,6 +34,10 @@ from .vqe_grouping import (
     estimate_pauli_coherence_matrix,
     compute_Q_GLS,
     GroupingResult,
+    pauli_commutes,
+    check_group_commutativity,
+    group_by_variance_minimization,
+    allocate_shots_neyman,
 )
 
 __all__ = [
@@ -49,6 +53,11 @@ __all__ = [
     'estimate_pauli_coherence_matrix',
     'compute_Q_GLS',
     'GroupingResult',
+    'group_by_variance_minimization',
+    'allocate_shots_neyman',
+    # Commutativity utilities
+    'pauli_commutes',
+    'check_group_commutativity',
 ]
 
-__version__ = '0.2.0'
+__version__ = '0.3.0'
