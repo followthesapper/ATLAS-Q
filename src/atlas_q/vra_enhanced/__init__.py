@@ -9,8 +9,8 @@ requirements through classical preprocessing.
 
 Key Features:
 - Period finding with 29-42% shot reduction (validated)
-- VQE Hamiltonian grouping with 2350× variance reduction
-- Coherence-based MPS truncation guidance
+- VQE Hamiltonian grouping with 2-60× variance reduction (proof-of-concept)
+- Coherence-based correlation analysis for optimal measurement strategies
 
 References:
 - VRA Project: https://github.com/followthesapper/VRA
@@ -29,13 +29,26 @@ from .qpe_bridge import (
     estimate_shot_reduction,
 )
 
+from .vqe_grouping import (
+    vra_hamiltonian_grouping,
+    estimate_pauli_coherence_matrix,
+    compute_Q_GLS,
+    GroupingResult,
+)
+
 __all__ = [
+    # Period finding
     'multiplicative_order',
     'compute_averaged_spectrum',
     'find_period_candidates',
     'vra_enhanced_period_finding',
     'vra_preprocess_period',
     'estimate_shot_reduction',
+    # VQE grouping
+    'vra_hamiltonian_grouping',
+    'estimate_pauli_coherence_matrix',
+    'compute_Q_GLS',
+    'GroupingResult',
 ]
 
-__version__ = '0.1.0'
+__version__ = '0.2.0'
