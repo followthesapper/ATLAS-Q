@@ -12,18 +12,17 @@ Author: ATLAS-Q Contributors
 Date: October 2025
 """
 
+import os
+import sys
+
+import numpy as np
 import pytest
 import torch
-import numpy as np
-import sys
-import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from atlas_q.stabilizer_backend import (
-    StabilizerState, StabilizerSimulator, HybridSimulator
-)
 from atlas_q.adaptive_mps import AdaptiveMPS
+from atlas_q.stabilizer_backend import HybridSimulator, StabilizerSimulator, StabilizerState
 
 
 class TestStabilizerState:

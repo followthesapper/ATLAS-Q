@@ -7,6 +7,7 @@ def test_qih_pat_basic_histogram():
 
 def test_qih_pat_sequence_features():
     import numpy as np
+
     from qih_pat import qih_pat_sequence_features
     x = np.sin(2*np.pi*np.arange(512)/8) + 0.1*np.random.default_rng(0).normal(size=512)
     H, periods = qih_pat_sequence_features(x, win=128, stride=64, bins=32)

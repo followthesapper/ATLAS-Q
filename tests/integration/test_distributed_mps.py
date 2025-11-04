@@ -5,20 +5,16 @@ Note: These tests work with single-GPU/CPU mode.
 Full multi-GPU testing requires multiple CUDA devices.
 """
 
-import pytest
-import torch
 import sys
 from pathlib import Path
+
+import pytest
+import torch
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
-from atlas_q.distributed_mps import (
-    DistributedMPS,
-    DistributedConfig,
-    DistMode,
-    MPSPartition
-)
+from atlas_q.distributed_mps import DistMode, DistributedConfig, DistributedMPS, MPSPartition
 
 
 def test_distributed_config():

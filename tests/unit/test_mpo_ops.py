@@ -12,18 +12,23 @@ Author: ATLAS-Q Contributors
 Date: October 2025
 """
 
+import os
+import sys
+
+import numpy as np
 import pytest
 import torch
-import numpy as np
-import sys
-import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from atlas_q.mpo_ops import (
-    MPO, MPOBuilder, expectation_value, correlation_function, apply_mpo_to_mps
-)
 from atlas_q.adaptive_mps import AdaptiveMPS
+from atlas_q.mpo_ops import (
+    MPO,
+    MPOBuilder,
+    apply_mpo_to_mps,
+    correlation_function,
+    expectation_value,
+)
 
 
 class TestMPO:

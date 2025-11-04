@@ -1,6 +1,7 @@
 
 import numpy as np
 
+
 def near(sample, center, N, tol):
     d = min((sample-center) % N, (center-sample) % N)
     return d <= tol

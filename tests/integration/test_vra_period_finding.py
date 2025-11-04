@@ -14,13 +14,14 @@ Test Strategy:
 4. Test edge cases and failure modes
 """
 
-import pytest
 import numpy as np
+import pytest
+
 from atlas_q.vra_enhanced import (
-    vra_preprocess_period,
-    vra_enhanced_period_finding,
-    multiplicative_order,
     estimate_shot_reduction,
+    multiplicative_order,
+    vra_enhanced_period_finding,
+    vra_preprocess_period,
 )
 
 

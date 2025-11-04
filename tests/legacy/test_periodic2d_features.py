@@ -1,7 +1,8 @@
 
 def test_2d_histogram_shape():
     import numpy as np
-    from periodic2d_features import topk_2d_freqs, hist2d_from_freqs
+
+    from periodic2d_features import hist2d_from_freqs, topk_2d_freqs
     img = np.zeros((32,32))
     coords, mag = topk_2d_freqs(img, k=2)
     H = hist2d_from_freqs(coords, mag.shape, bins=16)

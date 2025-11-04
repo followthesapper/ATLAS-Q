@@ -9,18 +9,19 @@ Tests for research-grade validation:
 5. Cross-validation with external libraries (when available)
 """
 
-import numpy as np
 import sys
-from typing import List, Optional
 import time
+from typing import List, Optional
+
+import numpy as np
 
 # Import our system
 from atlas_q import (
-    QuantumClassicalHybrid,
+    GPUAccelerator,
+    MatrixProductState,
     PeriodicState,
     ProductState,
-    MatrixProductState,
-    GPUAccelerator
+    QuantumClassicalHybrid,
 )
 
 

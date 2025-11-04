@@ -1,6 +1,6 @@
 
 def test_memory_usage_and_sampling():
-    from atlas_q import PeriodicState, ProductState, MatrixProductState
+    from atlas_q import MatrixProductState, PeriodicState, ProductState
     p = PeriodicState(num_qubits=24, period=6)
     prod = ProductState(num_qubits=24)
     mps = MatrixProductState(num_qubits=24, bond_dim=8)

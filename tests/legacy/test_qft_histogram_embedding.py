@@ -1,6 +1,7 @@
 
 import numpy as np
 
+
 def coarse_hist(samples, n, bins=64):
     N = 2**n
     h = np.zeros(bins, dtype=float)

@@ -2,20 +2,16 @@
 Test Circuit Cutting integration with AdaptiveMPS
 """
 
-import pytest
-import torch
 import sys
 from pathlib import Path
+
+import pytest
+import torch
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
-from atlas_q.circuit_cutting import (
-    CouplingGraph,
-    CircuitCutter,
-    CuttingConfig,
-    MinCutPartitioner
-)
+from atlas_q.circuit_cutting import CircuitCutter, CouplingGraph, CuttingConfig, MinCutPartitioner
 
 
 def test_coupling_graph_basic():

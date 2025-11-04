@@ -1,6 +1,7 @@
 
 import numpy as np
 
+
 def test_hadamard_squared_identity():
     from atlas_q import QuantumClassicalHybrid
     h = QuantumClassicalHybrid(verbose=False)

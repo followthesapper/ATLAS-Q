@@ -10,19 +10,20 @@ Tests core functionality including:
 - Edge cases and error handling
 """
 
-import pytest
-import torch
-import numpy as np
 from typing import Set
 
+import numpy as np
+import pytest
+import torch
+
 from atlas_q.grover import (
-    GroverConfig,
-    GroverSearch,
-    FunctionOracle,
     BitmapOracle,
     DiffusionOperator,
-    grover_search,
+    FunctionOracle,
+    GroverConfig,
+    GroverSearch,
     calculate_grover_iterations,
+    grover_search,
 )
 
 

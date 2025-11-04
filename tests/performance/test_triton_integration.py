@@ -8,14 +8,15 @@ Author: Claude Code
 Date: October 2025
 """
 
-import sys
 import os
+import sys
 import time
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from atlas_q.quantum_hybrid_system import GPUAccelerator
 import numpy as np
+
+from atlas_q.quantum_hybrid_system import GPUAccelerator
 
 
 def test_triton_integration():

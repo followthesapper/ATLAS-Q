@@ -15,16 +15,17 @@ Test Strategy:
 5. Verify 1000-2350× reduction range
 """
 
-import pytest
 import numpy as np
+import pytest
+
 from atlas_q.vra_enhanced.vqe_grouping import (
-    estimate_pauli_coherence_matrix,
-    compute_Q_GLS,
-    group_by_variance_minimization,
-    allocate_shots_neyman,
-    compute_variance_reduction,
-    vra_hamiltonian_grouping,
     GroupingResult,
+    allocate_shots_neyman,
+    compute_Q_GLS,
+    compute_variance_reduction,
+    estimate_pauli_coherence_matrix,
+    group_by_variance_minimization,
+    vra_hamiltonian_grouping,
 )
 
 

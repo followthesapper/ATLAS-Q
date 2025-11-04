@@ -1,6 +1,7 @@
 
 import numpy as np
 
+
 def neighbor_corr(bits):
     n = bits.shape[1]
     cs = []

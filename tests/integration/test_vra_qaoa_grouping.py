@@ -7,12 +7,13 @@ Validates commutativity-aware edge grouping for QAOA MaxCut problems.
 Target: 10-500× variance reduction for medium-to-large graphs
 """
 
-import pytest
 import numpy as np
+import pytest
+
 from atlas_q.vra_enhanced import (
-    vra_qaoa_grouping,
-    edges_commute,
     check_group_commutativity_edges,
+    edges_commute,
+    vra_qaoa_grouping,
 )
 
 

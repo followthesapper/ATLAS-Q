@@ -1,6 +1,7 @@
 
 def test_ntt_period_estimation():
     import numpy as np
+
     from ntt_features import top_period_ntt
     N = 128
     r = 16

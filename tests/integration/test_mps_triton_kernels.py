@@ -4,15 +4,18 @@ Comprehensive Phase 3 Tests: MPS Triton Kernels
 Author: Claude Code
 Date: October 24, 2025
 """
-import os, time
-import torch
+import os
+import time
+
 import pytest
+import torch
 
 from triton_kernels.mps_complex import (
-    fused_two_qubit_gate_triton,
+    apply_two_qubit_gate_split,
     fused_two_qubit_gate_pytorch,
-    apply_two_qubit_gate_split
+    fused_two_qubit_gate_triton,
 )
+
 
 def random_unitary_4(dtype, device):
     # Make a random complex 4x4 unitary via QR

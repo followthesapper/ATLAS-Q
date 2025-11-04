@@ -4,9 +4,10 @@ Test gradient methods comparison.
 Compares group-level vs per-Pauli gradients for VQE.
 """
 
+import numpy as np
 import pytest
 import torch
-import numpy as np
+
 from atlas_q import get_mpo_ops, get_vqe_qaoa
 from atlas_q.ansatz_uccsd import UCCSDAnsatz
 

@@ -1,8 +1,10 @@
 
 import os
 import random
+
 import numpy as np
 import pytest
+
 
 @pytest.fixture(autouse=True)
 def _set_seed():

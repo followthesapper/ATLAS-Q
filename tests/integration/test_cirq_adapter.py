@@ -9,8 +9,8 @@ Verifies:
 - GPU acceleration when available
 """
 
-import pytest
 import numpy as np
+import pytest
 
 pytest.importorskip("cirq")
 

@@ -2,21 +2,17 @@
 Test PEPS (Projected Entangled Pair States) 2D tensor networks
 """
 
-import pytest
-import torch
-import numpy as np
 import sys
 from pathlib import Path
+
+import numpy as np
+import pytest
+import torch
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
-from atlas_q.peps import (
-    PEPS,
-    PEPSConfig,
-    PatchPEPS,
-    ContractionStrategy
-)
+from atlas_q.peps import PEPS, ContractionStrategy, PatchPEPS, PEPSConfig
 
 
 def test_peps_initialization():

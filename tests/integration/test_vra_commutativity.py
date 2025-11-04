@@ -14,14 +14,15 @@ Test Strategy:
 5. Demonstrate 10-50× improvement potential
 """
 
-import pytest
 import numpy as np
+import pytest
+
 from atlas_q.vra_enhanced import (
-    pauli_commutes,
     check_group_commutativity,
-    vra_hamiltonian_grouping,
     estimate_pauli_coherence_matrix,
     group_by_variance_minimization,
+    pauli_commutes,
+    vra_hamiltonian_grouping,
 )
 
 
@@ -381,10 +382,7 @@ def test_end_to_end_commutativity_enhancement():
         assert commutes
 
     # Compare variance reduction
-    from atlas_q.vra_enhanced.vqe_grouping import (
-        compute_variance_reduction,
-        allocate_shots_neyman
-    )
+    from atlas_q.vra_enhanced.vqe_grouping import allocate_shots_neyman, compute_variance_reduction
 
     total_shots = 10000
 

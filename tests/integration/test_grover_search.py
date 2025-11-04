@@ -14,18 +14,19 @@ Finding the exact marked state with high probability requires a more
 sophisticated multi-controlled gate implementation in the MPS backend.
 """
 
-import pytest
-import torch
-import numpy as np
 from typing import Set
 
+import numpy as np
+import pytest
+import torch
+
 from atlas_q.grover import (
+    BitmapOracle,
+    FunctionOracle,
     GroverConfig,
     GroverSearch,
-    FunctionOracle,
-    BitmapOracle,
-    grover_search,
     calculate_grover_iterations,
+    grover_search,
 )
 
 

@@ -1,6 +1,7 @@
 
 import pytest
 
+
 def test_mps_canonicalization_idempotent():
     from atlas_q import MatrixProductState
     mps = MatrixProductState(num_qubits=16, bond_dim=8)

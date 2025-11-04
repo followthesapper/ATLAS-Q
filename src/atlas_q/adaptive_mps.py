@@ -176,6 +176,9 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
         U2_device = U2.to(device=T.device, dtype=T.dtype)
         self.tensors[q] = torch.einsum("st,asb->atb", U2_device, T)
 
+        # Mark MPS as non-canonical after gate application
+        self.is_canonical = False
+
     @torch.no_grad()
     def apply_two_site_gate(self, i: int, U4: torch.Tensor):
         """
@@ -301,6 +304,9 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
             condS=condS,
         )
 
+        # Mark MPS as non-canonical after gate application
+        self.is_canonical = False
+
     @torch.no_grad()
     def to_left_canonical(self):
         """
@@ -326,11 +332,16 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
             B = self.tensors[i + 1]
             self.tensors[i + 1] = torch.einsum("ij,jkl->ikl", R, B)
 
-            # Update bond dimension
-            if i < len(self.bond_dims):
+            # Update bond dimension (if bond_dims exists - may not during __init__)
+            if hasattr(self, 'bond_dims') and i < len(self.bond_dims):
                 self.bond_dims[i] = χmid
 
         self.is_canonical = True
+
+    # Alias for compatibility with base class
+    def canonicalize_left_to_right(self):
+        """Alias for to_left_canonical() for compatibility"""
+        self.to_left_canonical()
 
     @torch.no_grad()
     def to_mixed_canonical(self, center: int):

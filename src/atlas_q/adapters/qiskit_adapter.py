@@ -29,10 +29,20 @@ except ImportError as e:
     QuantumCircuit, SparsePauliOp, Pauli = None, None, None
     Result, ExperimentResult, ExperimentResultData = None, None, None
 
-from atlas_q.coherence import classify_go_no_go, compute_coherence
 from atlas_q.adaptive_mps import AdaptiveMPS as MatrixProductState
+from atlas_q.coherence import classify_go_no_go, compute_coherence
 from atlas_q.stabilizer_backend import StabilizerSimulator
 from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+
+# Try to import Rust backends (stabilizer 9.3× faster than Aer, statevector 30-77× faster than Python)
+try:
+    import atlas_q_core
+    RUST_STABILIZER_AVAILABLE = True
+    RUST_STATEVECTOR_AVAILABLE = True
+except ImportError:
+    RUST_STABILIZER_AVAILABLE = False
+    RUST_STATEVECTOR_AVAILABLE = False
+    warnings.warn("Rust backends not available. Using Python (slower). Build with: cd atlas_q_core && cargo build --release")
 
 
 class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
@@ -68,6 +78,8 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
         enable_mps: bool = True,
         enable_stabilizer: bool = True,
         enable_gpu: bool = True,
+        use_rust_stabilizer: bool = True,
+        use_rust_statevector: bool = True,
         mps_threshold: int = 25,
         max_bond_dim: int = 128,
         **kwargs
@@ -85,6 +97,10 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
             Enable stabilizer backend for Clifford circuits (default: True)
         enable_gpu : bool
             Enable GPU acceleration via Triton kernels (default: True)
+        use_rust_stabilizer : bool
+            Use Rust stabilizer (9.3× faster than Qiskit Aer, default: True)
+        use_rust_statevector : bool
+            Use Rust statevector (30-77× faster than Python, default: True)
         mps_threshold : int
             Number of qubits above which to use MPS (default: 25)
         max_bond_dim : int
@@ -104,6 +120,8 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
         self._enable_mps = enable_mps
         self._enable_stabilizer = enable_stabilizer
         self._enable_gpu = enable_gpu
+        self._use_rust_stabilizer = use_rust_stabilizer and RUST_STABILIZER_AVAILABLE
+        self._use_rust_statevector = use_rust_statevector and RUST_STATEVECTOR_AVAILABLE
         self._mps_threshold = mps_threshold
         self._max_bond_dim = max_bond_dim
 
@@ -270,13 +288,13 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
             return observables, None
 
     def _run_stabilizer(self, circuit, shots, seed):
-        """Execute using stabilizer backend (optimized)"""
+        """Execute using stabilizer backend (Rust or Python)"""
         if seed is not None:
             np.random.seed(seed)
 
         n_qubits = circuit.num_qubits
 
-        # Helper to apply gate
+        # Helper to apply gate (works with both Rust and Python)
         def apply_gate_to_sim(sim, gate_name, qubits):
             if gate_name == 'h':
                 sim.h(qubits[0])
@@ -293,7 +311,12 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
             elif gate_name == 'cz':
                 sim.cz(qubits[0], qubits[1])
             elif gate_name == 'swap':
-                sim.swap(qubits[0], qubits[1])
+                if hasattr(sim, 'swap'):  # Python has swap method
+                    sim.swap(qubits[0], qubits[1])
+                else:  # Rust: implement swap as CNOT sequence
+                    sim.cnot(qubits[0], qubits[1])
+                    sim.cnot(qubits[1], qubits[0])
+                    sim.cnot(qubits[0], qubits[1])
             elif gate_name == 'measure':
                 pass  # Skip measure gates - we'll measure at end
             elif gate_name == 'barrier':
@@ -311,26 +334,49 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
         # Sample efficiently by copying the tableau (O(n²) not O(2^n))
         counts = {}
 
-        # Build initial state once
-        base_sim = StabilizerSimulator(n_qubits)
-        for gate_name, qubits in gate_sequence:
-            apply_gate_to_sim(base_sim, gate_name, qubits)
+        # Use Rust stabilizer if available (9.3× faster than Aer, 11.5× faster than Python)
+        if self._use_rust_stabilizer:
+            # Build initial state once
+            base_sim = atlas_q_core.StabilizerSimulatorRust(n_qubits)
+            for gate_name, qubits in gate_sequence:
+                apply_gate_to_sim(base_sim, gate_name, qubits)
 
-        # Create RNG once for all measurements (major speedup)
-        rng = np.random.RandomState(seed)
+            # Rust backend doesn't support copy, so we rebuild for each shot
+            # (Still faster than Python due to 11.5× speed advantage)
+            for _ in range(shots):
+                sim = atlas_q_core.StabilizerSimulatorRust(n_qubits)
+                for gate_name, qubits in gate_sequence:
+                    apply_gate_to_sim(sim, gate_name, qubits)
 
-        # Now sample by copying tableau and measuring
-        for _ in range(shots):
-            # Use fast numpy copy instead of deepcopy (much faster!)
-            sim_copy = base_sim.copy()
+                # Measure all qubits - Rust returns (outcome, is_random)
+                sample = []
+                for q in range(n_qubits):
+                    outcome, _ = sim.measure(q)  # Unpack tuple
+                    sample.append(int(outcome))
+                # Qiskit convention: qubit 0 is rightmost bit, so reverse the order
+                bitstring = ''.join(str(b) for b in reversed(sample))
+                counts[bitstring] = counts.get(bitstring, 0) + 1
+        else:
+            # Python stabilizer (fallback)
+            base_sim = StabilizerSimulator(n_qubits)
+            for gate_name, qubits in gate_sequence:
+                apply_gate_to_sim(base_sim, gate_name, qubits)
 
-            # Measure all qubits with reused RNG (avoids expensive RandomState() creation per call)
-            sample = []
-            for q in range(n_qubits):
-                sample.append(sim_copy.measure(q, rng=rng))
-            # Qiskit convention: qubit 0 is rightmost bit, so reverse the order
-            bitstring = ''.join(str(b) for b in reversed(sample))
-            counts[bitstring] = counts.get(bitstring, 0) + 1
+            # Create RNG once for all measurements (major speedup)
+            rng = np.random.RandomState(seed)
+
+            # Now sample by copying tableau and measuring
+            for _ in range(shots):
+                # Use fast numpy copy instead of deepcopy (much faster!)
+                sim_copy = base_sim.copy()
+
+                # Measure all qubits with reused RNG
+                sample = []
+                for q in range(n_qubits):
+                    sample.append(sim_copy.measure(q, rng=rng))
+                # Qiskit convention: qubit 0 is rightmost bit, so reverse the order
+                bitstring = ''.join(str(b) for b in reversed(sample))
+                counts[bitstring] = counts.get(bitstring, 0) + 1
 
         return counts, None
 
@@ -359,27 +405,92 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
         return counts, statevector
 
     def _run_statevector(self, circuit, shots, seed):
-        """Execute using full statevector simulation"""
+        """Execute using full statevector simulation (Rust or Python)"""
         if seed is not None:
             np.random.seed(seed)
 
         n_qubits = circuit.num_qubits
-        statevector = np.zeros(2**n_qubits, dtype=complex)
-        statevector[0] = 1.0
 
-        # Apply gates
-        for instruction in circuit.data:
-            gate = instruction.operation
-            qubits = [circuit.find_bit(q).index for q in instruction.qubits]
-            statevector = self._apply_gate(statevector, gate.name, qubits, gate.params, n_qubits)
+        # Use Rust statevector if available (30-77× faster)
+        if self._use_rust_statevector:
+            sim = atlas_q_core.StatevectorSimulatorRust(n_qubits)
 
-        # Sample
-        probs = np.abs(statevector) ** 2
-        probs = probs / np.sum(probs)  # Normalize to handle numerical errors
-        samples = np.random.choice(len(probs), size=shots, p=probs)
-        counts = self._samples_to_counts(samples, n_qubits)
+            # Apply gates
+            for instruction in circuit.data:
+                gate = instruction.operation
+                gate_name = gate.name.lower()
+                qubits = [circuit.find_bit(q).index for q in instruction.qubits]
 
-        return counts, statevector
+                # Skip measurement and barrier
+                if gate_name in ['measure', 'barrier']:
+                    continue
+
+                # Single-qubit gates
+                if len(qubits) == 1:
+                    q = qubits[0]
+                    if gate_name == 'h':
+                        sim.h(q)
+                    elif gate_name == 'x':
+                        sim.x(q)
+                    elif gate_name == 'y':
+                        sim.y(q)
+                    elif gate_name == 'z':
+                        sim.z(q)
+                    elif gate_name == 's':
+                        sim.s(q)
+                    elif gate_name == 'sdg':
+                        sim.sdg(q)
+                    elif gate_name == 't':
+                        sim.t(q)
+                    elif gate_name == 'tdg':
+                        sim.tdg(q)
+                    elif gate_name == 'rx':
+                        sim.rx(q, gate.params[0])
+                    elif gate_name == 'ry':
+                        sim.ry(q, gate.params[0])
+                    elif gate_name == 'rz':
+                        sim.rz(q, gate.params[0])
+                    else:
+                        raise ValueError(f"Unknown single-qubit gate: {gate_name}")
+
+                # Two-qubit gates
+                elif len(qubits) == 2:
+                    q0, q1 = qubits
+                    if gate_name in ['cx', 'cnot']:
+                        sim.cnot(q0, q1)
+                    elif gate_name == 'cz':
+                        sim.cz(q0, q1)
+                    elif gate_name == 'swap':
+                        sim.swap(q0, q1)
+                    else:
+                        raise ValueError(f"Unknown two-qubit gate: {gate_name}")
+
+            # Sample
+            samples = sim.sample(shots)
+            counts = self._samples_to_counts(samples, n_qubits)
+
+            # TODO: Extract statevector for expectation value computation
+            # For now, return None for statevector (Rust backend doesn't expose it yet)
+            return counts, None
+
+        # Fallback to Python statevector (slower)
+        else:
+            statevector = np.zeros(2**n_qubits, dtype=complex)
+            statevector[0] = 1.0
+
+            # Apply gates
+            for instruction in circuit.data:
+                gate = instruction.operation
+                qubits = [circuit.find_bit(q).index for q in instruction.qubits]
+                statevector = self._apply_gate(statevector, gate.name, qubits, gate.params, n_qubits)
+
+            # Sample
+            probs = np.abs(statevector) ** 2
+            probs = probs / np.sum(probs)  # Normalize to handle numerical errors
+            samples = np.random.choice(len(probs), size=shots, p=probs)
+            counts = self._samples_to_counts(samples, n_qubits)
+
+            return counts, statevector
 
     def _convert_circuit(self, circuit: 'QuantumCircuit'):
         """Convert Qiskit circuit to ATLAS-Q format"""
@@ -620,7 +731,7 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
         if isinstance(samples, dict):
             # Already in dict format
             return samples
-        elif isinstance(samples, np.ndarray):
+        elif isinstance(samples, (np.ndarray, list)):
             # Integer samples - convert to counts
             counts = {}
             for sample in samples:

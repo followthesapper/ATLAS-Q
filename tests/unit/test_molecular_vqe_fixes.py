@@ -9,13 +9,15 @@ Tests to prevent regressions in:
 """
 
 import sys
+
+import numpy as np
 import pytest
 import torch
-import numpy as np
+
+from atlas_q.ansatz_uccsd import UCCSDAnsatz
 
 # Import ATLAS-Q modules
 from atlas_q.mpo_ops import MPOBuilder, expectation_value
-from atlas_q.ansatz_uccsd import UCCSDAnsatz
 
 
 class TestMolecularVQEFixes:

@@ -2,6 +2,7 @@
 import csv
 from pathlib import Path
 
+
 def test_batch_factor_api_like():
     # Prepare a transient CSV similar to the example notebook
     csv_path = Path('tmp/tmp_rsa_targets.csv')

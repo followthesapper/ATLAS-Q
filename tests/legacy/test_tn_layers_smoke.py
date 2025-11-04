@@ -2,7 +2,8 @@
 def test_tn_layers_shapes():
     try:
         import torch
-        from tn_layers import TensorTrainBottleneck, TTNBlock, MERALite
+
+        from tn_layers import MERALite, TensorTrainBottleneck, TTNBlock
     except Exception:
         return  # skip if no torch
     B, T, D = 2, 32, 64

@@ -14,8 +14,8 @@ import pytest
 from atlas_q.coherence import (
     CoherenceMetrics,
     compute_coherence,
-    validate_coherence_law,
     compute_pauli_expectation,
+    validate_coherence_law,
 )
 
 

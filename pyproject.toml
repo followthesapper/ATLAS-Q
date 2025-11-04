@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "atlas-quantum"
-version = "0.6.3"
-description = "GPU-accelerated quantum tensor network simulator with coherence-aware VQE, adaptive MPS, molecular chemistry, VRA integration, and cuQuantum backend"
+version = "0.6.4"
+description = "High-performance quantum simulator with Rust backends (9.3× faster than Qiskit Aer), GPU acceleration, VRA measurement reduction, and coherence-aware VQE"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
@@ -31,7 +31,12 @@ keywords = [
     "circuit-cutting",
     "gpu-acceleration",
     "cuquantum",
-    "nisq"
+    "nisq",
+    "rust",
+    "stabilizer",
+    "statevector",
+    "qiskit-aer",
+    "performance"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -44,10 +49,12 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Rust",
     "Topic :: Scientific/Engineering :: Physics",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Operating System :: OS Independent",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
 ]
 
 dependencies = [
@@ -129,7 +136,8 @@ where = ["src"]
 include = ["atlas_q*", "triton_kernels*"]
 
 [tool.setuptools.package-data]
-atlas_q = ["py.typed"]
+atlas_q = ["py.typed", "*.so", "*.pyd"]
+"" = ["atlas_q_core.so", "atlas_q_core.pyd"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"

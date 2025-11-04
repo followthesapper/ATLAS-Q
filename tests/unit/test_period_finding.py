@@ -1,6 +1,8 @@
 
 import math
+
 import pytest
+
 
 def have(h, name):
     return hasattr(h, name)

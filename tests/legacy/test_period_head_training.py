@@ -1,7 +1,10 @@
 import pytest
 
+
 def test_period_head_training_script_imports():
-    import importlib.util, sys, pathlib
+    import importlib.util
+    import pathlib
+    import sys
     p = pathlib.Path("scripts/ai_tools/qih_period_head_train.py")
     if not p.exists():
         pytest.skip("Script qih_period_head_train.py not found")

@@ -1,6 +1,7 @@
 
 import pytest
 
+
 @pytest.mark.gpu
 def test_cpu_gpu_period_consistency():
     from atlas_q import QuantumClassicalHybrid

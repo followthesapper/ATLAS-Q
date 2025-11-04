@@ -5,20 +5,17 @@ Note: These tests work with fallback mode if cuQuantum is not installed.
 Full acceleration tests require cuquantum-python package.
 """
 
-import pytest
-import torch
-import numpy as np
 import sys
 from pathlib import Path
+
+import numpy as np
+import pytest
+import torch
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
-from atlas_q.cuquantum_backend import (
-    CuQuantumBackend,
-    CuQuantumConfig,
-    CUQUANTUM_AVAILABLE
-)
+from atlas_q.cuquantum_backend import CUQUANTUM_AVAILABLE, CuQuantumBackend, CuQuantumConfig
 
 
 def test_cuquantum_availability_detection():

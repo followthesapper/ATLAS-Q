@@ -1,6 +1,7 @@
 
 import numpy as np
 
+
 def gen_jittered_signal(period, length=4096, jitter=2, seed=0):
     rng = np.random.default_rng(seed)
     x = np.zeros(length)
