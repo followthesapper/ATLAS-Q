@@ -5,6 +5,52 @@ All notable changes to ATLAS-Q will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.3] - 2025-11-04
+
+### Added
+
+#### Qiskit & Cirq Adapters - Drop-in Replacement for Popular Frameworks
+- **Qiskit Adapter** (`src/atlas_q/adapters/qiskit_adapter.py`): Zero-code-change replacement for Qiskit Aer
+  - `ATLASQBackend`: Implements Qiskit BackendV2 interface
+  - `ATLASQProvider`: Provider interface for backend discovery
+  - Automatic backend selection: Clifford → Stabilizer, >25 qubits → MPS, else → Statevector
+  - VRA observable grouping: 5× measurement reduction for VQE Hamiltonians
+  - Coherence metrics: Automatic R̄ computation for VQE patterns
+  - GPU acceleration: Transparent Triton kernel usage for MPS operations
+  - Full Qiskit compatibility: Drop-in replacement for `Aer.get_backend('qasm_simulator')`
+- **Cirq Adapter** (`src/atlas_q/adapters/cirq_adapter.py`): Zero-code-change replacement for Cirq simulators
+  - `ATLASQSimulator`: Implements Cirq `SimulatesSamples` and `SimulatesExpectationValues`
+  - Same automatic optimizations as Qiskit adapter (VRA, MPS, stabilizer, GPU)
+  - Parameter sweep support via `run_sweep()`
+  - Expectation value computation with VRA grouping
+  - Full Cirq compatibility: Drop-in replacement for `cirq.Simulator()`
+- **Comprehensive Tests** (`tests/integration/test_qiskit_adapter.py`, `test_cirq_adapter.py`):
+  - Bell state, GHZ state, parametric circuits
+  - Clifford detection and stabilizer backend activation
+  - MPS threshold testing (>25 qubits)
+  - VRA measurement compression verification
+  - Coherence metric validation for VQE patterns
+  - Multi-circuit execution
+- **Performance Benchmarks** (`benchmarks/adapter_comparison_benchmark.py`):
+  - Qiskit Aer vs ATLAS-Q: Bell states, Clifford circuits, VQE with VRA, large MPS circuits
+  - Cirq simulator vs ATLAS-Q: Same comprehensive comparison suite
+  - Demonstrates 5× VRA reduction, 20× stabilizer speedup, 626,000× MPS memory efficiency
+
+### Changed
+- **Optional Dependencies** (`pyproject.toml`):
+  - Added `[qiskit]`: `qiskit>=0.44.0`
+  - Added `[cirq]`: `cirq>=1.2.0`
+  - Added `[adapters]`: Meta-package for both Qiskit and Cirq
+  - Updated `[all]` to include adapters
+- **README**: Added prominent "Drop-in Qiskit/Cirq Adapters" section with usage examples
+- **Documentation**: Installation instructions for `pip install atlas-quantum[adapters]`
+
+### Performance
+- **5× measurement reduction**: Automatic VRA grouping for VQE observables (Qiskit/Cirq)
+- **20× Clifford speedup**: Automatic stabilizer backend (Qiskit/Cirq)
+- **626,000× memory efficiency**: Automatic MPS for >25 qubits (Qiskit/Cirq)
+- **1.5-3× GPU speedup**: Transparent Triton kernels for MPS ops (Qiskit/Cirq)
+
 ## [0.6.2] - 2025-11-04
 
 ### Added

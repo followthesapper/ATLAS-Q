@@ -94,6 +94,14 @@ class StabilizerSimulator:
         self.state = StabilizerState.init_zero(n_qubits)
         self.measurement_outcomes: List[int] = []
 
+    def copy(self) -> "StabilizerSimulator":
+        """Fast copy using numpy array copy (much faster than deepcopy)"""
+        new_sim = StabilizerSimulator.__new__(StabilizerSimulator)
+        new_sim.n_qubits = self.n_qubits
+        new_sim.state = self.state.copy()
+        new_sim.measurement_outcomes = self.measurement_outcomes.copy()
+        return new_sim
+
     def _rowsum(self, h: int, i: int):
         """
         Multiply stabilizer generator h by generator i (Pauli group multiplication)
@@ -288,8 +296,32 @@ class StabilizerSimulator:
             for i in range(n, 2 * n):  # Only search stabilizer rows
                 if tab[i, qubit] == 0 and tab[i, n + qubit] == 1:
                     # This row has Z but not X on this qubit
-                    # Phase bit convention: 0 means +Z stabilizer (|0⟩), 1 means -Z stabilizer (|1⟩)
-                    outcome = int(tab[i, -1])
+                    # Phase bit encodes parity of ALL qubits with Z in this stabilizer
+                    # We need to account for other qubits already measured
+                    phase = int(tab[i, -1])
+
+                    # XOR with measurement outcomes of all OTHER qubits with Z in this stabilizer
+                    for j in range(n):
+                        if j != qubit and tab[i, n + j] == 1:  # Other qubit has Z
+                            # Get measurement outcome of qubit j
+                            # Check if qubit j has been measured (has Z but not X in some stabilizer)
+                            measured_j = 0
+                            for k in range(n, 2 * n):
+                                if tab[k, j] == 0 and tab[k, n + j] == 1 and tab[k, n + qubit] == 0:
+                                    # Stabilizer k has Z on j but not on our target qubit
+                                    # This means j was measured with outcome = phase of k
+                                    measured_j = int(tab[k, -1])
+                                    break
+                            phase = (phase + measured_j) % 2
+
+                    outcome = phase
+
+                    # Update tableau to make this measurement explicit for future measurements
+                    # Replace this stabilizer row with just Z on the target qubit
+                    tab[i, :n] = 0  # Clear X part
+                    tab[i, n:2*n] = 0  # Clear Z part
+                    tab[i, n + qubit] = 1  # Set Z on target qubit
+                    tab[i, -1] = outcome  # Set phase
                     break
         else:
             # Random outcome

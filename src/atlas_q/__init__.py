@@ -312,6 +312,26 @@ def get_coherence():
         'coherence_aware_vqe': coherence_aware_vqe,
     }
 
+def get_adapters():
+    """Get Qiskit/Cirq adapters for drop-in ATLAS-Q integration"""
+    adapters = {}
+    try:
+        from .adapters import ATLASQBackend, ATLASQProvider
+        adapters['ATLASQBackend'] = ATLASQBackend
+        adapters['ATLASQProvider'] = ATLASQProvider
+        adapters['qiskit_available'] = True
+    except ImportError:
+        adapters['qiskit_available'] = False
+
+    try:
+        from .adapters import ATLASQSimulator
+        adapters['ATLASQSimulator'] = ATLASQSimulator
+        adapters['cirq_available'] = True
+    except ImportError:
+        adapters['cirq_available'] = False
+
+    return adapters
+
 # Direct module access (preferred, simpler API)
 # These are lazily loaded when first accessed
 from . import (
@@ -383,6 +403,7 @@ __all__ = [
     'get_distributed_mps',
     'get_peps',
     'get_coherence',  # NEW
+    'get_adapters',  # NEW: Qiskit/Cirq adapters
 ]
 
 # Direct imports for backwards compatibility

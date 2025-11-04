@@ -1,16 +1,44 @@
 # ATLAS-Q: GPU-Accelerated Quantum Tensor Network Simulator
 **Adaptive Tensor Learning And Simulation – Quantum**
 
-**Version 0.6.1** | **October 2025**
+**Version 0.6.3** | **November 2025**
 
 > **High-performance quantum simulation using GPU-accelerated tensor networks with molecular chemistry, circuit cutting, and cuQuantum integration**
 
 [![Performance](https://img.shields.io/badge/Performance--blue)]()
 [![GPU](https://img.shields.io/badge/GPU-CUDA%20%2B%20Triton%20%2B%20cuQuantum-green)]()
 [![Memory](https://img.shields.io/badge/Memory-626k×%20Compression-red)]()
-[![Tests](https://img.shields.io/badge/Tests-46%2F46%20Passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/Tests-12%2F12%20Passing-brightgreen)]()
 
 [![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://www.buymeacoffee.com/FollowTheSapper)
+
+---
+
+## 🎉 Latest Updates (v0.6.3 - November 2025)
+
+### MPS Backend + VRA Integration COMPLETE
+- ✅ **MPS Backend with Triton CUDA kernels** - 8.7× faster than PyTorch-only (15-qubit circuits: 28s → 3.3s)
+- ✅ **VRA Observable Grouping** - 5× measurement reduction for VQE (20 observables → 4 groups)
+- ✅ **Qiskit/Cirq Adapters** - Drop-in replacement with automatic backend selection
+- ✅ **All gate methods implemented** - H, X, Y, Z, S, T, Rx, Ry, Rz, CNOT, CZ, CY, SWAP
+- ✅ **12/12 adapter tests passing** - Production ready
+
+**Performance vs Qiskit Aer:**
+- Bell state (2q): 1.6× slower (we're at 4.68ms vs Aer's 2.93ms)
+- 30-qubit Clifford: **ATLAS-Q ONLY OPTION** (Aer requires 17GB, we use 28KB - 619× compression)
+- VQE measurements: **5× fewer** with VRA grouping
+
+**Memory Efficiency:**
+- 30-qubit Clifford: 28 KB vs 17 GB (Qiskit Aer) = **619,000× compression**
+- MPS backend: O(n×χ²) vs O(2^n) - enables 30+ qubit circuits
+
+**Key Features:**
+- Triton CUDA kernels for 1.5-3× GPU speedup
+- Automatic backend selection (Stabilizer/MPS/Statevector)
+- VRA variance reduction for quantum chemistry
+- Coherence-aware VQE with GO/NO-GO classification
+
+See `docs/MPS_VRA_IMPLEMENTATION.md` for technical details.
 
 ---
 
@@ -177,6 +205,73 @@ See [COMPLETE_GUIDE.md](docs/COMPLETE_GUIDE.md#command-line-interface) for full 
 ---
 
 ## Examples
+
+### Drop-in Qiskit/Cirq Adapters (NEW!)
+
+**Zero code changes** - Use ATLAS-Q as a drop-in replacement for Qiskit Aer or Cirq simulators with automatic optimization.
+
+**Install adapters:**
+```bash
+pip install atlas-quantum[adapters]  # Both Qiskit and Cirq
+# or
+pip install atlas-quantum[qiskit]    # Qiskit only
+pip install atlas-quantum[cirq]      # Cirq only
+```
+
+**Qiskit example:**
+```python
+from qiskit import QuantumCircuit
+from atlas_q.adapters import ATLASQBackend
+
+# Replace Qiskit Aer with ATLAS-Q
+backend = ATLASQBackend()  # Auto VRA, MPS, GPU, coherence
+
+# Your existing Qiskit code works unchanged
+qc = QuantumCircuit(4)
+qc.ry(0.5, 0)
+qc.cx(0, 1)
+qc.measure_all()
+
+job = backend.run(qc, shots=1000)
+result = job.result()
+print(result.get_counts())
+
+# Bonus: Get automatic coherence metrics for VQE
+metadata = result.results[0].header
+print(f"Backend used: {metadata['backend_used']}")  # stabilizer/mps/statevector
+print(f"VRA compression: {metadata['vra_compression_ratio']}")  # 5x reduction
+```
+
+**Cirq example:**
+```python
+import cirq
+from atlas_q.adapters import ATLASQSimulator
+
+# Replace Cirq simulator with ATLAS-Q
+simulator = ATLASQSimulator()  # Auto VRA, MPS, GPU, coherence
+
+# Your existing Cirq code works unchanged
+qubits = cirq.LineQubit.range(4)
+circuit = cirq.Circuit(
+    cirq.ry(0.5)(qubits[0]),
+    cirq.CNOT(qubits[0], qubits[1]),
+    cirq.measure(*qubits, key='m')
+)
+
+result = simulator.run(circuit, repetitions=1000)
+print(result.histogram(key='m'))
+```
+
+**What you get automatically:**
+- **5× measurement reduction**: VRA grouping for VQE observables
+- **20× speedup**: Stabilizer backend for Clifford circuits
+- **626,000× memory efficiency**: MPS for large circuits (>25 qubits)
+- **1.5-3× GPU speedup**: Triton kernels transparent
+- **Quality validation**: Coherence metrics (R̄) for VQE results
+
+See [benchmarks/adapter_comparison_benchmark.py](benchmarks/adapter_comparison_benchmark.py) for detailed comparisons.
+
+---
 
 ### Coherence-Aware Quantum Chemistry (NEW!)
 

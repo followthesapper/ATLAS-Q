@@ -94,9 +94,24 @@ notebooks = [
     "ipykernel>=6.22",
 ]
 
+# Qiskit adapter (drop-in replacement for Qiskit Aer)
+qiskit = [
+    "qiskit>=0.44.0",
+]
+
+# Cirq adapter (drop-in replacement for Cirq simulator)
+cirq = [
+    "cirq>=1.2.0",
+]
+
+# All adapters
+adapters = [
+    "atlas-quantum[qiskit,cirq]",
+]
+
 # All optional dependencies
 all = [
-    "atlas-quantum[gpu,cuquantum,chemistry,ml,dev,notebooks]",
+    "atlas-quantum[gpu,cuquantum,chemistry,ml,dev,notebooks,adapters]",
 ]
 
 [project.urls]

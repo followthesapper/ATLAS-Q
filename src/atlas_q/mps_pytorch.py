@@ -169,11 +169,16 @@ class MatrixProductStatePyTorch(CompressedQuantumStatePyTorch):
             sample = 0
 
             # Sample from left to right using conditional probabilities
-            # Start with left boundary
-            left_state = torch.ones((1,), dtype=torch.complex128, device=self.device)
+            # Start with left boundary (use dtype of first tensor)
+            tensor_dtype = self.tensors[0].dtype
+            left_state = torch.ones((1,), dtype=tensor_dtype, device=self.device)
 
             for i in range(self.num_qubits):
                 tensor = self.tensors[i]
+
+                # Ensure tensor matches left_state dtype (for AdaptiveMPS which can promote dtypes)
+                if tensor.dtype != left_state.dtype:
+                    tensor = tensor.to(dtype=left_state.dtype)
 
                 # Compute probability for each outcome (0 or 1)
                 # by contracting with current left state
@@ -227,6 +232,22 @@ class MatrixProductStatePyTorch(CompressedQuantumStatePyTorch):
 
         return results
 
+    def sample(self, num_shots: int = 1) -> List[int]:
+        """
+        Sample measurement outcomes from MPS
+
+        Parameters
+        ----------
+        num_shots : int
+            Number of measurement samples to generate
+
+        Returns
+        -------
+        List[int]
+            List of measurement outcomes as integers (basis states)
+        """
+        return self.measure(num_shots)
+
     def measure(self, num_shots: int = 1) -> List[int]:
         """
         Simulate measurement with accurate MPS sampling
@@ -240,6 +261,214 @@ class MatrixProductStatePyTorch(CompressedQuantumStatePyTorch):
         # For small systems, can use rejection sampling
         # (Would need to implement base class measure for small systems)
         return self.sweep_sample(num_shots)
+
+    def apply_single_qubit_gate(self, qubit: int, gate: torch.Tensor):
+        """
+        Apply single-qubit gate to MPS
+
+        Parameters
+        ----------
+        qubit : int
+            Target qubit index
+        gate : torch.Tensor
+            2x2 gate matrix
+        """
+        if gate.device != self.device:
+            gate = gate.to(self.device)
+
+        # Get MPS tensor at target qubit: [left_bond, 2, right_bond]
+        tensor = self.tensors[qubit]
+        left_dim, phys_dim, right_dim = tensor.shape
+
+        # Reshape to [left_bond * right_bond, 2]
+        reshaped = tensor.permute(0, 2, 1).reshape(left_dim * right_dim, phys_dim)
+
+        # Apply gate: [left_bond * right_bond, 2] @ [2, 2] = [left_bond * right_bond, 2]
+        result = reshaped @ gate.T
+
+        # Reshape back to [left_bond, 2, right_bond]
+        self.tensors[qubit] = result.reshape(left_dim, right_dim, phys_dim).permute(0, 2, 1)
+
+    def apply_two_qubit_gate(self, qubit1: int, qubit2: int, gate: torch.Tensor):
+        """
+        Apply two-qubit gate to adjacent qubits in MPS
+
+        Parameters
+        ----------
+        qubit1 : int
+            First qubit index
+        qubit2 : int
+            Second qubit index (must be qubit1 + 1)
+        gate : torch.Tensor
+            4x4 gate matrix in computational basis order |00>, |01>, |10>, |11>
+        """
+        if abs(qubit1 - qubit2) != 1:
+            raise NotImplementedError("Only adjacent qubit gates supported")
+
+        # Ensure qubit1 < qubit2
+        if qubit1 > qubit2:
+            qubit1, qubit2 = qubit2, qubit1
+
+        if gate.device != self.device:
+            gate = gate.to(self.device)
+
+        # Get tensors: [left1, 2, bond], [bond, 2, right2]
+        tensor1 = self.tensors[qubit1]
+        tensor2 = self.tensors[qubit2]
+
+        left1, _, bond = tensor1.shape
+        _, _, right2 = tensor2.shape
+
+        # Contract tensors to form [left1, 2, 2, right2]
+        # tensor1: [left1, 2, bond] @ tensor2: [bond, 2, right2]
+        # = [left1, 2_i, 2_j, right2] where i is qubit1, j is qubit2
+        contracted = torch.einsum('lab,bcd->lacd', tensor1, tensor2)
+
+        # Reshape to [left1 * right2, 4] where 4 = 2*2 (two physical dimensions)
+        reshaped = contracted.reshape(left1 * right2, 4)
+
+        # Apply gate: [left1 * right2, 4] @ [4, 4]
+        result = reshaped @ gate.T
+
+        # Reshape back to [left1, 2, 2, right2]
+        result = result.reshape(left1, 2, 2, right2)
+
+        # SVD to split back into two tensors
+        # Reshape to matrix for SVD: [left1 * 2, 2 * right2]
+        matrix = result.reshape(left1 * 2, 2 * right2)
+
+        # SVD with truncation to bond dimension
+        U, S, Vh = torch.linalg.svd(matrix, full_matrices=False)
+
+        # Truncate to bond dimension
+        keep = min(self.bond_dim, len(S))
+        U = U[:, :keep]
+        S = S[:keep]
+        Vh = Vh[:keep, :]
+
+        # Absorb singular values into V (convert S to complex dtype)
+        V = torch.diag(S.to(Vh.dtype)) @ Vh
+
+        # Reshape back to MPS tensors
+        self.tensors[qubit1] = U.reshape(left1, 2, keep)
+        self.tensors[qubit2] = V.reshape(keep, 2, right2)
+
+    # Single-qubit Clifford gates
+    def h(self, qubit: int):
+        """Hadamard gate"""
+        H = torch.tensor([[1, 1], [1, -1]], dtype=self.dtype, device=self.device) / torch.sqrt(torch.tensor(2.0, device=self.device))
+        self.apply_single_qubit_gate(qubit, H)
+
+    def x(self, qubit: int):
+        """Pauli X gate"""
+        X = torch.tensor([[0, 1], [1, 0]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, X)
+
+    def y(self, qubit: int):
+        """Pauli Y gate"""
+        Y = torch.tensor([[0, -1j], [1j, 0]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Y)
+
+    def z(self, qubit: int):
+        """Pauli Z gate"""
+        Z = torch.tensor([[1, 0], [0, -1]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Z)
+
+    def s(self, qubit: int):
+        """S gate (phase gate)"""
+        S = torch.tensor([[1, 0], [0, 1j]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, S)
+
+    def sdg(self, qubit: int):
+        """S-dagger gate"""
+        Sdg = torch.tensor([[1, 0], [0, -1j]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Sdg)
+
+    def t(self, qubit: int):
+        """T gate"""
+        T = torch.tensor([[1, 0], [0, torch.exp(torch.tensor(1j * torch.pi / 4))]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, T)
+
+    def tdg(self, qubit: int):
+        """T-dagger gate"""
+        Tdg = torch.tensor([[1, 0], [0, torch.exp(torch.tensor(-1j * torch.pi / 4))]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Tdg)
+
+    # Single-qubit rotation gates
+    def rx(self, qubit: int, theta: float):
+        """Rotation around X axis"""
+        cos = torch.cos(torch.tensor(theta / 2, device=self.device))
+        sin = torch.sin(torch.tensor(theta / 2, device=self.device))
+        Rx = torch.tensor([
+            [cos, -1j * sin],
+            [-1j * sin, cos]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Rx)
+
+    def ry(self, qubit: int, theta: float):
+        """Rotation around Y axis"""
+        cos = torch.cos(torch.tensor(theta / 2, device=self.device))
+        sin = torch.sin(torch.tensor(theta / 2, device=self.device))
+        Ry = torch.tensor([
+            [cos, -sin],
+            [sin, cos]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Ry)
+
+    def rz(self, qubit: int, theta: float):
+        """Rotation around Z axis"""
+        exp_pos = torch.exp(torch.tensor(1j * theta / 2))
+        exp_neg = torch.exp(torch.tensor(-1j * theta / 2))
+        Rz = torch.tensor([
+            [exp_neg, 0],
+            [0, exp_pos]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Rz)
+
+    # Two-qubit gates
+    def cnot(self, control: int, target: int):
+        """CNOT gate (controlled-X)"""
+        CNOT = torch.tensor([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 0, 1],
+            [0, 0, 1, 0]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_two_qubit_gate(control, target, CNOT)
+
+    def cx(self, control: int, target: int):
+        """Alias for CNOT"""
+        self.cnot(control, target)
+
+    def cz(self, control: int, target: int):
+        """CZ gate (controlled-Z)"""
+        CZ = torch.tensor([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, -1]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_two_qubit_gate(control, target, CZ)
+
+    def cy(self, control: int, target: int):
+        """CY gate (controlled-Y)"""
+        CY = torch.tensor([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 0, -1j],
+            [0, 0, 1j, 0]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_two_qubit_gate(control, target, CY)
+
+    def swap(self, qubit1: int, qubit2: int):
+        """SWAP gate"""
+        SWAP = torch.tensor([
+            [1, 0, 0, 0],
+            [0, 0, 1, 0],
+            [0, 1, 0, 0],
+            [0, 0, 0, 1]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_two_qubit_gate(qubit1, qubit2, SWAP)
 
     def _normalize(self):
         """Normalize the MPS using canonical form"""
@@ -274,6 +503,26 @@ class MatrixProductStatePyTorch(CompressedQuantumStatePyTorch):
 
         amp = result[0, 0]
         return complex(amp.real.item(), amp.imag.item())
+
+    def to_statevector(self):
+        """
+        Convert MPS to full statevector representation
+
+        Returns
+        -------
+        np.ndarray
+            Complex array of shape (2^n,) containing all amplitudes
+
+        Warning
+        -------
+        Memory scales as O(2^n). Only use for small systems (n <= 20).
+        """
+        import numpy as np
+
+        statevector = np.zeros(2**self.num_qubits, dtype=complex)
+        for i in range(2**self.num_qubits):
+            statevector[i] = self.get_amplitude(i)
+        return statevector
 
     def memory_usage(self) -> int:
         """Memory usage in bytes"""

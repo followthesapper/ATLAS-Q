@@ -468,3 +468,145 @@ class AdaptiveMPS(MatrixProductStatePyTorch):
         result = result.squeeze(-1).reshape(-1)
 
         return result
+
+    # ===========================================================================
+    # Named Gate Methods (Qiskit/Cirq Compatibility)
+    # ===========================================================================
+    # These methods provide convenient wrappers that use the Triton-optimized
+    # apply_single_qubit_gate() and apply_two_site_gate() methods
+
+    def h(self, qubit: int):
+        """Hadamard gate"""
+        H = torch.tensor([[1, 1], [1, -1]], dtype=self.dtype, device=self.device) / torch.sqrt(torch.tensor(2.0, device=self.device))
+        self.apply_single_qubit_gate(qubit, H)
+
+    def x(self, qubit: int):
+        """Pauli X gate"""
+        X = torch.tensor([[0, 1], [1, 0]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, X)
+
+    def y(self, qubit: int):
+        """Pauli Y gate"""
+        Y = torch.tensor([[0, -1j], [1j, 0]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Y)
+
+    def z(self, qubit: int):
+        """Pauli Z gate"""
+        Z = torch.tensor([[1, 0], [0, -1]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Z)
+
+    def s(self, qubit: int):
+        """Phase gate (S gate)"""
+        S = torch.tensor([[1, 0], [0, 1j]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, S)
+
+    def sdg(self, qubit: int):
+        """S dagger gate"""
+        Sdg = torch.tensor([[1, 0], [0, -1j]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Sdg)
+
+    def t(self, qubit: int):
+        """T gate"""
+        T = torch.tensor([[1, 0], [0, torch.exp(1j * torch.tensor(torch.pi / 4, device=self.device))]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, T)
+
+    def tdg(self, qubit: int):
+        """T dagger gate"""
+        Tdg = torch.tensor([[1, 0], [0, torch.exp(-1j * torch.tensor(torch.pi / 4, device=self.device))]], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Tdg)
+
+    def rx(self, qubit: int, theta: float):
+        """Rotation around X axis"""
+        Rx = torch.tensor([
+            [torch.cos(theta/2), -1j * torch.sin(theta/2)],
+            [-1j * torch.sin(theta/2), torch.cos(theta/2)]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Rx)
+
+    def ry(self, qubit: int, theta: float):
+        """Rotation around Y axis"""
+        Ry = torch.tensor([
+            [torch.cos(theta/2), -torch.sin(theta/2)],
+            [torch.sin(theta/2), torch.cos(theta/2)]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Ry)
+
+    def rz(self, qubit: int, theta: float):
+        """Rotation around Z axis"""
+        Rz = torch.tensor([
+            [torch.exp(-1j * theta/2), 0],
+            [0, torch.exp(1j * theta/2)]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_single_qubit_gate(qubit, Rz)
+
+    def cnot(self, control: int, target: int):
+        """CNOT gate (uses Triton-optimized two-site gate)"""
+        if abs(control - target) != 1:
+            raise NotImplementedError("Only adjacent qubit gates supported in MPS")
+
+        # Ensure control < target for apply_two_site_gate
+        if control > target:
+            control, target = target, control
+            # Swap CNOT: use SWAP + CNOT + SWAP basis transformation
+            # For now, raise error
+            raise NotImplementedError("Non-adjacent CNOT or reversed control/target not yet supported")
+
+        CNOT = torch.tensor([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 0, 1],
+            [0, 0, 1, 0]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_two_site_gate(control, CNOT)
+
+    def cx(self, control: int, target: int):
+        """Alias for CNOT"""
+        self.cnot(control, target)
+
+    def cz(self, q0: int, q1: int):
+        """Controlled-Z gate"""
+        if abs(q0 - q1) != 1:
+            raise NotImplementedError("Only adjacent qubit gates supported in MPS")
+
+        q0, q1 = min(q0, q1), max(q0, q1)
+        CZ = torch.tensor([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, -1]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_two_site_gate(q0, CZ)
+
+    def cy(self, control: int, target: int):
+        """Controlled-Y gate"""
+        if abs(control - target) != 1:
+            raise NotImplementedError("Only adjacent qubit gates supported in MPS")
+
+        if control > target:
+            raise NotImplementedError("Reversed control/target not yet supported")
+
+        CY = torch.tensor([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 0, -1j],
+            [0, 0, 1j, 0]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_two_site_gate(control, CY)
+
+    def swap(self, q0: int, q1: int):
+        """SWAP gate"""
+        if abs(q0 - q1) != 1:
+            raise NotImplementedError("Only adjacent qubit gates supported in MPS")
+
+        q0, q1 = min(q0, q1), max(q0, q1)
+        SWAP = torch.tensor([
+            [1, 0, 0, 0],
+            [0, 0, 1, 0],
+            [0, 1, 0, 0],
+            [0, 0, 0, 1]
+        ], dtype=self.dtype, device=self.device)
+        self.apply_two_site_gate(q0, SWAP)
+
+    def sample(self, num_shots: int = 1):
+        """Sample measurement outcomes - delegates to parent class"""
+        return self.measure(num_shots)
