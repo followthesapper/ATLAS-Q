@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "atlas-quantum"
-version = "0.6.4"
-description = "High-performance quantum simulator with Rust backends (9.3× faster than Qiskit Aer), GPU acceleration, VRA measurement reduction, and coherence-aware VQE"
+version = "0.7.0"
+description = "High-performance quantum simulator with Rust backends (9.3× faster than Qiskit Aer), GPU CUDA backend (2-13× faster than CPU for 15+ qubits), VRA measurement reduction, and coherence-aware VQE"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}

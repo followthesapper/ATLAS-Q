@@ -4,8 +4,8 @@
 FROM nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04
 
 LABEL maintainer="ATLAS-Q Development Team"
-LABEL description="ATLAS-Q: High-performance quantum simulator with Rust backends (9.3× faster than Qiskit Aer)"
-LABEL version="0.6.4"
+LABEL description="ATLAS-Q: High-performance quantum simulator with Rust backends (9.3× faster than Qiskit Aer) and GPU CUDA backend (2-13× faster than CPU for 15+ qubits)"
+LABEL version="0.7.0"
 
 # Prevent interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
