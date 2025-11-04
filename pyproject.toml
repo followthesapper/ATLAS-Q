@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "atlas-quantum"
-version = "0.6.2"
+version = "0.6.3"
 description = "GPU-accelerated quantum tensor network simulator with coherence-aware VQE, adaptive MPS, molecular chemistry, VRA integration, and cuQuantum backend"
 readme = "README.md"
 requires-python = ">=3.9"

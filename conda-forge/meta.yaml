@@ -1,5 +1,5 @@
 {% set name = "atlas-quantum" %}
-{% set version = "0.6.2" %}
+{% set version = "0.6.3" %}
 {% set python_min = "3.9" %}
 
 package:
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/atlas_quantum-{{ version }}.tar.gz
-  sha256: cfd7fe9d4ce3a1061f65affa4d4dee47d0a5813c8d8aa90d7c359bb3b9c658cf
+  sha256: 5bb1815918f73a5869777ca27cf4389be6a46462d176b56004ec057d3ce1867c
 
 build:
   number: 0

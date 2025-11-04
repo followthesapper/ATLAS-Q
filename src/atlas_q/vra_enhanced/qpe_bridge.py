@@ -18,15 +18,16 @@ Strategy:
 Author: ATLAS-Q + VRA Integration
 """
 
-import numpy as np
-from typing import List, Tuple, Optional, Dict
 from dataclasses import dataclass
+from typing import Dict, List, Optional, Tuple
+
+import numpy as np
 
 from .core import (
-    multiplicative_order,
     compute_averaged_spectrum,
-    find_period_candidates,
     compute_coherence,
+    find_period_candidates,
+    multiplicative_order,
 )
 
 

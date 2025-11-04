@@ -78,10 +78,10 @@ def vra_tdvp_observable_grouping(
     >>> print(f"Variance reduction: {result.variance_reduction:.2f}×")
     """
     from .vqe_grouping import (
+        allocate_shots_neyman,
+        compute_variance_reduction,
         estimate_pauli_coherence_matrix,
         group_by_variance_minimization,
-        allocate_shots_neyman,
-        compute_variance_reduction
     )
 
     # Use VQE grouping infrastructure (same Pauli commutativ logic)

@@ -37,28 +37,28 @@ Author: ATLAS-Q Development Team
 Date: November 2025
 """
 
-# Core metrics
-from .metrics import (
-    CoherenceMetrics,
-    compute_coherence,
-    coherence_from_counts,
-    validate_coherence_law,
-)
-
 # Classification
 from .classification import (
     CoherenceClassification,
+    adaptive_vra_decision,
     classify_go_no_go,
     classify_with_history,
-    adaptive_vra_decision,
+)
+
+# Core metrics
+from .metrics import (
+    CoherenceMetrics,
+    coherence_from_counts,
+    compute_coherence,
+    validate_coherence_law,
 )
 
 # Utilities
 from .utils import (
     compute_pauli_expectation,
+    group_paulis_qwc,
     pauli_commute,
     qubit_wise_commute,
-    group_paulis_qwc,
 )
 
 # Version info

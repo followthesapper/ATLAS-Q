@@ -401,4 +401,4 @@ except ImportError:
     MatrixProductState = None
     GPUAccelerator = None
 
-__version__ = '0.6.2'  # Coherence-Aware VQE + VRA Integration (Nov 2025)
+__version__ = '0.6.3'  # Coherence-Aware VQE + VRA Integration (Nov 2025)

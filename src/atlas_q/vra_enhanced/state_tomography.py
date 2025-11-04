@@ -112,9 +112,9 @@ def vra_state_tomography(
     >>> print(f"Compression: {strategy.compression_factor:.1f}×")
     """
     from .vqe_grouping import (
+        check_group_commutativity,
         estimate_pauli_coherence_matrix,
         group_by_variance_minimization,
-        check_group_commutativity
     )
 
     # Generate Pauli basis

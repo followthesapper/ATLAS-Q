@@ -282,7 +282,7 @@ def allocate_shots_neyman_edges(
     shots_per_group : np.ndarray
         Optimal shot allocation
     """
-    from .vqe_grouping import compute_Q_GLS, allocate_shots_neyman
+    from .vqe_grouping import allocate_shots_neyman, compute_Q_GLS
 
     return allocate_shots_neyman(Sigma, weights, groups, total_shots)
 

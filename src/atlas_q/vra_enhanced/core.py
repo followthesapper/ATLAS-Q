@@ -14,8 +14,9 @@ Mathematical Foundation:
 Author: Adapted from VRA by Dylan Vaca
 """
 
+from typing import List, Optional, Tuple
+
 import numpy as np
-from typing import List, Tuple, Optional
 
 
 def multiplicative_order(a: int, N: int, max_iter: int = 10000) -> Optional[int]:

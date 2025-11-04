@@ -26,9 +26,10 @@ Enhancement: Commutativity-aware grouping (10-50× additional improvement)
 Author: ATLAS-Q + VRA Integration
 """
 
-import numpy as np
-from typing import List, Tuple, Dict, Optional
 from dataclasses import dataclass
+from typing import Dict, List, Optional, Tuple
+
+import numpy as np
 
 
 @dataclass
