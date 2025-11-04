@@ -6,10 +6,10 @@ Demonstration scripts, benchmarks, AI/ML tools, and performance probes for ATLAS
 
 ```
 scripts/
-├── demos/           # 7 demonstration scripts
-├── benchmarks/      # 6 benchmark scripts
-├── ai_tools/        # 13 AI/ML training and evaluation scripts
-└── probes/          # 2 capacity/performance probes
+ demos/ # 7 demonstration scripts
+ benchmarks/ # 6 benchmark scripts
+ ai_tools/ # 13 AI/ML training and evaluation scripts
+ probes/ # 2 capacity/performance probes
 ```
 
 ---
@@ -103,9 +103,9 @@ python ai_tools/collect_svd_data.py --n_qubits 20 --depth 10 --output data.pt
 
 # Fine-tune a model
 python ai_tools/finetune_rank_predictor.py \
-    --base_model ../models/rank_predictor.pt \
-    --dataset data.pt \
-    --epochs 20
+ --base_model ../models/rank_predictor.pt \
+ --dataset data.pt \
+ --epochs 20
 
 # Evaluate model
 python ai_tools/eval_rank_predictor.py --model ../models/rank_predictor_ft.pt
@@ -174,7 +174,7 @@ Install all dependencies:
 cd ..
 pip install -r requirements.txt
 pip install -e .
-./setup_triton.sh  # For GPU acceleration
+./setup_triton.sh # For GPU acceleration
 ```
 
 ---
@@ -200,7 +200,7 @@ from atlas_q.vqe_qaoa import VQE, QAOA
 from atlas_q.tools_qih.tn_core import mps_init_plus
 
 # OLD imports (don't use)
-# from quantum_hybrid_system import ...  # Package renamed!
+# from quantum_hybrid_system import ... # Package renamed!
 ```
 
 ---

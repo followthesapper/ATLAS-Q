@@ -1,0 +1,31 @@
+# uv package manager configuration for ATLAS-Q
+# https://github.com/astral-sh/uv
+
+[project]
+name = "atlas-quantum"
+version = "0.6.2"
+requires-python = ">=3.9"
+
+[tool.uv]
+# Use faster resolution with uv
+resolver = "uv"
+
+# Cache directory
+cache-dir = ".uv_cache"
+
+# Index URLs
+index-url = "https://pypi.org/simple"
+extra-index-urls = [
+    "https://download.pytorch.org/whl/cu118",  # PyTorch CUDA wheels
+]
+
+# Installation preferences
+prefer-binary = true
+compile-bytecode = true
+
+[tool.uv.pip]
+# Compatibility with pip
+index-strategy = "unsafe-first-match"
+
+# Resolution strategy
+resolution-strategy = "highest"

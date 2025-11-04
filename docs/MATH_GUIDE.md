@@ -379,12 +379,12 @@ The key: as long as entanglement stays moderate ($\chi$ small), MPS memory grows
 
 ### 14.1 Key Parameters
 - **$\chi_{\max}$ (memory):** bytes $\approx 32n\chi_{\max}^2$.
-  - Lower = faster/smaller memory, but fewer patterns
-  - Higher = more accurate, but slower
+ - Lower = faster/smaller memory, but fewer patterns
+ - Higher = more accurate, but slower
 - **Tolerance $\varepsilon_{\text{bond}}$ (accuracy):** global $\lesssim \sqrt{M} \varepsilon_{\text{bond}}$ (very rough) with $M$ truncations.
-  - Smaller = keep more detail
-  - Larger = prune more, go faster
-  - **Practical tip:** Start with strict tolerance (e.g., $10^{-6}$). If too slow, relax it gradually.
+ - Smaller = keep more detail
+ - Larger = prune more, go faster
+ - **Practical tip:** Start with strict tolerance (e.g., $10^{-6}$). If too slow, relax it gradually.
 - **Layout:** Prefer neighbor couplings (1D/2D locality) to keep $\chi$ modest.
 - Use stabilizer when Clifford-heavy; handoff to MPS when needed.
 

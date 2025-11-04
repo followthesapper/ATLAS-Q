@@ -5,52 +5,52 @@ This guide explains what needs to be updated when you make changes to ATLAS-Q. U
 
 ---
 
-## 📋 Quick Reference: What to Update When
+## Quick Reference: What to Update When
 
 ### When You Add a New Feature
-1. ✅ Update `CHANGELOG.md` with the feature description
-2. ✅ Update `README.md` "What is ATLAS-Q?" section if it's a major feature
-3. ✅ Update `WHITEPAPER.md` Section 4 (Core Features)
-4. ✅ Update `OVERVIEW.md` relevant sections
-5. ✅ Add usage example to `COMPLETE_GUIDE.md`
-6. ✅ Update performance numbers if applicable
-7. ✅ Add tests to appropriate test directory
+1. Update `CHANGELOG.md` with the feature description
+2. Update `README.md` "What is ATLAS-Q?" section if it's a major feature
+3. Update `WHITEPAPER.md` Section 4 (Core Features)
+4. Update `OVERVIEW.md` relevant sections
+5. Add usage example to `COMPLETE_GUIDE.md`
+6. Update performance numbers if applicable
+7. Add tests to appropriate test directory
 
 ### When You Improve Performance
-1. ✅ Update performance numbers in:
-   - `README.md` (Performance Highlights section)
-   - `WHITEPAPER.md` (Abstract + Section 5)
-   - `OVERVIEW.md` (Performance Numbers section)
-   - `RESEARCH_PAPER.md` (Appendix benchmarks)
-2. ✅ Update `CHANGELOG.md` with new benchmark results
-3. ✅ Re-run and document benchmarks in `/benchmarks/`
+1. Update performance numbers in:
+ - `README.md` (Performance Highlights section)
+ - `WHITEPAPER.md` (Abstract + Section 5)
+ - `OVERVIEW.md` (Performance Numbers section)
+ - `RESEARCH_PAPER.md` (Appendix benchmarks)
+2. Update `CHANGELOG.md` with new benchmark results
+3. Re-run and document benchmarks in `/benchmarks/`
 
 ### When You Fix a Bug
-1. ✅ Add to `CHANGELOG.md` under "Fixed"
-2. ✅ Add regression test if applicable
-3. ✅ Update documentation if bug was due to unclear docs
+1. Add to `CHANGELOG.md` under "Fixed"
+2. Add regression test if applicable
+3. Update documentation if bug was due to unclear docs
 
 ### When You Release a New Version
-1. ✅ Update version number in:
-   - `README.md` (header)
-   - `WHITEPAPER.md` (header)
-   - `RESEARCH_PAPER.md` (header)
-   - `OVERVIEW.md` (footer)
-   - `src/atlas_q/__init__.py` (`__version__`)
-   - `CHANGELOG.md` (add new version section)
-2. ✅ Update "Roadmap" in `README.md`
-3. ✅ Update "Current Status" sections across docs
-4. ✅ Create git tag: `git tag -a v0.X.0 -m "Version 0.X.0"`
+1. Update version number in:
+ - `README.md` (header)
+ - `WHITEPAPER.md` (header)
+ - `RESEARCH_PAPER.md` (header)
+ - `OVERVIEW.md` (footer)
+ - `src/atlas_q/__init__.py` (`__version__`)
+ - `CHANGELOG.md` (add new version section)
+2. Update "Roadmap" in `README.md`
+3. Update "Current Status" sections across docs
+4. Create git tag: `git tag -a v0.X.0 -m "Version 0.X.0"`
 
 ### When Project Structure Changes
-1. ✅ Update `README.md` "Architecture" section
-2. ✅ Update `WHITEPAPER.md` Section 2 (Architecture)
-3. ✅ Update file paths in all documentation
-4. ✅ Update import examples in usage guides
+1. Update `README.md` "Architecture" section
+2. Update `WHITEPAPER.md` Section 2 (Architecture)
+3. Update file paths in all documentation
+4. Update import examples in usage guides
 
 ---
 
-## 📁 Documentation File Inventory
+## Documentation File Inventory
 
 ### **Public-Facing Documents** (User-Oriented)
 
@@ -191,7 +191,7 @@ This guide explains what needs to be updated when you make changes to ATLAS-Q. U
 
 ---
 
-## 🔄 Standard Update Workflows
+## Standard Update Workflows
 
 ### Workflow 1: Adding a Major Feature (e.g., New Algorithm)
 
@@ -246,15 +246,15 @@ This guide explains what needs to be updated when you make changes to ATLAS-Q. U
 # 3. Update version numbers:
 
 # Edit these files:
-vim README.md                           # Header: Version X.Y.Z
-vim WHITEPAPER.md              # Header: Version X.Y.Z
-vim RESEARCH_PAPER.md          # Header + Appendix
-vim OVERVIEW.md                # Footer: Version X.Y.Z
-vim src/atlas_q/__init__.py            # __version__ = 'X.Y.Z'
-vim CHANGELOG.md                       # Move [Unreleased] to [X.Y.Z] - DATE
+vim README.md # Header: Version X.Y.Z
+vim WHITEPAPER.md # Header: Version X.Y.Z
+vim RESEARCH_PAPER.md # Header + Appendix
+vim OVERVIEW.md # Footer: Version X.Y.Z
+vim src/atlas_q/__init__.py # __version__ = 'X.Y.Z'
+vim CHANGELOG.md # Move [Unreleased] to [X.Y.Z] - DATE
 
 # 4. Update roadmap
-vim README.md                          # Roadmap section
+vim README.md # Roadmap section
 
 # 5. Commit and tag
 git add -A
@@ -292,9 +292,9 @@ grep -r "old_text" *.md
 
 ---
 
-## ⚠️ Common Pitfalls to Avoid
+## Common Pitfalls to Avoid
 
-### ❌ Don't:
+### Don't:
 1. **Update version in one place but forget others** → Use the checklist above
 2. **Add features without updating CHANGELOG** → Future you won't remember
 3. **Update performance numbers without re-running benchmarks** → Must be reproducible
@@ -303,7 +303,7 @@ grep -r "old_text" *.md
 6. **Use marketing language** → Be factual about capabilities and limitations
 7. **Reference removed features** → Check for AQED or old project names
 
-### ✅ Do:
+### Do:
 1. **Test examples after documentation updates** → Code changes break docs
 2. **Keep CHANGELOG.md as running log** → Easier than reconstructing later
 3. **Be honest about limitations** → Better to underpromise, overdeliver
@@ -313,7 +313,7 @@ grep -r "old_text" *.md
 
 ---
 
-## 🎯 Documentation Principles
+## Documentation Principles
 
 ### **Consistency**
 - Version numbers must match across all files
@@ -341,7 +341,7 @@ grep -r "old_text" *.md
 
 ---
 
-## 📊 Key Numbers to Keep Consistent
+## Key Numbers to Keep Consistent
 
 These numbers appear in multiple documents. If they change, update EVERYWHERE:
 
@@ -365,7 +365,7 @@ These numbers appear in multiple documents. If they change, update EVERYWHERE:
 
 ---
 
-## 🔍 Pre-Commit Checklist
+## Pre-Commit Checklist
 
 Before committing major changes, verify:
 
@@ -381,7 +381,7 @@ Before committing major changes, verify:
 
 ---
 
-## 📞 Questions to Ask Yourself
+## Questions to Ask Yourself
 
 **Before updating documentation:**
 1. Is this change significant enough to document?
@@ -408,9 +408,9 @@ Before committing major changes, verify:
 # 3. Store token in ~/.pypirc or GitHub secrets
 
 # Option 1: Manual publish
-make build              # Build package (creates dist/)
-make publish-test       # Test on TestPyPI first
-make publish            # Publish to PyPI
+make build # Build package (creates dist/)
+make publish-test # Test on TestPyPI first
+make publish # Publish to PyPI
 
 # Option 2: Automatic (GitHub Actions)
 # Publishing happens automatically when you create a GitHub release:
@@ -442,21 +442,21 @@ python -c "import atlas_q; print(atlas_q.__version__)"
 # Docker installed and running
 
 # Option 1: Manual build and test locally
-make docker-build-gpu    # Build GPU image
-make docker-build-cpu    # Build CPU image
+make docker-build-gpu # Build GPU image
+make docker-build-cpu # Build CPU image
 
 # Test images locally
-make docker-run-gpu      # Test GPU image
-make docker-run-cpu      # Test CPU image
+make docker-run-gpu # Test GPU image
+make docker-run-cpu # Test CPU image
 
 # Option 2: Automatic (GitHub Actions)
 # Docker images publish automatically when you create a GitHub release:
 # 1. Create GitHub release (same as PyPI workflow)
 # 2. GitHub Actions will build and push images to GitHub Container Registry
 # 3. Images available at:
-#    - ghcr.io/followthsapper/atlas-quantum:cuda
-#    - ghcr.io/followthsapper/atlas-quantum:cpu
-#    - ghcr.io/followthsapper/atlas-quantum:latest (=cuda)
+# - ghcr.io/followthsapper/atlas-quantum:cuda
+# - ghcr.io/followthsapper/atlas-quantum:cpu
+# - ghcr.io/followthsapper/atlas-quantum:latest (=cuda)
 
 # Users can pull and run:
 docker pull ghcr.io/followthsapper/atlas-quantum:cuda
@@ -481,15 +481,15 @@ Full workflow for releasing a new version with all distribution channels:
 # Step 1: Prepare release
 # ----------------------
 # Update version numbers:
-vim pyproject.toml                    # version = "X.Y.Z"
-vim src/atlas_q/__init__.py          # __version__ = 'X.Y.Z'
-vim README.md                         # **Version X.Y.Z**
-vim docs/WHITEPAPER.md       # Version X.Y.Z
-vim docs/CHANGELOG.md                 # Add [X.Y.Z] - YYYY-MM-DD
+vim pyproject.toml # version = "X.Y.Z"
+vim src/atlas_q/__init__.py # __version__ = 'X.Y.Z'
+vim README.md # **Version X.Y.Z**
+vim docs/WHITEPAPER.md # Version X.Y.Z
+vim docs/CHANGELOG.md # Add [X.Y.Z] - YYYY-MM-DD
 
 # Run tests
 make test
-make bench  # Run benchmarks if performance changed
+make bench # Run benchmarks if performance changed
 
 # Build and test locally
 make build
@@ -524,15 +524,15 @@ git push origin vX.Y.Z
 # - Publish release
 
 # This triggers GitHub Actions to:
-# ✅ Publish to PyPI automatically
-# ✅ Build and publish Docker images
-# ✅ Create build artifacts
+# Publish to PyPI automatically
+# Build and publish Docker images
+# Create build artifacts
 
 # Step 4: Verify
 # --------------
 # Wait 5-10 minutes, then verify:
 pip install --upgrade atlas-quantum
-python -c "import atlas_q; print(atlas_q.__version__)"  # Should be X.Y.Z
+python -c "import atlas_q; print(atlas_q.__version__)" # Should be X.Y.Z
 
 docker pull ghcr.io/followthsapper/atlas-quantum:cuda
 docker run --rm ghcr.io/followthsapper/atlas-quantum:cuda python -c "import atlas_q; print(atlas_q.__version__)"
@@ -543,22 +543,22 @@ docker run --rm ghcr.io/followthsapper/atlas-quantum:cuda python -c "import atla
 
 ---
 
-## 🔐 Secrets and Credentials
+## Secrets and Credentials
 
 For automated publishing, configure these secrets in GitHub repository settings:
 
 **Required GitHub Secrets:**
 - `PYPI_API_TOKEN`: PyPI API token for publishing packages
-  - Get from: https://pypi.org/manage/account/token/
-  - Scope: Project-level token for atlas-quantum
-  - Add at: GitHub → Settings → Secrets → Actions → New repository secret
+ - Get from: https://pypi.org/manage/account/token/
+ - Scope: Project-level token for atlas-quantum
+ - Add at: GitHub → Settings → Secrets → Actions → New repository secret
 
 **Docker Registry:**
 - No additional secrets needed - uses `GITHUB_TOKEN` (automatically provided)
 
 ---
 
-## 🧪 Testing Package Installation
+## Testing Package Installation
 
 After publishing, test installation on fresh environments:
 
@@ -577,7 +577,7 @@ python3 -c "import atlas_q; print(atlas_q.__version__)"
 
 ---
 
-## 🚀 Tips for Efficient Updates
+## Tips for Efficient Updates
 
 1. **Use text editor multi-file search** to find all instances of numbers/terms
 2. **Keep CHANGELOG as a scratchpad** during development
@@ -587,7 +587,7 @@ python3 -c "import atlas_q; print(atlas_q.__version__)"
 
 ---
 
-## 📝 Document Map Reference
+## Document Map Reference
 
 Quick reference for where information lives:
 

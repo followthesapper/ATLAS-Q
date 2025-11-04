@@ -1,5 +1,5 @@
 <style>
-  figure.half img { width: 50%; height: auto; }
+ figure.half img { width: 50%; height: auto; }
 </style>
 
 
@@ -48,56 +48,56 @@
 ## 4. System Architecture (Macro View)
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                         Python API Layer                          │
-│  • Public classes, configs, lazy import, error surfaces           │
-└───────────────────────┬───────────────────────────────────────────┘
-                        │
-┌───────────────────────▼───────────────────────────────────────────┐
-│                     Backend Switch (Hybrid)                       │
-│  • Circuit inspection (Clifford/non-Clifford)                     │
-│  • Entanglement & χ telemetry                                     │
-│  • Handoff policies, budgets, error bounds                        │
-└───────────────┬──────────────────────┬────────────────────────────┘
-                │                      │
-      ┌─────────▼─────────┐   ┌────────▼─────────┐
-      │  Stabilizer Core  │   │   MPS/TN Core    │  (PEPS v0.6.0)
-      │  (tableau, O(n²)) │   │ (adaptive χ, SVD │
-      └─────────┬─────────┘   │  ctrl, MPO/TDVP) │
-                │             └────────┬─────────┘
-                │                      │
-        ┌───────▼──────────────────────▼────────────────────┐
-        │            GPU Acceleration Subsystem             │
-        │  • Kernel fusion (Triton)  • cuBLAS contractions  │
-        │  • Memory pools & streams  • Precision policy     │
-        └───────────────────────────────────────────────────┘
+
+ Python API Layer
+ • Public classes, configs, lazy import, error surfaces
+
+
+
+ Backend Switch (Hybrid)
+ • Circuit inspection (Clifford/non-Clifford)
+ • Entanglement & χ telemetry
+ • Handoff policies, budgets, error bounds
+
+
+
+ Stabilizer Core MPS/TN Core (PEPS v0.6.0)
+ (tableau, O(n²)) (adaptive χ, SVD
+ ctrl, MPO/TDVP)
+
+
+
+ GPU Acceleration Subsystem
+ • Kernel fusion (Triton) • cuBLAS contractions
+ • Memory pools & streams • Precision policy
+
 ```
 
-**Figure 1.** System architecture overview.  
+**Figure 1.** System architecture overview.
 **Key property:** The **Hybrid** layer mediates *all* handoffs so that numerical state, error guarantees, and performance invariants remain coherent across models.
 
 ### Figure 2: MPS Data Structure Representation
 
 ```
 Classical State Vector (2^n complex numbers):
-┌─────────────────────────────────────────────────────┐
-│ c000 │ c001 │ c010 │ c011 │ c100 │ c101 │ c110 │ c111 │  2^3 = 8 amplitudes
-└─────────────────────────────────────────────────────┘
+
+ c000 c001 c010 c011 c100 c101 c110 c111 2^3 = 8 amplitudes
+
 
 MPS Representation (chain of tensors):
 
-Qubit 1         Qubit 2         Qubit 3
-┌──────┐   χ   ┌──────┐   χ   ┌──────┐
-│  A¹  ├───────┤  A²  ├───────┤  A³  │
-└──┬───┘       └──┬───┘       └──┬───┘
-   │              │              │
-   i₁             i₂             i₃      (physical indices 0/1)
+Qubit 1 Qubit 2 Qubit 3
+ χ χ
+ A¹ A² A³
+
+
+ i₁ i₂ i₃ (physical indices 0/1)
 
 Each site k has two matrices:
-A₀^k: (χₖ₋₁ × χₖ)   when physical index = 0
-A₁^k: (χₖ₋₁ × χₖ)   when physical index = 1
+A₀^k: (χₖ₋₁ × χₖ) when physical index = 0
+A₁^k: (χₖ₋₁ × χₖ) when physical index = 1
 
-Parameters: ~2 n χ²  (vs 2^n amplitudes)
+Parameters: ~2 n χ² (vs 2^n amplitudes)
 
 Example (n=50, χ=32): ~102,400 params → ~0.78 MB (complex64) or ~1.56 MB (complex128)
 ```
@@ -108,18 +108,18 @@ Example (n=50, χ=32): ~102,400 params → ~0.78 MB (complex64) or ~1.56 MB (com
 
 ```
 Standard State Vector for 3-qubit GHZ:
-|ψ⟩ = 1/√2(|000⟩ + |111⟩)
+|ψ = 1/√2(|000 + |111)
 → Needs 2^3 = 8 complex amplitudes
 
 Stabilizer Tableau (compact representation):
 
-┌────────────────────┬────────────────────┬────────┐
-│   X operators      │   Z operators      │ Phase  │
-├────────────────────┼────────────────────┼────────┤
-│   1  0  0         │   0  0  0         │   +1   │  → X₁X₂
-│   0  1  0         │   0  0  0         │   +1   │  → X₂X₃
-│   0  0  0         │   1  1  1         │   +1   │  → Z₁Z₂Z₃
-└────────────────────┴────────────────────┴────────┘
+
+ X operators Z operators Phase
+
+ 1 0 0 0 0 0 +1 → X₁X₂
+ 0 1 0 0 0 0 +1 → X₂X₃
+ 0 0 0 1 1 1 +1 → Z₁Z₂Z₃
+
 ```
 
 **Figure 3.** Stabilizer tableau. *Storage note:* A standard tableau is a \((2n)\times(2n+1)\) binary matrix (~\(4n^2+2n\) bits) plus phases. Example \(n=1000\) → ~0.5 MB for the tableau itself; add implementation overhead as needed.
@@ -131,118 +131,118 @@ Stabilizer Tableau (compact representation):
 ### Figure 4: Two-Qubit Gate on MPS (System Sequence)
 
 ```
- API Layer          Backend Switch         MPS Core            GPU Subsystem
-    │                     │                    │                      │
-    │  apply_gate(i,i+1)  │                    │                      │
-    ├────────────────────►│                    │                      │
-    │                     │                    │                      │
-    │                     │  request resources │                      │
-    │                     ├───────────────────►│                      │
-    │                     │                    │                      │
-    │                     │                    │   fuse & apply       │
-    │                     │                    ├─────────────────────►│
-    │                     │                    │                      │
-    │                     │                    │◄─────────────────────┤
-    │                     │                    │   matrix Θ ready     │
-    │                     │                    │                      │
-    │                     │                    ├──┐                   │
-    │                     │                    │  │ SVD + truncate    │
-    │                     │                    │◄─┘ (ε_bond, χ_max)   │
-    │                     │                    │                      │
-    │                     │◄───────────────────┤                      │
-    │                     │  cores + ε_local   │                      │
-    │                     │                    │                      │
-    │                     ├──┐                 │                      │
-    │                     │  │ accumulate      │                      │
-    │                     │◄─┘ ε_global        │                      │
-    │                     │                    │                      │
-    │◄────────────────────┤                    │                      │
-    │  stats (χ, ε, MB)   │                    │                      │
-    │                     │                    │                      │
+ API Layer Backend Switch MPS Core GPU Subsystem
+
+ apply_gate(i,i+1)
+
+
+ request resources
+
+
+ fuse & apply
+
+
+
+ matrix Θ ready
+
+
+ SVD + truncate
+ (ε_bond, χ_max)
+
+
+ cores + ε_local
+
+
+ accumulate
+ ε_global
+
+
+ stats (χ, ε, MB)
+
 ```
 
 ### Figure 5: Hybrid Handoff (Clifford → MPS)
 
 ```
-                ┌─────────────────┐
-                │ Clifford Gates  │
-                │  H, S, CNOT     │
-                └────────┬────────┘
-                         │
-                         ▼
-                ┌─────────────────┐
-                │ Non-Clifford?   │
-                │ (e.g., T, Toffoli,
-                │  arbitrary-angle R) │
-                └────────┬────────┘
-                         │
-                ┌────────┴────────┐
-                │                 │
-               NO                YES
-                │                 │
-                ▼                 ▼
-        ┌──────────────┐  ┌──────────────────┐
-        │ Stay in      │  │ Materialize      │
-        │ Stabilizer   │  │ Tableau → MPS    │
-        └──────────────┘  └─────────┬────────┘
-                                    │
-                                    ▼
-                          ┌──────────────────┐
-                          │ Canonicalize     │
-                          │ & Normalize      │
-                          └─────────┬────────┘
-                                    │
-                                    ▼
-                          ┌──────────────────┐
-                          │ Continue in MPS  │
-                          │ (adaptive χ)     │
-                          └──────────────────┘
+
+ Clifford Gates
+ H, S, CNOT
+
+
+
+
+ Non-Clifford?
+ (e.g., T, Toffoli,
+ arbitrary-angle R)
+
+
+
+
+ NO YES
+
+
+
+ Stay in Materialize
+ Stabilizer Tableau → MPS
+
+
+
+
+ Canonicalize
+ & Normalize
+
+
+
+
+ Continue in MPS
+ (adaptive χ)
+
 ```
 
 ### Figure 6: TDVP Sweep (Operational)
 
 ```
-                       ┌──────────┐
-                       │  START   │
-                       └────┬─────┘
-                            │
-                ┌───────────▼───────────┐
-                │   L→R Sweep:          │
-                │   Build Left Envs     │
-                └───────────┬───────────┘
-                            │
-                ┌───────────▼───────────┐
-                │   Update Sites via    │
-                │   Effective H         │
-                └───────────┬───────────┘
-                            │
-                ┌───────────▼───────────┐
-                │   R→L Sweep:          │
-                │   Build Right Envs    │
-                └───────────┬───────────┘
-                            │
-                ┌───────────▼───────────┐
-                │   Update &            │
-                │   Recanonicalize      │
-                └───────────┬───────────┘
-                            │
-                     ┌──────▼──────┐
-                     │   Energy    │
-                     │   Drift OK? │
-                     └──────┬──────┘
-                      ┌─────┴─────┐
-                     YES          NO
-                      │            │
-                ┌─────▼────┐  ┌───▼──────────┐
-                │   DONE   │  │ Adjust:      │
-                └──────────┘  │ • dt         │
-                              │ • χ          │
-                              │ • iterations │
-                              └───────┬──────┘
-                                      │
-                                      └──────┐
-                                             │
-                                (loop back) ◄┘
+
+ START
+
+
+
+ L→R Sweep:
+ Build Left Envs
+
+
+
+ Update Sites via
+ Effective H
+
+
+
+ R→L Sweep:
+ Build Right Envs
+
+
+
+ Update &
+ Recanonicalize
+
+
+
+ Energy
+ Drift OK?
+
+
+ YES NO
+
+
+ DONE Adjust:
+ • dt
+ • χ
+ • iterations
+
+
+
+
+ (loop back)
 ```
 
 ---
@@ -305,33 +305,33 @@ Stabilizer Tableau (compact representation):
 
 ```
 Two-Qubit Gate Operation Timeline (χ = 64)
-═══════════════════════════════════════════════════════════════
 
-0ms                    10ms                   20ms           25ms
-│                      │                      │              │
-├──────────────────────┼──────────────────────┼──────────────┤
-│     Contractions     │        SVD           │  Overheads   │
-│      (35%)           │       (40%)          │    (25%)     │
-│                      │                      │              │
-│ ▪ Merge tensors      │ ▪ Decomposition      │ ▪ Memory     │
-│ ▪ Apply gate         │ ▪ Truncation         │ ▪ Transfers  │
-│ ▪ Reshape            │ ▪ Recanonical.       │ ▪ Bookkeeping│
-└──────────────────────┴──────────────────────┴──────────────┘
+
+0ms 10ms 20ms 25ms
+
+
+ Contractions SVD Overheads
+ (35%) (40%) (25%)
+
+ Merge tensors Decomposition Memory
+ Apply gate Truncation Transfers
+ Reshape Recanonical. Bookkeeping
+
 
 With GPU Fusion:
-├──────────────┬───────────────────────┬──────┤
-│  Fused (25%) │      SVD (55%)        │ (20%)│  ← Overhead reduced
-└──────────────┴───────────────────────┴──────┘
+
+ Fused (25%) SVD (55%) (20%) ← Overhead reduced
+
 ```
 
 <figure class="half">
-  <img src="./assets/atlasq_figure5_memory_scaling.png" alt="Memory scaling: statevector (exponential) vs MPS (linear)">
-  <figcaption><strong>Figure 8.</strong> Memory usage vs qubits. Statevector grows exponentially; MPS is linear in n for fixed χ. <em>Operational takeaway:</em> only χ growth is dangerous.</figcaption>
+ <img src="./assets/atlasq_figure5_memory_scaling.png" alt="Memory scaling: statevector (exponential) vs MPS (linear)">
+ <figcaption><strong>Figure 8.</strong> Memory usage vs qubits. Statevector grows exponentially; MPS is linear in n for fixed χ. <em>Operational takeaway:</em> only χ growth is dangerous.</figcaption>
 </figure>
 
 <figure class="half">
-  <img src="./assets/atlasq_figure6_chi_growth.png" alt="Bond dimension χ evolution over gate index with χmax reference">
-  <figcaption><strong>Figure 9.</strong> Bond dimension χ growth after the first non-Clifford region; saturation under χ<sub>max</sub>. <em>Operational takeaway:</em> watch for χ spikes post-handoff; consider SWAP/layout changes or χ caps.</figcaption>
+ <img src="./assets/atlasq_figure6_chi_growth.png" alt="Bond dimension χ evolution over gate index with χmax reference">
+ <figcaption><strong>Figure 9.</strong> Bond dimension χ growth after the first non-Clifford region; saturation under χ<sub>max</sub>. <em>Operational takeaway:</em> watch for χ spikes post-handoff; consider SWAP/layout changes or χ caps.</figcaption>
 </figure>
 
 ### Figure 10: Hybrid Execution Profile
@@ -339,22 +339,22 @@ With GPU Fusion:
 ```
 Execution Mode Over Time
 
-Stabilizer  ████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-                       ↑
-                First T-gate
+Stabilizer
+ ↑
+ First T-gate
 
-MPS         ░░░░░░░░░░░░████████████████████████████████
+MPS
 
-Timeline:   |----Clifford----|-------Non-Clifford-------|
-            0              500 gates               1500 gates
+Timeline: |----Clifford----|-------Non-Clifford-------|
+ 0 500 gates 1500 gates
 
 Performance Profile:
-┌──────────────────────┬──────────────────────────────┐
-│   Phase 1: Fast      │   Phase 2: Adaptive         │
-│   • O(n²) ops        │   • O(nχ³) ops              │
-│   • Fixed memory     │   • Growing χ               │
-│   • No truncation    │   • Active truncation       │
-└──────────────────────┴──────────────────────────────┘
+
+ Phase 1: Fast Phase 2: Adaptive
+ • O(n²) ops • O(nχ³) ops
+ • Fixed memory • Growing χ
+ • No truncation • Active truncation
+
 ```
 
 ---
@@ -363,21 +363,21 @@ Performance Profile:
 
 ### Figure 11(a): Local truncation rule of thumb
 ```
-Singular Values at Bond (sorted)        Truncation Decision
+Singular Values at Bond (sorted) Truncation Decision
 
-σ₁ ████████████████████ 0.89           Keep
-σ₂ ███████████ 0.31                    Keep     } Cumulative: 99.7%
-σ₃ ████ 0.15                           Keep     } exceeds (1-ε²)
-σ₄ ██ 0.08                             Keep
-────────────────────────────── Truncation threshold ─────────
-σ₅ ▪ 0.03                              Drop
-σ₆ ▪ 0.01                              Drop     } Local error:
-σ₇ ▪ 0.005                             Drop     } ε_local² = Σ (dropped σᵢ)²
+σ₁ 0.89 Keep
+σ₂ 0.31 Keep } Cumulative: 99.7%
+σ₃ 0.15 Keep } exceeds (1-ε²)
+σ₄ 0.08 Keep
+ Truncation threshold
+σ₅ 0.03 Drop
+σ₆ 0.01 Drop } Local error:
+σ₇ 0.005 Drop } ε_local² = Σ (dropped σᵢ)²
 ```
 
 <figure class="half">
-  <img src="./assets/atlasq_figure10_error_evolution.png" alt="εglobal vs number of truncations with tolerance line (log scale)">
-  <figcaption><strong>Figure 11(b).</strong> Tracked global error bound (log scale) vs number of truncations with target tolerance. <em>Operational takeaway:</em> tighten \(\varepsilon_\text{bond}\) or cap χ if the tolerance line is crossed.</figcaption>
+ <img src="./assets/atlasq_figure10_error_evolution.png" alt="εglobal vs number of truncations with tolerance line (log scale)">
+ <figcaption><strong>Figure 11(b).</strong> Tracked global error bound (log scale) vs number of truncations with target tolerance. <em>Operational takeaway:</em> tighten \(\varepsilon_\text{bond}\) or cap χ if the tolerance line is crossed.</figcaption>
 </figure>
 
 **Global bound:** \(\varepsilon_\text{global} \le \sqrt{\sum \varepsilon_{\text{local}}^2}\)
@@ -409,38 +409,38 @@ Singular Values at Bond (sorted)        Truncation Decision
 ### Figure 12: Real-Time Telemetry Dashboard (Conceptual)
 
 ```
-╔════════════════════════════════════════════════════════════════════╗
-║                    ATLAS-Q Runtime Monitor                         ║
-╟────────────────────────────────────────────────────────────────────╢
-║                                                                    ║
-║  Circuit: VQE_H2O     Gates: 1247/2000    Time: 1.3s               ║
-║                                                                    ║
-║  Mode: [Stabilizer]──500──►[MPS]──747──►                           ║
-║                        ↑                                           ║
-║                   T-gate @500                                      ║
-║                                                                    ║
-║  χ Distribution:      Memory Usage:        GPU Utilization:        ║
-║  ┌──┬──┬──┬──┬──┐   ┌─────────────┐      ┌─────────────┐           ║
-║  │  │  │██│██│  │   │████░░░░░░░░│      │███████████░│             ║
-║  └──┴──┴──┴──┴──┘   └─────────────┘      └─────────────┘           ║
-║   8 16 32 64 128     23MB / 100MB          87%                     ║
-║                                                                    ║
-║  Bonds with χ>32: [12,13,14,27,28]                                 ║
-║                                                                    ║
-║  Error Budget:                                                     ║
-║  Local:  ████████░░ 8.2e-7                                         ║
-║  Global: ██████░░░░ 6.1e-6 / 1e-5                                  ║
-║                                                                    ║
-║  Recent Events:                                                    ║
-║  [1.23s] truncation_applied bond=14 dropped=3.1e-7                 ║
-║  [1.21s] chi_growth bond=14 old=32 new=64                          ║
-║  [0.50s] mode_switch stabilizer→mps                                ║
-║                                                                    ║
-║  Recommendations:                                                  ║
-║  • Consider SWAP at qubits (12,15) to reduce χ                     ║
-║  • ε_bond could be relaxed to 1e-5 for 2× speedup                  ║
-║                                                                    ║
-╚════════════════════════════════════════════════════════════════════╝
+
+ ATLAS-Q Runtime Monitor
+
+
+ Circuit: VQE_H2O Gates: 1247/2000 Time: 1.3s
+
+ Mode: [Stabilizer]500[MPS]747
+ ↑
+ T-gate @500
+
+ χ Distribution: Memory Usage: GPU Utilization:
+
+
+
+ 8 16 32 64 128 23MB / 100MB 87%
+
+ Bonds with χ>32: [12,13,14,27,28]
+
+ Error Budget:
+ Local: 8.2e-7
+ Global: 6.1e-6 / 1e-5
+
+ Recent Events:
+ [1.23s] truncation_applied bond=14 dropped=3.1e-7
+ [1.21s] chi_growth bond=14 old=32 new=64
+ [0.50s] mode_switch stabilizer→mps
+
+ Recommendations:
+ • Consider SWAP at qubits (12,15) to reduce χ
+ • ε_bond could be relaxed to 1e-5 for 2× speedup
+
+
 ```
 
 ---
@@ -448,15 +448,15 @@ Singular Values at Bond (sorted)        Truncation Decision
 ## 12. Operational Scenarios (Runbooks without Code)
 
 ### Scenario A: Circuit with Long Clifford Prefix
-**Expectation:** Stabilizer residency for most of the depth; handoff only at first T-gate.  
+**Expectation:** Stabilizer residency for most of the depth; handoff only at first T-gate.
 **Operational tip:** If χ spikes immediately after handoff, consider SWAP synthesis to keep entanglement local.
 
 ### Scenario B: TDVP Time Evolution
-**Expectation:** Gradual χ growth; memory policy must allow growth while keeping \(\varepsilon_\text{global}\) within target.  
+**Expectation:** Gradual χ growth; memory policy must allow growth while keeping \(\varepsilon_\text{global}\) within target.
 **Operational tip:** When drift triggers, tighten \(\varepsilon_\text{bond}\) or reduce dt; observe χ trend before and after adjustment.
 
 ### Scenario C: Noisy NISQ Simulation
-**Expectation:** Noise hooks may force MPS mode; more frequent truncations.  
+**Expectation:** Noise hooks may force MPS mode; more frequent truncations.
 **Operational tip:** Budget headroom for extra χ; prioritize fused path since two-qubit gates dominate.
 
 ---

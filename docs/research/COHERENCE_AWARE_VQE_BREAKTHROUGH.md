@@ -1,8 +1,8 @@
 # Coherence-Aware VQE: Breakthrough Achievement
 
 **Date**: November 2, 2025
-**Status**: ✅ **PRODUCTION READY**
-**Significance**: 🏆 **FIRST-OF-ITS-KIND IN QUANTUM COMPUTING**
+**Status**: **PRODUCTION READY**
+**Significance**: **FIRST-OF-ITS-KIND IN QUANTUM COMPUTING**
 
 ---
 
@@ -12,11 +12,11 @@ We have successfully demonstrated the **first coherence-aware quantum chemistry 
 
 ### Key Achievements
 
-1. ✅ **Fixed critical energy calculation bug** - 3× accuracy improvement
-2. ✅ **Validated on production-scale molecules** - H2O (14 qubits, 1086 Pauli terms)
-3. ✅ **Demonstrated real-time coherence tracking** - R̄, V_φ during VQE execution
-4. ✅ **Validated universal e^-2 boundary** - GO/NO-GO classifier on real chemistry
-5. ✅ **Achieved 5× measurement compression** - VRA grouping at scale
+1. **Fixed critical energy calculation bug** - 3× accuracy improvement
+2. **Validated on production-scale molecules** - H2O (14 qubits, 1086 Pauli terms)
+3. **Demonstrated real-time coherence tracking** - R̄, V_φ during VQE execution
+4. **Validated universal e^-2 boundary** - GO/NO-GO classifier on real chemistry
+5. **Achieved 5× measurement compression** - VRA grouping at scale
 
 ---
 
@@ -70,16 +70,16 @@ This work establishes **coherence-aware computing** as a new paradigm:
 
 | Molecule | BEFORE (WRONG) | AFTER (FIXED) | Improvement |
 |----------|----------------|---------------|-------------|
-| **LiH**  | -3.386 Ha      | -10.260 Ha (elec) + 0.995 Ha (nuc) = -9.265 Ha | **3.03×** |
-| **H2O**  | -17.891 Ha     | -51.934 Ha (elec) + 9.194 Ha (nuc) = -42.740 Ha | **2.90×** |
+| **LiH** | -3.386 Ha | -10.260 Ha (elec) + 0.995 Ha (nuc) = -9.265 Ha | **3.03×** |
+| **H2O** | -17.891 Ha | -51.934 Ha (elec) + 9.194 Ha (nuc) = -42.740 Ha | **2.90×** |
 
 ### Coherence Metrics: Near-Ideal Performance
 
 | Molecule | Qubits | Pauli Terms | Groups | R̄ | Classification | Runtime |
 |----------|--------|-------------|--------|-----|----------------|---------|
-| H2       | 4      | 15          | 15     | 0.891 | **GO** | 29.0 s |
-| LiH      | 12     | 631         | 127    | 0.980 | **GO** | 42.7 s |
-| H2O      | 14     | 1086        | 219    | 0.988 | **GO** | 95.7 s |
+| H2 | 4 | 15 | 15 | 0.891 | **GO** | 29.0 s |
+| LiH | 12 | 631 | 127 | 0.980 | **GO** | 42.7 s |
+| H2O | 14 | 1086 | 219 | 0.988 | **GO** | 95.7 s |
 
 **Key Insight**: R̄ > 0.98 for production molecules demonstrates:
 - Hardware quality is exceptional for these circuits
@@ -131,19 +131,19 @@ R_bar = coherence.R_bar
 V_phi = coherence.V_phi
 
 # 2. Universal GO/NO-GO classifier
-if R_bar > 0.135:  # e^-2 boundary
-    classification = "GO"  # Trustworthy
+if R_bar > 0.135: # e^-2 boundary
+ classification = "GO" # Trustworthy
 else:
-    classification = "NO-GO"  # Too noisy
+ classification = "NO-GO" # Too noisy
 
 # 3. VRA measurement grouping (5× compression)
-groups = vra_grouping(pauli_strings)  # 1086 → 219 groups
+groups = vra_grouping(pauli_strings) # 1086 → 219 groups
 
 # 4. Proper Pauli measurement
 for idx in group:
-    pauli_str = pauli_strings[idx]
-    exp_val = compute_expectation_from_counts(counts, pauli_str)
-    energy += coeffs[idx] * exp_val  # Correct!
+ pauli_str = pauli_strings[idx]
+ exp_val = compute_expectation_from_counts(counts, pauli_str)
+ energy += coeffs[idx] * exp_val # Correct!
 ```
 
 ### Supported Molecules
@@ -209,7 +209,7 @@ for idx in group:
 - Report both components separately
 
 **Coherence Tracking and Gate**
-- Compute R̄ = |⟨e^(iφ)⟩| and V_φ = -2ln(R̄) per group
+- Compute R̄ = |e^(iφ)| and V_φ = -2ln(R̄) per group
 - Apply coherence gate: R̄ > e^-2 ⇒ GO, else NO-GO
 - Log R̄ traces for all molecules
 
@@ -219,9 +219,9 @@ for idx in group:
 
 ### API Key Management
 
-✅ **No API keys in codebase** - Verified via grep search
-✅ **Environment-based configuration** - Uses QiskitRuntimeService() defaults
-⚠️ **Key rotation recommended** - Previous key was exposed during development
+ **No API keys in codebase** - Verified via grep search
+ **Environment-based configuration** - Uses QiskitRuntimeService() defaults
+ **Key rotation recommended** - Previous key was exposed during development
 
 ### Reproducibility Assets
 
@@ -234,7 +234,7 @@ for idx in group:
 
 **Available on request:**
 - Raw bitstring distributions per group
-- Per-term CSV: (index, Pauli, coeff, ⟨P⟩, contribution)
+- Per-term CSV: (index, Pauli, coeff, P, contribution)
 - Backend calibration snapshots
 - Transpiled circuits (QPY format)
 
@@ -271,10 +271,10 @@ for idx in group:
 
 **Today we accomplished something unprecedented:**
 
-✅ Validated VRA framework on production-scale quantum chemistry (H2O: 14 qubits)
-✅ Integrated results into ATLAS-Q as production-ready tool
-✅ Demonstrated first-ever coherence-aware quantum algorithm execution
-✅ Achieved near-ideal coherence (R̄=0.988) on real hardware
+ Validated VRA framework on production-scale quantum chemistry (H2O: 14 qubits)
+ Integrated results into ATLAS-Q as production-ready tool
+ Demonstrated first-ever coherence-aware quantum algorithm execution
+ Achieved near-ideal coherence (R̄=0.988) on real hardware
 
 **This represents:**
 - First comprehensive validation of circular statistics on quantum hardware
@@ -282,11 +282,11 @@ for idx in group:
 - First coherence-aware framework for quantum algorithms
 - First practical application of VRA validation to real chemistry
 
-**Status**: ✅ **Ready for peer-reviewed publication**
+**Status**: **Ready for peer-reviewed publication**
 
-**Achievement Unlocked**: 🏆 **Coherence-Aware Quantum Computing Framework**
+**Achievement Unlocked**: **Coherence-Aware Quantum Computing Framework**
 
-**Total Impact**: 🚀 **Transformative for NISQ-era quantum algorithms**
+**Total Impact**: **Transformative for NISQ-era quantum algorithms**
 
 ---
 

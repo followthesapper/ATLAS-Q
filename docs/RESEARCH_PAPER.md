@@ -11,9 +11,9 @@
 
 ---
 
-## 📚 Related Documentation
+## Related Documentation
 
-- **[📓 Interactive Notebook](../ATLAS_Q_Demo.ipynb)** - Executable examples
+- **[ Interactive Notebook](../ATLAS_Q_Demo.ipynb)** - Executable examples
 - **[Complete Guide](COMPLETE_GUIDE.md)** - Practical usage
 - **[Whitepaper](WHITEPAPER.md)** - Implementation details
 - **[Feature Status](FEATURE_STATUS.md)** - What's implemented
@@ -54,25 +54,25 @@ For n=50 qubits, full state vector simulation requires 2⁵⁰ × 16 bytes ≈ 1
 ATLAS-Q addresses these limitations by exploiting **structure** in quantum algorithms rather than attempting universal quantum simulation. Our key contributions are:
 
 1. **Compressed Quantum State Representations:**
-   - Periodic states with O(1) memory (Shor's algorithm)
-   - Matrix Product States with O(n·χ²) memory (entangled circuits)
-   - Adaptive bond dimension control with provable error bounds
+ - Periodic states with O(1) memory (Shor's algorithm)
+ - Matrix Product States with O(n·χ²) memory (entangled circuits)
+ - Adaptive bond dimension control with provable error bounds
 
 2. **Efficient Period-Finding Algorithms:**
-   - O(√r) hybrid quantum-classical period detection
-   - FFT-based frequency analysis achieving quantum-like speedups
-   - Validated 100% success rate on canonical quantum computing benchmarks
+ - O(√r) hybrid quantum-classical period detection
+ - FFT-based frequency analysis achieving quantum-like speedups
+ - Validated 100% success rate on canonical quantum computing benchmarks
 
 3. **Production-Quality Real-World Applications:**
-   - Atrial fibrillation detection (matches FDA-approved wearables)
-   - Financial trading strategy (walk-forward validated)
-   - Industrial bearing failure prediction (ISO 10816 compliant)
-   - APT cybersecurity detection (SIEM-grade accuracy)
+ - Atrial fibrillation detection (matches FDA-approved wearables)
+ - Financial trading strategy (walk-forward validated)
+ - Industrial bearing failure prediction (ISO 10816 compliant)
+ - APT cybersecurity detection (SIEM-grade accuracy)
 
 4. **Scalable Implementation:**
-   - GPU-accelerated tensor operations (PyTorch + Triton kernels)
-   - 100,000+ qubit demonstrated capacity
-   - Rigorous error tracking and numerical stability
+ - GPU-accelerated tensor operations (PyTorch + Triton kernels)
+ - 100,000+ qubit demonstrated capacity
+ - Rigorous error tracking and numerical stability
 
 ### 1.3 Structure of This Paper
 
@@ -85,7 +85,7 @@ Section 2 reviews related work in quantum simulation and tensor networks. Sectio
 ### 2.1 Quantum Simulation
 
 **Full State Vector Simulation:**
-Traditional quantum simulators [4, 5] maintain the full quantum state |ψ⟩ ∈ C^(2ⁿ), requiring exponential memory. Qiskit Aer [6] and Cirq [7] support up to ~40 qubits on high-memory systems.
+Traditional quantum simulators [4, 5] maintain the full quantum state |ψ ∈ C^(2ⁿ), requiring exponential memory. Qiskit Aer [6] and Cirq [7] support up to ~40 qubits on high-memory systems.
 
 **Specialized Simulators:**
 - **Stabilizer circuits:** Gottesman-Knill theorem enables efficient simulation [8]
@@ -254,7 +254,7 @@ This handles ill-conditioned matrices that would crash standard simulators.
 
 **Algorithm:**
 
-1. **Sample Collection:** Draw s ≈ 10 samples from |⟨m|QFT|ψ⟩|²
+1. **Sample Collection:** Draw s ≈ 10 samples from |m|QFT|ψ|²
 2. **Peak Detection:** Identify peaks in sample histogram
 3. **GCD Computation:** r = gcd(differences between peaks)
 4. **Validation:** Verify r divides N-offset
@@ -310,9 +310,9 @@ where RR intervals are times between consecutive heartbeats.
 
 **Results:**
 ```
-Normal rhythm:  CV = 0.0505  ✓ Regular
-AFib episode:   CV = 0.2902  🚨 Irregular (detected!)
-Recovery:       CV = 0.0507  ✓ Regular
+Normal rhythm: CV = 0.0505 Regular
+AFib episode: CV = 0.2902 Irregular (detected!)
+Recovery: CV = 0.0507 Regular
 ```
 
 **Validation:**
@@ -335,10 +335,10 @@ Recovery:       CV = 0.0507  ✓ Regular
 
 **Results:**
 ```
-Strategy return:     +7.1%
-Buy-and-hold:        -3.9%
-Outperformance:      +11.0%  ✅ Realistic
-Transaction costs:   $30.89 (2 trades)
+Strategy return: +7.1%
+Buy-and-hold: -3.9%
+Outperformance: +11.0% Realistic
+Transaction costs: $30.89 (2 trades)
 ```
 
 **Validation:**
@@ -356,7 +356,7 @@ Transaction costs:   $30.89 (2 trades)
 ```python
 from scipy import signal
 freqs, psd = signal.welch(vibration_signal, fs=sample_rate,
-                          nperseg=4096, noverlap=2048)
+ nperseg=4096, noverlap=2048)
 ```
 
 **Defect Signatures:**
@@ -365,8 +365,8 @@ freqs, psd = signal.welch(vibration_signal, fs=sample_rate,
 
 **Results:**
 ```
-Healthy:  Motor frequency at 20 Hz (65.2% PSD)
-Failing:  Defect signatures at 17 Hz (1.4% PSD), 23 Hz (1.0% PSD)
+Healthy: Motor frequency at 20 Hz (65.2% PSD)
+Failing: Defect signatures at 17 Hz (1.4% PSD), 23 Hz (1.0% PSD)
 Severity: 3.6% total → Schedule maintenance in 1 week
 ```
 
@@ -389,10 +389,10 @@ Severity: 3.6% total → Schedule maintenance in 1 week
 **Results:**
 ```
 Suspicious flow: 185.141.62.123
-  - 720 connections
-  - CV = 0.0550 (very regular)
-  - Detected period: 120s (98% confidence)
-  - Actual period: 120s ✓ CORRECT
+ - 720 connections
+ - CV = 0.0550 (very regular)
+ - Detected period: 120s (98% confidence)
+ - Actual period: 120s CORRECT
 ```
 
 **Validation:**
@@ -418,10 +418,10 @@ Suspicious flow: 185.141.62.123
 
 | Qubits | χ | Memory | Time | GPU | Status |
 |--------|---|--------|------|-----|--------|
-| 10,000 | 64 | 0.61 GB | 0.08s | NVIDIA GB10 | ✅ |
-| 50,000 | 64 | 3.05 GB | 0.43s | NVIDIA GB10 | ✅ |
-| 100,000 | 64 | 6.10 GB | 0.88s | NVIDIA GB10 | ✅ |
-| 200,000 | 64 | 12.21 GB | 1.78s | NVIDIA GB10 | ✅ |
+| 10,000 | 64 | 0.61 GB | 0.08s | NVIDIA GB10 | |
+| 50,000 | 64 | 3.05 GB | 0.43s | NVIDIA GB10 | |
+| 100,000 | 64 | 6.10 GB | 0.88s | NVIDIA GB10 | |
+| 200,000 | 64 | 12.21 GB | 1.78s | NVIDIA GB10 | |
 
 **Capacity Formula:** Memory ≈ n × χ² × 2 × 8 bytes (within 10% of measured)
 
@@ -431,10 +431,10 @@ Suspicious flow: 185.141.62.123
 
 | n | Layers | Max χ | p95 Entropy | Error | Memory | Status |
 |---|--------|-------|-------------|-------|--------|--------|
-| 16 | 8 | 14 | 3.12 bits | 3.2e-05 | 0.12 MB | ✓ |
-| 32 | 8 | 24 | 4.87 bits | 5.8e-05 | 0.82 MB | ✓ |
-| 64 | 8 | 38 | 6.31 bits | 9.1e-05 | 4.21 MB | ✓ |
-| 128 | 8 | 52 | 7.45 bits | 1.3e-04 | 16.8 MB | ✓ |
+| 16 | 8 | 14 | 3.12 bits | 3.2e-05 | 0.12 MB | |
+| 32 | 8 | 24 | 4.87 bits | 5.8e-05 | 0.82 MB | |
+| 64 | 8 | 38 | 6.31 bits | 9.1e-05 | 4.21 MB | |
+| 128 | 8 | 52 | 7.45 bits | 1.3e-04 | 16.8 MB | |
 
 **Moderate Band:** 2 ≤ p95_entropy ≤ 8 bits, χ ≤ 64, error < 5×10⁻⁴
 
@@ -568,7 +568,7 @@ $$
 $$
 
 **Proof:**
-Let |ψ_exact⟩ be the exact state after m gates, and |ψ_approx⟩ be the truncated state.
+Let |ψ_exact be the exact state after m gates, and |ψ_approx be the truncated state.
 
 After gate m with local error ε_m:
 $$
@@ -613,18 +613,18 @@ where k is the SVD rank selection cost (typically k < χ).
 
 **Backtest Protocol:**
 ```python
-train_window = 90  # days
-test_window = 30   # days
-transaction_cost = 0.0015  # 15 bps
+train_window = 90 # days
+test_window = 30 # days
+transaction_cost = 0.0015 # 15 bps
 
 for day in range(train_window, total_days, test_window):
-    # Train on past 90 days only
-    cycle = detect_cycle(prices[day-90:day])
+ # Train on past 90 days only
+ cycle = detect_cycle(prices[day-90:day])
 
-    # Test on next 30 days
-    for test_day in range(day, day+test_window):
-        signal = generate_signal(prices[:test_day], cycle)
-        execute_trade(signal, transaction_cost)
+ # Test on next 30 days
+ for test_day in range(day, day+test_window):
+ signal = generate_signal(prices[:test_day], cycle)
+ execute_trade(signal, transaction_cost)
 ```
 
 **Risk Management:**
@@ -656,13 +656,13 @@ where:
 **Severity Assessment:**
 ```python
 if defect_power < 1%:
-    status = "Healthy - Continue monitoring"
+ status = "Healthy - Continue monitoring"
 elif defect_power < 3%:
-    status = "Early warning - Schedule inspection"
+ status = "Early warning - Schedule inspection"
 elif defect_power < 5%:
-    status = "Moderate - Plan maintenance (1 week)"
+ status = "Moderate - Plan maintenance (1 week)"
 else:
-    status = "Critical - Immediate shutdown"
+ status = "Critical - Immediate shutdown"
 ```
 
 ---
@@ -697,7 +697,7 @@ Following the initial release, we integrated custom GPU kernels with significant
 
 **Key Achievements**:
 - **77,304 ops/sec** gate throughput (GPU-optimized MPS)
-- **626,454× memory compression** (30 qubits: 0.03 MB vs 16 GB statevector)  
+- **626,454× memory compression** (30 qubits: 0.03 MB vs 16 GB statevector)
 - **20.4× speedup** on Clifford circuits (Stabilizer backend)
 - **1.5-3× speedup** from custom Triton kernels on 2-qubit gates
 - **All 7/7 benchmark suites passing** with rigorous validation
@@ -710,7 +710,7 @@ We developed fused kernels in `triton_kernels/mps_complex.py` that combine:
 3. Reshape for SVD: X = θ'.reshape(χL*2, 2*χR)
 
 **Performance scaling**:
-- χ=64: 1.5× speedup  
+- χ=64: 1.5× speedup
 - χ=128: 2.1× speedup
 - χ=256: 2.8× speedup
 
@@ -725,13 +725,13 @@ We developed fused kernels in `triton_kernels/mps_complex.py` that combine:
 ### A.4 Production-Ready Status
 
 **7/7 Benchmark Suites Passing**:
-- ✅ Noise Models (3/3 tests, 7.8K ops/sec)
-- ✅ Stabilizer Backend (3/3 tests, 20.4× speedup) 
-- ✅ MPO Operations (3/3 tests, 1,372 evals/sec)
-- ✅ TDVP Time Evolution (2/2 tests, 0.00 energy drift)
-- ✅ VQE/QAOA (2/2 tests, 9.8e-05 error)
-- ✅ 2D Circuits (2/2 tests, 3.44× SWAP overhead)
-- ✅ Integration Tests (2/2 tests passing)
+- Noise Models (3/3 tests, 7.8K ops/sec)
+- Stabilizer Backend (3/3 tests, 20.4× speedup)
+- MPO Operations (3/3 tests, 1,372 evals/sec)
+- TDVP Time Evolution (2/2 tests, 0.00 energy drift)
+- VQE/QAOA (2/2 tests, 9.8e-05 error)
+- 2D Circuits (2/2 tests, 3.44× SWAP overhead)
+- Integration Tests (2/2 tests passing)
 
 **Assessment**: ATLAS-Q demonstrates competitive performance with established simulators (Qiskit Aer, Cirq, ITensor) while offering unique capabilities: hybrid stabilizer/MPS backend switching, custom Triton GPU kernels, and exceptional memory efficiency (626,000× compression).
 
@@ -742,14 +742,14 @@ We developed fused kernels in `triton_kernels/mps_complex.py` that combine:
 **New Capabilities (46/46 tests passing)**:
 
 **Quantum Chemistry & Graph Optimization**:
-- ✅ Molecular Hamiltonians (4/4 tests) - PySCF integration with Jordan-Wigner transformation
-- ✅ MaxCut QAOA Hamiltonians (4/4 tests) - Graph optimization support
+- Molecular Hamiltonians (4/4 tests) - PySCF integration with Jordan-Wigner transformation
+- MaxCut QAOA Hamiltonians (4/4 tests) - Graph optimization support
 
 **Advanced Tensor Networks**:
-- ✅ Circuit Cutting (7/7 tests) - Min-cut partitioning for large circuits
-- ✅ PEPS 2D Networks (10/10 tests) - True 2D tensor networks
-- ✅ Distributed MPS (10/10 tests) - Multi-GPU bond-parallel decomposition
-- ✅ cuQuantum Backend (11/11 tests) - NVIDIA acceleration (2-10× speedup)
+- Circuit Cutting (7/7 tests) - Min-cut partitioning for large circuits
+- PEPS 2D Networks (10/10 tests) - True 2D tensor networks
+- Distributed MPS (10/10 tests) - Multi-GPU bond-parallel decomposition
+- cuQuantum Backend (11/11 tests) - NVIDIA acceleration (2-10× speedup)
 
 ---
 
@@ -757,8 +757,8 @@ We developed fused kernels in `triton_kernels/mps_complex.py` that combine:
 - v0.1.0 (2025-Q1): Initial period-finding implementation
 - v0.2.0 (2025-Q2): Adaptive MPS with error tracking
 - v0.3.0 (2025-Q3): Real-world applications validated
-- v0.5.0 (2025-Q4): GPU/Triton integration complete ✅
-- v0.6.0 (2025-Q4): Molecular Hamiltonians, Circuit Cutting, PEPS, cuQuantum ✅
+- v0.5.0 (2025-Q4): GPU/Triton integration complete
+- v0.6.0 (2025-Q4): Molecular Hamiltonians, Circuit Cutting, PEPS, cuQuantum
 
 **Last Updated**: October 2025
 **Status**: Production Ready (46/46 tests passing)

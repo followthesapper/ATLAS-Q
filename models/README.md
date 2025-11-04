@@ -59,8 +59,8 @@ predictor = FinetunedPredictorWrapper(model_path='models/rank_predictor_ft.pt')
 ```python
 from atlas_q.tools_qih.finetuned_predictor import FinetunedPredictorWrapper
 predictor = FinetunedPredictorWrapper(
-    model_path='models/rank_predictor_ft_compiled.pt',
-    use_compiled=True
+ model_path='models/rank_predictor_ft_compiled.pt',
+ use_compiled=True
 )
 ```
 
@@ -94,16 +94,16 @@ python scripts/build_ft_dataset.py --algorithm vqe --n_samples 10000
 
 # Fine-tune
 python scripts/finetune_rank_predictor.py \
-    --base_model models/rank_predictor.pt \
-    --dataset ft_data.pt \
-    --epochs 20
+ --base_model models/rank_predictor.pt \
+ --dataset ft_data.pt \
+ --epochs 20
 ```
 
 ### 4. Compile for Production
 ```bash
 python scripts/optimize_ai_model.py \
-    --model models/rank_predictor_ft.pt \
-    --output models/rank_predictor_ft_compiled.pt
+ --model models/rank_predictor_ft.pt \
+ --output models/rank_predictor_ft_compiled.pt
 ```
 
 ## Evaluation
@@ -113,13 +113,13 @@ Evaluate model accuracy on your own circuits:
 ```bash
 # Evaluate on state vectors
 python scripts/eval_predictor_on_sv.py \
-    --model models/rank_predictor_ft.pt \
-    --test_circuits test_set.pt
+ --model models/rank_predictor_ft.pt \
+ --test_circuits test_set.pt
 
 # Compare models
 python scripts/compare_real_vs_synthetic.py \
-    --model1 models/rank_predictor.pt \
-    --model2 models/rank_predictor_ft.pt
+ --model1 models/rank_predictor.pt \
+ --model2 models/rank_predictor_ft.pt
 ```
 
 ## Used By
@@ -136,14 +136,14 @@ All models use a simple MLP architecture:
 
 ```
 Input: [64] (singular values from SVD)
-    ↓
+ ↓
 Dense(256) + ReLU + Dropout(0.1)
-    ↓
+ ↓
 Dense(128) + ReLU + Dropout(0.1)
-    ↓
+ ↓
 Dense(64) + ReLU
-    ↓
-Dense(1) + Sigmoid  # Output: predicted rank / max_rank
+ ↓
+Dense(1) + Sigmoid # Output: predicted rank / max_rank
 ```
 
 ## Citation
@@ -152,10 +152,10 @@ If you use these models in your research, please cite ATLAS-Q:
 
 ```bibtex
 @software{atlasq2025,
-  title={ATLAS-Q: GPU-Accelerated Quantum Tensor Network Simulator},
-  author={ATLAS-Q Development Team},
-  year={2025},
-  note={AI-guided MPS truncation models}
+ title={ATLAS-Q: GPU-Accelerated Quantum Tensor Network Simulator},
+ author={ATLAS-Q Development Team},
+ year={2025},
+ note={AI-guided MPS truncation models}
 }
 ```
 

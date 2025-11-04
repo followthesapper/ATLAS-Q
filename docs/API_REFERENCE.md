@@ -97,15 +97,15 @@ Matrix Product State with adaptive bond dimensions based on entanglement.
 **Constructor:**
 ```python
 AdaptiveMPS(
-    num_qubits: int,
-    bond_dim: int = 8,
-    *,
-    eps_bond: float = 1e-6,
-    chi_max_per_bond: Union[List[int], int] = 256,
-    budget_global_mb: Optional[float] = None,
-    dtype_policy: DTypePolicy = DTypePolicy(),
-    device: str = 'cuda',
-    dtype: Optional[torch.dtype] = None
+ num_qubits: int,
+ bond_dim: int = 8,
+ *,
+ eps_bond: float = 1e-6,
+ chi_max_per_bond: Union[List[int], int] = 256,
+ budget_global_mb: Optional[float] = None,
+ dtype_policy: DTypePolicy = DTypePolicy(),
+ device: str = 'cuda',
+ dtype: Optional[torch.dtype] = None
 )
 ```
 
@@ -156,10 +156,10 @@ Apply a two-qubit gate to adjacent qubits.
 ```python
 # CNOT gate
 CNOT = torch.tensor([
-    [1,0,0,0],
-    [0,1,0,0],
-    [0,0,0,1],
-    [0,0,1,0]
+ [1,0,0,0],
+ [0,1,0,0],
+ [0,0,0,1],
+ [0,0,1,0]
 ], dtype=torch.complex64).reshape(4,4).to('cuda')
 
 mps.apply_two_site_gate(0, CNOT)
@@ -208,8 +208,8 @@ Mixed precision policy for adaptive MPS.
 **Constructor:**
 ```python
 DTypePolicy(
-    default: torch.dtype = torch.complex64,
-    promote_if_cond_gt: float = 1e6
+ default: torch.dtype = torch.complex64,
+ promote_if_cond_gt: float = 1e6
 )
 ```
 
@@ -318,10 +318,10 @@ H = -J Σᵢ ZᵢZᵢ₊₁ - h Σᵢ Xᵢ
 from atlas_q.mpo_ops import MPOBuilder
 
 H = MPOBuilder.ising_hamiltonian(
-    n_sites=10,
-    J=1.0,
-    h=0.5,
-    device='cuda'
+ n_sites=10,
+ J=1.0,
+ h=0.5,
+ device='cuda'
 )
 ```
 
@@ -342,7 +342,7 @@ H = Σᵢ (Jₓ XᵢXᵢ₊₁ + Jᵧ YᵢYᵢ₊₁ + Jᵧ ZᵢZᵢ₊₁)
 ##### `MPOBuilder.maxcut_hamiltonian(edges: List[Tuple[int, int]], weights: Optional[List[float]] = None, n_sites: Optional[int] = None, device: str = 'cuda', dtype=torch.complex64) -> MPO`
 
 Build MaxCut QAOA Hamiltonian:
-H = Σ_{(i,j)∈E} w_{ij} (1 - ZᵢZⱼ) / 2
+H = Σ_{(i,j)∈E} w_{ij} (1 - ZᵢZ) / 2
 
 **Parameters:**
 - `edges` (List[Tuple[int, int]]): Graph edges as (i, j) tuples
@@ -381,16 +381,16 @@ Build molecular electronic Hamiltonian using PySCF.
 ```python
 # H2 molecule
 H = MPOBuilder.molecular_hamiltonian_from_specs(
-    molecule='H2',
-    basis='sto-3g',
-    device='cuda'
+ molecule='H2',
+ basis='sto-3g',
+ device='cuda'
 )
 
 # Custom geometry
 H_custom = MPOBuilder.molecular_hamiltonian_from_specs(
-    molecule='H 0 0 0; H 0 0 0.74',
-    basis='6-31g',
-    device='cuda'
+ molecule='H 0 0 0; H 0 0 0.74',
+ basis='6-31g',
+ device='cuda'
 )
 ```
 
@@ -400,7 +400,7 @@ H_custom = MPOBuilder.molecular_hamiltonian_from_specs(
 
 #### `expectation_value(mpo: MPO, mps, use_gpu_optimized: bool = True) -> complex`
 
-Compute ⟨ψ|O|ψ⟩ expectation value.
+Compute ψ|O|ψ expectation value.
 
 **Parameters:**
 - `mpo` (MPO): Operator
@@ -424,7 +424,7 @@ print(f"Energy: {energy.real:.6f}")
 
 #### `apply_mpo_to_mps(mpo: MPO, mps, chi_max: int = 128, eps: float = 1e-8) -> AdaptiveMPS`
 
-Apply MPO to MPS: |ψ'⟩ = O |ψ⟩
+Apply MPO to MPS: |ψ' = O |ψ
 
 **Parameters:**
 - `mpo` (MPO): Operator to apply
@@ -437,7 +437,7 @@ Apply MPO to MPS: |ψ'⟩ = O |ψ⟩
 
 #### `correlation_function(op1: torch.Tensor, site1: int, op2: torch.Tensor, site2: int, mps) -> complex`
 
-Compute two-point correlation: ⟨ψ| O₁(i) O₂(j) |ψ⟩
+Compute two-point correlation: ψ| O₁(i) O₂(j) |ψ
 
 **Parameters:**
 - `op1`, `op2` (torch.Tensor): Operators (2×2)
@@ -510,16 +510,16 @@ Configuration for TDVP evolution.
 **Constructor:**
 ```python
 TDVPConfig(
-    dt: float = 0.01,
-    t_final: float = 10.0,
-    order: int = 2,
-    chi_max: int = 128,
-    eps_bond: float = 1e-8,
-    adaptive_dt: bool = False,
-    dt_min: float = 1e-5,
-    dt_max: float = 0.1,
-    error_tol: float = 1e-6,
-    use_gpu_optimized: bool = True
+ dt: float = 0.01,
+ t_final: float = 10.0,
+ order: int = 2,
+ chi_max: int = 128,
+ eps_bond: float = 1e-8,
+ adaptive_dt: bool = False,
+ dt_min: float = 1e-5,
+ dt_max: float = 0.1,
+ error_tol: float = 1e-6,
+ use_gpu_optimized: bool = True
 )
 ```
 
@@ -577,8 +577,8 @@ evolver = TDVP1Site(H, mps, dt=0.01)
 
 # Manual evolution
 for step in range(10):
-    evolver.sweep_forward(0.01)
-    evolver.sweep_backward(0.01)
+ evolver.sweep_forward(0.01)
+ evolver.sweep_backward(0.01)
 ```
 
 ---
@@ -645,14 +645,14 @@ Configuration for VQE.
 **Constructor:**
 ```python
 VQEConfig(
-    ansatz: str = "hardware_efficient",
-    n_layers: int = 3,
-    optimizer: str = "COBYLA",
-    max_iter: int = 100,
-    tol: float = 1e-6,
-    chi_max: int = 64,
-    device: str = "cuda",
-    dtype: torch.dtype = torch.complex128
+ ansatz: str = "hardware_efficient",
+ n_layers: int = 3,
+ optimizer: str = "COBYLA",
+ max_iter: int = 100,
+ tol: float = 1e-6,
+ chi_max: int = 64,
+ device: str = "cuda",
+ dtype: torch.dtype = torch.complex128
 )
 ```
 
@@ -675,9 +675,9 @@ Variational Quantum Eigensolver.
 **Constructor:**
 ```python
 VQE(
-    hamiltonian: MPO,
-    config: VQEConfig,
-    custom_ansatz=None
+ hamiltonian: MPO,
+ config: VQEConfig,
+ custom_ansatz=None
 )
 ```
 
@@ -710,9 +710,9 @@ from atlas_q.ansatz_uccsd import UCCSDAnsatz
 
 # Build molecular Hamiltonian
 H = mpo_ops.MPOBuilder.molecular_hamiltonian_from_specs(
-    molecule='H2',
-    basis='sto-3g',
-    device='cuda'
+ molecule='H2',
+ basis='sto-3g',
+ device='cuda'
 )
 
 # Create UCCSD ansatz
@@ -735,10 +735,10 @@ Hardware-efficient variational ansatz.
 **Constructor:**
 ```python
 HardwareEfficientAnsatz(
-    n_qubits: int,
-    n_layers: int,
-    device: str = 'cuda',
-    dtype: torch.dtype = torch.complex128
+ n_qubits: int,
+ n_layers: int,
+ device: str = 'cuda',
+ dtype: torch.dtype = torch.complex128
 )
 ```
 
@@ -770,11 +770,11 @@ Quantum Approximate Optimization Algorithm.
 **Constructor:**
 ```python
 QAOA(
-    cost_hamiltonian: MPO,
-    n_layers: int = 3,
-    optimizer: str = "COBYLA",
-    device: str = "cuda",
-    dtype: torch.dtype = torch.complex128
+ cost_hamiltonian: MPO,
+ n_layers: int = 3,
+ optimizer: str = "COBYLA",
+ device: str = "cuda",
+ dtype: torch.dtype = torch.complex128
 )
 ```
 
@@ -825,10 +825,10 @@ Chemistry-aware UCCSD ansatz.
 **Constructor:**
 ```python
 UCCSDAnsatz(
-    molecule: str = 'H2',
-    basis: str = 'sto-3g',
-    device: str = 'cuda',
-    dtype: torch.dtype = torch.complex128
+ molecule: str = 'H2',
+ basis: str = 'sto-3g',
+ device: str = 'cuda',
+ dtype: torch.dtype = torch.complex128
 )
 ```
 
@@ -965,12 +965,12 @@ from atlas_q.adaptive_mps import AdaptiveMPS
 # Create noise model
 noise = NoiseModel(device='cuda')
 noise.add_quantum_error(
-    NoiseChannel.depolarizing(0.01),  # 1% depolarizing
-    ['X', 'H', 'RZ']
+ NoiseChannel.depolarizing(0.01), # 1% depolarizing
+ ['X', 'H', 'RZ']
 )
 noise.add_quantum_error(
-    NoiseChannel.depolarizing(0.02),  # 2% for two-qubit gates
-    ['CNOT', 'CZ']
+ NoiseChannel.depolarizing(0.02), # 2% for two-qubit gates
+ ['CNOT', 'CZ']
 )
 
 # Apply to circuit (noise applied automatically)
@@ -1081,9 +1081,9 @@ Configuration for circuit cutting.
 **Constructor:**
 ```python
 CuttingConfig(
-    max_subcircuit_size: int = 10,
-    max_cuts: int = 5,
-    method: str = 'min_cut'
+ max_subcircuit_size: int = 10,
+ max_cuts: int = 5,
+ method: str = 'min_cut'
 )
 ```
 
@@ -1114,10 +1114,10 @@ PEPS (Projected Entangled Pair States) for 2D quantum systems.
 **Constructor:**
 ```python
 PEPS(
-    rows: int,
-    cols: int,
-    bond_dim: int = 8,
-    device: str = 'cuda'
+ rows: int,
+ cols: int,
+ bond_dim: int = 8,
+ device: str = 'cuda'
 )
 ```
 
@@ -1158,10 +1158,10 @@ Multi-GPU MPS.
 **Constructor:**
 ```python
 DistributedMPS(
-    num_qubits: int,
-    bond_dim: int,
-    num_gpus: int,
-    config: DistributedConfig
+ num_qubits: int,
+ bond_dim: int,
+ num_gpus: int,
+ config: DistributedConfig
 )
 ```
 
@@ -1218,9 +1218,9 @@ Get cuQuantum version.
 from atlas_q.cuquantum_backend import is_cuquantum_available
 
 if is_cuquantum_available():
-    print("cuQuantum acceleration enabled")
+ print("cuQuantum acceleration enabled")
 else:
-    print("Using PyTorch fallback")
+ print("Using PyTorch fallback")
 ```
 
 ---

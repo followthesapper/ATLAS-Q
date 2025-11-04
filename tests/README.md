@@ -9,9 +9,9 @@ Comprehensive test suite for ATLAS-Q quantum tensor network simulator.
 pytest
 
 # Specific test directory
-pytest tests/unit/              # Unit tests only
-pytest tests/integration/        # Integration tests only
-pytest tests/performance/        # Performance tests only
+pytest tests/unit/ # Unit tests only
+pytest tests/integration/ # Integration tests only
+pytest tests/performance/ # Performance tests only
 
 # Skip GPU tests (if no GPU available)
 pytest -m "not gpu"
@@ -66,7 +66,7 @@ Run with coverage to see which code is tested:
 
 ```bash
 pytest --cov=atlas_q --cov-report=html
-open htmlcov/index.html  # View coverage report
+open htmlcov/index.html # View coverage report
 ```
 
 ## Configuration
@@ -100,15 +100,15 @@ Example:
 import pytest
 
 def test_my_feature():
-    # Arrange
-    ...
-    # Act
-    ...
-    # Assert
-    ...
+ # Arrange
+ ...
+ # Act
+ ...
+ # Assert
+ ...
 
 @pytest.mark.gpu
 def test_my_gpu_feature():
-    import cupy as cp
-    ...
+ import cupy as cp
+ ...
 ```

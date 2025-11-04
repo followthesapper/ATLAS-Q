@@ -9,9 +9,9 @@
 
 ---
 
-## 📚 Related Documentation
+## Related Documentation
 
-- **[📓 Interactive Notebook](../ATLAS_Q_Demo.ipynb)** - Try ATLAS-Q hands-on
+- **[ Interactive Notebook](../ATLAS_Q_Demo.ipynb)** - Try ATLAS-Q hands-on
 - **[Complete Guide](COMPLETE_GUIDE.md)** - Installation and API reference
 - **[Feature Status](FEATURE_STATUS.md)** - Implementation checklist
 - **[Research Paper](RESEARCH_PAPER.md)** - Mathematical theory
@@ -89,24 +89,24 @@ ATLAS-Q addresses these challenges through **structure exploitation** and **GPU 
 
 **October 2025 Release**:
 
-✅ **GPU/Triton Integration Complete**:
+ **GPU/Triton Integration Complete**:
 - Custom Triton kernels for 2-qubit gates (1.5-3× speedup)
 - cuBLAS tensor core acceleration (TF32)
 - 77,000+ ops/sec throughput
 
-✅ **All Core Features Implemented**:
+ **All Core Features Implemented**:
 - Noise models (NISQ parity)
 - Stabilizer backend (Clifford fast path)
 - MPO operations (Hamiltonians, observables)
 - TDVP time evolution (1-site & 2-site)
 - VQE/QAOA (variational algorithms)
 
-✅ **Comprehensive Testing**:
+ **Comprehensive Testing**:
 - 7/7 benchmark suites passing
 - 75+ unit tests across 5 test files
 - Validated against canonical quantum benchmarks
 
-✅ **Production-Ready Documentation**:
+ **Production-Ready Documentation**:
 - Complete API reference
 - Performance comparison vs competitors
 - Working examples and tutorials
@@ -119,69 +119,69 @@ ATLAS-Q addresses these challenges through **structure exploitation** and **GPU 
 
 ```
 ATLAS-Q v0.5.0 Architecture
-┌──────────────────────────────────────────────────────────┐
-│                    User Interface Layer                   │
-│  (Python API, lazy loading, error handling)              │
-└─────────────────────────┬────────────────────────────────┘
-                          │
-┌─────────────────────────┴────────────────────────────────┐
-│                 Backend Switching Layer                   │
-│  ┌─────────────┐    ┌────────────┐    ┌──────────────┐ │
-│  │ Stabilizer  │ →  │    MPS     │ ←  │ Noise Models │ │
-│  │  (Clifford) │    │ (General)  │    │    (NISQ)    │ │
-│  └─────────────┘    └────────────┘    └──────────────┘ │
-└─────────────────────────┬────────────────────────────────┘
-                          │
-┌─────────────────────────┴────────────────────────────────┐
-│              Tensor Network Operations Layer              │
-│  ┌──────────┐  ┌──────────┐  ┌───────────┐  ┌─────────┐│
-│  │   MPO    │  │   TDVP   │  │ VQE/QAOA  │  │ Cutting ││
-│  │(Hamilto- │  │  (Time   │  │(Variation-│  │(Circuit ││
-│  │  nians)  │  │Evolution)│  │    al)    │  │ Partition││
-│  └──────────┘  └──────────┘  └───────────┘  └─────────┘│
-└─────────────────────────┬────────────────────────────────┘
-                          │
-┌─────────────────────────┴────────────────────────────────┐
-│                 GPU Acceleration Layer                    │
-│  ┌─────────────────┐          ┌────────────────────────┐│
-│  │ Custom Triton   │          │   cuBLAS/Tensor Cores  ││
-│  │    Kernels      │          │   (PyTorch CUDA)       ││
-│  │ ┌─────────────┐ │          │ ┌────────────────────┐││
-│  │ │Fused 2Q Gate│ │          │ │ Optimized einsums  │││
-│  │ │SVD Prep     │ │          │ │ TF32 precision     │││
-│  │ │Tensor merge │ │          │ │ Memory management  │││
-│  │ └─────────────┘ │          │ └────────────────────┘││
-│  └─────────────────┘          └────────────────────────┘│
-└──────────────────────────────────────────────────────────┘
+
+ User Interface Layer
+ (Python API, lazy loading, error handling)
+
+
+
+ Backend Switching Layer
+
+ Stabilizer → MPS ← Noise Models
+ (Clifford) (General) (NISQ)
+
+
+
+
+ Tensor Network Operations Layer
+
+ MPO TDVP VQE/QAOA Cutting
+ (Hamilto- (Time (Variation- (Circuit
+ nians) Evolution) al) Partition
+
+
+
+
+ GPU Acceleration Layer
+
+ Custom Triton cuBLAS/Tensor Cores
+ Kernels (PyTorch CUDA)
+
+ Fused 2Q Gate Optimized einsums
+ SVD Prep TF32 precision
+ Tensor merge Memory management
+
+
+
 ```
 
 ### 2.2 Module Structure
 
 ```
 src/atlas_q/
-├── Core MPS System
-│   ├── adaptive_mps.py          # Adaptive MPS with Triton integration
-│   ├── linalg_robust.py         # Robust SVD with fallback cascade
-│   ├── truncation.py            # Adaptive truncation with error bounds
-│   └── diagnostics.py           # Statistics tracking and monitoring
-│
-├── Specialized Backends
-│   ├── stabilizer_backend.py    # Clifford fast path (20× speedup)
-│   ├── noise_models.py          # NISQ noise channels (Kraus operators)
-│   └── mpo_ops.py               # MPO operations (Hamiltonians)
-│
-├── Tensor Network Algorithms
-│   ├── tdvp.py                  # TDVP time evolution (1-site & 2-site)
-│   ├── vqe_qaoa.py              # Variational algorithms (VQE, QAOA)
-│   └── circuit_cutting.py       # Circuit partitioning for 2D
-│
-├── GPU Acceleration
-│   └── ../triton_kernels/
-│       ├── mps_complex.py       # Fused 2-qubit gate kernels
-│       ├── tdvp_mpo_ops.py      # GPU-optimized contractions
-│       └── mps_ops.py           # General MPS tensor operations
-│
-└── __init__.py                  # Lazy loading for fast imports
+ Core MPS System
+ adaptive_mps.py # Adaptive MPS with Triton integration
+ linalg_robust.py # Robust SVD with fallback cascade
+ truncation.py # Adaptive truncation with error bounds
+ diagnostics.py # Statistics tracking and monitoring
+
+ Specialized Backends
+ stabilizer_backend.py # Clifford fast path (20× speedup)
+ noise_models.py # NISQ noise channels (Kraus operators)
+ mpo_ops.py # MPO operations (Hamiltonians)
+
+ Tensor Network Algorithms
+ tdvp.py # TDVP time evolution (1-site & 2-site)
+ vqe_qaoa.py # Variational algorithms (VQE, QAOA)
+ circuit_cutting.py # Circuit partitioning for 2D
+
+ GPU Acceleration
+ ../triton_kernels/
+ mps_complex.py # Fused 2-qubit gate kernels
+ tdvp_mpo_ops.py # GPU-optimized contractions
+ mps_ops.py # General MPS tensor operations
+
+ __init__.py # Lazy loading for fast imports
 ```
 
 ### 2.3 Backend Switching
@@ -196,15 +196,15 @@ sim = stab['HybridSimulator'](n_qubits=100, use_stabilizer=True)
 
 # Fast Clifford gates (O(n²) time)
 for i in range(100):
-    sim.h(i)  # Hadamard
+ sim.h(i) # Hadamard
 for i in range(99):
-    sim.cnot(i, i+1)  # CNOT
+ sim.cnot(i, i+1) # CNOT
 
 # Add T-gate → automatically switches to MPS!
-sim.t(0)  # Now using O(n·χ²) MPS backend
+sim.t(0) # Now using O(n·χ²) MPS backend
 
 stats = sim.get_statistics()
-print(f"Mode: {stats['mode']}")  # 'mps'
+print(f"Mode: {stats['mode']}") # 'mps'
 print(f"Speedup achieved: {stats['stabilizer_gate_count'] / stats['mps_gate_count']:.1f}×")
 ```
 
@@ -237,18 +237,18 @@ print(f"Speedup achieved: {stats['stabilizer_gate_count'] / stats['mps_gate_coun
 ```python
 @triton.jit
 def fused_two_qubit_gate_kernel(
-    A_ptr, B_ptr, U_ptr, X_ptr,  # Input/output pointers
-    chi_L, chi_R, BLOCK_SIZE: tl.constexpr
+ A_ptr, B_ptr, U_ptr, X_ptr, # Input/output pointers
+ chi_L, chi_R, BLOCK_SIZE: tl.constexpr
 ):
-    """
-    Fuses three operations into single kernel:
-    1. Tensor merge: θ = einsum('asm,mtb->astb', A, B)
-    2. Gate application: θ' = einsum('stuv,astb->auvb', U, θ)
-    3. Reshape for SVD: X = θ'.reshape(χL*2, 2*χR)
+ """
+ Fuses three operations into single kernel:
+ 1. Tensor merge: θ = einsum('asm,mtb->astb', A, B)
+ 2. Gate application: θ' = einsum('stuv,astb->auvb', U, θ)
+ 3. Reshape for SVD: X = θ'.reshape(χL*2, 2*χR)
 
-    Speedup: 1.5-3× vs PyTorch for χ > 64
-    """
-    # ... kernel implementation ...
+ Speedup: 1.5-3× vs PyTorch for χ > 64
+ """
+ # ... kernel implementation ...
 ```
 
 **Performance**:
@@ -267,12 +267,12 @@ def fused_two_qubit_gate_kernel(
 use_triton = TRITON_AVAILABLE and device.type == 'cuda'
 
 if use_triton:
-    try:
-        X = fused_two_qubit_gate_triton(A, B, U_matrix)
-    except Exception:
-        X = fused_two_qubit_gate_pytorch(A, B, U_matrix)  # Fallback
+ try:
+ X = fused_two_qubit_gate_triton(A, B, U_matrix)
+ except Exception:
+ X = fused_two_qubit_gate_pytorch(A, B, U_matrix) # Fallback
 else:
-    X = fused_two_qubit_gate_pytorch(A, B, U_matrix)
+ X = fused_two_qubit_gate_pytorch(A, B, U_matrix)
 ```
 
 ### 3.3 cuBLAS Tensor Core Acceleration
@@ -294,22 +294,22 @@ os.environ['TORCH_CUDAGRAPHS_DISABLE'] = '1'
 
 **Accelerated Operations**:
 1. **TDVP Environment Contractions** (`tdvp.py`):
-   ```python
-   # Left environment: [bra_L, mpo_L, ket_L]
-   L_next = torch.einsum('qli, qtu, lstn, isj -> unj', L_prev, Ac, W, A)
+ ```python
+ # Left environment: [bra_L, mpo_L, ket_L]
+ L_next = torch.einsum('qli, qtu, lstn, isj -> unj', L_prev, Ac, W, A)
 
-   # Right environment: [bra_R, mpo_R, ket_R]
-   R_prev = torch.einsum('unj, qtu, lstn, isj -> qli', R_next, Ac, W, A)
+ # Right environment: [bra_R, mpo_R, ket_R]
+ R_prev = torch.einsum('unj, qtu, lstn, isj -> qli', R_next, Ac, W, A)
 
-   # Local Hamiltonian application (100+ times per sweep)
-   H_A = torch.einsum('qli, lstn, isj, unj -> itj', L_site, W_site, A, R_site_plus1)
-   ```
+ # Local Hamiltonian application (100+ times per sweep)
+ H_A = torch.einsum('qli, lstn, isj, unj -> itj', L_site, W_site, A, R_site_plus1)
+ ```
 
 2. **MPO Expectation Values** (`mpo_ops.py`):
-   ```python
-   # Per-site contraction
-   E_next = torch.einsum('Lab, atr, LstR, bsB -> RrB', E_prev, Ac, W, A)
-   ```
+ ```python
+ # Per-site contraction
+ E_next = torch.einsum('Lab, atr, LstR, bsB -> RrB', E_prev, Ac, W, A)
+ ```
 
 **Performance**: cuBLAS automatically optimizes einsum contraction order and uses tensor cores when beneficial.
 
@@ -371,12 +371,12 @@ from atlas_q import get_adaptive_mps
 
 mps_cls = get_adaptive_mps()
 mps = mps_cls['AdaptiveMPS'](
-    num_qubits=30,
-    bond_dim=8,
-    eps_bond=1e-6,
-    chi_max_per_bond=64,
-    budget_global_mb=10,
-    device='cuda'
+ num_qubits=30,
+ bond_dim=8,
+ eps_bond=1e-6,
+ chi_max_per_bond=64,
+ budget_global_mb=10,
+ device='cuda'
 )
 
 # Apply gates - χ grows adaptively
@@ -394,7 +394,7 @@ print(f"Global error: {stats['global_error']:.2e}")
 
 **Stabilizer Tableau Representation**:
 ```
-|ψ⟩ represented by stabilizer generators: S₁, S₂, ..., Sₙ
+|ψ represented by stabilizer generators: S₁, S₂, ..., Sₙ
 Each Sᵢ = Pauli string (e.g., XYZ or IXZI)
 ```
 
@@ -432,7 +432,7 @@ outcome = sim.measure(0)
 hybrid = stab['HybridSimulator'](n_qubits=100, use_stabilizer=True)
 hybrid.h(0)
 hybrid.cnot(0, 1)
-hybrid.t(0)  # Automatically switches to MPS!
+hybrid.t(0) # Automatically switches to MPS!
 ```
 
 ### 4.3 Noise Models (NISQ Parity)
@@ -445,28 +445,28 @@ where Σᵢ Kᵢ†Kᵢ = I (completeness)
 
 **Supported Channels**:
 1. **Depolarizing** (1-qubit & 2-qubit):
-   ```python
-   # 1-qubit: ρ → (1-p)ρ + p/3(XρX + YρY + ZρZ)
-   noise['NoiseModel'].depolarizing(p1q=0.001, p2q=0.01)
-   ```
+ ```python
+ # 1-qubit: ρ → (1-p)ρ + p/3(XρX + YρY + ZρZ)
+ noise['NoiseModel'].depolarizing(p1q=0.001, p2q=0.01)
+ ```
 
 2. **Amplitude Damping** (T1 relaxation):
-   ```python
-   # |1⟩ → |0⟩ with probability γ
-   noise['NoiseModel'].amplitude_damping(gamma=0.01)
-   ```
+ ```python
+ # |1 → |0 with probability γ
+ noise['NoiseModel'].amplitude_damping(gamma=0.01)
+ ```
 
 3. **Dephasing** (T2 decoherence):
-   ```python
-   # Z-basis dephasing: ρ → (1-p)ρ + p·ZρZ
-   noise['NoiseModel'].dephasing(p=0.005)
-   ```
+ ```python
+ # Z-basis dephasing: ρ → (1-p)ρ + p·ZρZ
+ noise['NoiseModel'].dephasing(p=0.005)
+ ```
 
 4. **Pauli Channel**:
-   ```python
-   # General Pauli noise: ρ → Σ pᵢ·PᵢρPᵢ
-   noise['NoiseModel'].pauli(px=0.001, py=0.001, pz=0.002)
-   ```
+ ```python
+ # General Pauli noise: ρ → Σ pᵢ·PᵢρPᵢ
+ noise['NoiseModel'].pauli(px=0.001, py=0.001, pz=0.002)
+ ```
 
 **Stochastic Application**:
 ```python
@@ -486,7 +486,7 @@ applicator.apply_2q_noise(mps, qubit_i=q, qubit_j=q+1)
 
 **Matrix Product Operator**:
 ```
-H = Σᵢⱼ Wᵢⱼ |i⟩⟨j|
+H = Σᵢ Wᵢ |ij|
 represented as: W[0], W[1], ..., W[n-1]
 where each W[k] has shape [D_L, d, d, D_R]
 ```
@@ -499,35 +499,35 @@ mpo = get_mpo_ops()
 
 # Ising model: H = -J Σᵢ ZᵢZᵢ₊₁ - h Σᵢ Xᵢ
 H_ising = mpo['MPOBuilder'].ising_hamiltonian(
-    n_sites=20, J=1.0, h=0.5, device='cuda'
+ n_sites=20, J=1.0, h=0.5, device='cuda'
 )
 
 # Heisenberg model: H = Jₓ Σ XᵢXᵢ₊₁ + Jᵧ Σ YᵢYᵢ₊₁ + Jᵣ Σ ZᵢZᵢ₊₁
 H_heis = mpo['MPOBuilder'].heisenberg_hamiltonian(
-    n_sites=20, Jx=1.0, Jy=1.0, Jz=1.0, device='cuda'
+ n_sites=20, Jx=1.0, Jy=1.0, Jz=1.0, device='cuda'
 )
 
 # Molecular Hamiltonian (v0.6.0): Electronic structure with PySCF
 H_mol = mpo['MPOBuilder'].molecular_hamiltonian_from_specs(
-    molecule='H2', basis='sto-3g', charge=0, spin=0, device='cuda'
+ molecule='H2', basis='sto-3g', charge=0, spin=0, device='cuda'
 )
 
-# MaxCut QAOA Hamiltonian (v0.6.0): H = Σ_{(i,j)∈E} w_{ij} (1 - ZᵢZⱼ)/2
-edges = [(0, 1), (1, 2), (0, 2)]  # Triangle graph
+# MaxCut QAOA Hamiltonian (v0.6.0): H = Σ_{(i,j)∈E} w_{ij} (1 - ZᵢZ)/2
+edges = [(0, 1), (1, 2), (0, 2)] # Triangle graph
 H_maxcut = mpo['MPOBuilder'].maxcut_hamiltonian(
-    edges=edges, weights=[1.0, 1.0, 1.0], device='cuda'
+ edges=edges, weights=[1.0, 1.0, 1.0], device='cuda'
 )
 ```
 
 **Expectation Values**:
 ```python
-# Compute ⟨ψ|H|ψ⟩
+# Compute ψ|H|ψ
 energy = mpo['expectation_value'](H_ising, mps)
 ```
 
 **Correlation Functions**:
 ```python
-# Compute ⟨O₁(i) O₂(j)⟩
+# Compute O₁(i) O₂(j)
 X = torch.tensor([[0, 1], [1, 0]], dtype=torch.complex64)
 corr = mpo['correlation_function'](X, site1=0, X, site2=5, mps)
 ```
@@ -541,22 +541,22 @@ corr = mpo['correlation_function'](X, site1=0, X, site2=5, mps)
 **1-Site TDVP** (conserves χ):
 ```python
 config = tdvp_module['TDVPConfig'](
-    dt=0.01,
-    t_final=10.0,
-    order=1,  # 1-site
-    chi_max=64,
-    use_gpu_optimized=True
+ dt=0.01,
+ t_final=10.0,
+ order=1, # 1-site
+ chi_max=64,
+ use_gpu_optimized=True
 )
 ```
 
 **2-Site TDVP** (allows χ growth):
 ```python
 config = tdvp_module['TDVPConfig'](
-    dt=0.01,
-    t_final=10.0,
-    order=2,  # 2-site (more accurate)
-    chi_max=64,
-    use_gpu_optimized=True
+ dt=0.01,
+ t_final=10.0,
+ order=2, # 2-site (more accurate)
+ chi_max=64,
+ use_gpu_optimized=True
 )
 ```
 
@@ -613,11 +613,11 @@ H = mpo_module['MPOBuilder'].heisenberg_hamiltonian(n_sites=6, device='cuda')
 
 # Configure VQE
 config = vqe_module['VQEConfig'](
-    ansatz='hardware_efficient',
-    n_layers=3,
-    optimizer='COBYLA',
-    max_iter=50,
-    device='cuda'
+ ansatz='hardware_efficient',
+ n_layers=3,
+ optimizer='COBYLA',
+ max_iter=50,
+ device='cuda'
 )
 
 vqe = vqe_module['VQE'](H, config)
@@ -701,8 +701,8 @@ from atlas_q import get_distributed_mps
 
 dmps_mod = get_distributed_mps()
 config = dmps_mod['DistributedConfig'](
-    mode=dmps_mod['DistMode'].BOND_PARALLEL,
-    world_size=4  # 4 GPUs
+ mode=dmps_mod['DistMode'].BOND_PARALLEL,
+ world_size=4 # 4 GPUs
 )
 dmps = dmps_mod['DistributedMPS'](num_qubits=100, bond_dim=32, config=config)
 ```
@@ -717,10 +717,10 @@ dmps = dmps_mod['DistributedMPS'](num_qubits=100, bond_dim=32, config=config)
 from atlas_q import get_cuquantum
 
 cuq = get_cuquantum()
-backend = cuq['CuQuantumBackend']()  # Auto-detects cuQuantum
+backend = cuq['CuQuantumBackend']() # Auto-detects cuQuantum
 
 # Use for accelerated tensor operations
-U, S, Vt = backend.svd(tensor, chi_max=32)  # Faster with cuQuantum, works without
+U, S, Vt = backend.svd(tensor, chi_max=32) # Faster with cuQuantum, works without
 result = backend.contract([A, B, C], 'ij,jk,kl->il')
 ```
 
@@ -733,7 +733,7 @@ ATLAS-Q includes specialized algorithms for period-finding, enabling integer fac
 ### Compressed State Representations
 
 **PeriodicState** - O(1) Memory for Periodic Systems:
-- Represents periodic quantum states |ψ⟩ = (1/√k) Σⱼ |a + j·r⟩ analytically
+- Represents periodic quantum states |ψ = (1/√k) Σ |a + j·r analytically
 - Memory usage: O(1) regardless of qubit count
 - QFT sampling: Analytic computation without explicit state storage
 - Use case: Shor's algorithm quantum subroutine
@@ -755,7 +755,7 @@ QuantumClassicalHybrid, PeriodicState, ProductState, _ = get_quantum_sim()
 qc = QuantumClassicalHybrid()
 
 # Factor semiprime
-factors = qc.factor_number(143)  # Returns [11, 13]
+factors = qc.factor_number(143) # Returns [11, 13]
 ```
 
 **Key Components**:
@@ -769,14 +769,14 @@ ATLAS-Q matches canonical quantum computing benchmarks for Shor's algorithm:
 
 | Benchmark | Reference | N | Result | Status |
 |-----------|-----------|---|---------|--------|
-| IBM 2001 | Vandersypen et al., Nature 2001 | 15 | 3 × 5 | ✅ Verified |
-| Photonic 2012 | Martín-López et al., Nat. Photonics 2012 | 21 | 3 × 7 | ✅ Verified |
-| NMR 2012 | Xu et al., Nature 2012 | 143 | 11 × 13 | ✅ Verified |
+| IBM 2001 | Vandersypen et al., Nature 2001 | 15 | 3 × 5 | Verified |
+| Photonic 2012 | Martín-López et al., Nat. Photonics 2012 | 21 | 3 × 7 | Verified |
+| NMR 2012 | Xu et al., Nature 2012 | 143 | 11 × 13 | Verified |
 
 **Additional Validated Cases**:
-- N=33 (3 × 11): ✅ Verified
-- N=35 (5 × 7): ✅ Verified
-- N=91 (7 × 13): ✅ Verified
+- N=33 (3 × 11): Verified
+- N=35 (5 × 7): Verified
+- N=91 (7 × 13): Verified
 
 ### Performance Characteristics
 
@@ -798,42 +798,42 @@ ATLAS-Q matches canonical quantum computing benchmarks for Shor's algorithm:
 **All 7/7 Benchmark Suites Passing**:
 
 ```
-✅ Benchmark 1: Noise Models (3/3 passing)
-   - Kraus completeness: 0.00e+00 error (perfect)
-   - Performance: 7,789 noise ops/sec
-   - Status: PRODUCTION READY
+ Benchmark 1: Noise Models (3/3 passing)
+ - Kraus completeness: 0.00e+00 error (perfect)
+ - Performance: 7,789 noise ops/sec
+ - Status: PRODUCTION READY
 
-✅ Benchmark 2: Stabilizer Backend (3/3 passing)
-   - Bell state correlation: 1.00 (perfect)
-   - Speedup: 20.4× vs MPS
-   - Clifford→MPS handoff: Working
-   - Status: PRODUCTION READY
+ Benchmark 2: Stabilizer Backend (3/3 passing)
+ - Bell state correlation: 1.00 (perfect)
+ - Speedup: 20.4× vs MPS
+ - Clifford→MPS handoff: Working
+ - Status: PRODUCTION READY
 
-✅ Benchmark 3: MPO Operations (3/3 passing)
-   - Ising energy: -4.000000 (perfect!)
-   - Identity operator: 1.000000
-   - Performance: 1,372 evals/sec
-   - Status: PRODUCTION READY
+ Benchmark 3: MPO Operations (3/3 passing)
+ - Ising energy: -4.000000 (perfect!)
+ - Identity operator: 1.000000
+ - Performance: 1,372 evals/sec
+ - Status: PRODUCTION READY
 
-✅ Benchmark 4: TDVP Time Evolution (2/2 passing)
-   - 2-site TDVP: 0.00e+00 energy drift (perfect)
-   - 1-site TDVP: Has drift (use 2-site)
-   - Status: 2-site PRODUCTION READY
+ Benchmark 4: TDVP Time Evolution (2/2 passing)
+ - 2-site TDVP: 0.00e+00 energy drift (perfect)
+ - 1-site TDVP: Has drift (use 2-site)
+ - Status: 2-site PRODUCTION READY
 
-✅ Benchmark 5: VQE/QAOA (2/2 passing)
-   - VQE: 9.8e-05 ground state error (excellent)
-   - QAOA: Converges correctly
-   - Status: PRODUCTION READY
+ Benchmark 5: VQE/QAOA (2/2 passing)
+ - VQE: 9.8e-05 ground state error (excellent)
+ - QAOA: Converges correctly
+ - Status: PRODUCTION READY
 
-✅ Benchmark 6: 2D Circuits (2/2 passing)
-   - Snake mapping: 0 errors
-   - SWAP synthesis: 3.44× overhead (acceptable)
-   - Status: PRODUCTION READY
+ Benchmark 6: 2D Circuits (2/2 passing)
+ - Snake mapping: 0 errors
+ - SWAP synthesis: 3.44× overhead (acceptable)
+ - Status: PRODUCTION READY
 
-✅ Benchmark 7: Integration Tests (2/2 passing)
-   - Noisy hybrid simulation: Working
-   - Full workflow: Passing
-   - Status: PRODUCTION READY
+ Benchmark 7: Integration Tests (2/2 passing)
+ - Noisy hybrid simulation: Working
+ - Full workflow: Passing
+ - Status: PRODUCTION READY
 ```
 
 ### 5.2 Key Performance Metrics
@@ -883,10 +883,10 @@ ATLAS-Q matches canonical quantum computing benchmarks for Shor's algorithm:
 |----------|---------|------------|--------|
 | Memory (30q) | 0.03 MB | 16 GB | **ATLAS-Q** (626k×) |
 | Gate throughput | 77K/s | ~50-100K/s | Comparable |
-| VQE support | ✅ Native | ✅ Native | Tie |
-| GPU support | ✅ Triton | ✅ cuQuantum | Tie |
-| Noise models | ✅ Kraus | ✅ Full | Tie |
-| Tensor networks | ✅ Native | ❌ Limited | **ATLAS-Q** |
+| VQE support | Native | Native | Tie |
+| GPU support | Triton | cuQuantum | Tie |
+| Noise models | Kraus | Full | Tie |
+| Tensor networks | Native | Limited | **ATLAS-Q** |
 | Ease of use | Moderate | High | Qiskit |
 
 **Verdict**: ATLAS-Q wins on memory, ties on features, specialized for tensor networks.
@@ -896,9 +896,9 @@ ATLAS-Q matches canonical quantum computing benchmarks for Shor's algorithm:
 | Category | ATLAS-Q | Cirq | Winner |
 |----------|---------|------|--------|
 | Stabilizer | 20× speedup | Moderate | **ATLAS-Q** |
-| MPS/TN support | ✅ Native | ❌ Limited | **ATLAS-Q** |
-| Google hardware | ❌ | ✅ Sycamore | Cirq |
-| GPU acceleration | ✅ | ❌ | **ATLAS-Q** |
+| MPS/TN support | Native | Limited | **ATLAS-Q** |
+| Google hardware | | Sycamore | Cirq |
+| GPU acceleration | | | **ATLAS-Q** |
 | Ease of use | Moderate | High | Cirq |
 
 **Verdict**: ATLAS-Q better for GPU-accelerated tensor networks.
@@ -907,8 +907,8 @@ ATLAS-Q matches canonical quantum computing benchmarks for Shor's algorithm:
 
 | Category | ATLAS-Q | ITensor/TeNPy | Winner |
 |----------|---------|---------------|--------|
-| TDVP | ✅ Working | ✅ Reference | Tie |
-| GPU support | ✅ CUDA | ❌ CPU | **ATLAS-Q** |
+| TDVP | Working | Reference | Tie |
+| GPU support | CUDA | CPU | **ATLAS-Q** |
 | Language | Python | C++/Python | Tie |
 | Community | Small | Large | ITensor |
 | Performance | 1,372 MPO/s | ~1000 MPO/s | **ATLAS-Q** |
@@ -924,7 +924,7 @@ ATLAS-Q matches canonical quantum computing benchmarks for Shor's algorithm:
 - Specialized algorithms (VQE, QAOA, TDVP)
 - Hybrid stabilizer/MPS backend (unique!)
 
-⚠️ **Gaps**:
+ **Gaps**:
 - Limited external benchmarking
 - Some features untested (PEPS, full cuQuantum integration)
 - Documentation incomplete (ongoing)
@@ -970,13 +970,13 @@ mps = AdaptiveMPS(10, bond_dim=8, device='cuda')
 # Apply Hadamard gates
 H = torch.tensor([[1,1],[1,-1]], dtype=torch.complex64)/torch.sqrt(torch.tensor(2.0))
 for q in range(10):
-    mps.apply_single_qubit_gate(q, H.to('cuda'))
+ mps.apply_single_qubit_gate(q, H.to('cuda'))
 
 # Apply CNOT gates
 CNOT = torch.tensor([[1,0,0,0],[0,1,0,0],[0,0,0,1],[0,0,1,0]],
-                     dtype=torch.complex64).reshape(4,4).to('cuda')
+ dtype=torch.complex64).reshape(4,4).to('cuda')
 for q in range(0, 9, 2):
-    mps.apply_two_site_gate(q, CNOT)
+ mps.apply_two_site_gate(q, CNOT)
 
 print(f"Max bond dimension: {mps.stats_summary()['max_chi']}")
 print(f"Memory usage: {mps.memory_usage() / (1024**2):.2f} MB")
@@ -1028,9 +1028,9 @@ sim = stab['HybridSimulator'](n_qubits=50, use_stabilizer=True)
 
 # Fast Clifford gates
 for i in range(50):
-    sim.h(i)
+ sim.h(i)
 for i in range(49):
-    sim.cnot(i, i+1)
+ sim.cnot(i, i+1)
 
 # Add T-gate → switches to MPS
 sim.t(0)
@@ -1051,11 +1051,11 @@ print(f"Speedup: {stats['stabilizer_gate_count'] / stats['mps_gate_count']:.1f}�
 ```python
 # Set per-bond χ cap
 mps = AdaptiveMPS(
-    num_qubits=50,
-    bond_dim=8,
-    chi_max_per_bond=64,  # Prevent χ explosion
-    budget_global_mb=100,  # 100 MB memory budget
-    device='cuda'
+ num_qubits=50,
+ bond_dim=8,
+ chi_max_per_bond=64, # Prevent χ explosion
+ budget_global_mb=100, # 100 MB memory budget
+ device='cuda'
 )
 ```
 
@@ -1063,10 +1063,10 @@ mps = AdaptiveMPS(
 ```python
 # Adaptive truncation with error tolerance
 mps = AdaptiveMPS(
-    num_qubits=50,
-    bond_dim=8,
-    eps_bond=1e-6,  # Target truncation error
-    device='cuda'
+ num_qubits=50,
+ bond_dim=8,
+ eps_bond=1e-6, # Target truncation error
+ device='cuda'
 )
 
 # Check global error
@@ -1092,14 +1092,14 @@ print(f"Triton available: {TRITON_AVAILABLE}")
 
 ### 8.1 Use Cases
 
-**✅ BEST FOR**:
+** BEST FOR**:
 1. **Large quantum systems** (20-50 qubits) with moderate entanglement
 2. **VQE/QAOA** optimization on NISQ devices
 3. **Tensor network** simulations (TDVP, time evolution)
 4. **Memory-constrained** environments
 5. **GPU-accelerated** research workflows
 
-**⚠️ NOT IDEAL FOR**:
+** NOT IDEAL FOR**:
 1. **Highly entangled states** (use full statevector)
 2. **Arbitrary connectivity** (MPS assumes 1D/2D structure)
 3. **CPU-only** environments
@@ -1190,15 +1190,15 @@ cost, params = qaoa.run()
 | Feature | ATLAS-Q v0.5.0 | Qiskit Aer | Cirq | ITensor | TeNPy |
 |---------|---------------|------------|------|---------|-------|
 | **Memory (30q)** | 0.03 MB | 16 GB | 16 GB | CPU-limited | CPU-limited |
-| **GPU Support** | ✅ Triton+cuBLAS | ✅ cuQuantum | ❌ | ❌ | ❌ |
-| **Stabilizer Backend** | ✅ 20× speedup | ⚠️ Basic | ⚠️ Basic | ❌ | ❌ |
-| **MPS/Tensor Networks** | ✅ Native | ❌ | ❌ | ✅ Native | ✅ Native |
-| **TDVP Time Evolution** | ✅ 1-site & 2-site | ❌ | ❌ | ✅ | ✅ |
-| **VQE/QAOA** | ✅ Built-in | ✅ Built-in | ✅ Built-in | ⚠️ Manual | ⚠️ Manual |
-| **Noise Models** | ✅ Kraus operators | ✅ Full | ✅ Full | ❌ | ❌ |
+| **GPU Support** | Triton+cuBLAS | cuQuantum | | | |
+| **Stabilizer Backend** | 20× speedup | Basic | Basic | | |
+| **MPS/Tensor Networks** | Native | | | Native | Native |
+| **TDVP Time Evolution** | 1-site & 2-site | | | | |
+| **VQE/QAOA** | Built-in | Built-in | Built-in | Manual | Manual |
+| **Noise Models** | Kraus operators | Full | Full | | |
 | **Max Qubits (χ=64)** | 100,000+ | ~40 | ~40 | ~100-200 | ~100-200 |
 | **Gate Throughput** | 77K ops/s | ~50-100K ops/s | ~40-80K ops/s | N/A | N/A |
-| **Custom GPU Kernels** | ✅ Triton | ⚠️ cuQuantum | ❌ | ❌ | ❌ |
+| **Custom GPU Kernels** | Triton | cuQuantum | | | |
 | **Ease of Use** | Moderate | High | High | Moderate | Moderate |
 | **Community** | Small | Large | Large | Medium | Medium |
 
@@ -1206,14 +1206,14 @@ cost, params = qaoa.run()
 
 ## Appendix B: Performance Rating
 
-**ATLAS-Q v0.5.0 Performance Rating**: ⭐⭐⭐⭐ (4/5 stars)
+**ATLAS-Q v0.5.0 Performance Rating**: (4/5 stars)
 
 **Breakdown**:
-- **Memory Efficiency**: ⭐⭐⭐⭐⭐ (world-class)
-- **GPU Acceleration**: ⭐⭐⭐⭐⭐ (Triton + cuBLAS)
-- **Feature Completeness**: ⭐⭐⭐⭐ (7/7 benchmarks passing)
-- **Documentation**: ⭐⭐⭐ (comprehensive but incomplete)
-- **Community**: ⭐⭐ (small but growing)
+- **Memory Efficiency**: (world-class)
+- **GPU Acceleration**: (Triton + cuBLAS)
+- **Feature Completeness**: (7/7 benchmarks passing)
+- **Documentation**: (comprehensive but incomplete)
+- **Community**: (small but growing)
 
 **Competitive Position**: ATLAS-Q is competitive with established simulators for tensor network methods, achieving strong performance in memory efficiency (626,000× compression), GPU acceleration (custom Triton kernels), and specialized algorithms (VQE, QAOA, TDVP). Areas for improvement include ease-of-use and ecosystem integration compared to mature frameworks like Qiskit and Cirq.
 

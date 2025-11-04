@@ -197,29 +197,29 @@ Use Google style docstrings for all public APIs:
 
 ```python
 def my_function(param1: int, param2: str = 'default') -> bool:
-    """
-    Brief description of function.
+ """
+ Brief description of function.
 
-    Longer description if needed. Explain what the function does,
-    any important details about the algorithm, etc.
+ Longer description if needed. Explain what the function does,
+ any important details about the algorithm, etc.
 
-    Args:
-        param1: Description of param1
-        param2: Description of param2 (default: 'default')
+ Args:
+ param1: Description of param1
+ param2: Description of param2 (default: 'default')
 
-    Returns:
-        Description of return value
+ Returns:
+ Description of return value
 
-    Raises:
-        ValueError: When param1 is negative
-        RuntimeError: When computation fails
+ Raises:
+ ValueError: When param1 is negative
+ RuntimeError: When computation fails
 
-    Example:
-        >>> result = my_function(42, 'test')
-        >>> print(result)
-        True
-    """
-    # Implementation...
+ Example:
+ >>> result = my_function(42, 'test')
+ >>> print(result)
+ True
+ """
+ # Implementation...
 ```
 
 ### Commit Messages
@@ -305,10 +305,10 @@ Before submitting, ensure:
 
 ```
 tests/
-├── unit/           # Isolated component tests
-├── integration/    # Multi-component tests
-├── performance/    # GPU/performance benchmarks
-└── legacy/         # Old tests (being phased out)
+ unit/ # Isolated component tests
+ integration/ # Multi-component tests
+ performance/ # GPU/performance benchmarks
+ legacy/ # Old tests (being phased out)
 ```
 
 ### Writing Tests
@@ -319,27 +319,27 @@ import torch
 from atlas_q import get_adaptive_mps
 
 def test_mps_gate_application():
-    """Test applying gates to MPS."""
-    # Setup
-    mps_modules = get_adaptive_mps()
-    AdaptiveMPS = mps_modules['AdaptiveMPS']
-    mps = AdaptiveMPS(5, bond_dim=4, device='cpu')
+ """Test applying gates to MPS."""
+ # Setup
+ mps_modules = get_adaptive_mps()
+ AdaptiveMPS = mps_modules['AdaptiveMPS']
+ mps = AdaptiveMPS(5, bond_dim=4, device='cpu')
 
-    # Apply gate
-    H = torch.tensor([[1,1],[1,-1]], dtype=torch.complex64) / torch.sqrt(torch.tensor(2.0))
-    mps.apply_single_qubit_gate(0, H)
+ # Apply gate
+ H = torch.tensor([[1,1],[1,-1]], dtype=torch.complex64) / torch.sqrt(torch.tensor(2.0))
+ mps.apply_single_qubit_gate(0, H)
 
-    # Assert
-    stats = mps.stats_summary()
-    assert stats['total_operations'] == 1
+ # Assert
+ stats = mps.stats_summary()
+ assert stats['total_operations'] == 1
 
 @pytest.mark.gpu
 def test_gpu_acceleration():
-    """Test GPU-specific features."""
-    if not torch.cuda.is_available():
-        pytest.skip("CUDA not available")
+ """Test GPU-specific features."""
+ if not torch.cuda.is_available():
+ pytest.skip("CUDA not available")
 
-    # GPU test...
+ # GPU test...
 ```
 
 ### Running Tests

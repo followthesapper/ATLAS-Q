@@ -2,10 +2,10 @@
 **Adaptive Tensor Learning And Simulation – Quantum**
 
 <div style="text-align: center; margin: 2rem 0;">
-  <span class="badge">Version 0.5.0</span>
-  <span class="badge">77K+ ops/sec</span>
-  <span class="badge">626,000× compression</span>
-  <span class="badge">7/7 tests passing</span>
+ <span class="badge">Version 0.5.0</span>
+ <span class="badge">77K+ ops/sec</span>
+ <span class="badge">626,000× compression</span>
+ <span class="badge">7/7 tests passing</span>
 </div>
 
 ---
@@ -21,7 +21,7 @@ ATLAS-Q is a GPU-accelerated quantum tensor network simulator featuring:
 
 ---
 
-## 📚 Documentation
+## Documentation
 
 ### Getting Started
 - **[Complete Guide](COMPLETE_GUIDE)** - Installation, tutorials, API reference (start here!)
@@ -34,7 +34,7 @@ ATLAS-Q is a GPU-accelerated quantum tensor network simulator featuring:
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 
@@ -57,12 +57,12 @@ from atlas_q import get_quantum_sim
 QCH, _, _, _ = get_quantum_sim()
 sim = QCH()
 factors = sim.factor_number(221)
-print(f"221 = {factors[0]} × {factors[1]}")  # 221 = 13 × 17
+print(f"221 = {factors[0]} × {factors[1]}") # 221 = 13 × 17
 ```
 
 ---
 
-## 🎯 Key Features
+## Key Features
 
 ### 1. Adaptive Matrix Product States (MPS)
 Memory-efficient quantum state representation with automatic bond dimension adaptation.
@@ -101,18 +101,18 @@ Automatic SWAP insertion for grid-based quantum processors.
 
 ---
 
-## 📊 Performance Highlights
+## Performance Highlights
 
 | Metric | ATLAS-Q | Qiskit Aer | Cirq |
 |--------|---------|------------|------|
 | **Memory (30q)** | 0.03 MB | 16 GB | 16 GB |
-| **GPU Support** | ✅ Triton | ✅ cuQuantum | ❌ |
+| **GPU Support** | Triton | cuQuantum | |
 | **Stabilizer Speedup** | 20× | Standard | Standard |
-| **Tensor Networks** | ✅ Native | ❌ | ❌ |
+| **Tensor Networks** | Native | | |
 
 ---
 
-## 🔗 External Links
+## External Links
 
 - **[GitHub Repository](https://github.com/followthsapper/ATLAS-Q)** - Source code
 - **[Issues](https://github.com/followthsapper/ATLAS-Q/issues)** - Bug reports & feature requests
@@ -121,7 +121,7 @@ Automatic SWAP insertion for grid-based quantum processors.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! See our [Contributing Guide](https://github.com/followthsapper/ATLAS-Q/blob/main/CONTRIBUTING.md) for:
 
@@ -132,13 +132,13 @@ We welcome contributions! See our [Contributing Guide](https://github.com/follow
 
 ---
 
-## 📄 License
+## License
 
 ATLAS-Q is released under the [MIT License](https://github.com/followthsapper/ATLAS-Q/blob/main/LICENSE).
 
 ---
 
-## 📞 Support
+## Support
 
 - **Bug Reports:** [GitHub Issues](https://github.com/followthsapper/ATLAS-Q/issues)
 - **Questions:** [GitHub Discussions](https://github.com/followthsapper/ATLAS-Q/discussions)

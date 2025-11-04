@@ -2,7 +2,7 @@
 
 **Date**: November 1, 2025
 **Phase**: 2 - VQE Enhancement
-**Status**: ✅ Proof of Concept Complete
+**Status**: Proof of Concept Complete
 **Performance**: 2-60× variance reduction demonstrated
 
 ---
@@ -32,79 +32,79 @@ Successfully implemented **VRA-enhanced VQE Hamiltonian grouping** to reduce mea
 **Key Components**:
 
 1. **Coherence Matrix Estimation**
-   ```python
-   def estimate_pauli_coherence_matrix(
-       coefficients: np.ndarray,
-       pauli_strings: Optional[List[str]] = None
-   ) -> np.ndarray:
-       """Estimate correlation matrix for Pauli terms."""
-   ```
-   - Heuristic based on Pauli string overlap
-   - Coefficient-based fallback when Pauli strings unavailable
-   - Ensures positive definite correlation matrix
+ ```python
+ def estimate_pauli_coherence_matrix(
+ coefficients: np.ndarray,
+ pauli_strings: Optional[List[str]] = None
+ ) -> np.ndarray:
+ """Estimate correlation matrix for Pauli terms."""
+ ```
+ - Heuristic based on Pauli string overlap
+ - Coefficient-based fallback when Pauli strings unavailable
+ - Ensures positive definite correlation matrix
 
 2. **Q_GLS Variance Constant**
-   ```python
-   def compute_Q_GLS(Sigma_g: np.ndarray, c_g: np.ndarray) -> float:
-       """Compute Q_GLS = (c'Σ^(-1)c)^(-1) for a group."""
-   ```
-   - Generalized Least Squares (GLS) variance per group
-   - Lower Q_GLS = better measurement efficiency
-   - Regularized for numerical stability
+ ```python
+ def compute_Q_GLS(Sigma_g: np.ndarray, c_g: np.ndarray) -> float:
+ """Compute Q_GLS = (c'Σ^(-1)c)^(-1) for a group."""
+ ```
+ - Generalized Least Squares (GLS) variance per group
+ - Lower Q_GLS = better measurement efficiency
+ - Regularized for numerical stability
 
 3. **Greedy Grouping Algorithm**
-   ```python
-   def group_by_variance_minimization(
-       Sigma: np.ndarray,
-       coefficients: np.ndarray,
-       max_group_size: int = 5
-   ) -> List[List[int]]:
-       """Group terms to minimize measurement variance."""
-   ```
-   - Start with highest-magnitude term
-   - Greedily add terms minimizing Q_GLS increase
-   - Validated in VRA T6-C1 (achieves 99.9% optimal)
+ ```python
+ def group_by_variance_minimization(
+ Sigma: np.ndarray,
+ coefficients: np.ndarray,
+ max_group_size: int = 5
+ ) -> List[List[int]]:
+ """Group terms to minimize measurement variance."""
+ ```
+ - Start with highest-magnitude term
+ - Greedily add terms minimizing Q_GLS increase
+ - Validated in VRA T6-C1 (achieves 99.9% optimal)
 
 4. **Neyman Shot Allocation**
-   ```python
-   def allocate_shots_neyman(
-       Sigma: np.ndarray,
-       coefficients: np.ndarray,
-       groups: List[List[int]],
-       total_shots: int
-   ) -> np.ndarray:
-       """Allocate shots optimally: m_g ∝ sqrt(Q_g)."""
-   ```
-   - Minimizes total variance under fixed budget
-   - Optimal allocation from statistical theory
-   - Adjusts to exactly match total shot budget
+ ```python
+ def allocate_shots_neyman(
+ Sigma: np.ndarray,
+ coefficients: np.ndarray,
+ groups: List[List[int]],
+ total_shots: int
+ ) -> np.ndarray:
+ """Allocate shots optimally: m_g ∝ sqrt(Q_g)."""
+ ```
+ - Minimizes total variance under fixed budget
+ - Optimal allocation from statistical theory
+ - Adjusts to exactly match total shot budget
 
 5. **Main Entry Point**
-   ```python
-   def vra_hamiltonian_grouping(
-       coefficients: np.ndarray,
-       pauli_strings: Optional[List[str]] = None,
-       total_shots: int = 10000,
-       max_group_size: int = 5
-   ) -> GroupingResult:
-       """Complete VRA-enhanced Hamiltonian grouping."""
-   ```
+ ```python
+ def vra_hamiltonian_grouping(
+ coefficients: np.ndarray,
+ pauli_strings: Optional[List[str]] = None,
+ total_shots: int = 10000,
+ max_group_size: int = 5
+ ) -> GroupingResult:
+ """Complete VRA-enhanced Hamiltonian grouping."""
+ ```
 
 ### Test Suite: `test_vra_vqe_grouping.py`
 
 **Location**: `tests/integration/test_vra_vqe_grouping.py` (520+ lines)
 
 **Test Coverage**:
-- ✅ Coherence matrix structure and properties
-- ✅ Pauli string correlation estimation
-- ✅ Positive definiteness validation
-- ✅ Q_GLS computation (single/multiple terms)
-- ✅ Greedy variance minimization grouping
-- ✅ Neyman allocation proportionality
-- ✅ Shot budget constraints
-- ✅ Variance reduction calculation
-- ✅ Complete workflow (H2, LiH-like Hamiltonians)
-- ✅ 19 tests passing
+- Coherence matrix structure and properties
+- Pauli string correlation estimation
+- Positive definiteness validation
+- Q_GLS computation (single/multiple terms)
+- Greedy variance minimization grouping
+- Neyman allocation proportionality
+- Shot budget constraints
+- Variance reduction calculation
+- Complete workflow (H2, LiH-like Hamiltonians)
+- 19 tests passing
 
 ---
 
@@ -232,24 +232,24 @@ H = -0.81054·I + 0.17218·Z₀ - 0.22575·Z₁ + 0.12091·Z₀Z₁ + 0.16862·X
 **What's needed**:
 
 1. **Commutativity Analysis**
-   - Only group commuting Pauli terms
-   - Enables simultaneous measurement
-   - Critical for large reductions
+ - Only group commuting Pauli terms
+ - Enables simultaneous measurement
+ - Critical for large reductions
 
 2. **Full Coherence Estimation**
-   - Use VRA modular sequence analysis
-   - Measure actual correlation via classical sampling
-   - More accurate than Pauli overlap heuristic
+ - Use VRA modular sequence analysis
+ - Measure actual correlation via classical sampling
+ - More accurate than Pauli overlap heuristic
 
 3. **Optimal Grouping**
-   - Minimize Σ_g sqrt(Q_g) directly
-   - Consider commutativity constraints
-   - May need integer programming
+ - Minimize Σ_g sqrt(Q_g) directly
+ - Consider commutativity constraints
+ - May need integer programming
 
 4. **Larger Hamiltonians**
-   - 20-50 term molecules (H2O, NH3, etc.)
-   - More terms → more grouping opportunities
-   - Reduction scales with problem size
+ - 20-50 term molecules (H2O, NH3, etc.)
+ - More terms → more grouping opportunities
+ - Reduction scales with problem size
 
 ---
 
@@ -267,10 +267,10 @@ pauli_strings = ["XXYY", "XXYZ", "ZZII", "IIXX", "YYZZ"]
 
 # Run VRA grouping
 result = vra_hamiltonian_grouping(
-    coeffs,
-    pauli_strings=pauli_strings,
-    total_shots=10000,
-    max_group_size=5
+ coeffs,
+ pauli_strings=pauli_strings,
+ total_shots=10000,
+ max_group_size=5
 )
 
 print(f"Groups: {result.groups}")
@@ -295,9 +295,9 @@ h2_coeffs = np.array([-0.81054, 0.17218, -0.22575, 0.12091, 0.16862])
 h2_paulis = ["II", "ZI", "IZ", "ZZ", "XX"]
 
 result = vra_hamiltonian_grouping(
-    h2_coeffs,
-    pauli_strings=h2_paulis,
-    total_shots=10000
+ h2_coeffs,
+ pauli_strings=h2_paulis,
+ total_shots=10000
 )
 
 print(f"H2 variance reduction: {result.variance_reduction:.1f}×")
@@ -308,9 +308,9 @@ print(f"H2 variance reduction: {result.variance_reduction:.1f}×")
 
 ```python
 from atlas_q.vra_enhanced import (
-    estimate_pauli_coherence_matrix,
-    group_by_variance_minimization,
-    allocate_shots_neyman
+ estimate_pauli_coherence_matrix,
+ group_by_variance_minimization,
+ allocate_shots_neyman
 )
 
 # Estimate coherence
@@ -405,13 +405,13 @@ energy = optimizer.optimize(ansatz, shots=10000)
 
 ```python
 def pauli_commutes(p1: str, p2: str) -> bool:
-    """Check if two Pauli strings commute."""
-    # Count anti-commuting positions
-    anti_commute_count = sum(
-        1 for a, b in zip(p1, p2)
-        if a != 'I' and b != 'I' and a != b
-    )
-    return anti_commute_count % 2 == 0
+ """Check if two Pauli strings commute."""
+ # Count anti-commuting positions
+ anti_commute_count = sum(
+ 1 for a, b in zip(p1, p2)
+ if a != 'I' and b != 'I' and a != b
+ )
+ return anti_commute_count % 2 == 0
 ```
 
 **Impact**: Enable simultaneous measurement → 10-100× improvement
@@ -422,11 +422,11 @@ def pauli_commutes(p1: str, p2: str) -> bool:
 from atlas_q.vra_enhanced.core import compute_averaged_spectrum
 
 def vra_full_coherence_matrix(
-    hamiltonian,
-    num_samples: int = 10000
+ hamiltonian,
+ num_samples: int = 10000
 ) -> np.ndarray:
-    """Estimate coherence via VRA modular sampling."""
-    # Use VRA spectral analysis for true correlation
+ """Estimate coherence via VRA modular sampling."""
+ # Use VRA spectral analysis for true correlation
 ```
 
 **Impact**: Accurate correlation → better grouping decisions
@@ -438,17 +438,17 @@ def vra_full_coherence_matrix(
 **Changes**:
 ```python
 class VQEOptimizer:
-    def __init__(self, hamiltonian, vra_grouping=None):
-        self.hamiltonian = hamiltonian
-        self.vra_grouping = vra_grouping  # Optional VRA enhancement
+ def __init__(self, hamiltonian, vra_grouping=None):
+ self.hamiltonian = hamiltonian
+ self.vra_grouping = vra_grouping # Optional VRA enhancement
 
-    def measure_expectation(self, state, shots):
-        if self.vra_grouping:
-            # Use VRA grouping for measurements
-            return self._vra_measure(state, shots)
-        else:
-            # Standard per-term measurement
-            return self._standard_measure(state, shots)
+ def measure_expectation(self, state, shots):
+ if self.vra_grouping:
+ # Use VRA grouping for measurements
+ return self._vra_measure(state, shots)
+ else:
+ # Standard per-term measurement
+ return self._standard_measure(state, shots)
 ```
 
 **Impact**: Drop-in enhancement for existing VQE code
@@ -478,23 +478,23 @@ VRA-Enhanced VQE Variance Reduction - End-to-End Test
 ============================================================
 
 Test Case: Simple (5 terms)
-  ✓ Groups formed: 1
-  ✓ Variance reduction: 61.1×
+ Groups formed: 1
+ Variance reduction: 61.1×
 
 Test Case: H2 Molecular
-  ✓ Groups formed: 1
-  ✓ Variance reduction: 4.1×
+ Groups formed: 1
+ Variance reduction: 4.1×
 
 Test Case: LiH-like (8 terms)
-  ✓ Groups formed: 2
-  ✓ Variance reduction: 2.8×
+ Groups formed: 2
+ Variance reduction: 2.8×
 
 ============================================================
 Path to 1000-2350× Reduction:
-  • Small Hamiltonians: 2-10× (demonstrated above)
-  • Medium Hamiltonians: 10-100× (requires more terms)
-  • Large molecular Hamiltonians: 100-2350× (target)
-  • VRA T6-C1 achieved 2350× on 50-term H-He Hamiltonian
+ • Small Hamiltonians: 2-10× (demonstrated above)
+ • Medium Hamiltonians: 10-100× (requires more terms)
+ • Large molecular Hamiltonians: 100-2350× (target)
+ • VRA T6-C1 achieved 2350× on 50-term H-He Hamiltonian
 ============================================================
 ```
 
@@ -504,11 +504,11 @@ Path to 1000-2350× Reduction:
 
 | Metric | Target (VRA T6-C1) | Achieved (Proof-of-Concept) | Status |
 |--------|-------------------|----------------------------|--------|
-| Variance Reduction | 2350× | 2-60× | ✅ Partial |
-| Hamiltonian Size | 50 terms | 5-15 terms | ✅ Smaller scale |
-| Grouping Quality | 99.9% optimal | ~80-90% (heuristic) | ⚠️ Good |
-| Commutativity | Checked | **Not implemented** | ❌ TODO |
-| Test Coverage | N/A | 19 tests passing | ✅ Excellent |
+| Variance Reduction | 2350× | 2-60× | Partial |
+| Hamiltonian Size | 50 terms | 5-15 terms | Smaller scale |
+| Grouping Quality | 99.9% optimal | ~80-90% (heuristic) | Good |
+| Commutativity | Checked | **Not implemented** | TODO |
+| Test Coverage | N/A | 19 tests passing | Excellent |
 
 ---
 
@@ -533,10 +533,10 @@ Path to 1000-2350× Reduction:
 
 ## Status
 
-- ✅ Proof of concept complete (vqe_grouping.py - 449 lines)
-- ✅ Comprehensive test suite (19 tests passing)
-- ✅ 2-60× variance reduction demonstrated
-- ✅ Mathematical foundation validated
+- Proof of concept complete (vqe_grouping.py - 449 lines)
+- Comprehensive test suite (19 tests passing)
+- 2-60× variance reduction demonstrated
+- Mathematical foundation validated
 - ⏳ Commutativity analysis (Phase 2.1)
 - ⏳ Full VRA coherence estimation (Phase 2.2)
 - ⏳ VQE optimizer integration (Phase 2.3)

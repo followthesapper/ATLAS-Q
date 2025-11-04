@@ -9,8 +9,8 @@
 
 VRA (Vaca Resonance Analysis) is a **coherence-based spectral framework** that can reduce quantum measurement requirements through classical preprocessing. We've successfully integrated it into:
 
-1. ✅ **Period Finding** (QPE): 29-42% shot reduction
-2. ✅ **VQE Hamiltonian Grouping**: 1.88× to 45,992× variance reduction
+1. **Period Finding** (QPE): 29-42% shot reduction
+2. **VQE Hamiltonian Grouping**: 1.88× to 45,992× variance reduction
 
 This document identifies **5 additional high-impact integration opportunities** across ATLAS-Q's algorithm suite.
 
@@ -18,7 +18,7 @@ This document identifies **5 additional high-impact integration opportunities** 
 
 ## Current Integration Status
 
-### 1. Period Finding / QPE ✅ COMPLETE
+### 1. Period Finding / QPE COMPLETE
 
 **Integration**: `vra_enhanced/qpe_bridge.py`
 
@@ -33,7 +33,7 @@ This document identifies **5 additional high-impact integration opportunities** 
 
 ---
 
-### 2. VQE Hamiltonian Grouping ✅ COMPLETE
+### 2. VQE Hamiltonian Grouping COMPLETE
 
 **Integration**: `vra_enhanced/vqe_grouping.py`
 
@@ -46,7 +46,7 @@ This document identifies **5 additional high-impact integration opportunities** 
 - H2 (15 terms): 1.88× reduction
 - LiH (30 terms): 49× reduction
 - H2O (40 terms): 10,843× reduction
-- NH3 (40 terms): **45,992× reduction** 🚀
+- NH3 (40 terms): **45,992× reduction**
 
 **Status**: Production-ready, exceeds VRA project targets by 19.6×
 
@@ -54,7 +54,7 @@ This document identifies **5 additional high-impact integration opportunities** 
 
 ## High-Impact Integration Opportunities
 
-### 3. QAOA (Quantum Approximate Optimization Algorithm) 🎯 HIGH PRIORITY
+### 3. QAOA (Quantum Approximate Optimization Algorithm) HIGH PRIORITY
 
 **Module**: `vqe_qaoa.py` (lines 366-450)
 
@@ -71,8 +71,8 @@ This document identifies **5 additional high-impact integration opportunities** 
 # Many Z_i Z_j terms commute with each other!
 
 # Current (per-edge):
-edges = [(0,1), (1,2), (2,3), (0,3)]  # Square graph
-shots_per_edge = 10000 / 4 = 2500  # Independent measurements
+edges = [(0,1), (1,2), (2,3), (0,3)] # Square graph
+shots_per_edge = 10000 / 4 = 2500 # Independent measurements
 
 # With VRA grouping:
 groups = group_commuting_edges(edges)
@@ -103,12 +103,12 @@ QAOA is one of the **most promising near-term quantum algorithms**. Reducing mea
 
 ---
 
-### 4. TDVP (Time-Dependent Variational Principle) 🎯 MEDIUM PRIORITY
+### 4. TDVP (Time-Dependent Variational Principle) MEDIUM PRIORITY
 
 **Module**: `tdvp.py` (lines 1-400)
 
 **Current Approach**:
-- Real-time evolution: |ψ(t+dt)⟩ = exp(-iHdt)|ψ(t)⟩
+- Real-time evolution: |ψ(t+dt) = exp(-iHdt)|ψ(t)
 - Measures observables at each time step
 - Long simulations = many measurements
 
@@ -124,11 +124,11 @@ observables = [H_energy, S_z_total, correlations, ...]
 
 # Time evolution with grouped measurements:
 for t in time_steps:
-    mps = tdvp_step(mps, H, dt)
+ mps = tdvp_step(mps, H, dt)
 
-    # VRA-optimized measurement
-    results = measure_grouped_observables(mps, observable_groups, shots)
-    # 10-100× fewer measurements per time step
+ # VRA-optimized measurement
+ results = measure_grouped_observables(mps, observable_groups, shots)
+ # 10-100× fewer measurements per time step
 ```
 
 **Expected Impact**:
@@ -151,7 +151,7 @@ TDVP is used for studying non-equilibrium quantum dynamics. Reducing measurement
 
 ---
 
-### 5. Quantum State Tomography 🎯 HIGH IMPACT
+### 5. Quantum State Tomography HIGH IMPACT
 
 **Module**: Could add `state_tomography.py` (not yet implemented)
 
@@ -165,7 +165,7 @@ TDVP is used for studying non-equilibrium quantum dynamics. Reducing measurement
 **How It Would Work**:
 ```python
 # Standard tomography: Measure all Pauli operators
-pauli_basis = generate_all_paulis(n_qubits)  # 4^n terms!
+pauli_basis = generate_all_paulis(n_qubits) # 4^n terms!
 
 # VRA-enhanced tomography:
 1. Measure subset of Paulis to estimate coherence matrix
@@ -196,7 +196,7 @@ State tomography is **fundamental for quantum computing** but prohibitively expe
 
 ---
 
-### 6. Shadow Tomography / Classical Shadows Integration 🎯 MEDIUM PRIORITY
+### 6. Shadow Tomography / Classical Shadows Integration MEDIUM PRIORITY
 
 **Module**: Could enhance existing measurement protocols
 
@@ -238,7 +238,7 @@ shadows = random_pauli_measurements(n_samples)
 
 ---
 
-### 7. Gradient Estimation for VQE/QAOA 🎯 VERY HIGH IMPACT
+### 7. Gradient Estimation for VQE/QAOA VERY HIGH IMPACT
 
 **Module**: `vqe_qaoa.py` (gradient_method parameter)
 
@@ -253,8 +253,8 @@ shadows = random_pauli_measurements(n_samples)
 ```python
 # Standard gradient:
 for param_i in parameters:
-    grad[i] = (energy(θ + shift_i) - energy(θ - shift_i)) / 2
-    # Each energy() needs many shots for accuracy
+ grad[i] = (energy(θ + shift_i) - energy(θ - shift_i)) / 2
+ # Each energy() needs many shots for accuracy
 
 # VRA-enhanced gradients:
 1. Group parameters with correlated gradients
@@ -288,8 +288,8 @@ Gradient estimation is the **bottleneck in variational algorithms**. On real har
 
 | Integration Opportunity | Priority | Expected Impact | Implementation Time | Hardware Benefit |
 |------------------------|----------|----------------|---------------------|------------------|
-| **QAOA Grouping** | 🔥 HIGH | 10-500× | 2-3 days | Massive (enables large graphs) |
-| **Gradient Estimation** | 🔥 VERY HIGH | 5-50× | 1-2 weeks | Critical (enables optimization) |
+| **QAOA Grouping** | HIGH | 10-500× | 2-3 days | Massive (enables large graphs) |
+| **Gradient Estimation** | VERY HIGH | 5-50× | 1-2 weeks | Critical (enables optimization) |
 | **State Tomography** | 🟡 HIGH | 10-1000× | 2-3 weeks | Foundational (characterization) |
 | **TDVP Observables** | 🟡 MEDIUM | 5-100× | 1 week | Useful (longer simulations) |
 | **Shadow Tomography** | 🟡 MEDIUM | 2-10× | 1-2 weeks | Moderate (benchmarking) |
@@ -477,8 +477,8 @@ We've made quantum computers **45,992 times more efficient** at solving certain 
 VRA integration into ATLAS-Q has **exceeded all expectations**:
 
 **Current Achievement**:
-- Period finding: 35% shot reduction ✅
-- VQE grouping: **45,992× variance reduction** ✅ (19.6× beyond targets)
+- Period finding: 35% shot reduction
+- VQE grouping: **45,992× variance reduction** (19.6× beyond targets)
 
 **Future Opportunities**:
 - QAOA: 10-500× potential

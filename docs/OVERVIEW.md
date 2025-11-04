@@ -5,16 +5,16 @@
 
 ---
 
-## 📖 How to Read This Document
+## How to Read This Document
 
 - **For friends and family:** Read the first 3-4 sections for a simple explanation
 - **For potential users:** Read through "Real-World Use Cases" to see if this fits your needs
 - **For technical evaluation:** Read the entire document including comparisons and technical details
 - **For researchers:** Jump to "Technical Approach" and "Performance Numbers"
 
-### 📚 Related Documentation
+### Related Documentation
 
-- **[📓 Try It Now](../ATLAS_Q_Demo.ipynb)** - Interactive Jupyter notebook (no install needed with Colab!)
+- **[ Try It Now](../ATLAS_Q_Demo.ipynb)** - Interactive Jupyter notebook (no install needed with Colab!)
 - **[Complete Guide](COMPLETE_GUIDE.md)** - Detailed tutorials and API reference
 - **[Feature Status](FEATURE_STATUS.md)** - What's working right now
 - **[Whitepaper](WHITEPAPER.md)** - Technical architecture
@@ -62,11 +62,11 @@ Or:
 This is exactly how ATLAS-Q represents quantum states - as compact patterns that can regenerate the full information when needed.
 
 ### **The Results:**
-- ✅ Compressed 16 GB down to 0.03 MB (626,000× smaller!)
-- ✅ Can simulate 100,000 qubits for low-to-moderate entanglement scenarios
-- ✅ 20× faster for certain types of quantum operations (Clifford circuits)
-- ✅ 1.5-3× faster than standard approaches through custom GPU code
-- ✅ Runs on regular gaming GPUs (not just supercomputers)
+- Compressed 16 GB down to 0.03 MB (626,000× smaller!)
+- Can simulate 100,000 qubits for low-to-moderate entanglement scenarios
+- 20× faster for certain types of quantum operations (Clifford circuits)
+- 1.5-3× faster than standard approaches through custom GPU code
+- Runs on regular gaming GPUs (not just supercomputers)
 
 ### **Important Caveat:**
 The 100,000 qubit number applies to specific types of quantum circuits - particularly those with **low-to-moderate entanglement** or structured patterns (like nearest-neighbor coupled systems, molecular simulations, or shallow circuits).
@@ -188,9 +188,9 @@ Built to actually work, not just for research demos:
 - **What ATLAS-Q does:** Simulates quantum computers on classical hardware (GPUs)
 - **Could it run on quantum computers?** Not as-is. It's a classical program running on GPUs.
 - **Hybrid classical-quantum:** Research (2024) shows tensor network techniques CAN be combined with real quantum computers:
-  - Classical computer (ATLAS-Q-like) handles low-entanglement parts
-  - Quantum computer handles highly entangled parts
-  - They work together in a hybrid system
+ - Classical computer (ATLAS-Q-like) handles low-entanglement parts
+ - Quantum computer handles highly entangled parts
+ - They work together in a hybrid system
 - **What this would require:** Significant redesign - not something ATLAS-Q does today
 
 **Think of it like:** ATLAS-Q is a flight simulator for training pilots. You don't fly the simulator IN a plane - you use it to practice before flying a real plane. But someday, flight simulators could be integrated into plane cockpits for training during flights (hybrid approach).
@@ -201,7 +201,7 @@ Built to actually work, not just for research demos:
 
 ## When to Use ATLAS-Q
 
-### ✅ **Good Fit:**
+### **Good Fit:**
 
 **1. Algorithm Research & Development**
 - Testing quantum algorithms before running on real quantum hardware
@@ -228,7 +228,7 @@ Built to actually work, not just for research demos:
 - Studying phase transitions
 - Computing correlation functions and entanglement entropy
 
-### ⚠️ **Not Ideal For:**
+### **Not Ideal For:**
 
 **1. Highly Entangled Circuits**
 - Random circuits with deep entanglement
@@ -372,7 +372,7 @@ mps = adaptive['AdaptiveMPS'](50, bond_dim=16, device='cuda')
 # Apply Hadamard gates to all qubits
 H = torch.tensor([[1,1],[1,-1]], dtype=torch.complex64) / torch.sqrt(torch.tensor(2.0))
 for q in range(50):
-    mps.apply_single_qubit_gate(q, H.to('cuda'))
+ mps.apply_single_qubit_gate(q, H.to('cuda'))
 
 # Check compression and statistics
 print(mps.stats_summary())
@@ -476,18 +476,18 @@ For more examples, see `COMPLETE_GUIDE.md`.
 ## Limitations & Honest Assessment
 
 ### **What ATLAS-Q Does Well**
-✅ Memory efficiency (626,000× compression demonstrated)
-✅ GPU acceleration (custom Triton kernels)
-✅ Hybrid backend optimization (automatic Stabilizer switching)
-✅ Production-ready robustness (fallbacks, error tracking)
-✅ Large-scale structured systems (100K+ qubits)
+ Memory efficiency (626,000× compression demonstrated)
+ GPU acceleration (custom Triton kernels)
+ Hybrid backend optimization (automatic Stabilizer switching)
+ Production-ready robustness (fallbacks, error tracking)
+ Large-scale structured systems (100K+ qubits)
 
 ### **Where ATLAS-Q Struggles**
-❌ Highly entangled random circuits (same as all classical simulators)
-❌ Ease of use for beginners (steeper learning curve than Qiskit)
-❌ Ecosystem maturity (smaller community than industry leaders)
-❌ Non-CUDA hardware (optimized for NVIDIA GPUs)
-❌ Perfect accuracy requirements (uses controlled approximations)
+ Highly entangled random circuits (same as all classical simulators)
+ Ease of use for beginners (steeper learning curve than Qiskit)
+ Ecosystem maturity (smaller community than industry leaders)
+ Non-CUDA hardware (optimized for NVIDIA GPUs)
+ Perfect accuracy requirements (uses controlled approximations)
 
 ### **Honest Competitive Assessment**
 
@@ -528,18 +528,18 @@ For the specific types of quantum problems it's designed for - like simulating m
 ## Current Status & Future
 
 ### **Version 0.6.0 (Current - October 2025)**
-- ✅ Full tensor network implementation
-- ✅ GPU acceleration with custom Triton kernels
-- ✅ Noise models and NISQ simulation
-- ✅ VQE, QAOA, TDVP algorithms
-- ✅ **NEW:** Molecular Hamiltonians (PySCF integration)
-- ✅ **NEW:** MaxCut QAOA Hamiltonians
-- ✅ **NEW:** Circuit Cutting & partitioning
-- ✅ **NEW:** PEPS 2D tensor networks
-- ✅ **NEW:** Distributed MPS (multi-GPU ready)
-- ✅ **NEW:** cuQuantum 25.x backend integration
-- ✅ All 46/46 integration tests passing
-- ✅ Production-ready for research use
+- Full tensor network implementation
+- GPU acceleration with custom Triton kernels
+- Noise models and NISQ simulation
+- VQE, QAOA, TDVP algorithms
+- **NEW:** Molecular Hamiltonians (PySCF integration)
+- **NEW:** MaxCut QAOA Hamiltonians
+- **NEW:** Circuit Cutting & partitioning
+- **NEW:** PEPS 2D tensor networks
+- **NEW:** Distributed MPS (multi-GPU ready)
+- **NEW:** cuQuantum 25.x backend integration
+- All 46/46 integration tests passing
+- Production-ready for research use
 
 ### **Planned Improvements**
 - Integration adapters for Qiskit/Cirq circuits
@@ -593,4 +593,4 @@ For the specific types of quantum problems it's designed for - like simulating m
 
 ---
 
-**P.S. for non-technical readers:** If you made it this far and still find this confusing, here's the ultra-simple version: "Special software that lets regular computers simulate quantum computers way better than usual by being smart about compression. Helps researchers test quantum stuff without needing expensive quantum hardware." That's it! 😊
+**P.S. for non-technical readers:** If you made it this far and still find this confusing, here's the ultra-simple version: "Special software that lets regular computers simulate quantum computers way better than usual by being smart about compression. Helps researchers test quantum stuff without needing expensive quantum hardware." That's it!

@@ -24,9 +24,9 @@ The built documentation will be in `_build/html/`. Open `_build/html/index.html`
 ### Build Other Formats
 
 ```bash
-make latexpdf  # PDF via LaTeX
-make epub      # EPUB format
-make man       # Man pages
+make latexpdf # PDF via LaTeX
+make epub # EPUB format
+make man # Man pages
 ```
 
 ### Clean Build Directory
@@ -57,20 +57,20 @@ The documentation follows the Diátaxis Framework:
 
 ```
 docs/
-├── conf.py                       # Sphinx configuration
-├── index.rst                     # Main landing page
-├── installation.rst              # Installation guide
-├── quickstart.rst                # Quick start guide
-├── user_guide/
-│   ├── tutorials/                # Learning-oriented tutorials
-│   ├── howtos/                   # Task-oriented how-tos
-│   └── explanations/             # Understanding-oriented explanations
-├── reference/                    # API reference (auto-generated)
-├── developer/                    # Developer documentation
-├── examples/                     # Example gallery
-├── faq.rst                       # Frequently asked questions
-├── citing.rst                    # Citation information
-└── _build/                       # Generated documentation (gitignored)
+ conf.py # Sphinx configuration
+ index.rst # Main landing page
+ installation.rst # Installation guide
+ quickstart.rst # Quick start guide
+ user_guide/
+ tutorials/ # Learning-oriented tutorials
+ howtos/ # Task-oriented how-tos
+ explanations/ # Understanding-oriented explanations
+ reference/ # API reference (auto-generated)
+ developer/ # Developer documentation
+ examples/ # Example gallery
+ faq.rst # Frequently asked questions
+ citing.rst # Citation information
+ _build/ # Generated documentation (gitignored)
 ```
 
 ## Writing Documentation
@@ -93,9 +93,9 @@ Subsubsection
 
 .. code-block:: python
 
-   # Python code
-   from atlas_q import AdaptiveMPS
-   mps = AdaptiveMPS(10, bond_dim=8)
+ # Python code
+ from atlas_q import AdaptiveMPS
+ mps = AdaptiveMPS(10, bond_dim=8)
 
 - Bulleted
 - List
@@ -114,41 +114,41 @@ ATLAS-Q uses numpydoc-style docstrings:
 
 ```python
 def function_name(param1, param2, option='default'):
-    """
-    Brief one-line description.
+ """
+ Brief one-line description.
 
-    Extended description with details about what the function does
-    and any important implementation considerations.
+ Extended description with details about what the function does
+ and any important implementation considerations.
 
-    Parameters
-    ----------
-    param1 : type
-        Description of param1.
-    param2 : type
-        Description of param2.
-    option : {'default', 'alternative'}, optional
-        Description. Default is 'default'.
+ Parameters
+ ----------
+ param1 : type
+ Description of param1.
+ param2 : type
+ Description of param2.
+ option : {'default', 'alternative'}, optional
+ Description. Default is 'default'.
 
-    Returns
-    -------
-    result : type
-        Description of return value.
+ Returns
+ -------
+ result : type
+ Description of return value.
 
-    Raises
-    ------
-    ValueError
-        When param1 is invalid.
+ Raises
+ ------
+ ValueError
+ When param1 is invalid.
 
-    See Also
-    --------
-    related_function : Brief description.
+ See Also
+ --------
+ related_function : Brief description.
 
-    Examples
-    --------
-    >>> result = function_name(1, 2)
-    >>> print(result)
-    expected_output
-    """
+ Examples
+ --------
+ >>> result = function_name(1, 2)
+ >>> print(result)
+ expected_output
+ """
 ```
 
 ### Cross-References
@@ -172,7 +172,7 @@ Display math:
 
 .. math::
 
-   |\psi\rangle = \sum_{i=1}^n c_i |i\rangle
+ |\psi\rangle = \sum_{i=1}^n c_i |i\rangle
 ```
 
 ## Contributing to Documentation

@@ -274,11 +274,50 @@ def get_qih_tools():
     from . import tools_qih
     return tools_qih
 
+# Coherence module (requires torch, numpy)
+def get_coherence():
+    """Get coherence-aware quantum computing tools"""
+    from .coherence import (
+        CoherenceClassification,
+        CoherenceMetrics,
+        adaptive_vra_decision,
+        classify_go_no_go,
+        classify_with_history,
+        coherence_from_counts,
+        compute_coherence,
+        compute_pauli_expectation,
+        group_paulis_qwc,
+    )
+    from .coherence_aware_vqe import (
+        CoherenceAwareVQE,
+        CoherenceAwareVQEResult,
+        coherence_aware_vqe,
+    )
+    return {
+        # Metrics
+        'CoherenceMetrics': CoherenceMetrics,
+        'CoherenceClassification': CoherenceClassification,
+        'compute_coherence': compute_coherence,
+        'coherence_from_counts': coherence_from_counts,
+        # Classification
+        'classify_go_no_go': classify_go_no_go,
+        'classify_with_history': classify_with_history,
+        'adaptive_vra_decision': adaptive_vra_decision,
+        # Utilities
+        'compute_pauli_expectation': compute_pauli_expectation,
+        'group_paulis_qwc': group_paulis_qwc,
+        # VQE
+        'CoherenceAwareVQE': CoherenceAwareVQE,
+        'CoherenceAwareVQEResult': CoherenceAwareVQEResult,
+        'coherence_aware_vqe': coherence_aware_vqe,
+    }
+
 # Direct module access (preferred, simpler API)
 # These are lazily loaded when first accessed
 from . import (
     adaptive_mps,
     circuit_cutting,
+    coherence,
     distributed_mps,
     grover,
     mpo_ops,
@@ -290,6 +329,18 @@ from . import (
     tdvp,
     vqe_qaoa,
 )
+
+# Direct imports for coherence-aware VQE (new feature)
+try:
+    from .coherence import CoherenceMetrics, classify_go_no_go, compute_coherence
+    from .coherence_aware_vqe import CoherenceAwareVQE, CoherenceAwareVQEResult, coherence_aware_vqe
+except ImportError:
+    CoherenceAwareVQE = None
+    CoherenceAwareVQEResult = None
+    coherence_aware_vqe = None
+    CoherenceMetrics = None
+    compute_coherence = None
+    classify_go_no_go = None
 
 __all__ = [
     # Direct module imports (PREFERRED - use these!)
@@ -305,8 +356,16 @@ __all__ = [
     'planar_2d',
     'distributed_mps',
     'peps',
+    'coherence',  # NEW: Coherence-aware quantum computing
     # Direct class imports (for backwards compatibility)
     'QuantumClassicalHybrid',
+    # Coherence-aware VQE (NEW)
+    'CoherenceAwareVQE',
+    'CoherenceAwareVQEResult',
+    'coherence_aware_vqe',
+    'CoherenceMetrics',
+    'compute_coherence',
+    'classify_go_no_go',
     # Lazy loaders (legacy compatibility - getters return dicts)
     'get_quantum_sim',
     'get_mps_pytorch',
@@ -323,6 +382,7 @@ __all__ = [
     'get_planar_2d',
     'get_distributed_mps',
     'get_peps',
+    'get_coherence',  # NEW
 ]
 
 # Direct imports for backwards compatibility
@@ -341,4 +401,4 @@ except ImportError:
     MatrixProductState = None
     GPUAccelerator = None
 
-__version__ = '0.6.2'  # Documentation and Grover's algorithm (Oct 2025)
+__version__ = '0.6.2'  # Coherence-Aware VQE + VRA Integration (Nov 2025)

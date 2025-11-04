@@ -4,8 +4,8 @@
 FROM nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04
 
 LABEL maintainer="ATLAS-Q Development Team"
-LABEL description="ATLAS-Q: GPU-accelerated quantum tensor network simulator"
-LABEL version="0.6.1"
+LABEL description="ATLAS-Q: GPU-accelerated quantum tensor network simulator with coherence-aware VQE"
+LABEL version="0.6.2"
 
 # Prevent interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive

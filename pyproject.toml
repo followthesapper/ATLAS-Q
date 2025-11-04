@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "atlas-quantum"
 version = "0.6.2"
-description = "GPU-accelerated quantum tensor network simulator with adaptive MPS, molecular chemistry, circuit cutting, PEPS 2D networks, and cuQuantum backend"
+description = "GPU-accelerated quantum tensor network simulator with coherence-aware VQE, adaptive MPS, molecular chemistry, VRA integration, and cuQuantum backend"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
@@ -22,6 +22,8 @@ keywords = [
     "mps",
     "peps",
     "vqe",
+    "coherence-aware",
+    "vra",
     "qaoa",
     "tdvp",
     "period-finding",
@@ -181,6 +183,13 @@ ignore = [
     "B008",  # do not perform function calls in argument defaults
     "C901",  # too complex
 ]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+skip_gitignore = true
+known_first_party = ["atlas_q", "triton_kernels"]
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 
 [tool.mypy]
 python_version = "3.9"

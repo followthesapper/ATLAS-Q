@@ -2,7 +2,7 @@
 
 **Date**: November 1, 2025
 **Branch**: `vra-integration`
-**Status**: ✅ Proof of Concept Complete
+**Status**: Proof of Concept Complete
 **Performance**: 35% quantum shot reduction validated
 
 ---
@@ -21,46 +21,46 @@ This makes ATLAS-Q's Shor's algorithm implementation more practical for educatio
 
 ```
 src/atlas_q/vra_enhanced/
-├── __init__.py          # Public API
-├── core.py              # VRA spectral analysis functions
-└── qpe_bridge.py        # Hybrid VRA-QPE integration
+ __init__.py # Public API
+ core.py # VRA spectral analysis functions
+ qpe_bridge.py # Hybrid VRA-QPE integration
 ```
 
 **Key Functions:**
 
 1. **`vra_preprocess_period(a, N)`** - Classical preprocessing
-   - Uses coherent averaging across multiple bases
-   - Produces period candidates with confidence scores
-   - Runs on CPU, no quantum hardware needed
+ - Uses coherent averaging across multiple bases
+ - Produces period candidates with confidence scores
+ - Runs on CPU, no quantum hardware needed
 
 2. **`vra_enhanced_period_finding(a, N)`** - Hybrid approach
-   - Combines VRA preprocessing with QPE
-   - Automatic shot reduction based on VRA confidence
-   - Falls back to full QPE if VRA has low confidence
+ - Combines VRA preprocessing with QPE
+ - Automatic shot reduction based on VRA confidence
+ - Falls back to full QPE if VRA has low confidence
 
 3. **`compute_averaged_spectrum()`** - Core VRA algorithm
-   - Phase embedding: u_i = exp(2πj * x_i / N)
-   - Coherent averaging: |Σ U_m / M|²
-   - SNR scaling: +5.87 dB per doubling of sequence length
+ - Phase embedding: u_i = exp(2πj * x_i / N)
+ - Coherent averaging: |Σ U_m / M|²
+ - SNR scaling: +5.87 dB per doubling of sequence length
 
 ### Test Suite
 
 **`tests/integration/test_vra_period_finding.py`**
 
 Comprehensive validation:
-- ✅ Simple period detection (N=15)
-- ✅ Medium cases (N=21)
-- ✅ Multiple (a, N) pairs
-- ✅ Shot reduction calculation
-- ✅ End-to-end integration
+- Simple period detection (N=15)
+- Medium cases (N=21)
+- Multiple (a, N) pairs
+- Shot reduction calculation
+- End-to-end integration
 
 **Test Results:**
 ```
 ============================================================
 Overall Results:
-  Total shots saved: 1050/3000 (35.0%)
-  Target range: 29-42% (validated in VRA T6-A2)
-  Status: ✓ PASS
+ Total shots saved: 1050/3000 (35.0%)
+ Target range: 29-42% (validated in VRA T6-A2)
+ Status: PASS
 ============================================================
 ```
 
@@ -72,10 +72,10 @@ Overall Results:
 
 | Metric | Target | Achieved | Status |
 |--------|--------|----------|--------|
-| Shot Reduction | 29-42% | 35% | ✅ PASS |
-| Accuracy | 100% | 100% | ✅ PASS |
-| Regime | N ≲ 50 | N ≤ 21 tested | ✅ PASS |
-| Coherence | C > e^-2 | 0.015-0.016 | ⚠️ Note* |
+| Shot Reduction | 29-42% | 35% | PASS |
+| Accuracy | 100% | 100% | PASS |
+| Regime | N ≲ 50 | N ≤ 21 tested | PASS |
+| Coherence | C > e^-2 | 0.015-0.016 | Note* |
 
 *Note: Coherence is below e^-2 threshold but hybrid approach still works by using VRA to narrow search space.
 
@@ -98,10 +98,10 @@ from atlas_q.vra_enhanced import vra_preprocess_period
 
 # Run VRA classical analysis
 candidates, coherence = vra_preprocess_period(
-    a=7,
-    N=15,
-    length=8192,    # Sequence length (↑ = better SNR)
-    num_bases=32,   # Number of bases to average
+ a=7,
+ N=15,
+ length=8192, # Sequence length (↑ = better SNR)
+ num_bases=32, # Number of bases to average
 )
 
 # Output: [(4, 3.9e17), (2, 9.1e17), ...]
@@ -115,36 +115,36 @@ from atlas_q.vra_enhanced import vra_enhanced_period_finding
 
 # Hybrid approach with automatic shot reduction
 result = vra_enhanced_period_finding(
-    a=7,
-    N=15,
-    qpe_shots_baseline=1000
+ a=7,
+ N=15,
+ qpe_shots_baseline=1000
 )
 
 # Output:
-#   period: 4
-#   method: 'hybrid'
-#   shots_saved: 350 (35% reduction)
-#   coherence: 0.0163
+# period: 4
+# method: 'hybrid'
+# shots_saved: 350 (35% reduction)
+# coherence: 0.0163
 ```
 
 ### 3. Integration Strategy
 
 ```
-┌─────────────────┐
-│  VRA Classical  │  ← No quantum hardware
-│  Preprocessing  │  ← Fast (CPU only)
-└────────┬────────┘
-         │
-         ↓ Narrow search space
-┌─────────────────┐
-│  QPE Quantum    │  ← Reduced shots (350 saved)
-│  Estimation     │  ← 65% of baseline measurements
-└────────┬────────┘
-         │
-         ↓ Bayesian fusion
-┌─────────────────┐
-│  Final Period   │  ← Same accuracy, fewer resources
-└─────────────────┘
+
+ VRA Classical ← No quantum hardware
+ Preprocessing ← Fast (CPU only)
+
+
+ ↓ Narrow search space
+
+ QPE Quantum ← Reduced shots (350 saved)
+ Estimation ← 65% of baseline measurements
+
+
+ ↓ Bayesian fusion
+
+ Final Period ← Same accuracy, fewer resources
+
 ```
 
 ---
@@ -163,18 +163,18 @@ Where:
 ### Why VRA Reduces Shots
 
 1. **Spectral Structure Detection**
-   - VRA identifies harmonic patterns in modular sequences
-   - Creates focused prior distribution for QPE
+ - VRA identifies harmonic patterns in modular sequences
+ - Creates focused prior distribution for QPE
 
 2. **Search Space Narrowing**
-   - Full QPE: Search all N possible periods
-   - VRA-enhanced: Search top 3-5 candidates
-   - Reduction: N → 3-5 candidates = 85-99% smaller space
+ - Full QPE: Search all N possible periods
+ - VRA-enhanced: Search top 3-5 candidates
+ - Reduction: N → 3-5 candidates = 85-99% smaller space
 
 3. **Information-Theoretic Bound**
-   - VRA provides I(VRA) classical information
-   - QPE needs only I(full) - I(VRA) quantum information
-   - Shot reduction ∝ I(VRA) / I(full)
+ - VRA provides I(VRA) classical information
+ - QPE needs only I(full) - I(VRA) quantum information
+ - Shot reduction ∝ I(VRA) / I(full)
 
 ---
 
@@ -182,13 +182,13 @@ Where:
 
 ### Where VRA Works Best
 
-✅ **Optimal Regime:**
+ **Optimal Regime:**
 - N ≲ 50 (validated range)
 - Coprime bases: gcd(a, N) = 1
 - Educational/research scale
 - Small quantum computers
 
-⚠️ **Performance Degrades:**
+ **Performance Degrades:**
 - N > 50 (coherence collapse)
 - Non-coprime bases
 - Large cryptographic keys (N > 100)
@@ -196,17 +196,17 @@ Where:
 ### Known Limitations
 
 1. **Coherence Collapse** (V_φ > 4 rad²)
-   - Reduces to incoherent averaging
-   - Still helps by narrowing candidates
-   - Full QPE may be needed
+ - Reduces to incoherent averaging
+ - Still helps by narrowing candidates
+ - Full QPE may be needed
 
 2. **Harmonic Ambiguity**
-   - VRA may detect divisors instead of full period
-   - Hybrid approach resolves via QPE verification
+ - VRA may detect divisors instead of full period
+ - Hybrid approach resolves via QPE verification
 
 3. **Regime Boundary**
-   - Performance drops for N > 77
-   - Needs QPE assistance more frequently
+ - Performance drops for N > 77
+ - Needs QPE assistance more frequently
 
 ---
 
@@ -229,15 +229,15 @@ groups = vra_hamiltonian_grouping(hamiltonian)
 from atlas_q.vra_enhanced import vra_coherence_tracker
 
 C = tracker.measure_bond_coherence(singular_values)
-if C < exp(-2):  # Below threshold
-    chi = chi_min  # Aggressive truncation safe
+if C < exp(-2): # Below threshold
+ chi = chi_min # Aggressive truncation safe
 ```
 
 **3. Grover Oracle Optimization**
 ```python
 # Detect periodic structure in marked states
 if vra_detect_period(marked_states):
-    oracle = vra_optimized_oracle()  # Fewer gates
+ oracle = vra_optimized_oracle() # Fewer gates
 ```
 
 ### Phase 3: Publication
@@ -280,11 +280,11 @@ QCH, _, _, _ = get_quantum_sim()
 candidates, coherence = vra_preprocess_period(a=7, N=221)
 
 if coherence > 0.2:
-    # High confidence - use VRA candidates
-    factors = verify_factors(candidates, N)
+ # High confidence - use VRA candidates
+ factors = verify_factors(candidates, N)
 else:
-    # Low confidence - full quantum approach
-    factors = QCH().factor_number(221)
+ # Low confidence - full quantum approach
+ factors = QCH().factor_number(221)
 ```
 
 ---
@@ -312,19 +312,19 @@ VRA-Enhanced Period Finding - End-to-End Test
 ============================================================
 
 Test Case: Simple (a=7, N=15, expected period=4)
-  ✓ Period: 4 (correct)
-  Method: hybrid
-  Shots saved: 350/1000 (35.0%)
+ Period: 4 (correct)
+ Method: hybrid
+ Shots saved: 350/1000 (35.0%)
 
 Test Case: Medium (a=2, N=21, expected period=6)
-  ✓ Period: 6 (correct)
-  Method: hybrid
-  Shots saved: 350/1000 (35.0%)
+ Period: 6 (correct)
+ Method: hybrid
+ Shots saved: 350/1000 (35.0%)
 
 ============================================================
 Overall Results:
-  Total shots saved: 1050/3000 (35.0%)
-  Status: ✓ PASS
+ Total shots saved: 1050/3000 (35.0%)
+ Status: PASS
 ============================================================
 ```
 
@@ -349,10 +349,10 @@ Overall Results:
 
 ## Status
 
-- ✅ Proof of concept complete
-- ✅ 35% shot reduction validated
-- ✅ Tests passing
-- ✅ Branch: `vra-integration` ready for review
+- Proof of concept complete
+- 35% shot reduction validated
+- Tests passing
+- Branch: `vra-integration` ready for review
 - ⏳ Awaiting merge to main branch
 - ⏳ Documentation expansion
 - ⏳ VQE enhancement (Phase 2)

@@ -5,7 +5,7 @@
 
 ## Executive Summary
 
-✅ **SUCCESS**: First-ever ATLAS-Q + VRA deployment to real quantum hardware
+ **SUCCESS**: First-ever ATLAS-Q + VRA deployment to real quantum hardware
 
 **Key Results**:
 - Ground state measured with **90.2% fidelity** on 127-qubit IBM quantum computer
@@ -32,7 +32,7 @@ Results:
 - Literature exact: -1.1166 Ha
 
 Error: |E_ATLAS - E_exact| ≈ 0.0002 Ha
-Status: ✅ Within chemical accuracy (0.0016 Ha)
+Status: Within chemical accuracy (0.0016 Ha)
 ```
 
 **Analysis**:
@@ -47,10 +47,10 @@ Status: ✅ Within chemical accuracy (0.0016 Ha)
 ```
 Pauli decomposition: 15 terms (after filtering |c| > 1e-8)
 Example terms:
-  IIII: -0.0997
-  ZZII:  0.1809
-  IIZZ:  0.1809
-  ...
+ IIII: -0.0997
+ ZZII: 0.1809
+ IIZZ: 0.1809
+ ...
 ```
 
 **VRA Grouping**:
@@ -61,7 +61,7 @@ Variance reduction: 0.8× (reported)
 Expected shots: 1000 per group
 
 Without VRA: 15 groups × 5 sec = 75 seconds
-With VRA:     3 groups × 5 sec = 15 seconds
+With VRA: 3 groups × 5 sec = 15 seconds
 Speedup: 5.0×
 ```
 
@@ -70,9 +70,9 @@ Speedup: 5.0×
 - 3 groups: reasonable for small H₂ Hamiltonian
 - Variance reduction 0.8×: seems low (expected higher)
 - **Issue to investigate**: Why variance reduction < 1?
-  - Should be > 1 (variance *reduction* means improvement)
-  - Possible bug in variance calculation
-  - Or metric reported incorrectly (might be variance *ratio*)
+ - Should be > 1 (variance *reduction* means improvement)
+ - Possible bug in variance calculation
+ - Or metric reported incorrectly (might be variance *ratio*)
 
 ### 3. IBM Quantum Hardware Execution
 
@@ -103,31 +103,31 @@ Cost: $0 (within free tier)
 
 **Measurement Results**:
 ```
-State     Counts  Probability
-|0101⟩    902     90.20%  ← Ground state!
-|0100⟩     50      5.00%
-|1001⟩     16      1.60%
-|1101⟩     12      1.20%
-|0111⟩      7      0.70%
-Others     13      1.30%
+State Counts Probability
+|0101 902 90.20% ← Ground state!
+|0100 50 5.00%
+|1001 16 1.60%
+|1101 12 1.20%
+|0111 7 0.70%
+Others 13 1.30%
 ```
 
 **Analysis**:
-- Ground state |0101⟩ dominates (90.2%)
+- Ground state |0101 dominates (90.2%)
 - Very high fidelity for NISQ hardware
 - Small population in excited states (expected due to noise)
 - Transpilation preserved circuit functionality
 
 ### 4. Energy Validation
 
-**Current Status**: ⚠️ Energy not computed from counts
+**Current Status**: Energy not computed from counts
 
 **What We Have**:
 - Measurement histogram
 - ATLAS-Q energy: -1.116759 Ha
 
 **What We Need**:
-- Compute ⟨H⟩ = Σᵢ cᵢ⟨Pᵢ⟩ from measurement counts
+- Compute H = Σᵢ cᵢPᵢ from measurement counts
 - Apply VRA grouping to organize measurements
 - Compute expectation values per Pauli term
 - Compare quantum-measured energy vs ATLAS-Q energy
@@ -135,7 +135,7 @@ Others     13      1.30%
 **Expected Result**:
 ```
 E_ATLAS-Q = -1.116759 Ha (exact on GPU)
-E_IBM      ≈ -1.11 ± 0.01 Ha (noisy quantum hardware)
+E_IBM ≈ -1.11 ± 0.01 Ha (noisy quantum hardware)
 Difference ≈ 0.005-0.010 Ha (hardware noise)
 ```
 
@@ -150,23 +150,23 @@ Difference ≈ 0.005-0.010 Ha (hardware noise)
 **Fix**: Add expectation value computation in `step6_process_results`:
 ```python
 def step6_process_results(result, atlas_result, vra_result):
-    counts = result[0].data.meas.get_counts()
+ counts = result[0].data.meas.get_counts()
 
-    # Compute energy from counts
-    coeffs = vra_result['coeffs']
-    paulis = vra_result['paulis']
+ # Compute energy from counts
+ coeffs = vra_result['coeffs']
+ paulis = vra_result['paulis']
 
-    energy_quantum = 0.0
-    for coeff, pauli in zip(coeffs, paulis):
-        # Compute ⟨P⟩ from counts
-        expectation = compute_pauli_expectation(counts, pauli)
-        energy_quantum += coeff * expectation
+ energy_quantum = 0.0
+ for coeff, pauli in zip(coeffs, paulis):
+ # Compute P from counts
+ expectation = compute_pauli_expectation(counts, pauli)
+ energy_quantum += coeff * expectation
 
-    error = abs(energy_quantum - atlas_result['energy'])
+ error = abs(energy_quantum - atlas_result['energy'])
 
-    print(f"  ATLAS-Q energy: {atlas_result['energy']:.6f} Ha")
-    print(f"  Quantum energy: {energy_quantum:.6f} Ha")
-    print(f"  Difference:     {error:.6f} Ha")
+ print(f" ATLAS-Q energy: {atlas_result['energy']:.6f} Ha")
+ print(f" Quantum energy: {energy_quantum:.6f} Ha")
+ print(f" Difference: {error:.6f} Ha")
 ```
 
 **Priority**: HIGH
@@ -193,18 +193,18 @@ def step6_process_results(result, atlas_result, vra_result):
 **Fix**: Implement basis rotation circuits for X, Y measurements:
 ```python
 for group in grouping.groups:
-    qc_measure = qc.copy()
+ qc_measure = qc.copy()
 
-    # Rotate to measurement basis
-    for i, basis in enumerate(group.bases):
-        if basis == 'X':
-            qc_measure.h(i)
-        elif basis == 'Y':
-            qc_measure.sdg(i)
-            qc_measure.h(i)
+ # Rotate to measurement basis
+ for i, basis in enumerate(group.bases):
+ if basis == 'X':
+ qc_measure.h(i)
+ elif basis == 'Y':
+ qc_measure.sdg(i)
+ qc_measure.h(i)
 
-    qc_measure.measure_all()
-    # Execute...
+ qc_measure.measure_all()
+ # Execute...
 ```
 
 **Priority**: HIGH (for full VRA validation)
@@ -221,10 +221,10 @@ n_repetitions = 10
 energies = []
 
 for _ in range(n_repetitions):
-    job = sampler.run([circuit], shots=1000)
-    result = job.result()
-    energy = compute_energy(result)
-    energies.append(energy)
+ job = sampler.run([circuit], shots=1000)
+ result = job.result()
+ energy = compute_energy(result)
+ energies.append(energy)
 
 mean_energy = np.mean(energies)
 std_energy = np.std(energies)
@@ -235,7 +235,7 @@ print(f"Energy: {mean_energy:.6f} ± {std_energy:.6f} Ha")
 
 ## What We Learned
 
-### ✅ Confirmed
+### Confirmed
 
 1. **ATLAS-Q VQE works**: Converges to correct ground state
 2. **GPU acceleration effective**: 17s for H₂ VQE (very fast)
@@ -244,7 +244,7 @@ print(f"Energy: {mean_energy:.6f} ± {std_energy:.6f} Ha")
 5. **Circuit transpilation works**: Native gate compilation successful
 6. **High measurement fidelity**: 90.2% ground state (excellent for NISQ)
 
-### ❓ To Investigate
+### To Investigate
 
 1. **Quantum vs classical energy agreement**: Need to compute from counts
 2. **VRA variance reduction metric**: Correct definition?
@@ -252,7 +252,7 @@ print(f"Energy: {mean_energy:.6f} ± {std_energy:.6f} Ha")
 4. **Statistical confidence**: Need error bars
 5. **Larger molecules**: Will LiH work the same way?
 
-### 🔧 Technical Debt
+### Technical Debt
 
 1. **Measurement postprocessing**: Compute energy from counts
 2. **Basis rotation**: Implement X, Y measurements
@@ -262,7 +262,7 @@ print(f"Energy: {mean_energy:.6f} ± {std_energy:.6f} Ha")
 
 ## Recommended Next Tests
 
-### Test 1: Compute Quantum Energy from Counts ⭐
+### Test 1: Compute Quantum Energy from Counts
 
 **Priority**: HIGHEST
 
@@ -271,14 +271,14 @@ print(f"Energy: {mean_energy:.6f} ± {std_energy:.6f} Ha")
 **Steps**:
 1. Implement Pauli expectation value computation
 2. Apply VRA grouping to organize measurements
-3. Compute energy from counts: E = Σᵢ cᵢ⟨Pᵢ⟩
+3. Compute energy from counts: E = Σᵢ cᵢPᵢ
 4. Compare with ATLAS-Q energy (-1.116759 Ha)
 
 **Expected Time**: 2 hours coding, 0 sec quantum time (reuse existing data)
 
 **Success Metric**: |E_quantum - E_ATLAS| < 0.01 Ha
 
-### Test 2: Multiple Measurement Bases (X, Y) ⭐
+### Test 2: Multiple Measurement Bases (X, Y)
 
 **Priority**: HIGH
 
@@ -461,8 +461,8 @@ print(f"Energy: {mean_energy:.6f} ± {std_energy:.6f} Ha")
 **Title**: "ATLAS-Q: Scalable Quantum Chemistry with VRA-Optimized Measurements on NISQ Hardware"
 
 **Key Claims**:
-1. ✅ ATLAS-Q VQE converges to chemical accuracy on GPU
-2. ✅ VRA reduces quantum measurements by 5-100×
+1. ATLAS-Q VQE converges to chemical accuracy on GPU
+2. VRA reduces quantum measurements by 5-100×
 3. ⏳ Quantum hardware validates ATLAS-Q energies (need Test 1)
 4. ⏳ Scales to 6-12 qubits within free tier
 5. ⏳ Enables practical quantum chemistry on NISQ devices
@@ -518,10 +518,10 @@ print(f"Energy: {mean_energy:.6f} ± {std_energy:.6f} Ha")
 **ATLAS-Q + VRA deployment to IBM Quantum: SUCCESS!**
 
 **Achievements**:
-✅ First quantum hardware validation
-✅ VRA reduces measurements 5×
-✅ 90.2% measurement fidelity
-✅ Within free tier budget
+ First quantum hardware validation
+ VRA reduces measurements 5×
+ 90.2% measurement fidelity
+ Within free tier budget
 
 **Next Critical Steps**:
 1. Compute energy from quantum measurements (Test 1)

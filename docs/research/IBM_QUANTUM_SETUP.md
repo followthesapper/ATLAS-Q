@@ -33,8 +33,8 @@ pip install qiskit qiskit-ibm-runtime
 from qiskit_ibm_runtime import QiskitRuntimeService
 
 QiskitRuntimeService.save_account(
-    channel="ibm_quantum",
-    token="PASTE_YOUR_TOKEN_HERE"  # Replace with actual token
+ channel="ibm_quantum",
+ token="PASTE_YOUR_TOKEN_HERE" # Replace with actual token
 )
 
 # Token is now saved to ~/.qiskit/qiskit-ibm.json
@@ -73,22 +73,22 @@ Edit the `Config` class in `scripts/deploy_to_ibm_quantum.py`:
 
 ```python
 class Config:
-    # What to test
-    MOLECULE = 'H2'          # 'H2' or 'LiH'
-    BASIS = 'sto-3g'
+ # What to test
+ MOLECULE = 'H2' # 'H2' or 'LiH'
+ BASIS = 'sto-3g'
 
-    # VQE settings
-    N_LAYERS = 2
-    MAX_ITER_ATLAS = 50
+ # VQE settings
+ N_LAYERS = 2
+ MAX_ITER_ATLAS = 50
 
-    # IBM Quantum
-    SHOTS = 1000
-    USE_SIMULATOR = True     # True = free, False = real hardware
-    BACKEND_NAME = "ibm_brisbane"  # 127-qubit system
+ # IBM Quantum
+ SHOTS = 1000
+ USE_SIMULATOR = True # True = free, False = real hardware
+ BACKEND_NAME = "ibm_brisbane" # 127-qubit system
 
-    # Safety
-    DRY_RUN = True          # True = test only, False = actually run
-    CONFIRM_BEFORE_SUBMIT = True  # Ask before using quantum time
+ # Safety
+ DRY_RUN = True # True = test only, False = actually run
+ CONFIRM_BEFORE_SUBMIT = True # Ask before using quantum time
 ```
 
 ## Usage Modes
@@ -100,7 +100,7 @@ Test everything without using quantum time:
 ```python
 # In deploy_to_ibm_quantum.py
 Config.USE_SIMULATOR = True
-Config.DRY_RUN = False  # Actually run, but on free simulator
+Config.DRY_RUN = False # Actually run, but on free simulator
 ```
 
 This uses IBM's classical simulator - completely free, no time limit!
@@ -111,9 +111,9 @@ Run on actual quantum computer:
 
 ```python
 # In deploy_to_ibm_quantum.py
-Config.USE_SIMULATOR = False  # Use real quantum hardware
-Config.DRY_RUN = False         # Actually submit job
-Config.CONFIRM_BEFORE_SUBMIT = True  # Safety check
+Config.USE_SIMULATOR = False # Use real quantum hardware
+Config.DRY_RUN = False # Actually submit job
+Config.CONFIRM_BEFORE_SUBMIT = True # Safety check
 ```
 
 **Cost**: 10-30 seconds per run from your free 10 minutes.
@@ -123,32 +123,32 @@ Config.CONFIRM_BEFORE_SUBMIT = True  # Safety check
 Test the workflow without submitting anything:
 
 ```python
-Config.DRY_RUN = True  # Default - safest option
+Config.DRY_RUN = True # Default - safest option
 ```
 
 ## What Runs Where
 
 ```
-┌────────────────────────────────────────────────┐
-│ YOUR COMPUTER (GPU)                            │
-│ ─────────────────                              │
-│ ✓ VQE optimization (~20 seconds)               │
-│ ✓ VRA grouping calculation (~1 second)         │
-│ ✓ Circuit building (~1 second)                 │
-│ ✓ Result processing (~1 second)                │
-│                                                 │
-│ Total: ~23 seconds, Cost: $0                   │
-└────────────────────────────────────────────────┘
-                    ↓ (send circuit via API)
-┌────────────────────────────────────────────────┐
-│ IBM QUANTUM CLOUD                              │
-│ ────────────────                               │
-│ ⏳ Queue wait (1-30 minutes) - FREE            │
-│ ⚡ Quantum execution (~10 seconds) - COSTS $   │
-│                                                 │
-│ With VRA: 10 seconds                           │
-│ Without VRA: 75 seconds (7.5× more!)           │
-└────────────────────────────────────────────────┘
+
+ YOUR COMPUTER (GPU)
+
+ VQE optimization (~20 seconds)
+ VRA grouping calculation (~1 second)
+ Circuit building (~1 second)
+ Result processing (~1 second)
+
+ Total: ~23 seconds, Cost: $0
+
+ ↓ (send circuit via API)
+
+ IBM QUANTUM CLOUD
+
+ ⏳ Queue wait (1-30 minutes) - FREE
+ Quantum execution (~10 seconds) - COSTS $
+
+ With VRA: 10 seconds
+ Without VRA: 75 seconds (7.5× more!)
+
 ```
 
 ## Cost Breakdown
@@ -194,8 +194,8 @@ You haven't saved your IBM Quantum token yet.
 from qiskit_ibm_runtime import QiskitRuntimeService
 
 QiskitRuntimeService.save_account(
-    channel="ibm_quantum",
-    token="YOUR_TOKEN_FROM_QUANTUM.IBM.COM"
+ channel="ibm_quantum",
+ token="YOUR_TOKEN_FROM_QUANTUM.IBM.COM"
 )
 ```
 
@@ -226,18 +226,18 @@ Options:
 
 ### Maximize Free Tier
 
-1. ✅ **Always optimize on ATLAS-Q first** (free, fast)
-2. ✅ **Use VRA grouping** (10× fewer measurements)
-3. ✅ **Test on simulator first** (free, unlimited)
-4. ✅ **Only validate final results on hardware**
-5. ✅ **Batch multiple tests in one session**
+1. **Always optimize on ATLAS-Q first** (free, fast)
+2. **Use VRA grouping** (10× fewer measurements)
+3. **Test on simulator first** (free, unlimited)
+4. **Only validate final results on hardware**
+5. **Batch multiple tests in one session**
 
 ### Save Money
 
-1. ✅ VRA reduces costs by 10-100×
-2. ✅ Use simulator for algorithm development
-3. ✅ Reserve hardware for publication-quality validation
-4. ✅ Run during off-peak hours (faster queue)
+1. VRA reduces costs by 10-100×
+2. Use simulator for algorithm development
+3. Reserve hardware for publication-quality validation
+4. Run during off-peak hours (faster queue)
 
 ## Example Workflow
 
@@ -271,31 +271,31 @@ Config.DRY_RUN = False
 ### Free Options
 
 1. **IBM Quantum Educators Program**
-   - URL: https://quantum.ibm.com/programs
-   - Requirements: Academic affiliation or teaching
-   - Benefit: Up to 100 hours/year
+ - URL: https://quantum.ibm.com/programs
+ - Requirements: Academic affiliation or teaching
+ - Benefit: Up to 100 hours/year
 
 2. **Academic Partnerships**
-   - Many universities have IBM Quantum access
-   - Collaborate with professors
-   - Share hardware credits
+ - Many universities have IBM Quantum access
+ - Collaborate with professors
+ - Share hardware credits
 
 3. **Open Source Contributions**
-   - Contribute to Qiskit
-   - Build quantum algorithms for community
-   - IBM sometimes provides credits to contributors
+ - Contribute to Qiskit
+ - Build quantum algorithms for community
+ - IBM sometimes provides credits to contributors
 
 ### Paid Options
 
 1. **IBM Quantum Premium**
-   - Dedicated access to quantum systems
-   - Custom pricing for research labs
-   - Contact IBM Quantum sales
+ - Dedicated access to quantum systems
+ - Custom pricing for research labs
+ - Contact IBM Quantum sales
 
 2. **Research Grants**
-   - NSF Quantum Information Science
-   - DOE Quantum Computing programs
-   - Often include hardware credits
+ - NSF Quantum Information Science
+ - DOE Quantum Computing programs
+ - Often include hardware credits
 
 ## Next Steps
 

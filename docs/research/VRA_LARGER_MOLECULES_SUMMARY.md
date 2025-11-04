@@ -2,7 +2,7 @@
 
 **Date**: November 1, 2025
 **Enhancement**: Validation on LiH (30 terms)
-**Status**: ✅ **COMPLETE**
+**Status**: **COMPLETE**
 **Key Result**: **53.73× variance reduction** (physically realizable)
 
 ---
@@ -23,9 +23,9 @@ Successfully validated commutativity-aware VQE grouping on **larger molecular Ha
 
 | Method | Variance | Reduction | Groups | Physically Realizable? |
 |--------|----------|-----------|--------|------------------------|
-| Baseline (per-term) | 1.07e-02 | 1.00× | 15 | ✅ Yes |
-| VRA (no commutativity) | 7.35e-03 | 1.46× | 2 | ✅ Yes |
-| **VRA + Commutativity** | 6.48e-03 | **1.65×** | 2 | ✅ **Yes** |
+| Baseline (per-term) | 1.07e-02 | 1.00× | 15 | Yes |
+| VRA (no commutativity) | 7.35e-03 | 1.46× | 2 | Yes |
+| **VRA + Commutativity** | 6.48e-03 | **1.65×** | 2 | **Yes** |
 
 **Grouping Details**:
 - Full Jordan-Wigner decomposition (15 Pauli terms)
@@ -38,14 +38,14 @@ Successfully validated commutativity-aware VQE grouping on **larger molecular Ha
 
 | Method | Variance | Reduction | Groups | Physically Realizable? |
 |--------|----------|-----------|--------|------------------------|
-| Baseline (per-term) | 8.56e-01 | 1.00× | 30 | ✅ Yes |
-| VRA (no commutativity) | 1.21e-03 | 706.67× | 3 | ❌ **NO** |
-| **VRA + Commutativity** | 1.59e-02 | **53.73×** | 5 | ✅ **YES** |
+| Baseline (per-term) | 8.56e-01 | 1.00× | 30 | Yes |
+| VRA (no commutativity) | 1.21e-03 | 706.67× | 3 | **NO** |
+| **VRA + Commutativity** | 1.59e-02 | **53.73×** | 5 | **YES** |
 
 **Grouping Details**:
 - 30 largest Pauli terms (out of 631 total)
 - Commutativity creates 5 measurement groups (vs 30 baseline)
-- **53.73× variance reduction** - physically realizable ✅
+- **53.73× variance reduction** - physically realizable
 - Trade-off: 53.73× (realizable) vs 706.67× (impossible)
 
 ---
@@ -163,20 +163,20 @@ m_g = total_shots × sqrt(Q_g) / Σ sqrt(Q_k)
 **Four panels**:
 
 1. **Measurement Variance Comparison** (log scale):
-   - H2: All methods ~0.01
-   - LiH: VRA+Comm dramatically reduces variance
+ - H2: All methods ~0.01
+ - LiH: VRA+Comm dramatically reduces variance
 
 2. **Variance Reduction vs Baseline**:
-   - H2: ~1-1.65× (modest)
-   - LiH: 53.73× (VRA+Comm) vs 706.67× (VRA, hatched - not realizable)
+ - H2: ~1-1.65× (modest)
+ - LiH: 53.73× (VRA+Comm) vs 706.67× (VRA, hatched - not realizable)
 
 3. **Number of Measurement Groups**:
-   - H2: 15 → 2 groups
-   - LiH: 30 → 5 groups
+ - H2: 15 → 2 groups
+ - LiH: 30 → 5 groups
 
 4. **Hamiltonian Complexity**:
-   - H2: 15 Pauli terms
-   - LiH: 30 Pauli terms
+ - H2: 15 Pauli terms
+ - LiH: 30 Pauli terms
 
 **Key visual**: LiH's VRA (no comm) bar is hatched with red border, indicating physical impossibility.
 
@@ -194,7 +194,7 @@ m_g = total_shots × sqrt(Q_g) / Σ sqrt(Q_k)
 |----------|---------|-------------------|------------|--------|
 | H2 | 5 | 0.76× | - | Poor structure |
 | H2 | 15 | 1.65× | - | Modest improvement |
-| LiH | 30 | 53.73× | 10-100× | ✅ **Within range** |
+| LiH | 30 | 53.73× | 10-100× | **Within range** |
 | H-He (VRA) | 50 | - | 2350× | Target for future |
 
 **Trajectory Analysis**:
@@ -212,17 +212,17 @@ m_g = total_shots × sqrt(Q_g) / Σ sqrt(Q_k)
 ### Favorable Characteristics
 
 1. **Hamiltonian Size**: ≥30 Pauli terms
-   - More commuting subsets
-   - Better grouping opportunities
+ - More commuting subsets
+ - Better grouping opportunities
 
 2. **Commuting Structure**:
-   - Multiple all-Z groups
-   - Structured two-qubit terms (XX, YY, ZZ groups)
-   - Ising-like interactions
+ - Multiple all-Z groups
+ - Structured two-qubit terms (XX, YY, ZZ groups)
+ - Ising-like interactions
 
 3. **Coefficient Distribution**:
-   - Mix of large and small coefficients
-   - Enables effective Neyman allocation
+ - Mix of large and small coefficients
+ - Enables effective Neyman allocation
 
 **LiH exhibits all three characteristics** → 53.73× reduction
 
@@ -233,39 +233,39 @@ m_g = total_shots × sqrt(Q_g) / Σ sqrt(Q_k)
 ### Current Limitations
 
 1. **Term Selection**: Used 30 largest terms (out of 631 for LiH)
-   - Full Hamiltonian might show different behavior
-   - Threshold sensitivity unexplored
+ - Full Hamiltonian might show different behavior
+ - Threshold sensitivity unexplored
 
 2. **Molecule Diversity**: Only tested H2 and LiH
-   - Need H2O, BeH2, NH3 validation
-   - Different molecular geometries
+ - Need H2O, BeH2, NH3 validation
+ - Different molecular geometries
 
 3. **Basis Set**: Only sto-3g tested
-   - Larger basis sets (6-31g, cc-pvdz) have more terms
-   - May require different grouping strategies
+ - Larger basis sets (6-31g, cc-pvdz) have more terms
+ - May require different grouping strategies
 
 ### Future Enhancements
 
 1. **Test Additional Molecules** (HIGH PRIORITY):
-   - H2O (14 qubits, ~20-50 terms)
-   - BeH2 (14 qubits, similar to LiH)
-   - NH3 (16 qubits, ~30-80 terms)
-   - **Expected**: 50-200× variance reduction
+ - H2O (14 qubits, ~20-50 terms)
+ - BeH2 (14 qubits, similar to LiH)
+ - NH3 (16 qubits, ~30-80 terms)
+ - **Expected**: 50-200× variance reduction
 
 2. **Optimize Term Selection**:
-   - Adaptive thresholding
-   - Importance-weighted term selection
-   - Balance between term count and grouping efficiency
+ - Adaptive thresholding
+ - Importance-weighted term selection
+ - Balance between term count and grouping efficiency
 
 3. **Improved Grouping Algorithm**:
-   - Global optimization (integer programming)
-   - Minimize Σ sqrt(Q_g) subject to commutativity
-   - **Expected**: 2-5× additional improvement
+ - Global optimization (integer programming)
+ - Minimize Σ sqrt(Q_g) subject to commutativity
+ - **Expected**: 2-5× additional improvement
 
 4. **Benchmark Suite**:
-   - Standardized molecular test set
-   - Scaling analysis (5-100 terms)
-   - Commuting structure characterization
+ - Standardized molecular test set
+ - Scaling analysis (5-100 terms)
+ - Commuting structure characterization
 
 ---
 
@@ -299,11 +299,11 @@ variance = np.sum(c_g**2) / shots_g
 
 # AFTER (correct):
 if len(group) > 1:
-    Sigma_g = Sigma[np.ix_(group, group)]
-    Q_g = compute_Q_GLS(Sigma_g, c_g)
-    variance = Q_g / shots_g
+ Sigma_g = Sigma[np.ix_(group, group)]
+ Q_g = compute_Q_GLS(Sigma_g, c_g)
+ variance = Q_g / shots_g
 else:
-    variance = c_g[0]**2 / shots_g
+ variance = c_g[0]**2 / shots_g
 ```
 
 **Complex Coefficient Handling**:
@@ -320,7 +320,7 @@ coeffs_list.append(np.real(coeff))
 
 **H2 (5 terms)**: 0.76× (poor)
 **H2 (15 terms)**: 1.65× (modest)
-**LiH (30 terms)**: **53.73×** (significant) ✅
+**LiH (30 terms)**: **53.73×** (significant)
 
 **Lesson**: Don't judge commutativity value on smallest molecules!
 
@@ -335,7 +335,7 @@ coeffs_list.append(np.real(coeff))
 ### 3. 53.73× Validates Expected Range
 
 **VRA project predicted**: 10-100× for 30-term Hamiltonians
-**ATLAS-Q achieved**: 53.73× ✅
+**ATLAS-Q achieved**: 53.73×
 
 **Status**: On track for VRA-level performance
 
@@ -350,7 +350,7 @@ coeffs_list.append(np.real(coeff))
 
 ### Immediate Actions
 
-1. ✅ **LiH validation complete** - 53.73× reduction achieved
+1. **LiH validation complete** - 53.73× reduction achieved
 2. ⏳ **Test H2O** - 14 qubits, 20-50 terms, expected ~100× reduction
 3. ⏳ **Test BeH2** - Validate trend continues
 4. ⏳ **Document scaling law** - Variance reduction vs Hamiltonian size
@@ -374,13 +374,13 @@ coeffs_list.append(np.real(coeff))
 Successfully demonstrated that **commutativity-aware VQE grouping scales favorably with molecule size**, achieving:
 
 - **H2 (15 terms)**: 1.65× variance reduction
-- **LiH (30 terms)**: **53.73× variance reduction** ✅
+- **LiH (30 terms)**: **53.73× variance reduction**
 
 **Key achievement**: 53.73× reduction validates the 10-100× expected range for larger molecules while ensuring all measurements are **physically realizable on quantum hardware**.
 
 **Path forward**: Test on H2O and larger molecules to reach VRA's 100-2350× target range for 50+ term Hamiltonians.
 
-**Status**: ✅ **VALIDATION COMPLETE** for 30-term molecular Hamiltonians
+**Status**: **VALIDATION COMPLETE** for 30-term molecular Hamiltonians
 
 ---
 

@@ -4,7 +4,7 @@ This folder contains the main benchmark suite for validating ATLAS-Q performance
 
 ---
 
-## 🎯 Available Benchmarks
+## Available Benchmarks
 
 ### **1. `validate_all_features.py` - Complete Feature Validation**
 **What it tests:** All 7 major features of ATLAS-Q v0.5.0
@@ -31,7 +31,7 @@ python scripts/benchmarks/validate_all_features.py
 - Final summary showing 7/7 passing
 
 **What good results look like:**
-- All tests show ✅ PASS
+- All tests show PASS
 - Noise ops/sec > 1,000
 - Stabilizer speedup > 15× vs MPS
 - TDVP energy error < 1e-4
@@ -64,9 +64,9 @@ python scripts/benchmarks/compare_with_competitors.py
 
 **Requirements:**
 - Optional: Install competitors for full comparison
-  ```bash
-  pip install qiskit qiskit-aer cirq pennylane qutip
-  ```
+ ```bash
+ pip install qiskit qiskit-aer cirq pennylane qutip
+ ```
 - Works with partial installation (compares only available simulators)
 
 **Expected output:**
@@ -121,14 +121,14 @@ S_MIN=2.0 S_MAX=10.0 LAYERS=6 python scripts/benchmarks/max_qubits_scaling_test.
 
 **Expected output:**
 ```
-n        χ_cap    p95_S      maxχ     err          mem(MB)      status
+n χ_cap p95_S maxχ err mem(MB) status
 ----------------------------------------------------------------------
-16       64       3.24       8        1.23e-05     0.02         ✓
-32       64       4.56       16       3.45e-05     0.08         ✓
-64       64       5.89       32       7.89e-05     0.31         ✓
-128      64       6.12       48       1.23e-04     1.15         ✓
-256      64       6.45       64       2.34e-04     4.21         ✓
-512      64       8.23       64       4.56e-04     16.84        (too high)
+16 64 3.24 8 1.23e-05 0.02
+32 64 4.56 16 3.45e-05 0.08
+64 64 5.89 32 7.89e-05 0.31
+128 64 6.12 48 1.23e-04 1.15
+256 64 6.45 64 2.34e-04 4.21
+512 64 8.23 64 4.56e-04 16.84 (too high)
 ...
 ```
 
@@ -141,7 +141,7 @@ n        χ_cap    p95_S      maxχ     err          mem(MB)      status
 - With CHI_CAP=128 and higher tolerance, can reach 1000+ qubits
 
 **Interpreting results:**
-- ✓ status: System within moderate entanglement band
+- status: System within moderate entanglement band
 - "too high": Entropy exceeds S_MAX (system too entangled)
 - "too low": Entropy below S_MIN (trivial, not interesting)
 - "err>X": Global error exceeds tolerance
@@ -149,25 +149,25 @@ n        χ_cap    p95_S      maxχ     err          mem(MB)      status
 
 ---
 
-## 📊 What These Benchmarks Prove
+## What These Benchmarks Prove
 
 These three benchmarks together validate the core claims made in ATLAS-Q documentation:
 
 ### **From README.md:**
-- ✅ "77,000+ ops/sec gate throughput" → `validate_all_features.py`
-- ✅ "626,000× memory compression" → `compare_with_competitors.py`
-- ✅ "20× Clifford circuit speedup" → `validate_all_features.py`
-- ✅ "100,000 qubits with low-to-moderate entanglement" → `max_qubits_scaling_test.py`
-- ✅ "7/7 benchmark suites passing" → `validate_all_features.py`
+- "77,000+ ops/sec gate throughput" → `validate_all_features.py`
+- "626,000× memory compression" → `compare_with_competitors.py`
+- "20× Clifford circuit speedup" → `validate_all_features.py`
+- "100,000 qubits with low-to-moderate entanglement" → `max_qubits_scaling_test.py`
+- "7/7 benchmark suites passing" → `validate_all_features.py`
 
 ### **From OVERVIEW.md:**
-- ✅ Competitive with Qiskit/Cirq for specific workloads → `compare_with_competitors.py`
-- ✅ Scales to large systems with structure → `max_qubits_scaling_test.py`
-- ✅ All features work correctly → `validate_all_features.py`
+- Competitive with Qiskit/Cirq for specific workloads → `compare_with_competitors.py`
+- Scales to large systems with structure → `max_qubits_scaling_test.py`
+- All features work correctly → `validate_all_features.py`
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### **Run All Benchmarks (Recommended)**
 ```bash
@@ -197,7 +197,7 @@ python scripts/benchmarks/max_qubits_scaling_test.py
 
 ---
 
-## 📋 Hardware Requirements
+## Hardware Requirements
 
 **Recommended:**
 - NVIDIA GPU with CUDA support
@@ -210,7 +210,7 @@ python scripts/benchmarks/max_qubits_scaling_test.py
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### **CUDA Out of Memory**
 ```bash
@@ -218,7 +218,7 @@ python scripts/benchmarks/max_qubits_scaling_test.py
 CHI_CAP=32 python scripts/benchmarks/max_qubits_scaling_test.py
 
 # Or test smaller systems
-python scripts/benchmarks/validate_all_features.py  # Uses moderate sizes
+python scripts/benchmarks/validate_all_features.py # Uses moderate sizes
 ```
 
 ### **Competitors Not Available**
@@ -235,16 +235,16 @@ pip install qiskit qiskit-aer cirq pennylane qutip
 
 ---
 
-## 📈 Updating Benchmark Results
+## Updating Benchmark Results
 
 When you improve ATLAS-Q performance:
 
 1. **Run all benchmarks** to get new numbers
 2. **Update documentation** with new results:
-   - `README.md` - Performance Highlights section
-   - `docs/OVERVIEW.md` - Performance Numbers section
-   - `docs/WHITEPAPER.md` - Section 5 (benchmarks)
-   - `docs/RESEARCH_PAPER.md` - Appendix results
+ - `README.md` - Performance Highlights section
+ - `docs/OVERVIEW.md` - Performance Numbers section
+ - `docs/WHITEPAPER.md` - Section 5 (benchmarks)
+ - `docs/RESEARCH_PAPER.md` - Appendix results
 3. **Update CHANGELOG.md** with new benchmark data
 4. **Commit benchmark outputs** to document reproducibility
 
@@ -252,7 +252,7 @@ See `MAINTENANCE_GUIDE.md` for detailed workflow.
 
 ---
 
-## 🎓 Understanding the Results
+## Understanding the Results
 
 ### **Feature Validation Results**
 - **PASS**: Feature works correctly within tolerances
@@ -272,17 +272,17 @@ See `MAINTENANCE_GUIDE.md` for detailed workflow.
 
 ---
 
-## 📝 Citation
+## Citation
 
 If you use these benchmarks in academic work:
 
 ```bibtex
 @software{atlasq_benchmarks2025,
-  title={ATLAS-Q Benchmark Suite},
-  author={ATLAS-Q Development Team},
-  year={2025},
-  url={https://github.com/followthsapper/ATLAS-Q},
-  note={Comprehensive validation and competitive analysis}
+ title={ATLAS-Q Benchmark Suite},
+ author={ATLAS-Q Development Team},
+ year={2025},
+ url={https://github.com/followthsapper/ATLAS-Q},
+ note={Comprehensive validation and competitive analysis}
 }
 ```
 

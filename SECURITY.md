@@ -4,10 +4,10 @@
 
 Security updates are provided for the following versions:
 
-| Version | Supported          |
+| Version | Supported |
 | ------- | ------------------ |
-| 0.5.x   | :white_check_mark: |
-| < 0.5   | :x:                |
+| 0.5.x | :white_check_mark: |
+| < 0.5 | :x: |
 
 ## Reporting a Vulnerability
 
@@ -28,14 +28,14 @@ For critical vulnerabilities or issues that could be exploited:
 
 1. **Do NOT** open a public GitHub issue
 2. Contact the maintainers directly through:
-   - GitHub Security Advisory (preferred): Go to "Security" → "Report a vulnerability"
-   - Or email the project maintainers (see GitHub profile)
+ - GitHub Security Advisory (preferred): Go to "Security" → "Report a vulnerability"
+ - Or email the project maintainers (see GitHub profile)
 3. Provide:
-   - Description of the vulnerability
-   - Potential impact
-   - Steps to reproduce
-   - Any proof-of-concept code (if applicable)
-   - Suggested fix (if you have one)
+ - Description of the vulnerability
+ - Potential impact
+ - Steps to reproduce
+ - Any proof-of-concept code (if applicable)
+ - Suggested fix (if you have one)
 
 ### What to Expect
 
@@ -91,11 +91,11 @@ When using ATLAS-Q in applications that accept user input:
 A comprehensive security audit was performed on October 27, 2025. See [SECURITY_AUDIT.md](SECURITY_AUDIT.md) for details.
 
 **Key Findings:**
-- ✅ No known vulnerabilities in dependencies
-- ✅ No hardcoded secrets
-- ✅ Secure Docker images (non-root user)
-- ✅ Safe code practices (no eval/exec)
-- ✅ Trusted publishing to PyPI
+- No known vulnerabilities in dependencies
+- No hardcoded secrets
+- Secure Docker images (non-root user)
+- Safe code practices (no eval/exec)
+- Trusted publishing to PyPI
 
 ## Known Security Considerations
 

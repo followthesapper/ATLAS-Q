@@ -87,30 +87,34 @@ Basic Usage
 
 .. code-block:: python
 
-    from atlas_q import CoherenceAwareVQE
-    from atlas_q.vra_enhanced import vra_grouping
+    from atlas_q.coherence_aware_vqe import CoherenceAwareVQE, VQEConfig
+    from atlas_q.coherence import classify_go_no_go
+    from atlas_q.mpo_ops import MPOBuilder
+
+    # Build Hamiltonian
+    H = MPOBuilder.molecular_hamiltonian_from_specs(
+        molecule='H2',
+        basis='sto-3g',
+        device='cuda'
+    )
 
     # Create VQE instance with coherence tracking
+    config = VQEConfig(ansatz='hardware_efficient', n_layers=2)
     vqe = CoherenceAwareVQE(
-        hamiltonian=hamiltonian,
-        ansatz='UCCSD',
-        enable_coherence_tracking=True,
-        e2_boundary_check=True  # Enable GO/NO-GO classification
+        H,
+        config,
+        enable_coherence_tracking=True
     )
 
-    # Run with VRA grouping for measurement compression
-    result = vqe.run(
-        backend='ibm_brisbane',
-        shots=1000,
-        use_vra_grouping=True
-    )
+    # Run optimization
+    result = vqe.run()
 
     # Check results
     print(f"Energy: {result.energy:.6f} Ha")
     print(f"Coherence R̄: {result.coherence.R_bar:.4f}")
-    print(f"Classification: {result.go_no_go}")  # GO or NO-GO
+    print(f"Classification: {result.classification}")
 
-    if result.go_no_go == "GO":
+    if result.is_go():
         print("✓ Results are trustworthy (R̄ > e^-2)")
     else:
         print("⚠ Results may be unreliable (R̄ < e^-2)")
@@ -120,23 +124,25 @@ Molecular Hamiltonians
 
 .. code-block:: python
 
-    from atlas_q import extract_molecular_hamiltonian
+    from atlas_q.coherence_aware_vqe import CoherenceAwareVQE, VQEConfig
+    from atlas_q.mpo_ops import MPOBuilder
 
-    # Extract H2O Hamiltonian from PySCF
-    hamiltonian, n_qubits, e_nuc = extract_molecular_hamiltonian(
+    # Build H2O Hamiltonian from PySCF
+    H = MPOBuilder.molecular_hamiltonian_from_specs(
         molecule='H2O',
         basis='sto-3g',
-        geometry='equilibrium'  # or provide custom coordinates
+        device='cuda'
     )
 
     # Run coherence-aware VQE
-    vqe = CoherenceAwareVQE(hamiltonian)
-    result = vqe.run(backend='ibm_brisbane', shots=1000)
+    config = VQEConfig(ansatz='hardware_efficient', n_layers=3)
+    vqe = CoherenceAwareVQE(H, config, enable_coherence_tracking=True)
+    result = vqe.run()
 
-    # Results include both electronic and nuclear energies
-    print(f"Electronic: {result.energy_elec:.6f} Ha")
-    print(f"Nuclear: {result.energy_nuc:.6f} Ha")
-    print(f"Total: {result.energy:.6f} Ha")
+    # Check results
+    print(f"Energy: {result.energy:.6f} Ha")
+    print(f"Coherence: {result.coherence}")
+    print(f"Classification: {result.classification}")
 
 Advanced Features
 -----------------
@@ -148,17 +154,21 @@ VRA grouping reduces measurement overhead by grouping commuting Pauli operators:
 
 .. code-block:: python
 
-    from atlas_q.vra_enhanced import vra_grouping, compute_coherence
+    from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+    from atlas_q.coherence import group_paulis_qwc
 
-    # Group 1086 Pauli terms → 219 measurement groups (5× compression)
-    groups = vra_grouping(
+    # Option 1: VRA grouping (variance-aware, optimal shot allocation)
+    result = vra_hamiltonian_grouping(
         pauli_strings,
         coefficients,
-        strategy='qubit_wise_commuting'  # QWC grouping
+        total_shots=10000
     )
+    print(f"VRA Groups: {len(result.groups)}")
+    print(f"Variance reduction: {result.variance_reduction_factor:.2f}×")
 
-    # Each group shares measurement basis, reducing circuit count
-    print(f"Compression: {len(pauli_strings)}/{len(groups)} = {len(pauli_strings)/len(groups):.1f}×")
+    # Option 2: Simple QWC grouping (qubit-wise commuting)
+    groups = group_paulis_qwc(pauli_strings, coefficients)
+    print(f"QWC compression: {len(pauli_strings)}/{len(groups)} = {len(pauli_strings)/len(groups):.1f}×")
 
 Real-Time Coherence Monitoring
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -167,26 +177,29 @@ Track coherence during optimization:
 
 .. code-block:: python
 
+    from atlas_q.coherence_aware_vqe import CoherenceAwareVQE, VQEConfig
+
     # Enable per-iteration coherence logging
+    config = VQEConfig(ansatz='hardware_efficient', n_layers=2)
     vqe = CoherenceAwareVQE(
         hamiltonian,
-        coherence_tracking='per_iteration',  # Log every iteration
-        coherence_callback=lambda iter, R_bar: print(f"Iter {iter}: R̄={R_bar:.4f}")
+        config,
+        enable_coherence_tracking=True,
+        coherence_callback=lambda iter, coh: print(f"Iter {iter}: R̄={coh.R_bar:.4f}")
     )
 
-    result = vqe.optimize(
-        optimizer='COBYLA',
-        max_iterations=100
-    )
+    result = vqe.run()
 
     # Access coherence history
-    import matplotlib.pyplot as plt
-    plt.plot(result.coherence_history)
-    plt.axhline(0.135, color='r', linestyle='--', label='e^-2 boundary')
-    plt.xlabel('Iteration')
-    plt.ylabel('R̄')
-    plt.legend()
-    plt.show()
+    if result.coherence_history:
+        import matplotlib.pyplot as plt
+        R_bars = [c.R_bar for c in result.coherence_history]
+        plt.plot(R_bars)
+        plt.axhline(0.135, color='r', linestyle='--', label='e^-2 boundary')
+        plt.xlabel('Iteration')
+        plt.ylabel('R̄')
+        plt.legend()
+        plt.show()
 
 Adaptive Algorithm Behavior
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -195,15 +208,25 @@ Automatically adjust strategy based on coherence:
 
 .. code-block:: python
 
-    vqe = CoherenceAwareVQE(
-        hamiltonian,
-        adaptive_vra=True,  # Switch VRA ON/OFF based on R̄
-        vra_threshold=0.135  # e^-2 boundary
+    from atlas_q.coherence import adaptive_vra_decision
+
+    # Run VQE
+    result = vqe.run()
+
+    # Decide whether to use VRA grouping based on coherence
+    enable_vra, reason = adaptive_vra_decision(
+        result.coherence,
+        threshold=0.135  # e^-2 boundary
     )
 
-    # VRA grouping automatically enabled when R̄ > 0.135
-    # Falls back to standard measurement when R̄ < 0.135
-    result = vqe.run(backend='ibm_brisbane')
+    print(f"VRA Decision: {reason}")
+    if enable_vra:
+        # Use VRA grouping for next iteration
+        from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+        groups = vra_hamiltonian_grouping(pauli_strings, coefficients)
+    else:
+        # Use standard individual measurements
+        pass
 
 Integration with Existing Code
 -------------------------------
@@ -211,50 +234,56 @@ Integration with Existing Code
 Drop-In Replacement
 ~~~~~~~~~~~~~~~~~~~
 
-Coherence-aware VQE is a drop-in replacement for standard VQE:
+Coherence-aware VQE extends the standard VQE:
 
 .. code-block:: python
 
     # Before: Standard VQE
-    from atlas_q import VQE
-    vqe = VQE(hamiltonian)
-    result = vqe.run(backend='aer_simulator')
+    from atlas_q.vqe_qaoa import VQE, VQEConfig
+    config = VQEConfig(ansatz='hardware_efficient', n_layers=2)
+    vqe = VQE(hamiltonian, config)
+    energy, params = vqe.run()
 
-    # After: Coherence-aware VQE (backwards compatible)
-    from atlas_q import CoherenceAwareVQE
+    # After: Coherence-aware VQE (enhanced version)
+    from atlas_q.coherence_aware_vqe import CoherenceAwareVQE, VQEConfig
+    config = VQEConfig(ansatz='hardware_efficient', n_layers=2)
     vqe = CoherenceAwareVQE(
         hamiltonian,
-        enable_coherence_tracking=True  # New feature, optional
+        config,
+        enable_coherence_tracking=True  # New feature
     )
-    result = vqe.run(backend='ibm_brisbane')
+    result = vqe.run()
 
-    # All existing code works, plus new coherence metrics
+    # Access both standard and new coherence metrics
     print(f"Energy: {result.energy}")  # Standard result
     print(f"R̄: {result.coherence.R_bar}")  # New coherence metric
+    print(f"Status: {result.classification}")  # GO/NO-GO
 
 Hybrid Workflows
 ~~~~~~~~~~~~~~~~
 
-Combine with ATLAS-Q's tensor network backend:
+Coherence-aware VQE uses ATLAS-Q's MPS tensor network backend:
 
 .. code-block:: python
 
-    from atlas_q import QuantumHybridSystem
+    from atlas_q.coherence_aware_vqe import CoherenceAwareVQE, VQEConfig
 
-    system = QuantumHybridSystem(
-        n_qubits=14,
-        backend='mps',
-        chi_max=256  # MPS bond dimension
+    # VQE automatically uses adaptive MPS backend
+    config = VQEConfig(
+        ansatz='hardware_efficient',
+        n_layers=3,
+        chi_max=256,  # MPS bond dimension
+        device='cuda'  # GPU acceleration
     )
 
-    # Run coherence-aware VQE with MPS backend
     vqe = CoherenceAwareVQE(
         hamiltonian,
-        quantum_system=system,
+        config,
         enable_coherence_tracking=True
     )
 
-    result = vqe.run(shots=10000)  # Simulated shots from MPS
+    result = vqe.run()
+    print(f"Final MPS bond dimension: {vqe.ansatz.mps.max_chi if hasattr(vqe.ansatz, 'mps') else 'N/A'}")
 
 Technical Details
 -----------------

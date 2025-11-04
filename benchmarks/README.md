@@ -150,7 +150,7 @@ Simulates shot-based Pauli measurements:
 
 ## Next Steps
 
-1. ✅ Demonstrate variance reduction on H2 (complete)
+1. Demonstrate variance reduction on H2 (complete)
 2. ⏳ Add commutativity analysis for larger reductions
 3. ⏳ Integrate with full VQE optimizer
 4. ⏳ Benchmark on larger molecules (LiH, H2O, NH3)

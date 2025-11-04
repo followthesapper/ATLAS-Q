@@ -2,88 +2,88 @@
 
 Follow this checklist to deploy ATLAS-Q + VRA to IBM Quantum hardware.
 
-## ✅ Checklist
+## Checklist
 
 ### Setup (One-Time - 5 minutes)
 
 - [ ] **Install Qiskit**
-  ```bash
-  pip install qiskit qiskit-ibm-runtime
-  ```
+ ```bash
+ pip install qiskit qiskit-ibm-runtime
+ ```
 
 - [ ] **Create IBM Quantum Account**
-  - Go to: https://quantum.ibm.com/
-  - Click "Sign Up" (free)
-  - Verify email
-  - ✅ You now have 10 free minutes/month!
+ - Go to: https://quantum.ibm.com/
+ - Click "Sign Up" (free)
+ - Verify email
+ - You now have 10 free minutes/month!
 
 - [ ] **Get API Token**
-  - Login to: https://quantum.ibm.com/account
-  - Copy your API token
-  - Save it:
-    ```python
-    from qiskit_ibm_runtime import QiskitRuntimeService
-    QiskitRuntimeService.save_account(
-        channel="ibm_quantum",
-        token="PASTE_YOUR_TOKEN_HERE"
-    )
-    ```
-  - ✅ Token saved to `~/.qiskit/qiskit-ibm.json`
+ - Login to: https://quantum.ibm.com/account
+ - Copy your API token
+ - Save it:
+ ```python
+ from qiskit_ibm_runtime import QiskitRuntimeService
+ QiskitRuntimeService.save_account(
+ channel="ibm_quantum",
+ token="PASTE_YOUR_TOKEN_HERE"
+ )
+ ```
+ - Token saved to `~/.qiskit/qiskit-ibm.json`
 
 ### First Run (2 minutes)
 
 - [ ] **Test with Simulator (FREE)**
-  ```bash
-  python scripts/deploy_to_ibm_quantum.py
-  ```
-  - Should show: `Dry run: YES (safe)`
-  - Should complete: `✅ DEPLOYMENT COMPLETE!`
+ ```bash
+ python scripts/deploy_to_ibm_quantum.py
+ ```
+ - Should show: `Dry run: YES (safe)`
+ - Should complete: ` DEPLOYMENT COMPLETE!`
 
 - [ ] **Enable Simulator Mode**
-  - Edit `scripts/deploy_to_ibm_quantum.py`
-  - Change: `Config.DRY_RUN = False`
-  - Keep: `Config.USE_SIMULATOR = True`
-  - Run again - uses free simulator
+ - Edit `scripts/deploy_to_ibm_quantum.py`
+ - Change: `Config.DRY_RUN = False`
+ - Keep: `Config.USE_SIMULATOR = True`
+ - Run again - uses free simulator
 
 - [ ] **Verify VRA Savings**
-  - Look for: `VRA groups: 2 (from 15 terms)`
-  - Look for: `Savings: 7.5× faster`
-  - ✅ VRA is working!
+ - Look for: `VRA groups: 2 (from 15 terms)`
+ - Look for: `Savings: 7.5× faster`
+ - VRA is working!
 
 ### Real Quantum Hardware (Your Free 10 Minutes)
 
 - [ ] **Enable Real Hardware**
-  - Edit `scripts/deploy_to_ibm_quantum.py`
-  - Change: `Config.USE_SIMULATOR = False`
-  - Keep: `Config.DRY_RUN = False`
-  - Keep: `Config.CONFIRM_BEFORE_SUBMIT = True`
+ - Edit `scripts/deploy_to_ibm_quantum.py`
+ - Change: `Config.USE_SIMULATOR = False`
+ - Keep: `Config.DRY_RUN = False`
+ - Keep: `Config.CONFIRM_BEFORE_SUBMIT = True`
 
 - [ ] **Run on Quantum Computer**
-  ```bash
-  python scripts/deploy_to_ibm_quantum.py
-  ```
-  - Wait for prompt: `Continue? (yes/no):`
-  - Type: `yes`
-  - ✅ Job submitted to quantum computer!
+ ```bash
+ python scripts/deploy_to_ibm_quantum.py
+ ```
+ - Wait for prompt: `Continue? (yes/no):`
+ - Type: `yes`
+ - Job submitted to quantum computer!
 
 - [ ] **Wait for Results**
-  - Queue: 1-30 minutes (FREE)
-  - Execution: ~10 seconds (uses your free time)
-  - ✅ Results received!
+ - Queue: 1-30 minutes (FREE)
+ - Execution: ~10 seconds (uses your free time)
+ - Results received!
 
 - [ ] **Check Usage**
-  - Go to: https://quantum.ibm.com/account
-  - View: Time used this month
-  - ✅ Should show ~10-30 seconds used
+ - Go to: https://quantum.ibm.com/account
+ - View: Time used this month
+ - Should show ~10-30 seconds used
 
-## 🎯 You Did It!
+## You Did It!
 
 You just:
-- ✅ Ran VQE on ATLAS-Q (local GPU)
-- ✅ Applied VRA grouping (10× fewer measurements)
-- ✅ Deployed to IBM Quantum
-- ✅ Validated on real quantum hardware
-- ✅ Used only ~10 seconds of your free 10 minutes
+- Ran VQE on ATLAS-Q (local GPU)
+- Applied VRA grouping (10× fewer measurements)
+- Deployed to IBM Quantum
+- Validated on real quantum hardware
+- Used only ~10 seconds of your free 10 minutes
 
 **Result**: You can run ~60 experiments per month for FREE with VRA!
 
@@ -136,4 +136,4 @@ Questions? Check:
 
 ---
 
-**Bottom Line**: You have everything you need to test ATLAS-Q + VRA on real quantum hardware for FREE! 🚀
+**Bottom Line**: You have everything you need to test ATLAS-Q + VRA on real quantum hardware for FREE!

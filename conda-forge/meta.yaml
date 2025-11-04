@@ -1,0 +1,68 @@
+{% set name = "atlas-quantum" %}
+{% set version = "0.6.2" %}
+{% set python_min = "3.9" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/atlas_quantum-{{ version }}.tar.gz
+  sha256: cfd7fe9d4ce3a1061f65affa4d4dee47d0a5813c8d8aa90d7c359bb3b9c658cf
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv
+  skip: true  # [py<39]
+
+requirements:
+  host:
+    - python {{ python_min }}
+    - pip
+    - setuptools >=68
+    - wheel
+  run:
+    - python >={{ python_min }}
+    - numpy >=1.22
+    - scipy >=1.10.0
+    - matplotlib-base >=3.6
+    - pytorch >=2.0.0
+
+test:
+  imports:
+    - atlas_q
+    - atlas_q.coherence
+    - atlas_q.coherence_aware_vqe
+    - atlas_q.vra_enhanced
+  commands:
+    - python -c "import atlas_q; print(atlas_q.__version__)"
+  requires:
+    - python {{ python_min }}
+
+about:
+  home: https://github.com/followthesapper/ATLAS-Q
+  license: MIT
+  license_file: LICENSE
+  summary: GPU-accelerated quantum tensor network simulator with coherence-aware VQE
+  description: |
+    ATLAS-Q is a GPU-accelerated quantum tensor network simulator featuring:
+
+    - Coherence-aware VQE with real-time quality validation via GO/NO-GO classification
+    - Vaca Resonance Analysis (VRA) integration for 5x measurement compression
+    - Adaptive Matrix Product States (MPS) achieving 626,000x memory compression
+    - Custom Triton GPU kernels providing 1.5-3x speedup
+    - Hardware-validated on IBM Brisbane quantum computer (H2, LiH, H2O with R-bar=0.988)
+    - NISQ algorithms: VQE, QAOA, TDVP with noise models
+    - Molecular chemistry via PySCF integration
+    - Stabilizer backend with 20x speedup for Clifford circuits
+
+    This is the world's first self-diagnostic quantum computing framework,
+    enabling algorithms to validate their own trustworthiness using physics-derived
+    universal thresholds (e^-2 boundary at R-bar ~0.135).
+
+  doc_url: https://github.com/followthesapper/ATLAS-Q/tree/main/docs
+  dev_url: https://github.com/followthesapper/ATLAS-Q
+
+extra:
+  recipe-maintainers:
+    - followthesapper
