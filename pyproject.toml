@@ -136,8 +136,7 @@ where = ["src"]
 include = ["atlas_q*", "triton_kernels*"]
 
 [tool.setuptools.package-data]
-atlas_q = ["py.typed", "*.so", "*.pyd"]
-"" = ["atlas_q_core.so", "atlas_q_core.pyd"]
+atlas_q = ["py.typed", "*.so", "*.pyd", "atlas_q_core.so", "atlas_q_core.pyd"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"
