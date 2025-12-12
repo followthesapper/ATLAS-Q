@@ -58,7 +58,7 @@ def classify_go_no_go(
     """
     Classify quantum measurement quality using e^-2 boundary.
 
-    This implements VRA Test 7 (GO/NO-GO Classification) using the
+    This implements IR Test 7 (GO/NO-GO Classification) using the
     universal e^-2 threshold (R̄ ≈ 0.135) to separate trustworthy
     results from noisy ones.
 
@@ -86,7 +86,7 @@ def classify_go_no_go(
         [GO] Coherence above e^-2 boundary (R̄=0.875 > 0.135) (confidence: 0.98)
 
     References:
-        - VRA Test 7: GO/NO-GO boundary validation
+        - IR Test 7: GO/NO-GO boundary validation
         - Threshold derived from Random Matrix Theory
         - Hardware validation: COHERENCE_AWARE_VQE_BREAKTHROUGH.md
     """
@@ -186,16 +186,16 @@ def classify_with_history(
     )
 
 
-def adaptive_vra_decision(
+def adaptive_ir_decision(
     coherence: CoherenceMetrics,
     threshold: float = 0.135,
     enable_hysteresis: bool = True,
     hysteresis_delta: float = 0.02
 ) -> Tuple[bool, str]:
     """
-    Decide whether to enable VRA grouping based on coherence.
+    Decide whether to enable IR grouping based on coherence.
 
-    This implements adaptive VRA where grouping is enabled when
+    This implements adaptive IR where grouping is enabled when
     coherence is high and disabled when coherence is low.
 
     Args:
@@ -205,22 +205,22 @@ def adaptive_vra_decision(
         hysteresis_delta: Hysteresis margin around threshold (default: 0.02)
 
     Returns:
-        Tuple of (enable_vra, reason)
+        Tuple of (enable_ir, reason)
 
     Example:
         >>> coherence = compute_coherence(outcomes)
-        >>> enable_vra, reason = adaptive_vra_decision(coherence)
-        >>> if enable_vra:
-        ...     # Use VRA grouping for measurement compression
-        ...     groups = vra_grouping(...)
+        >>> enable_ir, reason = adaptive_ir_decision(coherence)
+        >>> if enable_ir:
+        ...     # Use IR grouping for measurement compression
+        ...     groups = ir_grouping(...)
         >>> else:
         ...     # Fall back to individual measurements
         ...     groups = individual_measurements(...)
 
     Notes:
         - Hysteresis prevents rapid switching near threshold
-        - Upper threshold = threshold + delta (turn ON VRA)
-        - Lower threshold = threshold - delta (turn OFF VRA)
+        - Upper threshold = threshold + delta (turn ON IR)
+        - Lower threshold = threshold - delta (turn OFF IR)
         - Helps stabilize adaptive algorithms
     """
     R_bar = coherence.R_bar
@@ -230,22 +230,22 @@ def adaptive_vra_decision(
         lower_threshold = threshold - hysteresis_delta
 
         if R_bar > upper_threshold:
-            enable_vra = True
-            reason = f"High coherence (R̄={R_bar:.3f} > {upper_threshold:.3f}) → VRA ON"
+            enable_ir = True
+            reason = f"High coherence (R̄={R_bar:.3f} > {upper_threshold:.3f}) → IR ON"
         elif R_bar < lower_threshold:
-            enable_vra = False
-            reason = f"Low coherence (R̄={R_bar:.3f} < {lower_threshold:.3f}) → VRA OFF"
+            enable_ir = False
+            reason = f"Low coherence (R̄={R_bar:.3f} < {lower_threshold:.3f}) → IR OFF"
         else:
             # In hysteresis band: maintain previous state or default to ON
-            enable_vra = R_bar > threshold
+            enable_ir = R_bar > threshold
             reason = (f"Coherence in hysteresis band ({lower_threshold:.3f} < R̄={R_bar:.3f} "
-                      f"< {upper_threshold:.3f}) → VRA {'ON' if enable_vra else 'OFF'}")
+                      f"< {upper_threshold:.3f}) → IR {'ON' if enable_ir else 'OFF'}")
     else:
         if R_bar > threshold:
-            enable_vra = True
-            reason = f"Coherence above threshold (R̄={R_bar:.3f} > {threshold:.3f}) → VRA ON"
+            enable_ir = True
+            reason = f"Coherence above threshold (R̄={R_bar:.3f} > {threshold:.3f}) → IR ON"
         else:
-            enable_vra = False
-            reason = f"Coherence below threshold (R̄={R_bar:.3f} ≤ {threshold:.3f}) → VRA OFF"
+            enable_ir = False
+            reason = f"Coherence below threshold (R̄={R_bar:.3f} ≤ {threshold:.3f}) → IR OFF"
 
-    return enable_vra, reason
+    return enable_ir, reason

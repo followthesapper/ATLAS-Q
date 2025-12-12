@@ -2,7 +2,7 @@
 Qiskit Backend Adapter for ATLAS-Q
 
 Provides drop-in replacement for Qiskit Aer with automatic optimization:
-- VRA grouping for 5× measurement reduction
+- IR grouping for 5× measurement reduction
 - MPS backend for large circuits (>25 qubits)
 - Stabilizer backend for Clifford circuits (20× speedup)
 - GPU acceleration via Triton kernels
@@ -32,7 +32,7 @@ except ImportError as e:
 from atlas_q.adaptive_mps import AdaptiveMPS as MatrixProductState
 from atlas_q.coherence import classify_go_no_go, compute_coherence
 from atlas_q.stabilizer_backend import StabilizerSimulator
-from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+from atlas_q.ir_enhanced import ir_hamiltonian_grouping
 
 # Try to import Rust backends (stabilizer 9.3× faster than Aer, statevector 30-77× faster than Python)
 try:
@@ -50,7 +50,7 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
     ATLAS-Q Backend for Qiskit
 
     Drop-in replacement for Qiskit Aer that automatically applies:
-    - VRA measurement grouping (5× reduction)
+    - IR measurement grouping (5× reduction)
     - Adaptive MPS for large circuits
     - Stabilizer backend for Clifford circuits
     - GPU acceleration
@@ -74,7 +74,7 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
 
     def __init__(
         self,
-        enable_vra: bool = True,
+        enable_ir: bool = True,
         enable_mps: bool = True,
         enable_stabilizer: bool = True,
         enable_gpu: bool = True,
@@ -89,8 +89,8 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
 
         Parameters
         ----------
-        enable_vra : bool
-            Enable automatic VRA measurement grouping (default: True)
+        enable_ir : bool
+            Enable automatic IR measurement grouping (default: True)
         enable_mps : bool
             Enable MPS backend for large circuits (default: True)
         enable_stabilizer : bool
@@ -111,12 +111,12 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
 
         super().__init__(
             name="atlas_q_backend",
-            description="ATLAS-Q GPU-accelerated quantum simulator with VRA",
+            description="ATLAS-Q GPU-accelerated quantum simulator with IR",
             online_date="2025-11-04",
-            backend_version="0.6.3"
+            backend_version="0.7.0"
         )
 
-        self._enable_vra = enable_vra
+        self._enable_ir = enable_ir
         self._enable_mps = enable_mps
         self._enable_stabilizer = enable_stabilizer
         self._enable_gpu = enable_gpu
@@ -196,9 +196,9 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
         is_clifford = self._is_clifford_circuit(circuit)
         use_mps = self._enable_mps and n_qubits >= self._mps_threshold
 
-        # Apply VRA grouping if observables provided
-        if self._enable_vra and observables is not None:
-            grouped_obs, measurement_plan = self._apply_vra_grouping(observables)
+        # Apply IR grouping if observables provided
+        if self._enable_ir and observables is not None:
+            grouped_obs, measurement_plan = self._apply_ir_grouping(observables)
         else:
             grouped_obs = observables
             measurement_plan = None
@@ -231,14 +231,14 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
                     coherence_metrics['mean_resultant_length']
                 )
 
-        # Calculate VRA compression ratio
-        vra_compression_ratio = None
-        if self._enable_vra and grouped_obs is not None and observables is not None:
+        # Calculate IR compression ratio
+        ir_compression_ratio = None
+        if self._enable_ir and grouped_obs is not None and observables is not None:
             # Check if grouped_obs is a GroupingResult
             if hasattr(grouped_obs, 'groups'):
                 # Compression is number of groups / number of original observables
                 num_observables = len(observables.paulis) if hasattr(observables, 'paulis') else len(observables)
-                vra_compression_ratio = len(grouped_obs.groups) / num_observables
+                ir_compression_ratio = len(grouped_obs.groups) / num_observables
 
         return {
             'counts': counts,
@@ -246,7 +246,7 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
             'expectation_values': expectation_values,
             'backend_used': backend_used,
             'coherence_metrics': coherence_metrics,
-            'vra_compression': vra_compression_ratio,
+            'ir_compression': ir_compression_ratio,
             'success': True
         }
 
@@ -260,10 +260,10 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
                 return False
         return True
 
-    def _apply_vra_grouping(self, observables):
-        """Apply VRA grouping to Pauli observables"""
+    def _apply_ir_grouping(self, observables):
+        """Apply IR grouping to Pauli observables"""
         try:
-            # Convert Qiskit observables to VRA format
+            # Convert Qiskit observables to IR format
             if isinstance(observables, SparsePauliOp):
                 # Extract coefficients and Pauli strings separately
                 pauli_strings = [str(pauli) for pauli in observables.paulis]
@@ -273,8 +273,8 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
                 pauli_strings = [str(p) for p in observables]
                 coefficients = np.ones(len(pauli_strings))
 
-            # Apply VRA grouping
-            grouped = vra_hamiltonian_grouping(
+            # Apply IR grouping
+            grouped = ir_hamiltonian_grouping(
                 coefficients=coefficients,
                 pauli_strings=pauli_strings,
                 total_shots=1000  # Default budget
@@ -282,7 +282,7 @@ class ATLASQBackend(BackendV2 if QISKIT_AVAILABLE else object):
 
             return grouped, None
         except Exception as e:
-            warnings.warn(f"VRA grouping failed: {e}. Using standard grouping.")
+            warnings.warn(f"IR grouping failed: {e}. Using standard grouping.")
             import traceback
             traceback.print_exc()
             return observables, None
@@ -816,7 +816,7 @@ class ATLASQJob:
                     'name': circuit.name or f'circuit_{i}',
                     'backend_used': result_data['backend_used'],
                     'coherence_metrics': result_data.get('coherence_metrics'),
-                    'vra_compression_ratio': result_data.get('vra_compression'),
+                    'ir_compression_ratio': result_data.get('ir_compression'),
                 }
             )
             experiment_results.append(exp_result)

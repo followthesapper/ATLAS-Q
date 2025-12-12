@@ -944,7 +944,7 @@ ATLAS-Q matches canonical quantum computing benchmarks for Shor's algorithm:
 
 ```bash
 # Clone repository
-git clone https://github.com/followthsapper/ATLAS-Q.git
+git clone https://github.com/followthesapper/ATLAS-Q.git
 cd ATLAS-Q
 
 # Install dependencies
@@ -1221,7 +1221,7 @@ cost, params = qaoa.run()
 
 **End of Whitepaper**
 
-*For questions, issues, or contributions: https://github.com/followthsapper/ATLAS-Q*
+*For questions, issues, or contributions: https://github.com/followthesapper/ATLAS-Q*
 
 **Last Updated**: October 2025
 **Version**: 0.5.0

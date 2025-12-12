@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-ATLAS-Q → IBM Quantum Deployment Script (with VRA)
+ATLAS-Q → IBM Quantum Deployment Script (with IR)
 ===================================================
 
 Complete workflow:
 1. Optimize VQE on ATLAS-Q (local GPU - FREE)
-2. Apply VRA grouping for measurement optimization
+2. Apply IR grouping for measurement optimization
 3. Build Qiskit circuits
 4. Deploy to IBM Quantum hardware
 5. Validate results
@@ -16,7 +16,7 @@ Safety features:
 - User confirmation prompts
 - Detailed logging
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -107,18 +107,18 @@ def step1_optimize_on_atlas():
 
 
 # ============================================================================
-# Step 2: Apply VRA Grouping
+# Step 2: Apply IR Grouping
 # ============================================================================
 
-def step2_apply_vra_grouping():
-    """Extract Hamiltonian and apply VRA grouping."""
+def step2_apply_ir_grouping():
+    """Extract Hamiltonian and apply IR grouping."""
 
     print("\n" + "="*80)
-    print("STEP 2: VRA Grouping for Measurement Optimization")
+    print("STEP 2: IR Grouping for Measurement Optimization")
     print("="*80)
 
     from atlas_q.mpo_ops import _jordan_wigner_transform
-    from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+    from atlas_q.ir_enhanced import ir_hamiltonian_grouping
     from pyscf import gto, scf, ao2mo
 
     # Get molecule geometry
@@ -144,37 +144,37 @@ def step2_apply_vra_grouping():
 
     print(f"  ✓ Pauli terms: {len(paulis)}")
 
-    # Apply VRA
-    print(f"\n[2/3] Applying VRA grouping...")
-    grouping = vra_hamiltonian_grouping(
+    # Apply IR
+    print(f"\n[2/3] Applying IR grouping...")
+    grouping = ir_hamiltonian_grouping(
         coeffs,
         pauli_strings=paulis,
         total_shots=Config.SHOTS
     )
 
-    print(f"  ✓ VRA groups: {len(grouping.groups)}")
+    print(f"  ✓ IR groups: {len(grouping.groups)}")
     print(f"  ✓ Variance reduction: {grouping.variance_reduction:.1f}×")
 
     # Estimate savings
     naive_time = len(paulis) * 5  # 5 sec per measurement setting
-    vra_time = len(grouping.groups) * 5
-    time_savings = naive_time / vra_time
+    ir_time = len(grouping.groups) * 5
+    time_savings = naive_time / ir_time
 
     naive_cost = max(0, (naive_time/60 - 10) * 96)  # After 10 free min
-    vra_cost = max(0, (vra_time/60 - 10) * 96)
+    ir_cost = max(0, (ir_time/60 - 10) * 96)
 
     print(f"\n[3/3] Cost Estimation:")
-    print(f"  ✓ Without VRA: {naive_time}s (${naive_cost:.2f})")
-    print(f"  ✓ With VRA:    {vra_time}s (${vra_cost:.2f})")
-    print(f"  ✓ Savings:     {time_savings:.1f}× faster, ${naive_cost - vra_cost:.2f} cheaper")
+    print(f"  ✓ Without IR: {naive_time}s (${naive_cost:.2f})")
+    print(f"  ✓ With IR:    {ir_time}s (${ir_cost:.2f})")
+    print(f"  ✓ Savings:     {time_savings:.1f}× faster, ${naive_cost - ir_cost:.2f} cheaper")
 
     return {
         'coeffs': coeffs,
         'paulis': paulis,
         'grouping': grouping,
         'naive_time': naive_time,
-        'vra_time': vra_time,
-        'cost_savings': naive_cost - vra_cost
+        'ir_time': ir_time,
+        'cost_savings': naive_cost - ir_cost
     }
 
 
@@ -297,7 +297,7 @@ def step4_connect_to_ibm():
 # Step 5: Execute on Quantum Hardware
 # ============================================================================
 
-def step5_execute_on_quantum(circuit, backend, vra_result):
+def step5_execute_on_quantum(circuit, backend, ir_result):
     """Execute circuit on IBM Quantum."""
 
     print("\n" + "="*80)
@@ -313,7 +313,7 @@ def step5_execute_on_quantum(circuit, backend, vra_result):
         return None
 
     # Estimate cost
-    estimated_time = vra_result['vra_time']
+    estimated_time = ir_result['ir_time']
     estimated_cost = max(0, (estimated_time/60 - 10) * 96)
 
     print(f"\n⚠️  WARNING: This will use quantum hardware!")
@@ -392,7 +392,7 @@ def main():
     """Run complete ATLAS-Q → IBM Quantum workflow."""
 
     print("\n" + "#"*80)
-    print("# ATLAS-Q → IBM QUANTUM DEPLOYMENT (with VRA)")
+    print("# ATLAS-Q → IBM QUANTUM DEPLOYMENT (with IR)")
     print("#"*80)
     print(f"\nMolecule: {Config.MOLECULE}")
     print(f"Basis: {Config.BASIS}")
@@ -404,8 +404,8 @@ def main():
         # Step 1: Optimize on ATLAS-Q
         atlas_result = step1_optimize_on_atlas()
 
-        # Step 2: Apply VRA
-        vra_result = step2_apply_vra_grouping()
+        # Step 2: Apply IR
+        ir_result = step2_apply_ir_grouping()
 
         # Step 3: Connect to IBM Quantum (need backend for transpilation)
         service, backend = step4_connect_to_ibm()
@@ -414,7 +414,7 @@ def main():
         circuit = step3_build_qiskit_circuit(atlas_result, backend)
 
         # Step 5: Execute on quantum hardware
-        result = step5_execute_on_quantum(circuit, backend, vra_result)
+        result = step5_execute_on_quantum(circuit, backend, ir_result)
 
         # Step 6: Process results
         step6_process_results(result, atlas_result)
@@ -428,11 +428,11 @@ def main():
             print("\n💡 This was a dry run. To actually use quantum hardware:")
             print("   1. Set Config.DRY_RUN = False")
             print("   2. Run again")
-            print(f"\n   Estimated time: {vra_result['vra_time']}s from your free 10 minutes")
-            print(f"   Estimated cost: ${vra_result['cost_savings']:.2f} saved by VRA")
+            print(f"\n   Estimated time: {ir_result['ir_time']}s from your free 10 minutes")
+            print(f"   Estimated cost: ${ir_result['cost_savings']:.2f} saved by IR")
         else:
             print(f"\n✅ Successfully validated on quantum hardware!")
-            print(f"   VRA saved: {vra_result['cost_savings']:.2f} USD")
+            print(f"   IR saved: {ir_result['cost_savings']:.2f} USD")
 
     except KeyboardInterrupt:
         print("\n\n⚠️  Interrupted by user")

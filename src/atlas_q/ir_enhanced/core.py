@@ -1,9 +1,9 @@
 """
-VRA Core Functions
+IR Core Functions
 ==================
 
-Core spectral analysis functions from Vaca Resonance Analysis (VRA).
-Ported from VRA project for integration with ATLAS-Q.
+Core spectral analysis functions from Informational Relativity (IR).
+Ported from IR project for integration with ATLAS-Q.
 
 Mathematical Foundation:
 - Treats modular sequences as resonant phase lattices
@@ -11,7 +11,7 @@ Mathematical Foundation:
 - Universal coherence law: C = exp(-V_φ/2)
 - Threshold at e^-2 ≈ 0.1353 marks coherence collapse
 
-Author: Adapted from VRA by Dylan Vaca
+Author: Adapted from IR by Dylan Vaca
 """
 
 from typing import List, Optional, Tuple
@@ -149,7 +149,7 @@ def compute_averaged_spectrum(
 
     Notes
     -----
-    VRA achieves:
+    IR achieves:
     - +5.87 dB per doubling of length L (validated in E16)
     - +3.0 dB per doubling of bases M (limited by phase incoherence)
     - Professional-grade SNR: 36-58 dB
@@ -203,7 +203,7 @@ def find_period_candidates(
     min_snr_db: float = 10.0
 ) -> List[Tuple[int, float]]:
     """
-    Extract period candidates from VRA spectrum.
+    Extract period candidates from IR spectrum.
 
     Identifies harmonic peaks in the spectrum and infers potential periods.
     Uses CFAR detection with validated threshold α=4.0.
@@ -226,14 +226,14 @@ def find_period_candidates(
 
     Notes
     -----
-    Uses CFAR (Constant False Alarm Rate) detection validated in VRA:
+    Uses CFAR (Constant False Alarm Rate) detection validated in IR:
     - Optimal α=4.0 (99.9% precision, 100% recall)
     - Sub-bin accuracy: μ=0.28 bins
     - False alarm rate: P_FA ≤ 0.01
     """
     L = len(spectrum)
 
-    # CFAR threshold (α=4.0 validated in VRA experiment G1)
+    # CFAR threshold (α=4.0 validated in IR experiment G1)
     alpha = 4.0
     threshold = np.percentile(spectrum, 100 * (1 - 1/alpha))
 
@@ -283,7 +283,7 @@ def compute_coherence(spectrum: np.ndarray) -> float:
     """
     Compute coherence metric from spectrum.
 
-    Measures concentration of power, related to VRA's coherence law:
+    Measures concentration of power, related to IR's coherence law:
     C = exp(-V_φ/2)
 
     Threshold at e^-2 ≈ 0.1353 indicates coherence collapse.

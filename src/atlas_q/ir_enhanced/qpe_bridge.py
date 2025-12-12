@@ -1,21 +1,21 @@
 """
-VRA-QPE Bridge
+IR-QPE Bridge
 ==============
 
-Hybrid classical-quantum period finding using VRA preprocessing
+Hybrid classical-quantum period finding using IR preprocessing
 to reduce quantum measurement requirements.
 
 Validated Performance:
-- 29-42% quantum shot reduction (VRA experiment T6-A2)
+- 29-42% quantum shot reduction (IR experiment T6-A2)
 - Works in regime N ≲ 50 (optimal for ATLAS-Q scale)
 - Maintains same accuracy with fewer measurements
 
 Strategy:
-1. VRA classical preprocessing → narrow candidate set
+1. IR classical preprocessing → narrow candidate set
 2. Quantum Phase Estimation with reduced shots
 3. Bayesian fusion of classical and quantum results
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 """
 
 from dataclasses import dataclass
@@ -32,9 +32,9 @@ from .core import (
 
 
 @dataclass
-class VRAPeriodResult:
+class IRPeriodResult:
     """
-    Result from VRA-enhanced period finding.
+    Result from IR-enhanced period finding.
 
     Attributes
     ----------
@@ -42,27 +42,27 @@ class VRAPeriodResult:
         Detected period
     confidence : float
         Confidence score (0-1)
-    vra_candidates : List[Tuple[int, float]]
-        VRA preprocessing candidates
+    ir_candidates : List[Tuple[int, float]]
+        IR preprocessing candidates
     qpe_required : bool
         Whether QPE was needed
     shots_saved : int
         Number of quantum shots saved
     coherence : float
-        VRA coherence metric
+        IR coherence metric
     method : str
-        'vra_only', 'qpe_only', or 'hybrid'
+        'ir_only', 'qpe_only', or 'hybrid'
     """
     period: int
     confidence: float
-    vra_candidates: List[Tuple[int, float]]
+    ir_candidates: List[Tuple[int, float]]
     qpe_required: bool
     shots_saved: int
     coherence: float
     method: str
 
 
-def vra_preprocess_period(
+def ir_preprocess_period(
     a: int,
     N: int,
     length: int = 4096,
@@ -71,7 +71,7 @@ def vra_preprocess_period(
     top_k: int = 5
 ) -> Tuple[List[Tuple[int, float]], float]:
     """
-    VRA classical preprocessing for period finding.
+    IR classical preprocessing for period finding.
 
     Uses coherent averaging across multiple bases to identify
     period candidates without quantum measurements.
@@ -84,10 +84,10 @@ def vra_preprocess_period(
         Modulus
     length : int, optional
         Sequence length (default: 4096)
-        VRA achieves +5.87 dB/doubling
+        IR achieves +5.87 dB/doubling
     num_bases : int, optional
         Number of bases to average (default: 16)
-        VRA achieves +3.0 dB/doubling
+        IR achieves +3.0 dB/doubling
     zp : int, optional
         Zero-padding factor (default: 16)
     top_k : int, optional
@@ -98,11 +98,11 @@ def vra_preprocess_period(
     candidates : List[Tuple[int, float]]
         List of (period, confidence) sorted by confidence
     coherence : float
-        VRA coherence metric
+        IR coherence metric
 
     Notes
     -----
-    VRA regime validity:
+    IR regime validity:
     - Works best for N ≲ 50 (validated range)
     - 29-42% shot reduction demonstrated
     - Professional-grade SNR: 36-58 dB
@@ -114,7 +114,7 @@ def vra_preprocess_period(
         return [], 0.0
 
     # Generate bases with same order
-    # In VRA, phase-aligned bases improve coherence
+    # In IR, phase-aligned bases improve coherence
     bases = []
     for candidate in range(2, N):
         if np.gcd(candidate, N) == 1:
@@ -150,19 +150,19 @@ def vra_preprocess_period(
     return candidates, coherence
 
 
-def vra_enhanced_period_finding(
+def ir_enhanced_period_finding(
     a: int,
     N: int,
-    vra_confidence_threshold: float = 0.8,
+    ir_confidence_threshold: float = 0.8,
     qpe_shots_baseline: int = 1000,
     shot_reduction_factor: float = 0.35,
-    **vra_kwargs
-) -> VRAPeriodResult:
+    **ir_kwargs
+) -> IRPeriodResult:
     """
-    Hybrid VRA-QPE period finding with shot reduction.
+    Hybrid IR-QPE period finding with shot reduction.
 
-    Uses VRA classical preprocessing to reduce quantum measurements.
-    Falls back to QPE if VRA confidence is insufficient.
+    Uses IR classical preprocessing to reduce quantum measurements.
+    Falls back to QPE if IR confidence is insufficient.
 
     Parameters
     ----------
@@ -170,82 +170,82 @@ def vra_enhanced_period_finding(
         Base for period finding
     N : int
         Modulus
-    vra_confidence_threshold : float, optional
-        Confidence threshold to accept VRA result (default: 0.8)
+    ir_confidence_threshold : float, optional
+        Confidence threshold to accept IR result (default: 0.8)
         Higher = more conservative, more QPE usage
     qpe_shots_baseline : int, optional
-        Baseline QPE shots if no VRA preprocessing (default: 1000)
+        Baseline QPE shots if no IR preprocessing (default: 1000)
     shot_reduction_factor : float, optional
         Expected shot reduction (default: 0.35 = 35%)
-        VRA demonstrated 29-42%, using conservative 35%
-    **vra_kwargs
-        Additional arguments for vra_preprocess_period
+        IR demonstrated 29-42%, using conservative 35%
+    **ir_kwargs
+        Additional arguments for ir_preprocess_period
 
     Returns
     -------
-    VRAPeriodResult
+    IRPeriodResult
         Complete result with period, confidence, and diagnostic info
 
     Examples
     --------
-    >>> result = vra_enhanced_period_finding(7, 15)
+    >>> result = ir_enhanced_period_finding(7, 15)
     >>> print(f"Period: {result.period}, Shots saved: {result.shots_saved}")
     Period: 4, Shots saved: 350
 
     Notes
     -----
-    Validated performance (VRA T6-A2):
+    Validated performance (IR T6-A2):
     - Mean reduction: 12.7 → 9.0 shots (29%)
     - Median reduction: 12.0 → 7.0 shots (42%)
     - Valid regime: N ≲ 50
     """
-    # Step 1: VRA classical preprocessing
-    vra_candidates, coherence = vra_preprocess_period(a, N, **vra_kwargs)
+    # Step 1: IR classical preprocessing
+    ir_candidates, coherence = ir_preprocess_period(a, N, **ir_kwargs)
 
-    if len(vra_candidates) == 0:
-        # VRA failed, use QPE only
+    if len(ir_candidates) == 0:
+        # IR failed, use QPE only
         # In ATLAS-Q, we would call the quantum period finder here
         # For now, use classical verification
         true_period = multiplicative_order(a, N)
-        return VRAPeriodResult(
+        return IRPeriodResult(
             period=true_period,
             confidence=0.5,
-            vra_candidates=[],
+            ir_candidates=[],
             qpe_required=True,
             shots_saved=0,
             coherence=coherence,
             method='qpe_only'
         )
 
-    # Top candidate from VRA
-    top_period, top_confidence = vra_candidates[0]
+    # Top candidate from IR
+    top_period, top_confidence = ir_candidates[0]
 
     # Normalize confidence to [0, 1]
     # High SNR corresponds to high confidence
     normalized_confidence = min(1.0, top_confidence / 100.0)  # Divide by typical max SNR
 
-    # Step 2: Decision - use VRA result or invoke QPE?
-    if normalized_confidence >= vra_confidence_threshold:
-        # High confidence - accept VRA result
+    # Step 2: Decision - use IR result or invoke QPE?
+    if normalized_confidence >= ir_confidence_threshold:
+        # High confidence - accept IR result
         # Verify it's correct
         check = pow(a, int(top_period), N)
 
         if check == 1:
-            # VRA found correct period without quantum!
+            # IR found correct period without quantum!
             shots_saved = qpe_shots_baseline
-            return VRAPeriodResult(
+            return IRPeriodResult(
                 period=top_period,
                 confidence=normalized_confidence,
-                vra_candidates=vra_candidates,
+                ir_candidates=ir_candidates,
                 qpe_required=False,
                 shots_saved=shots_saved,
                 coherence=coherence,
-                method='vra_only'
+                method='ir_only'
             )
 
-    # Step 3: Medium/low confidence - use VRA to reduce QPE shots
-    # Narrow search space using VRA candidates
-    candidate_periods = [p for p, _ in vra_candidates[:3]]  # Top 3
+    # Step 3: Medium/low confidence - use IR to reduce QPE shots
+    # Narrow search space using IR candidates
+    candidate_periods = [p for p, _ in ir_candidates[:3]]  # Top 3
 
     # Calculate reduced shots
     reduced_shots = int(qpe_shots_baseline * (1 - shot_reduction_factor))
@@ -256,22 +256,22 @@ def vra_enhanced_period_finding(
     true_period = multiplicative_order(a, N)
 
     if true_period in candidate_periods:
-        # VRA successfully narrowed search space
-        return VRAPeriodResult(
+        # IR successfully narrowed search space
+        return IRPeriodResult(
             period=true_period,
             confidence=0.9,  # High confidence due to hybrid approach
-            vra_candidates=vra_candidates,
+            ir_candidates=ir_candidates,
             qpe_required=True,
             shots_saved=shots_saved,
             coherence=coherence,
             method='hybrid'
         )
     else:
-        # VRA didn't help, full QPE needed
-        return VRAPeriodResult(
+        # IR didn't help, full QPE needed
+        return IRPeriodResult(
             period=true_period,
             confidence=0.7,
-            vra_candidates=vra_candidates,
+            ir_candidates=ir_candidates,
             qpe_required=True,
             shots_saved=0,
             coherence=coherence,
@@ -285,18 +285,18 @@ def estimate_shot_reduction(
     num_candidates: int
 ) -> float:
     """
-    Estimate expected quantum shot reduction from VRA preprocessing.
+    Estimate expected quantum shot reduction from IR preprocessing.
 
-    Based on validated VRA experiment T6-A2.
+    Based on validated IR experiment T6-A2.
 
     Parameters
     ----------
     N : int
         Modulus size
     coherence : float
-        VRA coherence metric
+        IR coherence metric
     num_candidates : int
-        Number of VRA candidates
+        Number of IR candidates
 
     Returns
     -------

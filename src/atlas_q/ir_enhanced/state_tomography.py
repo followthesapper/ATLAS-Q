@@ -1,8 +1,8 @@
 """
-VRA-Enhanced Quantum State Tomography
+IR-Enhanced Quantum State Tomography
 ======================================
 
-Applies VRA coherence-guided adaptive sampling for efficient quantum
+Applies IR coherence-guided adaptive sampling for efficient quantum
 state reconstruction.
 
 Key Insight:
@@ -10,7 +10,7 @@ Key Insight:
 Full tomography requires 4^n measurements (exponential!)
 Compressed sensing helps but still measurement-heavy
 
-VRA approach:
+IR approach:
 1. Measure subset to estimate coherence matrix
 2. Identify high-mutual-information measurement pairs
 3. Prioritize measurements with high coherence
@@ -18,7 +18,7 @@ VRA approach:
 
 Target: 10-1000× measurement reduction
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -30,7 +30,7 @@ import numpy as np
 
 @dataclass
 class TomographyStrategy:
-    """Result of VRA tomography planning"""
+    """Result of IR tomography planning"""
 
     measurement_basis: List[str]  # Pauli basis to measure
     measurement_order: List[int]  # Priority order
@@ -77,14 +77,14 @@ def generate_pauli_basis(n_qubits: int, max_weight: Optional[int] = None) -> Lis
     return paulis
 
 
-def vra_state_tomography(
+def ir_state_tomography(
     n_qubits: int,
     max_weight: int = 2,
     target_measurements: Optional[int] = None,
     adaptive: bool = True
 ) -> TomographyStrategy:
     """
-    VRA-enhanced state tomography measurement planning.
+    IR-enhanced state tomography measurement planning.
 
     Generates optimal measurement strategy for quantum state reconstruction.
 
@@ -107,7 +107,7 @@ def vra_state_tomography(
     Examples
     --------
     >>> # 4-qubit tomography with weight-2 Paulis
-    >>> strategy = vra_state_tomography(n_qubits=4, max_weight=2)
+    >>> strategy = ir_state_tomography(n_qubits=4, max_weight=2)
     >>> print(f"Measurements: {strategy.n_measurements}")
     >>> print(f"Compression: {strategy.compression_factor:.1f}×")
     """
@@ -154,7 +154,7 @@ def vra_state_tomography(
         grouping=grouping,
         n_measurements=n_measurements,
         compression_factor=compression_factor,
-        method=f"vra_adaptive" if adaptive else "vra_static"
+        method=f"ir_adaptive" if adaptive else "ir_static"
     )
 
 
@@ -176,7 +176,7 @@ def tomography_measurement_groups(
 
     Examples
     --------
-    >>> strategy = vra_state_tomography(n_qubits=3, max_weight=2)
+    >>> strategy = ir_state_tomography(n_qubits=3, max_weight=2)
     >>> groups = tomography_measurement_groups(strategy)
     >>> for i, group in enumerate(groups[:3]):
     ...     print(f"Group {i}: {group}")

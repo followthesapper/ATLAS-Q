@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-VRA Impact Benchmark - Where VRA Transforms Performance
+IR Impact Benchmark - Where IR Transforms Performance
 ========================================================
 
-Demonstrates VRA's transformative impact on measurement-limited scenarios:
+Demonstrates IR's transformative impact on measurement-limited scenarios:
 
 1. Static Hamiltonian Measurement (45,992× variance reduction)
 2. QAOA Optimization (82× variance reduction on graphs)
@@ -14,7 +14,7 @@ These benchmarks simulate REAL quantum hardware constraints:
 - Shot noise (statistical uncertainty)
 - Measurement overhead (time/cost per shot)
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -30,10 +30,10 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from atlas_q.adaptive_mps import AdaptiveMPS
 from atlas_q.mpo_ops import MPOBuilder, _jordan_wigner_transform
-from atlas_q.vra_enhanced import (
-    vra_hamiltonian_grouping,
-    vra_qaoa_grouping,
-    vra_gradient_grouping
+from atlas_q.ir_enhanced import (
+    ir_hamiltonian_grouping,
+    ir_qaoa_grouping,
+    ir_gradient_grouping
 )
 
 try:
@@ -123,7 +123,7 @@ def benchmark_static_hamiltonian_measurement(molecule: str = 'H2O', total_shots:
     """
     Benchmark: Static Hamiltonian expectation value measurement.
 
-    This shows VRA's MAXIMUM impact: measuring a fixed quantum state.
+    This shows IR's MAXIMUM impact: measuring a fixed quantum state.
     """
     print(f"\n{'='*80}")
     print(f"Benchmark 1: Static Hamiltonian Measurement - {molecule}")
@@ -174,10 +174,10 @@ def benchmark_static_hamiltonian_measurement(molecule: str = 'H2O', total_shots:
     print(f"  ✓ Time: {naive_time:.3f}s")
     print(f"  ✓ Total shots: {total_shots:,}")
 
-    # VRA measurement: grouped Paulis
-    print(f"\n[4/4] VRA Measurement (with grouping)...")
+    # IR measurement: grouped Paulis
+    print(f"\n[4/4] IR Measurement (with grouping)...")
 
-    grouping_result = vra_hamiltonian_grouping(
+    grouping_result = ir_hamiltonian_grouping(
         coeffs,
         pauli_strings=paulis,
         total_shots=total_shots,
@@ -185,8 +185,8 @@ def benchmark_static_hamiltonian_measurement(molecule: str = 'H2O', total_shots:
     )
 
     t0 = time.time()
-    vra_energy = 0.0
-    vra_variance = 0.0
+    ir_energy = 0.0
+    ir_variance = 0.0
     total_shots_used = 0
 
     for group_indices, group_shots in zip(grouping_result.groups, grouping_result.shots_per_group):
@@ -197,28 +197,28 @@ def benchmark_static_hamiltonian_measurement(molecule: str = 'H2O', total_shots:
             pauli_mat = pauli_to_matrix(pauli, device=device)
 
             measured, true = measure_pauli_expectation_with_shots(state_vec, pauli_mat, group_shots)
-            vra_energy += coeff * measured
-            vra_variance += (coeff**2) * (1.0 / group_shots)
+            ir_energy += coeff * measured
+            ir_variance += (coeff**2) * (1.0 / group_shots)
 
         total_shots_used += group_shots
 
-    vra_time = time.time() - t0
-    vra_std = np.sqrt(vra_variance)
+    ir_time = time.time() - t0
+    ir_std = np.sqrt(ir_variance)
 
-    print(f"  ✓ Energy (VRA): {vra_energy:.6f} ± {vra_std:.6f} Ha")
-    print(f"  ✓ Time: {vra_time:.3f}s")
+    print(f"  ✓ Energy (IR): {ir_energy:.6f} ± {ir_std:.6f} Ha")
+    print(f"  ✓ Time: {ir_time:.3f}s")
     print(f"  ✓ Groups: {len(grouping_result.groups)} (from {n_terms} terms)")
     print(f"  ✓ Total shots: {total_shots_used:,}")
 
     # Compare
-    variance_improvement = naive_variance / vra_variance
-    error_improvement = naive_std / vra_std
+    variance_improvement = naive_variance / ir_variance
+    error_improvement = naive_std / ir_std
 
     print(f"\n{'='*80}")
     print(f"RESULTS: {molecule} Hamiltonian Measurement")
     print(f"{'='*80}")
     print(f"  Naive variance:  {naive_std:.6f} Ha")
-    print(f"  VRA variance:    {vra_std:.6f} Ha")
+    print(f"  IR variance:    {ir_std:.6f} Ha")
     print(f"  ⚡ Variance reduction: {variance_improvement:.1f}×")
     print(f"  ⚡ Error reduction:    {error_improvement:.1f}×")
     print(f"  📊 Groups: {n_terms} → {len(grouping_result.groups)}")
@@ -231,7 +231,7 @@ def benchmark_static_hamiltonian_measurement(molecule: str = 'H2O', total_shots:
         'n_groups': len(grouping_result.groups),
         'variance_reduction': variance_improvement,
         'naive_std': naive_std,
-        'vra_std': vra_std,
+        'ir_std': ir_std,
     }
 
 
@@ -243,7 +243,7 @@ def benchmark_qaoa_measurement(n_vertices: int = 20, edge_prob: float = 0.3, tot
     """
     Benchmark: QAOA MaxCut with shot-based measurement.
 
-    Shows VRA's impact on graph optimization problems.
+    Shows IR's impact on graph optimization problems.
     """
     print(f"\n{'='*80}")
     print(f"Benchmark 2: QAOA MaxCut - {n_vertices} vertices")
@@ -276,29 +276,29 @@ def benchmark_qaoa_measurement(n_vertices: int = 20, edge_prob: float = 0.3, tot
     print(f"  ✓ Total shots: {total_shots:,}")
     print(f"  ✓ Expected std: {naive_std:.6f}")
 
-    # VRA measurement
-    print(f"\n[3/3] VRA Measurement (edge grouping)...")
+    # IR measurement
+    print(f"\n[3/3] IR Measurement (edge grouping)...")
 
-    grouping_result = vra_qaoa_grouping(weights, edges, total_shots=total_shots)
+    grouping_result = ir_qaoa_grouping(weights, edges, total_shots=total_shots)
 
-    # Compute variance with VRA grouping
-    vra_variance = 0.0
+    # Compute variance with IR grouping
+    ir_variance = 0.0
     for group_indices, group_shots in zip(grouping_result.groups, grouping_result.shots_per_group):
-        vra_variance += len(group_indices) * (1.0 / group_shots)
+        ir_variance += len(group_indices) * (1.0 / group_shots)
 
-    vra_std = np.sqrt(vra_variance)
+    ir_std = np.sqrt(ir_variance)
 
     print(f"  ✓ Groups: {len(grouping_result.groups)} (from {n_edges} edges)")
     print(f"  ✓ Total shots: {total_shots:,}")
-    print(f"  ✓ Expected std: {vra_std:.6f}")
+    print(f"  ✓ Expected std: {ir_std:.6f}")
 
-    variance_improvement = naive_variance / vra_variance
+    variance_improvement = naive_variance / ir_variance
 
     print(f"\n{'='*80}")
     print(f"RESULTS: QAOA MaxCut ({n_vertices} vertices, {n_edges} edges)")
     print(f"{'='*80}")
     print(f"  Naive variance:  {naive_std:.6f}")
-    print(f"  VRA variance:    {vra_std:.6f}")
+    print(f"  IR variance:    {ir_std:.6f}")
     print(f"  ⚡ Variance reduction: {variance_improvement:.1f}×")
     print(f"  📊 Edge groups: {n_edges} → {len(grouping_result.groups)}")
     print(f"  💰 Cost: {variance_improvement:.1f}× fewer shots per iteration!")
@@ -321,7 +321,7 @@ def benchmark_gradient_estimation(n_params: int = 50, total_shots: int = 10000):
     """
     Benchmark: Gradient estimation for VQE/QAOA.
 
-    Shows VRA's impact on parameter optimization.
+    Shows IR's impact on parameter optimization.
     """
     print(f"\n{'='*80}")
     print(f"Benchmark 3: Gradient Estimation - {n_params} parameters")
@@ -346,27 +346,27 @@ def benchmark_gradient_estimation(n_params: int = 50, total_shots: int = 10000):
     print(f"  ✓ Total shots: {total_shots:,}")
     print(f"  ✓ Average gradient std: {naive_std:.6f}")
 
-    # VRA: group correlated parameters
-    print(f"\n[3/3] VRA Gradient Estimation...")
+    # IR: group correlated parameters
+    print(f"\n[3/3] IR Gradient Estimation...")
 
-    grouping_result = vra_gradient_grouping(
+    grouping_result = ir_gradient_grouping(
         gradient_samples,
         total_shots=total_shots
     )
 
     # Approximate variance (simplified)
-    vra_variance = naive_variance / grouping_result.variance_reduction
-    vra_std = np.sqrt(vra_variance / n_params)
+    ir_variance = naive_variance / grouping_result.variance_reduction
+    ir_std = np.sqrt(ir_variance / n_params)
 
     print(f"  ✓ Groups: {grouping_result.n_groups} (from {n_params} parameters)")
     print(f"  ✓ Total shots: {total_shots:,}")
-    print(f"  ✓ Average gradient std: {vra_std:.6f}")
+    print(f"  ✓ Average gradient std: {ir_std:.6f}")
 
     print(f"\n{'='*80}")
     print(f"RESULTS: Gradient Estimation ({n_params} parameters)")
     print(f"{'='*80}")
     print(f"  Naive std:       {naive_std:.6f}")
-    print(f"  VRA std:         {vra_std:.6f}")
+    print(f"  IR std:         {ir_std:.6f}")
     print(f"  ⚡ Variance reduction: {grouping_result.variance_reduction:.1f}×")
     print(f"  📊 Parameter groups: {n_params} → {grouping_result.n_groups}")
     print(f"  💰 Cost: {grouping_result.variance_reduction:.1f}× fewer shots per gradient!")
@@ -385,12 +385,12 @@ def benchmark_gradient_estimation(n_params: int = 50, total_shots: int = 10000):
 # ============================================================================
 
 def main():
-    """Run all VRA impact benchmarks."""
+    """Run all IR impact benchmarks."""
 
     print("\n" + "#"*80)
-    print("# VRA IMPACT BENCHMARK SUITE")
+    print("# IR IMPACT BENCHMARK SUITE")
     print("#"*80)
-    print("\nDemonstrates VRA's transformative impact on measurement-limited scenarios.")
+    print("\nDemonstrates IR's transformative impact on measurement-limited scenarios.")
     print("These benchmarks simulate REAL quantum hardware constraints!\n")
 
     if torch.cuda.is_available():
@@ -400,7 +400,7 @@ def main():
 
     results = []
 
-    # Benchmark 1: Static Hamiltonian (shows max VRA impact)
+    # Benchmark 1: Static Hamiltonian (shows max IR impact)
     try:
         print(f"\n{'#'*80}")
         print("# RUNNING BENCHMARK 1: Static Hamiltonian Measurement")
@@ -438,7 +438,7 @@ def main():
 
     # Final summary
     print("\n\n" + "#"*80)
-    print("# FINAL SUMMARY: VRA's Transformative Impact")
+    print("# FINAL SUMMARY: IR's Transformative Impact")
     print("#"*80)
 
     for name, reduction in results:
@@ -447,10 +447,10 @@ def main():
     avg_reduction = np.mean([r[1] for r in results])
 
     print(f"\n{'='*80}")
-    print(f"Average VRA Impact: {avg_reduction:.1f}× variance reduction")
+    print(f"Average IR Impact: {avg_reduction:.1f}× variance reduction")
     print(f"{'='*80}")
     print(f"\n🎯 KEY INSIGHT:")
-    print(f"   VRA makes quantum algorithms {avg_reduction:.0f}× more efficient on real hardware!")
+    print(f"   IR makes quantum algorithms {avg_reduction:.0f}× more efficient on real hardware!")
     print(f"   This is the difference between 'theoretical' and 'PRACTICAL'.\n")
     print(f"{'='*80}\n")
 

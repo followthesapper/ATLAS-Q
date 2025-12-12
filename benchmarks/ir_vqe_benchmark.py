@@ -1,8 +1,8 @@
 """
-VRA-Enhanced VQE Benchmark
+IR-Enhanced VQE Benchmark
 ==========================
 
-Benchmarks VQE with VRA Hamiltonian grouping vs standard per-term measurement.
+Benchmarks VQE with IR Hamiltonian grouping vs standard per-term measurement.
 
 Simulates realistic shot-based measurements and demonstrates variance reduction
 leading to faster convergence and/or higher accuracy.
@@ -11,7 +11,7 @@ Performance Target:
 - 2-60× variance reduction → 2-60× fewer shots for same accuracy
 - OR: Same shots → sqrt(2-60)× = 1.4-7.7× better energy precision
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -24,7 +24,7 @@ import torch
 from atlas_q.mpo_ops import MPO, expectation_value
 from atlas_q.adaptive_mps import AdaptiveMPS
 from atlas_q.vqe_qaoa import HardwareEfficientAnsatz
-from atlas_q.vra_enhanced import vra_hamiltonian_grouping, GroupingResult
+from atlas_q.ir_enhanced import ir_hamiltonian_grouping, GroupingResult
 
 
 @dataclass
@@ -57,7 +57,7 @@ class ShotBasedVQE:
     Adds realistic variance to energy measurements based on:
     - Number of shots
     - Hamiltonian term structure
-    - Grouping strategy (baseline vs VRA)
+    - Grouping strategy (baseline vs IR)
     """
 
     def __init__(
@@ -65,7 +65,7 @@ class ShotBasedVQE:
         hamiltonian_mpo: MPO,
         hamiltonian_terms: List[Tuple[float, str]],  # [(coeff, pauli_string), ...]
         ansatz: HardwareEfficientAnsatz,
-        vra_grouping: Optional[GroupingResult] = None,
+        ir_grouping: Optional[GroupingResult] = None,
         shots_per_iter: int = 1000,
         device: str = "cuda",
         dtype: torch.dtype = torch.complex128
@@ -79,15 +79,15 @@ class ShotBasedVQE:
             List of (coefficient, pauli_string) for shot simulation
         ansatz : HardwareEfficientAnsatz
             Variational ansatz
-        vra_grouping : Optional[GroupingResult]
-            VRA grouping result (None = baseline per-term measurement)
+        ir_grouping : Optional[GroupingResult]
+            IR grouping result (None = baseline per-term measurement)
         shots_per_iter : int
             Total shots per energy evaluation
         """
         self.H_mpo = hamiltonian_mpo
         self.H_terms = hamiltonian_terms
         self.ansatz = ansatz
-        self.vra_grouping = vra_grouping
+        self.ir_grouping = ir_grouping
         self.shots_per_iter = shots_per_iter
         self.device = device
         self.dtype = dtype
@@ -167,12 +167,12 @@ class ShotBasedVQE:
         )
         self.ansatz.apply(mps, params)
 
-        if self.vra_grouping is not None:
-            # VRA-enhanced measurement
+        if self.ir_grouping is not None:
+            # IR-enhanced measurement
             group_energies = []
             total_variance = 0.0
 
-            for group, shots_g in zip(self.vra_grouping.groups, self.vra_grouping.shots_per_group):
+            for group, shots_g in zip(self.ir_grouping.groups, self.ir_grouping.shots_per_group):
                 meas_val, std_err = self._simulate_shot_measurement(mps, group, shots_g)
                 group_energies.append(meas_val)
                 total_variance += std_err**2
@@ -268,17 +268,17 @@ def run_benchmark(
     device: str = "cuda"
 ) -> Tuple[BenchmarkResult, BenchmarkResult]:
     """
-    Run VQE benchmark comparing baseline vs VRA.
+    Run VQE benchmark comparing baseline vs IR.
 
     Returns
     -------
     baseline_result : BenchmarkResult
         Results for standard per-term measurement
-    vra_result : BenchmarkResult
-        Results for VRA-enhanced measurement
+    ir_result : BenchmarkResult
+        Results for IR-enhanced measurement
     """
     print("\n" + "="*70)
-    print("VRA-Enhanced VQE Benchmark")
+    print("IR-Enhanced VQE Benchmark")
     print("="*70)
     print(f"Hamiltonian: {len(hamiltonian_terms)} Pauli terms")
     print(f"Qubits: {n_qubits}")
@@ -297,21 +297,21 @@ def run_benchmark(
 
     print(f"\nGround truth energy (|00⟩ reference): {ground_truth:.8f}")
 
-    # Setup VRA grouping
+    # Setup IR grouping
     coeffs = np.array([c for c, _ in hamiltonian_terms])
     paulis = [p for _, p in hamiltonian_terms]
 
-    vra_grouping = vra_hamiltonian_grouping(
+    ir_grouping = ir_hamiltonian_grouping(
         coeffs,
         pauli_strings=paulis,
         total_shots=shots_per_iter,
         max_group_size=5
     )
 
-    print(f"\nVRA Grouping:")
-    print(f"  Groups: {vra_grouping.groups}")
-    print(f"  Shot allocation: {vra_grouping.shots_per_group}")
-    print(f"  Variance reduction: {vra_grouping.variance_reduction:.1f}×")
+    print(f"\nIR Grouping:")
+    print(f"  Groups: {ir_grouping.groups}")
+    print(f"  Shot allocation: {ir_grouping.shots_per_group}")
+    print(f"  Variance reduction: {ir_grouping.variance_reduction:.1f}×")
 
     # Run baseline (per-term measurement)
     print(f"\n{'─'*70}")
@@ -330,7 +330,7 @@ def run_benchmark(
         ansatz = HardwareEfficientAnsatz(n_qubits, n_layers=2, device=device)
         vqe = ShotBasedVQE(
             hamiltonian_mpo, hamiltonian_terms, ansatz,
-            vra_grouping=None,  # Baseline
+            ir_grouping=None,  # Baseline
             shots_per_iter=shots_per_iter,
             device=device
         )
@@ -352,16 +352,16 @@ def run_benchmark(
 
         print(f"E = {final_energy:.6f} ± {final_std:.6f}, shots = {vqe.total_shots_used}, time = {elapsed:.1f}s")
 
-    # Run VRA-enhanced
+    # Run IR-enhanced
     print(f"\n{'─'*70}")
-    print("Running VRA-ENHANCED (grouped measurement)...")
+    print("Running IR-ENHANCED (grouped measurement)...")
     print(f"{'─'*70}")
 
-    vra_energies = []
-    vra_stds = []
-    vra_shots = []
-    vra_iters = []
-    vra_times = []
+    ir_energies = []
+    ir_stds = []
+    ir_shots = []
+    ir_iters = []
+    ir_times = []
 
     for run in range(n_runs):
         print(f"  Run {run+1}/{n_runs}...", end=" ", flush=True)
@@ -369,7 +369,7 @@ def run_benchmark(
         ansatz = HardwareEfficientAnsatz(n_qubits, n_layers=2, device=device)
         vqe = ShotBasedVQE(
             hamiltonian_mpo, hamiltonian_terms, ansatz,
-            vra_grouping=vra_grouping,  # VRA enhanced
+            ir_grouping=ir_grouping,  # IR enhanced
             shots_per_iter=shots_per_iter,
             device=device
         )
@@ -383,11 +383,11 @@ def run_benchmark(
         final_energy = vqe.energies[-1]
         final_std = vqe.energy_stds[-1]
 
-        vra_energies.append(final_energy)
-        vra_stds.append(final_std)
-        vra_shots.append(vqe.total_shots_used)
-        vra_iters.append(vqe.iteration)
-        vra_times.append(elapsed)
+        ir_energies.append(final_energy)
+        ir_stds.append(final_std)
+        ir_shots.append(vqe.total_shots_used)
+        ir_iters.append(vqe.iteration)
+        ir_times.append(elapsed)
 
         print(f"E = {final_energy:.6f} ± {final_std:.6f}, shots = {vqe.total_shots_used}, time = {elapsed:.1f}s")
 
@@ -403,22 +403,22 @@ def run_benchmark(
         wall_time=float(np.mean(baseline_times))
     )
 
-    vra_result = BenchmarkResult(
-        method="VRA-Enhanced",
-        final_energy=float(np.mean(vra_energies)),
-        energy_std=float(np.mean(vra_stds)),
-        total_shots=int(np.mean(vra_shots)),
-        n_iterations=int(np.mean(vra_iters)),
-        convergence_iter=int(np.mean(vra_iters)),
-        ground_truth_error=abs(np.mean(vra_energies) - ground_truth),
-        wall_time=float(np.mean(vra_times))
+    ir_result = BenchmarkResult(
+        method="IR-Enhanced",
+        final_energy=float(np.mean(ir_energies)),
+        energy_std=float(np.mean(ir_stds)),
+        total_shots=int(np.mean(ir_shots)),
+        n_iterations=int(np.mean(ir_iters)),
+        convergence_iter=int(np.mean(ir_iters)),
+        ground_truth_error=abs(np.mean(ir_energies) - ground_truth),
+        wall_time=float(np.mean(ir_times))
     )
 
-    return baseline_result, vra_result
+    return baseline_result, ir_result
 
 
 def print_comparison(baseline: BenchmarkResult, vra: BenchmarkResult):
-    """Print comparison between baseline and VRA."""
+    """Print comparison between baseline and IR."""
     print("\n" + "="*70)
     print("BENCHMARK RESULTS (averaged over runs)")
     print("="*70)
@@ -428,7 +428,7 @@ def print_comparison(baseline: BenchmarkResult, vra: BenchmarkResult):
 
     # Comparison metrics
     print("\n" + "="*70)
-    print("VRA IMPROVEMENT")
+    print("IR IMPROVEMENT")
     print("="*70)
 
     std_improvement = baseline.energy_std / vra.energy_std if vra.energy_std > 0 else float('inf')

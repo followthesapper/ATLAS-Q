@@ -1,16 +1,16 @@
 """
-VRA Variance Reduction Benchmark
+IR Variance Reduction Benchmark
 =================================
 
-Demonstrates VRA's variance reduction in Hamiltonian measurements.
+Demonstrates IR's variance reduction in Hamiltonian measurements.
 
-Simulates shot-based measurement variance and shows how VRA grouping
+Simulates shot-based measurement variance and shows how IR grouping
 reduces variance for the same number of total shots.
 
 This is a simplified benchmark focusing purely on the measurement aspect,
 independent of the full VQE optimization loop.
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -20,7 +20,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+from atlas_q.ir_enhanced import ir_hamiltonian_grouping
 
 
 def simulate_hamiltonian_measurement(
@@ -90,7 +90,7 @@ def simulate_hamiltonian_measurement(
 def benchmark_h2_variance():
     """Benchmark variance reduction on H2 molecular Hamiltonian."""
     print("\n" + "="*70)
-    print("VRA Variance Reduction Benchmark: H2 Molecule")
+    print("IR Variance Reduction Benchmark: H2 Molecule")
     print("="*70)
 
     # H2 Hamiltonian
@@ -124,12 +124,12 @@ def benchmark_h2_variance():
     print(f"Std Dev: {baseline_std:.6f}")
     print(f"Variance: {baseline_std**2:.6f}")
 
-    # VRA: grouped measurement
+    # IR: grouped measurement
     print(f"\n{'─'*70}")
-    print("VRA-ENHANCED: Grouped measurement with Neyman allocation")
+    print("IR-ENHANCED: Grouped measurement with Neyman allocation")
     print(f"{'─'*70}")
 
-    result = vra_hamiltonian_grouping(
+    result = ir_hamiltonian_grouping(
         coeffs,
         pauli_strings=paulis,
         total_shots=total_shots,
@@ -140,28 +140,28 @@ def benchmark_h2_variance():
     print(f"Shot allocation: {result.shots_per_group}")
     print(f"Predicted variance reduction: {result.variance_reduction:.2f}×")
 
-    vra_measurements, vra_mean, vra_std = simulate_hamiltonian_measurement(
+    ir_measurements, ir_mean, ir_std = simulate_hamiltonian_measurement(
         coeffs, paulis, result.groups, result.shots_per_group, n_samples=n_samples
     )
 
-    print(f"Mean: {vra_mean:.6f}")
-    print(f"Std Dev: {vra_std:.6f}")
-    print(f"Variance: {vra_std**2:.6f}")
+    print(f"Mean: {ir_mean:.6f}")
+    print(f"Std Dev: {ir_std:.6f}")
+    print(f"Variance: {ir_std**2:.6f}")
 
     # Comparison
     print(f"\n{'='*70}")
     print("VARIANCE REDUCTION RESULTS")
     print(f"{'='*70}")
 
-    variance_reduction_actual = (baseline_std**2) / (vra_std**2)
-    std_reduction_actual = baseline_std / vra_std
+    variance_reduction_actual = (baseline_std**2) / (ir_std**2)
+    std_reduction_actual = baseline_std / ir_std
 
     print(f"Baseline variance:      {baseline_std**2:.6f}")
-    print(f"VRA variance:           {vra_std**2:.6f}")
+    print(f"IR variance:           {ir_std**2:.6f}")
     print(f"Variance reduction:     {variance_reduction_actual:.2f}×")
     print(f"Std dev reduction:      {std_reduction_actual:.2f}×")
     print(f"")
-    print(f"VRA prediction:         {result.variance_reduction:.2f}×")
+    print(f"IR prediction:         {result.variance_reduction:.2f}×")
     print(f"Actual measurement:     {variance_reduction_actual:.2f}×")
     print(f"Match quality:          {abs(result.variance_reduction - variance_reduction_actual):.2f} (lower = better)")
 
@@ -171,12 +171,12 @@ def benchmark_h2_variance():
     print(f"{'─'*70}")
 
     # For same precision, how many fewer shots needed?
-    shot_reduction = baseline_std**2 / vra_std**2
+    shot_reduction = baseline_std**2 / ir_std**2
     shots_needed_vra = total_shots / shot_reduction
 
     print(f"For {baseline_std:.6f} precision:")
     print(f"  Baseline needs: {total_shots} shots")
-    print(f"  VRA needs:      {int(shots_needed_vra)} shots")
+    print(f"  IR needs:      {int(shots_needed_vra)} shots")
     print(f"  Shot savings:   {total_shots - int(shots_needed_vra)} shots ({(1 - shots_needed_vra/total_shots)*100:.1f}%)")
 
     # Save plot
@@ -184,7 +184,7 @@ def benchmark_h2_variance():
 
     plt.subplot(1, 2, 1)
     plt.hist(baseline_measurements, bins=50, alpha=0.7, label='Baseline', color='blue')
-    plt.hist(vra_measurements, bins=50, alpha=0.7, label='VRA', color='green')
+    plt.hist(ir_measurements, bins=50, alpha=0.7, label='IR', color='green')
     plt.xlabel('Measured Energy')
     plt.ylabel('Frequency')
     plt.title(f'H2 Measurement Distribution ({n_samples} samples)')
@@ -192,8 +192,8 @@ def benchmark_h2_variance():
     plt.grid(True, alpha=0.3)
 
     plt.subplot(1, 2, 2)
-    methods = ['Baseline\n(per-term)', 'VRA\n(grouped)']
-    variances = [baseline_std**2, vra_std**2]
+    methods = ['Baseline\n(per-term)', 'IR\n(grouped)']
+    variances = [baseline_std**2, ir_std**2]
     colors = ['blue', 'green']
     bars = plt.bar(methods, variances, color=colors, alpha=0.7)
     plt.ylabel('Variance')
@@ -216,7 +216,7 @@ def benchmark_h2_variance():
 def benchmark_scaling():
     """Benchmark how variance reduction scales with Hamiltonian size."""
     print("\n" + "="*70)
-    print("VRA Variance Reduction Scaling Benchmark")
+    print("IR Variance Reduction Scaling Benchmark")
     print("="*70)
 
     hamiltonian_sizes = [5, 8, 10, 12, 15]
@@ -258,23 +258,23 @@ def benchmark_scaling():
             coeffs, pauli_strings, baseline_groups, baseline_shots, n_samples=n_samples
         )
 
-        # VRA
-        vra_result = vra_hamiltonian_grouping(
+        # IR
+        ir_result = ir_hamiltonian_grouping(
             coeffs,
             pauli_strings=pauli_strings,
             total_shots=total_shots,
             max_group_size=5
         )
 
-        vra_measurements, _, vra_std = simulate_hamiltonian_measurement(
-            coeffs, pauli_strings, vra_result.groups, vra_result.shots_per_group, n_samples=n_samples
+        ir_measurements, _, ir_std = simulate_hamiltonian_measurement(
+            coeffs, pauli_strings, ir_result.groups, ir_result.shots_per_group, n_samples=n_samples
         )
 
-        variance_reduction = (baseline_std**2) / (vra_std**2)
+        variance_reduction = (baseline_std**2) / (ir_std**2)
 
-        print(f"  VRA groups: {len(vra_result.groups)}")
+        print(f"  IR groups: {len(ir_result.groups)}")
         print(f"  Baseline std: {baseline_std:.6f}")
-        print(f"  VRA std:      {vra_std:.6f}")
+        print(f"  IR std:      {ir_std:.6f}")
         print(f"  Reduction:    {variance_reduction:.2f}×")
 
         results.append((n_terms, variance_reduction))
@@ -285,7 +285,7 @@ def benchmark_scaling():
     plt.plot(sizes, reductions, 'o-', linewidth=2, markersize=8)
     plt.xlabel('Hamiltonian Size (number of terms)')
     plt.ylabel('Variance Reduction Factor')
-    plt.title('VRA Variance Reduction vs Hamiltonian Size')
+    plt.title('IR Variance Reduction vs Hamiltonian Size')
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
     plt.savefig('/home/admin/ATLAS-Q/benchmarks/variance_reduction_scaling.png', dpi=150)

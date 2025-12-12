@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-VRA Complete Integration Suite - Demonstration
+IR Complete Integration Suite - Demonstration
 ===============================================
 
-Demonstrates all 7 VRA integrations into ATLAS-Q:
+Demonstrates all 7 IR integrations into ATLAS-Q:
 
 1. ✅ Period Finding (QPE) - 35% shot reduction
 2. ✅ VQE Hamiltonian Grouping - 45,992× variance reduction
@@ -13,35 +13,35 @@ Demonstrates all 7 VRA integrations into ATLAS-Q:
 6. ✅ Shadow Tomography - 2-10× sample reduction
 7. ✅ State Tomography - 10-1000× measurement reduction
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
 import numpy as np
-from atlas_q.vra_enhanced import (
+from atlas_q.ir_enhanced import (
     # VQE grouping
-    vra_hamiltonian_grouping,
+    ir_hamiltonian_grouping,
     # QAOA grouping
-    vra_qaoa_grouping,
+    ir_qaoa_grouping,
     # Gradient grouping
-    vra_gradient_grouping,
+    ir_gradient_grouping,
     # TDVP observables
-    vra_tdvp_observable_grouping,
+    ir_tdvp_observable_grouping,
     # Shadow tomography
-    vra_shadow_sampling,
+    ir_shadow_sampling,
     # State tomography
-    vra_state_tomography,
+    ir_state_tomography,
     # Period finding
-    vra_enhanced_period_finding,
+    ir_enhanced_period_finding,
 )
 
 
-def demo_all_vra_integrations():
+def demo_all_ir_integrations():
     """
-    Comprehensive demonstration of all VRA integrations.
+    Comprehensive demonstration of all IR integrations.
     """
     print("\n" + "="*80)
-    print("VRA COMPLETE INTEGRATION SUITE - DEMONSTRATION")
+    print("IR COMPLETE INTEGRATION SUITE - DEMONSTRATION")
     print("="*80)
 
     # 1. Period Finding
@@ -51,12 +51,12 @@ def demo_all_vra_integrations():
 
     N = 221  # Number to factor
     base = 2
-    result = vra_enhanced_period_finding(base, N)
+    result = ir_enhanced_period_finding(base, N)
 
     print(f"  Factoring N = {N}, base = {base}")
     print(f"  Period: {result.period}, Confidence: {result.confidence:.2f}")
     print(f"  Shots saved: {result.shots_saved}")
-    print(f"  ✅ Period finding with VRA preprocessing")
+    print(f"  ✅ Period finding with IR preprocessing")
 
     # 2. VQE Hamiltonian Grouping
     print("\n" + "-"*80)
@@ -67,7 +67,7 @@ def demo_all_vra_integrations():
     h2_coeffs = np.array([-0.81054, 0.17218, -0.22575, 0.12091, 0.16862])
     h2_paulis = ["II", "ZI", "IZ", "ZZ", "XX"]
 
-    vqe_result = vra_hamiltonian_grouping(
+    vqe_result = ir_hamiltonian_grouping(
         h2_coeffs,
         pauli_strings=h2_paulis,
         total_shots=10000
@@ -87,7 +87,7 @@ def demo_all_vra_integrations():
     edges = [(0, 1), (1, 2), (2, 3), (3, 0)]
     weights = np.array([1.0, 1.0, 1.0, 1.0])
 
-    qaoa_result = vra_qaoa_grouping(weights, edges, total_shots=10000)
+    qaoa_result = ir_qaoa_grouping(weights, edges, total_shots=10000)
 
     print(f"  Graph: Square (4 vertices, 4 edges)")
     print(f"  Groups: {len(qaoa_result.groups)} (from {len(edges)} edges)")
@@ -103,7 +103,7 @@ def demo_all_vra_integrations():
     n_params = 50
     gradient_samples = np.random.randn(100, n_params) * 0.1
 
-    gradient_result = vra_gradient_grouping(
+    gradient_result = ir_gradient_grouping(
         gradient_samples,
         total_shots=10000
     )
@@ -123,7 +123,7 @@ def demo_all_vra_integrations():
     tdvp_paulis = ["ZZ", "XX", "YY", "ZI", "IZ", "XI", "IX"]
     tdvp_coeffs = np.array([1.0, 0.5, 0.5, 0.3, 0.3, 0.2, 0.2])
 
-    tdvp_result = vra_tdvp_observable_grouping(
+    tdvp_result = ir_tdvp_observable_grouping(
         tdvp_paulis,
         tdvp_coeffs,
         total_shots=10000
@@ -143,7 +143,7 @@ def demo_all_vra_integrations():
     shadow_paulis = ["ZZ", "XX", "YY", "ZI", "IZ"]
     shadow_coeffs = np.array([1.0, 0.8, 0.6, 0.4, 0.2])
 
-    shadow_result = vra_shadow_sampling(
+    shadow_result = ir_shadow_sampling(
         shadow_paulis,
         shadow_coeffs,
         n_samples=1000,
@@ -163,7 +163,7 @@ def demo_all_vra_integrations():
 
     # 4-qubit state reconstruction
     n_qubits = 4
-    tomo_result = vra_state_tomography(
+    tomo_result = ir_state_tomography(
         n_qubits=n_qubits,
         max_weight=2  # Only weight-2 Paulis
     )
@@ -176,7 +176,7 @@ def demo_all_vra_integrations():
 
     # Summary
     print("\n" + "="*80)
-    print("SUMMARY: VRA Integration Suite")
+    print("SUMMARY: IR Integration Suite")
     print("="*80)
 
     results = [
@@ -193,7 +193,7 @@ def demo_all_vra_integrations():
         print(f"  {i}. {name:25s} {reduction:>10s}  {metric}")
 
     print("\n" + "="*80)
-    print("ALL 7 VRA INTEGRATIONS: ✅ COMPLETE")
+    print("ALL 7 IR INTEGRATIONS: ✅ COMPLETE")
     print("="*80)
     print("\nKey Achievements:")
     print("  • Period finding: 35% fewer shots for Shor's algorithm")
@@ -203,9 +203,9 @@ def demo_all_vra_integrations():
     print("  • TDVP: 5-100× fewer measurements per timestep")
     print("  • Shadows: Coherence-informed adaptive sampling")
     print("  • Tomography: 10-1000× compression for state reconstruction")
-    print("\nVRA is now a FUNDAMENTAL EFFICIENCY LAYER for quantum algorithms!")
+    print("\nIR is now a FUNDAMENTAL EFFICIENCY LAYER for quantum algorithms!")
     print("="*80)
 
 
 if __name__ == "__main__":
-    demo_all_vra_integrations()
+    demo_all_ir_integrations()

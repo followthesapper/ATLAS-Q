@@ -620,7 +620,7 @@ Use higher precision:
 Getting Help
 ^^^^^^^^^^^^
 
-- Documentation: https://followthsapper.github.io/ATLAS-Q/
+- Documentation: https://followthesapper.github.io/ATLAS-Q/
 - GitHub Issues: https://github.com/followthesapper/ATLAS-Q/issues
 - GitHub Discussions: https://github.com/followthesapper/ATLAS-Q/discussions
 

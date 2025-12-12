@@ -2,7 +2,7 @@
 Cirq Simulator Adapter for ATLAS-Q
 
 Provides drop-in replacement for Cirq simulators with automatic optimization:
-- VRA grouping for 5× measurement reduction
+- IR grouping for 5× measurement reduction
 - MPS backend for large circuits (>25 qubits)
 - Stabilizer backend for Clifford circuits (20× speedup)
 - GPU acceleration via Triton kernels
@@ -27,7 +27,7 @@ except ImportError:
 from atlas_q.coherence import classify_go_no_go, compute_coherence
 from atlas_q.mps_pytorch import MatrixProductStatePyTorch as MatrixProductState
 from atlas_q.stabilizer_backend import StabilizerSimulator
-from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+from atlas_q.ir_enhanced import ir_hamiltonian_grouping
 
 
 class ATLASQSimulator(SimulatesSamples, SimulatesExpectationValues):
@@ -35,7 +35,7 @@ class ATLASQSimulator(SimulatesSamples, SimulatesExpectationValues):
     ATLAS-Q Simulator for Cirq
 
     Drop-in replacement for Cirq simulators that automatically applies:
-    - VRA measurement grouping (5× reduction)
+    - IR measurement grouping (5× reduction)
     - Adaptive MPS for large circuits
     - Stabilizer backend for Clifford circuits
     - GPU acceleration
@@ -60,7 +60,7 @@ class ATLASQSimulator(SimulatesSamples, SimulatesExpectationValues):
 
     def __init__(
         self,
-        enable_vra: bool = True,
+        enable_ir: bool = True,
         enable_mps: bool = True,
         enable_stabilizer: bool = True,
         enable_gpu: bool = True,
@@ -73,8 +73,8 @@ class ATLASQSimulator(SimulatesSamples, SimulatesExpectationValues):
 
         Parameters
         ----------
-        enable_vra : bool
-            Enable automatic VRA measurement grouping (default: True)
+        enable_ir : bool
+            Enable automatic IR measurement grouping (default: True)
         enable_mps : bool
             Enable MPS backend for large circuits (default: True)
         enable_stabilizer : bool
@@ -91,7 +91,7 @@ class ATLASQSimulator(SimulatesSamples, SimulatesExpectationValues):
         if not CIRQ_AVAILABLE:
             raise ImportError("Cirq not installed. Install with: pip install cirq")
 
-        self._enable_vra = enable_vra
+        self._enable_ir = enable_ir
         self._enable_mps = enable_mps
         self._enable_stabilizer = enable_stabilizer
         self._enable_gpu = enable_gpu
@@ -168,7 +168,7 @@ class ATLASQSimulator(SimulatesSamples, SimulatesExpectationValues):
         permit_terminal_measurements: bool = False
     ) -> List[float]:
         """
-        Simulate expectation values with VRA grouping
+        Simulate expectation values with IR grouping
 
         Parameters
         ----------
@@ -188,14 +188,14 @@ class ATLASQSimulator(SimulatesSamples, SimulatesExpectationValues):
         Returns
         -------
         List[float]
-            Expectation values (automatically VRA-grouped)
+            Expectation values (automatically IR-grouped)
         """
         if param_resolver is not None:
             program = cirq.resolve_parameters(program, param_resolver)
 
-        # Apply VRA grouping if enabled
-        if self._enable_vra:
-            grouped_obs = self._apply_vra_grouping_cirq(observables)
+        # Apply IR grouping if enabled
+        if self._enable_ir:
+            grouped_obs = self._apply_ir_grouping_cirq(observables)
         else:
             grouped_obs = observables
 
@@ -220,9 +220,9 @@ class ATLASQSimulator(SimulatesSamples, SimulatesExpectationValues):
         is_clifford = self._is_clifford_circuit(circuit)
         use_mps = self._enable_mps and n_qubits >= self._mps_threshold
 
-        # Apply VRA grouping if observables provided
-        if self._enable_vra and observables is not None:
-            grouped_obs = self._apply_vra_grouping_cirq(observables)
+        # Apply IR grouping if observables provided
+        if self._enable_ir and observables is not None:
+            grouped_obs = self._apply_ir_grouping_cirq(observables)
         else:
             grouped_obs = observables
 
@@ -261,7 +261,7 @@ class ATLASQSimulator(SimulatesSamples, SimulatesExpectationValues):
             'expectation_values': expectation_values,
             'backend_used': backend_used,
             'coherence_metrics': coherence_metrics,
-            'vra_compression': len(grouped_obs) / len(observables) if grouped_obs and observables else None,
+            'ir_compression': len(grouped_obs) / len(observables) if grouped_obs and observables else None,
             'success': True
         }
 
@@ -283,10 +283,10 @@ class ATLASQSimulator(SimulatesSamples, SimulatesExpectationValues):
                         return False
         return True
 
-    def _apply_vra_grouping_cirq(self, observables):
-        """Apply VRA grouping to Cirq observables"""
+    def _apply_ir_grouping_cirq(self, observables):
+        """Apply IR grouping to Cirq observables"""
         try:
-            # Convert Cirq observables to VRA format
+            # Convert Cirq observables to IR format
             if hasattr(observables, 'terms'):  # PauliSum
                 pauli_list = [
                     (str(pauli), coeff) for pauli, coeff in observables.terms.items()
@@ -294,12 +294,12 @@ class ATLASQSimulator(SimulatesSamples, SimulatesExpectationValues):
             else:  # List of PauliStrings
                 pauli_list = [(str(p), 1.0) for p in observables]
 
-            # Apply VRA grouping
-            grouped = vra_hamiltonian_grouping(pauli_list)
+            # Apply IR grouping
+            grouped = ir_hamiltonian_grouping(pauli_list)
 
             return grouped
         except Exception as e:
-            warnings.warn(f"VRA grouping failed: {e}. Using standard grouping.")
+            warnings.warn(f"IR grouping failed: {e}. Using standard grouping.")
             return observables
 
     def _run_stabilizer(self, circuit, qubits, repetitions):
@@ -475,7 +475,7 @@ class ATLASQSimulator(SimulatesSamples, SimulatesExpectationValues):
         metadata = {
             'backend_used': result_data['backend_used'],
             'coherence_metrics': result_data.get('coherence_metrics'),
-            'vra_compression_ratio': result_data.get('vra_compression'),
+            'ir_compression_ratio': result_data.get('ir_compression'),
         }
 
         return cirq.Result(

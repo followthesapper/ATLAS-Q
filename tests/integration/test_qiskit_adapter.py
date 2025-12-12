@@ -3,7 +3,7 @@ Tests for Qiskit adapter
 
 Verifies:
 - Circuit execution matches Qiskit Aer
-- VRA grouping reduces measurements
+- IR grouping reduces measurements
 - Automatic backend selection (Clifford/MPS/statevector)
 - Coherence metrics for VQE patterns
 - GPU acceleration when available
@@ -81,9 +81,9 @@ class TestQiskitAdapter:
         assert len(counts) > 0
         assert sum(counts.values()) == 10
 
-    def test_vra_grouping(self):
-        """Test automatic VRA observable grouping"""
-        backend = ATLASQBackend(enable_vra=True)
+    def test_ir_grouping(self):
+        """Test automatic IR observable grouping"""
+        backend = ATLASQBackend(enable_ir=True)
 
         # Create VQE-like circuit
         qc = QuantumCircuit(2)
@@ -103,14 +103,14 @@ class TestQiskitAdapter:
         job = backend.run(qc, shots=1000, observables=observables)
         result = job.result()
 
-        # Check VRA compression ratio
+        # Check IR compression ratio
         metadata = result.results[0].header
-        compression = metadata.get('vra_compression_ratio')
+        compression = metadata.get('ir_compression_ratio')
 
-        # VRA should group commuting observables
-        assert compression is not None, "VRA compression should be computed"
-        assert compression < 1.0, "VRA should reduce number of measurement groups"
-        print(f"VRA grouped {5} observables into {int(5*compression)} groups ({compression:.2f} compression)")
+        # IR should group commuting observables
+        assert compression is not None, "IR compression should be computed"
+        assert compression < 1.0, "IR should reduce number of measurement groups"
+        print(f"IR grouped {5} observables into {int(5*compression)} groups ({compression:.2f} compression)")
 
     def test_coherence_metrics_vqe(self):
         """Test coherence metrics for VQE patterns"""
@@ -171,13 +171,13 @@ class TestQiskitAdapter:
     def test_backend_options(self):
         """Test backend configuration options"""
         backend = ATLASQBackend(
-            enable_vra=False,
+            enable_ir=False,
             enable_mps=False,
             enable_stabilizer=False,
             mps_threshold=50
         )
 
-        assert backend._enable_vra == False
+        assert backend._enable_ir == False
         assert backend._enable_mps == False
         assert backend._enable_stabilizer == False
         assert backend._mps_threshold == 50
@@ -277,9 +277,9 @@ class TestQiskitBenchmarks:
         result = benchmark(run_circuit)
         assert result.success
 
-    def test_vra_measurement_reduction(self):
-        """Benchmark VRA measurement reduction"""
-        backend = ATLASQBackend(enable_vra=True)
+    def test_ir_measurement_reduction(self):
+        """Benchmark IR measurement reduction"""
+        backend = ATLASQBackend(enable_ir=True)
 
         qc = QuantumCircuit(4)
         qc.ry(0.5, 0)
@@ -299,8 +299,8 @@ class TestQiskitBenchmarks:
         result = job.result()
 
         metadata = result.results[0].header
-        compression = metadata.get('vra_compression_ratio')
+        compression = metadata.get('ir_compression_ratio')
 
         if compression:
-            print(f"VRA compression: {compression:.2f}x reduction")
+            print(f"IR compression: {compression:.2f}x reduction")
             assert compression < 0.5  # Should reduce by >50%

@@ -335,7 +335,7 @@ How do I cite ATLAS-Q?
      title={ATLAS-Q: Adaptive Tensor Learning And Simulation – Quantum},
      author={ATLAS-Q Development Team},
      year={2025},
-     url={https://github.com/followthsapper/ATLAS-Q},
+     url={https://github.com/followthesapper/ATLAS-Q},
      version={0.6.1}
    }
 
@@ -346,7 +346,7 @@ Where can I get help?
 
 - GitHub Issues: https://github.com/followthesapper/ATLAS-Q/issues
 - GitHub Discussions: https://github.com/followthesapper/ATLAS-Q/discussions
-- Documentation: https://followthsapper.github.io/ATLAS-Q/
+- Documentation: https://followthesapper.github.io/ATLAS-Q/
 
 For bug reports, include:
 

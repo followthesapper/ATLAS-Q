@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """
-VRA + Real ATLAS-Q VQE Benchmark (GPU-Accelerated)
+IR + Real ATLAS-Q VQE Benchmark (GPU-Accelerated)
 ===================================================
 
 Uses the ACTUAL VQE class from atlas_q.vqe_qaoa with GPU acceleration.
 
-This benchmark demonstrates VRA's impact on the PRODUCTION VQE workflow:
+This benchmark demonstrates IR's impact on the PRODUCTION VQE workflow:
 - GPU-accelerated tensor operations
 - Real molecular Hamiltonians (H2, LiH, H2O)
 - Proper MPS-based energy evaluation
-- VRA grouping for measurement optimization
+- IR grouping for measurement optimization
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -27,7 +27,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from atlas_q.mpo_ops import MPOBuilder
 from atlas_q.vqe_qaoa import VQE, VQEConfig
-from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+from atlas_q.ir_enhanced import ir_hamiltonian_grouping
 
 try:
     from pyscf import gto, scf, ao2mo
@@ -89,12 +89,12 @@ def benchmark_molecule_vqe(molecule: str, basis: str = 'sto-3g', use_gpu: bool =
     print(f"  ✓ Iterations: {vqe.iteration}")
     print(f"  ✓ Device: {device}")
 
-    # Show VRA grouping opportunity (if we had shot-based measurement)
-    print(f"\n[4/4] VRA Analysis (for hardware deployment)...")
+    # Show IR grouping opportunity (if we had shot-based measurement)
+    print(f"\n[4/4] IR Analysis (for hardware deployment)...")
     print(f"  Note: Current VQE uses exact MPS simulation (no shots)")
-    print(f"  On real quantum hardware with shots, VRA would provide:")
+    print(f"  On real quantum hardware with shots, IR would provide:")
 
-    # We'd need to extract Pauli terms to show VRA grouping
+    # We'd need to extract Pauli terms to show IR grouping
     # For now, just show that GPU acceleration works
 
     print(f"\n{'='*80}")
@@ -134,7 +134,7 @@ def main():
     print("ATLAS-Q VQE Benchmark (Production Workflow)")
     print("="*80)
     print("\nThis benchmark demonstrates ATLAS-Q's GPU-accelerated VQE.")
-    print("VRA grouping optimizes measurement on real quantum hardware.\n")
+    print("IR grouping optimizes measurement on real quantum hardware.\n")
 
     # Run benchmarks
     molecules = ['H2', 'LiH']

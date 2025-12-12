@@ -12,7 +12,7 @@ This document outlines the remaining work to further enhance ATLAS-Q's performan
 - MPS backend with batch GPU sampling (54× speedup)
 - Rust stabilizer backend (9.3× faster than Qiskit Aer)
 - Rust statevector backend (30-77× faster than Python)
-- VRA observable grouping (5× measurement reduction)
+- IR observable grouping (5× measurement reduction)
 - Triton CUDA kernels for MPS two-qubit gates (8.7× speedup)
 - Full Qiskit/Cirq adapter integration
 - Coherence-aware VQE with physical realizability checking
@@ -90,7 +90,7 @@ This document outlines the remaining work to further enhance ATLAS-Q's performan
 
 **Expected Performance:**
 - Match or beat Qiskit Aer MPS (currently 2.4× slower)
-- Combined with VRA: 2-3× faster than Aer overall
+- Combined with IR: 2-3× faster than Aer overall
 - Support 50+ qubit circuits with bond dimension 256
 
 **Files to Create:**
@@ -112,7 +112,7 @@ This document outlines the remaining work to further enhance ATLAS-Q's performan
 - [ ] Add phase damping (T2 decay)
 - [ ] Support two-qubit gate errors
 - [ ] Integrate with Qiskit noise models
-- [ ] Add noise-aware VRA grouping
+- [ ] Add noise-aware IR grouping
 
 **Files to Modify:**
 - `src/atlas_q/noise_models.py` (new)
@@ -217,7 +217,7 @@ This document outlines the remaining work to further enhance ATLAS-Q's performan
 **Potential Research Directions:**
 - Coherence-aware circuit compilation
 - Measurement-aware circuit synthesis
-- VRA-guided error mitigation
+- IR-guided error mitigation
 - Adaptive sampling strategies
 - Quantum-classical hybrid solvers
 
@@ -276,7 +276,7 @@ This document outlines the remaining work to further enhance ATLAS-Q's performan
 -  Statevector (CPU): 20× faster than Python (achieved: 30-77×)
 -  Statevector (GPU): 1000× faster than Python
 -  MPS: Match or beat Qiskit Aer
--  VRA: 5× measurement reduction (achieved)
+-  IR: 5× measurement reduction (achieved)
 
 ### Adoption Targets
 -  100+ GitHub stars
@@ -296,7 +296,7 @@ This document outlines the remaining work to further enhance ATLAS-Q's performan
 
 ## Conclusion
 
-ATLAS-Q has achieved world-class performance across multiple simulation backends and introduced unique features (VRA, coherence metrics) not found in any competitor. The remaining work focuses on:
+ATLAS-Q has achieved world-class performance across multiple simulation backends and introduced unique features (IR, coherence metrics) not found in any competitor. The remaining work focuses on:
 
 1. **GPU acceleration** to push performance even further
 2. **Noise models** for NISQ research

@@ -304,8 +304,8 @@ class GPUStatevectorSimulator:
                 self.cuda.cuMemFree_v2(self.d_state)
             if hasattr(self, 'context'):
                 self.cuda.cuCtxDestroy_v2(self.context)
-        except:
-            pass
+        except Exception:
+            pass  # Cleanup errors are non-critical
 
 
 def is_gpu_available() -> bool:
@@ -313,7 +313,7 @@ def is_gpu_available() -> bool:
     try:
         find_cuda_library()
         return True
-    except:
+    except (RuntimeError, OSError):
         return False
 
 
@@ -338,7 +338,7 @@ def get_gpu_info() -> Optional[Dict]:
             'name': name.value.decode(),
             'cuda_version': 'Runtime detection',
         }
-    except:
+    except (RuntimeError, OSError, AttributeError):
         return None
 
 

@@ -192,7 +192,7 @@ Build status: Check the Actions tab in the GitHub repository.
 
 ## Viewing Online Documentation
 
-Published documentation: https://followthsapper.github.io/ATLAS-Q/
+Published documentation: https://followthesapper.github.io/ATLAS-Q/
 
 ## Troubleshooting
 

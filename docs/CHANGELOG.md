@@ -5,6 +5,36 @@ All notable changes to ATLAS-Q will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2025-11-04
+
+### Added
+
+**GPU CUDA Backend with Pre-compiled PTX**
+- Direct CUDA Driver API integration via ctypes
+- Pre-compiled PTX kernels (version-independent)
+- Supports single-qubit gates: H, X, Y, Z, RX, RY, RZ
+- Supports two-qubit gates: CNOT, CZ, SWAP
+- f64 precision for numerical stability
+- 2-13× faster than CPU for 15+ qubits
+- Works with any CUDA runtime version
+
+### Changed
+- Improved exception handling in GPU backend (specific exceptions instead of bare except)
+- Fixed duplicate return statement in quantum_hybrid_system.py
+- Updated all version strings to 0.7.0
+
+### Fixed
+- Fixed MANIFEST.in to include compiled Rust extensions (.so, .pyd files)
+- Added missing py.typed marker file for type hint support
+- Fixed "followthsapper" typo in all documentation links
+
+### Documentation
+- Archived 25 historical session/research files to `archive/` directory
+- Updated citing.rst with correct version and URLs
+- Updated Jupyter demo notebook to v0.7.0
+
+---
+
 ## [0.6.4] - 2025-11-04
 
 ###  THREE MAJOR BREAKTHROUGHS - WORLD-CLASS PERFORMANCE
@@ -43,13 +73,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Benchmarks:**
   - 15 qubits, 1000 shots: 759ms → 14ms (54× faster)
   - Went from 336× slower than Aer to 1.4× slower
-  - Combined with VRA: Net 3.6× faster than Aer overall
+  - Combined with IR: Net 3.6× faster than Aer overall
 
 #### Performance Summary
 
 **vs Qiskit Aer (Industry Standard):**
 - Clifford circuits: **9.3× faster** (Rust stabilizer)
-- MPS + VRA: **3.6× faster effective** (batch sampling + VRA 5× reduction)
+- MPS + IR: **3.6× faster effective** (batch sampling + IR 5× reduction)
 - Memory: **607,000× less** (30 qubits: 28 KB vs 17 GB)
 
 **vs Python/NumPy:**
@@ -92,7 +122,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Complete Backend Coverage**: All major algorithms now have optimal backend
   - Grover's/QFT: Rust Statevector (77× faster)
   - VQE (< 18q): Rust Statevector (30× faster)
-  - VQE (> 20q): MPS + VRA (2-3× faster than Aer)
+  - VQE (> 20q): MPS + IR (2-3× faster than Aer)
   - Clifford: Rust Stabilizer (9.3× faster than Aer)
   - Error Correction: Rust Stabilizer (9.3× faster than Aer)
 
@@ -101,7 +131,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **ATLAS-Q is now WORLD-CLASS:**
 -  Fastest Clifford simulator (9.3× vs Qiskit Aer)
 -  Fastest Python-accessible statevector (30-77× vs NumPy)
--  Unique VRA integration (5× measurement reduction - NO COMPETITOR HAS THIS)
+-  Unique IR integration (5× measurement reduction - NO COMPETITOR HAS THIS)
 -  Unique coherence metrics (VQE quality validation)
 -  Unified API (automatic backend selection)
 -  Production-ready (all tests passing)
@@ -124,27 +154,27 @@ See `docs/FUTURE_WORK.md` for complete roadmap.
   - `ATLASQBackend`: Implements Qiskit BackendV2 interface
   - `ATLASQProvider`: Provider interface for backend discovery
   - Automatic backend selection: Clifford → Stabilizer, >25 qubits → MPS, else → Statevector
-  - VRA observable grouping: 5× measurement reduction for VQE Hamiltonians
+  - IR observable grouping: 5× measurement reduction for VQE Hamiltonians
   - Coherence metrics: Automatic R̄ computation for VQE patterns
   - GPU acceleration: Transparent Triton kernel usage for MPS operations
   - Full Qiskit compatibility: Drop-in replacement for `Aer.get_backend('qasm_simulator')`
 - **Cirq Adapter** (`src/atlas_q/adapters/cirq_adapter.py`): Zero-code-change replacement for Cirq simulators
   - `ATLASQSimulator`: Implements Cirq `SimulatesSamples` and `SimulatesExpectationValues`
-  - Same automatic optimizations as Qiskit adapter (VRA, MPS, stabilizer, GPU)
+  - Same automatic optimizations as Qiskit adapter (IR, MPS, stabilizer, GPU)
   - Parameter sweep support via `run_sweep()`
-  - Expectation value computation with VRA grouping
+  - Expectation value computation with IR grouping
   - Full Cirq compatibility: Drop-in replacement for `cirq.Simulator()`
 - **Comprehensive Tests** (`tests/integration/test_qiskit_adapter.py`, `test_cirq_adapter.py`):
   - Bell state, GHZ state, parametric circuits
   - Clifford detection and stabilizer backend activation
   - MPS threshold testing (>25 qubits)
-  - VRA measurement compression verification
+  - IR measurement compression verification
   - Coherence metric validation for VQE patterns
   - Multi-circuit execution
 - **Performance Benchmarks** (`benchmarks/adapter_comparison_benchmark.py`):
-  - Qiskit Aer vs ATLAS-Q: Bell states, Clifford circuits, VQE with VRA, large MPS circuits
+  - Qiskit Aer vs ATLAS-Q: Bell states, Clifford circuits, VQE with IR, large MPS circuits
   - Cirq simulator vs ATLAS-Q: Same comprehensive comparison suite
-  - Demonstrates 5× VRA reduction, 20× stabilizer speedup, 626,000× MPS memory efficiency
+  - Demonstrates 5× IR reduction, 20× stabilizer speedup, 626,000× MPS memory efficiency
 
 ### Changed
 - **Optional Dependencies** (`pyproject.toml`):
@@ -156,7 +186,7 @@ See `docs/FUTURE_WORK.md` for complete roadmap.
 - **Documentation**: Installation instructions for `pip install atlas-quantum[adapters]`
 
 ### Performance
-- **5× measurement reduction**: Automatic VRA grouping for VQE observables (Qiskit/Cirq)
+- **5× measurement reduction**: Automatic IR grouping for VQE observables (Qiskit/Cirq)
 - **20× Clifford speedup**: Automatic stabilizer backend (Qiskit/Cirq)
 - **626,000× memory efficiency**: Automatic MPS for >25 qubits (Qiskit/Cirq)
 - **1.5-3× GPU speedup**: Transparent Triton kernels for MPS ops (Qiskit/Cirq)
@@ -166,20 +196,20 @@ See `docs/FUTURE_WORK.md` for complete roadmap.
 ### Added
 
 #### BREAKTHROUGH: Coherence-Aware Quantum Computing Framework
-- **World's First Coherence-Aware VQE** (`benchmarks/vra_coherence_aware_hardware_benchmark.py`): Self-diagnostic quantum algorithms
- - Real-time coherence tracking (R̄, V_φ) based on Vaca Resonance Analysis (VRA)
+- **World's First Coherence-Aware VQE** (`benchmarks/ir_coherence_aware_hardware_benchmark.py`): Self-diagnostic quantum algorithms
+ - Real-time coherence tracking (R̄, V_φ) based on Informational Relativity (IR)
  - Universal GO/NO-GO classifier using e^-2 boundary (R̄ ≈ 0.135)
  - Hardware-validated on IBM Brisbane: H2O achieved R̄=0.988 (near-ideal)
- - VRA grouping reduces measurement overhead by 5× (1086 terms → 219 groups)
+ - IR grouping reduces measurement overhead by 5× (1086 terms → 219 groups)
  - Circular statistics and Random Matrix Theory integration
  - Critical bug fix: Proper per-term Pauli measurement (3× energy accuracy improvement)
  - Production-scale testing: H2 (4q), LiH (12q), H2O (14q) on real quantum hardware
  - See `COHERENCE_AWARE_VQE_BREAKTHROUGH.md` for complete technical details
-- **VRA Enhanced Modules** (`src/atlas_q/vra_enhanced/`): Integration across ATLAS-Q ecosystem
- - `gradient_grouping.py` - Parameter shift rules with VRA measurement compression
+- **IR Enhanced Modules** (`src/atlas_q/ir_enhanced/`): Integration across ATLAS-Q ecosystem
+ - `gradient_grouping.py` - Parameter shift rules with IR measurement compression
  - `qaoa_grouping.py` - Coherence-aware QAOA for combinatorial optimization
  - `shadow_tomography.py` - Adaptive classical shadows with quality monitoring
- - `state_tomography.py` - Full state reconstruction with VRA grouping
+ - `state_tomography.py` - Full state reconstruction with IR grouping
  - `tdvp_observables.py` - Time evolution with real-time coherence tracking
 - **Comprehensive Documentation**: Full Sphinx documentation for coherence-aware computing
  - User guide: `docs/user_guide/coherence_aware_vqe.rst` (425 lines, production-ready)

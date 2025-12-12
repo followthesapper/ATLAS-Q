@@ -13,8 +13,8 @@ sys.path.insert(0, os.path.abspath('../src'))
 project = 'ATLAS-Q'
 copyright = '2025, ATLAS-Q Development Team'
 author = 'ATLAS-Q Development Team'
-release = '0.6.2'
-version = '0.6.2'
+release = '0.7.0'
+version = '0.7.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

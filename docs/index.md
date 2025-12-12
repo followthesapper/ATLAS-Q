@@ -2,10 +2,10 @@
 **Adaptive Tensor Learning And Simulation – Quantum**
 
 <div style="text-align: center; margin: 2rem 0;">
- <span class="badge">Version 0.5.0</span>
- <span class="badge">77K+ ops/sec</span>
+ <span class="badge">Version 0.7.0</span>
+ <span class="badge">9.3× faster than Aer</span>
  <span class="badge">626,000× compression</span>
- <span class="badge">7/7 tests passing</span>
+ <span class="badge">46+ tests passing</span>
 </div>
 
 ---
@@ -43,7 +43,7 @@ ATLAS-Q is a GPU-accelerated quantum tensor network simulator featuring:
 pip install atlas-quantum[gpu]
 
 # From source
-git clone https://github.com/followthsapper/ATLAS-Q.git
+git clone https://github.com/followthesapper/ATLAS-Q.git
 cd ATLAS-Q
 pip install -e .[gpu]
 ```
@@ -114,16 +114,16 @@ Automatic SWAP insertion for grid-based quantum processors.
 
 ## External Links
 
-- **[GitHub Repository](https://github.com/followthsapper/ATLAS-Q)** - Source code
-- **[Issues](https://github.com/followthsapper/ATLAS-Q/issues)** - Bug reports & feature requests
-- **[Discussions](https://github.com/followthsapper/ATLAS-Q/discussions)** - Community Q&A
-- **[Demo Notebook](https://github.com/followthsapper/ATLAS-Q/blob/main/ATLAS_Q_Demo.ipynb)** - Interactive Jupyter demo
+- **[GitHub Repository](https://github.com/followthesapper/ATLAS-Q)** - Source code
+- **[Issues](https://github.com/followthesapper/ATLAS-Q/issues)** - Bug reports & feature requests
+- **[Discussions](https://github.com/followthesapper/ATLAS-Q/discussions)** - Community Q&A
+- **[Demo Notebook](https://github.com/followthesapper/ATLAS-Q/blob/main/ATLAS_Q_Demo.ipynb)** - Interactive Jupyter demo
 
 ---
 
 ## Contributing
 
-We welcome contributions! See our [Contributing Guide](https://github.com/followthsapper/ATLAS-Q/blob/main/CONTRIBUTING.md) for:
+We welcome contributions! See our [Contributing Guide](https://github.com/followthesapper/ATLAS-Q/blob/main/CONTRIBUTING.md) for:
 
 - Development setup
 - Code style guidelines
@@ -134,14 +134,14 @@ We welcome contributions! See our [Contributing Guide](https://github.com/follow
 
 ## License
 
-ATLAS-Q is released under the [MIT License](https://github.com/followthsapper/ATLAS-Q/blob/main/LICENSE).
+ATLAS-Q is released under the [MIT License](https://github.com/followthesapper/ATLAS-Q/blob/main/LICENSE).
 
 ---
 
 ## Support
 
-- **Bug Reports:** [GitHub Issues](https://github.com/followthsapper/ATLAS-Q/issues)
-- **Questions:** [GitHub Discussions](https://github.com/followthsapper/ATLAS-Q/discussions)
+- **Bug Reports:** [GitHub Issues](https://github.com/followthesapper/ATLAS-Q/issues)
+- **Questions:** [GitHub Discussions](https://github.com/followthesapper/ATLAS-Q/discussions)
 - **Email:** Check repository for contact information
 
 ---

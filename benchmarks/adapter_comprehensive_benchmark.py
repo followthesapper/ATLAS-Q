@@ -4,7 +4,7 @@ Comprehensive ATLAS-Q Adapter Benchmark
 Shows where ATLAS-Q excels vs Qiskit Aer:
 1. Small Clifford circuits: Competitive performance (1.5-10× slower than C++ Aer)
 2. Large circuits (>25 qubits): ATLAS-Q MPS backend enables what Aer can't handle
-3. VQE workloads: 5× fewer measurements via VRA grouping = faster total runtime
+3. VQE workloads: 5× fewer measurements via IR grouping = faster total runtime
 4. Quality validation: Coherence metrics for VQE convergence assessment
 """
 
@@ -108,22 +108,22 @@ print()
 # =============================================================================
 # [3] VQE Measurement Reduction (Coming Soon)
 # =============================================================================
-print("[3] VQE Measurement Reduction (VRA Grouping)")
+print("[3] VQE Measurement Reduction (IR Grouping)")
 print("-" * 80)
 print()
 
 print("Example VQE Hamiltonian: H₂ molecule (15 Pauli terms)")
 print()
-print("  Without VRA:")
+print("  Without IR:")
 print("    - 15 circuit executions (one per Pauli term)")
 print("    - 15 × 1000 shots = 15,000 total measurements")
 print()
-print("  With VRA (ATLAS-Q automatic):")
+print("  With IR (ATLAS-Q automatic):")
 print("    - 3 circuit executions (5× grouping efficiency)")
 print("    - 3 × 1000 shots = 3,000 total measurements")
 print("    - 5× speedup for VQE total runtime")
 print()
-print("  Status: VRA infrastructure complete, adapter integration in progress")
+print("  Status: IR infrastructure complete, adapter integration in progress")
 print()
 
 # =============================================================================
@@ -157,7 +157,7 @@ print("  → 30-qubit: O(n²) memory vs O(2ⁿ) for statevector")
 print("  → Aer requires 17GB, ATLAS-Q uses 28KB")
 print("  → 627,000× memory compression")
 print()
-print("✓ VQE workloads: 5× fewer measurements with VRA grouping (in progress)")
+print("✓ VQE workloads: 5× fewer measurements with IR grouping (in progress)")
 print("  → Despite 1-10× per-circuit overhead, 5× reduction = net 3-5× speedup")
 print()
 print("✓ Quality validation: Coherence metrics for VQE (in progress)")

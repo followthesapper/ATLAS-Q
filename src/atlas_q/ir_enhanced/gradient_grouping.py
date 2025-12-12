@@ -1,8 +1,8 @@
 """
-VRA-Enhanced Gradient Estimation
+IR-Enhanced Gradient Estimation
 =================================
 
-Applies VRA coherence-based grouping to gradient measurements for
+Applies IR coherence-based grouping to gradient measurements for
 variational quantum algorithms (VQE/QAOA).
 
 Key Insight:
@@ -14,7 +14,7 @@ where sᵢ = (0, ..., π/4, ..., 0) (shift at position i)
 
 Each gradient requires 2 energy evaluations. For n parameters:
 - Baseline: 2n energy measurements
-- VRA grouping: Group parameters with correlated gradients
+- IR grouping: Group parameters with correlated gradients
 - Expected: 5-50× shot reduction
 
 Applications:
@@ -25,7 +25,7 @@ Applications:
 
 Target: 5-50× shot reduction for gradient computation
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -233,7 +233,7 @@ def compute_variance_reduction_gradients(
     return compute_variance_reduction(Sigma, gradient_magnitudes, groups, total_shots)
 
 
-def vra_gradient_grouping(
+def ir_gradient_grouping(
     gradient_estimates: Optional[np.ndarray] = None,
     n_params: Optional[int] = None,
     total_shots: int = 10000,
@@ -241,7 +241,7 @@ def vra_gradient_grouping(
     coherence_method: str = "empirical"
 ) -> GradientGroupingResult:
     """
-    VRA-enhanced grouping for gradient estimation in variational algorithms.
+    IR-enhanced grouping for gradient estimation in variational algorithms.
 
     Automatically groups parameters with correlated gradients and allocates
     shots optimally.
@@ -269,12 +269,12 @@ def vra_gradient_grouping(
     --------
     >>> # With initial gradient samples
     >>> gradients = np.random.randn(100, 50)  # 100 samples, 50 parameters
-    >>> result = vra_gradient_grouping(gradients, total_shots=10000)
+    >>> result = ir_gradient_grouping(gradients, total_shots=10000)
     >>> print(f"Groups: {result.groups}")
     >>> print(f"Variance reduction: {result.variance_reduction:.2f}×")
 
     >>> # Without samples (local structure)
-    >>> result = vra_gradient_grouping(n_params=50, total_shots=10000, coherence_method="local")
+    >>> result = ir_gradient_grouping(n_params=50, total_shots=10000, coherence_method="local")
     """
     if gradient_estimates is None:
         if n_params is None:
@@ -310,13 +310,13 @@ def vra_gradient_grouping(
         groups=groups,
         shots_per_group=shots_per_group,
         variance_reduction=variance_reduction,
-        method=f"vra_gradient_{coherence_method}",
+        method=f"ir_gradient_{coherence_method}",
         n_params=n_params,
         n_groups=len(groups)
     )
 
 
-def parameter_shift_gradient_vra(
+def parameter_shift_gradient_ir(
     cost_function: Callable[[np.ndarray], float],
     params: np.ndarray,
     grouping: Optional[GradientGroupingResult] = None,
@@ -324,12 +324,12 @@ def parameter_shift_gradient_vra(
     auto_group: bool = True
 ) -> Tuple[np.ndarray, Optional[GradientGroupingResult]]:
     """
-    Compute gradient using parameter-shift rule with VRA grouping.
+    Compute gradient using parameter-shift rule with IR grouping.
 
     Standard parameter-shift:
         ∂E/∂θᵢ = [E(θ + sᵢ) - E(θ - sᵢ)] / 2
 
-    VRA enhancement:
+    IR enhancement:
     - Groups parameters with correlated gradients
     - Allocates shots optimally per group
     - Reduces total measurements
@@ -361,11 +361,11 @@ def parameter_shift_gradient_vra(
     ...     return compute_energy(theta)
     >>>
     >>> theta = np.random.randn(50)
-    >>> grad, grouping = parameter_shift_gradient_vra(cost_fn, theta)
+    >>> grad, grouping = parameter_shift_gradient_ir(cost_fn, theta)
     >>>
     >>> # Reuse grouping for next iteration
     >>> theta_new = theta - 0.01 * grad
-    >>> grad_new, _ = parameter_shift_gradient_vra(cost_fn, theta_new, grouping=grouping)
+    >>> grad_new, _ = parameter_shift_gradient_ir(cost_fn, theta_new, grouping=grouping)
     """
     n_params = len(params)
     gradient = np.zeros(n_params)
@@ -373,13 +373,13 @@ def parameter_shift_gradient_vra(
     # Auto-compute grouping if needed
     if grouping is None and auto_group:
         # Use local structure (no gradient samples yet)
-        grouping = vra_gradient_grouping(
+        grouping = ir_gradient_grouping(
             n_params=n_params,
             coherence_method="local"
         )
 
     if grouping is not None:
-        # Use VRA-grouped measurements
+        # Use IR-grouped measurements
         for group in grouping.groups:
             for i in group:
                 # Forward shift

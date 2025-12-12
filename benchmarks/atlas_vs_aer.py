@@ -129,8 +129,8 @@ def benchmark_mps_vs_statevector():
     print(f"  Memory:      ATLAS-Q uses ~100× less memory")
 
 
-def benchmark_vra_grouping():
-    """VQE with many observables - ATLAS-Q VRA wins"""
+def benchmark_ir_grouping():
+    """VQE with many observables - ATLAS-Q IR wins"""
     print("\n" + "="*70)
     print("TEST 5: VQE with 20 Observables (1000 shots)")
     print("="*70)
@@ -150,16 +150,16 @@ def benchmark_vra_grouping():
         terms.append((pauli_str[:4], 0.1))
     observables = SparsePauliOp.from_list(terms)
 
-    # Qiskit Aer (no VRA)
+    # Qiskit Aer (no IR)
     aer = AerSimulator()
     print(f"  Qiskit Aer:  Would need 20 separate measurements")
     print(f"               (no built-in observable grouping)")
 
-    # ATLAS-Q (with VRA)
+    # ATLAS-Q (with IR)
     atlas = ATLASQBackend(enable_vra=True)
     result_atlas = atlas.run(qc, shots=1000, observables=observables).result()
 
-    compression = result_atlas.results[0].header.get('vra_compression_ratio')
+    compression = result_atlas.results[0].header.get('ir_compression_ratio')
     if compression:
         num_groups = int(20 * compression)
         reduction = (1 - compression) * 100
@@ -194,7 +194,7 @@ def main():
         print(f"  ERROR: {e}")
 
     try:
-        benchmark_vra_grouping()
+        benchmark_ir_grouping()
     except Exception as e:
         print(f"  ERROR: {e}")
 
@@ -210,13 +210,13 @@ def main():
     print("\n✅ Use ATLAS-Q when:")
     print("   • Large Clifford circuits (>20 qubits)")
     print("   • Limited memory/RAM")
-    print("   • VQE with many observables (VRA grouping)")
+    print("   • VQE with many observables (IR grouping)")
     print("   • You need coherence-aware analysis")
     print("   • Circuits with 15-30 qubits (MPS backend)")
 
     print("\n🏆 ATLAS-Q Advantages:")
     print("   • 619× memory compression for large Clifford circuits")
-    print("   • 5× measurement reduction with VRA")
+    print("   • 5× measurement reduction with IR")
     print("   • Can run 30+ qubit circuits (Aer limited to ~20)")
     print("   • GPU acceleration with MPS backend")
     print("   • Coherence metrics for VQE")

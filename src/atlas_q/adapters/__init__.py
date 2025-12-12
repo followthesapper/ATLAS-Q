@@ -3,7 +3,7 @@ ATLAS-Q Adapters for Qiskit and Cirq
 
 Provides seamless integration with popular quantum frameworks, automatically
 leveraging ATLAS-Q's advanced features:
-- VRA: 5× measurement reduction via automatic observable grouping
+- IR: 5× measurement reduction via automatic observable grouping
 - MPS: 626,000× memory compression for large circuits
 - GPU: 1.5-3× speedup via Triton kernels
 - Stabilizer: 20× speedup for Clifford circuits

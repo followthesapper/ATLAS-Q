@@ -1,11 +1,11 @@
 """
-VRA-Enhanced VQE Hamiltonian Grouping
+IR-Enhanced VQE Hamiltonian Grouping
 ======================================
 
-Uses VRA coherence analysis to group Hamiltonian terms for minimum variance measurement.
+Uses IR coherence analysis to group Hamiltonian terms for minimum variance measurement.
 
 Validated Performance:
-- 2350× variance reduction (VRA experiment T6-C1)
+- 2350× variance reduction (IR experiment T6-C1)
 - 99.9% of optimal grouping efficiency
 - Production-ready for molecular chemistry
 
@@ -23,7 +23,7 @@ Key Algorithm:
 
 Enhancement: Commutativity-aware grouping (10-50× additional improvement)
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 """
 
 from dataclasses import dataclass
@@ -35,7 +35,7 @@ import numpy as np
 @dataclass
 class GroupingResult:
     """
-    Result from VRA Hamiltonian grouping.
+    Result from IR Hamiltonian grouping.
 
     Attributes
     ----------
@@ -182,7 +182,7 @@ def estimate_pauli_coherence_matrix(
     Notes
     -----
     This is a simplified heuristic for ATLAS-Q integration.
-    Full VRA uses modular sequence analysis (see VRA T6-C1).
+    Full IR uses modular sequence analysis (see IR T6-C1).
     """
     n_terms = len(coefficients)
 
@@ -281,7 +281,7 @@ def group_by_variance_minimization(
     """
     Group Hamiltonian terms to minimize measurement variance.
 
-    Uses greedy algorithm from VRA experiment T6-C1:
+    Uses greedy algorithm from IR experiment T6-C1:
     1. Start with highest-magnitude term
     2. Greedily add COMMUTING terms that minimize Q_GLS increase
     3. Repeat until all terms grouped
@@ -308,7 +308,7 @@ def group_by_variance_minimization(
 
     Notes
     -----
-    Validated in VRA T6-C1: achieves 2350× variance reduction
+    Validated in IR T6-C1: achieves 2350× variance reduction
     With commutativity: 10-50× additional improvement expected
     """
     n_terms = len(coefficients)
@@ -477,7 +477,7 @@ def compute_variance_reduction(
         for i in range(n_terms)
     )
 
-    # VRA grouping with Neyman allocation
+    # IR grouping with Neyman allocation
     shots_per_group = allocate_shots_neyman(Sigma, coefficients, groups, total_shots)
 
     grouped_variance = 0.0
@@ -501,14 +501,14 @@ def compute_variance_reduction(
     return float(reduction)
 
 
-def vra_hamiltonian_grouping(
+def ir_hamiltonian_grouping(
     coefficients: np.ndarray,
     pauli_strings: Optional[List[str]] = None,
     total_shots: int = 10000,
     max_group_size: int = 5
 ) -> GroupingResult:
     """
-    Complete VRA-enhanced Hamiltonian grouping for VQE.
+    Complete IR-enhanced Hamiltonian grouping for VQE.
 
     Main entry point for ATLAS-Q integration.
 
@@ -532,13 +532,13 @@ def vra_hamiltonian_grouping(
     --------
     >>> # Simple usage with coefficient array
     >>> coeffs = np.array([1.5, -0.8, 0.3, -0.2, 0.1])
-    >>> result = vra_hamiltonian_grouping(coeffs, total_shots=1000)
+    >>> result = ir_hamiltonian_grouping(coeffs, total_shots=1000)
     >>> print(f"Variance reduction: {result.variance_reduction:.1f}×")
     Variance reduction: 2350.0×
 
     >>> # With Pauli strings for better coherence estimation
     >>> paulis = ["XYZI", "IZXY", "ZZII", "IIXX", "YYZZ"]
-    >>> result = vra_hamiltonian_grouping(coeffs, pauli_strings=paulis)
+    >>> result = ir_hamiltonian_grouping(coeffs, pauli_strings=paulis)
     >>> print(f"Groups: {result.groups}")
     Groups: [[0, 2], [1, 3, 4]]
     """
@@ -558,7 +558,7 @@ def vra_hamiltonian_grouping(
     # Step 4: Compute variance reduction
     variance_reduction = compute_variance_reduction(Sigma, coefficients, groups, total_shots)
 
-    method = "vra_coherence_commuting" if pauli_strings is not None else "vra_coherence"
+    method = "ir_coherence_commuting" if pauli_strings is not None else "ir_coherence"
 
     return GroupingResult(
         groups=groups,

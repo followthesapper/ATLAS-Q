@@ -3,7 +3,7 @@ Tests for Cirq adapter
 
 Verifies:
 - Circuit execution matches Cirq simulator
-- VRA grouping reduces measurements
+- IR grouping reduces measurements
 - Automatic backend selection (Clifford/MPS/statevector)
 - Coherence metrics for VQE patterns
 - GPU acceleration when available
@@ -75,9 +75,9 @@ class TestCirqAdapter:
         metadata = result.metadata
         assert metadata['backend_used'] == 'mps'
 
-    def test_vra_grouping_with_observables(self):
-        """Test automatic VRA observable grouping"""
-        simulator = ATLASQSimulator(enable_vra=True)
+    def test_ir_grouping_with_observables(self):
+        """Test automatic IR observable grouping"""
+        simulator = ATLASQSimulator(enable_ir=True)
 
         qubits = cirq.LineQubit.range(2)
         circuit = cirq.Circuit(
@@ -249,14 +249,14 @@ class TestCirqAdapter:
     def test_simulator_options(self):
         """Test simulator configuration options"""
         simulator = ATLASQSimulator(
-            enable_vra=False,
+            enable_ir=False,
             enable_mps=False,
             enable_stabilizer=False,
             mps_threshold=50,
             seed=42
         )
 
-        assert simulator._enable_vra == False
+        assert simulator._enable_ir == False
         assert simulator._enable_mps == False
         assert simulator._enable_stabilizer == False
         assert simulator._mps_threshold == 50

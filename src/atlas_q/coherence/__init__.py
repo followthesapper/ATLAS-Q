@@ -2,19 +2,19 @@
 ATLAS-Q Coherence Module
 ========================
 
-Coherence-aware quantum computing framework based on Vaca Resonance Analysis (VRA).
+Coherence-aware quantum computing framework based on Informational Relativity (IR).
 
 This module provides:
 - Circular statistics-based coherence tracking (R̄, V_φ)
 - GO/NO-GO classification using e^-2 boundary
-- Adaptive VRA decision logic
+- Adaptive IR decision logic
 - Measurement grouping utilities
 
 Key Components:
     - CoherenceMetrics: Circular statistics metrics
     - compute_coherence(): Calculate R̄ and V_φ from measurements
     - classify_go_no_go(): e^-2 boundary classification
-    - adaptive_vra_decision(): Adaptive grouping control
+    - adaptive_ir_decision(): Adaptive grouping control
 
 Example:
     >>> from atlas_q.coherence import compute_coherence, classify_go_no_go
@@ -40,7 +40,7 @@ Date: November 2025
 # Classification
 from .classification import (
     CoherenceClassification,
-    adaptive_vra_decision,
+    adaptive_ir_decision,
     classify_go_no_go,
     classify_with_history,
 )
@@ -76,7 +76,7 @@ __all__ = [
     'CoherenceClassification',
     'classify_go_no_go',
     'classify_with_history',
-    'adaptive_vra_decision',
+    'adaptive_ir_decision',
 
     # Utilities
     'compute_pauli_expectation',

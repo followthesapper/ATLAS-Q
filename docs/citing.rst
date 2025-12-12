@@ -12,25 +12,24 @@ BibTeX
      title={ATLAS-Q: Adaptive Tensor Learning And Simulation – Quantum},
      author={ATLAS-Q Development Team},
      year={2025},
-     url={https://github.com/followthsapper/ATLAS-Q},
-     version={0.6.1},
-     doi={10.5281/zenodo.XXXXXXX}  # Update when DOI is assigned
+     url={https://github.com/followthesapper/ATLAS-Q},
+     version={0.7.0}
    }
 
 APA Format
 ----------
 
-ATLAS-Q Development Team. (2025). *ATLAS-Q: Adaptive Tensor Learning And Simulation – Quantum* (Version 0.6.1) [Computer software]. https://github.com/followthsapper/ATLAS-Q
+ATLAS-Q Development Team. (2025). *ATLAS-Q: Adaptive Tensor Learning And Simulation – Quantum* (Version 0.7.0) [Computer software]. https://github.com/followthesapper/ATLAS-Q
 
 MLA Format
 ----------
 
-ATLAS-Q Development Team. *ATLAS-Q: Adaptive Tensor Learning And Simulation – Quantum*. Version 0.6.1, 2025, https://github.com/followthsapper/ATLAS-Q.
+ATLAS-Q Development Team. *ATLAS-Q: Adaptive Tensor Learning And Simulation – Quantum*. Version 0.7.0, 2025, https://github.com/followthesapper/ATLAS-Q.
 
 Chicago Format
 --------------
 
-ATLAS-Q Development Team. 2025. "ATLAS-Q: Adaptive Tensor Learning And Simulation – Quantum." Version 0.6.1. https://github.com/followthsapper/ATLAS-Q.
+ATLAS-Q Development Team. 2025. "ATLAS-Q: Adaptive Tensor Learning And Simulation – Quantum." Version 0.7.0. https://github.com/followthesapper/ATLAS-Q.
 
 Text Citation
 -------------
@@ -142,7 +141,7 @@ For reproducibility, specify the exact version used:
      title={ATLAS-Q: Adaptive Tensor Learning And Simulation – Quantum},
      author={ATLAS-Q Development Team},
      year={2025},
-     url={https://github.com/followthsapper/ATLAS-Q},
+     url={https://github.com/followthesapper/ATLAS-Q},
      version={0.6.1},
      note={git commit: 3d7d144}
    }

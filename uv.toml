@@ -3,7 +3,7 @@
 
 [project]
 name = "atlas-quantum"
-version = "0.6.2"
+version = "0.7.0"
 requires-python = ">=3.9"
 
 [tool.uv]

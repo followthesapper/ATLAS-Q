@@ -1,9 +1,9 @@
 # ATLAS-Q: High-Performance Quantum Simulator with Rust Backends
 **Adaptive Tensor Learning And Simulation – Quantum**
 
-**Version 0.6.4** | **November 2025**
+**Version 0.7.0** | **November 2025**
 
-> **World-class quantum simulation with Rust+CUDA backends, beating Qiskit Aer on Clifford circuits and offering unique VRA measurement reduction**
+> **World-class quantum simulation with Rust+CUDA backends, beating Qiskit Aer on Clifford circuits and offering unique IR measurement reduction**
 
 [![Performance](https://img.shields.io/badge/Performance-9.3×%20faster%20than%20Aer-blue)]()
 [![GPU](https://img.shields.io/badge/GPU-Rust%20%2B%20CUDA%20%2B%20Triton-green)]()
@@ -69,11 +69,11 @@ Avg: 30-77× FASTER
 | **Clifford Circuits** | Rust Stabilizer | **9.3× faster than Aer** |  **Fastest** |
 | **Grover's/QFT** | Rust Statevector | **77× faster than Python** |  **Fastest** |
 | **VQE (< 18q)** | Rust Statevector | **30× faster than Python** |  **Fastest** |
-| **VQE (> 20q)** | MPS + VRA | **Net 2-3× faster than Aer** |  **Unique VRA** |
+| **VQE (> 20q)** | MPS + IR | **Net 2-3× faster than Aer** |  **Unique IR** |
 | **Error Correction** | Rust Stabilizer | **9.3× faster than Aer** |  **Fastest** |
 
 **Unique Features No Competitor Has:**
--  **VRA measurement grouping** (5× reduction)
+-  **IR measurement grouping** (5× reduction)
 -  **Coherence-aware VQE** (physical realizability checking)
 -  **Unified API** (automatic backend selection)
 
@@ -85,7 +85,7 @@ Avg: 30-77× FASTER
 - ** 30-77× faster than Python** on general circuits (Rust statevector)
 - ** 54× MPS sampling speedup** via GPU batch operations
 - ** 607,000× memory compression** vs full statevector (30 qubits: 28 KB vs 17 GB)
-- ** 5× measurement reduction** with VRA grouping (unique to ATLAS-Q)
+- ** 5× measurement reduction** with IR grouping (unique to ATLAS-Q)
 - ** All tests passing** - Production ready
 
 ---
@@ -316,7 +316,7 @@ from qiskit import QuantumCircuit
 from atlas_q.adapters import ATLASQBackend
 
 # Replace Qiskit Aer with ATLAS-Q
-backend = ATLASQBackend()  # Auto VRA, MPS, GPU, coherence
+backend = ATLASQBackend()  # Auto IR, MPS, GPU, coherence
 
 # Your existing Qiskit code works unchanged
 qc = QuantumCircuit(4)
@@ -331,7 +331,7 @@ print(result.get_counts())
 # Bonus: Get automatic coherence metrics for VQE
 metadata = result.results[0].header
 print(f"Backend used: {metadata['backend_used']}")  # stabilizer/mps/statevector
-print(f"VRA compression: {metadata['vra_compression_ratio']}")  # 5x reduction
+print(f"IR compression: {metadata['ir_compression_ratio']}")  # 5x reduction
 ```
 
 **Cirq example:**
@@ -340,7 +340,7 @@ import cirq
 from atlas_q.adapters import ATLASQSimulator
 
 # Replace Cirq simulator with ATLAS-Q
-simulator = ATLASQSimulator()  # Auto VRA, MPS, GPU, coherence
+simulator = ATLASQSimulator()  # Auto IR, MPS, GPU, coherence
 
 # Your existing Cirq code works unchanged
 qubits = cirq.LineQubit.range(4)
@@ -355,7 +355,7 @@ print(result.histogram(key='m'))
 ```
 
 **What you get automatically:**
-- **5× measurement reduction**: VRA grouping for VQE observables
+- **5× measurement reduction**: IR grouping for VQE observables
 - **20× speedup**: Stabilizer backend for Clifford circuits
 - **626,000× memory efficiency**: MPS for large circuits (>25 qubits)
 - **1.5-3× GPU speedup**: Triton kernels transparent
@@ -396,7 +396,7 @@ else:
  print(" Low coherence detected - results may be unreliable")
 ```
 
-**Hardware validated**: Achieved R̄=0.988 (near-perfect coherence) on IBM Brisbane for H2O (14 qubits, 1086 Pauli terms) with 5× measurement compression via VRA grouping.
+**Hardware validated**: Achieved R̄=0.988 (near-perfect coherence) on IBM Brisbane for H2O (14 qubits, 1086 Pauli terms) with 5× measurement compression via IR grouping.
 
 ### Tensor Network Simulation
 
@@ -465,7 +465,7 @@ ATLAS-Q is a **GPU-accelerated quantum simulator** with breakthrough coherence-a
 1. **Self-Diagnostic Algorithms**: First quantum framework that validates its own trustworthiness
 2. **Real-Time Quality Metrics**: R̄ (coherence), V_φ (variance) tracked during execution
 3. **GO/NO-GO Classification**: Physics-derived e^-2 boundary (R̄ ≈ 0.135) separates trustworthy from noisy
-4. **VRA Integration**: Vaca Resonance Analysis for 5× measurement compression
+4. **IR Integration**: Informational Relativity for 5× measurement compression
 5. **Hardware Validated**: Tested on IBM Brisbane with near-ideal coherence (R̄=0.988 for H2O)
 
 ### Tensor Network Simulation
@@ -484,7 +484,7 @@ ATLAS-Q is a **GPU-accelerated quantum simulator** with breakthrough coherence-a
 ### Key Innovations
 
 - **Coherence-Aware Framework**: World's first self-diagnostic quantum algorithms (GO/NO-GO classification)
-- **VRA Integration**: Circular statistics + RMT for quality monitoring and 5× measurement compression
+- **IR Integration**: Circular statistics + RMT for quality monitoring and 5× measurement compression
 - **Custom Triton Kernels**: Fused gate operations for 1.5-3× speedup
 - **Adaptive Bond Dimensions**: Dynamic memory management based on entanglement
 - **Hybrid Stabilizer/MPS**: 20× faster Clifford circuits with automatic switching
@@ -499,7 +499,7 @@ ATLAS-Q is a **GPU-accelerated quantum simulator** with breakthrough coherence-a
 - **[ Jupyter Notebook](ATLAS_Q_Demo.ipynb)** - Complete interactive demo (works in Colab!)
 
 ### Online Documentation
-- **[ Documentation Site](https://followthsapper.github.io/ATLAS-Q/)** - Browse all docs online
+- **[ Documentation Site](https://followthesapper.github.io/ATLAS-Q/)** - Browse all docs online
 
 ### Guides & References
 - **[Complete Guide](docs/COMPLETE_GUIDE.md)** - Installation, tutorials, API reference (start here!)
@@ -553,7 +553,7 @@ ATLAS-Q/
 
 ### BEST FOR:
 - **Coherence-Aware VQE**: Quantum chemistry with real-time quality validation
-- **VRA-Enhanced Algorithms**: 5× measurement compression + trustworthiness metrics
+- **IR-Enhanced Algorithms**: 5× measurement compression + trustworthiness metrics
 - **Tensor Networks**: 20-50 qubits with moderate entanglement
 - **VQE/QAOA**: Optimization on NISQ devices with noise and coherence tracking
 - **Grover Search**: Unstructured database search with quadratic speedup
@@ -667,7 +667,7 @@ times, energies = tdvp.run()
 
 ### Current Status (v0.6.2)
 - **NEW:** Coherence-Aware VQE/QAOA with GO/NO-GO classification
-- **NEW:** VRA integration (circular statistics, RMT, 5× measurement compression)
+- **NEW:** IR integration (circular statistics, RMT, 5× measurement compression)
 - **NEW:** Hardware validated on IBM Brisbane (H2, LiH, H2O)
 - GPU-accelerated tensor networks with custom Triton kernels
 - Adaptive MPS with error tracking
@@ -697,7 +697,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ```bash
 # Clone with submodules
-git clone --recursive https://github.com/followthsapper/ATLAS-Q.git
+git clone --recursive https://github.com/followthesapper/ATLAS-Q.git
 
 # Install dev dependencies
 pip install -r requirements.txt
@@ -721,7 +721,7 @@ If you use ATLAS-Q in your research, please cite:
  title={ATLAS-Q: Adaptive Tensor Learning And Simulation – Quantum},
  author={ATLAS-Q Development Team},
  year={2025},
- url={https://github.com/followthsapper/ATLAS-Q},
+ url={https://github.com/followthesapper/ATLAS-Q},
  version={0.5.0}
 }
 ```
@@ -745,8 +745,8 @@ MIT License - see [LICENSE](LICENSE) for details
 
 ## Contact
 
-- **Issues**: [GitHub Issues](https://github.com/followthsapper/ATLAS-Q/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/followthsapper/ATLAS-Q/discussions)
+- **Issues**: [GitHub Issues](https://github.com/followthesapper/ATLAS-Q/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/followthesapper/ATLAS-Q/discussions)
 
 ---
 

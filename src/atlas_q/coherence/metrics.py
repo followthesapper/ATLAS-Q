@@ -3,7 +3,7 @@ Coherence Metrics Module
 ========================
 
 Provides circular statistics-based coherence tracking for quantum measurements
-using Vaca Resonance Analysis (VRA).
+using Informational Relativity (IR).
 
 Key Concepts:
 - R̄ (Mean Resultant Length): Measures phase coherence (0 = random, 1 = perfect)
@@ -29,13 +29,13 @@ class CoherenceMetrics:
         R_bar: Mean resultant length (0-1, higher is better)
         V_phi: Circular variance (0-∞, lower is better)
         is_above_e2_boundary: Whether R̄ > e^-2 ≈ 0.135
-        vra_predicted_to_help: Whether VRA grouping is predicted to improve results
+        ir_predicted_to_help: Whether IR grouping is predicted to improve results
         n_measurements: Number of Pauli measurements used for coherence computation
     """
     R_bar: float
     V_phi: float
     is_above_e2_boundary: bool
-    vra_predicted_to_help: bool
+    ir_predicted_to_help: bool
     n_measurements: int = 0
 
     def __post_init__(self):
@@ -51,7 +51,7 @@ class CoherenceMetrics:
             'R_bar': float(self.R_bar),
             'V_phi': float(self.V_phi),
             'is_above_e2_boundary': bool(self.is_above_e2_boundary),
-            'vra_predicted_to_help': bool(self.vra_predicted_to_help),
+            'ir_predicted_to_help': bool(self.ir_predicted_to_help),
             'n_measurements': int(self.n_measurements)
         }
 
@@ -69,7 +69,7 @@ def compute_coherence(
     """
     Compute circular statistics coherence from Pauli expectation values.
 
-    This implements VRA Test 2 (Coherence Tracking) using circular statistics
+    This implements IR Test 2 (Coherence Tracking) using circular statistics
     to quantify the quality of quantum measurements. The coherence metrics
     provide an objective measure of whether quantum results can be trusted.
 
@@ -99,7 +99,7 @@ def compute_coherence(
 
     References:
         - Mardia & Jupp, "Directional Statistics" (2000)
-        - VRA Hardware Validation: COHERENCE_AWARE_VQE_BREAKTHROUGH.md
+        - IR Hardware Validation: COHERENCE_AWARE_VQE_BREAKTHROUGH.md
     """
     # Input validation
     if isinstance(measurement_outcomes, list):
@@ -135,17 +135,17 @@ def compute_coherence(
     else:
         V_phi = np.inf
 
-    # Check e^-2 boundary (VRA Test 7)
+    # Check e^-2 boundary (IR Test 7)
     is_above = R_bar > e2_threshold
 
-    # VRA predicted to help when coherence is high
-    vra_helps = is_above
+    # IR predicted to help when coherence is high
+    ir_helps = is_above
 
     return CoherenceMetrics(
         R_bar=R_bar,
         V_phi=V_phi,
         is_above_e2_boundary=is_above,
-        vra_predicted_to_help=vra_helps,
+        ir_predicted_to_help=ir_helps,
         n_measurements=len(measurement_outcomes)
     )
 

@@ -29,7 +29,7 @@ import argparse
 import sys
 from pathlib import Path
 
-__version__ = '0.6.1'
+from atlas_q import __version__
 
 
 def print_banner():
@@ -38,7 +38,7 @@ def print_banner():
 ╔═══════════════════════════════════════════════════════════╗
 ║        ATLAS-Q - Quantum Tensor Network Simulator         ║
 ║     GPU-Accelerated | Adaptive MPS | Molecular Chemistry  ║
-║                     Version 0.6.1                         ║
+║                     Version {__version__}                         ║
 ╚═══════════════════════════════════════════════════════════╝
 """)
 

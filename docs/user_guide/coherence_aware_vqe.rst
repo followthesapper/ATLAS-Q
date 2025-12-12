@@ -13,7 +13,7 @@ ATLAS-Q features the **world's first coherence-aware quantum computing framework
 What is Coherence-Aware Computing?
 -----------------------------------
 
-Traditional quantum algorithms run "blind" - they execute circuits and return results, but provide no measure of whether those results are trustworthy. Coherence-aware computing adds real-time quality monitoring based on **Vaca Resonance Analysis (VRA)**, tracking circular statistics that quantify measurement coherence.
+Traditional quantum algorithms run "blind" - they execute circuits and return results, but provide no measure of whether those results are trustworthy. Coherence-aware computing adds real-time quality monitoring based on **Informational Relativity (IR)**, tracking circular statistics that quantify measurement coherence.
 
 Key Concepts
 ~~~~~~~~~~~~
@@ -77,7 +77,7 @@ The framework has been validated on **IBM Brisbane** (127-qubit Eagle r3) with p
      - 96s
      - d43q6e07i53s73e4dad0
 
-**Key Achievement**: Near-ideal coherence (R̄ > 0.98) maintained on production-scale molecules while achieving 5× measurement compression via VRA grouping.
+**Key Achievement**: Near-ideal coherence (R̄ > 0.98) maintained on production-scale molecules while achieving 5× measurement compression via IR grouping.
 
 Quick Start
 -----------
@@ -147,23 +147,23 @@ Molecular Hamiltonians
 Advanced Features
 -----------------
 
-VRA Grouping for Measurement Compression
+IR Grouping for Measurement Compression
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-VRA grouping reduces measurement overhead by grouping commuting Pauli operators:
+IR grouping reduces measurement overhead by grouping commuting Pauli operators:
 
 .. code-block:: python
 
-    from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+    from atlas_q.ir_enhanced import ir_hamiltonian_grouping
     from atlas_q.coherence import group_paulis_qwc
 
-    # Option 1: VRA grouping (variance-aware, optimal shot allocation)
-    result = vra_hamiltonian_grouping(
+    # Option 1: IR grouping (variance-aware, optimal shot allocation)
+    result = ir_hamiltonian_grouping(
         pauli_strings,
         coefficients,
         total_shots=10000
     )
-    print(f"VRA Groups: {len(result.groups)}")
+    print(f"IR Groups: {len(result.groups)}")
     print(f"Variance reduction: {result.variance_reduction_factor:.2f}×")
 
     # Option 2: Simple QWC grouping (qubit-wise commuting)
@@ -208,22 +208,22 @@ Automatically adjust strategy based on coherence:
 
 .. code-block:: python
 
-    from atlas_q.coherence import adaptive_vra_decision
+    from atlas_q.coherence import adaptive_ir_decision
 
     # Run VQE
     result = vqe.run()
 
-    # Decide whether to use VRA grouping based on coherence
-    enable_vra, reason = adaptive_vra_decision(
+    # Decide whether to use IR grouping based on coherence
+    enable_ir, reason = adaptive_ir_decision(
         result.coherence,
         threshold=0.135  # e^-2 boundary
     )
 
-    print(f"VRA Decision: {reason}")
-    if enable_vra:
-        # Use VRA grouping for next iteration
-        from atlas_q.vra_enhanced import vra_hamiltonian_grouping
-        groups = vra_hamiltonian_grouping(pauli_strings, coefficients)
+    print(f"IR Decision: {reason}")
+    if enable_ir:
+        # Use IR grouping for next iteration
+        from atlas_q.ir_enhanced import ir_hamiltonian_grouping
+        groups = ir_hamiltonian_grouping(pauli_strings, coefficients)
     else:
         # Use standard individual measurements
         pass
@@ -332,14 +332,14 @@ Coherence metrics are computed from Pauli expectation values:
 
         return CoherenceMetrics(R_bar, V_phi, is_above_e2)
 
-VRA Grouping Algorithm
+IR Grouping Algorithm
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Qubit-wise commuting (QWC) grouping strategy:
 
 .. code-block:: python
 
-    def vra_grouping(pauli_strings: List[str],
+    def ir_grouping(pauli_strings: List[str],
                     coefficients: np.ndarray,
                     strategy: str = 'qubit_wise_commuting') -> List[List[int]]:
         """
@@ -372,12 +372,12 @@ Best Practices
        if result.coherence.R_bar < 0.135:
            warnings.warn("Low coherence detected. Results may be unreliable.")
 
-2. **Use VRA Grouping for Large Hamiltonians**
+2. **Use IR Grouping for Large Hamiltonians**
 
    .. code-block:: python
 
-       # For > 100 Pauli terms, VRA grouping significantly reduces runtime
-       use_vra = len(hamiltonian.paulis) > 100
+       # For > 100 Pauli terms, IR grouping significantly reduces runtime
+       use_ir = len(hamiltonian.paulis) > 100
 
 3. **Monitor Coherence During Optimization**
 
@@ -428,7 +428,7 @@ High Variance in Results
 **Solutions:**
 
 - Increase shots (proportional to 1/√shots)
-- Use per-member averaging in VRA grouping
+- Use per-member averaging in IR grouping
 - Apply readout error mitigation
 
 References
@@ -436,15 +436,15 @@ References
 
 **Papers:**
 
-- Vaca Resonance Analysis: [Paper link to be added]
+- Informational Relativity: [Paper link to be added]
 - Coherence Law Validation: COHERENCE_AWARE_VQE_BREAKTHROUGH.md
-- Hardware Results: VRA_HARDWARE_VALIDATION_SUMMARY.md
+- Hardware Results: IR_HARDWARE_VALIDATION_SUMMARY.md
 
 **Code:**
 
-- Main implementation: ``benchmarks/vra_coherence_aware_hardware_benchmark.py``
-- VRA enhanced modules: ``src/atlas_q/vra_enhanced/``
-- Integration tests: ``tests/integration/test_vra_qaoa_grouping.py``
+- Main implementation: ``benchmarks/ir_coherence_aware_hardware_benchmark.py``
+- IR enhanced modules: ``src/atlas_q/ir_enhanced/``
+- Integration tests: ``tests/integration/test_ir_qaoa_grouping.py``
 
 **External Resources:**
 

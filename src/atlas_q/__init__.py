@@ -290,7 +290,7 @@ def get_coherence():
     from .coherence import (
         CoherenceClassification,
         CoherenceMetrics,
-        adaptive_vra_decision,
+        adaptive_ir_decision,
         classify_go_no_go,
         classify_with_history,
         coherence_from_counts,
@@ -312,7 +312,7 @@ def get_coherence():
         # Classification
         'classify_go_no_go': classify_go_no_go,
         'classify_with_history': classify_with_history,
-        'adaptive_vra_decision': adaptive_vra_decision,
+        'adaptive_ir_decision': adaptive_ir_decision,
         # Utilities
         'compute_pauli_expectation': compute_pauli_expectation,
         'group_paulis_qwc': group_paulis_qwc,

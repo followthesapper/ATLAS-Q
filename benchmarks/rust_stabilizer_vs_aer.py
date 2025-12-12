@@ -179,7 +179,7 @@ Comparison with Qiskit Aer:
 Strategic Advantages:
   ✓ ATLAS-Q provides unified API across backends (MPS, stabilizer, statevector)
   ✓ Hybrid simulator can switch backends automatically
-  ✓ VRA integration for 5× measurement reduction in VQE
+  ✓ IR integration for 5× measurement reduction in VQE
   ✓ Better memory scaling for large Clifford + non-Clifford circuits
 """)
 

@@ -3,17 +3,17 @@
 Coherence-Aware Hardware Test on IBM Brisbane
 ==============================================
 
-Tests the adaptive VRA framework on real quantum hardware.
+Tests the adaptive IR framework on real quantum hardware.
 
 This is a simplified version focusing on coherence tracking during
 a single VQE-style energy measurement, demonstrating:
 
 1. Coherence tracking (R̄, V_φ) from real measurements
 2. e^-2 boundary check
-3. Adaptive VRA decision (ON/OFF based on coherence)
+3. Adaptive IR decision (ON/OFF based on coherence)
 4. Go/No-Go classification
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2, 2025
 """
 
@@ -35,22 +35,22 @@ from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
 try:
     from pyscf import gto, scf, ao2mo
     from atlas_q.mpo_ops import _jordan_wigner_transform
-    from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+    from atlas_q.ir_enhanced import ir_hamiltonian_grouping
     PYSCF_AVAILABLE = True
-    VRA_AVAILABLE = True
+    IR_AVAILABLE = True
 except ImportError:
     PYSCF_AVAILABLE = False
-    VRA_AVAILABLE = False
-    print("⚠️  PySCF/VRA not available - using mock Hamiltonian")
+    IR_AVAILABLE = False
+    print("⚠️  PySCF/IR not available - using mock Hamiltonian")
 
 
 @dataclass
 class CoherenceMetrics:
-    """Circular statistics from VRA Test 2"""
+    """Circular statistics from IR Test 2"""
     R_bar: float
     V_phi: float
     is_above_e2_boundary: bool
-    vra_predicted_to_help: bool
+    ir_predicted_to_help: bool
 
 
 @dataclass
@@ -203,7 +203,7 @@ def compute_expectation_from_counts(counts: Dict, pauli_str: str) -> float:
 
 def compute_coherence(measurement_outcomes: np.ndarray) -> CoherenceMetrics:
     """
-    Compute circular statistics coherence (VRA Test 2).
+    Compute circular statistics coherence (IR Test 2).
     """
     # Convert Pauli expectations [-1, 1] to phases
     phases = np.arccos(np.clip(measurement_outcomes, -1, 1))
@@ -215,7 +215,7 @@ def compute_coherence(measurement_outcomes: np.ndarray) -> CoherenceMetrics:
     # Circular variance
     V_phi = -2.0 * np.log(R_bar) if R_bar > 1e-10 else np.inf
 
-    # e^-2 boundary (VRA Test 7)
+    # e^-2 boundary (IR Test 7)
     e2_boundary = 0.135
     is_above = R_bar > e2_boundary
 
@@ -223,13 +223,13 @@ def compute_coherence(measurement_outcomes: np.ndarray) -> CoherenceMetrics:
         R_bar=R_bar,
         V_phi=V_phi,
         is_above_e2_boundary=is_above,
-        vra_predicted_to_help=is_above
+        ir_predicted_to_help=is_above
     )
 
 
 def classify_go_no_go(coherence: CoherenceMetrics) -> Tuple[str, str]:
     """
-    VRA Test 7 go/no-go classifier.
+    IR Test 7 go/no-go classifier.
     """
     if coherence.R_bar > 0.135:
         return "GO", f"Coherence above e^-2 boundary (R̄={coherence.R_bar:.3f} > 0.135)"
@@ -237,15 +237,15 @@ def classify_go_no_go(coherence: CoherenceMetrics) -> Tuple[str, str]:
         return "NO-GO", f"Coherence below e^-2 boundary (R̄={coherence.R_bar:.3f} < 0.135)"
 
 
-def run_coherence_aware_test(backend_name: str = 'ibm_brisbane', shots: int = 5000, molecule: str = 'H2', use_vra_grouping: bool = True):
+def run_coherence_aware_test(backend_name: str = 'ibm_brisbane', shots: int = 5000, molecule: str = 'H2', use_ir_grouping: bool = True):
     """
     Run coherence-aware hardware test.
 
     Args:
         backend_name: IBM Quantum backend name
-        shots: Shots per measurement (per group if using VRA grouping)
+        shots: Shots per measurement (per group if using IR grouping)
         molecule: Molecule to test ('H2' or 'LiH')
-        use_vra_grouping: Use VRA grouping for large Hamiltonians
+        use_ir_grouping: Use IR grouping for large Hamiltonians
     """
     print("\n" + "="*80)
     print("COHERENCE-AWARE HARDWARE TEST")
@@ -253,7 +253,7 @@ def run_coherence_aware_test(backend_name: str = 'ibm_brisbane', shots: int = 50
     print(f"Backend: {backend_name}")
     print(f"Molecule: {molecule}")
     print(f"Shots per measurement: {shots}")
-    print("\nIntegrating VRA hardware validation:")
+    print("\nIntegrating IR hardware validation:")
     print("  ✓ Test 2: Coherence tracking (R̄, V_φ)")
     print("  ✓ Test 7: e^-2 boundary and go/no-go classification")
     print("")
@@ -266,15 +266,15 @@ def run_coherence_aware_test(backend_name: str = 'ibm_brisbane', shots: int = 50
     print(f"  Largest coeff: {np.max(np.abs(coeffs)):.4f}")
     print(f"  Nuclear repulsion: {e_nuc:.6f} Ha")
 
-    # Check if VRA grouping should be used
-    use_grouping = use_vra_grouping and VRA_AVAILABLE and len(pauli_strings) > 20
+    # Check if IR grouping should be used
+    use_grouping = use_ir_grouping and IR_AVAILABLE and len(pauli_strings) > 20
 
     if use_grouping:
-        print(f"\n[2/5] Applying VRA grouping...")
+        print(f"\n[2/5] Applying IR grouping...")
         # Group Pauli terms
-        from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+        from atlas_q.ir_enhanced import ir_hamiltonian_grouping
         total_budget = shots * len(pauli_strings)
-        grouping_result = vra_hamiltonian_grouping(coeffs, pauli_strings, total_shots=total_budget)
+        grouping_result = ir_hamiltonian_grouping(coeffs, pauli_strings, total_shots=total_budget)
 
         # grouping_result.groups contains lists of indices
         group_indices = grouping_result.groups
@@ -301,7 +301,7 @@ def run_coherence_aware_test(backend_name: str = 'ibm_brisbane', shots: int = 50
     circuits = []
     for group_idx_list in group_indices:
         # For simplicity, measure first Pauli in each group
-        # (In full VRA, would measure commuting observables simultaneously)
+        # (In full IR, would measure commuting observables simultaneously)
         first_idx = group_idx_list[0]
         representative_pauli = pauli_strings[first_idx]
         qc = pauli_to_circuit(representative_pauli, base_circuit)
@@ -391,7 +391,7 @@ def run_coherence_aware_test(backend_name: str = 'ibm_brisbane', shots: int = 50
 
     # Compute coherence
     print("\n" + "="*80)
-    print("COHERENCE ANALYSIS (VRA Test 2)")
+    print("COHERENCE ANALYSIS (IR Test 2)")
     print("="*80)
 
     measurement_outcomes = np.array(measurement_outcomes)
@@ -400,11 +400,11 @@ def run_coherence_aware_test(backend_name: str = 'ibm_brisbane', shots: int = 50
     print(f"  Mean resultant length: R̄ = {coherence.R_bar:.4f}")
     print(f"  Circular variance: V_φ = {coherence.V_phi:.4f}")
     print(f"  Above e^-2 boundary (0.135): {'✅ YES' if coherence.is_above_e2_boundary else '❌ NO'}")
-    print(f"  VRA predicted to help: {'✅ YES' if coherence.vra_predicted_to_help else '❌ NO'}")
+    print(f"  IR predicted to help: {'✅ YES' if coherence.ir_predicted_to_help else '❌ NO'}")
 
     # Classification
     print("\n" + "="*80)
-    print("GO/NO-GO CLASSIFICATION (VRA Test 7)")
+    print("GO/NO-GO CLASSIFICATION (IR Test 7)")
     print("="*80)
 
     go_no_go, reason = classify_go_no_go(coherence)
@@ -418,14 +418,14 @@ def run_coherence_aware_test(backend_name: str = 'ibm_brisbane', shots: int = 50
     print("="*80)
     print(f"  Simulator (MPS): R̄ ~ 0.80-0.93 (very high coherence)")
     print(f"  Hardware (this run): R̄ = {coherence.R_bar:.4f}")
-    print(f"  VRA Test 7 range: R̄ = 0.124-0.460 (typical hardware)")
+    print(f"  IR Test 7 range: R̄ = 0.124-0.460 (typical hardware)")
 
     if coherence.R_bar > 0.5:
         print("\n  ⚡ INSIGHT: Your hardware coherence is higher than expected!")
         print("     This suggests good qubit quality or favorable circuit structure.")
     elif coherence.R_bar < 0.2:
         print("\n  ⚠️  INSIGHT: Low coherence detected!")
-        print("     Adaptive VRA would DISABLE grouping to save shots.")
+        print("     Adaptive IR would DISABLE grouping to save shots.")
 
     # Save results
     result_data = HardwareTestResult(
@@ -459,7 +459,7 @@ def run_coherence_aware_test(backend_name: str = 'ibm_brisbane', shots: int = 50
     print("="*80)
     print(f"✅ Successfully demonstrated coherence-aware quantum computing on {backend_name}")
     print("✅ Coherence tracking (R̄, V_φ) from real hardware measurements")
-    print("✅ e^-2 boundary check and VRA prediction")
+    print("✅ e^-2 boundary check and IR prediction")
     print("✅ Go/No-Go classification of quantum results")
     print("="*80 + "\n")
 
@@ -473,11 +473,11 @@ if __name__ == "__main__":
     parser.add_argument('--backend', type=str, default='ibm_brisbane',
                        help='IBM Quantum backend name')
     parser.add_argument('--shots', type=int, default=5000,
-                       help='Shots per measurement (per group if using VRA grouping)')
+                       help='Shots per measurement (per group if using IR grouping)')
     parser.add_argument('--molecule', type=str, default='H2',
                        help='Molecule to test (H2, LiH, or H2O)')
     parser.add_argument('--no-vra-grouping', action='store_true',
-                       help='Disable VRA grouping (measure all Pauli terms individually)')
+                       help='Disable IR grouping (measure all Pauli terms individually)')
 
     args = parser.parse_args()
 
@@ -486,7 +486,7 @@ if __name__ == "__main__":
             backend_name=args.backend,
             shots=args.shots,
             molecule=args.molecule,
-            use_vra_grouping=not args.no_vra_grouping
+            use_ir_grouping=not args.no_ir_grouping
         )
     except Exception as e:
         print(f"\n❌ Error: {e}")

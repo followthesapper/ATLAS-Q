@@ -281,7 +281,7 @@ If you use these benchmarks in academic work:
  title={ATLAS-Q Benchmark Suite},
  author={ATLAS-Q Development Team},
  year={2025},
- url={https://github.com/followthsapper/ATLAS-Q},
+ url={https://github.com/followthesapper/ATLAS-Q},
  note={Comprehensive validation and competitive analysis}
 }
 ```

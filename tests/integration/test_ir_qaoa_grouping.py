@@ -1,5 +1,5 @@
 """
-Test VRA-Enhanced QAOA Grouping
+Test IR-Enhanced QAOA Grouping
 ================================
 
 Validates commutativity-aware edge grouping for QAOA MaxCut problems.
@@ -10,10 +10,10 @@ Target: 10-500× variance reduction for medium-to-large graphs
 import numpy as np
 import pytest
 
-from atlas_q.vra_enhanced import (
+from atlas_q.ir_enhanced import (
     check_group_commutativity_edges,
     edges_commute,
-    vra_qaoa_grouping,
+    ir_qaoa_grouping,
 )
 
 
@@ -77,14 +77,14 @@ class TestGroupCommutativityEdges:
 
 
 class TestQAOAGrouping:
-    """Test VRA QAOA grouping algorithm"""
+    """Test IR QAOA grouping algorithm"""
 
     def test_triangle_graph_grouping(self):
         """Triangle: No edges commute → 3 groups"""
         weights = np.array([1.0, 1.0, 1.0])
         edges = [(0, 1), (1, 2), (0, 2)]
 
-        result = vra_qaoa_grouping(weights, edges, total_shots=10000)
+        result = ir_qaoa_grouping(weights, edges, total_shots=10000)
 
         print(f"\nTriangle Graph:")
         print(f"  Edges: {edges}")
@@ -107,7 +107,7 @@ class TestQAOAGrouping:
         weights = np.array([1.0, 1.0, 1.0, 1.0])
         edges = [(0, 1), (1, 2), (2, 3), (3, 0)]
 
-        result = vra_qaoa_grouping(weights, edges, total_shots=10000)
+        result = ir_qaoa_grouping(weights, edges, total_shots=10000)
 
         print(f"\nSquare Graph:")
         print(f"  Edges: {edges}")
@@ -133,7 +133,7 @@ class TestQAOAGrouping:
         weights = np.array([1.0, 1.0, 1.0])
         edges = [(0, 1), (2, 3), (4, 5)]
 
-        result = vra_qaoa_grouping(weights, edges, total_shots=10000)
+        result = ir_qaoa_grouping(weights, edges, total_shots=10000)
 
         print(f"\nDisjoint Edges:")
         print(f"  Edges: {edges}")
@@ -163,7 +163,7 @@ class TestQAOAGrouping:
         ]
         weights = np.ones(len(edges))
 
-        result = vra_qaoa_grouping(weights, edges, total_shots=10000)
+        result = ir_qaoa_grouping(weights, edges, total_shots=10000)
 
         print(f"\nPetersen Graph:")
         print(f"  Edges: {len(edges)}")
@@ -189,7 +189,7 @@ class TestQAOAGrouping:
         weights = np.array([2.0, 1.0, 0.5, 3.0])
         edges = [(0, 1), (2, 3), (4, 5), (6, 7)]  # All disjoint
 
-        result = vra_qaoa_grouping(weights, edges, total_shots=10000)
+        result = ir_qaoa_grouping(weights, edges, total_shots=10000)
 
         print(f"\nWeighted Disjoint Edges:")
         print(f"  Weights: {weights}")
@@ -217,7 +217,7 @@ class TestScaling:
         edges = [(i, j) for i in range(n) for j in range(i+1, n)]
         weights = np.ones(len(edges))
 
-        result = vra_qaoa_grouping(weights, edges, total_shots=10000, max_group_size=5)
+        result = ir_qaoa_grouping(weights, edges, total_shots=10000, max_group_size=5)
 
         print(f"\nComplete Graph K_{n}:")
         print(f"  Edges: {len(edges)}")
@@ -248,7 +248,7 @@ class TestScaling:
         ]
         weights = np.ones(len(edges))
 
-        result = vra_qaoa_grouping(weights, edges, total_shots=10000)
+        result = ir_qaoa_grouping(weights, edges, total_shots=10000)
 
         print(f"\n3×3 Grid Graph:")
         print(f"  Edges: {len(edges)}")
@@ -271,7 +271,7 @@ def test_end_to_end_qaoa_grouping():
     End-to-end test demonstrating variance reduction for QAOA.
     """
     print("\n" + "="*70)
-    print("VRA QAOA Grouping - End-to-End Test")
+    print("IR QAOA Grouping - End-to-End Test")
     print("="*70)
 
     # Medium graph (20 vertices, various connectivity)
@@ -297,10 +297,10 @@ def test_end_to_end_qaoa_grouping():
     baseline_groups = [[i] for i in range(len(edges))]
     print(f"\nBaseline (per-edge): {len(baseline_groups)} groups")
 
-    # VRA grouping
-    result = vra_qaoa_grouping(weights, edges, total_shots=10000, max_group_size=10)
+    # IR grouping
+    result = ir_qaoa_grouping(weights, edges, total_shots=10000, max_group_size=10)
 
-    print(f"\nVRA Grouping:")
+    print(f"\nIR Grouping:")
     print(f"  Groups: {result.n_groups}")
     print(f"  Compression: {len(edges)} → {result.n_groups} ({len(edges)/result.n_groups:.1f}× reduction)")
     print(f"  Largest group: {max(len(g) for g in result.groups)} edges")
@@ -323,7 +323,7 @@ def test_end_to_end_qaoa_grouping():
     assert result.n_groups < len(edges) / expected_compression
 
     print(f"\n{'='*70}")
-    print("QAOA VRA Integration: SUCCESS")
+    print("QAOA IR Integration: SUCCESS")
     print(f"{'='*70}")
 
 

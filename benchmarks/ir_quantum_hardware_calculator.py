@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """
-VRA Quantum Hardware Cost Calculator & Deployment Guide
+IR Quantum Hardware Cost Calculator & Deployment Guide
 ========================================================
 
 This tool calculates the REAL cost and time savings when deploying
-ATLAS-Q algorithms to IBM Quantum hardware with VRA optimization.
+ATLAS-Q algorithms to IBM Quantum hardware with IR optimization.
 
 Features:
 1. Accurate variance reduction calculations (validated)
 2. IBM Quantum cost estimates ($96/minute)
-3. Time/cost savings from VRA grouping
+3. Time/cost savings from IR grouping
 4. Export guide for ATLAS-Q → IBM Quantum
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -26,7 +26,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from atlas_q.mpo_ops import _jordan_wigner_transform
-from atlas_q.vra_enhanced import vra_hamiltonian_grouping, vra_qaoa_grouping
+from atlas_q.ir_enhanced import ir_hamiltonian_grouping, ir_qaoa_grouping
 
 try:
     from pyscf import ao2mo, gto, scf
@@ -53,16 +53,16 @@ class HardwareCostEstimate:
     n_pauli_terms: int
     n_vqe_iterations: int
 
-    # Naive (no VRA)
+    # Naive (no IR)
     naive_measurement_groups: int
     naive_time_seconds: float
     naive_cost_usd: float
 
-    # With VRA
-    vra_measurement_groups: int
-    vra_variance_reduction: float
-    vra_time_seconds: float
-    vra_cost_usd: float
+    # With IR
+    ir_measurement_groups: int
+    ir_variance_reduction: float
+    ir_time_seconds: float
+    ir_cost_usd: float
 
     # Savings
     time_savings_factor: float
@@ -115,7 +115,7 @@ def calculate_vqe_hardware_cost(
     shots_per_setting: int = 1000
 ) -> HardwareCostEstimate:
     """
-    Calculate IBM Quantum hardware cost for VQE with and without VRA.
+    Calculate IBM Quantum hardware cost for VQE with and without IR.
 
     This uses VALIDATED variance reduction values from our tests.
     """
@@ -133,19 +133,19 @@ def calculate_vqe_hardware_cost(
     print(f"  ✓ Qubits: {n_qubits}")
     print(f"  ✓ Pauli terms: {n_terms}")
 
-    # Apply VRA grouping
-    print(f"\n[2/4] Applying VRA grouping...")
-    grouping_result = vra_hamiltonian_grouping(
+    # Apply IR grouping
+    print(f"\n[2/4] Applying IR grouping...")
+    grouping_result = ir_hamiltonian_grouping(
         coeffs,
         pauli_strings=paulis,
         total_shots=10000,  # Doesn't matter for grouping
         max_group_size=30
     )
 
-    n_vra_groups = len(grouping_result.groups)
+    n_ir_groups = len(grouping_result.groups)
     variance_reduction = grouping_result.variance_reduction
 
-    print(f"  ✓ VRA groups: {n_vra_groups} (from {n_terms} terms)")
+    print(f"  ✓ IR groups: {n_ir_groups} (from {n_terms} terms)")
     print(f"  ✓ Variance reduction: {variance_reduction:.1f}×")
 
     # Calculate hardware execution time
@@ -157,16 +157,16 @@ def calculate_vqe_hardware_cost(
     naive_iteration_time = naive_measurement_time + CIRCUIT_OVERHEAD_SECONDS
     naive_total_time = naive_iteration_time * n_vqe_iterations
 
-    # VRA: measure grouped Paulis
-    vra_settings = n_vra_groups
-    vra_measurement_time = vra_settings * SECONDS_PER_MEASUREMENT_SETTING
-    vra_iteration_time = vra_measurement_time + CIRCUIT_OVERHEAD_SECONDS
-    vra_total_time = vra_iteration_time * n_vqe_iterations
+    # IR: measure grouped Paulis
+    ir_settings = n_ir_groups
+    ir_measurement_time = ir_settings * SECONDS_PER_MEASUREMENT_SETTING
+    ir_iteration_time = ir_measurement_time + CIRCUIT_OVERHEAD_SECONDS
+    ir_total_time = ir_iteration_time * n_vqe_iterations
 
-    time_savings_factor = naive_total_time / vra_total_time
+    time_savings_factor = naive_total_time / ir_total_time
 
     print(f"  ✓ Naive: {naive_settings} settings × {n_vqe_iterations} iters = {naive_total_time/3600:.2f} hours")
-    print(f"  ✓ VRA:   {vra_settings} settings × {n_vqe_iterations} iters = {vra_total_time/3600:.2f} hours")
+    print(f"  ✓ IR:   {ir_settings} settings × {n_vqe_iterations} iters = {ir_total_time/3600:.2f} hours")
     print(f"  ✓ Time savings: {time_savings_factor:.1f}×")
 
     # Calculate cost
@@ -183,12 +183,12 @@ def calculate_vqe_hardware_cost(
             return billable_minutes * IBM_COST_PER_MINUTE
 
     naive_cost = calculate_cost(naive_total_time)
-    vra_cost = calculate_cost(vra_total_time)
-    cost_savings = naive_cost - vra_cost
+    ir_cost = calculate_cost(ir_total_time)
+    cost_savings = naive_cost - ir_cost
     cost_savings_percent = (cost_savings / naive_cost * 100) if naive_cost > 0 else 0.0
 
     print(f"  ✓ Naive cost: ${naive_cost:,.2f}")
-    print(f"  ✓ VRA cost:   ${vra_cost:,.2f}")
+    print(f"  ✓ IR cost:   ${ir_cost:,.2f}")
     print(f"  ✓ Savings:    ${cost_savings:,.2f} ({cost_savings_percent:.1f}%)")
 
     return HardwareCostEstimate(
@@ -199,10 +199,10 @@ def calculate_vqe_hardware_cost(
         naive_measurement_groups=naive_settings,
         naive_time_seconds=naive_total_time,
         naive_cost_usd=naive_cost,
-        vra_measurement_groups=vra_settings,
-        vra_variance_reduction=variance_reduction,
-        vra_time_seconds=vra_total_time,
-        vra_cost_usd=vra_cost,
+        ir_measurement_groups=ir_settings,
+        ir_variance_reduction=variance_reduction,
+        ir_time_seconds=ir_total_time,
+        ir_cost_usd=ir_cost,
         time_savings_factor=time_savings_factor,
         cost_savings_usd=cost_savings,
         cost_savings_percent=cost_savings_percent
@@ -241,40 +241,40 @@ def calculate_qaoa_hardware_cost(
     print(f"  ✓ Edges: {n_edges}")
     print(f"  ✓ QAOA layers: {n_qaoa_layers}")
 
-    # Apply VRA grouping
-    print(f"\n[2/3] Applying VRA edge grouping...")
-    grouping_result = vra_qaoa_grouping(weights, edges, total_shots=10000)
+    # Apply IR grouping
+    print(f"\n[2/3] Applying IR edge grouping...")
+    grouping_result = ir_qaoa_grouping(weights, edges, total_shots=10000)
 
-    n_vra_groups = len(grouping_result.groups)
+    n_ir_groups = len(grouping_result.groups)
     variance_reduction = grouping_result.variance_reduction
 
-    print(f"  ✓ VRA groups: {n_vra_groups} (from {n_edges} edges)")
+    print(f"  ✓ IR groups: {n_ir_groups} (from {n_edges} edges)")
     print(f"  ✓ Variance reduction: {variance_reduction:.1f}×")
 
     # Calculate costs
     print(f"\n[3/3] Calculating costs...")
 
     naive_settings = n_edges
-    vra_settings = n_vra_groups
+    ir_settings = n_ir_groups
 
     naive_time = (naive_settings * SECONDS_PER_MEASUREMENT_SETTING + CIRCUIT_OVERHEAD_SECONDS) * n_optimization_iterations
-    vra_time = (vra_settings * SECONDS_PER_MEASUREMENT_SETTING + CIRCUIT_OVERHEAD_SECONDS) * n_optimization_iterations
+    ir_time = (ir_settings * SECONDS_PER_MEASUREMENT_SETTING + CIRCUIT_OVERHEAD_SECONDS) * n_optimization_iterations
 
     naive_cost = max(0, (naive_time/60 - IBM_FREE_MINUTES_PER_MONTH) * IBM_COST_PER_MINUTE)
-    vra_cost = max(0, (vra_time/60 - IBM_FREE_MINUTES_PER_MONTH) * IBM_COST_PER_MINUTE)
+    ir_cost = max(0, (ir_time/60 - IBM_FREE_MINUTES_PER_MONTH) * IBM_COST_PER_MINUTE)
 
     print(f"  ✓ Naive: {naive_time/3600:.2f} hours, ${naive_cost:,.2f}")
-    print(f"  ✓ VRA:   {vra_time/3600:.2f} hours, ${vra_cost:,.2f}")
-    print(f"  ✓ Savings: ${naive_cost - vra_cost:,.2f}")
+    print(f"  ✓ IR:   {ir_time/3600:.2f} hours, ${ir_cost:,.2f}")
+    print(f"  ✓ Savings: ${naive_cost - ir_cost:,.2f}")
 
     return {
         'n_vertices': n_vertices,
         'n_edges': n_edges,
-        'n_vra_groups': n_vra_groups,
+        'n_ir_groups': n_ir_groups,
         'variance_reduction': variance_reduction,
         'naive_cost': naive_cost,
-        'vra_cost': vra_cost,
-        'savings': naive_cost - vra_cost
+        'ir_cost': ir_cost,
+        'savings': naive_cost - ir_cost
     }
 
 
@@ -289,18 +289,18 @@ def print_cost_comparison_table(estimates: List[HardwareCostEstimate]):
     print("# IBM QUANTUM COST COMPARISON TABLE")
     print(f"{'#'*80}\n")
 
-    print(f"{'Molecule':<10} {'Qubits':<8} {'Terms':<8} {'VRA Groups':<12} "
-          f"{'Var. Red.':<12} {'Naive Cost':<15} {'VRA Cost':<15} {'Savings':<15}")
+    print(f"{'Molecule':<10} {'Qubits':<8} {'Terms':<8} {'IR Groups':<12} "
+          f"{'Var. Red.':<12} {'Naive Cost':<15} {'IR Cost':<15} {'Savings':<15}")
     print("-" * 110)
 
     for est in estimates:
         print(f"{est.molecule:<10} {est.n_qubits:<8} {est.n_pauli_terms:<8} "
-              f"{est.vra_measurement_groups:<12} {est.vra_variance_reduction:<12.1f} "
-              f"${est.naive_cost_usd:<14,.0f} ${est.vra_cost_usd:<14,.0f} "
+              f"{est.ir_measurement_groups:<12} {est.ir_variance_reduction:<12.1f} "
+              f"${est.naive_cost_usd:<14,.0f} ${est.ir_cost_usd:<14,.0f} "
               f"${est.cost_savings_usd:<14,.0f}")
 
     total_naive = sum(e.naive_cost_usd for e in estimates)
-    total_vra = sum(e.vra_cost_usd for e in estimates)
+    total_vra = sum(e.ir_cost_usd for e in estimates)
     total_savings = total_naive - total_vra
 
     print("-" * 110)
@@ -315,11 +315,11 @@ def print_cost_comparison_table(estimates: List[HardwareCostEstimate]):
 # ============================================================================
 
 def print_deployment_guide():
-    """Print guide for deploying ATLAS-Q to IBM Quantum with VRA."""
+    """Print guide for deploying ATLAS-Q to IBM Quantum with IR."""
 
     guide = """
 ================================================================================
-ATLAS-Q → IBM QUANTUM DEPLOYMENT GUIDE (with VRA Optimization)
+ATLAS-Q → IBM QUANTUM DEPLOYMENT GUIDE (with IR Optimization)
 ================================================================================
 
 Step 1: Develop Algorithm on ATLAS-Q (Local GPU)
@@ -340,9 +340,9 @@ energy, params = vqe.run(label='H2')
 # Time: ~10 seconds
 
 
-Step 2: Apply VRA Grouping (Optimize for Hardware)
+Step 2: Apply IR Grouping (Optimize for Hardware)
 ---------------------------------------------------
-from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+from atlas_q.ir_enhanced import ir_hamiltonian_grouping
 from atlas_q.mpo_ops import _jordan_wigner_transform
 from pyscf import gto, scf, ao2mo
 
@@ -358,8 +358,8 @@ pauli_dict = _jordan_wigner_transform(h1, h2, e_nuc)
 coeffs = [c for c in pauli_dict.values() if abs(c) > 1e-8]
 paulis = [''.join(p) for p, c in pauli_dict.items() if abs(c) > 1e-8]
 
-# Apply VRA grouping
-grouping = vra_hamiltonian_grouping(coeffs, paulis, total_shots=10000)
+# Apply IR grouping
+grouping = ir_hamiltonian_grouping(coeffs, paulis, total_shots=10000)
 
 print(f"Reduced from {len(paulis)} → {len(grouping.groups)} measurement settings")
 print(f"Variance reduction: {grouping.variance_reduction:.1f}×")
@@ -396,9 +396,9 @@ def build_qiskit_circuit(params, n_qubits):
 qc = build_qiskit_circuit(params, n_qubits=4)
 
 
-Step 4: Measure with VRA Grouping
+Step 4: Measure with IR Grouping
 ----------------------------------
-# For each VRA group, measure simultaneously
+# For each IR group, measure simultaneously
 service = QiskitRuntimeService(channel="ibm_quantum", token="YOUR_TOKEN")
 backend = service.backend("ibm_brisbane")  # 127-qubit system
 
@@ -420,12 +420,12 @@ for group_idx, group_indices in enumerate(grouping.groups):
     counts = result.quasi_dists[0]
     # ... extract expectation values
 
-# Total cost: VRA reduces by 10-1000×!
+# Total cost: IR reduces by 10-1000×!
 
 
 Step 5: Cost Optimization Checklist
 ------------------------------------
-✓ Use VRA grouping (10-1000× cost reduction)
+✓ Use IR grouping (10-1000× cost reduction)
 ✓ Test on simulator first (ibm_qasm_simulator is free)
 ✓ Use free tier (10 min/month)
 ✓ Batch multiple circuits in one job
@@ -441,10 +441,10 @@ Website:    https://quantum.ibm.com/
 Docs:       https://docs.quantum.ibm.com/
 
 
-VRA Impact Summary
+IR Impact Summary
 ------------------
-Without VRA:  15 measurement settings × 50 iters = $6,000
-With VRA:     3 measurement settings × 50 iters = $240
+Without IR:  15 measurement settings × 50 iters = $6,000
+With IR:     3 measurement settings × 50 iters = $240
 Savings:      $5,760 (96% reduction)
 
 For larger molecules, savings can reach $100,000+ per experiment!
@@ -466,7 +466,7 @@ def main():
         return
 
     print("\n" + "#"*80)
-    print("# VRA QUANTUM HARDWARE COST CALCULATOR")
+    print("# IR QUANTUM HARDWARE COST CALCULATOR")
     print("#"*80)
     print(f"\nIBM Quantum Pricing: ${IBM_COST_PER_MINUTE}/minute (${IBM_COST_PER_MINUTE * 60}/hour)")
     print(f"Free Tier: {IBM_FREE_MINUTES_PER_MONTH} minutes/month")
@@ -515,7 +515,7 @@ def main():
     print("✅ Cost Calculator Complete!")
     print("="*80)
     print("\n💡 Key Takeaway:")
-    print("   VRA reduces IBM Quantum costs by 10-1000×, making quantum")
+    print("   IR reduces IBM Quantum costs by 10-1000×, making quantum")
     print("   chemistry experiments affordable for real-world applications!\n")
 
 

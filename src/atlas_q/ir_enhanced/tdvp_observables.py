@@ -1,8 +1,8 @@
 """
-VRA-Enhanced TDVP Observable Grouping
+IR-Enhanced TDVP Observable Grouping
 ======================================
 
-Applies VRA coherence-based grouping to observable measurements during
+Applies IR coherence-based grouping to observable measurements during
 time evolution with TDVP (Time-Dependent Variational Principle).
 
 Key Insight:
@@ -16,11 +16,11 @@ At each time step, we measure multiple observables:
 - Custom operators
 
 Many observables commute → can be grouped for simultaneous measurement
-VRA optimizes grouping and shot allocation
+IR optimizes grouping and shot allocation
 
 Target: 5-100× shot reduction per timestep
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -42,14 +42,14 @@ class TDVPObservableGroupingResult:
     n_groups: int  # Number of groups
 
 
-def vra_tdvp_observable_grouping(
+def ir_tdvp_observable_grouping(
     observable_paulis: List[str],
     observable_coeffs: np.ndarray,
     total_shots: int = 10000,
     max_group_size: int = 10
 ) -> TDVPObservableGroupingResult:
     """
-    VRA-enhanced grouping for TDVP observable measurements.
+    IR-enhanced grouping for TDVP observable measurements.
 
     Groups commuting observables and allocates shots optimally.
 
@@ -74,7 +74,7 @@ def vra_tdvp_observable_grouping(
     >>> # Energy + correlation measurements
     >>> paulis = ["ZZ", "XX", "YY", "ZI", "IZ"]
     >>> coeffs = np.array([1.0, 0.5, 0.5, 0.3, 0.3])
-    >>> result = vra_tdvp_observable_grouping(paulis, coeffs)
+    >>> result = ir_tdvp_observable_grouping(paulis, coeffs)
     >>> print(f"Variance reduction: {result.variance_reduction:.2f}×")
     """
     from .vqe_grouping import (
@@ -102,7 +102,7 @@ def vra_tdvp_observable_grouping(
         groups=groups,
         shots_per_group=shots_per_group,
         variance_reduction=variance_reduction,
-        method="vra_tdvp_observables",
+        method="ir_tdvp_observables",
         n_observables=len(observable_paulis),
         n_groups=len(groups)
     )

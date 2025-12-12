@@ -1,8 +1,8 @@
 """
-VRA-Enhanced QAOA Measurement Grouping
+IR-Enhanced QAOA Measurement Grouping
 =======================================
 
-Applies VRA coherence-based grouping to QAOA cost Hamiltonians for
+Applies IR coherence-based grouping to QAOA cost Hamiltonians for
 variance reduction in combinatorial optimization.
 
 Key Insight:
@@ -10,11 +10,11 @@ Key Insight:
 MaxCut Hamiltonians consist of ZiZj terms which often commute:
 - Z_i Z_j and Z_k Z_l commute if {i,j} ∩ {k,l} = ∅ (no shared qubits)
 - Can group non-overlapping edges for simultaneous measurement
-- VRA coherence analysis optimizes grouping and shot allocation
+- IR coherence analysis optimizes grouping and shot allocation
 
 Target: 10-500× variance reduction for medium-to-large graphs
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -317,7 +317,7 @@ def compute_variance_reduction_qaoa(
     return compute_variance_reduction(Sigma, weights, groups, total_shots)
 
 
-def vra_qaoa_grouping(
+def ir_qaoa_grouping(
     weights: np.ndarray,
     edges: List[Tuple[int, int]],
     total_shots: int = 10000,
@@ -325,7 +325,7 @@ def vra_qaoa_grouping(
     coherence_method: str = "exponential"
 ) -> QAOAGroupingResult:
     """
-    VRA-enhanced grouping for QAOA MaxCut Hamiltonians.
+    IR-enhanced grouping for QAOA MaxCut Hamiltonians.
 
     Automatically groups commuting edges and allocates shots optimally.
 
@@ -352,7 +352,7 @@ def vra_qaoa_grouping(
     >>> # Triangle graph
     >>> weights = np.array([1.0, 1.0, 1.0])
     >>> edges = [(0, 1), (1, 2), (0, 2)]
-    >>> result = vra_qaoa_grouping(weights, edges, total_shots=10000)
+    >>> result = ir_qaoa_grouping(weights, edges, total_shots=10000)
     >>> print(f"Groups: {result.groups}")
     >>> print(f"Variance reduction: {result.variance_reduction:.2f}×")
     """
@@ -374,7 +374,7 @@ def vra_qaoa_grouping(
         groups=groups,
         shots_per_group=shots_per_group,
         variance_reduction=variance_reduction,
-        method="vra_qaoa_commuting",
+        method="ir_qaoa_commuting",
         n_edges=n_edges,
         n_groups=len(groups)
     )

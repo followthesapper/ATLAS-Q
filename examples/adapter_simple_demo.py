@@ -35,12 +35,12 @@ if qiskit_available:
     print("[2] Testing Qiskit adapter instantiation...")
     try:
         backend = ATLASQBackend(
-            enable_vra=True,
+            enable_ir=True,
             enable_mps=True,
             enable_stabilizer=True
         )
         print(f"  ✓ ATLASQBackend created: {backend.name}")
-        print(f"    - VRA enabled: {backend._enable_vra}")
+        print(f"    - IR enabled: {backend._enable_ir}")
         print(f"    - MPS enabled: {backend._enable_mps}")
         print(f"    - Stabilizer enabled: {backend._enable_stabilizer}")
         print(f"    - MPS threshold: {backend._mps_threshold} qubits")
@@ -53,12 +53,12 @@ if cirq_available:
     print("[3] Testing Cirq adapter instantiation...")
     try:
         simulator = ATLASQSimulator(
-            enable_vra=True,
+            enable_ir=True,
             enable_mps=True,
             enable_stabilizer=True
         )
         print(f"  ✓ ATLASQSimulator created")
-        print(f"    - VRA enabled: {simulator._enable_vra}")
+        print(f"    - IR enabled: {simulator._enable_ir}")
         print(f"    - MPS enabled: {simulator._enable_mps}")
         print(f"    - Stabilizer enabled: {simulator._enable_stabilizer}")
         print(f"    - MPS threshold: {simulator._mps_threshold} qubits")
@@ -74,7 +74,7 @@ print("✓ Adapter infrastructure successfully created")
 print("✓ Auto-detection logic implemented:")
 print("  - Clifford circuits → Stabilizer backend (20× speedup)")
 print("  - Large circuits (>25 qubits) → MPS backend (626,000× memory efficiency)")
-print("  - VQE patterns → Automatic VRA grouping (5× measurement reduction)")
+print("  - VQE patterns → Automatic IR grouping (5× measurement reduction)")
 print("  - All patterns → GPU acceleration via Triton kernels")
 print()
 print("Full method implementations in progress.")

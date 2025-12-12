@@ -8,11 +8,11 @@ Compares ATLAS-Q's Qiskit/Cirq adapters against:
 Metrics:
 - Execution time
 - Memory usage
-- VRA measurement reduction
+- IR measurement reduction
 - Coherence quality validation
 
 Results demonstrate:
-- 5× measurement reduction via VRA
+- 5× measurement reduction via IR
 - 20× speedup for Clifford circuits (stabilizer)
 - 626,000× memory efficiency for large circuits (MPS)
 - Automatic quality validation (coherence metrics)
@@ -96,8 +96,8 @@ try:
     print(f"  ATLAS-Q ({backend_used}): {atlas_time*1000:.2f} ms")
     print(f"  Speedup:         {aer_time/atlas_time:.2f}x")
 
-    # Benchmark 3: VRA Measurement Grouping
-    print("\n[1.3] VQE with VRA Measurement Grouping")
+    # Benchmark 3: IR Measurement Grouping
+    print("\n[1.3] VQE with IR Measurement Grouping")
     print("  Testing automatic observable grouping...")
 
     qc_vqe = QuantumCircuit(4)
@@ -125,17 +125,17 @@ try:
     aer_time_per_term = (time.time() - start) / len(terms)
     aer_total_time = aer_time_per_term * len(terms)
 
-    # ATLAS-Q (automatic VRA grouping)
+    # ATLAS-Q (automatic IR grouping)
     atlas_backend = ATLASQBackend(enable_vra=True)
     start = time.time()
     atlas_job = atlas_backend.run(qc_vqe, shots=1000, observables=observables)
     atlas_result = atlas_job.result()
     atlas_time = time.time() - start
 
-    compression = atlas_result.results[0].header.get('vra_compression_ratio', 1.0)
+    compression = atlas_result.results[0].header.get('ir_compression_ratio', 1.0)
 
     print(f"  Hamiltonian terms:   {len(terms)}")
-    print(f"  VRA compression:     {compression:.3f} ({1/compression:.1f}x reduction)")
+    print(f"  IR compression:     {compression:.3f} ({1/compression:.1f}x reduction)")
     print(f"  Qiskit Aer time:     {aer_total_time*1000:.2f} ms (estimated)")
     print(f"  ATLAS-Q time:        {atlas_time*1000:.2f} ms")
     print(f"  Speedup:             {aer_total_time/atlas_time:.2f}x")
@@ -306,7 +306,7 @@ print("SUMMARY: ATLAS-Q Adapter Advantages")
 print("=" * 80)
 print()
 print("✓ Automatic backend selection (Clifford/MPS/statevector)")
-print("✓ VRA measurement grouping: 5× reduction for VQE")
+print("✓ IR measurement grouping: 5× reduction for VQE")
 print("✓ Stabilizer backend: 20× speedup for Clifford circuits")
 print("✓ MPS backend: 626,000× memory efficiency for large circuits")
 print("✓ GPU acceleration: 1.5-3× speedup via Triton kernels")

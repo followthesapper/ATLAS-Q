@@ -1,10 +1,10 @@
 """
-Test VRA-Enhanced VQE Hamiltonian Grouping
+Test IR-Enhanced VQE Hamiltonian Grouping
 ==========================================
 
-Validates the VRA coherence-based grouping approach for VQE measurement variance reduction.
+Validates the IR coherence-based grouping approach for VQE measurement variance reduction.
 
-Target: 1000-2350× variance reduction (validated in VRA experiment T6-C1)
+Target: 1000-2350× variance reduction (validated in IR experiment T6-C1)
 Method: Minimize Q_GLS = (c'Σ^(-1)c)^(-1) per group with Neyman allocation
 
 Test Strategy:
@@ -18,14 +18,14 @@ Test Strategy:
 import numpy as np
 import pytest
 
-from atlas_q.vra_enhanced.vqe_grouping import (
+from atlas_q.ir_enhanced.vqe_grouping import (
     GroupingResult,
     allocate_shots_neyman,
     compute_Q_GLS,
     compute_variance_reduction,
     estimate_pauli_coherence_matrix,
     group_by_variance_minimization,
-    vra_hamiltonian_grouping,
+    ir_hamiltonian_grouping,
 )
 
 
@@ -247,7 +247,7 @@ class TestVarianceReduction:
     """Test variance reduction computation."""
 
     def test_grouping_reduces_variance(self):
-        """Test that VRA grouping reduces variance vs baseline."""
+        """Test that IR grouping reduces variance vs baseline."""
         # Create Hamiltonian with correlated terms
         coeffs = np.array([1.5, 1.2, 0.8, 0.5, 0.3])
         pauli_strings = [
@@ -265,7 +265,7 @@ class TestVarianceReduction:
         reduction = compute_variance_reduction(Sigma, coeffs, groups, total_shots)
 
         # Should have significant reduction
-        assert reduction > 1.0, "VRA grouping should reduce variance"
+        assert reduction > 1.0, "IR grouping should reduce variance"
 
         print(f"✓ Variance reduction: {reduction:.1f}×")
 
@@ -311,14 +311,14 @@ class TestVarianceReduction:
         print(f"✓ High correlation reduction: {reduction:.1f}×")
 
 
-class TestCompleteVRAGrouping:
-    """Test complete VRA Hamiltonian grouping workflow."""
+class TestCompleteIRGrouping:
+    """Test complete IR Hamiltonian grouping workflow."""
 
     def test_simple_hamiltonian(self):
-        """Test VRA grouping on simple Hamiltonian."""
+        """Test IR grouping on simple Hamiltonian."""
         coeffs = np.array([1.5, -0.8, 0.3, -0.2, 0.1])
 
-        result = vra_hamiltonian_grouping(
+        result = ir_hamiltonian_grouping(
             coeffs,
             total_shots=10000,
             max_group_size=3
@@ -329,7 +329,7 @@ class TestCompleteVRAGrouping:
         assert len(result.groups) > 0
         assert len(result.shots_per_group) == len(result.groups)
         assert np.sum(result.shots_per_group) == 10000
-        assert result.method == "vra_coherence"
+        assert result.method == "ir_coherence"
 
         # Note: Without Pauli strings, coherence estimation is heuristic
         # May not always achieve reduction (proof-of-concept)
@@ -339,9 +339,9 @@ class TestCompleteVRAGrouping:
         print(f"  Variance reduction: {result.variance_reduction:.1f}×")
 
     def test_molecular_h2_hamiltonian(self):
-        """Test VRA grouping on H2 molecular Hamiltonian."""
+        """Test IR grouping on H2 molecular Hamiltonian."""
         # Simplified H2 Hamiltonian (5 terms)
-        # From VRA T6-C1: -0.81054 I + 0.17218 Z0 - 0.22575 Z1 + ...
+        # From IR T6-C1: -0.81054 I + 0.17218 Z0 - 0.22575 Z1 + ...
         coeffs = np.array([
             -0.81054,  # Identity
             0.17218,   # Z0
@@ -358,7 +358,7 @@ class TestCompleteVRAGrouping:
             "XX",    # X0X1
         ]
 
-        result = vra_hamiltonian_grouping(
+        result = ir_hamiltonian_grouping(
             coeffs,
             pauli_strings=pauli_strings,
             total_shots=10000,
@@ -376,7 +376,7 @@ class TestCompleteVRAGrouping:
         print(f"  Note: Current implementation is proof-of-concept")
 
     def test_larger_hamiltonian_structure(self):
-        """Test VRA grouping on larger Hamiltonian with realistic structure."""
+        """Test IR grouping on larger Hamiltonian with realistic structure."""
         # Create larger Hamiltonian with realistic correlation structure
         # Use uniform distribution to avoid pathological cases
         np.random.seed(42)
@@ -394,7 +394,7 @@ class TestCompleteVRAGrouping:
             "ZZZI", "XXYY"                            # Mixed ops
         ]
 
-        result = vra_hamiltonian_grouping(
+        result = ir_hamiltonian_grouping(
             coeffs,
             pauli_strings=pauli_strings,
             total_shots=10000,
@@ -412,11 +412,11 @@ class TestCompleteVRAGrouping:
         print(f"  Note: Path to 1000-2350× requires optimized grouping algorithm")
 
 
-class TestVRAVsBaseline:
-    """Compare VRA grouping against baseline measurement strategies."""
+class TestIRVsBaseline:
+    """Compare IR grouping against baseline measurement strategies."""
 
-    def test_vra_vs_per_term_measurement(self):
-        """Compare VRA grouping vs per-term measurement."""
+    def test_ir_vs_per_term_measurement(self):
+        """Compare IR grouping vs per-term measurement."""
         coeffs = np.array([1.5, 1.2, 0.9, 0.6, 0.4, 0.3, 0.2, 0.1])
         pauli_strings = [
             "XXXX", "XXYY", "XYXY", "XYYY",
@@ -433,38 +433,38 @@ class TestVRAVsBaseline:
             for i in range(len(coeffs))
         )
 
-        # VRA grouping
+        # IR grouping
         groups = group_by_variance_minimization(Sigma, coeffs, max_group_size=4)
         shots_per_group = allocate_shots_neyman(Sigma, coeffs, groups, total_shots)
 
-        vra_variance = 0.0
+        ir_variance = 0.0
         for group, shots_g in zip(groups, shots_per_group):
             if len(group) == 0 or shots_g == 0:
                 continue
             c_g = coeffs[group]
             Sigma_g = Sigma[np.ix_(group, group)]
             Q_g = compute_Q_GLS(Sigma_g, c_g)
-            vra_variance += Q_g / shots_g
+            ir_variance += Q_g / shots_g
 
-        reduction = baseline_variance / vra_variance
+        reduction = baseline_variance / ir_variance
 
-        print(f"✓ VRA vs Baseline:")
+        print(f"✓ IR vs Baseline:")
         print(f"  Baseline variance: {baseline_variance:.6f}")
-        print(f"  VRA variance: {vra_variance:.6f}")
+        print(f"  IR variance: {ir_variance:.6f}")
         print(f"  Reduction: {reduction:.1f}×")
 
-        assert reduction > 1.0, "VRA should outperform per-term measurement"
+        assert reduction > 1.0, "IR should outperform per-term measurement"
 
 
 def test_end_to_end_vqe_variance_reduction():
     """
-    End-to-end test of VRA-enhanced VQE Hamiltonian grouping.
+    End-to-end test of IR-enhanced VQE Hamiltonian grouping.
 
     This is the main integration test demonstrating the complete VQE workflow.
     Target: Demonstrate path toward 1000-2350× variance reduction.
     """
     print("\n" + "="*60)
-    print("VRA-Enhanced VQE Variance Reduction - End-to-End Test")
+    print("IR-Enhanced VQE Variance Reduction - End-to-End Test")
     print("="*60)
 
     test_cases = [
@@ -483,7 +483,7 @@ def test_end_to_end_vqe_variance_reduction():
         print(f"\nTest Case: {name}")
         print(f"  Terms: {len(coeffs)}")
 
-        result = vra_hamiltonian_grouping(
+        result = ir_hamiltonian_grouping(
             coeffs,
             pauli_strings=pauli_strings,
             total_shots=total_shots,
@@ -507,7 +507,7 @@ def test_end_to_end_vqe_variance_reduction():
     print("  • Small Hamiltonians: 2-10× (demonstrated above)")
     print("  • Medium Hamiltonians: 10-100× (requires more terms)")
     print("  • Large molecular Hamiltonians: 100-2350× (target)")
-    print("  • VRA T6-C1 achieved 2350× on 50-term H-He Hamiltonian")
+    print("  • IR T6-C1 achieved 2350× on 50-term H-He Hamiltonian")
     print("  • Reduction scales with: correlation structure + term count")
     print("="*60)
 

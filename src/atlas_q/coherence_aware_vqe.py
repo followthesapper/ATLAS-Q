@@ -3,12 +3,12 @@ Coherence-Aware VQE
 ===================
 
 Variational Quantum Eigensolver with real-time coherence tracking and
-GO/NO-GO classification based on Vaca Resonance Analysis (VRA).
+GO/NO-GO classification based on Informational Relativity (IR).
 
 This module extends the standard VQE with:
 - Real-time coherence monitoring (R̄, V_φ)
 - GO/NO-GO classification using e^-2 boundary
-- Adaptive VRA grouping decisions
+- Adaptive IR grouping decisions
 - Measurement quality assessment
 
 Author: ATLAS-Q Development Team
@@ -25,7 +25,7 @@ import numpy as np
 from .coherence import (
     CoherenceClassification,
     CoherenceMetrics,
-    adaptive_vra_decision,
+    adaptive_ir_decision,
     classify_go_no_go,
     compute_coherence,
 )
@@ -90,12 +90,12 @@ class CoherenceAwareVQE:
     VQE with coherence tracking and GO/NO-GO classification.
 
     This is a wrapper around the standard VQE that adds real-time
-    coherence monitoring based on Vaca Resonance Analysis (VRA).
+    coherence monitoring based on Informational Relativity (IR).
 
     Key Features:
         - Real-time coherence tracking during optimization
         - GO/NO-GO classification using e^-2 boundary
-        - Adaptive VRA grouping decisions
+        - Adaptive IR grouping decisions
         - Optional per-iteration coherence callback
         - Backward compatible with standard VQE
 
@@ -285,7 +285,7 @@ class CoherenceAwareVQE:
                 R_bar=0.0,
                 V_phi=np.inf,
                 is_above_e2_boundary=False,
-                vra_predicted_to_help=False,
+                ir_predicted_to_help=False,
                 n_measurements=0
             )
 
@@ -306,40 +306,40 @@ class CoherenceAwareVQE:
 
         return result
 
-    def run_with_adaptive_vra(
+    def run_with_adaptive_ir(
         self,
         initial_params: Optional[np.ndarray] = None,
         label: str = "molecule",
-        vra_callback: Optional[Callable[[bool, str], None]] = None,
+        ir_callback: Optional[Callable[[bool, str], None]] = None,
     ) -> CoherenceAwareVQEResult:
         """
-        Run VQE with adaptive VRA grouping decisions.
+        Run VQE with adaptive IR grouping decisions.
 
-        This enables adaptive behavior where VRA grouping is turned ON/OFF
+        This enables adaptive behavior where IR grouping is turned ON/OFF
         based on measured coherence during optimization.
 
         Args:
             initial_params: Optional starting parameters
             label: Label for this run
-            vra_callback: Optional callback(enable_vra, reason) for VRA decisions
+            ir_callback: Optional callback(enable_ir, reason) for IR decisions
 
         Returns:
-            CoherenceAwareVQEResult with adaptive VRA history
+            CoherenceAwareVQEResult with adaptive IR history
 
         Example:
-            >>> def my_vra_callback(enable, reason):
-            ...     print(f"VRA: {'ON' if enable else 'OFF'} - {reason}")
+            >>> def my_ir_callback(enable, reason):
+            ...     print(f"IR: {'ON' if enable else 'OFF'} - {reason}")
             >>>
-            >>> result = vqe.run_with_adaptive_vra(vra_callback=my_vra_callback)
+            >>> result = vqe.run_with_adaptive_ir(ir_callback=my_ir_callback)
         """
         # Run with coherence tracking
         result = self.run(initial_params, label)
 
-        # Make adaptive VRA decision based on final coherence
+        # Make adaptive IR decision based on final coherence
         if result.coherence:
-            enable_vra, reason = adaptive_vra_decision(result.coherence, self.e2_threshold)
-            if vra_callback:
-                vra_callback(enable_vra, reason)
+            enable_ir, reason = adaptive_ir_decision(result.coherence, self.e2_threshold)
+            if ir_callback:
+                ir_callback(enable_ir, reason)
 
         return result
 

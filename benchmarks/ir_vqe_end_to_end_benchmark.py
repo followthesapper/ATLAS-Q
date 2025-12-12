@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-VRA End-to-End VQE Benchmark
+IR End-to-End VQE Benchmark
 =============================
 
-Demonstrates the transformative impact of VRA on practical VQE workflows.
+Demonstrates the transformative impact of IR on practical VQE workflows.
 
-This benchmark compares VQE optimization with and without VRA grouping:
+This benchmark compares VQE optimization with and without IR grouping:
 - Simulates shot-based energy estimation (realistic quantum hardware)
 - Tracks total shots consumed during optimization
 - Measures wall time and convergence
-- Shows that VRA makes quantum chemistry **practical**
+- Shows that IR makes quantum chemistry **practical**
 
 Key Question: Does 45,992× variance reduction translate to real speedup?
 Answer: YES - Shot reduction directly reduces wall time and cost!
@@ -19,7 +19,7 @@ Molecules tested:
 - LiH (30 terms): 49× expected
 - H2O (40 terms): 10,843× expected
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -37,7 +37,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from atlas_q.adaptive_mps import AdaptiveMPS
 from atlas_q.mpo_ops import MPO, MPOBuilder, _jordan_wigner_transform, expectation_value
-from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+from atlas_q.ir_enhanced import ir_hamiltonian_grouping
 
 try:
     from pyscf import ao2mo, gto, scf
@@ -181,7 +181,7 @@ def measure_energy_naive(mps: AdaptiveMPS, coeffs: np.ndarray, paulis: List[str]
 def measure_energy_vra(mps: AdaptiveMPS, coeffs: np.ndarray, paulis: List[str],
                        total_shots: int = 10000, device: str = 'cpu') -> Tuple[float, int, int, float]:
     """
-    Measure energy with VRA grouping.
+    Measure energy with IR grouping.
 
     Returns:
         energy: Estimated energy
@@ -189,8 +189,8 @@ def measure_energy_vra(mps: AdaptiveMPS, coeffs: np.ndarray, paulis: List[str],
         n_groups: Number of measurement groups
         variance_reduction: Variance reduction factor
     """
-    # Apply VRA grouping
-    grouping_result = vra_hamiltonian_grouping(
+    # Apply IR grouping
+    grouping_result = ir_hamiltonian_grouping(
         coeffs,
         pauli_strings=paulis,
         total_shots=total_shots,
@@ -319,7 +319,7 @@ class SimpleVQE:
         self.iteration = 0
 
         print(f"\n{'='*70}")
-        print(f"Running VQE with {'VRA grouping' if self.use_vra else 'naive measurement'}")
+        print(f"Running VQE with {'IR grouping' if self.use_vra else 'naive measurement'}")
         print(f"{'='*70}")
 
         t0 = time.time()
@@ -336,7 +336,7 @@ class SimpleVQE:
 
         # Get final grouping stats
         if self.use_vra:
-            grouping = vra_hamiltonian_grouping(self.coeffs, self.paulis, total_shots=10000)
+            grouping = ir_hamiltonian_grouping(self.coeffs, self.paulis, total_shots=10000)
             n_groups = len(grouping.groups)
             variance_reduction = grouping.variance_reduction
         else:
@@ -359,7 +359,7 @@ class SimpleVQE:
 
 def benchmark_molecule(molecule: str, basis: str = 'sto-3g', max_iter: int = 30) -> Dict:
     """
-    Benchmark VQE on a molecule with and without VRA.
+    Benchmark VQE on a molecule with and without IR.
     """
     print(f"\n{'#'*80}")
     print(f"# Benchmarking {molecule} with basis {basis}")
@@ -385,14 +385,14 @@ def benchmark_molecule(molecule: str, basis: str = 'sto-3g', max_iter: int = 30)
     print(f"     Wall time:    {result_naive.wall_time:.2f}s")
     print(f"     Iterations:   {result_naive.n_iterations}")
 
-    # Run VRA VQE
-    print(f"\n[3/3] Running VRA VQE (with grouping)...")
+    # Run IR VQE
+    print(f"\n[3/3] Running IR VQE (with grouping)...")
     vqe_vra = SimpleVQE(coeffs, paulis, n_qubits, use_vra=True,
                        shots_per_iter=10000, device='cpu')
     result_vra = vqe_vra.run(max_iter=max_iter)
     result_vra.molecule = molecule
 
-    print(f"\n  ✅ VRA VQE complete:")
+    print(f"\n  ✅ IR VQE complete:")
     print(f"     Final energy: {result_vra.final_energy:.6f} Ha")
     print(f"     Total shots:  {result_vra.total_shots:,}")
     print(f"     Wall time:    {result_vra.wall_time:.2f}s")
@@ -410,7 +410,7 @@ def benchmark_molecule(molecule: str, basis: str = 'sto-3g', max_iter: int = 30)
     print(f"  Shot reduction:    {shot_reduction:.1f}× ({result_naive.total_shots:,} → {result_vra.total_shots:,})")
     print(f"  Time speedup:      {time_speedup:.1f}× ({result_naive.wall_time:.2f}s → {result_vra.wall_time:.2f}s)")
     print(f"  Energy difference: {abs(result_naive.final_energy - result_vra.final_energy):.2e} Ha")
-    print(f"  VRA groups:        {result_vra.n_measurement_groups} (from {len(paulis)} terms)")
+    print(f"  IR groups:        {result_vra.n_measurement_groups} (from {len(paulis)} terms)")
     print(f"{'='*70}")
 
     return {
@@ -428,10 +428,10 @@ def main():
         return
 
     print("\n" + "="*80)
-    print("VRA END-TO-END VQE BENCHMARK")
+    print("IR END-TO-END VQE BENCHMARK")
     print("="*80)
-    print("\nThis benchmark demonstrates the TRANSFORMATIVE impact of VRA on VQE.")
-    print("We compare shot-based VQE optimization with and without VRA grouping.\n")
+    print("\nThis benchmark demonstrates the TRANSFORMATIVE impact of IR on VQE.")
+    print("We compare shot-based VQE optimization with and without IR grouping.\n")
     print("Key Metrics:")
     print("  • Total shots consumed during optimization")
     print("  • Wall time (proportional to shots on real hardware)")
@@ -454,7 +454,7 @@ def main():
 
     # Final summary
     print("\n\n" + "#"*80)
-    print("# FINAL SUMMARY: VRA Impact on Practical VQE")
+    print("# FINAL SUMMARY: IR Impact on Practical VQE")
     print("#"*80)
 
     for i, (molecule, results) in enumerate(zip(molecules[:len(results_summary)], results_summary)):
@@ -463,19 +463,19 @@ def main():
 
         print(f"\n{i+1}. {molecule} ({naive.n_pauli_terms} Pauli terms, {naive.n_measurement_groups} → {vra.n_measurement_groups} groups)")
         print(f"   Naive:  {naive.total_shots:,} shots, {naive.wall_time:.2f}s")
-        print(f"   VRA:    {vra.total_shots:,} shots, {vra.wall_time:.2f}s")
+        print(f"   IR:    {vra.total_shots:,} shots, {vra.wall_time:.2f}s")
         print(f"   ⚡ Shot reduction: {results['shot_reduction']:.1f}×")
         print(f"   ⚡ Time speedup:   {results['time_speedup']:.1f}×")
         print(f"   ⚡ Variance reduction: {vra.variance_reduction:.1f}×")
 
     print("\n" + "="*80)
-    print("CONCLUSION: VRA Makes Quantum Chemistry PRACTICAL")
+    print("CONCLUSION: IR Makes Quantum Chemistry PRACTICAL")
     print("="*80)
-    print("\n✅ VRA provides 2-50× shot reduction on real molecules")
+    print("\n✅ IR provides 2-50× shot reduction on real molecules")
     print("✅ Direct translation to wall time speedup on quantum hardware")
     print("✅ Same or better final energy accuracy")
-    print("✅ Larger molecules → greater VRA advantage (exponential scaling!)")
-    print("\n🚀 VRA transforms VQE from theoretical to PRACTICAL quantum chemistry!")
+    print("✅ Larger molecules → greater IR advantage (exponential scaling!)")
+    print("\n🚀 IR transforms VQE from theoretical to PRACTICAL quantum chemistry!")
     print("="*80 + "\n")
 
 

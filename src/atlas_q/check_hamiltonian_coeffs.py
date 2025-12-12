@@ -4,10 +4,12 @@ Diagnostic script for molecular Hamiltonian coefficients.
 """
 
 import sys
+from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, '/home/admin/ATLAS-Q/src')
+# Add src directory to path for standalone execution
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from atlas_q.mpo_ops import MPOBuilder, _jordan_wigner_transform
 

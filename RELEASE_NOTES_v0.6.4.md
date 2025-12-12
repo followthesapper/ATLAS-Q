@@ -14,7 +14,7 @@ Version 0.6.4 delivers **three major performance breakthroughs** achieved in a s
 2. **Rust Statevector Backend** - 30-77× faster than Python/NumPy
 3. **MPS Batch Sampling** - 54× speedup via GPU parallelization
 
-**Bottom Line:** ATLAS-Q is now **world-class** - competitive with or superior to Qiskit Aer across all major workloads, with **unique features** (VRA, coherence metrics) no competitor has.
+**Bottom Line:** ATLAS-Q is now **world-class** - competitive with or superior to Qiskit Aer across all major workloads, with **unique features** (IR, coherence metrics) no competitor has.
 
 ---
 
@@ -26,7 +26,7 @@ Version 0.6.4 delivers **three major performance breakthroughs** achieved in a s
 |----------|---------|------------|--------|
 | **Clifford Circuits** | 0.40ms (20q) | 1.95ms | **ATLAS 9.3× faster**  |
 | **MPS Simulation** | 14ms (15q) | 10ms | Aer 1.4× faster |
-| **MPS + VRA** | 2.8ms effective | 10ms | **ATLAS 3.6× faster**  |
+| **MPS + IR** | 2.8ms effective | 10ms | **ATLAS 3.6× faster**  |
 | **Memory (30q)** | 28 KB | 17 GB | **ATLAS 607,000× less**  |
 
 ### vs Python/NumPy
@@ -142,7 +142,7 @@ samples = mps.sample(1000)  # 14ms (was 759ms)
 **Performance:**
 - 15 qubits: 759ms → 14ms (54× speedup)
 - Brings MPS from 336× slower than Aer to 1.4× slower
-- Combined with VRA: Net 3.6× faster than Aer
+- Combined with IR: Net 3.6× faster than Aer
 
 ---
 
@@ -153,8 +153,8 @@ samples = mps.sample(1000)  # 14ms (was 759ms)
 | **Grover's Algorithm** | Rust Statevector | 77× faster than Python |  Production |
 | **Quantum Fourier Transform** | Rust Statevector | 77× faster than Python |  Production |
 | **VQE (< 18q)** | Rust Statevector | 30× faster than Python |  Production |
-| **VQE (> 20q)** | MPS + VRA | 2-3× faster than Aer |  Production |
-| **QAOA** | MPS + VRA | Net faster with VRA |  Production |
+| **VQE (> 20q)** | MPS + IR | 2-3× faster than Aer |  Production |
+| **QAOA** | MPS + IR | Net faster with IR |  Production |
 | **Clifford Circuits** | Rust Stabilizer | 9.3× faster than Aer |  Production |
 | **Error Correction** | Rust Stabilizer | 9.3× faster than Aer |  Production |
 | **Shor's Algorithm** | Hybrid (auto) | Automatic selection |  Production |
@@ -275,7 +275,7 @@ python benchmarks/mps_benchmark.py
   After batch sampling: 14ms
   Speedup: 54×
 
-vs Qiskit Aer: 1.4× slower (acceptable given VRA advantage)
+vs Qiskit Aer: 1.4× slower (acceptable given IR advantage)
 ```
 
 ---
@@ -433,7 +433,7 @@ ATLAS-Q is released under the MIT License.
 
 ##  Announcement
 
-**ATLAS-Q v0.6.4 is now the fastest Clifford simulator available**, beating the industry standard (Qiskit Aer) by 9.3× while offering unique features like VRA measurement reduction and coherence-aware VQE that no competitor has.
+**ATLAS-Q v0.6.4 is now the fastest Clifford simulator available**, beating the industry standard (Qiskit Aer) by 9.3× while offering unique features like IR measurement reduction and coherence-aware VQE that no competitor has.
 
 Try it today:
 ```bash

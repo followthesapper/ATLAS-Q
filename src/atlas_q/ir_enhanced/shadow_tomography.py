@@ -1,8 +1,8 @@
 """
-VRA-Enhanced Shadow Tomography
+IR-Enhanced Shadow Tomography
 ===============================
 
-Applies VRA coherence-informed sampling to classical shadows protocol
+Applies IR coherence-informed sampling to classical shadows protocol
 for efficient quantum state characterization.
 
 Key Insight:
@@ -10,7 +10,7 @@ Key Insight:
 Classical shadows: Random Pauli measurements → Observable estimation
 
 Standard: Uniform random sampling
-VRA enhancement: Bias sampling toward high-coherence regions
+IR enhancement: Bias sampling toward high-coherence regions
 
 Benefits:
 - Fewer samples for same accuracy
@@ -19,7 +19,7 @@ Benefits:
 
 Target: 2-10× sample reduction
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -31,7 +31,7 @@ import numpy as np
 
 @dataclass
 class ShadowSamplingResult:
-    """Result of VRA shadow sampling strategy"""
+    """Result of IR shadow sampling strategy"""
 
     pauli_basis: List[str]  # Pauli strings to measure
     measurement_probs: np.ndarray  # Sampling probabilities
@@ -40,14 +40,14 @@ class ShadowSamplingResult:
     method: str  # Sampling method
 
 
-def vra_shadow_sampling(
+def ir_shadow_sampling(
     target_observables: List[str],
     observable_coeffs: np.ndarray,
     n_samples: int = 1000,
     bias_strength: float = 0.5
 ) -> ShadowSamplingResult:
     """
-    VRA-enhanced sampling strategy for classical shadows.
+    IR-enhanced sampling strategy for classical shadows.
 
     Biases random Pauli sampling toward observables with high coherence.
 
@@ -72,7 +72,7 @@ def vra_shadow_sampling(
     >>> # Estimate energy observables
     >>> observables = ["ZZ", "XX", "YY", "ZI"]
     >>> coeffs = np.array([1.0, 0.5, 0.5, 0.3])
-    >>> result = vra_shadow_sampling(observables, coeffs, n_samples=1000)
+    >>> result = ir_shadow_sampling(observables, coeffs, n_samples=1000)
     >>> print(f"Sampling probs: {result.measurement_probs}")
     """
     from .vqe_grouping import estimate_pauli_coherence_matrix
@@ -106,5 +106,5 @@ def vra_shadow_sampling(
         measurement_probs=measurement_probs,
         n_samples=n_samples,
         expected_variance=expected_variance,
-        method=f"vra_shadow_bias{bias_strength}"
+        method=f"ir_shadow_bias{bias_strength}"
     )

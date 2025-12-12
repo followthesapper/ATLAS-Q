@@ -67,7 +67,7 @@ Thank you for your interest in contributing to ATLAS-Q! We welcome contributions
 
 ```bash
 # Clone repository
-git clone https://github.com/followthsapper/ATLAS-Q.git
+git clone https://github.com/followthesapper/ATLAS-Q.git
 cd ATLAS-Q
 
 # Create virtual environment
@@ -367,7 +367,7 @@ pytest --cov=atlas_q --cov-report=term-missing
 
 ### Bug Reports
 
-Use [GitHub Issues](https://github.com/followthsapper/ATLAS-Q/issues/new) with:
+Use [GitHub Issues](https://github.com/followthesapper/ATLAS-Q/issues/new) with:
 
 **Title:** Clear, concise description (e.g., "SVD fails for bond dimension > 128")
 
@@ -521,7 +521,7 @@ Report issues to project maintainers.
 - **Discussion:** Use GitHub Discussions
 - **Documentation:** Check `docs/COMPLETE_GUIDE.md` first
 - **Features:** See `docs/FEATURE_STATUS.md` for what's implemented
-- **Online Docs:** Browse https://followthsapper.github.io/ATLAS-Q/
+- **Online Docs:** Browse https://followthesapper.github.io/ATLAS-Q/
 
 ---
 

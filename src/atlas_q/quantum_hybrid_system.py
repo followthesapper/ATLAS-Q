@@ -1259,9 +1259,6 @@ class GPUAccelerator:
         # Move back to CPU
         return complex(self.to_cpu(result[0, 0]))
 
-        # Move back to CPU
-        return complex(self.to_cpu(result[0, 0]))
-
 
 # ============================================================================
 # PART 6: DEMONSTRATION & BENCHMARKS

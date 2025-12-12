@@ -1,14 +1,14 @@
 """
-Test VRA-Enhanced Period Finding
+Test IR-Enhanced Period Finding
 =================================
 
-Validates the VRA-QPE hybrid approach for period finding with reduced quantum shots.
+Validates the IR-QPE hybrid approach for period finding with reduced quantum shots.
 
-Target: 29-42% shot reduction (validated in VRA experiment T6-A2)
+Target: 29-42% shot reduction (validated in IR experiment T6-A2)
 Regime: N ≲ 50 (optimal for ATLAS-Q educational/research scale)
 
 Test Strategy:
-1. Verify VRA preprocessing finds correct candidates
+1. Verify IR preprocessing finds correct candidates
 2. Validate shot reduction estimates
 3. Compare hybrid vs baseline approach
 4. Test edge cases and failure modes
@@ -17,19 +17,19 @@ Test Strategy:
 import numpy as np
 import pytest
 
-from atlas_q.vra_enhanced import (
+from atlas_q.ir_enhanced import (
     estimate_shot_reduction,
     multiplicative_order,
-    vra_enhanced_period_finding,
-    vra_preprocess_period,
+    ir_enhanced_period_finding,
+    ir_preprocess_period,
 )
 
 
-class TestVRAPreprocessing:
-    """Test VRA classical preprocessing for period finding."""
+class TestIRPreprocessing:
+    """Test IR classical preprocessing for period finding."""
 
     def test_simple_period_detection(self):
-        """Test VRA can detect period for simple case."""
+        """Test IR can detect period for simple case."""
         # N = 15 = 3 × 5
         # a = 7, order should be 4 (since 7^4 ≡ 1 mod 15)
         a, N = 7, 15
@@ -38,8 +38,8 @@ class TestVRAPreprocessing:
         true_period = multiplicative_order(a, N)
         assert true_period == 4
 
-        # Run VRA preprocessing with optimized parameters
-        candidates, coherence = vra_preprocess_period(
+        # Run IR preprocessing with optimized parameters
+        candidates, coherence = ir_preprocess_period(
             a, N,
             length=8192,  # Longer for better SNR
             num_bases=32,  # More bases for averaging
@@ -47,24 +47,24 @@ class TestVRAPreprocessing:
         )
 
         # Should find candidates
-        assert len(candidates) > 0, "VRA should find at least one candidate"
+        assert len(candidates) > 0, "IR should find at least one candidate"
 
         # Coherence should be measured
         assert 0.0 <= coherence <= 1.0
 
-        # VRA may find harmonics/divisors, so check if true period is in top candidates
+        # IR may find harmonics/divisors, so check if true period is in top candidates
         top_periods = [p for p, _ in candidates[:3]]
         found_correct = true_period in top_periods
 
-        print(f"VRA candidates: {top_periods}")
+        print(f"IR candidates: {top_periods}")
         print(f"True period: {true_period}, Found: {found_correct}")
         print(f"Coherence: {coherence:.4f}")
 
-        # For educational purposes, we note that VRA isn't perfect for all cases
+        # For educational purposes, we note that IR isn't perfect for all cases
         # but works well in its validated regime with proper tuning
 
     def test_multiple_test_cases(self):
-        """Test VRA on multiple (a, N) pairs with optimized parameters."""
+        """Test IR on multiple (a, N) pairs with optimized parameters."""
         test_cases = [
             (2, 15, 4),   # 2^4 ≡ 1 mod 15
             (7, 15, 4),   # 7^4 ≡ 1 mod 15
@@ -79,8 +79,8 @@ class TestVRAPreprocessing:
             true_period = multiplicative_order(a, N)
             assert true_period == expected_period, f"Ground truth mismatch for ({a}, {N})"
 
-            # Run VRA with optimized parameters
-            candidates, coherence = vra_preprocess_period(
+            # Run IR with optimized parameters
+            candidates, coherence = ir_preprocess_period(
                 a, N,
                 length=8192,
                 num_bases=32,
@@ -105,38 +105,38 @@ class TestVRAPreprocessing:
             print(f"{status} a={a}, N={N}: Top-3={candidates[:3] if candidates else 'none'}, "
                   f"True={expected_period}, C={coherence:.4f}")
 
-        # VRA should at least find correct period in top-3 candidates
+        # IR should at least find correct period in top-3 candidates
         total_hit_rate = (success_count + candidate_hit_count) / len(test_cases)
-        print(f"\nVRA Top-1 Success: {success_count}/{len(test_cases)}")
-        print(f"VRA Top-3 Hit Rate: {total_hit_rate:.1%}")
+        print(f"\nIR Top-1 Success: {success_count}/{len(test_cases)}")
+        print(f"IR Top-3 Hit Rate: {total_hit_rate:.1%}")
 
-        # This is educational - VRA works in specific regime, may need hybrid approach
-        assert len(candidates) > 0, "VRA should produce some candidates"
+        # This is educational - IR works in specific regime, may need hybrid approach
+        assert len(candidates) > 0, "IR should produce some candidates"
 
 
-class TestVRAEnhancedPeriodFinding:
-    """Test full VRA-enhanced period finding with shot reduction."""
+class TestIREnhancedPeriodFinding:
+    """Test full IR-enhanced period finding with shot reduction."""
 
-    def test_high_confidence_vra_only(self):
-        """Test case where VRA alone finds correct answer (no QPE needed)."""
+    def test_high_confidence_ir_only(self):
+        """Test case where IR alone finds correct answer (no QPE needed)."""
         a, N = 7, 15
 
-        result = vra_enhanced_period_finding(
+        result = ir_enhanced_period_finding(
             a, N,
-            vra_confidence_threshold=0.5,  # Permissive for this test
+            ir_confidence_threshold=0.5,  # Permissive for this test
             qpe_shots_baseline=1000
         )
 
         # Should find correct period
         assert result.period == 4
 
-        # Method should be vra_only or hybrid
-        assert result.method in ['vra_only', 'hybrid']
+        # Method should be ir_only or hybrid
+        assert result.method in ['ir_only', 'hybrid']
 
         # Should have saved some shots
-        if result.method == 'vra_only':
+        if result.method == 'ir_only':
             assert result.shots_saved > 0
-            print(f"✓ VRA-only success: period={result.period}, shots_saved={result.shots_saved}")
+            print(f"✓ IR-only success: period={result.period}, shots_saved={result.shots_saved}")
         else:
             print(f"✓ Hybrid success: period={result.period}, method={result.method}")
 
@@ -145,9 +145,9 @@ class TestVRAEnhancedPeriodFinding:
         a, N = 7, 21
 
         baseline_shots = 1000
-        result = vra_enhanced_period_finding(
+        result = ir_enhanced_period_finding(
             a, N,
-            vra_confidence_threshold=0.3,  # Permissive for small N
+            ir_confidence_threshold=0.3,  # Permissive for small N
             qpe_shots_baseline=baseline_shots,
             shot_reduction_factor=0.35,
             length=8192,
@@ -168,24 +168,24 @@ class TestVRAEnhancedPeriodFinding:
             print(f"✓ Shot reduction: {result.shots_saved}/{baseline_shots} ({reduction_pct:.1f}%)")
 
     def test_edge_case_coprime_check(self):
-        """Test that VRA handles non-coprime bases correctly."""
+        """Test that IR handles non-coprime bases correctly."""
         a, N = 6, 15  # gcd(6, 15) = 3, not coprime
 
         # Should handle gracefully
         true_period = multiplicative_order(a, N)
         assert true_period is None  # No order for non-coprime
 
-        # VRA should also handle this
-        candidates, coherence = vra_preprocess_period(a, N)
+        # IR should also handle this
+        candidates, coherence = ir_preprocess_period(a, N)
         # Should return empty or handle gracefully
         assert isinstance(candidates, list)
         print(f"✓ Non-coprime case handled: gcd({a}, {N}) = {np.gcd(a, N)}")
 
     def test_larger_modulus(self):
-        """Test VRA on larger modulus (approaching regime boundary)."""
+        """Test IR on larger modulus (approaching regime boundary)."""
         a, N = 7, 77  # N = 7 × 11, on the edge of valid regime
 
-        result = vra_enhanced_period_finding(a, N, qpe_shots_baseline=1000)
+        result = ir_enhanced_period_finding(a, N, qpe_shots_baseline=1000)
 
         # Should still work but may need QPE assistance
         true_period = multiplicative_order(a, N)
@@ -246,7 +246,7 @@ class TestIntegrationWithATLASQ:
     """Test integration with existing ATLAS-Q functionality."""
 
     def test_compatibility_with_quantum_hybrid_system(self):
-        """Test that VRA can work alongside existing period finding."""
+        """Test that IR can work alongside existing period finding."""
         # Import ATLAS-Q's quantum hybrid system
         try:
             from atlas_q import get_quantum_sim
@@ -260,7 +260,7 @@ class TestIntegrationWithATLASQ:
             pytest.skip(f"quantum_hybrid_system not available: {e}")
 
     def test_no_regression(self):
-        """Test that adding VRA doesn't break existing functionality."""
+        """Test that adding IR doesn't break existing functionality."""
         # Test basic multiplicative order (used by both systems)
         test_cases = [(7, 15), (2, 21), (5, 77)]
 
@@ -273,17 +273,17 @@ class TestIntegrationWithATLASQ:
 
 def test_end_to_end_period_finding():
     """
-    End-to-end test of VRA-enhanced period finding.
+    End-to-end test of IR-enhanced period finding.
 
     This is the main integration test demonstrating the complete workflow.
     """
     print("\n" + "="*60)
-    print("VRA-Enhanced Period Finding - End-to-End Test")
+    print("IR-Enhanced Period Finding - End-to-End Test")
     print("="*60)
 
     test_cases = [
         ("Simple", 7, 15, 4),
-        ("Medium", 2, 21, 6),  # Within VRA's optimal regime (N < 50)
+        ("Medium", 2, 21, 6),  # Within IR's optimal regime (N < 50)
         ("Moderate", 5, 21, 6),  # Another N=21 case
     ]
 
@@ -294,11 +294,11 @@ def test_end_to_end_period_finding():
     for name, a, N, expected in test_cases:
         print(f"\nTest Case: {name} (a={a}, N={N}, expected period={expected})")
 
-        # Run VRA-enhanced with permissive threshold for smaller N
-        # VRA works best for N ≲ 50 (validated range)
-        result = vra_enhanced_period_finding(
+        # Run IR-enhanced with permissive threshold for smaller N
+        # IR works best for N ≲ 50 (validated range)
+        result = ir_enhanced_period_finding(
             a, N,
-            vra_confidence_threshold=0.3,  # More permissive for small N
+            ir_confidence_threshold=0.3,  # More permissive for small N
             qpe_shots_baseline=baseline_shots,
             shot_reduction_factor=0.35,
             length=8192,  # Longer sequences for better SNR
@@ -318,9 +318,9 @@ def test_end_to_end_period_finding():
         print(f"  Method: {result.method}")
         print(f"  Shots saved: {result.shots_saved}/{baseline_shots} ({reduction_pct:.1f}%)")
         print(f"  Coherence: {result.coherence:.4f}")
-        print(f"  VRA candidates: {len(result.vra_candidates)}")
-        if len(result.vra_candidates) > 0:
-            print(f"  Top-3 candidates: {result.vra_candidates[:3]}")
+        print(f"  IR candidates: {len(result.ir_candidates)}")
+        if len(result.ir_candidates) > 0:
+            print(f"  Top-3 candidates: {result.ir_candidates[:3]}")
 
     # Overall statistics
     if total_baseline > 0:
@@ -328,7 +328,7 @@ def test_end_to_end_period_finding():
         print(f"\n" + "="*60)
         print(f"Overall Results:")
         print(f"  Total shots saved: {total_saved}/{total_baseline} ({overall_reduction:.1f}%)")
-        print(f"  Target range: 29-42% (validated in VRA T6-A2)")
+        print(f"  Target range: 29-42% (validated in IR T6-A2)")
         print(f"  Status: {'✓ PASS' if 20 <= overall_reduction <= 50 else '⚠ CHECK'}")
         print("="*60)
 

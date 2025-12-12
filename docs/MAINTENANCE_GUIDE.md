@@ -317,7 +317,7 @@ grep -r "old_text" *.md
 
 ### **Consistency**
 - Version numbers must match across all files
-- GitHub username: `followthsapper` everywhere
+- GitHub username: `followthesapper` everywhere
 - Terminology: Use "ATLAS-Q" consistently (not "ATLAS_Q" or "AtlasQ")
 - Acronym style: "Matrix Product States (MPS)" first use, "MPS" after
 
@@ -454,13 +454,13 @@ make docker-run-cpu # Test CPU image
 # 1. Create GitHub release (same as PyPI workflow)
 # 2. GitHub Actions will build and push images to GitHub Container Registry
 # 3. Images available at:
-# - ghcr.io/followthsapper/atlas-quantum:cuda
-# - ghcr.io/followthsapper/atlas-quantum:cpu
-# - ghcr.io/followthsapper/atlas-quantum:latest (=cuda)
+# - ghcr.io/followthesapper/atlas-quantum:cuda
+# - ghcr.io/followthesapper/atlas-quantum:cpu
+# - ghcr.io/followthesapper/atlas-quantum:latest (=cuda)
 
 # Users can pull and run:
-docker pull ghcr.io/followthsapper/atlas-quantum:cuda
-docker run --rm -it --gpus all ghcr.io/followthsapper/atlas-quantum:cuda python
+docker pull ghcr.io/followthesapper/atlas-quantum:cuda
+docker run --rm -it --gpus all ghcr.io/followthesapper/atlas-quantum:cuda python
 ```
 
 **Docker Publishing Checklist:**
@@ -517,7 +517,7 @@ git push origin vX.Y.Z
 
 # Step 3: Create GitHub Release
 # ------------------------------
-# Go to: https://github.com/followthsapper/ATLAS-Q/releases/new
+# Go to: https://github.com/followthesapper/ATLAS-Q/releases/new
 # - Tag: vX.Y.Z
 # - Title: ATLAS-Q vX.Y.Z
 # - Description: Copy from CHANGELOG.md
@@ -534,11 +534,11 @@ git push origin vX.Y.Z
 pip install --upgrade atlas-quantum
 python -c "import atlas_q; print(atlas_q.__version__)" # Should be X.Y.Z
 
-docker pull ghcr.io/followthsapper/atlas-quantum:cuda
-docker run --rm ghcr.io/followthsapper/atlas-quantum:cuda python -c "import atlas_q; print(atlas_q.__version__)"
+docker pull ghcr.io/followthesapper/atlas-quantum:cuda
+docker run --rm ghcr.io/followthesapper/atlas-quantum:cuda python -c "import atlas_q; print(atlas_q.__version__)"
 
 # Check PyPI page: https://pypi.org/project/atlas-quantum/
-# Check GitHub Container Registry: https://github.com/followthsapper/ATLAS-Q/pkgs/container/atlas-quantum
+# Check GitHub Container Registry: https://github.com/followthesapper/ATLAS-Q/pkgs/container/atlas-quantum
 ```
 
 ---

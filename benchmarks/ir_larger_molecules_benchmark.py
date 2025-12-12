@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-VRA Commutativity Benchmark: Larger Molecules
+IR Commutativity Benchmark: Larger Molecules
 ==============================================
 
 Test commutativity-aware VQE grouping on larger molecular Hamiltonians
@@ -11,7 +11,7 @@ Expected results:
 - LiH (12+ terms): 5-20× (better commuting structure)
 - H2O (20+ terms): 10-50× (strong commuting groups)
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -25,8 +25,8 @@ import matplotlib.pyplot as plt
 # Add src to path
 sys.path.insert(0, '/home/admin/ATLAS-Q/src')
 
-from atlas_q.vra_enhanced import (
-    vra_hamiltonian_grouping,
+from atlas_q.ir_enhanced import (
+    ir_hamiltonian_grouping,
     estimate_pauli_coherence_matrix,
     group_by_variance_minimization,
     allocate_shots_neyman,
@@ -122,7 +122,7 @@ def simulate_measurement_variance(
 
     For grouped measurements, variance depends on coherence matrix (Q_GLS).
     """
-    from atlas_q.vra_enhanced.vqe_grouping import compute_Q_GLS
+    from atlas_q.ir_enhanced.vqe_grouping import compute_Q_GLS
 
     measurements = []
 
@@ -221,85 +221,85 @@ def benchmark_molecule(
         'n_groups': len(baseline_groups),
     }
 
-    # Method 2: VRA (no commutativity constraints)
+    # Method 2: IR (no commutativity constraints)
     print(f"\n{'-'*70}")
-    print("Method 2: VRA (No commutativity)")
+    print("Method 2: IR (No commutativity)")
     print(f"{'-'*70}")
 
-    vra_groups = group_by_variance_minimization(
+    ir_groups = group_by_variance_minimization(
         Sigma, coeffs, max_group_size=10,
         pauli_strings=pauli_strings,
         check_commutativity=False
     )
 
-    vra_shots = allocate_shots_neyman(Sigma, coeffs, vra_groups, total_shots)
+    ir_shots = allocate_shots_neyman(Sigma, coeffs, ir_groups, total_shots)
 
     # Check violations
-    violations = sum(1 for g in vra_groups if not check_group_commutativity(g, pauli_strings))
+    violations = sum(1 for g in ir_groups if not check_group_commutativity(g, pauli_strings))
 
-    vra_mean, vra_std = simulate_measurement_variance(
-        coeffs, pauli_strings, vra_groups, vra_shots, Sigma, n_samples
+    ir_mean, ir_std = simulate_measurement_variance(
+        coeffs, pauli_strings, ir_groups, ir_shots, Sigma, n_samples
     )
 
-    var_reduction_vra = baseline_std**2 / vra_std**2
+    var_reduction_vra = baseline_std**2 / ir_std**2
 
-    print(f"  Groups: {len(vra_groups)}")
-    print(f"  Variance: {vra_std**2:.6e}")
+    print(f"  Groups: {len(ir_groups)}")
+    print(f"  Variance: {ir_std**2:.6e}")
     print(f"  Variance reduction: {var_reduction_vra:.2f}×")
     print(f"  Physically realizable: {'No' if violations > 0 else 'Yes'}")
 
-    vra_results = {
-        'groups': vra_groups,
-        'shots': vra_shots,
-        'variance': vra_std**2,
+    ir_results = {
+        'groups': ir_groups,
+        'shots': ir_shots,
+        'variance': ir_std**2,
         'variance_reduction': var_reduction_vra,
         'physically_realizable': violations == 0,
-        'n_groups': len(vra_groups),
+        'n_groups': len(ir_groups),
         'violations': violations,
     }
 
-    # Method 3: VRA + Commutativity
+    # Method 3: IR + Commutativity
     print(f"\n{'-'*70}")
-    print("Method 3: VRA + COMMUTATIVITY")
+    print("Method 3: IR + COMMUTATIVITY")
     print(f"{'-'*70}")
 
-    vra_comm_groups = group_by_variance_minimization(
+    ir_comm_groups = group_by_variance_minimization(
         Sigma, coeffs, max_group_size=10,
         pauli_strings=pauli_strings,
         check_commutativity=True
     )
 
-    vra_comm_shots = allocate_shots_neyman(Sigma, coeffs, vra_comm_groups, total_shots)
+    ir_comm_shots = allocate_shots_neyman(Sigma, coeffs, ir_comm_groups, total_shots)
 
     # Verify all groups commute
-    all_commute = all(check_group_commutativity(g, pauli_strings) for g in vra_comm_groups)
+    all_commute = all(check_group_commutativity(g, pauli_strings) for g in ir_comm_groups)
 
-    vra_comm_mean, vra_comm_std = simulate_measurement_variance(
-        coeffs, pauli_strings, vra_comm_groups, vra_comm_shots, Sigma, n_samples
+    ir_comm_mean, ir_comm_std = simulate_measurement_variance(
+        coeffs, pauli_strings, ir_comm_groups, ir_comm_shots, Sigma, n_samples
     )
 
-    var_reduction_comm = baseline_std**2 / vra_comm_std**2
+    var_reduction_comm = baseline_std**2 / ir_comm_std**2
 
-    print(f"  Groups: {len(vra_comm_groups)}")
-    print(f"  Variance: {vra_comm_std**2:.6e}")
+    print(f"  Groups: {len(ir_comm_groups)}")
+    print(f"  Variance: {ir_comm_std**2:.6e}")
     print(f"  Variance reduction: {var_reduction_comm:.2f}×")
     print(f"  Physically realizable: {'Yes' if all_commute else 'No'}")
 
-    vra_comm_results = {
-        'groups': vra_comm_groups,
-        'shots': vra_comm_shots,
-        'variance': vra_comm_std**2,
+    ir_comm_results = {
+        'groups': ir_comm_groups,
+        'shots': ir_comm_shots,
+        'variance': ir_comm_std**2,
         'variance_reduction': var_reduction_comm,
         'physically_realizable': all_commute,
-        'n_groups': len(vra_comm_groups),
+        'n_groups': len(ir_comm_groups),
     }
 
     return {
         'molecule': molecule,
         'n_terms': n_terms,
         'baseline': baseline_results,
-        'vra': vra_results,
-        'vra_comm': vra_comm_results,
+        'vra': ir_results,
+        'ir_comm': ir_comm_results,
     }
 
 
@@ -314,16 +314,16 @@ def plot_multi_molecule_comparison(results_list: List[Dict], filename: str):
 
     # Extract data
     baseline_var = [r['baseline']['variance'] for r in results_list]
-    vra_var = [r['vra']['variance'] for r in results_list]
-    vra_comm_var = [r['vra_comm']['variance'] for r in results_list]
+    ir_var = [r['vra']['variance'] for r in results_list]
+    ir_comm_var = [r['ir_comm']['variance'] for r in results_list]
 
     baseline_red = [1.0] * n_molecules
-    vra_red = [r['vra']['variance_reduction'] for r in results_list]
-    vra_comm_red = [r['vra_comm']['variance_reduction'] for r in results_list]
+    ir_red = [r['vra']['variance_reduction'] for r in results_list]
+    ir_comm_red = [r['ir_comm']['variance_reduction'] for r in results_list]
 
     baseline_groups = [r['baseline']['n_groups'] for r in results_list]
-    vra_groups = [r['vra']['n_groups'] for r in results_list]
-    vra_comm_groups = [r['vra_comm']['n_groups'] for r in results_list]
+    ir_groups = [r['vra']['n_groups'] for r in results_list]
+    ir_comm_groups = [r['ir_comm']['n_groups'] for r in results_list]
 
     n_terms = [r['n_terms'] for r in results_list]
 
@@ -333,8 +333,8 @@ def plot_multi_molecule_comparison(results_list: List[Dict], filename: str):
     # Plot 1: Variance comparison
     ax = axes[0, 0]
     bars1 = ax.bar(x - width, baseline_var, width, label='Baseline', color='blue', alpha=0.7)
-    bars2 = ax.bar(x, vra_var, width, label='VRA (no comm)', color='orange', alpha=0.7)
-    bars3 = ax.bar(x + width, vra_comm_var, width, label='VRA + Comm', color='green', alpha=0.7)
+    bars2 = ax.bar(x, ir_var, width, label='IR (no comm)', color='orange', alpha=0.7)
+    bars3 = ax.bar(x + width, ir_comm_var, width, label='IR + Comm', color='green', alpha=0.7)
 
     # Hatch non-realizable
     for i, r in enumerate(results_list):
@@ -354,8 +354,8 @@ def plot_multi_molecule_comparison(results_list: List[Dict], filename: str):
     # Plot 2: Variance reduction factor
     ax = axes[0, 1]
     bars1 = ax.bar(x - width, baseline_red, width, label='Baseline', color='blue', alpha=0.7)
-    bars2 = ax.bar(x, vra_red, width, label='VRA (no comm)', color='orange', alpha=0.7)
-    bars3 = ax.bar(x + width, vra_comm_red, width, label='VRA + Comm', color='green', alpha=0.7)
+    bars2 = ax.bar(x, ir_red, width, label='IR (no comm)', color='orange', alpha=0.7)
+    bars3 = ax.bar(x + width, ir_comm_red, width, label='IR + Comm', color='green', alpha=0.7)
 
     # Hatch non-realizable
     for i, r in enumerate(results_list):
@@ -375,8 +375,8 @@ def plot_multi_molecule_comparison(results_list: List[Dict], filename: str):
     # Plot 3: Number of groups
     ax = axes[1, 0]
     bars1 = ax.bar(x - width, baseline_groups, width, label='Baseline', color='blue', alpha=0.7)
-    bars2 = ax.bar(x, vra_groups, width, label='VRA (no comm)', color='orange', alpha=0.7)
-    bars3 = ax.bar(x + width, vra_comm_groups, width, label='VRA + Comm', color='green', alpha=0.7)
+    bars2 = ax.bar(x, ir_groups, width, label='IR (no comm)', color='orange', alpha=0.7)
+    bars3 = ax.bar(x + width, ir_comm_groups, width, label='IR + Comm', color='green', alpha=0.7)
 
     for i, r in enumerate(results_list):
         if not r['vra']['physically_realizable']:
@@ -405,7 +405,7 @@ def plot_multi_molecule_comparison(results_list: List[Dict], filename: str):
 
 if __name__ == "__main__":
     print("\n" + "="*70)
-    print("VRA Commutativity Benchmark: Larger Molecules")
+    print("IR Commutativity Benchmark: Larger Molecules")
     print("="*70)
 
     # Benchmark molecules
@@ -429,7 +429,7 @@ if __name__ == "__main__":
     if len(all_results) >= 2:
         plot_multi_molecule_comparison(
             all_results,
-            '/home/admin/ATLAS-Q/benchmarks/vra_multi_molecule_comparison.png'
+            '/home/admin/ATLAS-Q/benchmarks/ir_multi_molecule_comparison.png'
         )
 
     # Print summary
@@ -441,14 +441,14 @@ if __name__ == "__main__":
         mol = r['molecule']
         n_terms = r['n_terms']
         baseline_var = r['baseline']['variance']
-        vra_red = r['vra']['variance_reduction']
-        vra_comm_red = r['vra_comm']['variance_reduction']
-        vra_realizable = r['vra']['physically_realizable']
+        ir_red = r['vra']['variance_reduction']
+        ir_comm_red = r['ir_comm']['variance_reduction']
+        ir_realizable = r['vra']['physically_realizable']
 
         print(f"\n{mol} ({n_terms} Pauli terms):")
         print(f"  Baseline variance: {baseline_var:.6e}")
-        print(f"  VRA reduction: {vra_red:.2f}× {'⚠️ NOT REALIZABLE' if not vra_realizable else ''}")
-        print(f"  VRA+Comm reduction: {vra_comm_red:.2f}× ✓ Realizable")
+        print(f"  IR reduction: {ir_red:.2f}× {'⚠️ NOT REALIZABLE' if not ir_realizable else ''}")
+        print(f"  IR+Comm reduction: {ir_comm_red:.2f}× ✓ Realizable")
 
     print("\n" + "="*70)
     print("KEY INSIGHT:")

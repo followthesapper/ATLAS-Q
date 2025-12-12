@@ -1,6 +1,6 @@
-# VRA Benchmarks
+# IR Benchmarks
 
-Benchmarks demonstrating VRA's variance reduction in quantum measurements.
+Benchmarks demonstrating IR's variance reduction in quantum measurements.
 
 ## Results Summary
 
@@ -10,17 +10,17 @@ Benchmarks demonstrating VRA's variance reduction in quantum measurements.
 
 **Shot Savings**: For the same measurement precision:
 - Baseline needs: 10,000 shots
-- VRA needs: **2,014 shots**
+- IR needs: **2,014 shots**
 - Savings: **7,986 shots (79.9%)**
 
 **Performance**:
 - Baseline std dev: 0.0199
-- VRA std dev: 0.0089
+- IR std dev: 0.0089
 - Improvement: 2.23× better precision
 
 ### Scaling Behavior
 
-| Hamiltonian Size | VRA Groups | Variance Reduction |
+| Hamiltonian Size | IR Groups | Variance Reduction |
 |------------------|------------|-------------------|
 | 5 terms | 1 | 4.89× |
 | 8 terms | 2 | 2.39× |
@@ -28,31 +28,31 @@ Benchmarks demonstrating VRA's variance reduction in quantum measurements.
 | 12 terms | 3 | 1.27× |
 | 15 terms | 3 | 1.81× |
 
-**Key Finding**: Variance reduction is most effective for small-medium Hamiltonians (5-10 terms), matching VRA's validated regime.
+**Key Finding**: Variance reduction is most effective for small-medium Hamiltonians (5-10 terms), matching IR's validated regime.
 
 ## Benchmark Scripts
 
-### `vra_variance_benchmark.py`
+### `ir_variance_benchmark.py`
 
 Simplified benchmark focusing purely on measurement variance:
 - Simulates shot-based measurements with realistic noise
-- Compares baseline (per-term) vs VRA (grouped) strategies
+- Compares baseline (per-term) vs IR (grouped) strategies
 - Generates distribution plots and scaling analysis
 
 **Run**:
 ```bash
-python benchmarks/vra_variance_benchmark.py
+python benchmarks/ir_variance_benchmark.py
 ```
 
 **Outputs**:
 - `h2_variance_reduction.png` - Distribution comparison for H2
 - `variance_reduction_scaling.png` - Scaling vs Hamiltonian size
 
-### `vra_vqe_benchmark.py` (In Development)
+### `ir_vqe_benchmark.py` (In Development)
 
 Full VQE optimization benchmark with shot-based measurements:
 - Complete VQE optimization loop
-- Convergence comparison (baseline vs VRA)
+- Convergence comparison (baseline vs IR)
 - Demonstrates impact on actual molecular energy calculations
 
 **Status**: Needs integration with ATLAS-Q MPO structure
@@ -61,10 +61,10 @@ Full VQE optimization benchmark with shot-based measurements:
 
 ```bash
 # Variance reduction benchmark (ready to run)
-PYTHONPATH=src:$PYTHONPATH python3 benchmarks/vra_variance_benchmark.py
+PYTHONPATH=src:$PYTHONPATH python3 benchmarks/ir_variance_benchmark.py
 
 # VQE optimization benchmark (under development)
-# PYTHONPATH=src:$PYTHONPATH python3 benchmarks/vra_vqe_benchmark.py
+# PYTHONPATH=src:$PYTHONPATH python3 benchmarks/ir_vqe_benchmark.py
 ```
 
 ## Interpretation
@@ -78,23 +78,23 @@ PYTHONPATH=src:$PYTHONPATH python3 benchmarks/vra_variance_benchmark.py
 
 **79.9% shot savings**:
 - To achieve same precision as 10,000 baseline shots
-- VRA needs only 2,014 shots
+- IR needs only 2,014 shots
 - Reduces quantum hardware time by ~80%
 
-### Comparison to VRA Theory
+### Comparison to IR Theory
 
-**VRA T6-C1 Target**: 2350× for 50-term H-He Hamiltonian
+**IR T6-C1 Target**: 2350× for 50-term H-He Hamiltonian
 
 **Current Results**: 2-5× for 5-15 term Hamiltonians
 
 **Gap Analysis**:
 - **Missing**: Commutativity analysis (can only group commuting Paulis)
 - **Missing**: Optimized coherence estimation (using heuristic)
-- **Regime**: Small molecules (VRA scales better with larger Hamiltonians)
+- **Regime**: Small molecules (IR scales better with larger Hamiltonians)
 
 **Path Forward**:
 - Add Pauli commutativity checks → expect 10-50× improvement
-- Use full VRA coherence analysis → better grouping decisions
+- Use full IR coherence analysis → better grouping decisions
 - Test on larger molecules (20-50 terms) → scaling improvement
 
 ## Visualization
@@ -105,7 +105,7 @@ PYTHONPATH=src:$PYTHONPATH python3 benchmarks/vra_variance_benchmark.py
 
 Left: Measurement distribution (1000 samples)
 - Blue (Baseline): Wider spread (higher variance)
-- Green (VRA): Narrower spread (lower variance)
+- Green (IR): Narrower spread (lower variance)
 
 Right: Variance comparison
 - Shows 4.96× reduction
@@ -126,9 +126,9 @@ Simulates shot-based Pauli measurements:
 1. For each term/group, compute true expectation value
 2. Add Gaussian noise: σ = sqrt(Var/shots)
 3. Variance = Σ c_i² for independent measurements
-4. VRA: Uses GLS-weighted combination of grouped terms
+4. IR: Uses GLS-weighted combination of grouped terms
 
-### VRA Strategy
+### IR Strategy
 
 1. **Coherence Estimation**: Analyze Pauli string overlap
 2. **Grouping**: Minimize Q_GLS = (c'Σ^(-1)c)^(-1) per group
@@ -143,10 +143,10 @@ Simulates shot-based Pauli measurements:
 
 ## References
 
-1. **VRA Project**: https://github.com/followthesapper/VRA
-2. **VRA T6-C1**: "Coherent Hamiltonian Grouping" - 2350× validated
+1. **IR Project**: https://github.com/followthesapper/IR
+2. **IR T6-C1**: "Coherent Hamiltonian Grouping" - 2350× validated
 3. **ATLAS-Q VQE**: `src/atlas_q/vqe_qaoa.py`
-4. **VRA Integration**: `src/atlas_q/vra_enhanced/vqe_grouping.py`
+4. **IR Integration**: `src/atlas_q/ir_enhanced/vqe_grouping.py`
 
 ## Next Steps
 

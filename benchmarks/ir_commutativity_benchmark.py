@@ -1,17 +1,17 @@
 """
-VRA Commutativity Enhancement Benchmark
+IR Commutativity Enhancement Benchmark
 ========================================
 
 Compares three measurement strategies for VQE:
 1. Baseline: Per-term independent measurement
-2. VRA: Variance-minimized grouping (no commutativity constraints)
-3. VRA+Commutativity: Physically realizable grouped measurement
+2. IR: Variance-minimized grouping (no commutativity constraints)
+3. IR+Commutativity: Physically realizable grouped measurement
 
 Key Trade-off:
-- VRA without commutativity achieves high variance reduction but is PHYSICALLY IMPOSSIBLE
-- VRA with commutativity achieves moderate variance reduction but is PHYSICALLY REALIZABLE
+- IR without commutativity achieves high variance reduction but is PHYSICALLY IMPOSSIBLE
+- IR with commutativity achieves moderate variance reduction but is PHYSICALLY REALIZABLE
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -21,14 +21,14 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-from atlas_q.vra_enhanced import (
-    vra_hamiltonian_grouping,
+from atlas_q.ir_enhanced import (
+    ir_hamiltonian_grouping,
     estimate_pauli_coherence_matrix,
     group_by_variance_minimization,
     allocate_shots_neyman,
     check_group_commutativity,
 )
-from atlas_q.vra_enhanced.vqe_grouping import compute_variance_reduction
+from atlas_q.ir_enhanced.vqe_grouping import compute_variance_reduction
 
 
 def simulate_measurement_variance(
@@ -77,8 +77,8 @@ def benchmark_three_methods(
     Returns
     -------
     baseline_results : dict
-    vra_results : dict
-    vra_comm_results : dict
+    ir_results : dict
+    ir_comm_results : dict
     """
     n_terms = len(coeffs)
 
@@ -116,116 +116,116 @@ def benchmark_three_methods(
         'method': 'Baseline'
     }
 
-    # Method 2: VRA (no commutativity constraints)
+    # Method 2: IR (no commutativity constraints)
     print(f"\n{'='*70}")
-    print("Method 2: VRA (Variance-minimized, NO commutativity)")
+    print("Method 2: IR (Variance-minimized, NO commutativity)")
     print(f"{'='*70}")
 
     Sigma = estimate_pauli_coherence_matrix(coeffs, pauli_strings)
 
-    vra_groups = group_by_variance_minimization(
+    ir_groups = group_by_variance_minimization(
         Sigma, coeffs, max_group_size=5,
         pauli_strings=pauli_strings,
         check_commutativity=False  # Disabled
     )
 
-    vra_shots = allocate_shots_neyman(Sigma, coeffs, vra_groups, total_shots)
+    ir_shots = allocate_shots_neyman(Sigma, coeffs, ir_groups, total_shots)
 
-    print(f"Groups: {len(vra_groups)}")
-    print(f"Group structure: {vra_groups}")
-    print(f"Shot allocation: {vra_shots}")
+    print(f"Groups: {len(ir_groups)}")
+    print(f"Group structure: {ir_groups}")
+    print(f"Shot allocation: {ir_shots}")
 
     # Check if groups violate commutativity
     violations = 0
-    for i, group in enumerate(vra_groups):
+    for i, group in enumerate(ir_groups):
         commutes = check_group_commutativity(group, pauli_strings)
         if not commutes:
             violations += 1
             print(f"  Group {i} {group}: ⚠️ VIOLATES COMMUTATIVITY (not physically realizable)")
 
-    vra_mean, vra_std = simulate_measurement_variance(
-        coeffs, pauli_strings, vra_groups, vra_shots, n_samples
+    ir_mean, ir_std = simulate_measurement_variance(
+        coeffs, pauli_strings, ir_groups, ir_shots, n_samples
     )
 
-    var_reduction_vra = (baseline_std**2) / (vra_std**2)
+    var_reduction_vra = (baseline_std**2) / (ir_std**2)
 
-    print(f"\nMean energy: {vra_mean:.6f}")
-    print(f"Std dev: {vra_std:.6f}")
-    print(f"Variance: {vra_std**2:.6f}")
+    print(f"\nMean energy: {ir_mean:.6f}")
+    print(f"Std dev: {ir_std:.6f}")
+    print(f"Variance: {ir_std**2:.6f}")
     print(f"Variance reduction: {var_reduction_vra:.2f}×")
     print(f"Physically realizable: {'No - {violations} groups violate commutativity' if violations > 0 else 'Yes'}")
 
-    vra_results = {
-        'groups': vra_groups,
-        'shots': vra_shots,
-        'mean': vra_mean,
-        'std': vra_std,
-        'variance': vra_std**2,
+    ir_results = {
+        'groups': ir_groups,
+        'shots': ir_shots,
+        'mean': ir_mean,
+        'std': ir_std,
+        'variance': ir_std**2,
         'variance_reduction': var_reduction_vra,
         'physically_realizable': violations == 0,
         'violations': violations,
-        'method': 'VRA (no commutativity)'
+        'method': 'IR (no commutativity)'
     }
 
-    # Method 3: VRA + Commutativity
+    # Method 3: IR + Commutativity
     print(f"\n{'='*70}")
-    print("Method 3: VRA + COMMUTATIVITY (Physically realizable)")
+    print("Method 3: IR + COMMUTATIVITY (Physically realizable)")
     print(f"{'='*70}")
 
-    vra_comm_groups = group_by_variance_minimization(
+    ir_comm_groups = group_by_variance_minimization(
         Sigma, coeffs, max_group_size=5,
         pauli_strings=pauli_strings,
         check_commutativity=True  # Enabled
     )
 
-    vra_comm_shots = allocate_shots_neyman(Sigma, coeffs, vra_comm_groups, total_shots)
+    ir_comm_shots = allocate_shots_neyman(Sigma, coeffs, ir_comm_groups, total_shots)
 
-    print(f"Groups: {len(vra_comm_groups)}")
-    print(f"Group structure: {vra_comm_groups}")
-    print(f"Shot allocation: {vra_comm_shots}")
+    print(f"Groups: {len(ir_comm_groups)}")
+    print(f"Group structure: {ir_comm_groups}")
+    print(f"Shot allocation: {ir_comm_shots}")
 
     # Verify all groups commute
     all_commute = True
-    for i, group in enumerate(vra_comm_groups):
+    for i, group in enumerate(ir_comm_groups):
         commutes = check_group_commutativity(group, pauli_strings)
         print(f"  Group {i} {group}: {'✓ commutes' if commutes else '✗ VIOLATES'}")
         all_commute = all_commute and commutes
 
-    vra_comm_mean, vra_comm_std = simulate_measurement_variance(
-        coeffs, pauli_strings, vra_comm_groups, vra_comm_shots, n_samples
+    ir_comm_mean, ir_comm_std = simulate_measurement_variance(
+        coeffs, pauli_strings, ir_comm_groups, ir_comm_shots, n_samples
     )
 
-    var_reduction_comm = (baseline_std**2) / (vra_comm_std**2)
+    var_reduction_comm = (baseline_std**2) / (ir_comm_std**2)
 
-    print(f"\nMean energy: {vra_comm_mean:.6f}")
-    print(f"Std dev: {vra_comm_std:.6f}")
-    print(f"Variance: {vra_comm_std**2:.6f}")
+    print(f"\nMean energy: {ir_comm_mean:.6f}")
+    print(f"Std dev: {ir_comm_std:.6f}")
+    print(f"Variance: {ir_comm_std**2:.6f}")
     print(f"Variance reduction: {var_reduction_comm:.2f}×")
     print(f"Physically realizable: {'Yes' if all_commute else 'No'}")
 
-    vra_comm_results = {
-        'groups': vra_comm_groups,
-        'shots': vra_comm_shots,
-        'mean': vra_comm_mean,
-        'std': vra_comm_std,
-        'variance': vra_comm_std**2,
+    ir_comm_results = {
+        'groups': ir_comm_groups,
+        'shots': ir_comm_shots,
+        'mean': ir_comm_mean,
+        'std': ir_comm_std,
+        'variance': ir_comm_std**2,
         'variance_reduction': var_reduction_comm,
         'physically_realizable': all_commute,
-        'method': 'VRA + Commutativity'
+        'method': 'IR + Commutativity'
     }
 
-    return baseline_results, vra_results, vra_comm_results
+    return baseline_results, ir_results, ir_comm_results
 
 
-def plot_comparison(baseline, vra, vra_comm, filename):
+def plot_comparison(baseline, vra, ir_comm, filename):
     """Create comparison plots."""
     fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 
     # Plot 1: Variance comparison
-    methods = ['Baseline\n(per-term)', 'VRA\n(no commutativity)', 'VRA\n(with commutativity)']
-    variances = [baseline['variance'], vra['variance'], vra_comm['variance']]
+    methods = ['Baseline\n(per-term)', 'IR\n(no commutativity)', 'IR\n(with commutativity)']
+    variances = [baseline['variance'], vra['variance'], ir_comm['variance']]
     colors = ['blue', 'orange', 'green']
-    realizable = [baseline['physically_realizable'], vra['physically_realizable'], vra_comm['physically_realizable']]
+    realizable = [baseline['physically_realizable'], vra['physically_realizable'], ir_comm['physically_realizable']]
 
     bars = axes[0].bar(methods, variances, color=colors, alpha=0.7)
     for i, (bar, real) in enumerate(zip(bars, realizable)):
@@ -247,7 +247,7 @@ def plot_comparison(baseline, vra, vra_comm, filename):
     axes[0].legend(handles=legend_elements, loc='upper right', fontsize=8)
 
     # Plot 2: Variance reduction factor
-    reductions = [1.0, vra.get('variance_reduction', 1.0), vra_comm.get('variance_reduction', 1.0)]
+    reductions = [1.0, vra.get('variance_reduction', 1.0), ir_comm.get('variance_reduction', 1.0)]
     bars = axes[1].bar(methods, reductions, color=colors, alpha=0.7)
     for i, (bar, real) in enumerate(zip(bars, realizable)):
         if not real:
@@ -261,7 +261,7 @@ def plot_comparison(baseline, vra, vra_comm, filename):
     axes[1].grid(True, alpha=0.3, axis='y')
 
     # Plot 3: Number of groups
-    n_groups = [len(baseline['groups']), len(vra['groups']), len(vra_comm['groups'])]
+    n_groups = [len(baseline['groups']), len(vra['groups']), len(ir_comm['groups'])]
     bars = axes[2].bar(methods, n_groups, color=colors, alpha=0.7)
     for i, (bar, real) in enumerate(zip(bars, realizable)):
         if not real:
@@ -280,7 +280,7 @@ def plot_comparison(baseline, vra, vra_comm, filename):
 
 if __name__ == "__main__":
     print("\n" + "="*70)
-    print("VRA Commutativity Enhancement Benchmark")
+    print("IR Commutativity Enhancement Benchmark")
     print("="*70)
 
     # H2 Molecular Hamiltonian
@@ -291,23 +291,23 @@ if __name__ == "__main__":
     h2_coeffs = np.array([-0.81054, 0.17218, -0.22575, 0.12091, 0.16862])
     h2_paulis = ["II", "ZI", "IZ", "ZZ", "XX"]
 
-    baseline_h2, vra_h2, vra_comm_h2 = benchmark_three_methods(
+    baseline_h2, ir_h2, ir_comm_h2 = benchmark_three_methods(
         h2_coeffs, h2_paulis, total_shots=10000, n_samples=1000
     )
 
-    plot_comparison(baseline_h2, vra_h2, vra_comm_h2, '/home/admin/ATLAS-Q/benchmarks/h2_commutativity_comparison.png')
+    plot_comparison(baseline_h2, ir_h2, ir_comm_h2, '/home/admin/ATLAS-Q/benchmarks/h2_commutativity_comparison.png')
 
     # Summary
     print("\n" + "="*70)
     print("SUMMARY: H2 Molecular Hamiltonian")
     print("="*70)
     print(f"Baseline variance:               {baseline_h2['variance']:.6f} (1.00×)")
-    print(f"VRA variance:                    {vra_h2['variance']:.6f} ({vra_h2['variance_reduction']:.2f}×) {'⚠️ NOT REALIZABLE' if not vra_h2['physically_realizable'] else '✓ Realizable'}")
-    print(f"VRA+Commutativity variance:      {vra_comm_h2['variance']:.6f} ({vra_comm_h2['variance_reduction']:.2f}×) ✓ Realizable")
+    print(f"IR variance:                    {ir_h2['variance']:.6f} ({ir_h2['variance_reduction']:.2f}×) {'⚠️ NOT REALIZABLE' if not ir_h2['physically_realizable'] else '✓ Realizable'}")
+    print(f"IR+Commutativity variance:      {ir_comm_h2['variance']:.6f} ({ir_comm_h2['variance_reduction']:.2f}×) ✓ Realizable")
     print(f"\n{'='*70}")
     print("KEY INSIGHT:")
-    print("  VRA without commutativity shows higher reduction but is physically")
+    print("  IR without commutativity shows higher reduction but is physically")
     print("  impossible to measure (violates quantum mechanics).")
-    print("  VRA with commutativity provides realizable measurement strategy")
-    print(f"  with {vra_comm_h2['variance_reduction']:.2f}× variance reduction.")
+    print("  IR with commutativity provides realizable measurement strategy")
+    print(f"  with {ir_comm_h2['variance_reduction']:.2f}× variance reduction.")
     print("="*70)

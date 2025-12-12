@@ -4,13 +4,13 @@ Coherence-Aware VQE Example
 ============================
 
 Demonstrates the world's first self-diagnostic quantum algorithm with
-real-time quality monitoring based on Vaca Resonance Analysis (VRA).
+real-time quality monitoring based on Informational Relativity (IR).
 
 This example shows:
 1. Building molecular Hamiltonians for H2, LiH, and H2O
 2. Running coherence-aware VQE with real-time R̄ tracking
 3. GO/NO-GO classification using e^-2 boundary
-4. VRA grouping for 5× measurement compression
+4. IR grouping for 5× measurement compression
 
 Hardware validated on IBM Brisbane with R̄=0.988 for H2O.
 
@@ -27,14 +27,14 @@ sys.path.insert(0, '../src')
 
 from atlas_q.coherence import (
     CoherenceMetrics,
-    adaptive_vra_decision,
+    adaptive_ir_decision,
     classify_go_no_go,
     compute_coherence,
     group_paulis_qwc,
 )
 from atlas_q.coherence_aware_vqe import CoherenceAwareVQE, VQEConfig, coherence_aware_vqe
 from atlas_q.mpo_ops import MPOBuilder
-from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+from atlas_q.ir_enhanced import ir_hamiltonian_grouping
 
 
 def example_1_basic_h2():
@@ -93,16 +93,16 @@ def example_1_basic_h2():
     return result
 
 
-def example_2_vra_grouping():
+def example_2_ir_grouping():
     """
-    Example 2: VRA grouping for measurement compression.
+    Example 2: IR grouping for measurement compression.
 
-    Demonstrates how VRA reduces measurements by ~5× while
+    Demonstrates how IR reduces measurements by ~5× while
     maintaining coherence.
     """
     print("\n\n")
     print("="*80)
-    print("EXAMPLE 2: VRA Grouping for Measurement Compression")
+    print("EXAMPLE 2: IR Grouping for Measurement Compression")
     print("="*80)
 
     # Build larger Hamiltonian (LiH has more terms)
@@ -137,35 +137,35 @@ def example_2_vra_grouping():
     print(f"  ✓ QWC grouped: {len(pauli_strings)} → {len(qwc_groups)} groups")
     print(f"    Compression: {len(pauli_strings)/len(qwc_groups):.1f}×")
 
-    # Option 2: VRA grouping (variance-aware)
-    print("\n[4/4] Applying VRA grouping...")
+    # Option 2: IR grouping (variance-aware)
+    print("\n[4/4] Applying IR grouping...")
     try:
-        vra_result = vra_hamiltonian_grouping(
+        ir_result = ir_hamiltonian_grouping(
             pauli_strings,
             coefficients,
             total_shots=10000
         )
-        print(f"  ✓ VRA grouped: {len(pauli_strings)} → {len(vra_result.groups)} groups")
-        print(f"    Variance reduction: {vra_result.variance_reduction_factor:.2f}×")
-        print(f"    Shot allocation per group: {vra_result.shots_per_group[:3]}... (first 3)")
+        print(f"  ✓ IR grouped: {len(pauli_strings)} → {len(ir_result.groups)} groups")
+        print(f"    Variance reduction: {ir_result.variance_reduction_factor:.2f}×")
+        print(f"    Shot allocation per group: {ir_result.shots_per_group[:3]}... (first 3)")
     except Exception as e:
-        print(f"  ⚠ VRA grouping requires full implementation: {e}")
+        print(f"  ⚠ IR grouping requires full implementation: {e}")
 
     print("\n💡 Key Insight:")
-    print("   VRA grouping reduces measurements while maintaining high coherence,")
+    print("   IR grouping reduces measurements while maintaining high coherence,")
     print("   enabling practical quantum chemistry on NISQ devices.")
 
 
 def example_3_adaptive_vra():
     """
-    Example 3: Adaptive VRA decision making.
+    Example 3: Adaptive IR decision making.
 
-    Shows how to use coherence metrics to decide when VRA grouping
+    Shows how to use coherence metrics to decide when IR grouping
     will be beneficial.
     """
     print("\n\n")
     print("="*80)
-    print("EXAMPLE 3: Adaptive VRA Decision Making")
+    print("EXAMPLE 3: Adaptive IR Decision Making")
     print("="*80)
 
     # Simulate different coherence scenarios
@@ -176,7 +176,7 @@ def example_3_adaptive_vra():
         ("Low Coherence (Noisy)", 0.08),
     ]
 
-    print("\nTesting adaptive VRA decisions for different coherence levels:\n")
+    print("\nTesting adaptive IR decisions for different coherence levels:\n")
 
     for name, R_bar in scenarios:
         # Create coherence metrics
@@ -185,25 +185,25 @@ def example_3_adaptive_vra():
             R_bar=R_bar,
             V_phi=V_phi,
             is_above_e2_boundary=R_bar > 0.135,
-            vra_predicted_to_help=R_bar > 0.135,
+            ir_predicted_to_help=R_bar > 0.135,
             n_measurements=100
         )
 
         # Make adaptive decision
-        enable_vra, reason = adaptive_vra_decision(coherence, threshold=0.135)
+        enable_ir, reason = adaptive_ir_decision(coherence, threshold=0.135)
 
         # Classify
         classification = classify_go_no_go(coherence)
 
         # Display
-        status_emoji = "✅" if enable_vra else "❌"
+        status_emoji = "✅" if enable_ir else "❌"
         print(f"{status_emoji} {name} (R̄={R_bar:.3f}):")
         print(f"   Decision: {reason}")
         print(f"   Classification: {classification}")
         print()
 
     print("💡 Key Insight:")
-    print("   VRA is automatically enabled when coherence is high (R̄ > 0.135),")
+    print("   IR is automatically enabled when coherence is high (R̄ > 0.135),")
     print("   and disabled when coherence is low to avoid measurement errors.")
 
 
@@ -255,8 +255,8 @@ def example_4_complete_workflow():
 
     # Make decision
     print("\n[3/3] Making adaptive decisions...")
-    enable_vra, reason = adaptive_vra_decision(result.coherence)
-    print(f"  VRA Decision: {reason}")
+    enable_ir, reason = adaptive_ir_decision(result.coherence)
+    print(f"  IR Decision: {reason}")
 
     # Final verdict
     print("\n" + "="*80)
@@ -287,7 +287,7 @@ def main():
     try:
         # Run examples
         example_1_basic_h2()
-        example_2_vra_grouping()
+        example_2_ir_grouping()
         example_3_adaptive_vra()
         example_4_complete_workflow()
 

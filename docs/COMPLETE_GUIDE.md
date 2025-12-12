@@ -10,7 +10,7 @@ This is the complete, verified guide for ATLAS-Q. Every code example has been te
 ## Related Documentation
 
 - **[ Interactive Notebook](../ATLAS_Q_Demo.ipynb)** - Try ATLAS-Q in Jupyter or Google Colab
-- **[ Documentation Site](https://followthsapper.github.io/ATLAS-Q/)** - Browse all docs online
+- **[ Documentation Site](https://followthesapper.github.io/ATLAS-Q/)** - Browse all docs online
 - **[ Feature Status](FEATURE_STATUS.md)** - What's actually implemented
 - **[ Whitepaper](WHITEPAPER.md)** - Technical architecture
 - **[ Research Paper](RESEARCH_PAPER.md)** - Mathematical foundations
@@ -48,7 +48,7 @@ pip install atlas-quantum[dev]
 ### From Source
 
 ```bash
-git clone https://github.com/followthsapper/ATLAS-Q.git
+git clone https://github.com/followthesapper/ATLAS-Q.git
 cd ATLAS-Q
 pip install -e .
 
@@ -60,12 +60,12 @@ pip install -e .[gpu]
 
 ```bash
 # GPU version
-docker pull ghcr.io/followthsapper/atlas-q:cuda
-docker run --rm -it --gpus all ghcr.io/followthsapper/atlas-q:cuda
+docker pull ghcr.io/followthesapper/atlas-q:cuda
+docker run --rm -it --gpus all ghcr.io/followthesapper/atlas-q:cuda
 
 # CPU version
-docker pull ghcr.io/followthsapper/atlas-q:cpu
-docker run --rm -it ghcr.io/followthsapper/atlas-q:cpu
+docker pull ghcr.io/followthesapper/atlas-q:cpu
+docker run --rm -it ghcr.io/followthesapper/atlas-q:cpu
 ```
 
 ### Verify Installation

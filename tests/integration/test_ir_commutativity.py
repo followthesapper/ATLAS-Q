@@ -1,15 +1,15 @@
 """
-Test VRA Commutativity-Aware Hamiltonian Grouping
+Test IR Commutativity-Aware Hamiltonian Grouping
 ==================================================
 
 Validates commutativity-constrained grouping for enhanced variance reduction.
 
-Target: 10-50× additional improvement over baseline VRA grouping
+Target: 10-50× additional improvement over baseline IR grouping
 
 Test Strategy:
 1. Test Pauli commutativity checking
 2. Validate group commutativity constraints
-3. Compare variance reduction: baseline vs VRA vs VRA+commutativity
+3. Compare variance reduction: baseline vs IR vs IR+commutativity
 4. Test on realistic molecular Hamiltonians
 5. Demonstrate 10-50× improvement potential
 """
@@ -17,12 +17,12 @@ Test Strategy:
 import numpy as np
 import pytest
 
-from atlas_q.vra_enhanced import (
+from atlas_q.ir_enhanced import (
     check_group_commutativity,
     estimate_pauli_coherence_matrix,
     group_by_variance_minimization,
     pauli_commutes,
-    vra_hamiltonian_grouping,
+    ir_hamiltonian_grouping,
 )
 
 
@@ -166,7 +166,7 @@ class TestCommutativityAwareGrouping:
     """Test commutativity-constrained variance minimization."""
 
     def test_grouping_without_commutativity(self):
-        """Test baseline VRA grouping (no commutativity constraints)."""
+        """Test baseline IR grouping (no commutativity constraints)."""
         coeffs = np.array([1.0, 0.8, 0.6, 0.4, 0.2])
         paulis = ["ZI", "IZ", "XI", "ZZ", "XX"]
 
@@ -179,10 +179,10 @@ class TestCommutativityAwareGrouping:
             check_commutativity=False
         )
 
-        print(f"✓ Baseline VRA grouping: {groups_no_comm}")
+        print(f"✓ Baseline IR grouping: {groups_no_comm}")
 
     def test_grouping_with_commutativity(self):
-        """Test commutativity-aware VRA grouping."""
+        """Test commutativity-aware IR grouping."""
         coeffs = np.array([1.0, 0.8, 0.6, 0.4, 0.2])
         paulis = ["ZI", "IZ", "XI", "ZZ", "XX"]
 
@@ -216,7 +216,7 @@ class TestCommutativityAwareGrouping:
                     if not commutes:
                         print(f"  {p1} vs {p2}: {'commute' if commutes else 'ANTI-COMMUTE'}")
 
-        result = vra_hamiltonian_grouping(
+        result = ir_hamiltonian_grouping(
             coeffs,
             pauli_strings=paulis,
             total_shots=10000,
@@ -302,7 +302,7 @@ class TestVarianceImpactiveReduction:
             "ZZZI"   # ZZZ on 0,1,2
         ]
 
-        result = vra_hamiltonian_grouping(
+        result = ir_hamiltonian_grouping(
             coeffs,
             pauli_strings=paulis,
             total_shots=10000,
@@ -382,7 +382,7 @@ def test_end_to_end_commutativity_enhancement():
         assert commutes
 
     # Compare variance reduction
-    from atlas_q.vra_enhanced.vqe_grouping import allocate_shots_neyman, compute_variance_reduction
+    from atlas_q.ir_enhanced.vqe_grouping import allocate_shots_neyman, compute_variance_reduction
 
     total_shots = 10000
 

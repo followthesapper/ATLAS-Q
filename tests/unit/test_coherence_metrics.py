@@ -28,7 +28,7 @@ class TestCoherenceMetrics:
             R_bar=0.8,
             V_phi=0.45,
             is_above_e2_boundary=True,
-            vra_predicted_to_help=True,
+            ir_predicted_to_help=True,
             n_measurements=10
         )
         assert metrics.R_bar == 0.8
@@ -43,7 +43,7 @@ class TestCoherenceMetrics:
                 R_bar=1.5,  # Invalid: > 1
                 V_phi=0.0,
                 is_above_e2_boundary=True,
-                vra_predicted_to_help=True,
+                ir_predicted_to_help=True,
             )
 
         with pytest.raises(ValueError, match="R_bar must be in"):
@@ -51,7 +51,7 @@ class TestCoherenceMetrics:
                 R_bar=-0.1,  # Invalid: < 0
                 V_phi=0.0,
                 is_above_e2_boundary=False,
-                vra_predicted_to_help=False,
+                ir_predicted_to_help=False,
             )
 
     def test_as_dict(self):
@@ -60,7 +60,7 @@ class TestCoherenceMetrics:
             R_bar=0.9,
             V_phi=0.2,
             is_above_e2_boundary=True,
-            vra_predicted_to_help=True,
+            ir_predicted_to_help=True,
             n_measurements=5
         )
         d = metrics.as_dict()
@@ -76,7 +76,7 @@ class TestCoherenceMetrics:
             R_bar=0.875,
             V_phi=0.267,
             is_above_e2_boundary=True,
-            vra_predicted_to_help=True,
+            ir_predicted_to_help=True,
             n_measurements=100
         )
         s = str(metrics)
@@ -119,7 +119,7 @@ class TestComputeCoherence:
 
         assert coherence.R_bar > 0.135  # Above e^-2
         assert coherence.is_above_e2_boundary
-        assert coherence.vra_predicted_to_help
+        assert coherence.ir_predicted_to_help
 
     def test_low_coherence_below_e2(self):
         """Test with low coherence measurements (below e^-2)."""

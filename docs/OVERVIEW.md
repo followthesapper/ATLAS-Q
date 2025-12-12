@@ -352,7 +352,7 @@ You can control the accuracy vs. speed tradeoff - need higher accuracy? It keeps
 
 **Installation:**
 ```bash
-git clone https://github.com/followthsapper/ATLAS-Q.git
+git clone https://github.com/followthesapper/ATLAS-Q.git
 cd ATLAS-Q
 pip install -r requirements.txt
 pip install -e .
@@ -580,8 +580,8 @@ For the specific types of quantum problems it's designed for - like simulating m
 
 ## Getting Help
 
-- **Issues:** https://github.com/followthsapper/ATLAS-Q/issues
-- **Discussions:** https://github.com/followthsapper/ATLAS-Q/discussions
+- **Issues:** https://github.com/followthesapper/ATLAS-Q/issues
+- **Discussions:** https://github.com/followthesapper/ATLAS-Q/discussions
 - **Documentation:** See `/docs/` folder
 - **Examples & Demos:** See `/scripts/demos/` and `/scripts/benchmarks/` folders
 
@@ -589,7 +589,7 @@ For the specific types of quantum problems it's designed for - like simulating m
 
 **License:** MIT (Free and open source)
 **Version:** 0.6.0 (October 2025)
-**Contact:** https://github.com/followthsapper/ATLAS-Q
+**Contact:** https://github.com/followthesapper/ATLAS-Q
 
 ---
 

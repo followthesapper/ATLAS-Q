@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-VRA Coherence-Aware VQE Benchmark
+IR Coherence-Aware VQE Benchmark
 ===================================
 
 This benchmark integrates the hardware validation results (Tests 2, 3, 6, 7) into VQE:
@@ -8,22 +8,22 @@ This benchmark integrates the hardware validation results (Tests 2, 3, 6, 7) int
 1. **Coherence Tracking (Test 2 + Test 7)**:
    - Monitor R̄ and V_φ during optimization
    - Check against e^-2 boundary (R̄ ≈ 0.135)
-   - Predict when VRA grouping will help
+   - Predict when IR grouping will help
 
 2. **RMT Convergence (Test 6)**:
    - Track measurement covariance eigenvalues
    - Check MP distribution compliance
    - Use as convergence criterion
 
-3. **Adaptive VRA Switching**:
-   - Enable VRA only when R̄ > 0.135 (shot-noise regime)
+3. **Adaptive IR Switching**:
+   - Enable IR only when R̄ > 0.135 (shot-noise regime)
    - Disable when R̄ < 0.135 (systematic-noise regime)
 
 4. **Go/No-Go Classification (Test 7)**:
    - Classify final VQE results as "trustworthy" or "noisy"
    - Use e^-2 boundary for binary classification
 
-Author: ATLAS-Q + VRA Integration
+Author: ATLAS-Q + IR Integration
 Date: November 2025
 """
 
@@ -41,7 +41,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from atlas_q.adaptive_mps import AdaptiveMPS
 from atlas_q.mpo_ops import MPO, MPOBuilder, _jordan_wigner_transform, expectation_value
-from atlas_q.vra_enhanced import vra_hamiltonian_grouping
+from atlas_q.ir_enhanced import ir_hamiltonian_grouping
 
 try:
     from pyscf import ao2mo, gto, scf
@@ -58,16 +58,16 @@ except ImportError:
 
 @dataclass
 class CoherenceMetrics:
-    """Circular statistics metrics from VRA Tests 2 & 7"""
+    """Circular statistics metrics from IR Tests 2 & 7"""
     R_bar: float  # Mean resultant length (coherence)
     V_phi: float  # Circular variance
     is_above_e2_boundary: bool  # R̄ > 0.135?
-    vra_predicted_to_help: bool  # Should we use VRA?
+    ir_predicted_to_help: bool  # Should we use IR?
 
 
 @dataclass
 class RMTMetrics:
-    """Random Matrix Theory metrics from VRA Test 6"""
+    """Random Matrix Theory metrics from IR Test 6"""
     eigenvalues: np.ndarray
     mp_fraction: float  # Fraction in MP support
     ks_distance: float  # KS distance from MP CDF
@@ -96,7 +96,7 @@ class CoherenceAwareVQEResult:
     wall_time: float
     n_pauli_terms: int
 
-    # VRA-specific
+    # IR-specific
     n_measurement_groups: int
     variance_reduction: float
 
@@ -121,8 +121,8 @@ def compute_coherence(measurement_outcomes: np.ndarray) -> CoherenceMetrics:
     """
     Compute circular statistics coherence metrics (Test 2).
 
-    From VRA Test 2: R̄ = exp(-V_φ/2)
-    From VRA Test 7: e^-2 boundary at R̄ ≈ 0.135
+    From IR Test 2: R̄ = exp(-V_φ/2)
+    From IR Test 7: e^-2 boundary at R̄ ≈ 0.135
 
     Args:
         measurement_outcomes: Array of measurement outcomes (phases or expectation values)
@@ -148,20 +148,20 @@ def compute_coherence(measurement_outcomes: np.ndarray) -> CoherenceMetrics:
     e2_boundary = 0.135
     is_above_boundary = R_bar > e2_boundary
 
-    # VRA predicted to help only in shot-noise regime (R̄ > e^-2)
-    vra_predicted_to_help = is_above_boundary
+    # IR predicted to help only in shot-noise regime (R̄ > e^-2)
+    ir_predicted_to_help = is_above_boundary
 
     return CoherenceMetrics(
         R_bar=R_bar,
         V_phi=V_phi,
         is_above_e2_boundary=is_above_boundary,
-        vra_predicted_to_help=vra_predicted_to_help
+        ir_predicted_to_help=ir_predicted_to_help
     )
 
 
 def ledoit_wolf_shrinkage(X: np.ndarray) -> np.ndarray:
     """
-    Ledoit-Wolf covariance shrinkage (from VRA Test 6).
+    Ledoit-Wolf covariance shrinkage (from IR Test 6).
 
     Args:
         X: (p × n) measurement matrix
@@ -197,7 +197,7 @@ def ledoit_wolf_shrinkage(X: np.ndarray) -> np.ndarray:
 
 def compute_rmt_metrics(measurement_matrix: np.ndarray) -> RMTMetrics:
     """
-    Compute RMT universality metrics (from VRA Test 6).
+    Compute RMT universality metrics (from IR Test 6).
 
     Checks if measurement eigenvalues follow Marchenko-Pastur distribution.
 
@@ -365,8 +365,8 @@ def measure_energy_with_coherence(mps: AdaptiveMPS, coeffs: np.ndarray, paulis: 
     measurement_outcomes = []
 
     if use_vra:
-        # VRA grouping
-        grouping = vra_hamiltonian_grouping(coeffs, pauli_strings=paulis, total_shots=shots_budget)
+        # IR grouping
+        grouping = ir_hamiltonian_grouping(coeffs, pauli_strings=paulis, total_shots=shots_budget)
 
         energy = 0.0
         shots_used = 0
@@ -423,7 +423,7 @@ def measure_energy_with_coherence(mps: AdaptiveMPS, coeffs: np.ndarray, paulis: 
 
 
 class CoherenceAwareVQE:
-    """VQE with coherence tracking and adaptive VRA switching."""
+    """VQE with coherence tracking and adaptive IR switching."""
 
     def __init__(self, coeffs: np.ndarray, paulis: List[str], n_qubits: int,
                  adaptive_vra: bool = True, shots_per_iter: int = 10000, device: str = 'cpu'):
@@ -470,16 +470,16 @@ class CoherenceAwareVQE:
         return mps
 
     def cost_function(self, params: np.ndarray) -> float:
-        """Cost function with coherence tracking and adaptive VRA."""
+        """Cost function with coherence tracking and adaptive IR."""
         mps = self.apply_ansatz(params)
 
-        # Adaptive VRA: use VRA only if predicted to help based on previous coherence
+        # Adaptive IR: use IR only if predicted to help based on previous coherence
         if self.adaptive_vra and len(self.iteration_data) > 0:
-            # Use VRA if last iteration had high coherence
+            # Use IR if last iteration had high coherence
             last_coherence = self.iteration_data[-1].coherence
-            use_vra = last_coherence.vra_predicted_to_help
+            use_vra = last_coherence.ir_predicted_to_help
         elif self.adaptive_vra:
-            # First iteration: start with VRA enabled
+            # First iteration: start with IR enabled
             use_vra = True
         else:
             # Fixed mode
@@ -510,10 +510,10 @@ class CoherenceAwareVQE:
         # Print with coherence info
         if self.iteration % 5 == 0:
             coh_status = "✅ HIGH" if coherence.is_above_e2_boundary else "⚠️  LOW"
-            vra_status = "ON" if use_vra else "OFF"
+            ir_status = "ON" if use_vra else "OFF"
             print(f"  Iter {self.iteration:3d}: E = {energy:.6f} Ha, "
                   f"R̄ = {coherence.R_bar:.3f} {coh_status}, "
-                  f"VRA = {vra_status}, "
+                  f"IR = {ir_status}, "
                   f"Shots = {self.total_shots:,}")
 
         return energy
@@ -530,7 +530,7 @@ class CoherenceAwareVQE:
         self.measurement_history = []
 
         print(f"\n{'='*70}")
-        print(f"Running COHERENCE-AWARE VQE (adaptive VRA = {self.adaptive_vra})")
+        print(f"Running COHERENCE-AWARE VQE (adaptive IR = {self.adaptive_vra})")
         print(f"{'='*70}")
 
         t0 = time.time()
@@ -561,8 +561,8 @@ class CoherenceAwareVQE:
         final_coherence = coherence_history[-1] if coherence_history else CoherenceMetrics(0, np.inf, False, False)
         go_no_go, reason = classify_go_no_go(final_coherence, rmt_final)
 
-        # Get final VRA stats
-        grouping = vra_hamiltonian_grouping(self.coeffs, self.paulis, total_shots=10000)
+        # Get final IR stats
+        grouping = ir_hamiltonian_grouping(self.coeffs, self.paulis, total_shots=10000)
         n_groups = len(grouping.groups)
         variance_reduction = grouping.variance_reduction
 
@@ -640,14 +640,14 @@ def main():
         return
 
     print("\n" + "="*80)
-    print("VRA COHERENCE-AWARE VQE BENCHMARK")
+    print("IR COHERENCE-AWARE VQE BENCHMARK")
     print("="*80)
-    print("\nIntegrating VRA hardware validation results (Tests 2, 3, 6, 7):")
+    print("\nIntegrating IR hardware validation results (Tests 2, 3, 6, 7):")
     print("  ✓ Coherence tracking (R̄, V_φ)")
     print("  ✓ e^-2 boundary monitoring")
     print("  ✓ RMT convergence analysis")
     print("  ✓ Go/No-Go classification")
-    print("  ✓ Adaptive VRA switching\n")
+    print("  ✓ Adaptive IR switching\n")
 
     # Test on H2
     molecules = ['H2', 'LiH']
@@ -663,10 +663,10 @@ def main():
     print("\n" + "="*80)
     print("CONCLUSION")
     print("="*80)
-    print("✅ Coherence tracking enables prediction of VRA effectiveness")
+    print("✅ Coherence tracking enables prediction of IR effectiveness")
     print("✅ RMT analysis provides objective convergence criterion")
     print("✅ Go/No-Go classifier validates VQE trustworthiness")
-    print("✅ Adaptive VRA switching optimizes shot allocation")
+    print("✅ Adaptive IR switching optimizes shot allocation")
     print("="*80 + "\n")
 
 
