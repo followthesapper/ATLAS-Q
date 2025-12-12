@@ -7,10 +7,11 @@ Version-independent - works with any CUDA runtime version.
 
 import ctypes
 import ctypes.util
-import numpy as np
+import os
 from pathlib import Path
 from typing import Dict, Optional
-import os
+
+import numpy as np
 
 
 # Find CUDA driver library
