@@ -25,9 +25,9 @@ except ImportError:
     SimulatesSamples = object
 
 from atlas_q.coherence import classify_go_no_go, compute_coherence
+from atlas_q.ir_enhanced import ir_hamiltonian_grouping
 from atlas_q.mps_pytorch import MatrixProductStatePyTorch as MatrixProductState
 from atlas_q.stabilizer_backend import StabilizerSimulator
-from atlas_q.ir_enhanced import ir_hamiltonian_grouping
 
 
 class ATLASQSimulator(SimulatesSamples, SimulatesExpectationValues):

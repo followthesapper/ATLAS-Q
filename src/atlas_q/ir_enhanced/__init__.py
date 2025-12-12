@@ -26,8 +26,8 @@ from .gradient_grouping import (
     GradientGroupingResult,
     estimate_gradient_coherence_matrix,
     group_parameters_by_variance,
-    parameter_shift_gradient_ir,
     ir_gradient_grouping,
+    parameter_shift_gradient_ir,
 )
 from .qaoa_grouping import (
     QAOAGroupingResult,
@@ -49,8 +49,8 @@ from .shadow_tomography import (
 from .state_tomography import (
     TomographyStrategy,
     generate_pauli_basis,
-    tomography_measurement_groups,
     ir_state_tomography,
+    tomography_measurement_groups,
 )
 from .tdvp_observables import (
     TDVPObservableGroupingResult,
@@ -63,8 +63,8 @@ from .vqe_grouping import (
     compute_Q_GLS,
     estimate_pauli_coherence_matrix,
     group_by_variance_minimization,
-    pauli_commutes,
     ir_hamiltonian_grouping,
+    pauli_commutes,
 )
 
 __all__ = [

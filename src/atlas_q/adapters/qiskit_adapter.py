@@ -31,8 +31,8 @@ except ImportError as e:
 
 from atlas_q.adaptive_mps import AdaptiveMPS as MatrixProductState
 from atlas_q.coherence import classify_go_no_go, compute_coherence
-from atlas_q.stabilizer_backend import StabilizerSimulator
 from atlas_q.ir_enhanced import ir_hamiltonian_grouping
+from atlas_q.stabilizer_backend import StabilizerSimulator
 
 # Try to import Rust backends (stabilizer 9.3× faster than Aer, statevector 30-77× faster than Python)
 try:
