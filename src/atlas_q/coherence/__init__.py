@@ -92,8 +92,51 @@ from .og_metrics import (
     H_EFF_CRITICAL,
 )
 
+# OG Enhanced - Experiment-derived improvements (E600-E900 series)
+from .og_enhanced import (
+    # E927: Derived effective Planck constant (KILLER EXPERIMENT)
+    compute_hbar_from_threshold,
+    predict_hbar_vs_precision,
+    # E905: Correct field equation R = -nabla^2(log V_phi) / V_phi
+    compute_laplacian_log_vphi,
+    compute_ricci_scalar,
+    compute_curvature_from_coherence,
+    # E604: Entanglement as shared representation
+    EntanglementMetrics,
+    detect_entanglement_via_correlation,
+    compute_shared_representation_entropy,
+    # E606: Holographic boundary optimization
+    HolographicMetrics,
+    compute_holographic_scaling,
+    allocate_shots_holographic,
+    # E922: Conjugate pairs and uncertainty bounds
+    UncertaintyBounds,
+    compute_uncertainty_bounds,
+    estimate_measurement_error,
+    # E605: Geodesic parameter optimization
+    compute_geodesic_direction,
+    optimize_vqe_geodesic,
+    # E903: Information conservation validation
+    ConservationCheck,
+    check_information_conservation,
+    compute_stress_energy_tensor,
+    # E602: Observer class detection
+    ObserverClass,
+    classify_observer_class,
+    compute_gauge_invariants,
+    # E933: Stable oscillon initialization
+    create_oscillon_initial_state,
+    optimize_oscillon_parameters,
+    # E913: IR action functional
+    compute_ir_action,
+    minimize_ir_action,
+    # Comprehensive analysis
+    EnhancedOGAnalysis,
+    analyze_coherence_enhanced,
+)
+
 # Version info
-__version__ = "0.8.0"  # Updated for OG integration
+__version__ = "0.9.0"  # Updated for OG experiment integration
 
 # Public API
 __all__ = [
@@ -138,6 +181,47 @@ __all__ = [
     'TRANSITION_LOWER',
     'TRANSITION_UPPER',
     'H_EFF_CRITICAL',
+
+    # OG Enhanced - Experiment-derived features (E600-E900 series)
+    # E927: Derived Planck constant
+    'compute_hbar_from_threshold',
+    'predict_hbar_vs_precision',
+    # E905: Correct field equation
+    'compute_laplacian_log_vphi',
+    'compute_ricci_scalar',
+    'compute_curvature_from_coherence',
+    # E604: Entanglement detection
+    'EntanglementMetrics',
+    'detect_entanglement_via_correlation',
+    'compute_shared_representation_entropy',
+    # E606: Holographic optimization
+    'HolographicMetrics',
+    'compute_holographic_scaling',
+    'allocate_shots_holographic',
+    # E922: Uncertainty bounds
+    'UncertaintyBounds',
+    'compute_uncertainty_bounds',
+    'estimate_measurement_error',
+    # E605: Geodesic optimization
+    'compute_geodesic_direction',
+    'optimize_vqe_geodesic',
+    # E903: Conservation validation
+    'ConservationCheck',
+    'check_information_conservation',
+    'compute_stress_energy_tensor',
+    # E602: Observer classification
+    'ObserverClass',
+    'classify_observer_class',
+    'compute_gauge_invariants',
+    # E933: Oscillon initialization
+    'create_oscillon_initial_state',
+    'optimize_oscillon_parameters',
+    # E913: IR action
+    'compute_ir_action',
+    'minimize_ir_action',
+    # Comprehensive analysis
+    'EnhancedOGAnalysis',
+    'analyze_coherence_enhanced',
 ]
 
 

@@ -1,0 +1,41 @@
+{
+  "performance": {
+    "basic_metrics_old_ms": 4.568528034724295,
+    "basic_metrics_new_ms": 5.889488034881651,
+    "hbar_old_ms": 8.019438944756985,
+    "hbar_new_ms": 8.365679997950792,
+    "gradient_old_ms": 7.916079950518906,
+    "curvature_new_ms": 9.667631005868316,
+    "shots_old_ms": 11.346351937390864,
+    "shots_holo_ms": 16.511503024958074
+  },
+  "accuracy": {
+    "hbar_critical_old": 1.4715177646857693,
+    "hbar_critical_new": 1.4715177646857693,
+    "hbar_match": true,
+    "regime_all_match": true,
+    "shots_old_total": 10000,
+    "shots_new_total": 10000
+  },
+  "new_features": {
+    "hbar_derived": 1.4715177646857693,
+    "curvature_computed": 0.6793613570043604,
+    "entanglement_correlation": 0.9749697404892469,
+    "holographic_shots": [
+      215,
+      142,
+      215,
+      214,
+      214
+    ],
+    "uncertainty_bound": 0.276,
+    "geodesic_direction": [
+      -0.09245003270420488,
+      0.036980013081681945,
+      -0.009245003270420488
+    ],
+    "conservation_fraction": 1.0,
+    "oscillon_norm": 0.999999999840024,
+    "ir_action": -6.0
+  }
+}
