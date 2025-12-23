@@ -342,6 +342,162 @@ def get_adapters():
 
     return adapters
 
+
+# =========================================================================
+# NEW IN v0.8.0: Phase 1 & 2 Features
+# =========================================================================
+
+# Density Matrix Backend (requires torch)
+def get_density_matrix():
+    """Get density matrix simulation for mixed states"""
+    from .density_matrix import (
+        DensityMatrixSimulator,
+        DensityMatrixConfig,
+        _TRITON_AVAILABLE,
+        _RUST_AVAILABLE,
+    )
+    return {
+        'DensityMatrixSimulator': DensityMatrixSimulator,
+        'DensityMatrixConfig': DensityMatrixConfig,
+        'triton_available': _TRITON_AVAILABLE,
+        'rust_available': _RUST_AVAILABLE,
+    }
+
+
+# Mid-Circuit Measurement (requires torch)
+def get_mid_circuit():
+    """Get mid-circuit measurement and classical control"""
+    from .mid_circuit_measurement import (
+        DynamicCircuit,
+        ClassicalRegister,
+        Instruction,
+        InstructionType,
+        quantum_teleportation_circuit,
+        error_correction_bit_flip_circuit,
+        _TRITON_AVAILABLE,
+        _RUST_AVAILABLE,
+    )
+    return {
+        'DynamicCircuit': DynamicCircuit,
+        'ClassicalRegister': ClassicalRegister,
+        'Instruction': Instruction,
+        'InstructionType': InstructionType,
+        'quantum_teleportation_circuit': quantum_teleportation_circuit,
+        'error_correction_bit_flip_circuit': error_correction_bit_flip_circuit,
+        'triton_available': _TRITON_AVAILABLE,
+        'rust_available': _RUST_AVAILABLE,
+    }
+
+
+# Circuit Transpilation (requires numpy)
+def get_transpiler():
+    """Get circuit transpilation and optimization"""
+    from .transpiler import (
+        Transpiler,
+        TranspileConfig,
+        Circuit,
+        Gate,
+        GateType,
+        GateDecomposer,
+        CircuitOptimizer,
+        TopologyMapper,
+        decompose_toffoli,
+        create_linear_coupling_map,
+        create_grid_coupling_map,
+    )
+    return {
+        'Transpiler': Transpiler,
+        'TranspileConfig': TranspileConfig,
+        'Circuit': Circuit,
+        'Gate': Gate,
+        'GateType': GateType,
+        'GateDecomposer': GateDecomposer,
+        'CircuitOptimizer': CircuitOptimizer,
+        'TopologyMapper': TopologyMapper,
+        'decompose_toffoli': decompose_toffoli,
+        'create_linear_coupling_map': create_linear_coupling_map,
+        'create_grid_coupling_map': create_grid_coupling_map,
+    }
+
+
+# Quantum Error Correction (requires torch)
+def get_error_correction():
+    """Get quantum error correction codes (Steane, Shor, bit-flip, phase-flip)"""
+    from .error_correction import (
+        BitFlipCode,
+        PhaseFlipCode,
+        SteaneCode,
+        ShorCode,
+        SyndromeResult,
+        ErrorType,
+        QECCode,
+        _RUST_AVAILABLE,
+    )
+    return {
+        'BitFlipCode': BitFlipCode,
+        'PhaseFlipCode': PhaseFlipCode,
+        'SteaneCode': SteaneCode,
+        'ShorCode': ShorCode,
+        'SyndromeResult': SyndromeResult,
+        'ErrorType': ErrorType,
+        'QECCode': QECCode,
+        'rust_available': _RUST_AVAILABLE,
+    }
+
+
+# IBM Quantum Backend (requires qiskit, qiskit-ibm-runtime)
+def get_ibm_quantum():
+    """Get IBM Quantum hardware backend adapter"""
+    from .ibm_quantum_backend import (
+        IBMQuantumBackend,
+        IBMQuantumSimulator,
+        IBMQuantumConfig,
+        BackendProperties,
+        BackendType,
+        JobResult,
+        IBM_RUNTIME_AVAILABLE,
+        IBM_PROVIDER_AVAILABLE,
+        QISKIT_AVAILABLE,
+    )
+    return {
+        'IBMQuantumBackend': IBMQuantumBackend,
+        'IBMQuantumSimulator': IBMQuantumSimulator,
+        'IBMQuantumConfig': IBMQuantumConfig,
+        'BackendProperties': BackendProperties,
+        'BackendType': BackendType,
+        'JobResult': JobResult,
+        'IBM_RUNTIME_AVAILABLE': IBM_RUNTIME_AVAILABLE,
+        'IBM_PROVIDER_AVAILABLE': IBM_PROVIDER_AVAILABLE,
+        'QISKIT_AVAILABLE': QISKIT_AVAILABLE,
+    }
+
+
+# Realistic Noise Models (requires torch, numpy)
+def get_realistic_noise():
+    """Get hardware-accurate noise models with T1/T2 and crosstalk"""
+    from .realistic_noise import (
+        RealisticNoiseModel,
+        HardwareCalibration,
+        QubitProperties,
+        GateProperties,
+        CrosstalkEntry,
+        ThermalRelaxationChannel,
+        CrosstalkModel,
+        ReadoutErrorModel,
+        CoherentErrorModel,
+    )
+    return {
+        'RealisticNoiseModel': RealisticNoiseModel,
+        'HardwareCalibration': HardwareCalibration,
+        'QubitProperties': QubitProperties,
+        'GateProperties': GateProperties,
+        'CrosstalkEntry': CrosstalkEntry,
+        'ThermalRelaxationChannel': ThermalRelaxationChannel,
+        'CrosstalkModel': CrosstalkModel,
+        'ReadoutErrorModel': ReadoutErrorModel,
+        'CoherentErrorModel': CoherentErrorModel,
+    }
+
 # Direct module access (preferred, simpler API)
 # These are lazily loaded when first accessed
 from . import (
@@ -415,6 +571,13 @@ __all__ = [
     'get_peps',
     'get_coherence',  # NEW
     'get_adapters',  # NEW: Qiskit/Cirq adapters
+    # Phase 1 & 2 features (v0.8.0)
+    'get_density_matrix',  # Mixed-state simulation
+    'get_mid_circuit',  # Mid-circuit measurement
+    'get_transpiler',  # Circuit transpilation
+    'get_error_correction',  # Quantum error correction
+    'get_ibm_quantum',  # IBM Quantum hardware
+    'get_realistic_noise',  # T1/T2 and crosstalk noise
 ]
 
 # Direct imports for backwards compatibility
@@ -433,4 +596,4 @@ except ImportError:
     MatrixProductState = None
     GPUAccelerator = None
 
-__version__ = '0.7.0'  # GPU Backend: 2-13× faster than CPU Rust for 15+ qubits (Nov 4, 2025)
+__version__ = '0.8.0'  # Phase 1 & 2: Density matrix, mid-circuit, transpiler, QEC, IBM Quantum (Dec 2025)

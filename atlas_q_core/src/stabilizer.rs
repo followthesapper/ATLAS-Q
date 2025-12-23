@@ -11,7 +11,7 @@
 use bitvec::prelude::*;
 use pyo3::prelude::*;
 use rand::Rng;
-use rayon::prelude::*;
+// Rayon import reserved for future parallel stabilizer operations
 
 /// Stabilizer simulator using bit-packed tableau representation
 ///
@@ -60,7 +60,6 @@ impl StabilizerSimulatorRust {
 
     /// Apply Hadamard gate
     pub fn h(&mut self, qubit: usize) {
-        let cols = 2 * self.n_qubits + 1;
         let n = self.n_qubits;
 
         // For each row in the tableau

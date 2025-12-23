@@ -33,6 +33,54 @@ from .mpo_ops import MPO
 from .vqe_qaoa import VQE, VQEConfig
 
 
+# =============================================================================
+# NEW: Pre-computation regime analysis (IR-correct approach)
+# =============================================================================
+
+def analyze_vqe_regime(hamiltonian: "MPO") -> "RegimeAnalysis":
+    """
+    Analyze Hamiltonian regime BEFORE running VQE.
+
+    This is the IR-correct approach: diagnose regime first, then decide
+    whether to run VQE at all, and which representation to use.
+
+    Args:
+        hamiltonian: MPO Hamiltonian
+
+    Returns:
+        RegimeAnalysis with observability classification
+    """
+    from .ir_enhanced.regime_analyzer import (
+        analyze_hamiltonian_regime,
+        RegimeAnalysis,
+    )
+
+    # Extract coefficients and Pauli strings from Hamiltonian
+    # This depends on MPO implementation
+    try:
+        if hasattr(hamiltonian, 'coefficients') and hasattr(hamiltonian, 'pauli_strings'):
+            coefficients = np.array(hamiltonian.coefficients)
+            pauli_strings = hamiltonian.pauli_strings
+        elif hasattr(hamiltonian, 'terms'):
+            # Alternative MPO format
+            coefficients = np.array([t.coeff for t in hamiltonian.terms])
+            pauli_strings = [t.pauli for t in hamiltonian.terms]
+        else:
+            # Fallback: use uniform coefficients
+            n_sites = hamiltonian.n_sites if hasattr(hamiltonian, 'n_sites') else 4
+            coefficients = np.ones(n_sites)
+            pauli_strings = None
+    except Exception:
+        # Safe fallback
+        coefficients = np.array([1.0])
+        pauli_strings = None
+
+    return analyze_hamiltonian_regime(
+        coefficients=coefficients,
+        pauli_strings=pauli_strings,
+    )
+
+
 @dataclass
 class CoherenceAwareVQEResult:
     """
@@ -44,6 +92,7 @@ class CoherenceAwareVQEResult:
         n_iterations: Number of optimization iterations
         coherence: Final coherence metrics
         classification: GO/NO-GO classification
+        regime_analysis: Pre-computation regime analysis (NEW)
         coherence_history: Coherence at each iteration (if enabled)
         energy_history: Energy at each iteration
         convergence_plot_path: Path to convergence plot (if output_dir set)
@@ -53,6 +102,7 @@ class CoherenceAwareVQEResult:
     n_iterations: int
     coherence: CoherenceMetrics
     classification: CoherenceClassification
+    regime_analysis: Optional["RegimeAnalysis"] = None  # NEW: Pre-computation analysis
     coherence_history: Optional[List[CoherenceMetrics]] = None
     energy_history: Optional[List[float]] = None
     convergence_plot_path: Optional[str] = None
@@ -65,6 +115,13 @@ class CoherenceAwareVQEResult:
         """Check if coherence is above threshold (alias for is_go)."""
         return self.coherence.R_bar > threshold
 
+    def structure_was_observable(self) -> bool:
+        """Check if structure was in IR regime (observable) before computation."""
+        if self.regime_analysis is None:
+            return self.is_go()  # Fallback to post-hoc check
+        from .ir_enhanced.regime_analyzer import ObservabilityRegime
+        return self.regime_analysis.regime == ObservabilityRegime.IR
+
     def summary(self) -> str:
         """Human-readable summary of results."""
         lines = [
@@ -74,14 +131,28 @@ class CoherenceAwareVQEResult:
             f"Energy: {self.energy:.8f} Ha",
             f"Iterations: {self.n_iterations}",
             f"",
-            "Coherence Metrics:",
+        ]
+
+        # NEW: Include pre-computation regime analysis
+        if self.regime_analysis is not None:
+            lines.extend([
+                "Pre-Computation Regime Analysis:",
+                f"  Regime: {self.regime_analysis.regime.value.upper()}",
+                f"  Coherence R̄: {self.regime_analysis.coherence:.4f}",
+                f"  Structure Observable: {'YES' if self.regime_analysis.structure_observable else 'NO'}",
+                f"  Representation Cost: {self.regime_analysis.representation_cost}",
+                f"",
+            ])
+
+        lines.extend([
+            "Post-Computation Coherence Metrics:",
             f"  R̄ (Mean Resultant Length): {self.coherence.R_bar:.4f}",
             f"  V_φ (Circular Variance): {self.coherence.V_phi:.4f}",
             f"  Above e^-2 boundary: {'YES' if self.coherence.is_above_e2_boundary else 'NO'}",
             f"",
             f"Classification: {self.classification}",
             "="*70,
-        ]
+        ])
         return "\n".join(lines)
 
 
@@ -250,9 +321,12 @@ class CoherenceAwareVQE:
         self,
         initial_params: Optional[np.ndarray] = None,
         label: str = "molecule",
+        skip_regime_analysis: bool = False,
     ) -> CoherenceAwareVQEResult:
         """
         Run coherence-aware VQE optimization.
+
+        NEW: Now performs regime analysis BEFORE optimization (IR-correct approach).
 
         This performs standard VQE optimization while tracking coherence
         metrics at each iteration.
@@ -260,6 +334,7 @@ class CoherenceAwareVQE:
         Args:
             initial_params: Optional starting parameters (otherwise uses warm-start)
             label: Label for this run (used in output files)
+            skip_regime_analysis: Skip pre-computation analysis (not recommended)
 
         Returns:
             CoherenceAwareVQEResult with energy, parameters, and coherence metrics
@@ -268,9 +343,32 @@ class CoherenceAwareVQE:
             >>> vqe = CoherenceAwareVQE(hamiltonian, config)
             >>> result = vqe.run(label="H2_sto3g")
             >>> print(result.summary())
-            >>> if result.is_go():
+            >>> if result.structure_was_observable():
             ...     print(f"Ground state: {result.energy:.6f} Ha")
+            >>> else:
+            ...     print("Warning: Structure was in AIR regime")
         """
+        # =====================================================================
+        # NEW: Step 0 - Regime Analysis BEFORE Optimization (IR-correct)
+        # =====================================================================
+        regime_analysis = None
+        if not skip_regime_analysis:
+            try:
+                regime_analysis = analyze_vqe_regime(self.H)
+
+                # Log regime warning if in AIR regime
+                from .ir_enhanced.regime_analyzer import ObservabilityRegime
+                if regime_analysis.regime == ObservabilityRegime.AIR:
+                    import warnings
+                    warnings.warn(
+                        f"Hamiltonian in AIR regime (R̄={regime_analysis.coherence:.3f} < e^-2). "
+                        f"Structure globally hidden - VQE results may be unreliable. "
+                        f"Representation cost: {regime_analysis.representation_cost}"
+                    )
+            except Exception as e:
+                import warnings
+                warnings.warn(f"Regime analysis failed: {e}")
+
         # Run standard VQE
         energy, params = self.vqe.run(initial_params, label)
 
@@ -299,6 +397,7 @@ class CoherenceAwareVQE:
             n_iterations=self.vqe.iteration,
             coherence=final_coherence,
             classification=classification,
+            regime_analysis=regime_analysis,  # NEW: Include pre-computation analysis
             coherence_history=self.coherence_history if self.coherence_history else None,
             energy_history=self.vqe.energies.copy() if self.vqe.energies else None,
             convergence_plot_path=None,  # TODO: add if plot was saved

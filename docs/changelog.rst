@@ -5,14 +5,114 @@ All notable changes to ATLAS-Q are documented in this file.
 
 The format is based on `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-Unreleased
-----------
+0.7.0 - 2025-12-16 (IR v1.1.0)
+------------------------------
+
+IR Integration - COMPLETE
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This release completes the Informational Relativity (IR) integration with pre-computation regime diagnosis.
+
+Pre-Computation Diagnosis (NEW)
+"""""""""""""""""""""""""""""""
+
+- **Regime Analyzer** (``ir_enhanced/regime_analyzer.py``): Diagnose quantum problems BEFORE running
+
+  - IR (Informational Relativity) regime: High coherence, quantum advantage likely
+  - Transition regime: Marginal coherence, needs careful tuning
+  - AIR (Anti-IR) regime: Low coherence, classical methods may be better
+  - GO/NO-GO classification using physics-derived e^-2 threshold (0.135)
+  - ``analyze_state_regime()``, ``analyze_hamiltonian_regime()``, ``analyze_mps_bond_regime()``
+  - ``predict_quantum_advantage()`` for resource planning
+  - ``should_use_ir_grouping()`` for adaptive algorithm selection
+
+Spectral Lifting (NEW)
+""""""""""""""""""""""
+
+- **Full M_ij Relational Matrix Analysis** (``ir_enhanced/spectral_lifting.py``):
+
+  - ``compute_relational_matrix()`` - Build coherence correlation matrices
+  - ``extract_structure_modes()`` - Find dominant eigenmodes
+  - ``spectral_grouping()`` - Group observables by spectral similarity
+  - ``coherent_structure_score()`` - Quantify structure detection quality
+
+Performance Improvements (VALIDATED)
+""""""""""""""""""""""""""""""""""""
+
++---------------------+------------------------+------------+
+| Feature             | Improvement            | Status     |
++=====================+========================+============+
+| VQE Grouping        | 4× circuit reduction   | Production |
++---------------------+------------------------+------------+
+| Period Finding      | 42% shot reduction     | Production |
++---------------------+------------------------+------------+
+| Variance Reduction  | 2-60× (VQE)            | Production |
++---------------------+------------------------+------------+
+| MPS Scalability     | 100 qubits in 1.56s    | Validated  |
++---------------------+------------------------+------------+
+| Memory Compression  | 10^25× (100 qubits)    | Validated  |
++---------------------+------------------------+------------+
+
+New IR Modules
+""""""""""""""
+
+- ``gradient_grouping.py`` - Parameter shift optimization with coherence
+- ``qaoa_grouping.py`` - Edge-based cost operator grouping
+- ``shadow_tomography.py`` - Adaptive classical shadows with IR
+- ``state_tomography.py`` - IR-enhanced state reconstruction
+- ``tdvp_observables.py`` - Real-time coherence tracking for TDVP
 
 Added
 ^^^^^
 
+GPU CUDA Backend
+""""""""""""""""
+
+- Direct CUDA Driver API integration via ctypes
+- Pre-compiled PTX kernels (version-independent)
+- Supports single-qubit gates: H, X, Y, Z, RX, RY, RZ
+- Supports two-qubit gates: CNOT, CZ, SWAP
+- f64 precision for numerical stability
+- 2-13× faster than CPU for 15+ qubits
+
+Triton IR Coherence Kernels
+"""""""""""""""""""""""""""
+
+- GPU-accelerated coherence computation
+- ``compute_response_coherence_triton()`` for R-bar, V_phi metrics
+- GO/NO-GO classification at GPU speed
+
+Changed
+^^^^^^^
+
+- Improved exception handling in GPU backend
+- Updated ``ir_enhanced/__init__.py`` exports for regime analyzer
+- Coherence-aware VQE now includes pre-computation regime analysis
+
+Fixed
+^^^^^
+
+- Fixed Triton IR Coherence benchmark (amplitudes vs responses/phases)
+- Fixed UCCSD Ansatz benchmark imports
+- Fixed MANIFEST.in to include compiled Rust extensions
+
+Benchmark Results
+"""""""""""""""""
+
+- **30/31 benchmarks passing** (cuQuantum optional skip)
+- **7/7 IR Enhanced tests passing**
+
+0.6.x Series
+------------
+
+0.6.4 - 2025-11-04
+^^^^^^^^^^^^^^^^^^
+
+Added
+"""""
+
 UCCSD Ansatz for Molecular VQE
-"""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - **UCCSD (Unitary Coupled-Cluster Singles and Doubles)** (``ansatz_uccsd.py``): Chemistry-aware variational ansatz
 
@@ -23,7 +123,7 @@ UCCSD Ansatz for Molecular VQE
   - Compatible with VQE for ground state chemistry calculations
 
 Quantum Chemistry & Optimization Hamiltonians
-""""""""""""""""""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - **Molecular Hamiltonian Builder** (``mpo_ops.py``): PySCF integration for quantum chemistry
 
@@ -42,7 +142,7 @@ Quantum Chemistry & Optimization Hamiltonians
   - 4/4 tests passing in ``test_maxcut.py``
 
 Advanced Tensor Network Features
-"""""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - **Circuit Cutting** (``circuit_cutting.py``): Partition large circuits for simulation
 
@@ -75,10 +175,10 @@ Advanced Tensor Network Features
   - **Install:** ``pip install cuquantum-python`` (optional, ~320MB)
 
 Changed
-^^^^^^^
+"""""""
 
 Improved Import System (Better UX)
-"""""""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - **Direct module imports now supported** (``__init__.py``): Pythonic import pattern
 

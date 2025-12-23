@@ -115,3 +115,4 @@ secrets.yml
 secrets.json
 credentials.json
 config.local.yml
+atlas_q_core/target/

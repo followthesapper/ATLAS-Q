@@ -50,6 +50,8 @@ from .metrics import (
     CoherenceMetrics,
     coherence_from_counts,
     compute_coherence,
+    compute_relational_coherence,
+    compute_response_coherence,
     validate_coherence_law,
 )
 
@@ -61,14 +63,45 @@ from .utils import (
     qubit_wise_commute,
 )
 
+# OG (Observability Geometry) metrics - Pre-quantum theoretical foundation
+from .og_metrics import (
+    # Core OG metrics
+    OGMetrics,
+    ObservabilityRegime,
+    compute_og_metrics,
+    compute_effective_hbar,
+    compute_representational_cost,
+    compute_coherence_gradient,
+    compute_action_density,
+    # Regime classification
+    classify_observability_regime,
+    compute_transition_parameter,
+    compute_observability_score,
+    # Advanced analysis
+    predict_measurement_precision,
+    compute_optimal_shot_allocation,
+    evaluate_circuit_quality,
+    suggest_basis_for_measurement,
+    # Transition dynamics
+    TransitionDynamics,
+    track_transition_dynamics,
+    # Constants
+    R_BAR_CRITICAL,
+    TRANSITION_LOWER,
+    TRANSITION_UPPER,
+    H_EFF_CRITICAL,
+)
+
 # Version info
-__version__ = "0.6.2"
+__version__ = "0.8.0"  # Updated for OG integration
 
 # Public API
 __all__ = [
     # Metrics
     'CoherenceMetrics',
     'compute_coherence',
+    'compute_response_coherence',  # Correct L8 placement
+    'compute_relational_coherence',  # Full spectral lifting
     'coherence_from_counts',
     'validate_coherence_law',
 
@@ -83,6 +116,28 @@ __all__ = [
     'pauli_commute',
     'qubit_wise_commute',
     'group_paulis_qwc',
+
+    # OG (Observability Geometry) - Pre-quantum foundation
+    'OGMetrics',
+    'ObservabilityRegime',
+    'compute_og_metrics',
+    'compute_effective_hbar',
+    'compute_representational_cost',
+    'compute_coherence_gradient',
+    'compute_action_density',
+    'classify_observability_regime',
+    'compute_transition_parameter',
+    'compute_observability_score',
+    'predict_measurement_precision',
+    'compute_optimal_shot_allocation',
+    'evaluate_circuit_quality',
+    'suggest_basis_for_measurement',
+    'TransitionDynamics',
+    'track_transition_dynamics',
+    'R_BAR_CRITICAL',
+    'TRANSITION_LOWER',
+    'TRANSITION_UPPER',
+    'H_EFF_CRITICAL',
 ]
 
 

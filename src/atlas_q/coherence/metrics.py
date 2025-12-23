@@ -193,6 +193,173 @@ def coherence_from_counts(
     return compute_coherence(np.array(expectations))
 
 
+def compute_response_coherence(
+    amplitudes: Union[np.ndarray, List[complex]],
+    e2_threshold: float = 0.135
+) -> CoherenceMetrics:
+    """
+    Compute coherence on quantum state amplitudes (response field χ).
+
+    This is the CORRECT placement per IR Law L8 (Placement Principle):
+    "Coherence must be measured on response manifolds, not on probes or encodings."
+
+    The response field is the quantum state's amplitude/phase structure BEFORE
+    measurement collapse - this captures the true coherence of the system.
+
+    Mathematical Details:
+        1. Extract phases θ_i = arg(amplitude_i) from complex amplitudes
+        2. Weight by amplitude magnitudes |χ_i| (response strength)
+        3. Compute weighted mean resultant length: R̄ = |Σ |χ_i| e^(iθ_i)| / Σ |χ_i|
+        4. Apply coherence law: V_φ = -2 ln(R̄)
+
+    Args:
+        amplitudes: Complex quantum state amplitudes (response field)
+        e2_threshold: Threshold for e^-2 boundary (default: 0.135)
+
+    Returns:
+        CoherenceMetrics computed from response field
+
+    Example:
+        >>> # GHZ state has perfect phase coherence
+        >>> amplitudes = np.array([1/np.sqrt(2), 0, 0, 1/np.sqrt(2)])  # |00⟩ + |11⟩
+        >>> coherence = compute_response_coherence(amplitudes)
+        >>> print(f"R̄ = {coherence.R_bar:.4f}")  # High coherence
+
+    References:
+        - IR Paper Section 4.8: "L8: Placement Principle"
+        - IR Paper Figure 3: Response field coherence yields r=-0.50 correlation
+    """
+    if isinstance(amplitudes, list):
+        amplitudes = np.array(amplitudes, dtype=np.complex128)
+
+    amplitudes = np.asarray(amplitudes, dtype=np.complex128)
+
+    if amplitudes.size == 0:
+        raise ValueError("amplitudes cannot be empty")
+
+    # Filter out negligible amplitudes (below numerical precision)
+    magnitudes = np.abs(amplitudes)
+    significant_mask = magnitudes > 1e-15
+
+    if not np.any(significant_mask):
+        # All amplitudes negligible - no coherence
+        return CoherenceMetrics(
+            R_bar=0.0,
+            V_phi=np.inf,
+            is_above_e2_boundary=False,
+            ir_predicted_to_help=False,
+            n_measurements=len(amplitudes)
+        )
+
+    # Extract phases from significant amplitudes
+    significant_amplitudes = amplitudes[significant_mask]
+    significant_magnitudes = magnitudes[significant_mask]
+    phases = np.angle(significant_amplitudes)
+
+    # Compute magnitude-weighted mean resultant length
+    # This weights phase contributions by response strength |χ_i|
+    weighted_phasors = significant_magnitudes * np.exp(1j * phases)
+    total_weight = np.sum(significant_magnitudes)
+
+    if total_weight > 1e-15:
+        mean_phasor = np.sum(weighted_phasors) / total_weight
+        R_bar = float(np.abs(mean_phasor))
+    else:
+        R_bar = 0.0
+
+    # Clamp R_bar to valid range (numerical stability)
+    R_bar = np.clip(R_bar, 0.0, 1.0)
+
+    # Compute circular variance via coherence law
+    if R_bar > 1e-10:
+        V_phi = -2.0 * np.log(R_bar)
+    else:
+        V_phi = np.inf
+
+    # Check e^-2 boundary
+    is_above = R_bar > e2_threshold
+
+    return CoherenceMetrics(
+        R_bar=R_bar,
+        V_phi=V_phi,
+        is_above_e2_boundary=is_above,
+        ir_predicted_to_help=is_above,
+        n_measurements=len(amplitudes)
+    )
+
+
+def compute_relational_coherence(
+    responses: np.ndarray,
+    phases: np.ndarray,
+    e2_threshold: float = 0.135
+) -> CoherenceMetrics:
+    """
+    Compute coherence from relational structure M_ij = χ_i χ_j cos(θ_i - θ_j).
+
+    This implements the full IR spectral lifting representation. The dominant
+    eigenmode of M encodes global coherent structure.
+
+    Mathematical Details:
+        1. Build relational matrix: M_ij = χ_i * χ_j * cos(θ_i - θ_j)
+        2. Compute eigendecomposition of M
+        3. Extract coherence from spectral concentration: R̄ = λ_max / Σλ
+
+    Args:
+        responses: Response field magnitudes χ_i (n-dimensional)
+        phases: Response field phases θ_i (n-dimensional)
+        e2_threshold: Threshold for e^-2 boundary
+
+    Returns:
+        CoherenceMetrics from relational spectral structure
+
+    References:
+        - IR Paper Section 5: "The Representation Layer (R)"
+        - IR Paper Equation 7: M_ij = χ_i χ_j cos(θ_i - θ_j)
+    """
+    n = len(responses)
+    if n == 0:
+        raise ValueError("responses cannot be empty")
+    if len(phases) != n:
+        raise ValueError(f"responses and phases must have same length, got {n} and {len(phases)}")
+
+    # Build relational spectral lifting matrix
+    # M_ij = χ_i * χ_j * cos(θ_i - θ_j)
+    M = np.zeros((n, n))
+    for i in range(n):
+        for j in range(n):
+            M[i, j] = responses[i] * responses[j] * np.cos(phases[i] - phases[j])
+
+    # Eigendecomposition
+    eigenvalues = np.linalg.eigvalsh(M)
+    eigenvalues = np.sort(eigenvalues)[::-1]  # Descending order
+
+    # Coherence from spectral concentration
+    # High coherence = power concentrated in dominant eigenmode
+    total_power = np.sum(np.abs(eigenvalues))
+    if total_power > 1e-15:
+        R_bar = float(np.abs(eigenvalues[0]) / total_power)
+    else:
+        R_bar = 0.0
+
+    R_bar = np.clip(R_bar, 0.0, 1.0)
+
+    # Circular variance
+    if R_bar > 1e-10:
+        V_phi = -2.0 * np.log(R_bar)
+    else:
+        V_phi = np.inf
+
+    is_above = R_bar > e2_threshold
+
+    return CoherenceMetrics(
+        R_bar=R_bar,
+        V_phi=V_phi,
+        is_above_e2_boundary=is_above,
+        ir_predicted_to_help=is_above,
+        n_measurements=n
+    )
+
+
 def validate_coherence_law(R_bar: float, V_phi: float, tolerance: float = 0.1) -> bool:
     """
     Validate the coherence law: R̄ = e^(-V_φ/2).

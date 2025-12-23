@@ -1,10 +1,10 @@
 """
-IR Enhanced Module
+VRA Enhanced Module
 ===================
 
-Integration of Informational Relativity (IR) with ATLAS-Q quantum simulation.
+Integration of Vaca Resonance Analysis (VRA) with ATLAS-Q quantum simulation.
 
-IR is a coherence-based spectral framework that can reduce quantum measurement
+VRA is a coherence-based spectral framework that can reduce quantum measurement
 requirements through classical preprocessing.
 
 Key Features:
@@ -13,7 +13,7 @@ Key Features:
 - Coherence-based correlation analysis for optimal measurement strategies
 
 References:
-- IR Project: https://github.com/followthesapper/IR
+- VRA Project: https://github.com/followthesapper/VRA
 - Coherence Law: C = exp(-V_φ/2), threshold at e^-2 ≈ 0.135
 """
 
@@ -26,8 +26,8 @@ from .gradient_grouping import (
     GradientGroupingResult,
     estimate_gradient_coherence_matrix,
     group_parameters_by_variance,
-    ir_gradient_grouping,
-    parameter_shift_gradient_ir,
+    parameter_shift_gradient_vra,
+    vra_gradient_grouping,
 )
 from .qaoa_grouping import (
     QAOAGroupingResult,
@@ -35,26 +35,26 @@ from .qaoa_grouping import (
     edges_commute,
     estimate_edge_coherence_matrix,
     group_edges_by_commutativity,
-    ir_qaoa_grouping,
+    vra_qaoa_grouping,
 )
 from .qpe_bridge import (
     estimate_shot_reduction,
-    ir_enhanced_period_finding,
-    ir_preprocess_period,
+    vra_enhanced_period_finding,
+    vra_preprocess_period,
 )
 from .shadow_tomography import (
     ShadowSamplingResult,
-    ir_shadow_sampling,
+    vra_shadow_sampling,
 )
 from .state_tomography import (
     TomographyStrategy,
     generate_pauli_basis,
-    ir_state_tomography,
     tomography_measurement_groups,
+    vra_state_tomography,
 )
 from .tdvp_observables import (
     TDVPObservableGroupingResult,
-    ir_tdvp_observable_grouping,
+    vra_tdvp_observable_grouping,
 )
 from .vqe_grouping import (
     GroupingResult,
@@ -63,29 +63,8 @@ from .vqe_grouping import (
     compute_Q_GLS,
     estimate_pauli_coherence_matrix,
     group_by_variance_minimization,
-    ir_hamiltonian_grouping,
     pauli_commutes,
-)
-from .spectral_lifting import (
-    SpectralLiftingResult,
-    coherent_structure_score,
-    compute_relational_matrix,
-    compute_relational_matrix_from_amplitudes,
-    extract_structure_modes,
-    spectral_grouping,
-    spectral_lifting_analysis,
-    spectral_lifting_from_amplitudes,
-)
-# NEW: Regime analyzer for pre-computation diagnosis
-from .regime_analyzer import (
-    ObservabilityRegime,
-    RegimeAnalysis,
-    RepresentationType,
-    analyze_hamiltonian_regime,
-    analyze_mps_bond_regime,
-    analyze_state_regime,
-    predict_quantum_advantage,
-    should_use_ir_grouping,
+    vra_hamiltonian_grouping,
 )
 
 __all__ = [
@@ -93,11 +72,11 @@ __all__ = [
     'multiplicative_order',
     'compute_averaged_spectrum',
     'find_period_candidates',
-    'ir_enhanced_period_finding',
-    'ir_preprocess_period',
+    'vra_enhanced_period_finding',
+    'vra_preprocess_period',
     'estimate_shot_reduction',
     # VQE grouping
-    'ir_hamiltonian_grouping',
+    'vra_hamiltonian_grouping',
     'estimate_pauli_coherence_matrix',
     'compute_Q_GLS',
     'GroupingResult',
@@ -107,38 +86,29 @@ __all__ = [
     'pauli_commutes',
     'check_group_commutativity',
     # QAOA grouping
-    'ir_qaoa_grouping',
+    'vra_qaoa_grouping',
     'QAOAGroupingResult',
     'edges_commute',
     'check_group_commutativity_edges',
     'estimate_edge_coherence_matrix',
     'group_edges_by_commutativity',
     # Gradient grouping
-    'ir_gradient_grouping',
+    'vra_gradient_grouping',
     'GradientGroupingResult',
-    'parameter_shift_gradient_ir',
+    'parameter_shift_gradient_vra',
     'estimate_gradient_coherence_matrix',
     'group_parameters_by_variance',
     # TDVP observables
-    'ir_tdvp_observable_grouping',
+    'vra_tdvp_observable_grouping',
     'TDVPObservableGroupingResult',
     # Shadow tomography
-    'ir_shadow_sampling',
+    'vra_shadow_sampling',
     'ShadowSamplingResult',
     # State tomography
-    'ir_state_tomography',
+    'vra_state_tomography',
     'TomographyStrategy',
     'generate_pauli_basis',
     'tomography_measurement_groups',
-    # Spectral lifting (NEW - full IR implementation)
-    'SpectralLiftingResult',
-    'compute_relational_matrix',
-    'compute_relational_matrix_from_amplitudes',
-    'extract_structure_modes',
-    'spectral_lifting_analysis',
-    'spectral_lifting_from_amplitudes',
-    'spectral_grouping',
-    'coherent_structure_score',
 ]
 
-__version__ = '1.1.0'
+__version__ = '1.0.0'

@@ -3,11 +3,20 @@ ATLAS-Q Documentation
 
 ATLAS-Q (Adaptive Tensor Learning And Simulation – Quantum) is a GPU-accelerated quantum tensor network simulator implementing Matrix Product States (MPS), Matrix Product Operators (MPO), Projected Entangled Pair States (PEPS), and variational quantum algorithms. The framework provides memory-efficient quantum state representation with adaptive bond dimensions, custom GPU kernels, and specialized backends for Clifford circuits and period-finding.
 
-Version 0.7.0 (November 2025)
+Version 0.7.0 (December 2025) - IR v1.1.0
 
-**NEW: First Coherence-Aware Quantum Computing Framework**
+**NEW: IR Integration - Pre-Computation Diagnosis**
 
-ATLAS-Q now features the world's first coherence-aware quantum algorithms with real-time quality monitoring based on Informational Relativity (IR). This breakthrough enables algorithms to validate their own trustworthiness using physics-derived universal thresholds, transforming quantum computing from "hope it works" to "know it works."
+ATLAS-Q v0.7.0 introduces complete Informational Relativity (IR) integration with **pre-computation regime diagnosis**. This breakthrough enables you to know whether quantum algorithms will succeed *before* running them.
+
+IR v1.1.0 Features:
+
+- **Regime Analyzer**: Diagnose problems as IR (observable), Transition, or AIR (hidden) regimes
+- **Pre-Computation GO/NO-GO**: Physics-derived e^-2 threshold (0.135) for trustworthiness
+- **4× VQE Circuit Reduction**: Coherence-based measurement grouping
+- **42% Period Finding Shot Reduction**: IR preprocessing for QPE
+- **100 Qubit MPS Simulation**: 1.56 seconds with 10^25× memory compression
+- **Spectral Lifting**: Full M_ij relational matrix analysis for structure detection
 
 Key capabilities:
 
@@ -26,7 +35,7 @@ Key capabilities:
 - Custom Triton kernels for gate operations (1.5-3× speedup)
 - cuQuantum backend integration
 
-Performance: 77,000+ gate operations per second on GPU, 626,000× memory compression versus full statevector for 30 qubits.
+Performance: 100 qubits in 1.56 seconds, 10^25× memory compression at 100 qubits, 4× circuit reduction with IR grouping.
 
 .. toctree::
    :maxdepth: 2
@@ -84,7 +93,7 @@ Citation
      author={ATLAS-Q Development Team},
      year={2025},
      url={https://github.com/followthesapper/ATLAS-Q},
-     version={0.6.1}
+     version={0.7.0}
    }
 
 Indices and tables

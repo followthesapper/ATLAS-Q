@@ -11,13 +11,45 @@ After installation, verify ATLAS-Q is working:
 .. code-block:: python
 
    import atlas_q
-   print(atlas_q.__version__)  # Should print: 0.6.1
+   print(atlas_q.__version__)  # Should print: 0.7.0
 
    from atlas_q import get_quantum_sim
    print("Installation verified")
 
 Basic Usage
 -----------
+
+IR: Pre-Computation Diagnosis (NEW in v0.7.0)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Know if your quantum algorithm will work *before* running it:
+
+.. code-block:: python
+
+   from atlas_q.ir_enhanced import (
+       analyze_state_regime,
+       ir_hamiltonian_grouping,
+       ObservabilityRegime,
+   )
+   import numpy as np
+
+   # Diagnose regime BEFORE computation
+   amplitudes = np.array([0.5, 0.3, 0.1, 0.05, 0.03, 0.02])
+   phases = np.array([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
+
+   regime = analyze_state_regime(amplitudes, phases)
+   print(f"Regime: {regime.regime.value}")  # 'ir', 'transition', or 'air'
+   print(f"Coherence R̄: {regime.coherence:.4f}")
+
+   if regime.regime == ObservabilityRegime.IR:
+       print("GO: Quantum methods will be effective")
+   elif regime.regime == ObservabilityRegime.AIR:
+       print("NO-GO: Structure hidden, consider classical methods")
+
+   # VQE grouping with 4× circuit reduction
+   coefficients = np.array([1.5, -0.8, 0.3, -0.2, 0.1])
+   result = ir_hamiltonian_grouping(coefficients, total_shots=10000)
+   print(f"Variance reduction: {result.variance_reduction:.1f}×")
 
 Factorization with Period-Finding
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

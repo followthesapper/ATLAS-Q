@@ -6,6 +6,7 @@ Complete API documentation for ATLAS-Q modules, classes, and functions.
 .. toctree::
    :maxdepth: 2
 
+   ir_enhanced
    adaptive_mps
    mps_pytorch
    mpo_ops
@@ -27,6 +28,13 @@ Complete API documentation for ATLAS-Q modules, classes, and functions.
 
 Module Overview
 ---------------
+
+IR Module (NEW in v0.7.0)
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+:doc:`ir_enhanced`
+   Informational Relativity (IR) integration with pre-computation regime diagnosis,
+   coherence-based grouping, and spectral lifting analysis.
 
 Core Simulation
 ^^^^^^^^^^^^^^^
@@ -105,6 +113,15 @@ Utilities
 
 Quick Access
 ------------
+
+IR Module (NEW):
+
+- :func:`atlas_q.ir_enhanced.analyze_state_regime` - Pre-computation regime diagnosis
+- :func:`atlas_q.ir_enhanced.analyze_hamiltonian_regime` - Hamiltonian regime analysis
+- :func:`atlas_q.ir_enhanced.ir_hamiltonian_grouping` - VQE grouping (4× reduction)
+- :func:`atlas_q.ir_enhanced.ir_enhanced_period_finding` - Period finding (42% shot reduction)
+- :func:`atlas_q.ir_enhanced.predict_quantum_advantage` - Quantum advantage prediction
+- :func:`atlas_q.ir_enhanced.spectral_lifting_analysis` - Spectral structure analysis
 
 Common classes:
 

@@ -251,7 +251,7 @@ impl StatevectorSimulatorRust {
         for i in 0..size {
             if (i & qubit_mask) != 0 {
                 let amp = self.state[i];
-                prob_one += (amp.re * amp.re + amp.im * amp.im);
+                prob_one += amp.re * amp.re + amp.im * amp.im;
             }
         }
 
@@ -320,10 +320,245 @@ impl StatevectorSimulatorRust {
         }
         self.state[0] = Complex64::new(1.0, 0.0);
     }
+
+    // =========================================================================
+    // IR (Informational Relativity) Coherence Metrics
+    // =========================================================================
+    // These methods compute coherence on the response field (quantum state
+    // amplitudes) per IR Law L8 (Placement Principle).
+
+    /// Compute IR response field coherence R̄ from quantum state amplitudes.
+    ///
+    /// This is the CORRECT placement per IR Law L8:
+    /// "Coherence must be measured on response manifolds, not on probes or encodings."
+    ///
+    /// Mathematical formula:
+    ///   R̄ = |Σ |χ_i| e^(iθ_i)| / Σ |χ_i|
+    /// where χ_i = amplitude_i and θ_i = arg(amplitude_i)
+    ///
+    /// Returns: (R_bar, V_phi, is_above_e2)
+    /// - R_bar: Mean resultant length [0, 1] (higher = more coherent)
+    /// - V_phi: Circular variance [0, ∞] (lower = more coherent)
+    /// - is_above_e2: Whether R̄ > e^-2 ≈ 0.135 (GO/NO-GO threshold)
+    pub fn compute_response_coherence(&self) -> (f64, f64, bool) {
+        const E2_THRESHOLD: f64 = 0.135; // e^-2 ≈ 0.1353
+
+        let mut weighted_sum_re = 0.0;
+        let mut weighted_sum_im = 0.0;
+        let mut total_weight = 0.0;
+
+        for amp in &self.state {
+            let magnitude = (amp.re * amp.re + amp.im * amp.im).sqrt();
+            if magnitude > 1e-15 {
+                // Weight phasor by magnitude (response strength)
+                weighted_sum_re += amp.re; // |χ| * cos(θ) = Re(χ)
+                weighted_sum_im += amp.im; // |χ| * sin(θ) = Im(χ)
+                total_weight += magnitude;
+            }
+        }
+
+        if total_weight < 1e-15 {
+            return (0.0, f64::INFINITY, false);
+        }
+
+        // Compute mean resultant length
+        let mean_re = weighted_sum_re / total_weight;
+        let mean_im = weighted_sum_im / total_weight;
+        let r_bar = (mean_re * mean_re + mean_im * mean_im).sqrt();
+        let r_bar = r_bar.clamp(0.0, 1.0);
+
+        // Compute circular variance via coherence law: V_φ = -2 ln(R̄)
+        let v_phi = if r_bar > 1e-10 {
+            -2.0 * r_bar.ln()
+        } else {
+            f64::INFINITY
+        };
+
+        let is_above_e2 = r_bar > E2_THRESHOLD;
+
+        (r_bar, v_phi, is_above_e2)
+    }
+
+    /// Compute spectral coherence from state amplitudes.
+    ///
+    /// This measures power concentration in dominant amplitude modes.
+    /// High spectral coherence = power concentrated in few basis states.
+    /// Low spectral coherence = power spread across many states.
+    ///
+    /// Returns: Spectral coherence R̄ ∈ [0, 1]
+    pub fn compute_spectral_coherence(&self) -> f64 {
+        let mut max_prob = 0.0;
+        let mut total_prob = 0.0;
+
+        for amp in &self.state {
+            let prob = amp.re * amp.re + amp.im * amp.im;
+            total_prob += prob;
+            if prob > max_prob {
+                max_prob = prob;
+            }
+        }
+
+        if total_prob < 1e-15 {
+            return 0.0;
+        }
+
+        // Coherence = concentration in dominant mode
+        max_prob / total_prob
+    }
+
+    /// Compute the IR relational matrix M_ij = χ_i χ_j cos(θ_i - θ_j).
+    ///
+    /// This implements IR spectral lifting representation for structure
+    /// identification. The dominant eigenmode of M encodes global coherent
+    /// structure invisible to pointwise statistics.
+    ///
+    /// Note: Returns flattened matrix in row-major order for Python interop.
+    /// Matrix is n×n where n = 2^n_qubits.
+    ///
+    /// Returns: (M_flat, eigenvalues_sorted_desc, spectral_coherence)
+    pub fn compute_relational_matrix(&self) -> (Vec<f64>, Vec<f64>, f64) {
+        let n = self.state.len();
+        let mut m_flat = vec![0.0; n * n];
+
+        // Extract magnitudes and phases
+        let magnitudes: Vec<f64> = self.state.iter()
+            .map(|amp| (amp.re * amp.re + amp.im * amp.im).sqrt())
+            .collect();
+
+        let phases: Vec<f64> = self.state.iter()
+            .map(|amp| amp.im.atan2(amp.re))
+            .collect();
+
+        // Build relational matrix M_ij = χ_i * χ_j * cos(θ_i - θ_j)
+        for i in 0..n {
+            for j in 0..n {
+                let phase_diff = phases[i] - phases[j];
+                m_flat[i * n + j] = magnitudes[i] * magnitudes[j] * phase_diff.cos();
+            }
+        }
+
+        // For large matrices, skip eigendecomposition (expensive)
+        // Return spectral coherence estimate from Frobenius norm
+        if n > 256 {
+            let frobenius_sq: f64 = m_flat.iter().map(|x| x * x).sum();
+            let trace: f64 = (0..n).map(|i| m_flat[i * n + i]).sum();
+            let spectral_coherence = if frobenius_sq > 1e-15 {
+                (trace * trace / frobenius_sq).sqrt().clamp(0.0, 1.0)
+            } else {
+                0.0
+            };
+            return (m_flat, vec![], spectral_coherence);
+        }
+
+        // For small matrices, compute eigenvalues
+        // Simple power iteration for dominant eigenvalue (sufficient for coherence)
+        let dominant_eigenvalue = self._power_iteration_eigenvalue(&m_flat, n, 50);
+
+        // Compute trace for spectral coherence estimate
+        let trace: f64 = (0..n).map(|i| m_flat[i * n + i]).sum();
+
+        let spectral_coherence = if trace.abs() > 1e-15 {
+            (dominant_eigenvalue / trace).clamp(0.0, 1.0)
+        } else {
+            0.0
+        };
+
+        (m_flat, vec![dominant_eigenvalue], spectral_coherence)
+    }
+
+    /// Compute coherence-aware truncation recommendation.
+    ///
+    /// Based on IR insights:
+    /// - High coherence (R̄ > e^-2): Preserve structure, tight truncation
+    /// - Low coherence (R̄ < e^-2): Structure hidden, aggressive truncation OK
+    ///
+    /// Args:
+    ///     base_threshold: Base truncation threshold
+    ///
+    /// Returns: (adjusted_threshold, coherence_regime)
+    /// - adjusted_threshold: Modified threshold based on coherence
+    /// - coherence_regime: 0 = AIR (aggressive OK), 1 = transition, 2 = IR (conservative)
+    pub fn coherence_truncation_recommendation(&self, base_threshold: f64) -> (f64, i32) {
+        let (r_bar, _, _) = self.compute_response_coherence();
+
+        const E2_THRESHOLD: f64 = 0.135;
+
+        if r_bar > E2_THRESHOLD {
+            // IR regime: structure observable, be conservative
+            (base_threshold * 0.5, 2)
+        } else if r_bar > E2_THRESHOLD * 0.5 {
+            // Transition regime: moderate caution
+            (base_threshold, 1)
+        } else {
+            // AIR regime: structure hidden, aggressive truncation OK
+            (base_threshold * 2.0, 0)
+        }
+    }
+
+    /// Get state amplitudes as flat list of (re, im) pairs.
+    ///
+    /// This provides direct access to the response field for Python-side
+    /// coherence analysis.
+    pub fn get_amplitudes(&self) -> Vec<f64> {
+        let mut result = Vec::with_capacity(self.state.len() * 2);
+        for amp in &self.state {
+            result.push(amp.re);
+            result.push(amp.im);
+        }
+        result
+    }
+
+    /// Get state probabilities |amplitude|².
+    pub fn get_probabilities(&self) -> Vec<f64> {
+        self.state.iter()
+            .map(|amp| amp.re * amp.re + amp.im * amp.im)
+            .collect()
+    }
 }
 
 // Private helper methods (not exposed to Python)
 impl StatevectorSimulatorRust {
+    /// Power iteration to find dominant eigenvalue of symmetric matrix.
+    /// Used for spectral coherence computation from relational matrix.
+    fn _power_iteration_eigenvalue(&self, m_flat: &[f64], n: usize, iterations: usize) -> f64 {
+        // Start with uniform vector
+        let mut v: Vec<f64> = vec![1.0 / (n as f64).sqrt(); n];
+        let mut new_v = vec![0.0; n];
+
+        for _ in 0..iterations {
+            // Matrix-vector multiply: new_v = M * v
+            for i in 0..n {
+                new_v[i] = 0.0;
+                for j in 0..n {
+                    new_v[i] += m_flat[i * n + j] * v[j];
+                }
+            }
+
+            // Compute norm for normalization and eigenvalue estimate
+            let norm: f64 = new_v.iter().map(|x| x * x).sum::<f64>().sqrt();
+            if norm < 1e-15 {
+                return 0.0;
+            }
+
+            // Normalize
+            for x in new_v.iter_mut() {
+                *x /= norm;
+            }
+
+            std::mem::swap(&mut v, &mut new_v);
+        }
+
+        // Compute Rayleigh quotient for eigenvalue: λ = v^T M v / v^T v
+        let mut numerator = 0.0;
+        for i in 0..n {
+            for j in 0..n {
+                numerator += v[i] * m_flat[i * n + j] * v[j];
+            }
+        }
+
+        numerator
+    }
+
     fn _apply_single_gate(&mut self, qubit: usize, gate: [Complex64; 4]) {
         assert!(qubit < self.n_qubits, "Qubit index out of range");
 
@@ -461,5 +696,92 @@ mod tests {
         assert!((sim.state[1].norm() < 1e-10)); // |01⟩ should be 0
         assert!((sim.state[2].norm() < 1e-10)); // |10⟩ should be 0
         assert!((sim.state[3].re - sqrt2_inv).abs() < 1e-10); // |11⟩
+    }
+
+    // ==========================================================================
+    // IR Coherence Tests
+    // ==========================================================================
+
+    #[test]
+    fn test_initial_state_coherence() {
+        // |0⟩ state should have perfect spectral coherence (all power in one mode)
+        let sim = StatevectorSimulatorRust::new(3);
+        let spectral_coh = sim.compute_spectral_coherence();
+        assert!((spectral_coh - 1.0).abs() < 1e-10, "Initial |0⟩ should have spectral coherence = 1.0");
+    }
+
+    #[test]
+    fn test_superposition_coherence() {
+        // H on all qubits creates uniform superposition
+        // Should have lower spectral coherence (power spread)
+        let mut sim = StatevectorSimulatorRust::new(3);
+        sim.h(0);
+        sim.h(1);
+        sim.h(2);
+
+        let spectral_coh = sim.compute_spectral_coherence();
+        // With 8 states, each has 1/8 probability, so max_prob/total = 1/8 = 0.125
+        assert!((spectral_coh - 0.125).abs() < 1e-10, "Uniform superposition should have spectral coherence = 1/n");
+    }
+
+    #[test]
+    fn test_bell_state_response_coherence() {
+        // Bell state (|00⟩ + |11⟩)/√2 should have high response coherence
+        // Both amplitudes have the same phase (0)
+        let mut sim = StatevectorSimulatorRust::new(2);
+        sim.h(0);
+        sim.cnot(0, 1);
+
+        let (r_bar, v_phi, is_above_e2) = sim.compute_response_coherence();
+
+        // With phases aligned at 0, R̄ should be 1.0
+        assert!(r_bar > 0.99, "Bell state should have high response coherence, got {}", r_bar);
+        assert!(is_above_e2, "Bell state should be in IR regime (above e^-2)");
+        assert!(v_phi < 0.1, "Bell state should have low circular variance");
+    }
+
+    #[test]
+    fn test_coherence_truncation_recommendation() {
+        // Initial state (high coherence) should recommend conservative truncation
+        let sim = StatevectorSimulatorRust::new(2);
+        let (adj_thresh, regime) = sim.coherence_truncation_recommendation(1e-6);
+
+        // High coherence → regime = 2 (IR), threshold halved
+        assert_eq!(regime, 2, "Initial state should be in IR regime");
+        assert!((adj_thresh - 0.5e-6).abs() < 1e-12, "Threshold should be halved in IR regime");
+    }
+
+    #[test]
+    fn test_get_amplitudes() {
+        let mut sim = StatevectorSimulatorRust::new(2);
+        sim.h(0);
+
+        let amps = sim.get_amplitudes();
+        // Should be 4 states × 2 (re, im) = 8 values
+        assert_eq!(amps.len(), 8);
+
+        // After H(0) on |00⟩: (|00⟩ + |01⟩)/√2 in little-endian qubit order
+        // state[0] = |00⟩, state[1] = |01⟩ (qubit 0 flipped)
+        let sqrt2_inv = 1.0 / std::f64::consts::SQRT_2;
+        assert!((amps[0] - sqrt2_inv).abs() < 1e-10); // |00⟩ re
+        assert!(amps[1].abs() < 1e-10); // |00⟩ im
+        assert!((amps[2] - sqrt2_inv).abs() < 1e-10); // |01⟩ re (index 1*2 = 2)
+    }
+
+    #[test]
+    fn test_relational_matrix() {
+        // Small 2-qubit test
+        let mut sim = StatevectorSimulatorRust::new(2);
+        sim.h(0);
+        sim.cnot(0, 1);
+
+        let (m_flat, eigenvalues, spectral_coh) = sim.compute_relational_matrix();
+
+        // Matrix should be 4×4 = 16 elements
+        assert_eq!(m_flat.len(), 16);
+
+        // Should have non-trivial spectral coherence
+        assert!(spectral_coh > 0.0, "Spectral coherence should be positive");
+        assert!(spectral_coh <= 1.0, "Spectral coherence should be ≤ 1");
     }
 }

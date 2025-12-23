@@ -1,61 +1,119 @@
 # ATLAS-Q Feature Status
 **What's Actually Implemented vs Documented**
 
-**Last Updated:** October 2025
+**Last Updated:** December 2025
 
 ---
 
 ## See Also
 
 - **[Complete Guide](COMPLETE_GUIDE.md)** - Full API reference and tutorials
+- **[Features List](FEATURES.md)** - Complete feature list with performance numbers
 - **[ Interactive Notebook](../ATLAS_Q_Demo.ipynb)** - Try all features interactively
 - **[Whitepaper](WHITEPAPER.md)** - Technical architecture details
 - **[Research Paper](RESEARCH_PAPER.md)** - Algorithm implementations
 
 ---
 
-## Current Development Status (Dev Branch)
+## Current Development Status (v0.7.0 - IR v1.1.0)
 
-**Latest Update:** 2025-10-27 - Commit d82c9fc
+**Latest Update:** 2025-12-16
+
+### IR Integration (NEW - Priority 0)
+- **Regime Analyzer** - Pre-computation problem diagnosis
+  - Functions: `analyze_state_regime()`, `analyze_hamiltonian_regime()`, `predict_quantum_advantage()`
+  - Classification: IR/Transition/AIR regimes with GO/NO-GO boundary
+  - Tests: Passing in benchmark suite
+  - **Use case:** Know if VQE will work BEFORE running it
+
+- **Spectral Lifting** - Full M_ij relational matrix analysis
+  - Functions: `compute_relational_matrix()`, `extract_structure_modes()`, `spectral_grouping()`
+  - Structure detection and coherence correlation
+  - Tests: Passing in benchmark suite
+
+- **VQE Grouping** - 4× circuit reduction
+  - Function: `ir_hamiltonian_grouping()`
+  - Coherence-based Pauli term grouping
+  - Validated: 2-60× variance reduction
+
+- **Period Finding Enhancement** - 42% shot reduction
+  - Function: `ir_enhanced_period_finding()`
+  - IR preprocessing for QPE
+  - Validated: Consistent shot savings
+
+- **Benchmark Results:** 30/31 passing (7/7 IR tests)
 
 ### Recently Completed (Priority 1)
 - **Molecular Hamiltonian Builder** - Fully implemented and tested
- - Function: `MPOBuilder.molecular_hamiltonian_from_specs()`
- - Integration: PySCF with Jordan-Wigner transformation
- - Tests: 4/4 passing in `test_molecular_hamiltonians.py`
- - Supports: H2, LiH, H2O, custom geometries
+  - Function: `MPOBuilder.molecular_hamiltonian_from_specs()`
+  - Integration: PySCF with Jordan-Wigner transformation
+  - Tests: 4/4 passing in `test_molecular_hamiltonians.py`
+  - Supports: H2, LiH, H2O, custom geometries
 
 - **MaxCut Hamiltonian Builder** - Fully implemented and tested
- - Function: `MPOBuilder.maxcut_hamiltonian()`
- - QAOA graph optimization problems
- - Tests: 4/4 passing in `test_maxcut.py`
- - Supports: Weighted/unweighted graphs, edge normalization
+  - Function: `MPOBuilder.maxcut_hamiltonian()`
+  - QAOA graph optimization problems
+  - Tests: 4/4 passing in `test_maxcut.py`
+  - Supports: Weighted/unweighted graphs, edge normalization
 
 ### Completed (Priority 2)
 - **Circuit Cutting Integration** - Fully tested and working
- - 7/7 tests passing in `test_circuit_cutting.py`
- - Min-cut partitioning, coupling graph analysis, entanglement heatmaps
+  - 7/7 tests passing in `test_circuit_cutting.py`
+  - Min-cut partitioning, coupling graph analysis, entanglement heatmaps
 - **PEPS (Projected Entangled Pair States)** - Fully tested and working
- - 10/10 tests passing in `test_peps.py`
- - 2D tensor networks, boundary-MPS contraction, PatchPEPS
+  - 10/10 tests passing in `test_peps.py`
+  - 2D tensor networks, boundary-MPS contraction, PatchPEPS
 - **Distributed MPS** - Tested in single-GPU mode
- - 10/10 tests passing in `test_distributed_mps.py`
- - Bond-parallel decomposition, multi-GPU ready (requires NCCL)
+  - 10/10 tests passing in `test_distributed_mps.py`
+  - Bond-parallel decomposition, multi-GPU ready (requires NCCL)
 - **cuQuantum Backend** - Tested with cuQuantum 25.09.1 (OPTIONAL)
- - 11/11 tests passing in `test_cuquantum.py`
- - Auto-detection, PyTorch fallback verified
- - **Tested with:** cuQuantum 25.09.1, cuTensorNet API
- - **Install:** `pip install cuquantum-python` (optional, ~320MB)
+  - 11/11 tests passing in `test_cuquantum.py`
+  - Auto-detection, PyTorch fallback verified
+  - **Tested with:** cuQuantum 25.09.1, cuTensorNet API
+  - **Install:** `pip install cuquantum-python` (optional, ~320MB)
 
-**Branch:** Dev
-**Latest Work:** Priority 1 + 2 complete (46 tests, all passing)
-**Status:** Ready for merge to main
+**Branch:** ATLAS-Q
+**Latest Work:** IR v1.1.0 complete (30/31 benchmarks passing)
+**Status:** Production ready
 
 ---
 
 ## Fully Implemented & Tested
 
 These features pass benchmarks and are production-ready:
+
+### 0. IR Module (NEW in v0.7.0)
+- **Module:** `ir_enhanced/`
+- **Access:** `from atlas_q.ir_enhanced import ...`
+- **Status:** 7/7 benchmarks passing, production ready
+- **Key Features:**
+  - Pre-computation regime diagnosis (IR/Transition/AIR)
+  - GO/NO-GO classification at e^-2 threshold (0.135)
+  - 4× VQE circuit reduction via coherence grouping
+  - 42% period finding shot reduction
+  - Spectral lifting for structure detection
+- **Example:**
+  ```python
+  from atlas_q.ir_enhanced import (
+      analyze_state_regime,
+      predict_quantum_advantage,
+      ir_hamiltonian_grouping,
+      ir_enhanced_period_finding,
+  )
+
+  # Pre-computation diagnosis
+  regime = analyze_state_regime(amplitudes)
+  print(f"Regime: {regime.regime}")  # IR, TRANSITION, or AIR
+  print(f"GO/NO-GO: {'GO' if regime.is_go else 'NO-GO'}")
+
+  # VQE grouping (4× reduction)
+  result = ir_hamiltonian_grouping(pauli_terms)
+  print(f"Groups: {result.n_groups} (from {len(pauli_terms)} terms)")
+
+  # Period finding (42% shot reduction)
+  result = ir_enhanced_period_finding(a, N)
+  print(f"Period: {result.period}, shots saved: {result.shot_reduction_pct}%")
+  ```
 
 ### 1. Period-Finding & Factorization
 - **Module:** `quantum_hybrid_system.py`

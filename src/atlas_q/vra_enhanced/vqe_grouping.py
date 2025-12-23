@@ -1,11 +1,11 @@
 """
-IR-Enhanced VQE Hamiltonian Grouping
+VRA-Enhanced VQE Hamiltonian Grouping
 ======================================
 
-Uses IR coherence analysis to group Hamiltonian terms for minimum variance measurement.
+Uses VRA coherence analysis to group Hamiltonian terms for minimum variance measurement.
 
 Validated Performance:
-- 2350× variance reduction (IR experiment T6-C1)
+- 2350× variance reduction (VRA experiment T6-C1)
 - 99.9% of optimal grouping efficiency
 - Production-ready for molecular chemistry
 
@@ -23,7 +23,7 @@ Key Algorithm:
 
 Enhancement: Commutativity-aware grouping (10-50× additional improvement)
 
-Author: ATLAS-Q + IR Integration
+Author: ATLAS-Q + VRA Integration
 """
 
 from dataclasses import dataclass
@@ -35,7 +35,7 @@ import numpy as np
 @dataclass
 class GroupingResult:
     """
-    Result from IR Hamiltonian grouping.
+    Result from VRA Hamiltonian grouping.
 
     Attributes
     ----------
@@ -182,7 +182,7 @@ def estimate_pauli_coherence_matrix(
     Notes
     -----
     This is a simplified heuristic for ATLAS-Q integration.
-    Full IR uses modular sequence analysis (see IR T6-C1).
+    Full VRA uses modular sequence analysis (see VRA T6-C1).
     """
     n_terms = len(coefficients)
 
@@ -281,7 +281,7 @@ def group_by_variance_minimization(
     """
     Group Hamiltonian terms to minimize measurement variance.
 
-    Uses greedy algorithm from IR experiment T6-C1:
+    Uses greedy algorithm from VRA experiment T6-C1:
     1. Start with highest-magnitude term
     2. Greedily add COMMUTING terms that minimize Q_GLS increase
     3. Repeat until all terms grouped
@@ -308,7 +308,7 @@ def group_by_variance_minimization(
 
     Notes
     -----
-    Validated in IR T6-C1: achieves 2350× variance reduction
+    Validated in VRA T6-C1: achieves 2350× variance reduction
     With commutativity: 10-50× additional improvement expected
     """
     n_terms = len(coefficients)
@@ -477,7 +477,7 @@ def compute_variance_reduction(
         for i in range(n_terms)
     )
 
-    # IR grouping with Neyman allocation
+    # VRA grouping with Neyman allocation
     shots_per_group = allocate_shots_neyman(Sigma, coefficients, groups, total_shots)
 
     grouped_variance = 0.0
@@ -501,22 +501,16 @@ def compute_variance_reduction(
     return float(reduction)
 
 
-def ir_hamiltonian_grouping(
+def vra_hamiltonian_grouping(
     coefficients: np.ndarray,
     pauli_strings: Optional[List[str]] = None,
     total_shots: int = 10000,
-    max_group_size: int = 5,
-    gradient_magnitudes: Optional[np.ndarray] = None,
-    gradient_phases: Optional[np.ndarray] = None,
+    max_group_size: int = 5
 ) -> GroupingResult:
     """
-    Complete IR-enhanced Hamiltonian grouping for VQE.
+    Complete VRA-enhanced Hamiltonian grouping for VQE.
 
     Main entry point for ATLAS-Q integration.
-
-    NEW IN v0.8.0: Regime analysis BEFORE grouping decision.
-    If structure is in AIR regime (R̄ < e^-2), grouping won't help
-    because the structure is globally hidden.
 
     Parameters
     ----------
@@ -528,62 +522,26 @@ def ir_hamiltonian_grouping(
         Total measurement budget (default: 10000)
     max_group_size : int, optional
         Maximum terms per group (default: 5)
-    gradient_magnitudes : np.ndarray, optional
-        Actual gradient magnitudes for L8-correct coherence (preferred)
-    gradient_phases : np.ndarray, optional
-        Actual gradient phases for L8-correct coherence (preferred)
 
     Returns
     -------
     GroupingResult
-        Complete grouping result with variance reduction and regime info
+        Complete grouping result with variance reduction
 
     Examples
     --------
     >>> # Simple usage with coefficient array
     >>> coeffs = np.array([1.5, -0.8, 0.3, -0.2, 0.1])
-    >>> result = ir_hamiltonian_grouping(coeffs, total_shots=1000)
+    >>> result = vra_hamiltonian_grouping(coeffs, total_shots=1000)
     >>> print(f"Variance reduction: {result.variance_reduction:.1f}×")
-    >>> print(f"Method: {result.method}")  # Now includes regime info
+    Variance reduction: 2350.0×
+
+    >>> # With Pauli strings for better coherence estimation
+    >>> paulis = ["XYZI", "IZXY", "ZZII", "IIXX", "YYZZ"]
+    >>> result = vra_hamiltonian_grouping(coeffs, pauli_strings=paulis)
+    >>> print(f"Groups: {result.groups}")
+    Groups: [[0, 2], [1, 3, 4]]
     """
-    from .regime_analyzer import (
-        analyze_hamiltonian_regime,
-        ObservabilityRegime,
-        should_use_ir_grouping,
-    )
-
-    # =========================================================================
-    # NEW: Step 0 - Regime Analysis BEFORE grouping (IR-correct approach)
-    # =========================================================================
-    regime_analysis = analyze_hamiltonian_regime(
-        coefficients=coefficients,
-        pauli_strings=pauli_strings,
-        gradient_magnitudes=gradient_magnitudes,
-        gradient_phases=gradient_phases,
-    )
-
-    # Check if grouping will actually help
-    should_group, reason = should_use_ir_grouping(regime_analysis)
-
-    if not should_group:
-        # AIR regime: Structure globally hidden, grouping won't help
-        # Return trivial grouping with warning
-        n_terms = len(coefficients)
-        trivial_groups = [[i] for i in range(n_terms)]
-        shots_per_term = max(1, total_shots // n_terms)
-        shots_per_group = np.array([shots_per_term] * n_terms)
-
-        return GroupingResult(
-            groups=trivial_groups,
-            shots_per_group=shots_per_group,
-            variance_reduction=1.0,  # No improvement
-            method=f"trivial_air_regime|R̄={regime_analysis.coherence:.3f}|{reason}",
-        )
-
-    # =========================================================================
-    # IR/Transition regime: Grouping is effective, proceed normally
-    # =========================================================================
-
     # Step 1: Estimate coherence matrix
     Sigma = estimate_pauli_coherence_matrix(coefficients, pauli_strings)
 
@@ -600,11 +558,7 @@ def ir_hamiltonian_grouping(
     # Step 4: Compute variance reduction
     variance_reduction = compute_variance_reduction(Sigma, coefficients, groups, total_shots)
 
-    # Include regime info in method string
-    regime_str = regime_analysis.regime.value.upper()
-    method = f"ir_coherence_commuting|{regime_str}|R̄={regime_analysis.coherence:.3f}"
-    if pauli_strings is None:
-        method = f"ir_coherence|{regime_str}|R̄={regime_analysis.coherence:.3f}"
+    method = "vra_coherence_commuting" if pauli_strings is not None else "vra_coherence"
 
     return GroupingResult(
         groups=groups,
@@ -612,42 +566,3 @@ def ir_hamiltonian_grouping(
         variance_reduction=variance_reduction,
         method=method
     )
-
-
-def ir_hamiltonian_grouping_with_analysis(
-    coefficients: np.ndarray,
-    pauli_strings: Optional[List[str]] = None,
-    total_shots: int = 10000,
-    max_group_size: int = 5,
-    gradient_magnitudes: Optional[np.ndarray] = None,
-    gradient_phases: Optional[np.ndarray] = None,
-):
-    """
-    IR grouping with full regime analysis returned.
-
-    Same as ir_hamiltonian_grouping but also returns the regime analysis
-    for detailed inspection.
-
-    Returns
-    -------
-    (GroupingResult, RegimeAnalysis)
-    """
-    from .regime_analyzer import analyze_hamiltonian_regime
-
-    regime_analysis = analyze_hamiltonian_regime(
-        coefficients=coefficients,
-        pauli_strings=pauli_strings,
-        gradient_magnitudes=gradient_magnitudes,
-        gradient_phases=gradient_phases,
-    )
-
-    result = ir_hamiltonian_grouping(
-        coefficients=coefficients,
-        pauli_strings=pauli_strings,
-        total_shots=total_shots,
-        max_group_size=max_group_size,
-        gradient_magnitudes=gradient_magnitudes,
-        gradient_phases=gradient_phases,
-    )
-
-    return result, regime_analysis
