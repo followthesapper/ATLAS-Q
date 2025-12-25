@@ -1,0 +1,25 @@
+﻿atlas\_q.grover.OracleBase
+==========================
+
+.. currentmodule:: atlas_q.grover
+
+.. autoclass:: OracleBase
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~OracleBase.__init__
+      ~OracleBase.apply
+      ~OracleBase.get_marked_count
+      ~OracleBase.mark
+   
+   
+
+   
+   
+   

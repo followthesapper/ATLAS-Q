@@ -1,0 +1,39 @@
+﻿atlas\_q.tdvp.TDVPConfig
+========================
+
+.. currentmodule:: atlas_q.tdvp
+
+.. autoclass:: TDVPConfig
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TDVPConfig.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TDVPConfig.adaptive_dt
+      ~TDVPConfig.chi_max
+      ~TDVPConfig.dt
+      ~TDVPConfig.dt_max
+      ~TDVPConfig.dt_min
+      ~TDVPConfig.eps_bond
+      ~TDVPConfig.error_tol
+      ~TDVPConfig.krylov_dim
+      ~TDVPConfig.normalize
+      ~TDVPConfig.order
+      ~TDVPConfig.t_final
+      ~TDVPConfig.use_gpu_optimized
+   
+   

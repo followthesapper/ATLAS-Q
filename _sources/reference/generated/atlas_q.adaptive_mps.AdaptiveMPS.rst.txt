@@ -1,0 +1,60 @@
+﻿atlas\_q.adaptive\_mps.AdaptiveMPS
+==================================
+
+.. currentmodule:: atlas_q.adaptive_mps
+
+.. autoclass:: AdaptiveMPS
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~AdaptiveMPS.__init__
+      ~AdaptiveMPS.apply_single_qubit_gate
+      ~AdaptiveMPS.apply_two_qubit_gate
+      ~AdaptiveMPS.apply_two_site_gate
+      ~AdaptiveMPS.canonicalize_left_to_right
+      ~AdaptiveMPS.canonicalize_right_to_left
+      ~AdaptiveMPS.cnot
+      ~AdaptiveMPS.cx
+      ~AdaptiveMPS.cy
+      ~AdaptiveMPS.cz
+      ~AdaptiveMPS.from_numpy_mps
+      ~AdaptiveMPS.get_amplitude
+      ~AdaptiveMPS.get_memory_usage
+      ~AdaptiveMPS.get_probability
+      ~AdaptiveMPS.global_error_bound
+      ~AdaptiveMPS.h
+      ~AdaptiveMPS.load_snapshot
+      ~AdaptiveMPS.measure
+      ~AdaptiveMPS.memory_usage
+      ~AdaptiveMPS.reset_stats
+      ~AdaptiveMPS.rx
+      ~AdaptiveMPS.ry
+      ~AdaptiveMPS.rz
+      ~AdaptiveMPS.s
+      ~AdaptiveMPS.sample
+      ~AdaptiveMPS.sdg
+      ~AdaptiveMPS.snapshot
+      ~AdaptiveMPS.stats_summary
+      ~AdaptiveMPS.swap
+      ~AdaptiveMPS.sweep_sample
+      ~AdaptiveMPS.t
+      ~AdaptiveMPS.tdg
+      ~AdaptiveMPS.to_left_canonical
+      ~AdaptiveMPS.to_mixed_canonical
+      ~AdaptiveMPS.to_numpy_mps
+      ~AdaptiveMPS.to_statevector
+      ~AdaptiveMPS.x
+      ~AdaptiveMPS.y
+      ~AdaptiveMPS.z
+   
+   
+
+   
+   
+   

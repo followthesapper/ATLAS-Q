@@ -1,0 +1,1318 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Save and Load State &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/howtos/save_load_state';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="How to Build Custom Hamiltonians" href="custom_hamiltonians.html" />
+    <link rel="prev" title="Debug Simulations" href="debug_simulations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="optimize_performance.html">How to Optimize Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handle_large_systems.html">How to Handle Large Quantum Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configure_precision.html">Configure Precision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrate_cuquantum.html">Integrate cuQuantum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug_simulations.html">Debug Simulations</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Save and Load State</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_hamiltonians.html">How to Build Custom Hamiltonians</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel_computation.html">Parallel Computation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark_comparison.html">Benchmark Comparison</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">How-To Guides</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Save and Load State</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="save-and-load-state">
+<h1>Save and Load State<a class="headerlink" href="#save-and-load-state" title="Link to this heading">#</a></h1>
+<section id="problem">
+<h2>Problem<a class="headerlink" href="#problem" title="Link to this heading">#</a></h2>
+<p>Long-running quantum simulations (VQE, TDVP, QAOA) may run for hours or days.
+Checkpointing is essential to:</p>
+<ul class="simple">
+<li><p><strong>Prevent data loss</strong> from crashes, preemption, or hardware failures</p></li>
+<li><p><strong>Resume interrupted optimizations</strong> without restarting from scratch</p></li>
+<li><p><strong>Share results</strong> with collaborators or across compute sessions</p></li>
+<li><p><strong>Debug incrementally</strong> by analyzing intermediate states</p></li>
+<li><p><strong>Manage HPC resources</strong> by splitting work across multiple jobs</p></li>
+</ul>
+<p>This guide covers strategies for checkpointing MPS states, variational parameters,
+optimization histories, and distributed simulations.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="handle_large_systems.html"><span class="doc">How to Handle Large Quantum Systems</span></a> for distributed checkpointing,
+<a class="reference internal" href="debug_simulations.html"><span class="doc">Debug Simulations</span></a> for loading checkpoints for debugging,
+<a class="reference internal" href="../explanations/design_decisions.html"><span class="doc">Design Decisions</span></a> for serialization format details.</p>
+</div>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<p>You need:</p>
+<ul class="simple">
+<li><p>ATLAS-Q with MPS, VQE, TDVP, or QAOA configured</p></li>
+<li><p>Storage space for checkpoints (MPS with n=50, χ=256 ≈ 0.5-2 GB per checkpoint)</p></li>
+<li><p>Understanding of your optimization problem structure</p></li>
+</ul>
+</section>
+<section id="strategies">
+<h2>Strategies<a class="headerlink" href="#strategies" title="Link to this heading">#</a></h2>
+<section id="strategy-1-basic-mps-checkpointing">
+<h3>Strategy 1: Basic MPS Checkpointing<a class="headerlink" href="#strategy-1-basic-mps-checkpointing" title="Link to this heading">#</a></h3>
+<p>Save and load MPS state for later analysis or resumption.</p>
+<p><strong>Save complete MPS state</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="c1"># Run simulation</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="c1"># ... apply gates, run algorithm ...</span>
+
+<span class="c1"># Save complete state</span>
+<span class="n">checkpoint</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;tensors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">],</span>
+    <span class="s1">&#39;num_qubits&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
+    <span class="s1">&#39;bond_dims&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span><span class="p">,</span>
+    <span class="s1">&#39;statistics&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;truncation_error&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">total_truncation_error</span><span class="p">,</span>
+        <span class="s1">&#39;max_bond_dim&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">max_bond_dim</span><span class="p">,</span>
+        <span class="s1">&#39;num_operations&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">num_operations</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()]),</span>
+        <span class="s1">&#39;atlas_q_version&#39;</span><span class="p">:</span> <span class="s1">&#39;0.6.1&#39;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">,</span> <span class="s1">&#39;mps_checkpoint.pt&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved MPS state: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">)</span><span class="si">}</span><span class="s2"> elements&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Load MPS state</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load from disk</span>
+<span class="n">checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;mps_checkpoint.pt&#39;</span><span class="p">)</span>
+
+<span class="c1"># Reconstruct MPS</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;num_qubits&#39;</span><span class="p">],</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;bond_dims&#39;</span><span class="p">]),</span>  <span class="c1"># Use max bond dim</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Restore tensors and bond dimensions</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;tensors&#39;</span><span class="p">]]</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;bond_dims&#39;</span><span class="p">]</span>
+
+<span class="c1"># Restore statistics</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">total_truncation_error</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;statistics&#39;</span><span class="p">][</span><span class="s1">&#39;truncation_error&#39;</span><span class="p">]</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">max_bond_dim</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;statistics&#39;</span><span class="p">][</span><span class="s1">&#39;max_bond_dim&#39;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loaded MPS state: </span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">num_qubits</span><span class="si">}</span><span class="s2"> qubits, max χ=</span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-2-periodic-checkpointing-for-long-simulations">
+<h3>Strategy 2: Periodic Checkpointing for Long Simulations<a class="headerlink" href="#strategy-2-periodic-checkpointing-for-long-simulations" title="Link to this heading">#</a></h3>
+<p>Save checkpoints at regular intervals during time evolution or optimization.</p>
+<p><strong>Checkpoint TDVP time evolution</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># Configure TDVP</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span>
+    <span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span>
+    <span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Checkpoint directory</span>
+<span class="n">checkpoint_dir</span> <span class="o">=</span> <span class="s1">&#39;tdvp_checkpoints&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Evolve with periodic checkpointing</span>
+<span class="n">checkpoint_interval</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Steps</span>
+<span class="n">total_steps</span> <span class="o">=</span> <span class="mi">10000</span>
+
+<span class="n">energies</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total_steps</span><span class="p">):</span>
+    <span class="c1"># Single TDVP step</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">evolve_step</span><span class="p">()</span>
+    <span class="n">energies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+
+    <span class="c1"># Checkpoint every N steps</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">step</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">checkpoint_interval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">checkpoint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">checkpoint_dir</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">&#39;tdvp_step_</span><span class="si">{</span><span class="n">step</span><span class="o">+</span><span class="mi">1</span><span class="si">:</span><span class="s1">06d</span><span class="si">}</span><span class="s1">.pt&#39;</span>
+        <span class="p">)</span>
+
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">({</span>
+            <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="n">step</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s1">&#39;tensors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">],</span>
+            <span class="s1">&#39;bond_dims&#39;</span><span class="p">:</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span><span class="p">,</span>
+            <span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="n">E</span><span class="p">,</span>
+            <span class="s1">&#39;energies&#39;</span><span class="p">:</span> <span class="n">energies</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">step</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">dt</span>
+        <span class="p">},</span> <span class="n">checkpoint_path</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Step </span><span class="si">{</span><span class="n">step</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total_steps</span><span class="si">}</span><span class="s2">] E=</span><span class="si">{</span><span class="n">E</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">, &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;checkpoint saved to </span><span class="si">{</span><span class="n">checkpoint_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completed </span><span class="si">{</span><span class="n">total_steps</span><span class="si">}</span><span class="s2"> steps, </span><span class="si">{</span><span class="n">total_steps</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">checkpoint_interval</span><span class="si">}</span><span class="s2"> checkpoints saved&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Resume TDVP from checkpoint</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+
+<span class="c1"># Find latest checkpoint</span>
+<span class="n">checkpoints</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">,</span> <span class="s1">&#39;tdvp_step_*.pt&#39;</span><span class="p">)))</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">checkpoints</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No checkpoints found, starting from scratch&quot;</span><span class="p">)</span>
+    <span class="n">start_step</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">energies</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">latest_checkpoint</span> <span class="o">=</span> <span class="n">checkpoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Resuming from </span><span class="si">{</span><span class="n">latest_checkpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Load checkpoint</span>
+    <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">latest_checkpoint</span><span class="p">)</span>
+    <span class="n">start_step</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;step&#39;</span><span class="p">]</span>
+    <span class="n">energies</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;energies&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Restore MPS</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;tensors&#39;</span><span class="p">]),</span>
+        <span class="n">bond_dim</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;bond_dims&#39;</span><span class="p">]),</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;tensors&#39;</span><span class="p">]]</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;bond_dims&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Recreate TDVP</span>
+    <span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Resumed from step </span><span class="si">{</span><span class="n">start_step</span><span class="si">}</span><span class="s2">, E=</span><span class="si">{</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Continue evolution</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_step</span><span class="p">,</span> <span class="n">total_steps</span><span class="p">):</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">evolve_step</span><span class="p">()</span>
+    <span class="n">energies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+    <span class="c1"># ... checkpoint as before ...</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-3-adaptive-checkpointing-save-on-improvement">
+<h3>Strategy 3: Adaptive Checkpointing (Save on Improvement)<a class="headerlink" href="#strategy-3-adaptive-checkpointing-save-on-improvement" title="Link to this heading">#</a></h3>
+<p>Save checkpoints only when optimization metrics improve, reducing storage overhead.</p>
+<p><strong>Checkpoint VQE when energy improves</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Configure VQE with callback</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span>
+<span class="p">)</span>
+
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Track best energy and parameters</span>
+<span class="n">best_energy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="n">best_params</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">checkpoint_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">checkpoint_callback</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">iteration</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save checkpoint when energy improves.&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">best_energy</span><span class="p">,</span> <span class="n">best_params</span><span class="p">,</span> <span class="n">checkpoint_count</span>
+
+    <span class="k">if</span> <span class="n">energy</span> <span class="o">&lt;</span> <span class="n">best_energy</span> <span class="o">-</span> <span class="mf">1e-6</span><span class="p">:</span>  <span class="c1"># Improvement threshold</span>
+        <span class="n">best_energy</span> <span class="o">=</span> <span class="n">energy</span>
+        <span class="n">best_params</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="n">checkpoint_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">({</span>
+            <span class="s1">&#39;iteration&#39;</span><span class="p">:</span> <span class="n">iteration</span><span class="p">,</span>
+            <span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="n">energy</span><span class="p">,</span>
+            <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="n">params</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span>
+            <span class="s1">&#39;energies&#39;</span><span class="p">:</span> <span class="n">vqe</span><span class="o">.</span><span class="n">energies</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="s1">&#39;param_history&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">vqe</span><span class="o">.</span><span class="n">param_history</span><span class="p">],</span>
+            <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="p">},</span> <span class="sa">f</span><span class="s1">&#39;vqe_best_checkpoint_</span><span class="si">{</span><span class="n">checkpoint_count</span><span class="si">:</span><span class="s1">04d</span><span class="si">}</span><span class="s1">.pt&#39;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Iter </span><span class="si">{</span><span class="n">iteration</span><span class="si">}</span><span class="s2">] New best energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> (saved checkpoint)&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Iter </span><span class="si">{</span><span class="n">iteration</span><span class="si">}</span><span class="s2">] Energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> (no improvement)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Run VQE with adaptive checkpointing</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">callback</span><span class="o">=</span><span class="n">checkpoint_callback</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total checkpoints saved: </span><span class="si">{</span><span class="n">checkpoint_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Resume VQE with warm start</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load best checkpoint</span>
+<span class="n">checkpoint_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;vqe_best_checkpoint_*.pt&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">checkpoint_files</span><span class="p">:</span>
+    <span class="n">latest</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">checkpoint_files</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">latest</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warm starting VQE from checkpoint at E=</span><span class="si">{</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Use previous best parameters as initial guess</span>
+    <span class="n">initial_params</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Continue optimization</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">initial_params</span><span class="o">=</span><span class="n">initial_params</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># Cold start</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-4-compressed-checkpoints">
+<h3>Strategy 4: Compressed Checkpoints<a class="headerlink" href="#strategy-4-compressed-checkpoints" title="Link to this heading">#</a></h3>
+<p>Reduce checkpoint size using compression and precision reduction.</p>
+<p><strong>Compressed MPS checkpoint</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gzip</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">save_compressed_mps</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save MPS with compression.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mps : AdaptiveMPS</span>
+<span class="sd">        MPS to save</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Output path (will append .gz)</span>
+<span class="sd">    precision : str</span>
+<span class="sd">        &#39;float32&#39; or &#39;float16&#39; for reduced precision</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Convert tensors to CPU and reduce precision if requested</span>
+    <span class="k">if</span> <span class="n">precision</span> <span class="o">==</span> <span class="s1">&#39;float16&#39;</span><span class="p">:</span>
+        <span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">half</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">]</span>
+
+    <span class="n">checkpoint</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;tensors&#39;</span><span class="p">:</span> <span class="n">tensors</span><span class="p">,</span>
+        <span class="s1">&#39;num_qubits&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
+        <span class="s1">&#39;bond_dims&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span><span class="p">,</span>
+        <span class="s1">&#39;precision&#39;</span><span class="p">:</span> <span class="n">precision</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Serialize and compress</span>
+    <span class="n">serialized</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;.gz&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">,</span> <span class="n">compresslevel</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">serialized</span><span class="p">)</span>
+
+    <span class="c1"># Report compression ratio</span>
+    <span class="n">uncompressed_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">serialized</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">compressed_size</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;.gz&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">compression_ratio</span> <span class="o">=</span> <span class="n">uncompressed_size</span> <span class="o">/</span> <span class="n">compressed_size</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved compressed MPS: </span><span class="si">{</span><span class="n">compressed_size</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;(compression ratio: </span><span class="si">{</span><span class="n">compression_ratio</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">x)&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">load_compressed_mps</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load compressed MPS checkpoint.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">serialized</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">serialized</span><span class="p">)</span>
+
+    <span class="c1"># Restore MPS</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;num_qubits&#39;</span><span class="p">],</span>
+        <span class="n">bond_dim</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;bond_dims&#39;</span><span class="p">]),</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">device</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Convert back to complex64 on target device</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;tensors&#39;</span><span class="p">]]</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;bond_dims&#39;</span><span class="p">]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loaded compressed MPS (original precision: </span><span class="si">{</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;precision&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mps</span>
+
+<span class="c1"># Usage</span>
+<span class="n">save_compressed_mps</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="s1">&#39;mps_checkpoint.pt&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">mps_restored</span> <span class="o">=</span> <span class="n">load_compressed_mps</span><span class="p">(</span><span class="s1">&#39;mps_checkpoint.pt.gz&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Storage comparison</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: n=50, χ=128</span>
+<span class="c1"># Uncompressed complex64: ~200 MB</span>
+<span class="c1"># Compressed complex64 (gzip): ~50-80 MB (3-4x reduction)</span>
+<span class="c1"># Compressed float32: ~25-40 MB (5-8x reduction)</span>
+<span class="c1"># Compressed float16: ~12-20 MB (10-16x reduction)</span>
+
+<span class="c1"># Trade-off: float16 loses precision but may be acceptable for checkpointing</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-5-distributed-state-checkpointing">
+<h3>Strategy 5: Distributed State Checkpointing<a class="headerlink" href="#strategy-5-distributed-state-checkpointing" title="Link to this heading">#</a></h3>
+<p>Save and load MPS distributed across multiple GPUs or nodes.</p>
+<p><strong>Checkpoint distributed MPS (bond-parallel)</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+
+<span class="c1"># Distributed MPS across 4 GPUs</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span>
+    <span class="n">device_ids</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>  <span class="c1"># Split across 4 GPUs = 128 per GPU</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">config</span>
+<span class="p">)</span>
+
+<span class="c1"># Each rank saves its partition</span>
+<span class="n">rank</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span>
+
+<span class="c1"># Save local partition</span>
+<span class="n">local_checkpoint</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;rank&#39;</span><span class="p">:</span> <span class="n">rank</span><span class="p">,</span>
+    <span class="s1">&#39;tensors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">mps</span><span class="o">.</span><span class="n">local_tensors</span><span class="p">],</span>
+    <span class="s1">&#39;bond_dims&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">local_bond_dims</span><span class="p">,</span>
+    <span class="s1">&#39;num_qubits&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
+    <span class="s1">&#39;world_size&#39;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">world_size</span>
+<span class="p">}</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">local_checkpoint</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;distributed_mps_rank_</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">.pt&#39;</span><span class="p">)</span>
+
+<span class="c1"># Rank 0 saves metadata</span>
+<span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;num_qubits&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
+        <span class="s1">&#39;global_bond_dim&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">bond_dim</span><span class="p">,</span>
+        <span class="s1">&#39;world_size&#39;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">world_size</span><span class="p">,</span>
+        <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">mode</span>
+    <span class="p">}</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="s1">&#39;distributed_mps_metadata.pt&#39;</span><span class="p">)</span>
+
+<span class="n">dist</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>  <span class="c1"># Synchronize</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: saved local partition&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Load distributed MPS checkpoint</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load metadata</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;distributed_mps_metadata.pt&#39;</span><span class="p">)</span>
+
+<span class="c1"># Reconstruct DistributedConfig</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">],</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;world_size&#39;</span><span class="p">],</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span>
+    <span class="n">device_ids</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;world_size&#39;</span><span class="p">]))</span>
+<span class="p">)</span>
+
+<span class="c1"># Create distributed MPS</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;num_qubits&#39;</span><span class="p">],</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;global_bond_dim&#39;</span><span class="p">],</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">config</span>
+<span class="p">)</span>
+
+<span class="c1"># Each rank loads its partition</span>
+<span class="n">rank</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span>
+<span class="n">local_checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;distributed_mps_rank_</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">.pt&#39;</span><span class="p">)</span>
+
+<span class="n">mps</span><span class="o">.</span><span class="n">local_tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">local_checkpoint</span><span class="p">[</span><span class="s1">&#39;tensors&#39;</span><span class="p">]]</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">local_bond_dims</span> <span class="o">=</span> <span class="n">local_checkpoint</span><span class="p">[</span><span class="s1">&#39;bond_dims&#39;</span><span class="p">]</span>
+
+<span class="n">dist</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: loaded local partition&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-6-version-compatible-checkpoints">
+<h3>Strategy 6: Version-Compatible Checkpoints<a class="headerlink" href="#strategy-6-version-compatible-checkpoints" title="Link to this heading">#</a></h3>
+<p>Ensure checkpoints remain loadable across ATLAS-Q versions.</p>
+<p><strong>Save with version metadata</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">atlas_q</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">save_versioned_checkpoint</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">extra_metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save checkpoint with version metadata for compatibility.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mps : AdaptiveMPS</span>
+<span class="sd">        MPS to save</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Checkpoint path</span>
+<span class="sd">    extra_metadata : dict, optional</span>
+<span class="sd">        Additional metadata to save</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">checkpoint</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="c1"># MPS data</span>
+        <span class="s1">&#39;tensors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">],</span>
+        <span class="s1">&#39;num_qubits&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
+        <span class="s1">&#39;bond_dims&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span><span class="p">,</span>
+
+        <span class="c1"># Version information</span>
+        <span class="s1">&#39;atlas_q_version&#39;</span><span class="p">:</span> <span class="n">atlas_q</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span>
+        <span class="s1">&#39;torch_version&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span>
+        <span class="s1">&#39;checkpoint_format_version&#39;</span><span class="p">:</span> <span class="s1">&#39;1.0&#39;</span><span class="p">,</span>
+
+        <span class="c1"># Save timestamp</span>
+        <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
+        <span class="s1">&#39;timestamp_readable&#39;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">),</span>
+
+        <span class="c1"># Extra metadata</span>
+        <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="n">extra_metadata</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="p">}</span>
+
+    <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved checkpoint with ATLAS-Q v</span><span class="si">{</span><span class="n">atlas_q</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">load_versioned_checkpoint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load checkpoint with version compatibility checks.&quot;&quot;&quot;</span>
+    <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="c1"># Check version compatibility</span>
+    <span class="n">saved_version</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;atlas_q_version&#39;</span><span class="p">,</span> <span class="s1">&#39;unknown&#39;</span><span class="p">)</span>
+    <span class="n">current_version</span> <span class="o">=</span> <span class="n">atlas_q</span><span class="o">.</span><span class="n">__version__</span>
+
+    <span class="k">if</span> <span class="n">saved_version</span> <span class="o">!=</span> <span class="n">current_version</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Checkpoint saved with ATLAS-Q v</span><span class="si">{</span><span class="n">saved_version</span><span class="si">}</span><span class="s2">, &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;loading with v</span><span class="si">{</span><span class="n">current_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># Could implement migration logic here</span>
+
+    <span class="c1"># Check format version</span>
+    <span class="n">format_version</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;checkpoint_format_version&#39;</span><span class="p">,</span> <span class="s1">&#39;0.0&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">format_version</span> <span class="o">!=</span> <span class="s1">&#39;1.0&#39;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported checkpoint format: </span><span class="si">{</span><span class="n">format_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Load MPS</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;num_qubits&#39;</span><span class="p">],</span>
+        <span class="n">bond_dim</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;bond_dims&#39;</span><span class="p">]),</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">device</span>
+    <span class="p">)</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;tensors&#39;</span><span class="p">]]</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;bond_dims&#39;</span><span class="p">]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loaded checkpoint from </span><span class="si">{</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;timestamp_readable&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mps</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span> <span class="p">{})</span>
+
+<span class="c1"># Usage</span>
+<span class="n">save_versioned_checkpoint</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="s1">&#39;mps_v1.pt&#39;</span><span class="p">,</span> <span class="n">extra_metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;experiment&#39;</span><span class="p">:</span> <span class="s1">&#39;qaoa_maxcut&#39;</span><span class="p">})</span>
+<span class="n">mps_loaded</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">load_versioned_checkpoint</span><span class="p">(</span><span class="s1">&#39;mps_v1.pt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-7-checkpointing-qaoa-progress">
+<h3>Strategy 7: Checkpointing QAOA Progress<a class="headerlink" href="#strategy-7-checkpointing-qaoa-progress" title="Link to this heading">#</a></h3>
+<p>Save intermediate QAOA results for warm-starting and analysis.</p>
+<p><strong>QAOA checkpointing with layer tracking</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">QAOA</span><span class="p">,</span> <span class="n">QAOAConfig</span>
+
+<span class="c1"># Configure QAOA</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">QAOAConfig</span><span class="p">(</span>
+    <span class="n">p</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>  <span class="c1"># 5 layers</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span>
+    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">500</span>
+<span class="p">)</span>
+
+<span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Checkpoint directory</span>
+<span class="n">checkpoint_dir</span> <span class="o">=</span> <span class="s1">&#39;qaoa_checkpoints&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Optimize with checkpointing every 50 iterations</span>
+<span class="n">iteration_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">qaoa_checkpoint_callback</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">iteration</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Checkpoint QAOA progress.&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">iteration_count</span>
+    <span class="n">iteration_count</span> <span class="o">=</span> <span class="n">iteration</span>
+
+    <span class="k">if</span> <span class="n">iteration</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Extract gamma and beta parameters</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">p</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="n">params</span><span class="p">[:</span><span class="n">p</span><span class="p">]</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">:]</span>
+
+        <span class="n">checkpoint</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;iteration&#39;</span><span class="p">:</span> <span class="n">iteration</span><span class="p">,</span>
+            <span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="n">energy</span><span class="p">,</span>
+            <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="n">params</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span>
+            <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span>
+            <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="n">beta</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span>
+            <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="n">p</span><span class="p">,</span>
+            <span class="s1">&#39;energies&#39;</span><span class="p">:</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">energies</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="s1">&#39;param_history&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">param_history</span><span class="p">]</span>
+        <span class="p">}</span>
+
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;qaoa_iter_</span><span class="si">{</span><span class="n">iteration</span><span class="si">:</span><span class="s1">04d</span><span class="si">}</span><span class="s1">.pt&#39;</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Iter </span><span class="si">{</span><span class="n">iteration</span><span class="si">}</span><span class="s2">] E=</span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">, checkpoint saved&quot;</span><span class="p">)</span>
+
+<span class="c1"># Run QAOA</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">callback</span><span class="o">=</span><span class="n">qaoa_checkpoint_callback</span><span class="p">)</span>
+
+<span class="c1"># Save final result</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">({</span>
+    <span class="s1">&#39;final_energy&#39;</span><span class="p">:</span> <span class="n">energy</span><span class="p">,</span>
+    <span class="s1">&#39;final_params&#39;</span><span class="p">:</span> <span class="n">params</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span>
+    <span class="s1">&#39;all_energies&#39;</span><span class="p">:</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">energies</span><span class="p">,</span>
+    <span class="s1">&#39;total_iterations&#39;</span><span class="p">:</span> <span class="n">iteration_count</span>
+<span class="p">},</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">,</span> <span class="s1">&#39;qaoa_final.pt&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="checkpoint-loading-fails">
+<h3>Checkpoint Loading Fails<a class="headerlink" href="#checkpoint-loading-fails" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: <code class="docutils literal notranslate"><span class="pre">torch.load()</span></code> raises <code class="docutils literal notranslate"><span class="pre">RuntimeError:</span> <span class="pre">storage</span> <span class="pre">has</span> <span class="pre">wrong</span> <span class="pre">size</span></code>.</p>
+<p><strong>Solution</strong>: Checkpoint was saved on different device or with different dtype.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Always load to CPU first, then move to device</span>
+<span class="n">checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;checkpoint.pt&#39;</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;tensors&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</section>
+<section id="out-of-memory-when-loading">
+<h3>Out of Memory When Loading<a class="headerlink" href="#out-of-memory-when-loading" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: Loading large checkpoint exhausts CPU or GPU memory.</p>
+<p><strong>Solution</strong>: Load tensors incrementally or use memory mapping.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load tensors one at a time</span>
+<span class="n">checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;checkpoint.pt&#39;</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;num_qubits&#39;</span><span class="p">],</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">tensor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;tensors&#39;</span><span class="p">]):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="c1"># Clear CPU cache</span>
+    <span class="k">del</span> <span class="n">tensor</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">empty_cache</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="distributed-checkpoint-mismatch">
+<h3>Distributed Checkpoint Mismatch<a class="headerlink" href="#distributed-checkpoint-mismatch" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: Loading distributed checkpoint fails with <code class="docutils literal notranslate"><span class="pre">world_size</span></code> mismatch.</p>
+<p><strong>Solution</strong>: Saved with 4 GPUs, loading with 2 GPUs requires resharding.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load all partitions to CPU</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;distributed_mps_metadata.pt&#39;</span><span class="p">)</span>
+<span class="n">all_tensors</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;world_size&#39;</span><span class="p">]):</span>
+    <span class="n">partition</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;distributed_mps_rank_</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">.pt&#39;</span><span class="p">)</span>
+    <span class="n">all_tensors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">partition</span><span class="p">[</span><span class="s1">&#39;tensors&#39;</span><span class="p">])</span>
+
+<span class="c1"># Reconstruct as single-device MPS</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;num_qubits&#39;</span><span class="p">],</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;global_bond_dim&#39;</span><span class="p">],</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">all_tensors</span><span class="p">]</span>
+
+<span class="c1"># Now redistribute if needed</span>
+</pre></div>
+</div>
+</section>
+<section id="checkpoint-size-too-large">
+<h3>Checkpoint Size Too Large<a class="headerlink" href="#checkpoint-size-too-large" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: 50 GB checkpoints fill disk quickly.</p>
+<p><strong>Solution</strong>: Use compression, reduce precision, or checkpoint less frequently.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reduce checkpoint frequency</span>
+<span class="n">checkpoint_interval</span> <span class="o">=</span> <span class="mi">200</span>  <span class="c1"># Instead of 50</span>
+
+<span class="c1"># Use compressed float32 instead of complex64</span>
+<span class="n">save_compressed_mps</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="s1">&#39;checkpoint.pt&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+
+<span class="c1"># Keep only last N checkpoints</span>
+<span class="n">max_checkpoints</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">checkpoints</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;checkpoint_*.pt&#39;</span><span class="p">))</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">checkpoints</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_checkpoints</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">old_checkpoint</span> <span class="ow">in</span> <span class="n">checkpoints</span><span class="p">[:</span><span class="o">-</span><span class="n">max_checkpoints</span><span class="p">]:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">old_checkpoint</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Removed old checkpoint: </span><span class="si">{</span><span class="n">old_checkpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Checkpointing strategies for ATLAS-Q simulations:</p>
+<ol class="arabic simple">
+<li><p><strong>Basic checkpointing</strong>: Save/load MPS tensors, bond dimensions, and statistics</p></li>
+<li><p><strong>Periodic checkpointing</strong>: Save at fixed intervals during long TDVP/VQE runs</p></li>
+<li><p><strong>Adaptive checkpointing</strong>: Save only when metrics improve to reduce storage</p></li>
+<li><p><strong>Compressed checkpoints</strong>: Use gzip + reduced precision for 5-16x size reduction</p></li>
+<li><p><strong>Distributed checkpointing</strong>: Save partitioned state across multiple devices</p></li>
+<li><p><strong>Version-compatible checkpoints</strong>: Include metadata for cross-version compatibility</p></li>
+<li><p><strong>Algorithm-specific checkpointing</strong>: QAOA, VQE, TDVP with resume capabilities</p></li>
+</ol>
+<p>Choose checkpointing frequency based on:</p>
+<ul class="simple">
+<li><p><strong>Simulation length</strong>: Longer runs need more frequent checkpoints</p></li>
+<li><p><strong>Storage budget</strong>: Compression vs. precision trade-off</p></li>
+<li><p><strong>Failure rate</strong>: Unreliable hardware needs more checkpoints</p></li>
+<li><p><strong>Restart cost</strong>: Expensive initialization favors more checkpoints</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="handle_large_systems.html"><span class="doc">How to Handle Large Quantum Systems</span></a>: Distributed MPS checkpointing for multi-GPU systems</p></li>
+<li><p><a class="reference internal" href="debug_simulations.html"><span class="doc">Debug Simulations</span></a>: Load checkpoints to debug intermediate states</p></li>
+<li><p><a class="reference internal" href="optimize_performance.html"><span class="doc">How to Optimize Performance</span></a>: Checkpoint I/O performance optimization</p></li>
+<li><p><a class="reference internal" href="../explanations/design_decisions.html"><span class="doc">Design Decisions</span></a>: Serialization format and compatibility</p></li>
+<li><p><a class="reference internal" href="../tutorials/vqe_tutorial.html"><span class="doc">VQE Tutorial</span></a>: VQE checkpointing examples</p></li>
+<li><p><a class="reference internal" href="../tutorials/tdvp_tutorial.html"><span class="doc">TDVP Tutorial</span></a>: TDVP time evolution checkpointing</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="debug_simulations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Debug Simulations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="custom_hamiltonians.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How to Build Custom Hamiltonians</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem">Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strategies">Strategies</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-1-basic-mps-checkpointing">Strategy 1: Basic MPS Checkpointing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-2-periodic-checkpointing-for-long-simulations">Strategy 2: Periodic Checkpointing for Long Simulations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-3-adaptive-checkpointing-save-on-improvement">Strategy 3: Adaptive Checkpointing (Save on Improvement)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-4-compressed-checkpoints">Strategy 4: Compressed Checkpoints</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-5-distributed-state-checkpointing">Strategy 5: Distributed State Checkpointing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-6-version-compatible-checkpoints">Strategy 6: Version-Compatible Checkpoints</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-7-checkpointing-qaoa-progress">Strategy 7: Checkpointing QAOA Progress</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checkpoint-loading-fails">Checkpoint Loading Fails</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#out-of-memory-when-loading">Out of Memory When Loading</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distributed-checkpoint-mismatch">Distributed Checkpoint Mismatch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checkpoint-size-too-large">Checkpoint Size Too Large</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

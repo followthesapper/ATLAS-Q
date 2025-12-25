@@ -1,0 +1,6 @@
+﻿atlas\_q.diagnostics.effective\_rank
+====================================
+
+.. currentmodule:: atlas_q.diagnostics
+
+.. autofunction:: effective_rank

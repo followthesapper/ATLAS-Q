@@ -1,0 +1,28 @@
+﻿atlas\_q.quantum\_hybrid\_system.ProductState
+=============================================
+
+.. currentmodule:: atlas_q.quantum_hybrid_system
+
+.. autoclass:: ProductState
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ProductState.__init__
+      ~ProductState.apply_hadamard
+      ~ProductState.apply_x
+      ~ProductState.get_amplitude
+      ~ProductState.get_probability
+      ~ProductState.measure
+      ~ProductState.memory_usage
+   
+   
+
+   
+   
+   

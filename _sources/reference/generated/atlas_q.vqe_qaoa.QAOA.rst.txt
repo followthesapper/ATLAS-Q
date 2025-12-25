@@ -1,0 +1,29 @@
+﻿atlas\_q.vqe\_qaoa.QAOA
+=======================
+
+.. currentmodule:: atlas_q.vqe_qaoa
+
+.. autoclass:: QAOA
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~QAOA.__init__
+      ~QAOA.run
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~QAOA.n_params
+   
+   

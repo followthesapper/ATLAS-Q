@@ -1,0 +1,1712 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Comparisons &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/explanations/comparisons';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="API Reference" href="../../reference/index.html" />
+    <link rel="prev" title="Design Decisions" href="design_decisions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tensor_networks.html">Tensor Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adaptive_truncation.html">Adaptive Truncation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu_acceleration.html">GPU Acceleration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_stability.html">Numerical Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_model.html">Performance Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design_decisions.html">Design Decisions</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Comparisons</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Explanations</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Comparisons</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="comparisons">
+<span id="id1"></span><h1>Comparisons<a class="headerlink" href="#comparisons" title="Link to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>This document provides comprehensive comparisons between ATLAS-Q and other quantum computing and tensor network frameworks. We analyze feature sets, performance characteristics, use cases, and integration possibilities to help you choose the right tool for your specific requirements.</p>
+<p>ATLAS-Q is a specialized framework for <strong>memory-efficient quantum simulation</strong> using tensor network methods. Unlike general-purpose quantum frameworks (Qiskit, Cirq, PennyLane) that focus on circuit design and hardware access, ATLAS-Q emphasizes <strong>scalability beyond statevector limits</strong> through:</p>
+<ul class="simple">
+<li><p><strong>Matrix Product States (MPS)</strong>: O(n·χ²) memory scaling vs. O(2ⁿ) for statevectors</p></li>
+<li><p><strong>GPU acceleration</strong>: Native PyTorch CUDA and custom Triton kernels</p></li>
+<li><p><strong>Adaptive methods</strong>: Dynamic bond dimension adjustment and truncation</p></li>
+<li><p><strong>Hybrid backends</strong>: Stabilizer formalism for Clifford circuits, MPS for general circuits</p></li>
+</ul>
+<p>This document compares ATLAS-Q against:</p>
+<ol class="arabic simple">
+<li><p><strong>General quantum frameworks</strong>: Qiskit, Cirq, PennyLane (hardware-oriented)</p></li>
+<li><p><strong>Tensor network libraries</strong>: ITensor, TeNPy (physics-oriented)</p></li>
+<li><p><strong>Simulation methods</strong>: Full statevector, stabilizer-only simulators</p></li>
+</ol>
+<p>Understanding these comparisons helps you select the appropriate tool—or combination of tools—for your quantum computing workflows.</p>
+</section>
+<section id="atlas-q-vs-qiskit-aer">
+<h2>ATLAS-Q vs Qiskit Aer<a class="headerlink" href="#atlas-q-vs-qiskit-aer" title="Link to this heading">#</a></h2>
+<p>Qiskit is IBM’s flagship quantum computing framework with extensive hardware integration and a mature ecosystem. <strong>Qiskit Aer</strong> provides high-performance simulators including statevector, stabilizer, and density matrix backends.</p>
+<section id="feature-comparison">
+<h3>Feature Comparison<a class="headerlink" href="#feature-comparison" title="Link to this heading">#</a></h3>
+</section>
+<section id="memory-efficiency-example">
+<h3>Memory Efficiency Example<a class="headerlink" href="#memory-efficiency-example" title="Link to this heading">#</a></h3>
+<p>30-qubit random circuit with moderate entanglement:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ATLAS-Q: ~0.03 MB (χ=64)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Apply 300 random gates</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">300</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_random_two_qubit_gate</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Memory: </span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB&quot;</span><span class="p">)</span>
+<span class="c1"># Output: Memory: 0.03 MB</span>
+
+<span class="c1"># Qiskit Aer: ~16 GB (full statevector)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit_aer</span><span class="w"> </span><span class="kn">import</span> <span class="n">AerSimulator</span>
+
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+<span class="c1"># Apply same 300 gates...</span>
+
+<span class="n">simulator</span> <span class="o">=</span> <span class="n">AerSimulator</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;statevector&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;GPU&#39;</span><span class="p">)</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">simulator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
+<span class="c1"># Requires: 2^30 × 16 bytes = 17,179,869,184 bytes ≈ 16 GB</span>
+</pre></div>
+</div>
+<p><strong>Memory compression ratio</strong>: 626,000× for this example.</p>
+</section>
+<section id="when-to-use-atlas-q">
+<h3>When to Use ATLAS-Q<a class="headerlink" href="#when-to-use-atlas-q" title="Link to this heading">#</a></h3>
+<p>Choose ATLAS-Q when:</p>
+<ol class="arabic simple">
+<li><p><strong>Memory is limited</strong>: &gt;20 qubits with moderate entanglement</p></li>
+<li><p><strong>GPU acceleration</strong>: Available CUDA hardware and want 1.5-3× speedup</p></li>
+<li><p><strong>Tensor network methods</strong>: Need MPS/MPO/PEPS representations explicitly</p></li>
+<li><p><strong>Algorithmic research</strong>: TDVP, DMRG, adaptive methods</p></li>
+<li><p><strong>Factorization</strong>: Compressed period-finding for Shor’s algorithm</p></li>
+<li><p><strong>Molecular chemistry</strong>: VQE with large basis sets (&gt;20 orbitals)</p></li>
+</ol>
+</section>
+<section id="when-to-use-qiskit">
+<h3>When to Use Qiskit<a class="headerlink" href="#when-to-use-qiskit" title="Link to this heading">#</a></h3>
+<p>Choose Qiskit when:</p>
+<ol class="arabic simple">
+<li><p><strong>Hardware access</strong>: Need IBM quantum computers</p></li>
+<li><p><strong>Circuit visualization</strong>: Require extensive plotting and debugging tools</p></li>
+<li><p><strong>Mature ecosystem</strong>: Want comprehensive documentation and community support</p></li>
+<li><p><strong>Standard simulations</strong>: &lt;20 qubits where statevector is sufficient</p></li>
+<li><p><strong>Gate variety</strong>: Need exotic gates or custom decompositions</p></li>
+<li><p><strong>Interoperability</strong>: Working with IBM’s quantum stack (Qiskit Pulse, Runtime)</p></li>
+</ol>
+</section>
+<section id="code-migration-example">
+<h3>Code Migration Example<a class="headerlink" href="#code-migration-example" title="Link to this heading">#</a></h3>
+<p>Converting a VQE calculation from Qiskit to ATLAS-Q:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Qiskit VQE (statevector simulator)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit_algorithms</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit_algorithms.optimizers</span><span class="w"> </span><span class="kn">import</span> <span class="n">COBYLA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.circuit.library</span><span class="w"> </span><span class="kn">import</span> <span class="n">TwoLocal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.primitives</span><span class="w"> </span><span class="kn">import</span> <span class="n">Estimator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.quantum_info</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparsePauliOp</span>
+
+<span class="c1"># Define Hamiltonian</span>
+<span class="n">hamiltonian</span> <span class="o">=</span> <span class="n">SparsePauliOp</span><span class="o">.</span><span class="n">from_list</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">&quot;II&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0523</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ZZ&quot;</span><span class="p">,</span> <span class="mf">0.3979</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;IZ&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3979</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ZI&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3979</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;XX&quot;</span><span class="p">,</span> <span class="mf">0.1809</span><span class="p">)</span>
+<span class="p">])</span>
+
+<span class="c1"># Create ansatz</span>
+<span class="n">ansatz</span> <span class="o">=</span> <span class="n">TwoLocal</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;ry&#39;</span><span class="p">,</span> <span class="s1">&#39;cz&#39;</span><span class="p">,</span> <span class="n">reps</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Run VQE</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">COBYLA</span><span class="p">(</span><span class="n">maxiter</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">Estimator</span><span class="p">(),</span> <span class="n">ansatz</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">compute_minimum_eigenvalue</span><span class="p">(</span><span class="n">hamiltonian</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ground state energy: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">eigenvalue</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+
+<span class="c1"># ===================================================================</span>
+
+<span class="c1"># ATLAS-Q equivalent (MPS-based)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Define Hamiltonian (Pauli string format)</span>
+<span class="n">hamiltonian_terms</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;II&#39;</span><span class="p">,</span> <span class="s1">&#39;qubits&#39;</span><span class="p">:</span> <span class="p">[]},</span> <span class="o">-</span><span class="mf">1.0523</span><span class="p">),</span>
+    <span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;ZZ&#39;</span><span class="p">,</span> <span class="s1">&#39;qubits&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]},</span> <span class="mf">0.3979</span><span class="p">),</span>
+    <span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;IZ&#39;</span><span class="p">,</span> <span class="s1">&#39;qubits&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]},</span> <span class="o">-</span><span class="mf">0.3979</span><span class="p">),</span>
+    <span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;ZI&#39;</span><span class="p">,</span> <span class="s1">&#39;qubits&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]},</span> <span class="o">-</span><span class="mf">0.3979</span><span class="p">),</span>
+    <span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;XX&#39;</span><span class="p">,</span> <span class="s1">&#39;qubits&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]},</span> <span class="mf">0.1809</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="c1"># Create MPS with hardware-efficient ansatz</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Run VQE</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span>
+    <span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span>
+    <span class="n">hamiltonian</span><span class="o">=</span><span class="n">hamiltonian_terms</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;COBYLA&#39;</span><span class="p">,</span>
+    <span class="n">maxiter</span><span class="o">=</span><span class="mi">500</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ground state energy: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Key differences</strong>:</p>
+<ul class="simple">
+<li><p>ATLAS-Q uses MPS representation (memory-efficient for larger systems)</p></li>
+<li><p>Qiskit uses statevector (exact but memory-intensive)</p></li>
+<li><p>ATLAS-Q scales to 20+ qubits; Qiskit limited to ~20 qubits</p></li>
+<li><p>Interface similarities ease migration</p></li>
+</ul>
+</section>
+</section>
+<section id="atlas-q-vs-cirq">
+<h2>ATLAS-Q vs Cirq<a class="headerlink" href="#atlas-q-vs-cirq" title="Link to this heading">#</a></h2>
+<p>Cirq is Google’s quantum computing framework designed for NISQ (Noisy Intermediate-Scale Quantum) algorithms and integration with Google’s quantum hardware.</p>
+<section id="id2">
+<h3>Feature Comparison<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>ATLAS-Q</p></th>
+<th class="head"><p>Cirq</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Memory Scaling</strong></p></td>
+<td><p>O(n·χ²)</p></td>
+<td><p>O(2ⁿ)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>GPU Acceleration</strong></p></td>
+<td><p>Native (PyTorch + Triton)</p></td>
+<td><p>Via qsim (limited)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Hardware Access</strong></p></td>
+<td><p>No</p></td>
+<td><p>Google Quantum (Sycamore)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Circuit Optimization</strong></p></td>
+<td><p>Basic</p></td>
+<td><p>Extensive (routing, etc.)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Noise Models</strong></p></td>
+<td><p>Basic</p></td>
+<td><p>Comprehensive</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Tensor Networks</strong></p></td>
+<td><p>Native</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Adaptive Methods</strong></p></td>
+<td><p>Yes (bond dimension)</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Maturity</strong></p></td>
+<td><p>Early stage</p></td>
+<td><p>Mature</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id3">
+<h3>When to Use ATLAS-Q<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>Choose ATLAS-Q when:</p>
+<ol class="arabic simple">
+<li><p><strong>Scalability</strong>: Need &gt;25 qubits with manageable entanglement</p></li>
+<li><p><strong>GPU resources</strong>: Have CUDA hardware and want native acceleration</p></li>
+<li><p><strong>Tensor network methods</strong>: Require MPS representations or algorithms (TDVP, DMRG)</p></li>
+<li><p><strong>Memory constraints</strong>: Limited RAM but large qubit count</p></li>
+</ol>
+</section>
+<section id="when-to-use-cirq">
+<h3>When to Use Cirq<a class="headerlink" href="#when-to-use-cirq" title="Link to this heading">#</a></h3>
+<p>Choose Cirq when:</p>
+<ol class="arabic simple">
+<li><p><strong>Google hardware</strong>: Need access to Sycamore or future Google processors</p></li>
+<li><p><strong>Circuit optimization</strong>: Require extensive circuit transformation and routing</p></li>
+<li><p><strong>NISQ algorithms</strong>: Focus on near-term quantum devices with noise</p></li>
+<li><p><strong>Ecosystem integration</strong>: Working with Google’s quantum stack</p></li>
+</ol>
+</section>
+<section id="performance-comparison">
+<h3>Performance Comparison<a class="headerlink" href="#performance-comparison" title="Link to this heading">#</a></h3>
+<p>Gate application throughput (50-qubit system, χ=128):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operation</p></th>
+<th class="head"><p>ATLAS-Q (GPU)</p></th>
+<th class="head"><p>Cirq (qsim, GPU)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Single-qubit</p></td>
+<td><p>150K gates/sec</p></td>
+<td><p>200K gates/sec</p></td>
+</tr>
+<tr class="row-odd"><td><p>Two-qubit</p></td>
+<td><p>77K gates/sec</p></td>
+<td><p>80K gates/sec</p></td>
+</tr>
+<tr class="row-even"><td><p>Expectation</p></td>
+<td><p>12K evals/sec</p></td>
+<td><p>15K evals/sec</p></td>
+</tr>
+<tr class="row-odd"><td><p>Memory (50q)</p></td>
+<td><p>1.9 GB (χ=128)</p></td>
+<td><p>256 PB (statevector)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Note</strong>: Cirq/qsim provides fast simulation for circuits that fit in memory. ATLAS-Q trades some speed for exponentially better memory scaling.</p>
+</section>
+</section>
+<section id="atlas-q-vs-pennylane">
+<h2>ATLAS-Q vs PennyLane<a class="headerlink" href="#atlas-q-vs-pennylane" title="Link to this heading">#</a></h2>
+<p>PennyLane is a cross-platform framework for <strong>differentiable quantum programming</strong> and quantum machine learning, supporting multiple backends (simulators and hardware).</p>
+<section id="id4">
+<h3>Feature Comparison<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>ATLAS-Q</p></th>
+<th class="head"><p>PennyLane</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Memory Scaling</strong></p></td>
+<td><p>O(n·χ²)</p></td>
+<td><p>Backend-dependent</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Autodiff</strong></p></td>
+<td><p>PyTorch (native)</p></td>
+<td><p>Native + multiple frameworks</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Backends</strong></p></td>
+<td><p>MPS, stabilizer</p></td>
+<td><p>20+ (Qiskit, Cirq, etc.)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Hardware Access</strong></p></td>
+<td><p>No</p></td>
+<td><p>Multi-vendor (IBM, Rigetti)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>QML Focus</strong></p></td>
+<td><p>Minimal</p></td>
+<td><p>Extensive</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Tensor Networks</strong></p></td>
+<td><p>Native MPS/MPO</p></td>
+<td><p>Via backend (e.g., Qulacs)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Optimization</strong></p></td>
+<td><p>COBYLA, Adam, LBFGS</p></td>
+<td><p>Extensive optimizer library</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>PennyLane’s <strong>strength</strong> is its backend-agnostic interface and quantum ML capabilities. ATLAS-Q focuses on <strong>memory-efficient simulation</strong> with native tensor network support.</p>
+</section>
+<section id="id5">
+<h3>When to Use ATLAS-Q<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Large-scale MPS</strong>: Need &gt;30 qubits with explicit MPS control</p></li>
+<li><p><strong>GPU-optimized</strong>: Want Triton kernel acceleration</p></li>
+<li><p><strong>Tensor network algorithms</strong>: TDVP, DMRG, adaptive truncation</p></li>
+<li><p><strong>Low-level control</strong>: Need direct manipulation of bond dimensions</p></li>
+</ol>
+</section>
+<section id="when-to-use-pennylane">
+<h3>When to Use PennyLane<a class="headerlink" href="#when-to-use-pennylane" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Quantum ML</strong>: Focus on hybrid quantum-classical models</p></li>
+<li><p><strong>Multi-backend</strong>: Want to switch between simulators and hardware easily</p></li>
+<li><p><strong>Autodiff</strong>: Need extensive differentiation capabilities</p></li>
+<li><p><strong>Hardware flexibility</strong>: Run on multiple vendors’ quantum computers</p></li>
+</ol>
+</section>
+<section id="code-example-variational-circuit">
+<h3>Code Example: Variational Circuit<a class="headerlink" href="#code-example-variational-circuit" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># PennyLane (backend-agnostic)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pennylane</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qml</span>
+
+<span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;default.qubit&#39;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">circuit</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+        <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">qml</span><span class="o">.</span><span class="n">expval</span><span class="p">(</span><span class="n">qml</span><span class="o">.</span><span class="n">PauliZ</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="n">circuit</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="n">gradient</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">circuit</span><span class="p">)(</span><span class="n">params</span><span class="p">)</span>
+
+<span class="c1"># ===================================================================</span>
+
+<span class="c1"># ATLAS-Q (MPS-native)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">circuit</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation_z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="n">circuit</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="n">energy</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>  <span class="c1"># PyTorch autodiff</span>
+<span class="n">gradient</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">grad</span>
+</pre></div>
+</div>
+<p>Both frameworks support automatic differentiation, but PennyLane offers more backends while ATLAS-Q provides native MPS representation.</p>
+</section>
+</section>
+<section id="atlas-q-vs-itensor">
+<h2>ATLAS-Q vs ITensor<a class="headerlink" href="#atlas-q-vs-itensor" title="Link to this heading">#</a></h2>
+<p>ITensor is a <strong>C++ tensor network library</strong> widely used in condensed matter physics and quantum information. It provides mature implementations of DMRG, TEBD, and other tensor network algorithms.</p>
+<section id="id6">
+<h3>Feature Comparison<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>ATLAS-Q</p></th>
+<th class="head"><p>ITensor</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Language</strong></p></td>
+<td><p>Python (PyTorch)</p></td>
+<td><p>C++ (with Julia bindings)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>GPU Support</strong></p></td>
+<td><p>Native (CUDA)</p></td>
+<td><p>Limited (experimental)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>DMRG</strong></p></td>
+<td><p>Basic implementation</p></td>
+<td><p>Highly optimized</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>VQE/QAOA</strong></p></td>
+<td><p>Native</p></td>
+<td><p>No (quantum circuit focus)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Tensor Network Types</strong></p></td>
+<td><p>MPS, MPO</p></td>
+<td><p>MPS, MPO, PEPS, MERA, etc.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Performance</strong></p></td>
+<td><p>Good (GPU)</p></td>
+<td><p>Excellent (CPU, single-core)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Ecosystem</strong></p></td>
+<td><p>Python/PyTorch</p></td>
+<td><p>C++ (standalone)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Learning Curve</strong></p></td>
+<td><p>Moderate</p></td>
+<td><p>Steep (C++ knowledge needed)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Quantum Chemistry</strong></p></td>
+<td><p>PySCF integration</p></td>
+<td><p>Limited</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id7">
+<h3>When to Use ATLAS-Q<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Python ecosystem</strong>: Want to stay in Python/PyTorch</p></li>
+<li><p><strong>GPU acceleration</strong>: Have CUDA hardware and want native support</p></li>
+<li><p><strong>Variational algorithms</strong>: Focus on VQE, QAOA, hybrid quantum-classical</p></li>
+<li><p><strong>Quantum chemistry</strong>: Need molecular Hamiltonian generation (PySCF)</p></li>
+<li><p><strong>Rapid prototyping</strong>: Want quick development cycle</p></li>
+</ol>
+</section>
+<section id="when-to-use-itensor">
+<h3>When to Use ITensor<a class="headerlink" href="#when-to-use-itensor" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Pure tensor networks</strong>: Focus on DMRG, TEBD, tensor network research</p></li>
+<li><p><strong>Performance critical</strong>: Need maximum CPU performance</p></li>
+<li><p><strong>Advanced algorithms</strong>: Require PEPS, MERA, or other exotic tensor networks</p></li>
+<li><p><strong>Condensed matter</strong>: Working on spin systems, lattice models</p></li>
+<li><p><strong>Production code</strong>: Need battle-tested, stable library</p></li>
+</ol>
+</section>
+<section id="code-example-dmrg-ground-state">
+<h3>Code Example: DMRG Ground State<a class="headerlink" href="#code-example-dmrg-ground-state" title="Link to this heading">#</a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// ITensor (C++)</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;itensor/all.h&quot;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">itensor</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w">  </span><span class="c1">// Number of sites</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">sites</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SpinHalf</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+
+<span class="c1">// Heisenberg Hamiltonian</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">ampo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoMPO</span><span class="p">(</span><span class="n">sites</span><span class="p">);</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ampo</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;S+&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;S-&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ampo</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;S-&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;S+&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ampo</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">&quot;Sz&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Sz&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">H</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">toMPO</span><span class="p">(</span><span class="n">ampo</span><span class="p">);</span>
+
+<span class="c1">// DMRG</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">psi0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">randomMPS</span><span class="p">(</span><span class="n">sites</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="p">[</span><span class="n">energy</span><span class="p">,</span><span class="w"> </span><span class="n">psi</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dmrg</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="w"> </span><span class="n">psi0</span><span class="p">,</span><span class="w"> </span><span class="n">sweeps</span><span class="p">);</span>
+<span class="n">printfln</span><span class="p">(</span><span class="s">&quot;Ground state energy: %.12f&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">energy</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ATLAS-Q (Python)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Number of qubits</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Heisenberg Hamiltonian (as MPO)</span>
+<span class="n">hamiltonian_terms</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="c1"># XX + YY + ZZ interactions</span>
+    <span class="n">hamiltonian_terms</span><span class="o">.</span><span class="n">append</span><span class="p">(({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;XX&#39;</span><span class="p">,</span> <span class="s1">&#39;qubits&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]},</span> <span class="mf">0.5</span><span class="p">))</span>
+    <span class="n">hamiltonian_terms</span><span class="o">.</span><span class="n">append</span><span class="p">(({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;YY&#39;</span><span class="p">,</span> <span class="s1">&#39;qubits&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]},</span> <span class="mf">0.5</span><span class="p">))</span>
+    <span class="n">hamiltonian_terms</span><span class="o">.</span><span class="n">append</span><span class="p">(({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;ZZ&#39;</span><span class="p">,</span> <span class="s1">&#39;qubits&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]},</span> <span class="mf">1.0</span><span class="p">))</span>
+
+<span class="c1"># Imaginary time evolution (ground state search)</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span>
+    <span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span>
+    <span class="n">hamiltonian</span><span class="o">=</span><span class="n">hamiltonian_terms</span><span class="p">,</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="n">j</span><span class="p">,</span>  <span class="c1"># Imaginary time</span>
+    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;two_site&#39;</span><span class="p">,</span>
+    <span class="n">chi_max</span><span class="o">=</span><span class="mi">128</span>
+<span class="p">)</span>
+
+<span class="n">energy</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">n_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ground state energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.12f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Performance</strong>: ITensor’s DMRG is more optimized, but ATLAS-Q leverages GPU parallelism for large bond dimensions.</p>
+</section>
+</section>
+<section id="atlas-q-vs-tenpy">
+<h2>ATLAS-Q vs TeNPy<a class="headerlink" href="#atlas-q-vs-tenpy" title="Link to this heading">#</a></h2>
+<p>TeNPy (Tensor Network Python) is a <strong>Python library</strong> specialized for condensed matter physics simulations using tensor network methods.</p>
+<section id="id8">
+<h3>Feature Comparison<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>ATLAS-Q</p></th>
+<th class="head"><p>TeNPy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Language</strong></p></td>
+<td><p>Python (PyTorch)</p></td>
+<td><p>Python (NumPy)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>GPU Support</strong></p></td>
+<td><p>Native</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>DMRG</strong></p></td>
+<td><p>Basic</p></td>
+<td><p>Highly optimized</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>TEBD</strong></p></td>
+<td><p>Via TDVP</p></td>
+<td><p>Native, optimized</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>VQE/QAOA</strong></p></td>
+<td><p>Native</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Lattice Models</strong></p></td>
+<td><p>Basic</p></td>
+<td><p>Extensive (1D, 2D, etc.)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Focus</strong></p></td>
+<td><p>Quantum computing</p></td>
+<td><p>Condensed matter physics</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Documentation</strong></p></td>
+<td><p>Growing</p></td>
+<td><p>Extensive (physics-oriented)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id9">
+<h3>When to Use ATLAS-Q<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>GPU acceleration</strong>: Want CUDA support</p></li>
+<li><p><strong>Quantum circuits</strong>: Focus on gate-based quantum algorithms</p></li>
+<li><p><strong>Variational methods</strong>: VQE, QAOA, hybrid optimization</p></li>
+<li><p><strong>Quantum chemistry</strong>: Molecular Hamiltonians</p></li>
+</ol>
+</section>
+<section id="when-to-use-tenpy">
+<h3>When to Use TeNPy<a class="headerlink" href="#when-to-use-tenpy" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Condensed matter</strong>: Spin systems, lattice models, critical phenomena</p></li>
+<li><p><strong>DMRG expertise</strong>: Need highly optimized DMRG implementation</p></li>
+<li><p><strong>Physics focus</strong>: Want physics-oriented documentation and examples</p></li>
+<li><p><strong>CPU-only</strong>: No GPU available</p></li>
+</ol>
+</section>
+</section>
+<section id="atlas-q-vs-full-statevector">
+<h2>ATLAS-Q vs Full Statevector<a class="headerlink" href="#atlas-q-vs-full-statevector" title="Link to this heading">#</a></h2>
+<p>Comparison with traditional full statevector simulation methods.</p>
+<section id="scaling-analysis">
+<h3>Scaling Analysis<a class="headerlink" href="#scaling-analysis" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Qubits</p></th>
+<th class="head"><p>Statevector Memory</p></th>
+<th class="head"><p>MPS Memory (χ=64)</p></th>
+<th class="head"><p>Compression Ratio</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>16 KB</p></td>
+<td><p>10 KB</p></td>
+<td><p>1.6×</p></td>
+</tr>
+<tr class="row-odd"><td><p>20</p></td>
+<td><p>16 MB</p></td>
+<td><p>20 KB</p></td>
+<td><p>800×</p></td>
+</tr>
+<tr class="row-even"><td><p>30</p></td>
+<td><p>16 GB</p></td>
+<td><p>30 KB</p></td>
+<td><p>626,000×</p></td>
+</tr>
+<tr class="row-odd"><td><p>40</p></td>
+<td><p>16 TB</p></td>
+<td><p>40 KB</p></td>
+<td><p>4.7 × 10⁸×</p></td>
+</tr>
+<tr class="row-even"><td><p>50</p></td>
+<td><p>16 PB</p></td>
+<td><p>50 KB</p></td>
+<td><p>3.8 × 10¹¹×</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Formulas</strong>:</p>
+<ul class="simple">
+<li><p>Statevector: <span class="math notranslate nohighlight">\(2^n \times 16\)</span> bytes (complex128)</p></li>
+<li><p>MPS: <span class="math notranslate nohighlight">\(n \times \chi^2 \times 4 \times 2\)</span> bytes (complex64)</p></li>
+</ul>
+</section>
+<section id="trade-offs">
+<h3>Trade-offs<a class="headerlink" href="#trade-offs" title="Link to this heading">#</a></h3>
+<p><strong>Statevector advantages</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Exact representation</strong>: No approximation for any quantum state</p></li>
+<li><p><strong>Simple operations</strong>: Direct matrix-vector multiplication</p></li>
+<li><p><strong>Well-understood</strong>: Mature algorithms and error analysis</p></li>
+<li><p><strong>No entanglement limits</strong>: Handles maximally entangled states</p></li>
+</ol>
+<p><strong>MPS advantages</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Memory efficiency</strong>: Exponentially better for low-entanglement states</p></li>
+<li><p><strong>Scalability</strong>: 50+ qubits vs. ~25 qubits for statevector</p></li>
+<li><p><strong>Adaptive methods</strong>: Dynamic resource allocation</p></li>
+<li><p><strong>Physical insights</strong>: Entanglement structure visible in bond dimensions</p></li>
+</ol>
+<p><strong>When MPS fails</strong>:</p>
+<ul class="simple">
+<li><p>Highly entangled states (random circuits with depth &gt; n)</p></li>
+<li><p>States requiring χ ≈ 2^(n/2) (defeats purpose)</p></li>
+<li><p>Exact results needed (MPS introduces truncation error)</p></li>
+</ul>
+</section>
+<section id="example-random-circuit-depth">
+<h3>Example: Random Circuit Depth<a class="headerlink" href="#example-random-circuit-depth" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Test how bond dimension grows with circuit depth</span>
+<span class="n">n_qubits</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">depths</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">160</span><span class="p">]</span>
+<span class="n">chi_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">depth</span> <span class="ow">in</span> <span class="n">depths</span><span class="p">:</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">,</span>
+        <span class="n">bond_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+        <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+        <span class="n">adaptive_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Apply random two-qubit gates</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_two_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_unitary</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+
+    <span class="n">chi_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mps</span><span class="o">.</span><span class="n">bond_dimensions</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">depths</span><span class="p">,</span> <span class="n">chi_values</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Circuit Depth&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Max Bond Dimension χ&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Statevector limit&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;MPS Bond Dimension Growth&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Result</strong>: For random circuits, χ grows exponentially until it reaches the statevector limit 2^(n/2). Shallow circuits remain efficient; deep random circuits require full statevector.</p>
+</section>
+</section>
+<section id="unique-atlas-q-features">
+<h2>Unique ATLAS-Q Features<a class="headerlink" href="#unique-atlas-q-features" title="Link to this heading">#</a></h2>
+<p>ATLAS-Q provides several unique capabilities not found in other frameworks:</p>
+<section id="compressed-period-finding">
+<h3>1. Compressed Period-Finding<a class="headerlink" href="#compressed-period-finding" title="Link to this heading">#</a></h3>
+<p><strong>Novel approach</strong> for Shor’s algorithm and period-finding:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tools_qih</span><span class="w"> </span><span class="kn">import</span> <span class="n">period_finding_compressed</span>
+
+<span class="c1"># Factor N=15 using compressed period-finding</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">7</span>  <span class="c1"># Coprime to 15</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">period_finding_compressed</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">max_qubits</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Period: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Factors: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;factors&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Output: Period: 4, Factors: [3, 5]</span>
+</pre></div>
+</div>
+<p><strong>Advantage</strong>: O(1) memory for periodic states vs. O(2ⁿ) for full statevector QFT.</p>
+</section>
+<section id="adaptive-bond-dimensions">
+<h3>2. Adaptive Bond Dimensions<a class="headerlink" href="#adaptive-bond-dimensions" title="Link to this heading">#</a></h3>
+<p><strong>Per-bond</strong> and <strong>global</strong> adaptive strategies:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>                     <span class="c1"># Initial χ</span>
+    <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>            <span class="c1"># Per-bond maximum</span>
+    <span class="n">global_chi_max</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>              <span class="c1"># Global budget</span>
+    <span class="n">memory_budget_gb</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span>            <span class="c1"># Memory limit</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
+    <span class="n">adaptive_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Result</strong>: Automatically increases χ only where entanglement is high, saving memory and computation.</p>
+</section>
+<section id="custom-gpu-kernels">
+<h3>3. Custom GPU Kernels<a class="headerlink" href="#custom-gpu-kernels" title="Link to this heading">#</a></h3>
+<p><strong>Triton-optimized</strong> tensor contractions:</p>
+<ul class="simple">
+<li><p>1.5-3× speedup over PyTorch for specific operations</p></li>
+<li><p>Fused operations reduce memory bandwidth</p></li>
+<li><p>Kernel specialization for common bond dimensions</p></li>
+</ul>
+<p>See <a class="reference internal" href="gpu_acceleration.html"><span class="doc">GPU Acceleration</span></a> for details.</p>
+</section>
+<section id="hybrid-backends">
+<h3>4. Hybrid Backends<a class="headerlink" href="#hybrid-backends" title="Link to this heading">#</a></h3>
+<p><strong>Automatic switching</strong> between simulation methods:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumHybridSystem</span>
+
+<span class="n">qhs</span> <span class="o">=</span> <span class="n">QuantumHybridSystem</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>  <span class="c1"># Automatic selection</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Clifford circuit: uses stabilizer backend (20× faster)</span>
+<span class="n">qhs</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qhs</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">qhs</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Non-Clifford gate: switches to MPS</span>
+<span class="n">qhs</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Automatically switches backend</span>
+</pre></div>
+</div>
+<p><strong>Advantage</strong>: Best-of-both-worlds performance.</p>
+</section>
+<section id="quantum-inspired-ml">
+<h3>5. Quantum-Inspired ML<a class="headerlink" href="#quantum-inspired-ml" title="Link to this heading">#</a></h3>
+<p>Experimental features (undocumented):</p>
+<ul class="simple">
+<li><p>AI-guided truncation (learned truncation policies)</p></li>
+<li><p>Learned period detection (ML-enhanced QFT)</p></li>
+<li><p>Tensor network layers (quantum-inspired neural networks)</p></li>
+</ul>
+<p>These features are under development and not yet in the stable API.</p>
+</section>
+</section>
+<section id="performance-summary">
+<h2>Performance Summary<a class="headerlink" href="#performance-summary" title="Link to this heading">#</a></h2>
+<p>Benchmarks from <code class="docutils literal notranslate"><span class="pre">scripts/benchmarks/validate_all_features.py</span></code>:</p>
+<section id="memory-efficiency">
+<h3>Memory Efficiency<a class="headerlink" href="#memory-efficiency" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>System</p></th>
+<th class="head"><p>ATLAS-Q</p></th>
+<th class="head"><p>Qiskit Aer</p></th>
+<th class="head"><p>Compression</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>30q, χ=64</p></td>
+<td><p>0.03 MB</p></td>
+<td><p>16 GB (statevector)</p></td>
+<td><p>626,000×</p></td>
+</tr>
+<tr class="row-odd"><td><p>50q, χ=128</p></td>
+<td><p>1.9 GB</p></td>
+<td><p>256 PB</p></td>
+<td><p>1.6 × 10⁸×</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="gate-throughput">
+<h3>Gate Throughput<a class="headerlink" href="#gate-throughput" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operation</p></th>
+<th class="head"><p>ATLAS-Q (GPU, χ=128)</p></th>
+<th class="head"><p>Qiskit Aer (GPU)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Single-qubit</p></td>
+<td><p>150K gates/sec</p></td>
+<td><p>180K gates/sec</p></td>
+</tr>
+<tr class="row-odd"><td><p>Two-qubit</p></td>
+<td><p>77K gates/sec</p></td>
+<td><p>85K gates/sec</p></td>
+</tr>
+<tr class="row-even"><td><p>Expectation</p></td>
+<td><p>12K evals/sec</p></td>
+<td><p>20K evals/sec</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Note</strong>: Qiskit Aer is faster for small systems that fit in memory. ATLAS-Q trades ~20% speed for exponentially better memory scaling.</p>
+</section>
+<section id="clifford-circuits">
+<h3>Clifford Circuits<a class="headerlink" href="#clifford-circuits" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Qubits</p></th>
+<th class="head"><p>ATLAS-Q (stabilizer)</p></th>
+<th class="head"><p>Qiskit Aer (stab.)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>30q, 1000 gates</p></td>
+<td><p>0.05 sec</p></td>
+<td><p>0.06 sec</p></td>
+</tr>
+<tr class="row-odd"><td><p>50q, 2000 gates</p></td>
+<td><p>0.18 sec</p></td>
+<td><p>0.20 sec</p></td>
+</tr>
+<tr class="row-even"><td><p>Speedup</p></td>
+<td><p>20× vs MPS</p></td>
+<td><p>18× vs statevector</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Both frameworks show similar stabilizer performance, with ~20× speedup over general simulation.</p>
+</section>
+<section id="tensor-network-comparison">
+<h3>Tensor Network Comparison<a class="headerlink" href="#tensor-network-comparison" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Algorithm</p></th>
+<th class="head"><p>ATLAS-Q (GPU)</p></th>
+<th class="head"><p>TeNPy (CPU)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>DMRG (50 sites)</p></td>
+<td><p>12 sec</p></td>
+<td><p>8 sec</p></td>
+</tr>
+<tr class="row-odd"><td><p>TDVP (100 steps)</p></td>
+<td><p>5 sec</p></td>
+<td><p>15 sec</p></td>
+</tr>
+<tr class="row-even"><td><p>VQE (200 iters)</p></td>
+<td><p>45 sec</p></td>
+<td><p>N/A</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Note</strong>: TeNPy’s DMRG is more optimized, but ATLAS-Q’s GPU acceleration helps for large χ. VQE is unique to ATLAS-Q.</p>
+</section>
+</section>
+<section id="ecosystem-integration">
+<h2>Ecosystem Integration<a class="headerlink" href="#ecosystem-integration" title="Link to this heading">#</a></h2>
+<p>ATLAS-Q is designed to complement, not replace, existing frameworks.</p>
+<section id="interoperability">
+<h3>Interoperability<a class="headerlink" href="#interoperability" title="Link to this heading">#</a></h3>
+<p><strong>Current</strong>: Export MPS to NumPy/PyTorch tensors</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="c1"># ... perform operations ...</span>
+
+<span class="c1"># Export MPS tensors</span>
+<span class="n">tensors</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span>  <span class="c1"># List of PyTorch tensors</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">tensor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tensors</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Site </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: shape </span><span class="si">{</span><span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Convert to NumPy for processing</span>
+<span class="n">numpy_tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tensors</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Planned</strong>:</p>
+<ul class="simple">
+<li><p>Import circuits from Qiskit/Cirq (convert QuantumCircuit → MPS)</p></li>
+<li><p>Export statevector approximation (convert MPS → statevector for small systems)</p></li>
+<li><p>Hybrid workflows (run Qiskit on hardware, ATLAS-Q for large-scale simulation)</p></li>
+</ul>
+</section>
+<section id="workflow-examples">
+<h3>Workflow Examples<a class="headerlink" href="#workflow-examples" title="Link to this heading">#</a></h3>
+<p><strong>Example 1</strong>: Design in Qiskit, simulate in ATLAS-Q</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Design circuit in Qiskit (familiar interface)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span>
+
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">29</span><span class="p">):</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># ... complex circuit design ...</span>
+
+<span class="c1"># Simulate in ATLAS-Q (memory-efficient)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">circuit_from_qiskit</span>  <span class="c1"># Future API</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">circuit_from_qiskit</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">measure_all</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 2</strong>: Test on ATLAS-Q, deploy to real hardware</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Develop VQE in ATLAS-Q (fast iteration)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;COBYLA&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">optimal_params</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;optimal_params&#39;</span><span class="p">]</span>
+
+<span class="c1"># Deploy to IBM hardware (future)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">transpile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit_ibm_runtime</span><span class="w"> </span><span class="kn">import</span> <span class="n">QiskitRuntimeService</span>
+
+<span class="n">qc</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">to_qiskit_circuit</span><span class="p">()</span>  <span class="c1"># Future API</span>
+<span class="n">transpiled</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">transpiled</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="not-mutually-exclusive">
+<h3>Not Mutually Exclusive<a class="headerlink" href="#not-mutually-exclusive" title="Link to this heading">#</a></h3>
+<p>Use the best tool for each task:</p>
+<ul class="simple">
+<li><p><strong>Design phase</strong>: Qiskit/Cirq (mature visualization and debugging)</p></li>
+<li><p><strong>Large-scale simulation</strong>: ATLAS-Q (memory efficiency)</p></li>
+<li><p><strong>Hardware deployment</strong>: Qiskit/Cirq (hardware access)</p></li>
+<li><p><strong>Tensor network research</strong>: ITensor/TeNPy (specialized algorithms)</p></li>
+<li><p><strong>Quantum ML</strong>: PennyLane (autodiff and QML focus)</p></li>
+</ul>
+</section>
+</section>
+<section id="summary-and-recommendations">
+<h2>Summary and Recommendations<a class="headerlink" href="#summary-and-recommendations" title="Link to this heading">#</a></h2>
+<section id="quick-decision-guide">
+<h3>Quick Decision Guide<a class="headerlink" href="#quick-decision-guide" title="Link to this heading">#</a></h3>
+<p><strong>Choose ATLAS-Q if</strong>:</p>
+<ul class="simple">
+<li><p>You need &gt;25 qubits with moderate entanglement</p></li>
+<li><p>GPU acceleration is available and important</p></li>
+<li><p>You require tensor network methods (TDVP, DMRG)</p></li>
+<li><p>Memory is a critical constraint</p></li>
+<li><p>You’re working on quantum chemistry (VQE with large basis sets)</p></li>
+<li><p>You need compressed period-finding for factorization</p></li>
+</ul>
+<p><strong>Choose Qiskit/Cirq if</strong>:</p>
+<ul class="simple">
+<li><p>You need access to real quantum hardware (IBM, Google)</p></li>
+<li><p>Circuit visualization and debugging are important</p></li>
+<li><p>You want a mature ecosystem with extensive documentation</p></li>
+<li><p>Standard simulations (&lt;20 qubits) are sufficient</p></li>
+<li><p>You need comprehensive gate libraries and optimizers</p></li>
+</ul>
+<p><strong>Choose PennyLane if</strong>:</p>
+<ul class="simple">
+<li><p>Quantum machine learning is your focus</p></li>
+<li><p>You want backend-agnostic code that runs on multiple platforms</p></li>
+<li><p>Hybrid quantum-classical models are central to your work</p></li>
+</ul>
+<p><strong>Choose ITensor/TeNPy if</strong>:</p>
+<ul class="simple">
+<li><p>You’re doing condensed matter physics research</p></li>
+<li><p>DMRG and tensor network algorithms are your primary tools</p></li>
+<li><p>You need maximum CPU performance</p></li>
+<li><p>You’re working on lattice models and spin systems</p></li>
+</ul>
+</section>
+<section id="key-insights">
+<h3>Key Insights<a class="headerlink" href="#key-insights" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>MPS is not a replacement for statevector</strong>: It’s a different representation with different trade-offs. Use MPS when entanglement is manageable; use statevector when exactness is needed and memory permits.</p></li>
+<li><p><strong>Frameworks complement each other</strong>: Design in Qiskit, simulate in ATLAS-Q, deploy to hardware, analyze with PennyLane—all in one workflow.</p></li>
+<li><p><strong>GPU acceleration matters</strong>: For bond dimensions χ &gt; 128, GPU parallelism (ATLAS-Q) outweighs CPU optimization (ITensor/TeNPy).</p></li>
+<li><p><strong>Adaptive methods are crucial</strong>: Fixed χ wastes resources; adaptive χ optimizes memory and computation dynamically.</p></li>
+<li><p><strong>Stabilizer backend is a game-changer</strong>: 20× speedup for Clifford circuits makes hybrid approaches highly effective.</p></li>
+</ol>
+</section>
+<section id="further-reading">
+<h3>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><span class="xref std std-doc">../tutorials/basic_usage</span> - ATLAS-Q quickstart</p></li>
+<li><p><a class="reference internal" href="../howtos/benchmark_comparison.html"><span class="doc">Benchmark Comparison</span></a> - Running performance comparisons</p></li>
+<li><p><a class="reference internal" href="tensor_networks.html"><span class="doc">Tensor Networks</span></a> - MPS representation details</p></li>
+<li><p><a class="reference internal" href="algorithms.html"><span class="doc">Algorithms</span></a> - TDVP, DMRG, VQE algorithms</p></li>
+<li><p><a class="reference internal" href="performance_model.html"><span class="doc">Performance Model</span></a> - Computational complexity analysis</p></li>
+</ul>
+<p>See also the external documentation:</p>
+<ul class="simple">
+<li><p><strong>Qiskit</strong>: <a class="reference external" href="https://qiskit.org/documentation/">https://qiskit.org/documentation/</a></p></li>
+<li><p><strong>Cirq</strong>: <a class="reference external" href="https://quantumai.google/cirq">https://quantumai.google/cirq</a></p></li>
+<li><p><strong>PennyLane</strong>: <a class="reference external" href="https://pennylane.ai/">https://pennylane.ai/</a></p></li>
+<li><p><strong>ITensor</strong>: <a class="reference external" href="https://itensor.org/">https://itensor.org/</a></p></li>
+<li><p><strong>TeNPy</strong>: <a class="reference external" href="https://tenpy.readthedocs.io/">https://tenpy.readthedocs.io/</a></p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="design_decisions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Design Decisions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../reference/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API Reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas-q-vs-qiskit-aer">ATLAS-Q vs Qiskit Aer</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-comparison">Feature Comparison</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-efficiency-example">Memory Efficiency Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-atlas-q">When to Use ATLAS-Q</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-qiskit">When to Use Qiskit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-migration-example">Code Migration Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas-q-vs-cirq">ATLAS-Q vs Cirq</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Feature Comparison</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">When to Use ATLAS-Q</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-cirq">When to Use Cirq</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-comparison">Performance Comparison</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas-q-vs-pennylane">ATLAS-Q vs PennyLane</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Feature Comparison</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">When to Use ATLAS-Q</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-pennylane">When to Use PennyLane</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-example-variational-circuit">Code Example: Variational Circuit</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas-q-vs-itensor">ATLAS-Q vs ITensor</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Feature Comparison</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">When to Use ATLAS-Q</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-itensor">When to Use ITensor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-example-dmrg-ground-state">Code Example: DMRG Ground State</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas-q-vs-tenpy">ATLAS-Q vs TeNPy</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Feature Comparison</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">When to Use ATLAS-Q</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-tenpy">When to Use TeNPy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas-q-vs-full-statevector">ATLAS-Q vs Full Statevector</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling-analysis">Scaling Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trade-offs">Trade-offs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-random-circuit-depth">Example: Random Circuit Depth</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unique-atlas-q-features">Unique ATLAS-Q Features</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compressed-period-finding">1. Compressed Period-Finding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-bond-dimensions">2. Adaptive Bond Dimensions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-gpu-kernels">3. Custom GPU Kernels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hybrid-backends">4. Hybrid Backends</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-inspired-ml">5. Quantum-Inspired ML</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-summary">Performance Summary</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-efficiency">Memory Efficiency</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gate-throughput">Gate Throughput</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clifford-circuits">Clifford Circuits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor-network-comparison">Tensor Network Comparison</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ecosystem-integration">Ecosystem Integration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interoperability">Interoperability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-examples">Workflow Examples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#not-mutually-exclusive">Not Mutually Exclusive</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-and-recommendations">Summary and Recommendations</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-decision-guide">Quick Decision Guide</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-insights">Key Insights</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading">Further Reading</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

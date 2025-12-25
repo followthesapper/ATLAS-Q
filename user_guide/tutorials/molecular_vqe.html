@@ -1,0 +1,1651 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Molecular VQE Tutorial &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/tutorials/molecular_vqe';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="QAOA Tutorial" href="qaoa_tutorial.html" />
+    <link rel="prev" title="TDVP Tutorial" href="tdvp_tutorial.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="beginners.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_basics.html">MPS Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vqe_tutorial.html">VQE Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coherence_aware_vqe.html">Coherence-Aware Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tdvp_tutorial.html">TDVP Tutorial</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Molecular VQE Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qaoa_tutorial.html">QAOA Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_features.html">Advanced Features Tutorial</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Molecular VQE Tutorial</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="molecular-vqe-tutorial">
+<h1>Molecular VQE Tutorial<a class="headerlink" href="#molecular-vqe-tutorial" title="Link to this heading">#</a></h1>
+<p>This tutorial demonstrates how to use VQE for quantum chemistry calculations with ATLAS-Q, covering electronic structure problems from small molecules to custom geometries with chemical accuracy.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<p>Before starting this tutorial, you should:</p>
+<ul class="simple">
+<li><p>Understand basic VQE principles (see <a class="reference internal" href="vqe_tutorial.html"><span class="doc">VQE Tutorial</span></a>)</p></li>
+<li><p>Have familiarity with quantum chemistry concepts (molecular orbitals, Hamiltonians)</p></li>
+<li><p>Understand fermionic operators and second quantization</p></li>
+<li><p>Know basics of basis sets (STO-3G, 6-31G, etc.)</p></li>
+<li><p>Have installed PySCF and OpenFermion packages</p></li>
+</ul>
+</section>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<p>By the end of this tutorial, you will be able to:</p>
+<ol class="arabic simple">
+<li><p>Build molecular Hamiltonians from atomic specifications using PySCF integration</p></li>
+<li><p>Choose appropriate basis sets and active spaces for molecular systems</p></li>
+<li><p>Apply UCCSD ansatz for chemically accurate ground state calculations</p></li>
+<li><p>Optimize molecular geometries and compute potential energy surfaces</p></li>
+<li><p>Interpret molecular VQE results and compare to classical quantum chemistry</p></li>
+<li><p>Handle multiple molecule types (H2, LiH, H2O, custom geometries)</p></li>
+<li><p>Understand Jordan-Wigner transformation from fermions to qubits</p></li>
+<li><p>Troubleshoot convergence and accuracy issues in molecular VQE</p></li>
+</ol>
+</section>
+<section id="part-1-fundamentals-of-molecular-vqe">
+<h2>Part 1: Fundamentals of Molecular VQE<a class="headerlink" href="#part-1-fundamentals-of-molecular-vqe" title="Link to this heading">#</a></h2>
+<section id="what-is-molecular-vqe">
+<h3>What is Molecular VQE?<a class="headerlink" href="#what-is-molecular-vqe" title="Link to this heading">#</a></h3>
+<p>Molecular VQE applies the variational quantum eigensolver to electronic structure problems. The goal is to find the ground state energy of molecular systems by encoding the electronic Hamiltonian as a qubit operator and minimizing its expectation value.</p>
+<p>The electronic structure problem seeks to solve the Schrödinger equation:</p>
+<div class="math notranslate nohighlight">
+\[\hat{H} |\Psi\rangle = E |\Psi\rangle\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{H}\)</span> is the electronic Hamiltonian, <span class="math notranslate nohighlight">\(|\Psi\rangle\)</span> is the molecular wavefunction, and <span class="math notranslate nohighlight">\(E\)</span> is the electronic energy. For molecular systems, the Hamiltonian in second quantization is:</p>
+<div class="math notranslate nohighlight">
+\[\hat{H} = \sum_{pq} h_{pq} a_p^\dagger a_q + \frac{1}{2}\sum_{pqrs} h_{pqrs} a_p^\dagger a_q^\dagger a_r a_s\]</div>
+<p>where <span class="math notranslate nohighlight">\(h_{pq}\)</span> are one-electron integrals (kinetic + nuclear attraction) and <span class="math notranslate nohighlight">\(h_{pqrs}\)</span> are two-electron repulsion integrals.</p>
+</section>
+<section id="why-quantum-chemistry-on-quantum-computers">
+<h3>Why Quantum Chemistry on Quantum Computers?<a class="headerlink" href="#why-quantum-chemistry-on-quantum-computers" title="Link to this heading">#</a></h3>
+<p>Classical quantum chemistry methods struggle with strongly correlated systems where electrons are highly entangled. Exact methods like Full Configuration Interaction (FCI) scale exponentially with system size. VQE offers a potential quantum advantage by:</p>
+<ul class="simple">
+<li><p>Efficiently representing correlated wavefunctions with polynomial resources</p></li>
+<li><p>Using quantum hardware to prepare trial states that classical computers cannot easily simulate</p></li>
+<li><p>Leveraging variational principle to guarantee upper bounds on ground state energy</p></li>
+<li><p>Enabling chemical accuracy (within 1 kcal/mol of exact result) for industrially relevant systems</p></li>
+</ul>
+</section>
+<section id="basic-workflow">
+<h3>Basic Workflow<a class="headerlink" href="#basic-workflow" title="Link to this heading">#</a></h3>
+<p>A typical molecular VQE calculation follows these steps:</p>
+<ol class="arabic simple">
+<li><p>Define molecular geometry and basis set</p></li>
+<li><p>Compute molecular integrals using PySCF</p></li>
+<li><p>Transform fermionic Hamiltonian to qubit Hamiltonian (Jordan-Wigner or Bravyi-Kitaev)</p></li>
+<li><p>Choose ansatz (UCCSD for chemical accuracy, hardware-efficient for efficiency)</p></li>
+<li><p>Initialize variational parameters</p></li>
+<li><p>Optimize parameters to minimize energy expectation value</p></li>
+<li><p>Analyze converged wavefunction and extract properties</p></li>
+</ol>
+</section>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h3>
+<p>Molecular VQE requires additional quantum chemistry packages:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>pyscf<span class="w"> </span>openfermion<span class="w"> </span>openfermionpyscf
+</pre></div>
+</div>
+<p>Or install ATLAS-Q with chemistry extras:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>atlas-quantum<span class="o">[</span>chemistry<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-2-electronic-structure-representation">
+<h2>Part 2: Electronic Structure Representation<a class="headerlink" href="#part-2-electronic-structure-representation" title="Link to this heading">#</a></h2>
+<section id="molecular-orbitals-and-basis-sets">
+<h3>Molecular Orbitals and Basis Sets<a class="headerlink" href="#molecular-orbitals-and-basis-sets" title="Link to this heading">#</a></h3>
+<p>Molecular orbitals are approximated as linear combinations of atomic orbitals (LCAO):</p>
+<div class="math notranslate nohighlight">
+\[\psi_i = \sum_\mu c_{\mu i} \phi_\mu\]</div>
+<p>where <span class="math notranslate nohighlight">\(\phi_\mu\)</span> are basis functions (typically Gaussian-type orbitals). Common basis sets include:</p>
+<ul class="simple">
+<li><p><strong>STO-3G</strong>: Minimal basis, fast but low accuracy</p></li>
+<li><p><strong>6-31G</strong>: Split-valence, good balance for small molecules</p></li>
+<li><p><strong>cc-pVDZ</strong>: Correlation-consistent, higher accuracy for benchmarking</p></li>
+</ul>
+<p>Larger basis sets provide more accurate results but increase the number of qubits required.</p>
+</section>
+<section id="second-quantization-and-fermionic-operators">
+<h3>Second Quantization and Fermionic Operators<a class="headerlink" href="#second-quantization-and-fermionic-operators" title="Link to this heading">#</a></h3>
+<p>Second quantization uses creation (<span class="math notranslate nohighlight">\(a_p^\dagger\)</span>) and annihilation (<span class="math notranslate nohighlight">\(a_p\)</span>) operators that satisfy fermionic anticommutation relations:</p>
+<div class="math notranslate nohighlight">
+\[\{a_p, a_q^\dagger\} = \delta_{pq}, \quad \{a_p, a_q\} = 0\]</div>
+<p>These operators create or destroy electrons in molecular orbital <span class="math notranslate nohighlight">\(p\)</span>. The electronic Hamiltonian is expressed as sums of products of these operators.</p>
+</section>
+<section id="jordan-wigner-transformation">
+<h3>Jordan-Wigner Transformation<a class="headerlink" href="#jordan-wigner-transformation" title="Link to this heading">#</a></h3>
+<p>To run on quantum hardware, we map fermionic operators to qubit operators using the Jordan-Wigner transformation:</p>
+<div class="math notranslate nohighlight">
+\[a_j^\dagger \rightarrow \sigma_j^- \prod_{k&lt;j} \sigma_k^z = \frac{1}{2}(\sigma_j^x - i\sigma_j^y) \prod_{k&lt;j} \sigma_k^z\]</div>
+<p>This preserves fermionic anticommutation relations but introduces non-local operators (string of <span class="math notranslate nohighlight">\(\sigma_z\)</span>). ATLAS-Q handles this transformation automatically when building molecular Hamiltonians.</p>
+</section>
+</section>
+<section id="part-3-pyscf-integration">
+<h2>Part 3: PySCF Integration<a class="headerlink" href="#part-3-pyscf-integration" title="Link to this heading">#</a></h2>
+<section id="building-molecular-hamiltonians">
+<h3>Building Molecular Hamiltonians<a class="headerlink" href="#building-molecular-hamiltonians" title="Link to this heading">#</a></h3>
+<p>ATLAS-Q integrates with PySCF to generate molecular Hamiltonians:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+
+<span class="c1"># Simple H2 molecule with default geometry</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of qubits: </span><span class="si">{</span><span class="n">H</span><span class="o">.</span><span class="n">num_sites</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Output: 4 qubits (2 electrons in 2 spatial orbitals, spin-up and spin-down)</span>
+</pre></div>
+</div>
+<p>For hydrogen molecule H2 in STO-3G basis, we get 4 spin-orbitals (2 spatial orbitals × 2 spins), requiring 4 qubits.</p>
+</section>
+<section id="custom-geometries">
+<h3>Custom Geometries<a class="headerlink" href="#custom-geometries" title="Link to this heading">#</a></h3>
+<p>Specify atomic positions in Angstroms:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># LiH with custom bond length</span>
+<span class="n">H_LiH</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;LiH&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;Li&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span>  <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>  <span class="c1"># 1.5 Angstrom bond length</span>
+    <span class="p">],</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Water molecule</span>
+<span class="n">H_H2O</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2O&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">,</span>    <span class="mf">0.0</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.757</span><span class="p">,</span>  <span class="mf">0.587</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.757</span><span class="p">,</span>  <span class="mf">0.587</span><span class="p">))</span>
+    <span class="p">],</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="active-space-selection">
+<h3>Active Space Selection<a class="headerlink" href="#active-space-selection" title="Link to this heading">#</a></h3>
+<p>For larger molecules, solve only in the chemically relevant active space:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BeH2 with frozen core</span>
+<span class="n">H_BeH2</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;BeH2&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;Be&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span>  <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span>  <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3</span><span class="p">))</span>
+    <span class="p">],</span>
+    <span class="n">active_space</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>  <span class="c1"># 4 electrons in 4 orbitals</span>
+    <span class="n">frozen_core</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>     <span class="c1"># Freeze Be 1s core orbital</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The active_space parameter (n_electrons, n_orbitals) reduces qubit count by focusing on valence electrons. Frozen core orbitals contribute a constant energy shift.</p>
+</section>
+<section id="basis-set-comparison">
+<h3>Basis Set Comparison<a class="headerlink" href="#basis-set-comparison" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">geometries</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;sto-3g&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Use default</span>
+    <span class="s1">&#39;6-31g&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">&#39;cc-pvdz&#39;</span><span class="p">:</span> <span class="kc">None</span>
+<span class="p">}</span>
+
+<span class="n">energies</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">basis</span> <span class="ow">in</span> <span class="n">geometries</span><span class="p">:</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+        <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span>
+        <span class="n">basis</span><span class="o">=</span><span class="n">basis</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
+    <span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+    <span class="n">energies</span><span class="p">[</span><span class="n">basis</span><span class="p">]</span> <span class="o">=</span> <span class="n">energy</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">basis</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha, qubits: </span><span class="si">{</span><span class="n">H</span><span class="o">.</span><span class="n">num_sites</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Expected output:</span>
+<span class="c1"># sto-3g:   -1.11670 Ha, qubits: 4</span>
+<span class="c1"># 6-31g:    -1.13163 Ha, qubits: 8</span>
+<span class="c1"># cc-pvdz:  -1.13460 Ha, qubits: 20</span>
+<span class="c1"># FCI/exact: -1.13727 Ha</span>
+</pre></div>
+</div>
+<p>Larger basis sets approach the exact result but require more qubits.</p>
+</section>
+</section>
+<section id="part-4-uccsd-ansatz-for-molecules">
+<h2>Part 4: UCCSD Ansatz for Molecules<a class="headerlink" href="#part-4-uccsd-ansatz-for-molecules" title="Link to this heading">#</a></h2>
+<section id="unitary-coupled-cluster-theory">
+<h3>Unitary Coupled Cluster Theory<a class="headerlink" href="#unitary-coupled-cluster-theory" title="Link to this heading">#</a></h3>
+<p>The UCCSD (Unitary Coupled Cluster Singles and Doubles) ansatz is the gold standard for molecular VQE:</p>
+<div class="math notranslate nohighlight">
+\[|\Psi(\theta)\rangle = e^{\hat{T} - \hat{T}^\dagger} |HF\rangle\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{T} = \hat{T}_1 + \hat{T}_2\)</span> includes single and double excitations:</p>
+<div class="math notranslate nohighlight">
+\[\hat{T}_1 = \sum_{ia} t_i^a a_a^\dagger a_i, \quad \hat{T}_2 = \sum_{ijab} t_{ij}^{ab} a_a^\dagger a_b^\dagger a_j a_i\]</div>
+<p>Here <span class="math notranslate nohighlight">\(i,j\)</span> are occupied orbitals in Hartree-Fock reference and <span class="math notranslate nohighlight">\(a,b\)</span> are virtual orbitals. Parameters <span class="math notranslate nohighlight">\(\theta = \{t_i^a, t_{ij}^{ab}\}\)</span> are optimized variationally.</p>
+</section>
+<section id="implementing-uccsd-vqe">
+<h3>Implementing UCCSD VQE<a class="headerlink" href="#implementing-uccsd-vqe" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+
+<span class="c1"># Build H2 Hamiltonian</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Configure UCCSD VQE</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;L-BFGS-B&#39;</span><span class="p">,</span>
+    <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
+    <span class="n">gtol</span><span class="o">=</span><span class="mf">1e-6</span>
+<span class="p">)</span>
+
+<span class="c1"># Run VQE</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VQE energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameters optimized: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Chemical accuracy (0.0016 Ha): </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">energy</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="mf">1.137</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.0016</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Access convergence history</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">get_history</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iterations: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;energies&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final gradient norm: </span><span class="si">{</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;gradient_norms&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="singles-and-doubles-excitations">
+<h3>Singles and Doubles Excitations<a class="headerlink" href="#singles-and-doubles-excitations" title="Link to this heading">#</a></h3>
+<p>For H2 in minimal basis (2 electrons, 4 spin-orbitals):</p>
+<ul class="simple">
+<li><p><strong>Singles</strong>: 4 parameters (excite electron from occupied to virtual)</p></li>
+<li><p><strong>Doubles</strong>: 1 parameter (excite both electrons)</p></li>
+<li><p><strong>Total</strong>: 5 UCCSD parameters</p></li>
+</ul>
+<p>For larger molecules:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># LiH molecule</span>
+<span class="n">H_LiH</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;LiH&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H_LiH</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LiH qubits: </span><span class="si">{</span><span class="n">H_LiH</span><span class="o">.</span><span class="n">num_sites</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;UCCSD parameters: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+<span class="c1"># Expected: 12 qubits, ~20-30 parameters</span>
+</pre></div>
+</div>
+</section>
+<section id="hardware-efficient-alternative">
+<h3>Hardware-Efficient Alternative<a class="headerlink" href="#hardware-efficient-alternative" title="Link to this heading">#</a></h3>
+<p>UCCSD has many parameters for larger molecules. Hardware-efficient ansatz provides a faster alternative:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare UCCSD vs hardware-efficient</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1"># UCCSD (chemically accurate but slower)</span>
+<span class="n">config_uccsd</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">vqe_uccsd</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config_uccsd</span><span class="p">)</span>
+<span class="n">E_uccsd</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">vqe_uccsd</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="n">t_uccsd</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="c1"># Hardware-efficient (faster, less accurate)</span>
+<span class="n">config_he</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">vqe_he</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config_he</span><span class="p">)</span>
+<span class="n">E_he</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">vqe_he</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="n">t_he</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;UCCSD: </span><span class="si">{</span><span class="n">E_uccsd</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha in </span><span class="si">{</span><span class="n">t_uccsd</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hardware-efficient: </span><span class="si">{</span><span class="n">E_he</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha in </span><span class="si">{</span><span class="n">t_he</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy difference: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">E_uccsd</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">E_he</span><span class="p">)</span><span class="o">*</span><span class="mf">627.5</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kcal/mol&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Hardware-efficient ansatz trades some accuracy for significant speedup, useful for larger molecules or noisy quantum hardware.</p>
+</section>
+</section>
+<section id="part-5-optimization-for-molecules">
+<h2>Part 5: Optimization for Molecules<a class="headerlink" href="#part-5-optimization-for-molecules" title="Link to this heading">#</a></h2>
+<section id="gradient-based-methods">
+<h3>Gradient-Based Methods<a class="headerlink" href="#gradient-based-methods" title="Link to this heading">#</a></h3>
+<p>Molecular VQE typically uses gradient-based optimizers for efficiency:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare optimizers</span>
+<span class="n">optimizers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;L-BFGS-B&#39;</span><span class="p">,</span> <span class="s1">&#39;COBYLA&#39;</span><span class="p">,</span> <span class="s1">&#39;SLSQP&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">opt</span> <span class="ow">in</span> <span class="n">optimizers</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+        <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span>
+        <span class="n">optimizer</span><span class="o">=</span><span class="n">opt</span><span class="p">,</span>
+        <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+        <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span>
+    <span class="p">)</span>
+
+    <span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">get_history</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">opt</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha in </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;energies&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
+
+<span class="c1"># Expected output:</span>
+<span class="c1"># L-BFGS-B: -1.11670 Ha in 15 iterations (fast, gradient-based)</span>
+<span class="c1"># COBYLA: -1.11668 Ha in 89 iterations (slower, gradient-free)</span>
+<span class="c1"># SLSQP: -1.11670 Ha in 18 iterations (gradient-based with constraints)</span>
+</pre></div>
+</div>
+<p>L-BFGS-B is recommended for most molecular VQE calculations due to fast convergence.</p>
+</section>
+<section id="chemical-accuracy-target">
+<h3>Chemical Accuracy Target<a class="headerlink" href="#chemical-accuracy-target" title="Link to this heading">#</a></h3>
+<p>Chemical accuracy is defined as 1 kcal/mol = 0.0016 Hartree:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if result is chemically accurate</span>
+<span class="n">E_exact</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.137</span>  <span class="c1"># Reference value (FCI or experimental)</span>
+<span class="n">E_vqe</span> <span class="o">=</span> <span class="n">energy</span>
+
+<span class="n">error_hartree</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">E_vqe</span> <span class="o">-</span> <span class="n">E_exact</span><span class="p">)</span>
+<span class="n">error_kcal</span> <span class="o">=</span> <span class="n">error_hartree</span> <span class="o">*</span> <span class="mf">627.5</span>  <span class="c1"># Convert Ha to kcal/mol</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">error_hartree</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> Ha = </span><span class="si">{</span><span class="n">error_kcal</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kcal/mol&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Chemical accuracy: </span><span class="si">{</span><span class="n">error_kcal</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1.0</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">error_kcal</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Result is chemically accurate&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">error_kcal</span> <span class="o">&lt;</span> <span class="mf">5.0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Result is acceptable for qualitative predictions&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Consider larger basis set or better ansatz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="convergence-monitoring">
+<h3>Convergence Monitoring<a class="headerlink" href="#convergence-monitoring" title="Link to this heading">#</a></h3>
+<p>Monitor convergence to ensure reliable results:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">history</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">get_history</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># Energy convergence</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;energies&#39;</span><span class="p">])</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">E_exact</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Exact&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Iteration&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Energy (Ha)&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;VQE Energy Convergence&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Gradient norm</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;gradient_norms&#39;</span><span class="p">])</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tolerance&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Iteration&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Gradient Norm&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Gradient Convergence&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;molecular_vqe_convergence.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-6-multiple-molecule-examples">
+<h2>Part 6: Multiple Molecule Examples<a class="headerlink" href="#part-6-multiple-molecule-examples" title="Link to this heading">#</a></h2>
+<section id="hydrogen-molecule-h2">
+<h3>Hydrogen Molecule (H2)<a class="headerlink" href="#hydrogen-molecule-h2" title="Link to this heading">#</a></h3>
+<p>The simplest molecule, exact solution known:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># H2 at equilibrium geometry</span>
+<span class="n">H_H2</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.74</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>  <span class="c1"># Equilibrium bond length</span>
+    <span class="p">],</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H_H2</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;H2 energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exact (FCI): -1.13727 Ha&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="p">(</span><span class="n">energy</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1.13727</span><span class="p">)</span><span class="o">*</span><span class="mf">627.5</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kcal/mol&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="lithium-hydride-lih">
+<h3>Lithium Hydride (LiH)<a class="headerlink" href="#lithium-hydride-lih" title="Link to this heading">#</a></h3>
+<p>Ionic molecule with heteronuclear bond:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># LiH molecule</span>
+<span class="n">H_LiH</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;LiH&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;Li&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span>  <span class="p">(</span><span class="mf">1.6</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>  <span class="c1"># Equilibrium ~1.6 Angstrom</span>
+    <span class="p">],</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H_LiH</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">energy_LiH</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LiH energy: </span><span class="si">{</span><span class="n">energy_LiH</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exact (FCI): -7.88231 Ha&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Qubits required: </span><span class="si">{</span><span class="n">H_LiH</span><span class="o">.</span><span class="n">num_sites</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="water-molecule-h2o">
+<h3>Water Molecule (H2O)<a class="headerlink" href="#water-molecule-h2o" title="Link to this heading">#</a></h3>
+<p>Bent triatomic molecule:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># H2O molecule</span>
+<span class="n">H_H2O</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2O&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">,</span>    <span class="mf">0.0</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.757</span><span class="p">,</span>  <span class="mf">0.587</span><span class="p">)),</span>  <span class="c1"># 104.5° bond angle</span>
+        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.757</span><span class="p">,</span>  <span class="mf">0.587</span><span class="p">))</span>
+    <span class="p">],</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Use active space to reduce qubit count</span>
+<span class="n">H_H2O_active</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2O&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">,</span>    <span class="mf">0.0</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.757</span><span class="p">,</span>  <span class="mf">0.587</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.757</span><span class="p">,</span>  <span class="mf">0.587</span><span class="p">))</span>
+    <span class="p">],</span>
+    <span class="n">active_space</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>  <span class="c1"># 8 electrons in 6 orbitals</span>
+    <span class="n">frozen_core</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H_H2O_active</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">energy_H2O</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;H2O energy: </span><span class="si">{</span><span class="n">energy_H2O</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Qubits: </span><span class="si">{</span><span class="n">H_H2O_active</span><span class="o">.</span><span class="n">num_sites</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="batch-multiple-molecules">
+<h3>Batch Multiple Molecules<a class="headerlink" href="#batch-multiple-molecules" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">molecules</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span> <span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.137</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;LiH&#39;</span><span class="p">,</span> <span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Li&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))],</span> <span class="o">-</span><span class="mf">7.882</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;BeH2&#39;</span><span class="p">,</span> <span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Be&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.3</span><span class="p">)),</span> <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.3</span><span class="p">))],</span> <span class="o">-</span><span class="mf">15.598</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">mol_name</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">geom</span><span class="p">,</span> <span class="n">E_ref</span> <span class="ow">in</span> <span class="n">molecules</span><span class="p">:</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+        <span class="n">molecule</span><span class="o">=</span><span class="n">mol_name</span><span class="p">,</span>
+        <span class="n">basis</span><span class="o">=</span><span class="n">basis</span><span class="p">,</span>
+        <span class="n">geometry</span><span class="o">=</span><span class="n">geom</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">)</span>
+    <span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+    <span class="n">error_kcal</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">energy</span> <span class="o">-</span> <span class="n">E_ref</span><span class="p">)</span> <span class="o">*</span> <span class="mf">627.5</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;molecule&#39;</span><span class="p">:</span> <span class="n">mol_name</span><span class="p">,</span>
+        <span class="s1">&#39;qubits&#39;</span><span class="p">:</span> <span class="n">H</span><span class="o">.</span><span class="n">num_sites</span><span class="p">,</span>
+        <span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="n">energy</span><span class="p">,</span>
+        <span class="s1">&#39;error_kcal&#39;</span><span class="p">:</span> <span class="n">error_kcal</span>
+    <span class="p">})</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mol_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> Ha, error </span><span class="si">{</span><span class="n">error_kcal</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kcal/mol&quot;</span><span class="p">)</span>
+
+<span class="c1"># Summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Summary:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="s2">&quot;✓&quot;</span> <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;error_kcal&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">1.0</span> <span class="k">else</span> <span class="s2">&quot;✗&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;molecule&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">6s</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;qubits&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> qubits, &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;error_kcal&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2"> kcal/mol </span><span class="si">{</span><span class="n">accuracy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-7-advanced-topics">
+<h2>Part 7: Advanced Topics<a class="headerlink" href="#part-7-advanced-topics" title="Link to this heading">#</a></h2>
+<section id="active-space-selection-strategies">
+<h3>Active Space Selection Strategies<a class="headerlink" href="#active-space-selection-strategies" title="Link to this heading">#</a></h3>
+<p>For large molecules, automatic active space selection reduces qubit count:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Automatic active space from natural orbitals</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_active_space</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">n_electrons_active</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Select active space based on natural orbital occupation numbers.&quot;&quot;&quot;</span>
+    <span class="n">H_full</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+        <span class="n">molecule</span><span class="o">=</span><span class="n">molecule</span><span class="p">,</span>
+        <span class="n">basis</span><span class="o">=</span><span class="n">basis</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>  <span class="c1"># Use CPU for integral computation</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Run cheap Hartree-Fock to get natural orbitals</span>
+    <span class="c1"># (simplified - actual implementation in MPOBuilder)</span>
+    <span class="n">n_orbitals_active</span> <span class="o">=</span> <span class="n">n_electrons_active</span>  <span class="c1"># Minimal active space</span>
+
+    <span class="n">H_active</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+        <span class="n">molecule</span><span class="o">=</span><span class="n">molecule</span><span class="p">,</span>
+        <span class="n">basis</span><span class="o">=</span><span class="n">basis</span><span class="p">,</span>
+        <span class="n">active_space</span><span class="o">=</span><span class="p">(</span><span class="n">n_electrons_active</span><span class="p">,</span> <span class="n">n_orbitals_active</span><span class="p">),</span>
+        <span class="n">frozen_core</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">H_active</span>
+
+<span class="c1"># Example: H2O with automatic active space</span>
+<span class="n">H_H2O_auto</span> <span class="o">=</span> <span class="n">select_active_space</span><span class="p">(</span><span class="s1">&#39;H2O&#39;</span><span class="p">,</span> <span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span> <span class="n">n_electrons_active</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reduced to </span><span class="si">{</span><span class="n">H_H2O_auto</span><span class="o">.</span><span class="n">num_sites</span><span class="si">}</span><span class="s2"> qubits&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="symmetry-exploitation">
+<h3>Symmetry Exploitation<a class="headerlink" href="#symmetry-exploitation" title="Link to this heading">#</a></h3>
+<p>Use molecular symmetries to reduce parameter count:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Build Hamiltonian with symmetry constraints</span>
+<span class="n">H_sym</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2O&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">symmetry</span><span class="o">=</span><span class="s1">&#39;C2v&#39;</span><span class="p">,</span>  <span class="c1"># Water has C2v symmetry</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># VQE with symmetry-adapted ansatz reduces parameters</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span>
+    <span class="n">use_symmetry</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span>
+<span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H_sym</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameters without symmetry: ~100&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameters with symmetry: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="excited-states">
+<h3>Excited States<a class="headerlink" href="#excited-states" title="Link to this heading">#</a></h3>
+<p>Compute excited states using orthogonality constraints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ground state</span>
+<span class="n">config_gs</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">vqe_gs</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config_gs</span><span class="p">)</span>
+<span class="n">E0</span><span class="p">,</span> <span class="n">params0</span> <span class="o">=</span> <span class="n">vqe_gs</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="c1"># First excited state (orthogonal to ground state)</span>
+<span class="n">config_ex</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">orthogonal_states</span><span class="o">=</span><span class="p">[</span><span class="n">params0</span><span class="p">]</span>  <span class="c1"># Constrain orthogonality</span>
+<span class="p">)</span>
+<span class="n">vqe_ex</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config_ex</span><span class="p">)</span>
+<span class="n">E1</span><span class="p">,</span> <span class="n">params1</span> <span class="o">=</span> <span class="n">vqe_ex</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ground state: </span><span class="si">{</span><span class="n">E0</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First excited state: </span><span class="si">{</span><span class="n">E1</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Excitation energy: </span><span class="si">{</span><span class="p">(</span><span class="n">E1</span><span class="o">-</span><span class="n">E0</span><span class="p">)</span><span class="o">*</span><span class="mf">27.21</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> eV&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="potential-energy-surface">
+<h3>Potential Energy Surface<a class="headerlink" href="#potential-energy-surface" title="Link to this heading">#</a></h3>
+<p>Scan molecular geometry to compute dissociation curves:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># H2 dissociation curve</span>
+<span class="n">bond_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">energies</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">bond_lengths</span><span class="p">:</span>
+    <span class="n">H_r</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+        <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span>
+        <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+        <span class="n">geometry</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+            <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span>   <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+        <span class="p">],</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">)</span>
+    <span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H_r</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+    <span class="n">energies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">energy</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;r = </span><span class="si">{</span><span class="n">r</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> A: E = </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot dissociation curve</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bond_lengths</span><span class="p">,</span> <span class="n">energies</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;VQE&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Bond Length (Angstrom)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy (Ha)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;H2 Potential Energy Surface&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;h2_dissociation.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+
+<span class="c1"># Find equilibrium geometry</span>
+<span class="n">idx_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">energies</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Equilibrium bond length: </span><span class="si">{</span><span class="n">bond_lengths</span><span class="p">[</span><span class="n">idx_min</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> A&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Binding energy: </span><span class="si">{</span><span class="n">energies</span><span class="p">[</span><span class="n">idx_min</span><span class="p">]</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-8-performance-and-accuracy">
+<h2>Part 8: Performance and Accuracy<a class="headerlink" href="#part-8-performance-and-accuracy" title="Link to this heading">#</a></h2>
+<section id="chemical-accuracy-benchmarks">
+<h3>Chemical Accuracy Benchmarks<a class="headerlink" href="#chemical-accuracy-benchmarks" title="Link to this heading">#</a></h3>
+<p>Compare VQE results to classical benchmarks:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Benchmarking function</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">benchmark_molecule</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compare VQE to classical methods.&quot;&quot;&quot;</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+        <span class="n">molecule</span><span class="o">=</span><span class="n">molecule</span><span class="p">,</span>
+        <span class="n">basis</span><span class="o">=</span><span class="n">basis</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># VQE with UCCSD</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
+    <span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="n">E_vqe</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+    <span class="c1"># Get reference energies (from PySCF or literature)</span>
+    <span class="c1"># This would actually call PySCF methods:</span>
+    <span class="n">E_hf</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.117</span>  <span class="c1"># Hartree-Fock (mean-field)</span>
+    <span class="n">E_ccsd</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.135</span>  <span class="c1"># Coupled cluster singles/doubles</span>
+    <span class="n">E_fci</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.137</span>  <span class="c1"># Full CI (exact)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Molecule: </span><span class="si">{</span><span class="n">molecule</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">basis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Method&#39;</span><span class="si">:</span><span class="s2">&lt;12s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Energy (Ha)&#39;</span><span class="si">:</span><span class="s2">&lt;15s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Error (kcal/mol)&#39;</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;HF&#39;</span><span class="si">:</span><span class="s2">&lt;12s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">E_hf</span><span class="si">:</span><span class="s2">&lt;15.8f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="p">(</span><span class="n">E_hf</span><span class="o">-</span><span class="n">E_fci</span><span class="p">)</span><span class="o">*</span><span class="mf">627.5</span><span class="si">:</span><span class="s2">&lt;20.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;CCSD&#39;</span><span class="si">:</span><span class="s2">&lt;12s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">E_ccsd</span><span class="si">:</span><span class="s2">&lt;15.8f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="p">(</span><span class="n">E_ccsd</span><span class="o">-</span><span class="n">E_fci</span><span class="p">)</span><span class="o">*</span><span class="mf">627.5</span><span class="si">:</span><span class="s2">&lt;20.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;VQE-UCCSD&#39;</span><span class="si">:</span><span class="s2">&lt;12s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">E_vqe</span><span class="si">:</span><span class="s2">&lt;15.8f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="p">(</span><span class="n">E_vqe</span><span class="o">-</span><span class="n">E_fci</span><span class="p">)</span><span class="o">*</span><span class="mf">627.5</span><span class="si">:</span><span class="s2">&lt;20.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;FCI&#39;</span><span class="si">:</span><span class="s2">&lt;12s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">E_fci</span><span class="si">:</span><span class="s2">&lt;15.8f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;0.00&#39;</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> (reference)&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">E_vqe</span>
+
+<span class="c1"># Run benchmark</span>
+<span class="n">E_result</span> <span class="o">=</span> <span class="n">benchmark_molecule</span><span class="p">(</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span> <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="computational-cost-scaling">
+<h3>Computational Cost Scaling<a class="headerlink" href="#computational-cost-scaling" title="Link to this heading">#</a></h3>
+<p>Understand how resources scale with system size:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scaling analysis</span>
+<span class="n">molecules_scale</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>       <span class="c1"># qubits, UCCSD parameters</span>
+    <span class="p">(</span><span class="s1">&#39;LiH&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;BeH2&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">42</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;H2O&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">56</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Molecule&#39;</span><span class="si">:</span><span class="s2">&lt;10s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Qubits&#39;</span><span class="si">:</span><span class="s2">&lt;8s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Parameters&#39;</span><span class="si">:</span><span class="s2">&lt;12s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;MPS χ (est.)&#39;</span><span class="si">:</span><span class="s2">&lt;15s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">mol</span><span class="p">,</span> <span class="n">nq</span><span class="p">,</span> <span class="n">np</span> <span class="ow">in</span> <span class="n">molecules_scale</span><span class="p">:</span>
+    <span class="n">chi_est</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">nq</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span> <span class="mi">128</span><span class="p">)</span>  <span class="c1"># Estimated bond dimension</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mol</span><span class="si">:</span><span class="s2">&lt;10s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">nq</span><span class="si">:</span><span class="s2">&lt;8d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">np</span><span class="si">:</span><span class="s2">&lt;12d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">chi_est</span><span class="si">:</span><span class="s2">&lt;15d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">For chemical accuracy, typically need:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Bond dimension χ ≈ 64-128 for moderate entanglement&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Optimizer iterations: 100-300&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Wall time: 5-60 minutes on GPU&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="bond-dimension-requirements">
+<h3>Bond Dimension Requirements<a class="headerlink" href="#bond-dimension-requirements" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test bond dimension effect on accuracy</span>
+<span class="n">bond_dims</span> <span class="o">=</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">]</span>
+<span class="n">energies_chi</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">chi</span> <span class="ow">in</span> <span class="n">bond_dims</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+        <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span>
+        <span class="n">bond_dim</span><span class="o">=</span><span class="n">chi</span><span class="p">,</span>
+        <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+        <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span>
+    <span class="p">)</span>
+    <span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+    <span class="n">energies_chi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">energy</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;χ = </span><span class="si">{</span><span class="n">chi</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">: E = </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot convergence with bond dimension</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bond_dims</span><span class="p">,</span> <span class="n">energies_chi</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="o">-</span><span class="mf">1.137</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Exact&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Bond Dimension χ&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy (Ha)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Convergence vs MPS Bond Dimension&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;bond_dim_convergence.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-9-troubleshooting">
+<h2>Part 9: Troubleshooting<a class="headerlink" href="#part-9-troubleshooting" title="Link to this heading">#</a></h2>
+<section id="problem-vqe-converges-to-wrong-energy">
+<h3>Problem: VQE Converges to Wrong Energy<a class="headerlink" href="#problem-vqe-converges-to-wrong-energy" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms</strong>: Energy significantly higher than expected (&gt; 5 kcal/mol error)</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Check parameter initialization:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize from HF instead of random</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;uccsd&#39;</span><span class="p">,</span>
+    <span class="n">init_strategy</span><span class="o">=</span><span class="s1">&#39;hf&#39;</span><span class="p">,</span>  <span class="c1"># Start from Hartree-Fock</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Increase optimization iterations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">max_iter</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">config</span><span class="o">.</span><span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-9</span>
+</pre></div>
+</div>
+</li>
+<li><p>Try different optimizer:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># COBYLA is more robust but slower</span>
+<span class="n">config</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="s1">&#39;COBYLA&#39;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="problem-optimization-is-too-slow">
+<h3>Problem: Optimization is Too Slow<a class="headerlink" href="#problem-optimization-is-too-slow" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms</strong>: Each iteration takes &gt; 1 minute, convergence requires hours</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Reduce bond dimension for faster contractions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">bond_dim</span> <span class="o">=</span> <span class="mi">32</span>  <span class="c1"># Instead of 128</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use hardware-efficient ansatz:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">ansatz</span> <span class="o">=</span> <span class="s1">&#39;hardware_efficient&#39;</span>
+<span class="n">config</span><span class="o">.</span><span class="n">n_layers</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</li>
+<li><p>Enable GPU acceleration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure using GPU</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>  <span class="c1"># Not &#39;cpu&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="problem-chemical-accuracy-not-achieved">
+<h3>Problem: Chemical Accuracy Not Achieved<a class="headerlink" href="#problem-chemical-accuracy-not-achieved" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms</strong>: Error &gt; 1 kcal/mol despite convergence</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Use UCCSD ansatz instead of hardware-efficient:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">ansatz</span> <span class="o">=</span> <span class="s1">&#39;uccsd&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Increase basis set:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;6-31g&#39;</span><span class="p">,</span>  <span class="c1"># Instead of &#39;sto-3g&#39;</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Enlarge active space:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;LiH&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">active_space</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>  <span class="c1"># More electrons/orbitals</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="problem-pyscf-integration-errors">
+<h3>Problem: PySCF Integration Errors<a class="headerlink" href="#problem-pyscf-integration-errors" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms</strong>: ModuleNotFoundError or integral computation failures</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Install required packages:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>pyscf<span class="w"> </span>openfermion<span class="w"> </span>openfermionpyscf
+</pre></div>
+</div>
+</li>
+<li><p>Check geometry format:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Correct format: list of (atom, position) tuples</span>
+<span class="n">geometry</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.74</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+<span class="p">]</span>
+
+<span class="c1"># NOT: [[&#39;H&#39;, 0, 0, 0], [&#39;H&#39;, 0.74, 0, 0]]</span>
+</pre></div>
+</div>
+</li>
+<li><p>Verify molecule name:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Supported built-in molecules</span>
+<span class="n">valid_molecules</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span> <span class="s1">&#39;LiH&#39;</span><span class="p">,</span> <span class="s1">&#39;BeH2&#39;</span><span class="p">,</span> <span class="s1">&#39;H2O&#39;</span><span class="p">,</span> <span class="s1">&#39;NH3&#39;</span><span class="p">]</span>
+
+<span class="c1"># For others, provide explicit geometry</span>
+<span class="k">if</span> <span class="n">molecule</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_molecules</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="n">geometry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="problem-gradient-explosion-or-nan">
+<h3>Problem: Gradient Explosion or NaN<a class="headerlink" href="#problem-gradient-explosion-or-nan" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms</strong>: Optimizer returns NaN or energy diverges</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Enable gradient clipping:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">gradient_clip</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Clip gradients to [-1, 1]</span>
+</pre></div>
+</div>
+</li>
+<li><p>Reduce learning rate:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># Smaller steps</span>
+</pre></div>
+</div>
+</li>
+<li><p>Check numerical stability:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use higher precision</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">set_default_dtype</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>This tutorial covered molecular VQE with ATLAS-Q:</p>
+<p>✓ Built molecular Hamiltonians from atomic specifications using PySCF
+✓ Applied UCCSD ansatz for chemically accurate ground states
+✓ Optimized parameters with gradient-based methods (L-BFGS-B)
+✓ Computed energies for H2, LiH, H2O with custom geometries
+✓ Used active spaces to reduce qubit requirements for large molecules
+✓ Generated potential energy surfaces by scanning bond lengths
+✓ Achieved chemical accuracy (&lt; 1 kcal/mol) for benchmark systems
+✓ Troubleshot common convergence and accuracy issues</p>
+<p>Molecular VQE enables quantum simulations of electronic structure with classical optimization, bridging quantum chemistry and quantum computing.</p>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="vqe_tutorial.html"><span class="doc">VQE Tutorial</span></a> - General VQE principles and convergence analysis</p></li>
+<li><p><a class="reference internal" href="advanced_features.html"><span class="doc">Advanced Features Tutorial</span></a> - Excited states and constrained optimization</p></li>
+<li><p><a class="reference internal" href="../howtos/custom_hamiltonians.html"><span class="doc">How to Build Custom Hamiltonians</span></a> - Build custom molecular Hamiltonians</p></li>
+<li><p><a class="reference internal" href="../explanations/algorithms.html"><span class="doc">Algorithms</span></a> - UCCSD theory and fermionic operators</p></li>
+</ul>
+</section>
+<section id="practice-exercises">
+<h2>Practice Exercises<a class="headerlink" href="#practice-exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Compute the dissociation energy of H2 by comparing energies at equilibrium (0.74 A) and dissociated (5.0 A) geometries</p></li>
+<li><p>Find the equilibrium bond length of LiH by scanning geometries from 1.0 to 2.5 Angstroms</p></li>
+<li><p>Compare UCCSD vs hardware-efficient ansatz accuracy for H2O with different layer counts</p></li>
+<li><p>Implement active space selection for BeH2 and verify chemical accuracy is maintained</p></li>
+<li><p>Compute the first excited state of H2 and calculate the excitation energy in eV</p></li>
+</ol>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../reference/mpo_ops.html"><span class="doc">atlas_q.mpo_ops</span></a> - MPOBuilder API for molecular Hamiltonians</p></li>
+<li><p><a class="reference internal" href="../../reference/vqe_qaoa.html"><span class="doc">atlas_q.vqe_qaoa</span></a> - VQE and VQEConfig API reference</p></li>
+<li><p><a class="reference internal" href="../explanations/algorithms.html"><span class="doc">Algorithms</span></a> - Quantum chemistry algorithms explained</p></li>
+<li><p><a class="reference internal" href="../howtos/optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> - Performance optimization for large molecules</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="tdvp_tutorial.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">TDVP Tutorial</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="qaoa_tutorial.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">QAOA Tutorial</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1-fundamentals-of-molecular-vqe">Part 1: Fundamentals of Molecular VQE</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-molecular-vqe">What is Molecular VQE?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-quantum-chemistry-on-quantum-computers">Why Quantum Chemistry on Quantum Computers?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-workflow">Basic Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2-electronic-structure-representation">Part 2: Electronic Structure Representation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#molecular-orbitals-and-basis-sets">Molecular Orbitals and Basis Sets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#second-quantization-and-fermionic-operators">Second Quantization and Fermionic Operators</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jordan-wigner-transformation">Jordan-Wigner Transformation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3-pyscf-integration">Part 3: PySCF Integration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-molecular-hamiltonians">Building Molecular Hamiltonians</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-geometries">Custom Geometries</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#active-space-selection">Active Space Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basis-set-comparison">Basis Set Comparison</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-4-uccsd-ansatz-for-molecules">Part 4: UCCSD Ansatz for Molecules</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unitary-coupled-cluster-theory">Unitary Coupled Cluster Theory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-uccsd-vqe">Implementing UCCSD VQE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#singles-and-doubles-excitations">Singles and Doubles Excitations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-efficient-alternative">Hardware-Efficient Alternative</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-5-optimization-for-molecules">Part 5: Optimization for Molecules</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-based-methods">Gradient-Based Methods</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chemical-accuracy-target">Chemical Accuracy Target</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-monitoring">Convergence Monitoring</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-6-multiple-molecule-examples">Part 6: Multiple Molecule Examples</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hydrogen-molecule-h2">Hydrogen Molecule (H2)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lithium-hydride-lih">Lithium Hydride (LiH)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#water-molecule-h2o">Water Molecule (H2O)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-multiple-molecules">Batch Multiple Molecules</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-7-advanced-topics">Part 7: Advanced Topics</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#active-space-selection-strategies">Active Space Selection Strategies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#symmetry-exploitation">Symmetry Exploitation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#excited-states">Excited States</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#potential-energy-surface">Potential Energy Surface</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-8-performance-and-accuracy">Part 8: Performance and Accuracy</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chemical-accuracy-benchmarks">Chemical Accuracy Benchmarks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-cost-scaling">Computational Cost Scaling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-dimension-requirements">Bond Dimension Requirements</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-9-troubleshooting">Part 9: Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-vqe-converges-to-wrong-energy">Problem: VQE Converges to Wrong Energy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-optimization-is-too-slow">Problem: Optimization is Too Slow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-chemical-accuracy-not-achieved">Problem: Chemical Accuracy Not Achieved</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-pyscf-integration-errors">Problem: PySCF Integration Errors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-gradient-explosion-or-nan">Problem: Gradient Explosion or NaN</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-exercises">Practice Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

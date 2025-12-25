@@ -1,0 +1,28 @@
+﻿atlas\_q.quantum\_hybrid\_system.PeriodicState
+==============================================
+
+.. currentmodule:: atlas_q.quantum_hybrid_system
+
+.. autoclass:: PeriodicState
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PeriodicState.__init__
+      ~PeriodicState.get_amplitude
+      ~PeriodicState.get_probability
+      ~PeriodicState.measure
+      ~PeriodicState.memory_usage
+      ~PeriodicState.qft_amplitude
+      ~PeriodicState.sample_qft_measurement
+   
+   
+
+   
+   
+   

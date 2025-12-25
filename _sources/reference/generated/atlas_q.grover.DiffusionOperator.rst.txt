@@ -1,0 +1,23 @@
+﻿atlas\_q.grover.DiffusionOperator
+=================================
+
+.. currentmodule:: atlas_q.grover
+
+.. autoclass:: DiffusionOperator
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DiffusionOperator.__init__
+      ~DiffusionOperator.apply
+   
+   
+
+   
+   
+   

@@ -1,0 +1,27 @@
+﻿atlas\_q.quantum\_hybrid\_system.PeriodFinder
+=============================================
+
+.. currentmodule:: atlas_q.quantum_hybrid_system
+
+.. autoclass:: PeriodFinder
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PeriodFinder.__init__
+      ~PeriodFinder.baby_step_giant_step
+      ~PeriodFinder.collision_detection
+      ~PeriodFinder.parallel_candidate_search
+      ~PeriodFinder.pollards_rho
+      ~PeriodFinder.smart_factorization
+   
+   
+
+   
+   
+   

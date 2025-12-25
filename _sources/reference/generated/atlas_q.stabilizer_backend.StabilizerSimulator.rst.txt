@@ -1,0 +1,35 @@
+﻿atlas\_q.stabilizer\_backend.StabilizerSimulator
+================================================
+
+.. currentmodule:: atlas_q.stabilizer_backend
+
+.. autoclass:: StabilizerSimulator
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~StabilizerSimulator.__init__
+      ~StabilizerSimulator.cnot
+      ~StabilizerSimulator.copy
+      ~StabilizerSimulator.cz
+      ~StabilizerSimulator.h
+      ~StabilizerSimulator.measure
+      ~StabilizerSimulator.s
+      ~StabilizerSimulator.s_dag
+      ~StabilizerSimulator.swap
+      ~StabilizerSimulator.to_mps
+      ~StabilizerSimulator.to_statevector
+      ~StabilizerSimulator.x
+      ~StabilizerSimulator.y
+      ~StabilizerSimulator.z
+   
+   
+
+   
+   
+   

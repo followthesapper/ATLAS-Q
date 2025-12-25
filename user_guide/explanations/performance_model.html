@@ -1,0 +1,1566 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Performance Model &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/explanations/performance_model';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Design Decisions" href="design_decisions.html" />
+    <link rel="prev" title="Numerical Stability" href="numerical_stability.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tensor_networks.html">Tensor Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adaptive_truncation.html">Adaptive Truncation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu_acceleration.html">GPU Acceleration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_stability.html">Numerical Stability</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Performance Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design_decisions.html">Design Decisions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparisons.html">Comparisons</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Explanations</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Performance Model</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="performance-model">
+<h1>Performance Model<a class="headerlink" href="#performance-model" title="Link to this heading">#</a></h1>
+<p>Understanding the performance characteristics of MPS-based quantum simulation is essential for planning large-scale computations and optimizing resource usage. This document provides a comprehensive performance model for ATLAS-Q, including computational complexity, memory scaling, bottleneck analysis, and optimization strategies.</p>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id1">Overview</a></p>
+<ul>
+<li><p><a class="reference internal" href="#why-performance-modeling-matters" id="id2">Why Performance Modeling Matters</a></p></li>
+<li><p><a class="reference internal" href="#performance-characteristics" id="id3">Performance Characteristics</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#computational-complexity" id="id4">Computational Complexity</a></p>
+<ul>
+<li><p><a class="reference internal" href="#single-qubit-gates" id="id5">Single-Qubit Gates</a></p></li>
+<li><p><a class="reference internal" href="#two-qubit-gates" id="id6">Two-Qubit Gates</a></p></li>
+<li><p><a class="reference internal" href="#expectation-value-computation" id="id7">Expectation Value Computation</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#memory-scaling" id="id8">Memory Scaling</a></p>
+<ul>
+<li><p><a class="reference internal" href="#mps-storage" id="id9">MPS Storage</a></p></li>
+<li><p><a class="reference internal" href="#working-memory" id="id10">Working Memory</a></p></li>
+<li><p><a class="reference internal" href="#mpo-storage" id="id11">MPO Storage</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#time-complexity" id="id12">Time Complexity</a></p>
+<ul>
+<li><p><a class="reference internal" href="#tdvp-time-evolution" id="id13">TDVP Time Evolution</a></p></li>
+<li><p><a class="reference internal" href="#vqe-optimization" id="id14">VQE Optimization</a></p></li>
+<li><p><a class="reference internal" href="#qaoa-performance" id="id15">QAOA Performance</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#scaling-laws" id="id16">Scaling Laws</a></p>
+<ul>
+<li><p><a class="reference internal" href="#mps-vs-statevector" id="id17">MPS vs Statevector</a></p></li>
+<li><p><a class="reference internal" href="#entanglement-scaling" id="id18">Entanglement Scaling</a></p></li>
+<li><p><a class="reference internal" href="#asymptotic-behavior" id="id19">Asymptotic Behavior</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#performance-predictions" id="id20">Performance Predictions</a></p>
+<ul>
+<li><p><a class="reference internal" href="#gate-throughput" id="id21">Gate Throughput</a></p></li>
+<li><p><a class="reference internal" href="#algorithm-runtime-estimates" id="id22">Algorithm Runtime Estimates</a></p></li>
+<li><p><a class="reference internal" href="#memory-requirements" id="id23">Memory Requirements</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#bottleneck-analysis" id="id24">Bottleneck Analysis</a></p>
+<ul>
+<li><p><a class="reference internal" href="#identifying-bottlenecks" id="id25">Identifying Bottlenecks</a></p></li>
+<li><p><a class="reference internal" href="#svd-bottleneck" id="id26">SVD Bottleneck</a></p></li>
+<li><p><a class="reference internal" href="#memory-bandwidth-bottleneck" id="id27">Memory Bandwidth Bottleneck</a></p></li>
+<li><p><a class="reference internal" href="#launch-overhead-bottleneck" id="id28">Launch Overhead Bottleneck</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#optimization-strategies" id="id29">Optimization Strategies</a></p>
+<ul>
+<li><p><a class="reference internal" href="#systematic-optimization-process" id="id30">Systematic Optimization Process</a></p></li>
+<li><p><a class="reference internal" href="#algorithm-level-optimizations" id="id31">Algorithm-Level Optimizations</a></p></li>
+<li><p><a class="reference internal" href="#implementation-level-optimizations" id="id32">Implementation-Level Optimizations</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#case-studies" id="id33">Case Studies</a></p>
+<ul>
+<li><p><a class="reference internal" href="#case-study-1-deep-vqe-circuit" id="id34">Case Study 1: Deep VQE Circuit</a></p></li>
+<li><p><a class="reference internal" href="#case-study-2-long-time-tdvp" id="id35">Case Study 2: Long-Time TDVP</a></p></li>
+<li><p><a class="reference internal" href="#case-study-3-qaoa-for-large-graph" id="id36">Case Study 3: QAOA for Large Graph</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#best-practices" id="id37">Best Practices</a></p>
+<ul>
+<li><p><a class="reference internal" href="#performance-checklist" id="id38">Performance Checklist</a></p></li>
+<li><p><a class="reference internal" href="#avoiding-common-pitfalls" id="id39">Avoiding Common Pitfalls</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#summary" id="id40">Summary</a></p></li>
+</ul>
+</nav>
+<section id="overview">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Overview</a><a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<section id="why-performance-modeling-matters">
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">Why Performance Modeling Matters</a><a class="headerlink" href="#why-performance-modeling-matters" title="Link to this heading">#</a></h3>
+<p>MPS simulations trade exponential statevector memory (<span class="math notranslate nohighlight">\(O(2^n)\)</span>) for polynomial time complexity in bond dimension <span class="math notranslate nohighlight">\(\chi\)</span>. Understanding this tradeoff is critical for:</p>
+<ol class="arabic simple">
+<li><p><strong>Resource planning</strong>: Estimate memory and time requirements before running</p></li>
+<li><p><strong>Algorithm selection</strong>: Choose between TDVP, VQE, QAOA based on scaling</p></li>
+<li><p><strong>Optimization</strong>: Identify bottlenecks and apply targeted improvements</p></li>
+<li><p><strong>Feasibility assessment</strong>: Determine if simulation is practical on available hardware</p></li>
+</ol>
+<p><strong>Key Performance Factors</strong>:</p>
+<ul class="simple">
+<li><p><strong>Number of qubits (n)</strong>: Linear impact on memory and time</p></li>
+<li><p><strong>Bond dimension (χ)</strong>: Cubic impact on time, quadratic on memory</p></li>
+<li><p><strong>Circuit depth</strong>: Determines total operations</p></li>
+<li><p><strong>Entanglement structure</strong>: Affects required χ for accuracy</p></li>
+<li><p><strong>Hardware</strong>: GPU vs CPU, memory bandwidth, compute capability</p></li>
+</ul>
+</section>
+<section id="performance-characteristics">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Performance Characteristics</a><a class="headerlink" href="#performance-characteristics" title="Link to this heading">#</a></h3>
+<p><strong>MPS advantages</strong>:</p>
+<ul class="simple">
+<li><p><strong>Linear scaling in n</strong>: Can simulate 100+ qubits vs 30-40 for statevector</p></li>
+<li><p><strong>Controllable accuracy</strong>: Trade χ for precision</p></li>
+<li><p><strong>Efficient for 1D systems</strong>: Area-law entanglement needs only moderate χ</p></li>
+<li><p><strong>GPU acceleration</strong>: 10-100× speedup over CPU</p></li>
+</ul>
+<p><strong>MPS limitations</strong>:</p>
+<ul class="simple">
+<li><p><strong>Cubic scaling in χ</strong>: Large χ (&gt;256) becomes expensive</p></li>
+<li><p><strong>Poor for highly entangled states</strong>: χ grows exponentially with entanglement</p></li>
+<li><p><strong>2D systems challenging</strong>: Volume-law scaling unless PEPS used</p></li>
+<li><p><strong>SVD bottleneck</strong>: Dominates runtime for χ &gt; 128</p></li>
+</ul>
+</section>
+</section>
+<section id="computational-complexity">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Computational Complexity</a><a class="headerlink" href="#computational-complexity" title="Link to this heading">#</a></h2>
+<section id="single-qubit-gates">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Single-Qubit Gates</a><a class="headerlink" href="#single-qubit-gates" title="Link to this heading">#</a></h3>
+<p>Applying single-qubit gate to site i:</p>
+<div class="math notranslate nohighlight">
+\[A^{[i]}_{new} = \sum_s G_{s,s'} A^{[i]}_{s'}\]</div>
+<p>where <span class="math notranslate nohighlight">\(A^{[i]}\)</span> has shape <span class="math notranslate nohighlight">\((\chi_L, d, \chi_R)\)</span>.</p>
+<p><strong>Complexity</strong>: <span class="math notranslate nohighlight">\(O(\chi_L \chi_R d^2) = O(\chi^2 d^2)\)</span></p>
+<p>For qubits <span class="math notranslate nohighlight">\(d=2\)</span>:</p>
+<p><strong>Time</strong>: <span class="math notranslate nohighlight">\(O(\chi^2)\)</span>
+<strong>Memory</strong>: <span class="math notranslate nohighlight">\(O(\chi^2)\)</span> for storing result</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Single-qubit gate on 50-qubit MPS with χ=64</span>
+<span class="c1"># Operations: 64² × 2² = 16,384 complex multiplications</span>
+<span class="c1"># GPU time: ~0.01 ms</span>
+
+<span class="n">mps</span><span class="o">.</span><span class="n">apply_h</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>  <span class="c1"># Hadamard on qubit 25</span>
+</pre></div>
+</div>
+<p><strong>Bottleneck</strong>: Memory bandwidth (loading/storing tensors dominates)</p>
+</section>
+<section id="two-qubit-gates">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Two-Qubit Gates</a><a class="headerlink" href="#two-qubit-gates" title="Link to this heading">#</a></h3>
+<p>Applying two-qubit gate to sites i and i+1 requires:</p>
+<ol class="arabic simple">
+<li><p><strong>Contract</strong>: Merge <span class="math notranslate nohighlight">\(A^{[i]}\)</span> and <span class="math notranslate nohighlight">\(A^{[i+1]}\)</span> → <span class="math notranslate nohighlight">\(\Theta\)</span> of shape <span class="math notranslate nohighlight">\((\chi_L, d, d, \chi_R)\)</span></p>
+<ul class="simple">
+<li><p>Complexity: <span class="math notranslate nohighlight">\(O(\chi^2 d^2)\)</span></p></li>
+</ul>
+</li>
+<li><p><strong>Apply gate</strong>: <span class="math notranslate nohighlight">\(\Theta' = G \cdot \Theta\)</span></p>
+<ul class="simple">
+<li><p>Complexity: <span class="math notranslate nohighlight">\(O(\chi^2 d^4)\)</span></p></li>
+</ul>
+</li>
+<li><p><strong>SVD</strong>: Decompose <span class="math notranslate nohighlight">\(\Theta'\)</span> (<span class="math notranslate nohighlight">\(\chi d \times \chi d\)</span> matrix)</p>
+<ul class="simple">
+<li><p>Complexity: <span class="math notranslate nohighlight">\(O((\chi d)^3) = O(\chi^3 d^3)\)</span></p></li>
+</ul>
+</li>
+<li><p><strong>Truncate</strong>: Keep largest <span class="math notranslate nohighlight">\(\chi\)</span> singular values</p>
+<ul class="simple">
+<li><p>Complexity: <span class="math notranslate nohighlight">\(O(\chi^2)\)</span></p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Total</strong>: <span class="math notranslate nohighlight">\(O(\chi^3 d^3)\)</span> dominated by SVD</p>
+<p>For qubits:</p>
+<p><strong>Time</strong>: <span class="math notranslate nohighlight">\(O(\chi^3 \times 8) = O(8\chi^3)\)</span>
+<strong>Memory</strong>: <span class="math notranslate nohighlight">\(O(\chi^2 d^2) = O(4\chi^2)\)</span> for <span class="math notranslate nohighlight">\(\Theta\)</span></p>
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Two-qubit gate with χ=64</span>
+<span class="c1"># SVD operations: (64×2)³ = 2,097,152</span>
+<span class="c1"># GPU time (A100): ~0.15 ms</span>
+
+<span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Bottleneck</strong>: SVD computation (60-80% of time)</p>
+</section>
+<section id="expectation-value-computation">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Expectation Value Computation</a><a class="headerlink" href="#expectation-value-computation" title="Link to this heading">#</a></h3>
+<p>Computing <span class="math notranslate nohighlight">\(\langle \psi | \hat{O} | \psi \rangle\)</span> for operator <span class="math notranslate nohighlight">\(\hat{O}\)</span> represented as MPO:</p>
+<ol class="arabic simple">
+<li><p><strong>Contract MPS with MPO</strong>: <span class="math notranslate nohighlight">\(O(n \chi^2 \chi_{MPO} d^2)\)</span></p></li>
+<li><p><strong>Contract result with MPS</strong>: <span class="math notranslate nohighlight">\(O(n \chi^2)\)</span></p></li>
+</ol>
+<p>For local operator (single-site measurement):</p>
+<p><strong>Complexity</strong>: <span class="math notranslate nohighlight">\(O(\chi^2 d^2)\)</span></p>
+<p>For Hamiltonian (nearest-neighbor MPO with <span class="math notranslate nohighlight">\(\chi_{MPO} \approx 4-8\)</span>):</p>
+<p><strong>Complexity</strong>: <span class="math notranslate nohighlight">\(O(n \chi^3 d^2)\)</span></p>
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Energy of 30-qubit Heisenberg chain, χ=64</span>
+<span class="c1"># Operations: 30 × 64³ × 4 = 31,457,280</span>
+<span class="c1"># GPU time: ~2 ms</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_heisenberg_hamiltonian</span>
+<span class="n">H_mpo</span> <span class="o">=</span> <span class="n">build_heisenberg_hamiltonian</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation_value</span><span class="p">(</span><span class="n">H_mpo</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="memory-scaling">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Memory Scaling</a><a class="headerlink" href="#memory-scaling" title="Link to this heading">#</a></h2>
+<section id="mps-storage">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">MPS Storage</a><a class="headerlink" href="#mps-storage" title="Link to this heading">#</a></h3>
+<p>An n-qubit MPS with bond dimension χ and local dimension d stores:</p>
+<div class="math notranslate nohighlight">
+\[\text{Memory} = \sum_{i=1}^{n} \chi_{i-1} \times d \times \chi_i \times \text{bytes}\]</div>
+<p>For uniform χ and complex128 (16 bytes per complex number):</p>
+<div class="math notranslate nohighlight">
+\[\text{Memory} \approx n \chi^2 d \times 16 \text{ bytes} = 16 n \chi^2 d \text{ bytes}\]</div>
+<p>For qubits (d=2) and complex64 (8 bytes):</p>
+<div class="math notranslate nohighlight">
+\[\text{Memory} \approx 16 n \chi^2 \text{ bytes}\]</div>
+<p><strong>Examples</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Qubits n</p></th>
+<th class="head"><p>Bond χ</p></th>
+<th class="head"><p>Memory (GB)</p></th>
+<th class="head"><p>Comparison</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>50</p></td>
+<td><p>32</p></td>
+<td><p>0.08</p></td>
+<td><p>Tiny</p></td>
+</tr>
+<tr class="row-odd"><td><p>50</p></td>
+<td><p>64</p></td>
+<td><p>0.31</p></td>
+<td><p>Small</p></td>
+</tr>
+<tr class="row-even"><td><p>100</p></td>
+<td><p>64</p></td>
+<td><p>0.62</p></td>
+<td><p>Moderate</p></td>
+</tr>
+<tr class="row-odd"><td><p>100</p></td>
+<td><p>128</p></td>
+<td><p>2.46</p></td>
+<td><p>Significant</p></td>
+</tr>
+<tr class="row-even"><td><p>200</p></td>
+<td><p>64</p></td>
+<td><p>1.23</p></td>
+<td><p>Large</p></td>
+</tr>
+<tr class="row-odd"><td><p>200</p></td>
+<td><p>128</p></td>
+<td><p>4.92</p></td>
+<td><p>Very large</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Statevector comparison</strong>: 50-qubit statevector = <span class="math notranslate nohighlight">\(2^{50} \times 16\)</span> bytes = 18 PB (impossible)</p>
+</section>
+<section id="working-memory">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Working Memory</a><a class="headerlink" href="#working-memory" title="Link to this heading">#</a></h3>
+<p>Operations require temporary storage:</p>
+<p><strong>Single-qubit gate</strong>:
+- Input tensor: <span class="math notranslate nohighlight">\(\chi^2 d \times 16\)</span> bytes
+- Output tensor: <span class="math notranslate nohighlight">\(\chi^2 d \times 16\)</span> bytes
+- <strong>Total</strong>: <span class="math notranslate nohighlight">\(2 \chi^2 d \times 16\)</span> bytes</p>
+<p><strong>Two-qubit gate</strong>:
+- Merged tensor <span class="math notranslate nohighlight">\(\Theta\)</span>: <span class="math notranslate nohighlight">\(\chi^2 d^2 \times 16\)</span> bytes
+- SVD workspace: <span class="math notranslate nohighlight">\(3(\chi d)^2 \times 16\)</span> bytes (U, S, Vh)
+- <strong>Total</strong>: <span class="math notranslate nohighlight">\(\approx 4 \chi^2 d^2 \times 16\)</span> bytes</p>
+<p>For χ=256, d=2:</p>
+<ul class="simple">
+<li><p>Two-qubit gate working memory: <span class="math notranslate nohighlight">\(4 \times 256^2 \times 4 \times 16\)</span> = 64 MB</p></li>
+</ul>
+<p><strong>GPU memory budget</strong> (16 GB A100):</p>
+<ul class="simple">
+<li><p>MPS storage (200 qubits, χ=128): ~5 GB</p></li>
+<li><p>Working memory (operations): ~1 GB</p></li>
+<li><p>PyTorch allocator overhead: ~2 GB</p></li>
+<li><p><strong>Available</strong>: ~8 GB for multiple MPS / batching</p></li>
+</ul>
+</section>
+<section id="mpo-storage">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">MPO Storage</a><a class="headerlink" href="#mpo-storage" title="Link to this heading">#</a></h3>
+<p>Matrix Product Operator for nearest-neighbor Hamiltonian:</p>
+<div class="math notranslate nohighlight">
+\[\text{MPO Memory} = n \times \chi_{MPO}^2 \times d^2 \times 16 \text{ bytes}\]</div>
+<p>For Heisenberg model (<span class="math notranslate nohighlight">\(\chi_{MPO} = 5\)</span>):</p>
+<p><strong>Memory</strong>: <span class="math notranslate nohighlight">\(n \times 25 \times 4 \times 16 = 1600n\)</span> bytes ≈ 1.6 KB per qubit</p>
+<p>MPO memory is usually negligible compared to MPS.</p>
+</section>
+</section>
+<section id="time-complexity">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Time Complexity</a><a class="headerlink" href="#time-complexity" title="Link to this heading">#</a></h2>
+<section id="tdvp-time-evolution">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">TDVP Time Evolution</a><a class="headerlink" href="#tdvp-time-evolution" title="Link to this heading">#</a></h3>
+<p><strong>1-Site TDVP</strong>:</p>
+<p>Per time step, sweep through n sites:</p>
+<ol class="arabic simple">
+<li><p><strong>Site evolution</strong>: <span class="math notranslate nohighlight">\(O(\chi^3 d^2)\)</span> for effective Hamiltonian application</p></li>
+<li><p><strong>Bond evolution</strong>: <span class="math notranslate nohighlight">\(O(\chi^3)\)</span> for backward sweep</p></li>
+<li><p><strong>Total per site</strong>: <span class="math notranslate nohighlight">\(O(\chi^3 d^2)\)</span></p></li>
+</ol>
+<p><strong>Per time step</strong>: <span class="math notranslate nohighlight">\(O(n \chi^3 d^2)\)</span></p>
+<p>For Hamiltonian with <span class="math notranslate nohighlight">\(\chi_{MPO} = k\)</span>:</p>
+<p><strong>Refined complexity</strong>: <span class="math notranslate nohighlight">\(O(n \chi^3 k d^2)\)</span></p>
+<p><strong>2-Site TDVP</strong>:</p>
+<p>Includes SVD at each bond:</p>
+<p><strong>Per time step</strong>: <span class="math notranslate nohighlight">\(O(n \chi^3 d^3)\)</span></p>
+<p>Extra factor of d from two-site evolution and SVD of <span class="math notranslate nohighlight">\((\chi d) \times (\chi d)\)</span> matrix.</p>
+<p><strong>Comparison</strong>:</p>
+<p>For 50 qubits, χ=64, 100 time steps:</p>
+<ul class="simple">
+<li><p><strong>1-site</strong>: <span class="math notranslate nohighlight">\(100 \times 50 \times 64^3 \times 4 \approx 5.2 \times 10^9\)</span> operations</p></li>
+<li><p><strong>2-site</strong>: <span class="math notranslate nohighlight">\(100 \times 50 \times 64^3 \times 8 \approx 10.5 \times 10^9\)</span> operations (2× slower)</p></li>
+</ul>
+</section>
+<section id="vqe-optimization">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">VQE Optimization</a><a class="headerlink" href="#vqe-optimization" title="Link to this heading">#</a></h3>
+<p><strong>Energy evaluation</strong>:</p>
+<p>Circuit application + Hamiltonian expectation:</p>
+<div class="math notranslate nohighlight">
+\[\text{Cost}_{\text{energy}} = O(T \chi^3 d^2 + n \chi^3 k d^2)\]</div>
+<p>where T = circuit depth.</p>
+<p><strong>Gradient computation</strong> (parameter-shift rule):</p>
+<p>For p parameters:</p>
+<div class="math notranslate nohighlight">
+\[\text{Cost}_{\text{gradient}} = O(2p \times \text{Cost}_{\text{energy}}) = O(p T \chi^3 d^2)\]</div>
+<p><strong>Full VQE</strong>:</p>
+<p>For N iterations:</p>
+<div class="math notranslate nohighlight">
+\[\text{Total} = O(N \cdot p \cdot T \cdot \chi^3 d^2)\]</div>
+<p><strong>Example</strong>:</p>
+<p>50 qubits, χ=64, depth T=50, p=100 parameters, N=200 iterations:</p>
+<div class="math notranslate nohighlight">
+\[\text{Operations} = 200 \times 100 \times 50 \times 64^3 \times 4 \approx 5.2 \times 10^{12}\]</div>
+<p>On GPU: ~100-500 seconds (depends on hardware, batch size)</p>
+</section>
+<section id="qaoa-performance">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">QAOA Performance</a><a class="headerlink" href="#qaoa-performance" title="Link to this heading">#</a></h3>
+<p>QAOA with p layers evaluating cost function:</p>
+<p><strong>Per evaluation</strong>:</p>
+<ul class="simple">
+<li><p>Apply 2p operators (problem + mixer): <span class="math notranslate nohighlight">\(O(2p \cdot n \chi^3 d^2)\)</span></p></li>
+<li><p>Hamiltonian expectation: <span class="math notranslate nohighlight">\(O(n \chi^3 d^2)\)</span></p></li>
+</ul>
+<p><strong>Total per evaluation</strong>: <span class="math notranslate nohighlight">\(O((2p+1) n \chi^3 d^2)\)</span></p>
+<p>For optimization with N evaluations:</p>
+<p><strong>Total</strong>: <span class="math notranslate nohighlight">\(O(N p n \chi^3 d^2)\)</span></p>
+<p><strong>QAOA characteristics</strong>:</p>
+<ul class="simple">
+<li><p>Usually p=1-5 (shallow)</p></li>
+<li><p>χ typically small (16-32) due to low entanglement</p></li>
+<li><p>Fast convergence (N=50-200)</p></li>
+</ul>
+<p><strong>Example</strong>:</p>
+<p>20 qubits, p=3, χ=32, N=100 iterations:</p>
+<div class="math notranslate nohighlight">
+\[\text{Operations} = 100 \times 3 \times 20 \times 32^3 \times 4 \approx 7.9 \times 10^9\]</div>
+<p>GPU time: ~5-10 seconds</p>
+</section>
+</section>
+<section id="scaling-laws">
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">Scaling Laws</a><a class="headerlink" href="#scaling-laws" title="Link to this heading">#</a></h2>
+<section id="mps-vs-statevector">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">MPS vs Statevector</a><a class="headerlink" href="#mps-vs-statevector" title="Link to this heading">#</a></h3>
+<p><strong>Memory</strong>:</p>
+<p><strong>Compression</strong>: <span class="math notranslate nohighlight">\(\frac{2^n}{n \chi^2} = \frac{2^{50}}{50 \times 64^2} \approx 5.5 \times 10^{12} \times\)</span></p>
+<p><strong>Time</strong> (single two-qubit gate):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Time</p></th>
+<th class="head"><p>50 Qubits</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Statevector</p></td>
+<td><p><span class="math notranslate nohighlight">\(O(2^n)\)</span></p></td>
+<td><p>Impossible</p></td>
+</tr>
+<tr class="row-odd"><td><p>MPS</p></td>
+<td><p><span class="math notranslate nohighlight">\(O(\chi^3)\)</span></p></td>
+<td><p>~0.15 ms (GPU)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="entanglement-scaling">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">Entanglement Scaling</a><a class="headerlink" href="#entanglement-scaling" title="Link to this heading">#</a></h3>
+<p>Required bond dimension depends on entanglement:</p>
+<p><strong>Area Law</strong> (1D nearest-neighbor):</p>
+<div class="math notranslate nohighlight">
+\[\chi \sim \exp(c \cdot S)\]</div>
+<p>where S is entanglement entropy.</p>
+<p>For area law: <span class="math notranslate nohighlight">\(S = O(1)\)</span> → <span class="math notranslate nohighlight">\(\chi = O(1)\)</span> (constant)</p>
+<p><strong>Volume Law</strong> (all-to-all coupling, random circuits):</p>
+<div class="math notranslate nohighlight">
+\[S = O(n)\]</div>
+<p>Requires <span class="math notranslate nohighlight">\(\chi = O(2^{n/2})\)</span> (exponential) → MPS inefficient</p>
+<p><strong>Practical examples</strong>:</p>
+<ul class="simple">
+<li><p><strong>Heisenberg chain</strong>: χ=16-32 sufficient for high accuracy</p></li>
+<li><p><strong>Quantum Fourier Transform</strong>: χ ~ O(√n) due to logarithmic entanglement</p></li>
+<li><p><strong>Random circuit (depth d)</strong>: χ ~ O(2^{min(d, n/2)})</p></li>
+</ul>
+</section>
+<section id="asymptotic-behavior">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">Asymptotic Behavior</a><a class="headerlink" href="#asymptotic-behavior" title="Link to this heading">#</a></h3>
+<p><strong>Best case</strong> (product state):</p>
+<ul class="simple">
+<li><p>χ=1 sufficient</p></li>
+<li><p>All operations <span class="math notranslate nohighlight">\(O(n)\)</span> (linear)</p></li>
+</ul>
+<p><strong>Typical case</strong> (1D area law):</p>
+<ul class="simple">
+<li><p>χ=32-128 sufficient</p></li>
+<li><p>Operations <span class="math notranslate nohighlight">\(O(n \chi^3) \approx O(n)\)</span>  (quasi-linear)</p></li>
+</ul>
+<p><strong>Worst case</strong> (volume law):</p>
+<ul class="simple">
+<li><p>χ ~ <span class="math notranslate nohighlight">\(2^{n/2}\)</span> required</p></li>
+<li><p>Operations <span class="math notranslate nohighlight">\(O(n \times 2^{3n/2})\)</span> (exponential)</p></li>
+<li><p>MPS provides no advantage</p></li>
+</ul>
+</section>
+</section>
+<section id="performance-predictions">
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">Performance Predictions</a><a class="headerlink" href="#performance-predictions" title="Link to this heading">#</a></h2>
+<section id="gate-throughput">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Gate Throughput</a><a class="headerlink" href="#gate-throughput" title="Link to this heading">#</a></h3>
+<p><strong>GPU (A100), complex64</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operation</p></th>
+<th class="head"><p>Bond χ</p></th>
+<th class="head"><p>Time (ms)</p></th>
+<th class="head"><p>Throughput</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Single-qubit gate</p></td>
+<td><p>32</p></td>
+<td><p>0.005</p></td>
+<td><p>200K ops/sec</p></td>
+</tr>
+<tr class="row-odd"><td><p>Single-qubit gate</p></td>
+<td><p>64</p></td>
+<td><p>0.008</p></td>
+<td><p>125K ops/sec</p></td>
+</tr>
+<tr class="row-even"><td><p>Single-qubit gate</p></td>
+<td><p>128</p></td>
+<td><p>0.020</p></td>
+<td><p>50K ops/sec</p></td>
+</tr>
+<tr class="row-odd"><td><p>Two-qubit gate</p></td>
+<td><p>32</p></td>
+<td><p>0.05</p></td>
+<td><p>20K ops/sec</p></td>
+</tr>
+<tr class="row-even"><td><p>Two-qubit gate</p></td>
+<td><p>64</p></td>
+<td><p>0.13</p></td>
+<td><p>7.7K ops/sec</p></td>
+</tr>
+<tr class="row-odd"><td><p>Two-qubit gate</p></td>
+<td><p>128</p></td>
+<td><p>0.50</p></td>
+<td><p>2K ops/sec</p></td>
+</tr>
+<tr class="row-even"><td><p>Two-qubit gate</p></td>
+<td><p>256</p></td>
+<td><p>2.0</p></td>
+<td><p>500 ops/sec</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Observations</strong>:</p>
+<ul class="simple">
+<li><p>Single-qubit gates ~10-20× faster than two-qubit</p></li>
+<li><p>Time scales as <span class="math notranslate nohighlight">\(\chi^3\)</span> for two-qubit gates (SVD dominated)</p></li>
+<li><p>cuQuantum provides 2-3× additional speedup for χ&gt;128</p></li>
+</ul>
+</section>
+<section id="algorithm-runtime-estimates">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">Algorithm Runtime Estimates</a><a class="headerlink" href="#algorithm-runtime-estimates" title="Link to this heading">#</a></h3>
+<p><strong>VQE (hardware-efficient ansatz)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Setup</strong>: 10 qubits, 3 layers (30 parameters), χ=32</p></li>
+<li><p><strong>Circuit depth</strong>: ~30 gates</p></li>
+<li><p><strong>Energy evaluation</strong>: ~5 ms</p></li>
+<li><p><strong>Gradient (parameter-shift)</strong>: 30 params × 2 evaluations = 60 × 5 ms = 300 ms</p></li>
+<li><p><strong>Optimization</strong>: 100 iterations × 300 ms = 30 seconds</p></li>
+</ul>
+<p><strong>TDVP (Heisenberg chain)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Setup</strong>: 50 qubits, χ=64, dt=0.05</p></li>
+<li><p><strong>Time step (1-site)</strong>: 50 sites × 0.5 ms = 25 ms</p></li>
+<li><p><strong>Evolution</strong>: 1000 steps × 25 ms = 25 seconds</p></li>
+</ul>
+<p><strong>QAOA (MaxCut)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Setup</strong>: 20 qubits, p=3, χ=32</p></li>
+<li><p><strong>Cost evaluation</strong>: ~10 ms</p></li>
+<li><p><strong>Optimization</strong>: 150 iterations × 10 ms = 1.5 seconds</p></li>
+</ul>
+</section>
+<section id="memory-requirements">
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">Memory Requirements</a><a class="headerlink" href="#memory-requirements" title="Link to this heading">#</a></h3>
+<p><strong>Practical limits</strong> (16 GB GPU):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Qubits</p></th>
+<th class="head"><p>Bond χ</p></th>
+<th class="head"><p>MPS Memory</p></th>
+<th class="head"><p>Max Qubits</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Any</p></td>
+<td><p>32</p></td>
+<td><p>0.08 GB / 50q</p></td>
+<td><p>~1000</p></td>
+</tr>
+<tr class="row-odd"><td><p>Any</p></td>
+<td><p>64</p></td>
+<td><p>0.31 GB / 50q</p></td>
+<td><p>~400</p></td>
+</tr>
+<tr class="row-even"><td><p>Any</p></td>
+<td><p>128</p></td>
+<td><p>1.23 GB / 50q</p></td>
+<td><p>~100</p></td>
+</tr>
+<tr class="row-odd"><td><p>Any</p></td>
+<td><p>256</p></td>
+<td><p>4.92 GB / 50q</p></td>
+<td><p>~25</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Actual limits lower due to:</p>
+<ul class="simple">
+<li><p>Working memory for operations (~20% overhead)</p></li>
+<li><p>PyTorch allocator fragmentation (~30% overhead)</p></li>
+<li><p>Multiple MPS instances or batching</p></li>
+</ul>
+<p><strong>Rule of thumb</strong>: Allocate 2× MPS storage for total memory budget.</p>
+</section>
+</section>
+<section id="bottleneck-analysis">
+<h2><a class="toc-backref" href="#id24" role="doc-backlink">Bottleneck Analysis</a><a class="headerlink" href="#bottleneck-analysis" title="Link to this heading">#</a></h2>
+<section id="identifying-bottlenecks">
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">Identifying Bottlenecks</a><a class="headerlink" href="#identifying-bottlenecks" title="Link to this heading">#</a></h3>
+<p>Use profiling to identify where time is spent:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Profile gate applications</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span>
+    <span class="n">activities</span><span class="o">=</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">ProfilerActivity</span><span class="o">.</span><span class="n">CUDA</span><span class="p">],</span>
+    <span class="n">record_shapes</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">prof</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">29</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">29</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Print breakdown</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prof</span><span class="o">.</span><span class="n">key_averages</span><span class="p">()</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">sort_by</span><span class="o">=</span><span class="s2">&quot;cuda_time_total&quot;</span><span class="p">,</span> <span class="n">row_limit</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>Common bottlenecks</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>SVD</strong> (40-70% of time for χ&gt;64)</p></li>
+<li><p><strong>Memory bandwidth</strong> (20-30% for large tensors)</p></li>
+<li><p><strong>Kernel launch overhead</strong> (5-10% for many small operations)</p></li>
+<li><p><strong>Truncation logic</strong> (5-10% adaptive bond dimension selection)</p></li>
+</ol>
+</section>
+<section id="svd-bottleneck">
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">SVD Bottleneck</a><a class="headerlink" href="#svd-bottleneck" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: SVD dominates for χ&gt;128</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Use cuQuantum</strong>: gesvdj algorithm 2-3× faster</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumConfig</span><span class="p">,</span> <span class="n">CuQuantumBackend</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span>
+    <span class="n">use_cutensornet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">svd_algorithm</span><span class="o">=</span><span class="s1">&#39;gesvdj&#39;</span>  <span class="c1"># Jacobi SVD</span>
+<span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Reduce truncation frequency</strong>: Compress every 10 gates instead of every gate</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">j</span> <span class="o">%</span> <span class="mi">29</span><span class="p">,</span> <span class="n">j</span> <span class="o">%</span> <span class="mi">29</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">compress</span><span class="p">()</span>  <span class="c1"># Single truncation after 10 gates</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Use complex64</strong>: 2× faster SVD than complex128</p></li>
+</ol>
+</section>
+<section id="memory-bandwidth-bottleneck">
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">Memory Bandwidth Bottleneck</a><a class="headerlink" href="#memory-bandwidth-bottleneck" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: Large tensors bottlenecked by memory transfer</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Fused kernels</strong>: Use Triton kernels for χ&gt;64</p></li>
+<li><p><strong>Increase arithmetic intensity</strong>: More compute per memory access</p></li>
+<li><p><strong>Optimize memory layout</strong>: Ensure coalesced access patterns</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Triton kernels automatically used for χ&gt;64</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.triton_kernels.mps_complex</span><span class="w"> </span><span class="kn">import</span> <span class="n">use_triton_kernels</span>
+<span class="n">use_triton_kernels</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Enable fused operations</span>
+</pre></div>
+</div>
+</section>
+<section id="launch-overhead-bottleneck">
+<h3><a class="toc-backref" href="#id28" role="doc-backlink">Launch Overhead Bottleneck</a><a class="headerlink" href="#launch-overhead-bottleneck" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: Many small operations have high launch overhead</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Batch operations</strong>: Group multiple gates</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bad: Launch 100 separate kernels</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_h</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Good: Batch into single call</span>
+<span class="n">sites</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">apply_batch_single_gates</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">sites</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Use CUDA streams</strong>: Overlap compute and transfer</p></li>
+</ol>
+</section>
+</section>
+<section id="optimization-strategies">
+<h2><a class="toc-backref" href="#id29" role="doc-backlink">Optimization Strategies</a><a class="headerlink" href="#optimization-strategies" title="Link to this heading">#</a></h2>
+<section id="systematic-optimization-process">
+<h3><a class="toc-backref" href="#id30" role="doc-backlink">Systematic Optimization Process</a><a class="headerlink" href="#systematic-optimization-process" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Profile</strong>: Identify bottlenecks</p></li>
+<li><p><strong>Optimize hot path</strong>: Focus on 80% of time</p></li>
+<li><p><strong>Measure</strong>: Verify improvement</p></li>
+<li><p><strong>Iterate</strong>: Repeat until target met</p></li>
+</ol>
+</section>
+<section id="algorithm-level-optimizations">
+<h3><a class="toc-backref" href="#id31" role="doc-backlink">Algorithm-Level Optimizations</a><a class="headerlink" href="#algorithm-level-optimizations" title="Link to this heading">#</a></h3>
+<p><strong>Choose right algorithm</strong>:</p>
+<ul class="simple">
+<li><p><strong>Small χ needed</strong>: Use 1-site TDVP or QAOA</p></li>
+<li><p><strong>High accuracy needed</strong>: Use 2-site TDVP or increase χ</p></li>
+<li><p><strong>Clifford subcircuit</strong>: Use stabilizer backend (20× faster)</p></li>
+</ul>
+<p><strong>Reduce operations</strong>:</p>
+<ul class="simple">
+<li><p><strong>Circuit optimization</strong>: Merge gates, remove redundancy</p></li>
+<li><p><strong>Adaptive parameters</strong>: Vary dt or optimizer tolerance</p></li>
+<li><p><strong>Early stopping</strong>: Terminate when converged</p></li>
+</ul>
+</section>
+<section id="implementation-level-optimizations">
+<h3><a class="toc-backref" href="#id32" role="doc-backlink">Implementation-Level Optimizations</a><a class="headerlink" href="#implementation-level-optimizations" title="Link to this heading">#</a></h3>
+<p><strong>GPU acceleration</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">matmul</span><span class="o">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Enable tensor cores</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span>  <span class="c1"># Use single precision</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>cuQuantum integration</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumConfig</span><span class="p">,</span> <span class="n">CuQuantumBackend</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span>
+    <span class="n">use_cutensornet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">svd_algorithm</span><span class="o">=</span><span class="s1">&#39;gesvdj&#39;</span><span class="p">,</span>
+    <span class="n">enable_async</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Multi-GPU</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">4</span>
+<span class="p">)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="case-studies">
+<h2><a class="toc-backref" href="#id33" role="doc-backlink">Case Studies</a><a class="headerlink" href="#case-studies" title="Link to this heading">#</a></h2>
+<section id="case-study-1-deep-vqe-circuit">
+<h3><a class="toc-backref" href="#id34" role="doc-backlink">Case Study 1: Deep VQE Circuit</a><a class="headerlink" href="#case-study-1-deep-vqe-circuit" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: VQE with 20 qubits, 10 layers, 200 parameters taking 10 minutes per iteration</p>
+<p><strong>Analysis</strong>:</p>
+<ul class="simple">
+<li><p>Circuit depth: ~200 gates</p></li>
+<li><p>Time per iteration: 600 seconds</p></li>
+<li><p>Most time in energy evaluation (500s) and gradient (100s)</p></li>
+</ul>
+<p><strong>Optimization</strong>:</p>
+<ol class="arabic simple">
+<li><p>Reduced χ from 128 to 64 (entanglement analysis showed χ=64 sufficient)</p></li>
+<li><p>Used complex64 instead of complex128</p></li>
+<li><p>Enabled cuQuantum</p></li>
+</ol>
+<p><strong>Result</strong>:</p>
+<ul class="simple">
+<li><p>Time per iteration: 60 seconds (10× improvement)</p></li>
+<li><p>Accuracy maintained (energy error &lt; 1e-6)</p></li>
+</ul>
+</section>
+<section id="case-study-2-long-time-tdvp">
+<h3><a class="toc-backref" href="#id35" role="doc-backlink">Case Study 2: Long-Time TDVP</a><a class="headerlink" href="#case-study-2-long-time-tdvp" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: TDVP evolution of 100-qubit chain for 10,000 time steps running out of memory</p>
+<p><strong>Analysis</strong>:</p>
+<ul class="simple">
+<li><p>χ=256 → 50 qubits max on 16 GB GPU</p></li>
+<li><p>Need to reduce memory footprint</p></li>
+</ul>
+<p><strong>Optimization</strong>:</p>
+<ol class="arabic simple">
+<li><p>Analyzed entanglement: χ=128 sufficient for middle section, χ=64 for edges</p></li>
+<li><p>Implemented adaptive per-bond χ</p></li>
+<li><p>Used memory budgets</p></li>
+</ol>
+<p><strong>Result</strong>:</p>
+<ul class="simple">
+<li><p>Fit 100 qubits with adaptive χ (64-128)</p></li>
+<li><p>Simulation completed in 2 hours</p></li>
+<li><p>Accuracy within tolerance (global error &lt; 1e-5)</p></li>
+</ul>
+</section>
+<section id="case-study-3-qaoa-for-large-graph">
+<h3><a class="toc-backref" href="#id36" role="doc-backlink">Case Study 3: QAOA for Large Graph</a><a class="headerlink" href="#case-study-3-qaoa-for-large-graph" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: QAOA on 100-node graph converging slowly (1000+ iterations)</p>
+<p><strong>Analysis</strong>:</p>
+<ul class="simple">
+<li><p>Standard QAOA using random initialization</p></li>
+<li><p>Many local minima causing slow convergence</p></li>
+</ul>
+<p><strong>Optimization</strong>:</p>
+<ol class="arabic simple">
+<li><p>Used warm-start from p=1 solution to initialize p=3</p></li>
+<li><p>Linear ramp initialization for parameters</p></li>
+<li><p>Switched to COBYLA optimizer (gradient-free, better for local minima)</p></li>
+</ol>
+<p><strong>Result</strong>:</p>
+<ul class="simple">
+<li><p>Converged in 150 iterations (7× fewer)</p></li>
+<li><p>Reached 0.85 approximation ratio</p></li>
+<li><p>Total time: 30 seconds vs 5 minutes</p></li>
+</ul>
+</section>
+</section>
+<section id="best-practices">
+<h2><a class="toc-backref" href="#id37" role="doc-backlink">Best Practices</a><a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<section id="performance-checklist">
+<h3><a class="toc-backref" href="#id38" role="doc-backlink">Performance Checklist</a><a class="headerlink" href="#performance-checklist" title="Link to this heading">#</a></h3>
+<p>Before running large simulation:</p>
+<ol class="arabic simple">
+<li><p><strong>Estimate requirements</strong>:
+- Memory: <span class="math notranslate nohighlight">\(16 n \chi^2\)</span> bytes
+- Time: <span class="math notranslate nohighlight">\(O(T \chi^3)\)</span> for T operations
+- Check against available resources</p></li>
+<li><p><strong>Profile small version</strong>:
+- Run on 10-20 qubits first
+- Measure actual throughput
+- Extrapolate to full problem</p></li>
+<li><p><strong>Optimize configuration</strong>:
+- Start with χ=32, increase if needed
+- Use complex64 unless high precision required
+- Enable GPU and cuQuantum</p></li>
+<li><p><strong>Monitor during run</strong>:
+- Track memory usage
+- Check truncation errors
+- Verify convergence</p></li>
+</ol>
+</section>
+<section id="avoiding-common-pitfalls">
+<h3><a class="toc-backref" href="#id39" role="doc-backlink">Avoiding Common Pitfalls</a><a class="headerlink" href="#avoiding-common-pitfalls" title="Link to this heading">#</a></h3>
+<p><strong>Don’t</strong>:</p>
+<ul class="simple">
+<li><p>Assume χ=256 always needed (often χ=64 sufficient)</p></li>
+<li><p>Use complex128 by default (2× slower than complex64)</p></li>
+<li><p>Apply gates one-by-one (batch when possible)</p></li>
+<li><p>Ignore memory budget warnings (will OOM later)</p></li>
+</ul>
+<p><strong>Do</strong>:</p>
+<ul class="simple">
+<li><p>Analyze entanglement to determine required χ</p></li>
+<li><p>Profile before optimizing</p></li>
+<li><p>Use adaptive truncation thresholds</p></li>
+<li><p>Check accuracy periodically</p></li>
+</ul>
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id40" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>ATLAS-Q’s performance model provides predictable scaling:</p>
+<p><strong>Computational Complexity</strong>:</p>
+<ul class="simple">
+<li><p>Single-qubit gates: <span class="math notranslate nohighlight">\(O(\chi^2)\)</span></p></li>
+<li><p>Two-qubit gates: <span class="math notranslate nohighlight">\(O(\chi^3)\)</span> (SVD dominated)</p></li>
+<li><p>TDVP time step: <span class="math notranslate nohighlight">\(O(n \chi^3 d^2)\)</span></p></li>
+<li><p>VQE iteration: <span class="math notranslate nohighlight">\(O(p T \chi^3 d^2)\)</span></p></li>
+</ul>
+<p><strong>Memory Scaling</strong>:</p>
+<ul class="simple">
+<li><p>MPS storage: <span class="math notranslate nohighlight">\(O(n \chi^2 d)\)</span> - linear in qubits</p></li>
+<li><p>Working memory: <span class="math notranslate nohighlight">\(O(\chi^2 d^2)\)</span> - for operations</p></li>
+<li><p>Practical limits: 100+ qubits with χ=128 on 16 GB GPU</p></li>
+</ul>
+<p><strong>Key Insights</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>χ dominates</strong>: Cubic scaling in bond dimension for time</p></li>
+<li><p><strong>SVD bottleneck</strong>: 40-70% of runtime for χ&gt;64</p></li>
+<li><p><strong>Linear in n</strong>: Number of qubits has linear impact</p></li>
+<li><p><strong>GPU essential</strong>: 10-100× speedup over CPU</p></li>
+<li><p><strong>Entanglement matters</strong>: Required χ depends on problem structure</p></li>
+</ol>
+<p><strong>Optimization Priority</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Choose right χ</strong>: Analyze entanglement, don’t over-provision</p></li>
+<li><p><strong>Use GPU</strong>: Always for production runs</p></li>
+<li><p><strong>Enable cuQuantum</strong>: 2-3× speedup for χ&gt;128</p></li>
+<li><p><strong>Batch operations</strong>: Reduce kernel launch overhead</p></li>
+<li><p><strong>Profile and iterate</strong>: Measure, optimize hot path, repeat</p></li>
+</ol>
+<p><strong>Practical Performance</strong> (A100 GPU):</p>
+<ul class="simple">
+<li><p>50 qubits, χ=64: ~10 ms per two-qubit gate</p></li>
+<li><p>VQE (10 qubits, 3 layers): ~30 seconds for 100 iterations</p></li>
+<li><p>TDVP (50 qubits, χ=64): ~25 seconds for 1000 time steps</p></li>
+<li><p>QAOA (20 qubits, p=3): ~1.5 seconds for 150 iterations</p></li>
+</ul>
+<p>For detailed optimization techniques, see:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="gpu_acceleration.html"><span class="doc">GPU Acceleration</span></a> - GPU performance optimization</p></li>
+<li><p><a class="reference internal" href="numerical_stability.html"><span class="doc">Numerical Stability</span></a> - Accuracy vs performance tradeoffs</p></li>
+<li><p><a class="reference internal" href="../howtos/optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> - Practical optimization guide</p></li>
+<li><p><a class="reference internal" href="../howtos/benchmark_comparison.html"><span class="doc">Benchmark Comparison</span></a> - Benchmarking methodology</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="numerical_stability.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Numerical Stability</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="design_decisions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Design Decisions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-performance-modeling-matters">Why Performance Modeling Matters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-characteristics">Performance Characteristics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-complexity">Computational Complexity</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-qubit-gates">Single-Qubit Gates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-qubit-gates">Two-Qubit Gates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-value-computation">Expectation Value Computation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-scaling">Memory Scaling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mps-storage">MPS Storage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-memory">Working Memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mpo-storage">MPO Storage</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-complexity">Time Complexity</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tdvp-time-evolution">TDVP Time Evolution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vqe-optimization">VQE Optimization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qaoa-performance">QAOA Performance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling-laws">Scaling Laws</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mps-vs-statevector">MPS vs Statevector</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entanglement-scaling">Entanglement Scaling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#asymptotic-behavior">Asymptotic Behavior</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-predictions">Performance Predictions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gate-throughput">Gate Throughput</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-runtime-estimates">Algorithm Runtime Estimates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-requirements">Memory Requirements</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bottleneck-analysis">Bottleneck Analysis</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#identifying-bottlenecks">Identifying Bottlenecks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#svd-bottleneck">SVD Bottleneck</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-bandwidth-bottleneck">Memory Bandwidth Bottleneck</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#launch-overhead-bottleneck">Launch Overhead Bottleneck</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-strategies">Optimization Strategies</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#systematic-optimization-process">Systematic Optimization Process</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-level-optimizations">Algorithm-Level Optimizations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-level-optimizations">Implementation-Level Optimizations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-studies">Case Studies</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-1-deep-vqe-circuit">Case Study 1: Deep VQE Circuit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-2-long-time-tdvp">Case Study 2: Long-Time TDVP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-3-qaoa-for-large-graph">Case Study 3: QAOA for Large Graph</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-checklist">Performance Checklist</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#avoiding-common-pitfalls">Avoiding Common Pitfalls</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

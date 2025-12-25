@@ -1,0 +1,1270 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>API Reference &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/index';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IR Module (Informational Relativity)" href="ir_enhanced.html" />
+    <link rel="prev" title="Comparisons" href="../user_guide/explanations/comparisons.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="#">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="adaptive_mps.html">atlas_q.adaptive_mps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mpo_ops.html">atlas_q.mpo_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPOBuilder.html">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tdvp.html">atlas_q.tdvp</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="vqe_qaoa.html">atlas_q.vqe_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="grover.html">atlas_q.grover</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="stabilizer_backend.html">atlas_q.stabilizer_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="noise_models.html">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planar_2d.html">2D/Planar Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributed_mps.html">Distributed MPS</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cuquantum_backend.html">atlas_q.cuquantum_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="diagnostics.html">atlas_q.diagnostics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linalg_robust.html">atlas_q.linalg_robust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="truncation.html">atlas_q.truncation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">API Reference</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">#</a></h1>
+<p>Complete API documentation for ATLAS-Q modules, classes, and functions.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ir_enhanced.html">IR Module (Informational Relativity)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#key-concepts">Key Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#regime-analyzer">Regime Analyzer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#spectral-lifting">Spectral Lifting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#vqe-grouping">VQE Grouping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#period-finding-enhancement">Period Finding Enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#qaoa-grouping">QAOA Grouping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#gradient-grouping">Gradient Grouping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#tdvp-observables">TDVP Observables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#shadow-tomography">Shadow Tomography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#state-tomography">State Tomography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#usage-examples">Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#performance-numbers">Performance Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir_enhanced.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="adaptive_mps.html">atlas_q.adaptive_mps</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="adaptive_mps.html#atlas_q.adaptive_mps.DTypePolicy"><code class="docutils literal notranslate"><span class="pre">DTypePolicy</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="adaptive_mps.html#atlas_q.adaptive_mps.AdaptiveMPS"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="adaptive_mps.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adaptive_mps.html#mathematical-background">Mathematical Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adaptive_mps.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adaptive_mps.html#adaptivemps">AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adaptive_mps.html#dtypepolicy">DTypePolicy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adaptive_mps.html#performance-characteristics">Performance Characteristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adaptive_mps.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adaptive_mps.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adaptive_mps.html#cross-references">Cross-References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mps_pytorch.html">MPS PyTorch Backend</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mps_pytorch.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mps_pytorch.html#mathematical-background">Mathematical Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mps_pytorch.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mps_pytorch.html#compressedquantumstatepytorch">CompressedQuantumStatePyTorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mps_pytorch.html#matrixproductstatepytorch">MatrixProductStatePyTorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mps_pytorch.html#performance-characteristics">Performance Characteristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mps_pytorch.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mps_pytorch.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mps_pytorch.html#cross-references">Cross-References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mpo_ops.html">atlas_q.mpo_ops</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#atlas_q.mpo_ops.MPO"><code class="docutils literal notranslate"><span class="pre">MPO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#atlas_q.mpo_ops.MPOBuilder"><code class="docutils literal notranslate"><span class="pre">MPOBuilder</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#atlas_q.mpo_ops.apply_mpo_to_mps"><code class="docutils literal notranslate"><span class="pre">apply_mpo_to_mps()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#atlas_q.mpo_ops.expectation_value"><code class="docutils literal notranslate"><span class="pre">expectation_value()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#atlas_q.mpo_ops.correlation_function"><code class="docutils literal notranslate"><span class="pre">correlation_function()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#atlas_q.mpo_ops.pauli_string_to_mpo"><code class="docutils literal notranslate"><span class="pre">pauli_string_to_mpo()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#atlas_q.mpo_ops.apply_pauli_exp_to_mps"><code class="docutils literal notranslate"><span class="pre">apply_pauli_exp_to_mps()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#mathematical-background">Mathematical Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#mpo">MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#mpobuilder">MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#id73">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#performance-characteristics">Performance Characteristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpo_ops.html#cross-references">Cross-References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tdvp.html">atlas_q.tdvp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#atlas_q.tdvp.TDVPConfig"><code class="docutils literal notranslate"><span class="pre">TDVPConfig</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#atlas_q.tdvp.TDVP1Site"><code class="docutils literal notranslate"><span class="pre">TDVP1Site</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#atlas_q.tdvp.TDVP2Site"><code class="docutils literal notranslate"><span class="pre">TDVP2Site</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#atlas_q.tdvp.run_tdvp"><code class="docutils literal notranslate"><span class="pre">run_tdvp()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#tdvp1site">TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#tdvp2site">TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#tdvpconfig">TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#performance-notes">Performance Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#see-also">See Also</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdvp.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vqe_qaoa.html">atlas_q.vqe_qaoa</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#atlas_q.vqe_qaoa.VQEConfig"><code class="docutils literal notranslate"><span class="pre">VQEConfig</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#atlas_q.vqe_qaoa.HardwareEfficientAnsatz"><code class="docutils literal notranslate"><span class="pre">HardwareEfficientAnsatz</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#atlas_q.vqe_qaoa.VQE"><code class="docutils literal notranslate"><span class="pre">VQE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#atlas_q.vqe_qaoa.QAOAAnsatz"><code class="docutils literal notranslate"><span class="pre">QAOAAnsatz</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#atlas_q.vqe_qaoa.QAOA"><code class="docutils literal notranslate"><span class="pre">QAOA</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#atlas_q.vqe_qaoa.build_molecular_hamiltonian"><code class="docutils literal notranslate"><span class="pre">build_molecular_hamiltonian()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#vqe">VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#qaoa">QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#vqeconfig">VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#hardwareefficientansatz">HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#qaoaansatz">QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#performance-notes">Performance Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#limitations">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#see-also">See Also</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vqe_qaoa.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="grover.html">atlas_q.grover</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#atlas_q.grover.GroverConfig"><code class="docutils literal notranslate"><span class="pre">GroverConfig</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#atlas_q.grover.OracleBase"><code class="docutils literal notranslate"><span class="pre">OracleBase</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#atlas_q.grover.FunctionOracle"><code class="docutils literal notranslate"><span class="pre">FunctionOracle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#atlas_q.grover.BitmapOracle"><code class="docutils literal notranslate"><span class="pre">BitmapOracle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#atlas_q.grover.DiffusionOperator"><code class="docutils literal notranslate"><span class="pre">DiffusionOperator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#atlas_q.grover.GroverSearch"><code class="docutils literal notranslate"><span class="pre">GroverSearch</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#atlas_q.grover.grover_search"><code class="docutils literal notranslate"><span class="pre">grover_search()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#atlas_q.grover.calculate_grover_iterations"><code class="docutils literal notranslate"><span class="pre">calculate_grover_iterations()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#mathematical-background">Mathematical Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#groversearch">GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#groverconfig">GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#oraclebase">OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#functionoracle">FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#bitmaporacle">BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#diffusionoperator">DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#convenience-functions">Convenience Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#performance-considerations">Performance Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#implementation-details">Implementation Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#see-also">See Also</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grover.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stabilizer_backend.html">atlas_q.stabilizer_backend</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerState"><code class="docutils literal notranslate"><span class="pre">StabilizerState</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#atlas_q.stabilizer_backend.is_clifford_gate"><code class="docutils literal notranslate"><span class="pre">is_clifford_gate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#atlas_q.stabilizer_backend.HybridSimulator"><code class="docutils literal notranslate"><span class="pre">HybridSimulator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#mathematical-background">Mathematical Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#stabilizersimulator">StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#stabilizerstate">StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#hybridsimulator">HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#id60">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#performance-characteristics">Performance Characteristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stabilizer_backend.html#cross-references">Cross-References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="noise_models.html">Noise Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="noise_models.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noise_models.html#mathematical-background">Mathematical Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noise_models.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noise_models.html#noisechannel">NoiseChannel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noise_models.html#noisemodel">NoiseModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noise_models.html#performance-characteristics">Performance Characteristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noise_models.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noise_models.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noise_models.html#cross-references">Cross-References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="peps.html">PEPS (2D Tensor Networks)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="peps.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="peps.html#mathematical-background">Mathematical Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="peps.html#enums">Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="peps.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="peps.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="peps.html#performance-characteristics">Performance Characteristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="peps.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="peps.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="peps.html#limitations">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="peps.html#cross-references">Cross-References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_cutting.html">Circuit Cutting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="circuit_cutting.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circuit_cutting.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circuit_cutting.html#data-structures">Data Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circuit_cutting.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circuit_cutting.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circuit_cutting.html#performance-notes">Performance Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circuit_cutting.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circuit_cutting.html#limitations">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circuit_cutting.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circuit_cutting.html#see-also">See Also</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circuit_cutting.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="planar_2d.html">2D/Planar Circuits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="planar_2d.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="planar_2d.html#topologies">Topologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="planar_2d.html#data-structures">Data Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="planar_2d.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="planar_2d.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="planar_2d.html#performance-notes">Performance Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="planar_2d.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="planar_2d.html#limitations">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="planar_2d.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="planar_2d.html#see-also">See Also</a></li>
+<li class="toctree-l2"><a class="reference internal" href="planar_2d.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="distributed_mps.html">Distributed MPS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="distributed_mps.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed_mps.html#distribution-modes">Distribution Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed_mps.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed_mps.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed_mps.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed_mps.html#performance-notes">Performance Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed_mps.html#limitations">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed_mps.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed_mps.html#see-also">See Also</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed_mps.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cuquantum_backend.html">atlas_q.cuquantum_backend</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#atlas_q.cuquantum_backend.CuQuantumConfig"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#atlas_q.cuquantum_backend.CuQuantumBackend"><code class="docutils literal notranslate"><span class="pre">CuQuantumBackend</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#atlas_q.cuquantum_backend.CuStateVecBackend"><code class="docutils literal notranslate"><span class="pre">CuStateVecBackend</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#atlas_q.cuquantum_backend.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#atlas_q.cuquantum_backend.get_statevec_backend"><code class="docutils literal notranslate"><span class="pre">get_statevec_backend()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#atlas_q.cuquantum_backend.is_cuquantum_available"><code class="docutils literal notranslate"><span class="pre">is_cuquantum_available()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#atlas_q.cuquantum_backend.get_cuquantum_version"><code class="docutils literal notranslate"><span class="pre">get_cuquantum_version()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#atlas_q.cuquantum_backend.benchmark_backend"><code class="docutils literal notranslate"><span class="pre">benchmark_backend()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#cuquantumconfig">CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#cuquantumbackend">CuQuantumBackend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#performance-considerations">Performance Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#fallback-behavior">Fallback Behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#compatibility">Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#see-also">See Also</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cuquantum_backend.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.CompressedQuantumState"><code class="docutils literal notranslate"><span class="pre">CompressedQuantumState</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.PeriodicState"><code class="docutils literal notranslate"><span class="pre">PeriodicState</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.ProductState"><code class="docutils literal notranslate"><span class="pre">ProductState</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.MatrixProductState"><code class="docutils literal notranslate"><span class="pre">MatrixProductState</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.PeriodResult"><code class="docutils literal notranslate"><span class="pre">PeriodResult</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.PeriodFinder"><code class="docutils literal notranslate"><span class="pre">PeriodFinder</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.QuantumClassicalHybrid"><code class="docutils literal notranslate"><span class="pre">QuantumClassicalHybrid</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.QuantumCircuit"><code class="docutils literal notranslate"><span class="pre">QuantumCircuit</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.GPUAccelerator"><code class="docutils literal notranslate"><span class="pre">GPUAccelerator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.demo_compressed_states"><code class="docutils literal notranslate"><span class="pre">demo_compressed_states()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.demo_period_finding"><code class="docutils literal notranslate"><span class="pre">demo_period_finding()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.demo_factorization"><code class="docutils literal notranslate"><span class="pre">demo_factorization()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.demo_quantum_circuits"><code class="docutils literal notranslate"><span class="pre">demo_quantum_circuits()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.demo_gpu_acceleration"><code class="docutils literal notranslate"><span class="pre">demo_gpu_acceleration()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.demo_advanced_features"><code class="docutils literal notranslate"><span class="pre">demo_advanced_features()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#atlas_q.quantum_hybrid_system.run_comprehensive_demo"><code class="docutils literal notranslate"><span class="pre">run_comprehensive_demo()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#quantum-state-representations">Quantum State Representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#period-finding">Period-Finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#supporting-classes">Supporting Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#performance-characteristics">Performance Characteristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#applications">Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#see-also">See Also</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_hybrid_system.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="triton_kernels.html">Triton GPU Kernels</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="triton_kernels.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triton_kernels.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triton_kernels.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triton_kernels.html#kernel-types">Kernel Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triton_kernels.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triton_kernels.html#performance-characteristics">Performance Characteristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triton_kernels.html#compilation">Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triton_kernels.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triton_kernels.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triton_kernels.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triton_kernels.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triton_kernels.html#see-also">See Also</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triton_kernels.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="diagnostics.html">atlas_q.diagnostics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#atlas_q.diagnostics.bond_entropy_from_S"><code class="docutils literal notranslate"><span class="pre">bond_entropy_from_S()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#atlas_q.diagnostics.effective_rank"><code class="docutils literal notranslate"><span class="pre">effective_rank()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#atlas_q.diagnostics.spectral_gap"><code class="docutils literal notranslate"><span class="pre">spectral_gap()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#atlas_q.diagnostics.MPSStatistics"><code class="docutils literal notranslate"><span class="pre">MPSStatistics</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#bond-entropy-from-s">bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#effective-rank">effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#spectral-gap">spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#mpsstatistics">MPSStatistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#performance-notes">Performance Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#see-also">See Also</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diagnostics.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="linalg_robust.html">atlas_q.linalg_robust</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#atlas_q.linalg_robust.robust_svd"><code class="docutils literal notranslate"><span class="pre">robust_svd()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#atlas_q.linalg_robust.robust_qr"><code class="docutils literal notranslate"><span class="pre">robust_qr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#atlas_q.linalg_robust.condition_number"><code class="docutils literal notranslate"><span class="pre">condition_number()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#robust-svd">robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#robust-qr">robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#condition-number">condition_number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#error-handling">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#performance-considerations">Performance Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#limitations">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#see-also">See Also</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg_robust.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="truncation.html">atlas_q.truncation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#atlas_q.truncation.choose_rank_from_sigma"><code class="docutils literal notranslate"><span class="pre">choose_rank_from_sigma()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#atlas_q.truncation.compute_global_error_bound"><code class="docutils literal notranslate"><span class="pre">compute_global_error_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#atlas_q.truncation.check_entropy_sanity"><code class="docutils literal notranslate"><span class="pre">check_entropy_sanity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#atlas_q.truncation.analyze_truncation_regime"><code class="docutils literal notranslate"><span class="pre">analyze_truncation_regime()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#atlas_q.truncation.choose_rank_with_regime"><code class="docutils literal notranslate"><span class="pre">choose_rank_with_regime()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#atlas_q.truncation.choose_rank_with_coherence"><code class="docutils literal notranslate"><span class="pre">choose_rank_with_coherence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#atlas_q.truncation.choose_rank_with_decoherence"><code class="docutils literal notranslate"><span class="pre">choose_rank_with_decoherence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#atlas_q.truncation.compute_spectral_coherence"><code class="docutils literal notranslate"><span class="pre">compute_spectral_coherence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#atlas_q.truncation.adaptive_chi_from_coherence"><code class="docutils literal notranslate"><span class="pre">adaptive_chi_from_coherence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#atlas_q.truncation.coherence_aware_truncation_policy"><code class="docutils literal notranslate"><span class="pre">coherence_aware_truncation_policy()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#mathematical-foundation">Mathematical Foundation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#choose-rank-from-sigma">choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#compute-global-error-bound">compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#check-entropy-sanity">check_entropy_sanity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#advanced-usage-custom-truncation-strategy">Advanced Usage: Custom Truncation Strategy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#performance-notes">Performance Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#see-also">See Also</a></li>
+<li class="toctree-l2"><a class="reference internal" href="truncation.html#references">References</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="module-overview">
+<h2>Module Overview<a class="headerlink" href="#module-overview" title="Link to this heading">#</a></h2>
+<section id="ir-module-new-in-v0-7-0">
+<h3>IR Module (NEW in v0.7.0)<a class="headerlink" href="#ir-module-new-in-v0-7-0" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><a class="reference internal" href="ir_enhanced.html"><span class="doc">IR Module (Informational Relativity)</span></a></dt><dd><p>Informational Relativity (IR) integration with pre-computation regime diagnosis,
+coherence-based grouping, and spectral lifting analysis.</p>
+</dd>
+</dl>
+</section>
+<section id="core-simulation">
+<h3>Core Simulation<a class="headerlink" href="#core-simulation" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><a class="reference internal" href="adaptive_mps.html"><span class="doc">atlas_q.adaptive_mps</span></a></dt><dd><p>Adaptive Matrix Product States with per-bond dimension control and error tracking.</p>
+</dd>
+<dt><a class="reference internal" href="mps_pytorch.html"><span class="doc">MPS PyTorch Backend</span></a></dt><dd><p>Basic PyTorch-based MPS implementation.</p>
+</dd>
+<dt><a class="reference internal" href="mpo_ops.html"><span class="doc">atlas_q.mpo_ops</span></a></dt><dd><p>Matrix Product Operators for Hamiltonians and observables.</p>
+</dd>
+</dl>
+</section>
+<section id="variational-algorithms">
+<h3>Variational Algorithms<a class="headerlink" href="#variational-algorithms" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><a class="reference internal" href="vqe_qaoa.html"><span class="doc">atlas_q.vqe_qaoa</span></a></dt><dd><p>Variational Quantum Eigensolver and Quantum Approximate Optimization Algorithm.</p>
+</dd>
+<dt><a class="reference internal" href="tdvp.html"><span class="doc">atlas_q.tdvp</span></a></dt><dd><p>Time-Dependent Variational Principle for quantum dynamics.</p>
+</dd>
+<dt><a class="reference internal" href="grover.html"><span class="doc">atlas_q.grover</span></a></dt><dd><p>Grover’s quantum search algorithm for unstructured database search with quadratic speedup.</p>
+</dd>
+</dl>
+</section>
+<section id="advanced-backends">
+<h3>Advanced Backends<a class="headerlink" href="#advanced-backends" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><a class="reference internal" href="stabilizer_backend.html"><span class="doc">atlas_q.stabilizer_backend</span></a></dt><dd><p>Efficient simulation of Clifford circuits via stabilizer formalism.</p>
+</dd>
+<dt><a class="reference internal" href="peps.html"><span class="doc">PEPS (2D Tensor Networks)</span></a></dt><dd><p>Projected Entangled Pair States for 2D tensor networks.</p>
+</dd>
+<dt><a class="reference internal" href="cuquantum_backend.html"><span class="doc">atlas_q.cuquantum_backend</span></a></dt><dd><p>NVIDIA cuQuantum integration for GPU acceleration.</p>
+</dd>
+</dl>
+</section>
+<section id="specialized-features">
+<h3>Specialized Features<a class="headerlink" href="#specialized-features" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><a class="reference internal" href="circuit_cutting.html"><span class="doc">Circuit Cutting</span></a></dt><dd><p>Circuit partitioning and entanglement forging.</p>
+</dd>
+<dt><a class="reference internal" href="planar_2d.html"><span class="doc">2D/Planar Circuits</span></a></dt><dd><p>2D qubit layouts and SWAP synthesis.</p>
+</dd>
+<dt><a class="reference internal" href="distributed_mps.html"><span class="doc">Distributed MPS</span></a></dt><dd><p>Multi-GPU distributed simulation.</p>
+</dd>
+<dt><a class="reference internal" href="noise_models.html"><span class="doc">Noise Models</span></a></dt><dd><p>NISQ noise channels and error models.</p>
+</dd>
+</dl>
+</section>
+<section id="period-finding">
+<h3>Period-Finding<a class="headerlink" href="#period-finding" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><a class="reference internal" href="quantum_hybrid_system.html"><span class="doc">atlas_q.quantum_hybrid_system</span></a></dt><dd><p>Compressed quantum states and period-finding for Shor’s algorithm.</p>
+</dd>
+</dl>
+</section>
+<section id="performance-optimization">
+<h3>Performance Optimization<a class="headerlink" href="#performance-optimization" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><a class="reference internal" href="triton_kernels.html"><span class="doc">Triton GPU Kernels</span></a></dt><dd><p>Custom GPU kernels for tensor operations.</p>
+</dd>
+</dl>
+</section>
+<section id="utilities">
+<h3>Utilities<a class="headerlink" href="#utilities" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><a class="reference internal" href="diagnostics.html"><span class="doc">atlas_q.diagnostics</span></a></dt><dd><p>Monitoring, statistics, and entropy calculations.</p>
+</dd>
+<dt><a class="reference internal" href="linalg_robust.html"><span class="doc">atlas_q.linalg_robust</span></a></dt><dd><p>Robust linear algebra with automatic fallbacks.</p>
+</dd>
+<dt><a class="reference internal" href="truncation.html"><span class="doc">atlas_q.truncation</span></a></dt><dd><p>Truncation strategies and error bounds.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="quick-access">
+<h2>Quick Access<a class="headerlink" href="#quick-access" title="Link to this heading">#</a></h2>
+<p>IR Module (NEW):</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="ir_enhanced.html#atlas_q.ir_enhanced.analyze_state_regime" title="atlas_q.ir_enhanced.analyze_state_regime"><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.ir_enhanced.analyze_state_regime()</span></code></a> - Pre-computation regime diagnosis</p></li>
+<li><p><a class="reference internal" href="ir_enhanced.html#atlas_q.ir_enhanced.analyze_hamiltonian_regime" title="atlas_q.ir_enhanced.analyze_hamiltonian_regime"><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.ir_enhanced.analyze_hamiltonian_regime()</span></code></a> - Hamiltonian regime analysis</p></li>
+<li><p><a class="reference internal" href="ir_enhanced.html#atlas_q.ir_enhanced.ir_hamiltonian_grouping" title="atlas_q.ir_enhanced.ir_hamiltonian_grouping"><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.ir_enhanced.ir_hamiltonian_grouping()</span></code></a> - VQE grouping (4× reduction)</p></li>
+<li><p><a class="reference internal" href="ir_enhanced.html#atlas_q.ir_enhanced.ir_enhanced_period_finding" title="atlas_q.ir_enhanced.ir_enhanced_period_finding"><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.ir_enhanced.ir_enhanced_period_finding()</span></code></a> - Period finding (42% shot reduction)</p></li>
+<li><p><a class="reference internal" href="ir_enhanced.html#atlas_q.ir_enhanced.predict_quantum_advantage" title="atlas_q.ir_enhanced.predict_quantum_advantage"><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.ir_enhanced.predict_quantum_advantage()</span></code></a> - Quantum advantage prediction</p></li>
+<li><p><a class="reference internal" href="ir_enhanced.html#atlas_q.ir_enhanced.spectral_lifting_analysis" title="atlas_q.ir_enhanced.spectral_lifting_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.ir_enhanced.spectral_lifting_analysis()</span></code></a> - Spectral structure analysis</p></li>
+</ul>
+<p>Common classes:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html#atlas_q.adaptive_mps.AdaptiveMPS" title="atlas_q.adaptive_mps.AdaptiveMPS"><code class="xref py py-class docutils literal notranslate"><span class="pre">atlas_q.adaptive_mps.AdaptiveMPS</span></code></a> - Adaptive MPS</p></li>
+<li><p><a class="reference internal" href="mpo_ops.html#id0" title="atlas_q.mpo_ops.MPO"><code class="xref py py-class docutils literal notranslate"><span class="pre">atlas_q.mpo_ops.MPO</span></code></a> - Matrix Product Operator</p></li>
+<li><p><a class="reference internal" href="mpo_ops.html#id43" title="atlas_q.mpo_ops.MPOBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">atlas_q.mpo_ops.MPOBuilder</span></code></a> - Hamiltonian builder</p></li>
+<li><p><a class="reference internal" href="vqe_qaoa.html#id0" title="atlas_q.vqe_qaoa.VQE"><code class="xref py py-class docutils literal notranslate"><span class="pre">atlas_q.vqe_qaoa.VQE</span></code></a> - Variational Quantum Eigensolver</p></li>
+<li><p><a class="reference internal" href="vqe_qaoa.html#id6" title="atlas_q.vqe_qaoa.QAOA"><code class="xref py py-class docutils literal notranslate"><span class="pre">atlas_q.vqe_qaoa.QAOA</span></code></a> - Quantum Approximate Optimization Algorithm</p></li>
+<li><p><a class="reference internal" href="grover.html#id0" title="atlas_q.grover.GroverSearch"><code class="xref py py-class docutils literal notranslate"><span class="pre">atlas_q.grover.GroverSearch</span></code></a> - Grover’s quantum search</p></li>
+<li><p><a class="reference internal" href="grover.html#id17" title="atlas_q.grover.GroverConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">atlas_q.grover.GroverConfig</span></code></a> - Grover configuration</p></li>
+<li><p><a class="reference internal" href="tdvp.html#id0" title="atlas_q.tdvp.TDVP1Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">atlas_q.tdvp.TDVP1Site</span></code></a> - 1-site TDVP evolution</p></li>
+<li><p><a class="reference internal" href="tdvp.html#id8" title="atlas_q.tdvp.TDVP2Site"><code class="xref py py-class docutils literal notranslate"><span class="pre">atlas_q.tdvp.TDVP2Site</span></code></a> - 2-site TDVP evolution</p></li>
+<li><p><a class="reference internal" href="stabilizer_backend.html#id0" title="atlas_q.stabilizer_backend.StabilizerSimulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">atlas_q.stabilizer_backend.StabilizerSimulator</span></code></a> - Stabilizer simulator</p></li>
+<li><p><a class="reference internal" href="peps.html#atlas_q.peps.PEPS" title="atlas_q.peps.PEPS"><code class="xref py py-class docutils literal notranslate"><span class="pre">atlas_q.peps.PEPS</span></code></a> - PEPS tensor network</p></li>
+<li><p><a class="reference internal" href="quantum_hybrid_system.html#id65" title="atlas_q.quantum_hybrid_system.QuantumClassicalHybrid"><code class="xref py py-class docutils literal notranslate"><span class="pre">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</span></code></a> - Period-finding</p></li>
+</ul>
+<p>Common functions:</p>
+<ul class="simple">
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.get_quantum_sim()</span></code> - Get period-finding classes</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.get_adaptive_mps()</span></code> - Get adaptive MPS classes</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.get_mpo_ops()</span></code> - Get MPO operations</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.get_tdvp()</span></code> - Get TDVP classes</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.get_vqe_qaoa()</span></code> - Get VQE/QAOA classes</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.get_stabilizer()</span></code> - Get stabilizer simulator</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.get_peps()</span></code> - Get PEPS classes</p></li>
+<li><p><a class="reference internal" href="grover.html#id56" title="atlas_q.grover.grover_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.grover.grover_search()</span></code></a> - Convenience function for Grover search</p></li>
+<li><p><a class="reference internal" href="grover.html#id57" title="atlas_q.grover.calculate_grover_iterations"><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.grover.calculate_grover_iterations()</span></code></a> - Calculate optimal iterations</p></li>
+<li><p><a class="reference internal" href="mpo_ops.html#id74" title="atlas_q.mpo_ops.expectation_value"><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.mpo_ops.expectation_value()</span></code></a> - Compute expectation values</p></li>
+<li><p><a class="reference internal" href="mpo_ops.html#id77" title="atlas_q.mpo_ops.apply_mpo_to_mps"><code class="xref py py-func docutils literal notranslate"><span class="pre">atlas_q.mpo_ops.apply_mpo_to_mps()</span></code></a> - Apply MPO to MPS</p></li>
+</ul>
+</section>
+<section id="module-import-patterns">
+<h2>Module Import Patterns<a class="headerlink" href="#module-import-patterns" title="Link to this heading">#</a></h2>
+<p>Direct imports (recommended):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+</pre></div>
+</div>
+<p>Lazy imports (legacy compatibility):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adaptive_mps</span><span class="p">,</span> <span class="n">get_mpo_ops</span><span class="p">,</span> <span class="n">get_vqe_qaoa</span>
+
+<span class="n">mps_mod</span> <span class="o">=</span> <span class="n">get_adaptive_mps</span><span class="p">()</span>
+<span class="n">AdaptiveMPS</span> <span class="o">=</span> <span class="n">mps_mod</span><span class="p">[</span><span class="s1">&#39;AdaptiveMPS&#39;</span><span class="p">]</span>
+
+<span class="n">mpo_mod</span> <span class="o">=</span> <span class="n">get_mpo_ops</span><span class="p">()</span>
+<span class="n">MPOBuilder</span> <span class="o">=</span> <span class="n">mpo_mod</span><span class="p">[</span><span class="s1">&#39;MPOBuilder&#39;</span><span class="p">]</span>
+
+<span class="n">vqe_mod</span> <span class="o">=</span> <span class="n">get_vqe_qaoa</span><span class="p">()</span>
+<span class="n">VQE</span> <span class="o">=</span> <span class="n">vqe_mod</span><span class="p">[</span><span class="s1">&#39;VQE&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Module imports:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">adaptive_mps</span><span class="p">,</span> <span class="n">mpo_ops</span><span class="p">,</span> <span class="n">vqe_qaoa</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">adaptive_mps</span><span class="o">.</span><span class="n">AdaptiveMPS</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">mpo_ops</span><span class="o">.</span><span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">vqe_qaoa</span><span class="o">.</span><span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">vqe_qaoa</span><span class="o">.</span><span class="n">VQEConfig</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="type-annotations">
+<h2>Type Annotations<a class="headerlink" href="#type-annotations" title="Link to this heading">#</a></h2>
+<p>ATLAS-Q uses type hints throughout. Common types:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.Tensor</span></code> - PyTorch tensors</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.dtype</span></code> - Data types (<code class="docutils literal notranslate"><span class="pre">torch.complex64</span></code>, <code class="docutils literal notranslate"><span class="pre">torch.complex128</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.device</span></code> - Compute devices (<code class="docutils literal notranslate"><span class="pre">'cuda'</span></code>, <code class="docutils literal notranslate"><span class="pre">'cpu'</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code> - NumPy arrays</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">int</span></code> - Integers</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">float</span></code> - Floating-point numbers</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">complex</span></code> - Complex numbers</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">str</span></code> - Strings</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Optional[T]</span></code> - Optional values</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">List[T]</span></code> - Lists</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Dict[K,</span> <span class="pre">V]</span></code> - Dictionaries</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tuple[T,</span> <span class="pre">...]</span></code> - Tuples</p></li>
+</ul>
+</section>
+<section id="index">
+<h2>Index<a class="headerlink" href="#index" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="../py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="../search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../user_guide/explanations/comparisons.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Comparisons</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ir_enhanced.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">IR Module (Informational Relativity)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-overview">Module Overview</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ir-module-new-in-v0-7-0">IR Module (NEW in v0.7.0)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-simulation">Core Simulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-algorithms">Variational Algorithms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-backends">Advanced Backends</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specialized-features">Specialized Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#period-finding">Period-Finding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-optimization">Performance Optimization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#utilities">Utilities</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-access">Quick Access</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-import-patterns">Module Import Patterns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#type-annotations">Type Annotations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#index">Index</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

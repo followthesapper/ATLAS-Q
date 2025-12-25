@@ -1,0 +1,1007 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>atlas_q.ir_enhanced.spectral_lifting &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/atlas_q/ir_enhanced/spectral_lifting';</script>
+    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.ir_enhanced.spectral_lifting</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for atlas_q.ir_enhanced.spectral_lifting</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">IR Spectral Lifting Module</span>
+<span class="sd">===========================</span>
+
+<span class="sd">Implements the relational spectral lifting representation from Informational Relativity.</span>
+
+<span class="sd">The key insight from IR is that global structure can be extracted through the</span>
+<span class="sd">relational matrix M_ij = χ_i χ_j cos(θ_i - θ_j), where dominant eigenmodes</span>
+<span class="sd">encode coherent structure invisible to pointwise statistics.</span>
+
+<span class="sd">Key Functions:</span>
+<span class="sd">- compute_relational_matrix(): Build M_ij spectral lifting matrix</span>
+<span class="sd">- extract_structure_modes(): Extract dominant eigenmodes for structure identification</span>
+<span class="sd">- spectral_grouping(): Group measurements by spectral coherence structure</span>
+
+<span class="sd">References:</span>
+<span class="sd">- IR Paper Section 5: &quot;The Representation Layer (R)&quot;</span>
+<span class="sd">- IR Paper Equation 7: M_ij = χ_i χ_j cos(θ_i - θ_j)</span>
+<span class="sd">- IR Paper Figure 4: Spectral Representation</span>
+
+<span class="sd">Author: ATLAS-Q Development Team</span>
+<span class="sd">Date: December 2025</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<div class="viewcode-block" id="SpectralLiftingResult">
+<a class="viewcode-back" href="../../../reference/ir_enhanced.html#atlas_q.ir_enhanced.SpectralLiftingResult">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SpectralLiftingResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Result of spectral lifting analysis.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        M: Relational spectral lifting matrix M_ij</span>
+<span class="sd">        eigenvalues: Eigenvalues sorted in descending order</span>
+<span class="sd">        eigenvectors: Corresponding eigenvectors (columns)</span>
+<span class="sd">        spectral_coherence: Coherence from dominant eigenmode concentration</span>
+<span class="sd">        structure_indices: Indices of structurally coherent elements</span>
+<span class="sd">        spectral_gap: Gap ratio between first and second eigenvalues</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">M</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">eigenvalues</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">eigenvectors</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">spectral_coherence</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">structure_indices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">spectral_gap</span><span class="p">:</span> <span class="nb">float</span></div>
+
+
+
+<div class="viewcode-block" id="compute_relational_matrix">
+<a class="viewcode-back" href="../../../reference/ir_enhanced.html#atlas_q.ir_enhanced.compute_relational_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_relational_matrix</span><span class="p">(</span>
+    <span class="n">responses</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">phases</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute IR relational spectral lifting matrix.</span>
+
+<span class="sd">    M_ij = χ_i * χ_j * cos(θ_i - θ_j)</span>
+
+<span class="sd">    This matrix encodes pairwise phase relationships weighted by response</span>
+<span class="sd">    magnitudes. The dominant eigenvector localizes at structurally coherent</span>
+<span class="sd">    regions, enabling identification of hidden global structure.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        responses: Response field magnitudes χ_i (n-dimensional array)</span>
+<span class="sd">        phases: Response field phases θ_i (n-dimensional array, radians)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        M: n×n relational spectral lifting matrix</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; # Coherent system: all phases aligned</span>
+<span class="sd">        &gt;&gt;&gt; responses = np.array([1.0, 0.9, 0.8, 0.7])</span>
+<span class="sd">        &gt;&gt;&gt; phases = np.array([0.0, 0.1, 0.05, 0.02])  # Nearly aligned</span>
+<span class="sd">        &gt;&gt;&gt; M = compute_relational_matrix(responses, phases)</span>
+<span class="sd">        &gt;&gt;&gt; # M will have high values (positive correlation)</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - IR Paper Equation 7</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span> <span class="o">!=</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;responses and phases must have same length, got </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Vectorized computation of M_ij = χ_i * χ_j * cos(θ_i - θ_j)</span>
+    <span class="c1"># Phase difference matrix</span>
+    <span class="n">phase_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">phases</span><span class="p">,</span> <span class="n">phases</span><span class="p">)</span>
+
+    <span class="c1"># Response product matrix</span>
+    <span class="n">response_product</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">responses</span><span class="p">,</span> <span class="n">responses</span><span class="p">)</span>
+
+    <span class="c1"># Full relational matrix</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">response_product</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phase_diff</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">M</span></div>
+
+
+
+<div class="viewcode-block" id="compute_relational_matrix_from_amplitudes">
+<a class="viewcode-back" href="../../../reference/ir_enhanced.html#atlas_q.ir_enhanced.compute_relational_matrix_from_amplitudes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_relational_matrix_from_amplitudes</span><span class="p">(</span><span class="n">amplitudes</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute relational matrix directly from complex amplitudes.</span>
+
+<span class="sd">    Convenience function that extracts magnitudes and phases from complex</span>
+<span class="sd">    amplitudes and builds the relational matrix.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        amplitudes: Complex amplitude array</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        M: Relational spectral lifting matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">amplitudes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">amplitudes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+    <span class="n">responses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">amplitudes</span><span class="p">)</span>
+    <span class="n">phases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">amplitudes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">compute_relational_matrix</span><span class="p">(</span><span class="n">responses</span><span class="p">,</span> <span class="n">phases</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="extract_structure_modes">
+<a class="viewcode-back" href="../../../reference/ir_enhanced.html#atlas_q.ir_enhanced.extract_structure_modes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_structure_modes</span><span class="p">(</span>
+    <span class="n">M</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">top_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">localization_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract dominant eigenmodes encoding global structure.</span>
+
+<span class="sd">    The dominant eigenvector of M localizes at structurally coherent regions,</span>
+<span class="sd">    enabling identification of hidden structure invisible to pointwise statistics.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        M: Relational spectral lifting matrix (n×n)</span>
+<span class="sd">        top_k: Number of dominant modes to extract</span>
+<span class="sd">        localization_threshold: Threshold for structure localization (|v_i|² &gt; threshold)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        eigenvalues: Top-k eigenvalues (descending order)</span>
+<span class="sd">        eigenvectors: Top-k eigenvectors (columns)</span>
+<span class="sd">        structure_indices: Indices where dominant eigenvector localizes</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; M = compute_relational_matrix(responses, phases)</span>
+<span class="sd">        &gt;&gt;&gt; eigenvalues, eigenvectors, structure_idx = extract_structure_modes(M, top_k=3)</span>
+<span class="sd">        &gt;&gt;&gt; print(f&quot;Dominant eigenvalue: {eigenvalues[0]:.4f}&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(f&quot;Structure localized at indices: {structure_idx}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Ensure M is symmetric (should be by construction)</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="p">(</span><span class="n">M</span> <span class="o">+</span> <span class="n">M</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="c1"># Full eigendecomposition</span>
+    <span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+
+    <span class="c1"># Sort by descending eigenvalue magnitude</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">eigenvalues</span> <span class="o">=</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">eigenvectors</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span>
+
+    <span class="c1"># Extract top-k modes</span>
+    <span class="n">top_k</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">top_k</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">))</span>
+    <span class="n">top_eigenvalues</span> <span class="o">=</span> <span class="n">eigenvalues</span><span class="p">[:</span><span class="n">top_k</span><span class="p">]</span>
+    <span class="n">top_eigenvectors</span> <span class="o">=</span> <span class="n">eigenvectors</span><span class="p">[:,</span> <span class="p">:</span><span class="n">top_k</span><span class="p">]</span>
+
+    <span class="c1"># Find structure localization from dominant eigenvector</span>
+    <span class="n">dominant_v</span> <span class="o">=</span> <span class="n">top_eigenvectors</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">v_squared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dominant_v</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">structure_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">v_squared</span> <span class="o">&gt;</span> <span class="n">localization_threshold</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">v_squared</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">top_eigenvalues</span><span class="p">,</span> <span class="n">top_eigenvectors</span><span class="p">,</span> <span class="n">structure_indices</span></div>
+
+
+
+<div class="viewcode-block" id="spectral_lifting_analysis">
+<a class="viewcode-back" href="../../../reference/ir_enhanced.html#atlas_q.ir_enhanced.spectral_lifting_analysis">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">spectral_lifting_analysis</span><span class="p">(</span>
+    <span class="n">responses</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">phases</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">top_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">localization_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpectralLiftingResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Complete spectral lifting analysis for coherence structure identification.</span>
+
+<span class="sd">    Combines matrix construction, eigendecomposition, and structure identification</span>
+<span class="sd">    into a single analysis pipeline.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        responses: Response field magnitudes χ_i</span>
+<span class="sd">        phases: Response field phases θ_i (radians)</span>
+<span class="sd">        top_k: Number of dominant modes to extract</span>
+<span class="sd">        localization_threshold: Threshold for structure localization</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        SpectralLiftingResult with full analysis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Build relational matrix</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">compute_relational_matrix</span><span class="p">(</span><span class="n">responses</span><span class="p">,</span> <span class="n">phases</span><span class="p">)</span>
+
+    <span class="c1"># Extract structure modes</span>
+    <span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span><span class="p">,</span> <span class="n">structure_indices</span> <span class="o">=</span> <span class="n">extract_structure_modes</span><span class="p">(</span>
+        <span class="n">M</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="n">top_k</span><span class="p">,</span> <span class="n">localization_threshold</span><span class="o">=</span><span class="n">localization_threshold</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Compute spectral coherence (concentration in dominant mode)</span>
+    <span class="n">total_power</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">total_power</span> <span class="o">&gt;</span> <span class="mf">1e-15</span><span class="p">:</span>
+        <span class="n">spectral_coherence</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">total_power</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">spectral_coherence</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Compute spectral gap</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">1e-15</span><span class="p">:</span>
+        <span class="n">spectral_gap</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">spectral_gap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+
+    <span class="k">return</span> <span class="n">SpectralLiftingResult</span><span class="p">(</span>
+        <span class="n">M</span><span class="o">=</span><span class="n">M</span><span class="p">,</span>
+        <span class="n">eigenvalues</span><span class="o">=</span><span class="n">eigenvalues</span><span class="p">,</span>
+        <span class="n">eigenvectors</span><span class="o">=</span><span class="n">eigenvectors</span><span class="p">,</span>
+        <span class="n">spectral_coherence</span><span class="o">=</span><span class="n">spectral_coherence</span><span class="p">,</span>
+        <span class="n">structure_indices</span><span class="o">=</span><span class="n">structure_indices</span><span class="p">,</span>
+        <span class="n">spectral_gap</span><span class="o">=</span><span class="n">spectral_gap</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="spectral_lifting_from_amplitudes">
+<a class="viewcode-back" href="../../../reference/ir_enhanced.html#atlas_q.ir_enhanced.spectral_lifting_from_amplitudes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">spectral_lifting_from_amplitudes</span><span class="p">(</span>
+    <span class="n">amplitudes</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">top_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">localization_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpectralLiftingResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Spectral lifting analysis directly from complex amplitudes.</span>
+
+<span class="sd">    Convenience function for quantum states represented as amplitude vectors.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        amplitudes: Complex quantum state amplitudes</span>
+<span class="sd">        top_k: Number of dominant modes to extract</span>
+<span class="sd">        localization_threshold: Threshold for structure localization</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        SpectralLiftingResult with full analysis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">amplitudes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">amplitudes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+    <span class="n">responses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">amplitudes</span><span class="p">)</span>
+    <span class="n">phases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">amplitudes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">spectral_lifting_analysis</span><span class="p">(</span><span class="n">responses</span><span class="p">,</span> <span class="n">phases</span><span class="p">,</span> <span class="n">top_k</span><span class="p">,</span> <span class="n">localization_threshold</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="spectral_grouping">
+<a class="viewcode-back" href="../../../reference/ir_enhanced.html#atlas_q.ir_enhanced.spectral_grouping">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">spectral_grouping</span><span class="p">(</span>
+    <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
+    <span class="n">responses</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">phases</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">n_groups</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">min_group_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Group items by spectral coherence structure.</span>
+
+<span class="sd">    Uses the dominant eigenvectors of the relational matrix to identify</span>
+<span class="sd">    coherent clusters for optimal grouping.</span>
+
+<span class="sd">    Algorithm:</span>
+<span class="sd">        1. Compute relational matrix M</span>
+<span class="sd">        2. Extract dominant eigenvectors</span>
+<span class="sd">        3. Cluster items by eigenvector components (k-means in eigenvector space)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        items: List of items to group (e.g., Pauli strings, parameters)</span>
+<span class="sd">        responses: Response field magnitudes for each item</span>
+<span class="sd">        phases: Response field phases for each item</span>
+<span class="sd">        n_groups: Target number of groups</span>
+<span class="sd">        min_group_size: Minimum items per group</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of groups, where each group is a list of indices into items</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="n">n_groups</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_groups</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">n_groups</span><span class="p">:</span>
+        <span class="c1"># Each item in its own group</span>
+        <span class="k">return</span> <span class="p">[[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+    <span class="c1"># Spectral analysis</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">spectral_lifting_analysis</span><span class="p">(</span><span class="n">responses</span><span class="p">,</span> <span class="n">phases</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">n_groups</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+    <span class="c1"># Use top eigenvectors for clustering</span>
+    <span class="c1"># Project items onto eigenvector space</span>
+    <span class="n">n_components</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_groups</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">eigenvalues</span><span class="p">))</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">eigenvectors</span><span class="p">[:,</span> <span class="p">:</span><span class="n">n_components</span><span class="p">]</span>
+
+    <span class="c1"># Simple k-means-style clustering in eigenvector space</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">_kmeans_cluster</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">n_groups</span><span class="p">,</span> <span class="n">min_group_size</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">groups</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_kmeans_cluster</span><span class="p">(</span>
+    <span class="n">features</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">n_clusters</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">min_size</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simple k-means clustering for spectral grouping.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        features: n×d feature matrix (eigenvector projections)</span>
+<span class="sd">        n_clusters: Number of clusters</span>
+<span class="sd">        min_size: Minimum cluster size</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of clusters (lists of indices)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">n_clusters</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+    <span class="c1"># Initialize centroids using k-means++ style</span>
+    <span class="n">centroids</span> <span class="o">=</span> <span class="p">[</span><span class="n">features</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_clusters</span><span class="p">):</span>
+        <span class="c1"># Distance to nearest centroid</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="nb">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">f</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">centroids</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">features</span>
+        <span class="p">])</span>
+        <span class="c1"># Sample proportional to squared distance</span>
+        <span class="n">probs</span> <span class="o">=</span> <span class="n">dists</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">probs</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">probs</span> <span class="o">/=</span> <span class="n">probs</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">probs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">centroids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+
+    <span class="n">centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">centroids</span><span class="p">)</span>
+
+    <span class="c1"># Iterate k-means</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>  <span class="c1"># Max iterations</span>
+        <span class="c1"># Assign to nearest centroid</span>
+        <span class="n">assignments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">f</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">centroids</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">features</span>
+        <span class="p">])</span>
+
+        <span class="c1"># Update centroids</span>
+        <span class="n">new_centroids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">):</span>
+            <span class="n">cluster_points</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="n">assignments</span> <span class="o">==</span> <span class="n">k</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cluster_points</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">new_centroids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cluster_points</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_centroids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">centroids</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="n">new_centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_centroids</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">centroids</span><span class="p">,</span> <span class="n">new_centroids</span><span class="p">):</span>
+            <span class="k">break</span>
+        <span class="n">centroids</span> <span class="o">=</span> <span class="n">new_centroids</span>
+
+    <span class="c1"># Build groups from assignments</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">assignments</span><span class="p">):</span>
+        <span class="n">groups</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="c1"># Remove empty groups</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">min_size</span><span class="p">]</span>
+
+    <span class="c1"># Handle items in groups below min_size</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">groups</span><span class="p">:</span>
+        <span class="c1"># Fallback: single group</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))]</span>
+
+    <span class="k">return</span> <span class="n">groups</span>
+
+
+<div class="viewcode-block" id="coherent_structure_score">
+<a class="viewcode-back" href="../../../reference/ir_enhanced.html#atlas_q.ir_enhanced.coherent_structure_score">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">coherent_structure_score</span><span class="p">(</span>
+    <span class="n">responses</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">phases</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">e2_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.135</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute a coherent structure score and regime classification.</span>
+
+<span class="sd">    Uses spectral lifting to determine:</span>
+<span class="sd">    - IR regime (R̄ &gt; e^-2): Structure directly observable</span>
+<span class="sd">    - AIR regime (R̄ &lt; e^-2): Structure locally detectable but globally hidden</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        responses: Response field magnitudes</span>
+<span class="sd">        phases: Response field phases</span>
+<span class="sd">        e2_threshold: e^-2 threshold (default: 0.135)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        score: Spectral coherence score (0-1)</span>
+<span class="sd">        is_ir_regime: True if in IR regime (structure observable)</span>
+<span class="sd">        regime_description: Human-readable regime description</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">spectral_lifting_analysis</span><span class="p">(</span><span class="n">responses</span><span class="p">,</span> <span class="n">phases</span><span class="p">)</span>
+
+    <span class="n">score</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">spectral_coherence</span>
+    <span class="n">is_ir</span> <span class="o">=</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="n">e2_threshold</span>
+
+    <span class="k">if</span> <span class="n">is_ir</span><span class="p">:</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;IR regime (R̄=</span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> &gt; </span><span class="si">{</span><span class="n">e2_threshold</span><span class="si">}</span><span class="s2">): Structure directly observable&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;AIR regime (R̄=</span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> &lt; </span><span class="si">{</span><span class="n">e2_threshold</span><span class="si">}</span><span class="s2">): Structure globally hidden&quot;</span>
+
+    <span class="k">return</span> <span class="n">score</span><span class="p">,</span> <span class="n">is_ir</span><span class="p">,</span> <span class="n">description</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

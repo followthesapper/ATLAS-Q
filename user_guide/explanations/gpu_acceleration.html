@@ -1,0 +1,1690 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>GPU Acceleration &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/explanations/gpu_acceleration';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Numerical Stability" href="numerical_stability.html" />
+    <link rel="prev" title="Algorithms" href="algorithms.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tensor_networks.html">Tensor Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adaptive_truncation.html">Adaptive Truncation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">GPU Acceleration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_stability.html">Numerical Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_model.html">Performance Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design_decisions.html">Design Decisions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparisons.html">Comparisons</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Explanations</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">GPU Acceleration</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="gpu-acceleration">
+<h1>GPU Acceleration<a class="headerlink" href="#gpu-acceleration" title="Link to this heading">#</a></h1>
+<p>GPU acceleration is essential for large-scale quantum simulation in ATLAS-Q. This document explains how ATLAS-Q leverages GPUs through PyTorch’s CUDA backend, custom Triton kernels, NVIDIA cuQuantum integration, and tensor cores to achieve 10-1000× speedups over CPU execution.</p>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id1">Overview</a></p>
+<ul>
+<li><p><a class="reference internal" href="#why-gpu-acceleration-for-quantum-simulation" id="id2">Why GPU Acceleration for Quantum Simulation</a></p></li>
+<li><p><a class="reference internal" href="#key-acceleration-strategies-in-atlas-q" id="id3">Key Acceleration Strategies in ATLAS-Q</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#gpu-architecture-fundamentals" id="id4">GPU Architecture Fundamentals</a></p>
+<ul>
+<li><p><a class="reference internal" href="#memory-hierarchy" id="id5">Memory Hierarchy</a></p></li>
+<li><p><a class="reference internal" href="#compute-units" id="id6">Compute Units</a></p></li>
+<li><p><a class="reference internal" href="#tensor-cores" id="id7">Tensor Cores</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#pytorch-cuda-backend" id="id8">PyTorch CUDA Backend</a></p>
+<ul>
+<li><p><a class="reference internal" href="#device-management" id="id9">Device Management</a></p></li>
+<li><p><a class="reference internal" href="#automatic-operation-fusion" id="id10">Automatic Operation Fusion</a></p></li>
+<li><p><a class="reference internal" href="#cublas-integration" id="id11">cuBLAS Integration</a></p></li>
+<li><p><a class="reference internal" href="#cusolver-integration" id="id12">cuSOLVER Integration</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#custom-triton-kernels" id="id13">Custom Triton Kernels</a></p>
+<ul>
+<li><p><a class="reference internal" href="#why-custom-kernels" id="id14">Why Custom Kernels</a></p></li>
+<li><p><a class="reference internal" href="#triton-kernel-mps-complex-py" id="id15">Triton Kernel: mps_complex.py</a></p></li>
+<li><p><a class="reference internal" href="#triton-kernel-modpow-py" id="id16">Triton Kernel: modpow.py</a></p></li>
+<li><p><a class="reference internal" href="#triton-kernel-tdvp-mpo-ops-py" id="id17">Triton Kernel: tdvp_mpo_ops.py</a></p></li>
+<li><p><a class="reference internal" href="#installation-and-setup" id="id18">Installation and Setup</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#cuquantum-integration" id="id19">cuQuantum Integration</a></p>
+<ul>
+<li><p><a class="reference internal" href="#cuquantum-components" id="id20">cuQuantum Components</a></p></li>
+<li><p><a class="reference internal" href="#atlas-q-integration" id="id21">ATLAS-Q Integration</a></p></li>
+<li><p><a class="reference internal" href="#performance-characteristics" id="id22">Performance Characteristics</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#gpu-memory-management" id="id23">GPU Memory Management</a></p>
+<ul>
+<li><p><a class="reference internal" href="#pytorch-caching-allocator" id="id24">PyTorch Caching Allocator</a></p></li>
+<li><p><a class="reference internal" href="#memory-budgets-in-atlas-q" id="id25">Memory Budgets in ATLAS-Q</a></p></li>
+<li><p><a class="reference internal" href="#memory-optimization-strategies" id="id26">Memory Optimization Strategies</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#tensor-core-acceleration" id="id27">Tensor Core Acceleration</a></p>
+<ul>
+<li><p><a class="reference internal" href="#architecture-details" id="id28">Architecture Details</a></p></li>
+<li><p><a class="reference internal" href="#enabling-tensor-cores" id="id29">Enabling Tensor Cores</a></p></li>
+<li><p><a class="reference internal" href="#optimal-matrix-sizes" id="id30">Optimal Matrix Sizes</a></p></li>
+<li><p><a class="reference internal" href="#performance-benchmarks" id="id31">Performance Benchmarks</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#performance-profiling" id="id32">Performance Profiling</a></p>
+<ul>
+<li><p><a class="reference internal" href="#pytorch-profiler" id="id33">PyTorch Profiler</a></p></li>
+<li><p><a class="reference internal" href="#nvidia-nsight-systems" id="id34">NVIDIA Nsight Systems</a></p></li>
+<li><p><a class="reference internal" href="#common-bottlenecks" id="id35">Common Bottlenecks</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#multi-gpu-scaling" id="id36">Multi-GPU Scaling</a></p>
+<ul>
+<li><p><a class="reference internal" href="#bond-parallel-distribution" id="id37">Bond-Parallel Distribution</a></p></li>
+<li><p><a class="reference internal" href="#data-parallel-distribution" id="id38">Data-Parallel Distribution</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#best-practices" id="id39">Best Practices</a></p>
+<ul>
+<li><p><a class="reference internal" href="#gpu-usage-guidelines" id="id40">GPU Usage Guidelines</a></p></li>
+<li><p><a class="reference internal" href="#optimization-checklist" id="id41">Optimization Checklist</a></p></li>
+<li><p><a class="reference internal" href="#common-pitfalls" id="id42">Common Pitfalls</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#summary" id="id43">Summary</a></p></li>
+</ul>
+</nav>
+<section id="overview">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Overview</a><a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<section id="why-gpu-acceleration-for-quantum-simulation">
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">Why GPU Acceleration for Quantum Simulation</a><a class="headerlink" href="#why-gpu-acceleration-for-quantum-simulation" title="Link to this heading">#</a></h3>
+<p>Quantum state simulation with MPS involves:</p>
+<ol class="arabic simple">
+<li><p><strong>Tensor contractions</strong>: <span class="math notranslate nohighlight">\(O(\chi^3 d^2)\)</span> complexity per gate</p></li>
+<li><p><strong>SVD operations</strong>: <span class="math notranslate nohighlight">\(O(\chi^3)\)</span> complexity for adaptive truncation</p></li>
+<li><p><strong>Matrix-vector products</strong>: TDVP effective Hamiltonian applications</p></li>
+<li><p><strong>Batched operations</strong>: Multiple gate applications in variational algorithms</p></li>
+</ol>
+<p>These operations are highly parallel and memory-bandwidth-intensive, making them ideal for GPU acceleration.</p>
+<p><strong>Performance scaling</strong>:</p>
+<ul class="simple">
+<li><p><strong>Small systems</strong> (n &lt; 15 qubits, χ &lt; 32): CPU may be faster due to overhead</p></li>
+<li><p><strong>Medium systems</strong> (n = 15-50 qubits, χ = 32-128): GPU provides 5-20× speedup</p></li>
+<li><p><strong>Large systems</strong> (n &gt; 50 qubits, χ &gt; 128): GPU essential (20-100× speedup)</p></li>
+</ul>
+</section>
+<section id="key-acceleration-strategies-in-atlas-q">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Key Acceleration Strategies in ATLAS-Q</a><a class="headerlink" href="#key-acceleration-strategies-in-atlas-q" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>PyTorch CUDA backend</strong>: All tensor operations automatically use GPU</p></li>
+<li><p><strong>Custom Triton kernels</strong>: Fused operations for 2-3× additional speedup</p></li>
+<li><p><strong>cuQuantum integration</strong>: NVIDIA-optimized tensor network contractions (2-10× speedup)</p></li>
+<li><p><strong>Tensor cores</strong>: Hardware acceleration for matrix operations (2-4× speedup on A100/H100)</p></li>
+<li><p><strong>Memory management</strong>: Efficient allocation and pooling to minimize transfers</p></li>
+<li><p><strong>Multi-GPU parallelism</strong>: Bond-parallel and data-parallel distribution</p></li>
+</ol>
+</section>
+</section>
+<section id="gpu-architecture-fundamentals">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">GPU Architecture Fundamentals</a><a class="headerlink" href="#gpu-architecture-fundamentals" title="Link to this heading">#</a></h2>
+<p>Understanding GPU architecture helps optimize quantum simulations.</p>
+<section id="memory-hierarchy">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Memory Hierarchy</a><a class="headerlink" href="#memory-hierarchy" title="Link to this heading">#</a></h3>
+<p>GPU memory has a multi-level hierarchy with different sizes and access latencies:</p>
+<p><strong>1. Global Memory (Device Memory)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Size</strong>: 16-80 GB (A100, H100)</p></li>
+<li><p><strong>Bandwidth</strong>: 1.5-3 TB/s</p></li>
+<li><p><strong>Latency</strong>: ~400 cycles</p></li>
+<li><p><strong>Usage</strong>: MPS tensor storage, intermediate results</p></li>
+<li><p><strong>Optimization</strong>: Coalesce memory accesses, minimize transfers</p></li>
+</ul>
+<p><strong>2. L2 Cache</strong>:</p>
+<ul class="simple">
+<li><p><strong>Size</strong>: 40-50 MB</p></li>
+<li><p><strong>Bandwidth</strong>: ~5 TB/s</p></li>
+<li><p><strong>Latency</strong>: ~200 cycles</p></li>
+<li><p><strong>Usage</strong>: Automatic caching of frequently accessed data</p></li>
+</ul>
+<p><strong>3. Shared Memory (SMEM)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Size</strong>: 48-164 KB per SM (streaming multiprocessor)</p></li>
+<li><p><strong>Bandwidth</strong>: ~15 TB/s</p></li>
+<li><p><strong>Latency</strong>: ~20 cycles</p></li>
+<li><p><strong>Usage</strong>: Thread block communication, custom kernel optimization</p></li>
+<li><p><strong>Optimization</strong>: Bank conflicts, tiling strategies</p></li>
+</ul>
+<p><strong>4. Registers</strong>:</p>
+<ul class="simple">
+<li><p><strong>Size</strong>: 64K 32-bit registers per SM</p></li>
+<li><p><strong>Bandwidth</strong>: ~20 TB/s</p></li>
+<li><p><strong>Latency</strong>: 1 cycle</p></li>
+<li><p><strong>Usage</strong>: Thread-local variables, loop indices</p></li>
+<li><p><strong>Optimization</strong>: Register spilling to global memory hurts performance</p></li>
+</ul>
+<p><strong>Memory access pattern importance</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: Coalesced access (adjacent threads access adjacent memory)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tensor_a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">tensor_b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>  <span class="c1"># Vectorizable</span>
+
+<span class="c1"># Bad: Strided access (threads access non-adjacent memory)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tensor_a</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">stride</span><span class="p">]</span>  <span class="c1"># Cache-unfriendly</span>
+</pre></div>
+</div>
+</section>
+<section id="compute-units">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Compute Units</a><a class="headerlink" href="#compute-units" title="Link to this heading">#</a></h3>
+<p><strong>Streaming Multiprocessors (SMs)</strong>:</p>
+<ul class="simple">
+<li><p>A100: 108 SMs</p></li>
+<li><p>H100: 132 SMs</p></li>
+<li><p>Each SM executes warps (groups of 32 threads) in SIMT (Single Instruction, Multiple Thread) fashion</p></li>
+</ul>
+<p><strong>Warp execution</strong>:</p>
+<ul class="simple">
+<li><p>32 threads execute same instruction on different data</p></li>
+<li><p>Branch divergence (different threads take different branches) serializes execution</p></li>
+<li><p>Goal: Keep all threads in a warp doing useful work</p></li>
+</ul>
+<p><strong>Occupancy</strong>:</p>
+<p>Ratio of active warps to maximum possible warps per SM.</p>
+<ul class="simple">
+<li><p>Higher occupancy → better latency hiding</p></li>
+<li><p>Limited by registers, shared memory, thread blocks per SM</p></li>
+<li><p>ATLAS-Q kernels target 50-100% occupancy</p></li>
+</ul>
+</section>
+<section id="tensor-cores">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Tensor Cores</a><a class="headerlink" href="#tensor-cores" title="Link to this heading">#</a></h3>
+<p>Specialized hardware for matrix operations:</p>
+<p><strong>Capabilities</strong>:</p>
+<ul class="simple">
+<li><p><strong>FP64</strong>: 19.5 TFLOPS (A100)</p></li>
+<li><p><strong>TF32</strong>: 156 TFLOPS (A100) - default for FP32 matmul in PyTorch</p></li>
+<li><p><strong>FP16</strong>: 312 TFLOPS (A100)</p></li>
+<li><p><strong>INT8</strong>: 624 TOPS (A100)</p></li>
+</ul>
+<p><strong>Requirements</strong>:</p>
+<ul class="simple">
+<li><p>Matrix dimensions divisible by 8 (FP32/TF32) or 16 (FP16)</p></li>
+<li><p>Uses specialized WMMA (warp matrix multiply-accumulate) instructions</p></li>
+</ul>
+<p><strong>Automatic usage in PyTorch</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">matmul</span><span class="o">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Default: True</span>
+
+<span class="c1"># All matmuls, einsums, bmm use tensor cores automatically</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijk,jkl-&gt;ijl&#39;</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>  <span class="c1"># Tensor core accelerated</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="pytorch-cuda-backend">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">PyTorch CUDA Backend</a><a class="headerlink" href="#pytorch-cuda-backend" title="Link to this heading">#</a></h2>
+<p>ATLAS-Q leverages PyTorch’s mature CUDA backend for all tensor operations.</p>
+<section id="device-management">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Device Management</a><a class="headerlink" href="#device-management" title="Link to this heading">#</a></h3>
+<p><strong>Explicit device placement</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="c1"># Place MPS on GPU</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Or specify device index for multi-GPU</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
+
+<span class="c1"># Move existing MPS to GPU</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Device context</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Set default device for all new tensors</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">set_default_device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Device context manager</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="automatic-operation-fusion">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Automatic Operation Fusion</a><a class="headerlink" href="#automatic-operation-fusion" title="Link to this heading">#</a></h3>
+<p>PyTorch automatically fuses operations to reduce memory traffic:</p>
+<p><strong>Fused operations</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: MPS gate application</span>
+<span class="c1"># Original: Multiple separate kernels</span>
+<span class="n">A_left</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijk,kl-&gt;ijl&#39;</span><span class="p">,</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">A_gate</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,km,ln-&gt;ijmn&#39;</span><span class="p">,</span> <span class="n">A_left</span><span class="p">,</span> <span class="n">gate</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">gate</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="c1"># ... more operations</span>
+
+<span class="c1"># PyTorch JIT can fuse these into single kernel</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fused_gate_application</span><span class="p">(</span><span class="n">tensor_left</span><span class="p">,</span> <span class="n">tensor_right</span><span class="p">,</span> <span class="n">gate</span><span class="p">):</span>
+    <span class="n">A_left</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijk,kl-&gt;ijl&#39;</span><span class="p">,</span> <span class="n">tensor_left</span><span class="p">,</span> <span class="n">tensor_right</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,km,ln-&gt;ijmn&#39;</span><span class="p">,</span> <span class="n">A_left</span><span class="p">,</span> <span class="n">gate</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">gate</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="n">A_gate</span> <span class="o">=</span> <span class="n">fused_gate_application</span><span class="p">(</span><span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">gate</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Benefits</strong>: Reduced kernel launches (microseconds overhead each), less global memory traffic.</p>
+</section>
+<section id="cublas-integration">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">cuBLAS Integration</a><a class="headerlink" href="#cublas-integration" title="Link to this heading">#</a></h3>
+<p>PyTorch uses cuBLAS (CUDA Basic Linear Algebra Subroutines) for optimized matrix operations:</p>
+<p><strong>Operations accelerated</strong>:</p>
+<ul class="simple">
+<li><p>Matrix multiplication (<code class="docutils literal notranslate"><span class="pre">torch.matmul</span></code>, <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> operator)</p></li>
+<li><p>Batched matrix multiplication (<code class="docutils literal notranslate"><span class="pre">torch.bmm</span></code>)</p></li>
+<li><p>Matrix-vector products</p></li>
+<li><p>Triangular solves (used in canonicalization)</p></li>
+</ul>
+<p><strong>Performance</strong>: cuBLAS is typically within 90-95% of theoretical peak FLOPS for large matrices.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: Bond canonicalization via QR decomposition</span>
+<span class="c1"># Internally uses cuBLAS routines</span>
+<span class="n">Q</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">chi_left</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="n">chi_right</span><span class="p">))</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Q</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">chi_left</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">chi_right</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="cusolver-integration">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">cuSOLVER Integration</a><a class="headerlink" href="#cusolver-integration" title="Link to this heading">#</a></h3>
+<p>PyTorch uses cuSOLVER for linear algebra operations:</p>
+<p><strong>Operations</strong>:</p>
+<ul class="simple">
+<li><p><strong>SVD</strong> (<code class="docutils literal notranslate"><span class="pre">torch.linalg.svd</span></code>): Critical for MPS truncation</p></li>
+<li><p><strong>Eigendecomposition</strong> (<code class="docutils literal notranslate"><span class="pre">torch.linalg.eigh</span></code>): Used in TDVP</p></li>
+<li><p><strong>QR decomposition</strong> (<code class="docutils literal notranslate"><span class="pre">torch.linalg.qr</span></code>): Used in canonicalization</p></li>
+</ul>
+<p><strong>SVD performance</strong> (most important for MPS):</p>
+<p>For matrix of size <span class="math notranslate nohighlight">\(\chi \times \chi\)</span>:</p>
+<ul class="simple">
+<li><p><strong>A100 GPU</strong>: ~0.1 ms for χ=64, ~1 ms for χ=256</p></li>
+<li><p><strong>CPU (16 cores)</strong>: ~1 ms for χ=64, ~10 ms for χ=256</p></li>
+</ul>
+<p>SVD is the main bottleneck in adaptive MPS simulation.</p>
+</section>
+</section>
+<section id="custom-triton-kernels">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Custom Triton Kernels</a><a class="headerlink" href="#custom-triton-kernels" title="Link to this heading">#</a></h2>
+<p>ATLAS-Q includes custom GPU kernels written in Triton (Python-based GPU kernel language) for operations that benefit from fusion and specialized memory access patterns.</p>
+<section id="why-custom-kernels">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Why Custom Kernels</a><a class="headerlink" href="#why-custom-kernels" title="Link to this heading">#</a></h3>
+<p><strong>Limitations of PyTorch built-ins</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Einsum overhead</strong>: Separate kernel launches for each contraction</p></li>
+<li><p><strong>Memory traffic</strong>: Intermediate results written to/read from global memory</p></li>
+<li><p><strong>Indexing</strong>: Dynamic indexing can be inefficient</p></li>
+</ol>
+<p><strong>Triton advantages</strong>:</p>
+<ul class="simple">
+<li><p>Python syntax for GPU kernel development</p></li>
+<li><p>Automatic optimization (tiling, memory coalescing)</p></li>
+<li><p>Fusion of multiple operations into single kernel</p></li>
+<li><p>Easier to maintain than CUDA C++</p></li>
+</ul>
+</section>
+<section id="triton-kernel-mps-complex-py">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Triton Kernel: mps_complex.py</a><a class="headerlink" href="#triton-kernel-mps-complex-py" title="Link to this heading">#</a></h3>
+<p><strong>Purpose</strong>: Fused two-qubit gate application to MPS tensors.</p>
+<p><strong>Operation</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Unfused (PyTorch default)</span>
+<span class="c1"># 1. Merge two MPS tensors</span>
+<span class="n">A_merged</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijk,klm-&gt;ijlm&#39;</span><span class="p">,</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1"># 2. Apply gate</span>
+<span class="n">A_gate</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,km,ln-&gt;ijmn&#39;</span><span class="p">,</span> <span class="n">A_merged</span><span class="p">,</span> <span class="n">gate</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">gate</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1"># 3. SVD to split</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A_gate</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">chi</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">chi</span><span class="o">*</span><span class="mi">2</span><span class="p">))</span>
+<span class="c1"># Total: 3 separate kernel launches</span>
+
+<span class="c1"># Fused (Triton kernel)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.triton_kernels.mps_complex</span><span class="w"> </span><span class="kn">import</span> <span class="n">fused_two_qubit_gate</span>
+<span class="c1"># Single kernel launch performs all contractions with tiled memory access</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span> <span class="o">=</span> <span class="n">fused_two_qubit_gate</span><span class="p">(</span><span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">gate</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Optimization strategies</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>2×2 tiling</strong>: Process 2×2 blocks of matrix for better cache reuse</p></li>
+<li><p><strong>Shared memory</strong>: Store gate matrix and partial results in SMEM</p></li>
+<li><p><strong>Register blocking</strong>: Keep intermediate sums in registers</p></li>
+<li><p><strong>Coalesced access</strong>: Threads access adjacent memory locations</p></li>
+</ol>
+<p><strong>Performance</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Bond dim χ</p></th>
+<th class="head"><p>PyTorch (ms)</p></th>
+<th class="head"><p>Triton kernel (ms)</p></th>
+<th class="head"><p>Speedup</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>32</p></td>
+<td><p>0.08</p></td>
+<td><p>0.09</p></td>
+<td><p>0.9×</p></td>
+</tr>
+<tr class="row-odd"><td><p>64</p></td>
+<td><p>0.15</p></td>
+<td><p>0.10</p></td>
+<td><p>1.5×</p></td>
+</tr>
+<tr class="row-even"><td><p>128</p></td>
+<td><p>0.45</p></td>
+<td><p>0.22</p></td>
+<td><p>2.0×</p></td>
+</tr>
+<tr class="row-odd"><td><p>256</p></td>
+<td><p>1.50</p></td>
+<td><p>0.58</p></td>
+<td><p>2.6×</p></td>
+</tr>
+<tr class="row-even"><td><p>512</p></td>
+<td><p>5.80</p></td>
+<td><p>2.10</p></td>
+<td><p>2.8×</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>When beneficial</strong>: χ &gt; 64 (overhead dominates for small χ).</p>
+</section>
+<section id="triton-kernel-modpow-py">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Triton Kernel: modpow.py</a><a class="headerlink" href="#triton-kernel-modpow-py" title="Link to this heading">#</a></h3>
+<p><strong>Purpose</strong>: Batched modular exponentiation for period-finding (Shor’s algorithm component).</p>
+<p><strong>Operation</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\text{result}[i] = a^{\text{exponent}[i]} \mod N\]</div>
+<p><strong>Algorithm</strong>: Binary exponentiation (square-and-multiply).</p>
+<p><strong>Optimization</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.triton_kernels.modpow</span><span class="w"> </span><span class="kn">import</span> <span class="n">batched_modpow_triton</span>
+
+<span class="c1"># Compute a^x mod N for many x values in parallel</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">143</span>
+<span class="n">exponents</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>  <span class="c1"># 10000 exponents</span>
+
+<span class="c1"># Triton kernel processes in batches of 1024</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">batched_modpow_triton</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">exponents</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Performance vs PyTorch</strong>:</p>
+<ul class="simple">
+<li><p><strong>PyTorch</strong>: Loop over exponents (serialized) → 150 ms</p></li>
+<li><p><strong>Triton</strong>: Fully parallel → 5 ms</p></li>
+<li><p><strong>Speedup</strong>: ~30× for 10,000 exponents</p></li>
+</ul>
+<p><strong>Critical for</strong>: Period-finding, Shor’s algorithm, quantum walk simulations.</p>
+</section>
+<section id="triton-kernel-tdvp-mpo-ops-py">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Triton Kernel: tdvp_mpo_ops.py</a><a class="headerlink" href="#triton-kernel-tdvp-mpo-ops-py" title="Link to this heading">#</a></h3>
+<p><strong>Purpose</strong>: TDVP effective Hamiltonian contractions.</p>
+<p><strong>Operation</strong>: Contract MPS tensors with MPO (Matrix Product Operator) Hamiltonian:</p>
+<div class="math notranslate nohighlight">
+\[H_{\text{eff}} = \text{contract}(L_{\text{env}}, H^{[i]}, R_{\text{env}}, A^{[i]})\]</div>
+<p>where <span class="math notranslate nohighlight">\(L_{\text{env}}\)</span> and <span class="math notranslate nohighlight">\(R_{\text{env}}\)</span> are left and right environments.</p>
+<p><strong>Challenge</strong>: Complex contraction pattern with many indices.</p>
+<p><strong>Optimization</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Fuse environment contractions</strong>: Compute <span class="math notranslate nohighlight">\(L \times H \times R\)</span> in single kernel</p></li>
+<li><p><strong>Optimize memory layout</strong>: Transpose tensors to improve access pattern</p></li>
+<li><p><strong>Reduce memory traffic</strong>: ~40% reduction vs separate contractions</p></li>
+</ol>
+<p><strong>Performance</strong>:</p>
+<ul class="simple">
+<li><p><strong>PyTorch einsum chain</strong>: 0.8 ms per contraction (χ=64, MPO bond dim = 8)</p></li>
+<li><p><strong>Triton kernel</strong>: 0.5 ms per contraction</p></li>
+<li><p><strong>Speedup</strong>: 1.6×</p></li>
+</ul>
+<p><strong>Impact on TDVP</strong>: 10-20% overall speedup for time evolution loops.</p>
+</section>
+<section id="installation-and-setup">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">Installation and Setup</a><a class="headerlink" href="#installation-and-setup" title="Link to this heading">#</a></h3>
+<p>Triton kernels are automatically compiled on first use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Triton (included in ATLAS-Q requirements)</span>
+pip<span class="w"> </span>install<span class="w"> </span>triton
+
+<span class="c1"># Setup script auto-detects GPU architecture</span>
+./setup_triton.sh
+
+<span class="c1"># Manually specify architecture (if needed)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TORCH_CUDA_ARCH_LIST</span><span class="o">=</span><span class="s2">&quot;9.0&quot;</span><span class="w">  </span><span class="c1"># For H100</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TORCH_CUDA_ARCH_LIST</span><span class="o">=</span><span class="s2">&quot;8.0&quot;</span><span class="w">  </span><span class="c1"># For A100</span>
+
+<span class="c1"># Verify Triton installation</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import triton; print(triton.__version__)&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cuquantum-integration">
+<h2><a class="toc-backref" href="#id19" role="doc-backlink">cuQuantum Integration</a><a class="headerlink" href="#cuquantum-integration" title="Link to this heading">#</a></h2>
+<p>NVIDIA cuQuantum provides highly optimized tensor network operations.</p>
+<section id="cuquantum-components">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">cuQuantum Components</a><a class="headerlink" href="#cuquantum-components" title="Link to this heading">#</a></h3>
+<p><strong>cuTensorNet</strong>:</p>
+<ul class="simple">
+<li><p>Optimized tensor network contractions</p></li>
+<li><p>Automatic contraction order optimization</p></li>
+<li><p>Multi-GPU tensor network execution</p></li>
+<li><p>Slicing for memory-efficient contractions</p></li>
+</ul>
+<p><strong>cuStateVec</strong>:</p>
+<ul class="simple">
+<li><p>State vector operations (less relevant for MPS)</p></li>
+<li><p>Gate application, measurement, expectation values</p></li>
+</ul>
+</section>
+<section id="atlas-q-integration">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">ATLAS-Q Integration</a><a class="headerlink" href="#atlas-q-integration" title="Link to this heading">#</a></h3>
+<p>cuQuantum is optionally integrated and auto-detected:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumConfig</span><span class="p">,</span> <span class="n">CuQuantumBackend</span>
+
+<span class="c1"># Configure cuQuantum backend</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span>
+    <span class="n">use_cutensornet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">workspace_size</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>      <span class="c1"># 2 GB workspace for contractions</span>
+    <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>                <span class="c1"># or &#39;qr&#39;, &#39;svd&#39;</span>
+    <span class="n">svd_algorithm</span><span class="o">=</span><span class="s1">&#39;gesvdj&#39;</span><span class="p">,</span>          <span class="c1"># Jacobi SVD (fast for χ &lt; 512)</span>
+    <span class="n">enable_async</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>               <span class="c1"># Asynchronous execution</span>
+    <span class="n">num_streams</span><span class="o">=</span><span class="mi">4</span>                    <span class="c1"># CUDA streams for overlap</span>
+<span class="p">)</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Use with MPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-characteristics">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">Performance Characteristics</a><a class="headerlink" href="#performance-characteristics" title="Link to this heading">#</a></h3>
+<p><strong>When cuQuantum helps</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Large bond dimensions</strong> (χ &gt; 128): Better SVD performance</p></li>
+<li><p><strong>Deep circuits</strong>: Optimized contraction ordering</p></li>
+<li><p><strong>Multi-GPU</strong>: Automatic work distribution</p></li>
+</ol>
+<p><strong>Speedup examples</strong> (χ=256, n=40 qubits):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operation</p></th>
+<th class="head"><p>PyTorch (ms)</p></th>
+<th class="head"><p>cuQuantum (ms)</p></th>
+<th class="head"><p>Speedup</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Two-qubit gate</p></td>
+<td><p>2.5</p></td>
+<td><p>1.2</p></td>
+<td><p>2.1×</p></td>
+</tr>
+<tr class="row-odd"><td><p>SVD truncation</p></td>
+<td><p>1.8</p></td>
+<td><p>0.6</p></td>
+<td><p>3.0×</p></td>
+</tr>
+<tr class="row-even"><td><p>TDVP time step</p></td>
+<td><p>150</p></td>
+<td><p>65</p></td>
+<td><p>2.3×</p></td>
+</tr>
+<tr class="row-odd"><td><p>VQE energy evaluation</p></td>
+<td><p>800</p></td>
+<td><p>320</p></td>
+<td><p>2.5×</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Fallback behavior</strong>: If cuQuantum not installed, ATLAS-Q automatically falls back to PyTorch with no code changes.</p>
+</section>
+</section>
+<section id="gpu-memory-management">
+<h2><a class="toc-backref" href="#id23" role="doc-backlink">GPU Memory Management</a><a class="headerlink" href="#gpu-memory-management" title="Link to this heading">#</a></h2>
+<p>Efficient memory management is critical for large-scale simulations.</p>
+<section id="pytorch-caching-allocator">
+<h3><a class="toc-backref" href="#id24" role="doc-backlink">PyTorch Caching Allocator</a><a class="headerlink" href="#pytorch-caching-allocator" title="Link to this heading">#</a></h3>
+<p>PyTorch uses a caching allocator to avoid expensive cudaMalloc/cudaFree calls:</p>
+<p><strong>Mechanism</strong>:</p>
+<ol class="arabic simple">
+<li><p>First allocation: Request memory from CUDA</p></li>
+<li><p>Deallocation: Return to PyTorch cache (not to CUDA)</p></li>
+<li><p>Future allocation: Reuse cached memory if available</p></li>
+<li><p>Only release to CUDA when explicitly requested</p></li>
+</ol>
+<p><strong>Benefits</strong>: ~100× faster allocation/deallocation.</p>
+<p><strong>Monitoring</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Current allocated memory (in use by tensors)</span>
+<span class="n">allocated</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">memory_allocated</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># GB</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Allocated: </span><span class="si">{</span><span class="n">allocated</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+
+<span class="c1"># Reserved memory (cached by PyTorch)</span>
+<span class="n">reserved</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">memory_reserved</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># GB</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reserved: </span><span class="si">{</span><span class="n">reserved</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+
+<span class="c1"># Peak allocated memory</span>
+<span class="n">peak</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">max_memory_allocated</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># GB</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Peak: </span><span class="si">{</span><span class="n">peak</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+
+<span class="c1"># Reset peak counter</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">reset_peak_memory_stats</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Clearing cache</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Release all cached memory back to CUDA</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">empty_cache</span><span class="p">()</span>
+
+<span class="c1"># Note: Only releases memory not currently in use by tensors</span>
+<span class="c1"># Does NOT free memory held by active tensors</span>
+</pre></div>
+</div>
+</section>
+<section id="memory-budgets-in-atlas-q">
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">Memory Budgets in ATLAS-Q</a><a class="headerlink" href="#memory-budgets-in-atlas-q" title="Link to this heading">#</a></h3>
+<p>ATLAS-Q supports global memory budgets to prevent OOM errors:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="c1"># Set global memory budget (10 GB)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">budget_global_mb</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span>      <span class="c1"># 10 GB limit</span>
+    <span class="n">adaptive_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># MPS will adaptively reduce bond dimension to stay within budget</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">49</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Check if budget was exceeded</span>
+<span class="k">if</span> <span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">budget_exceeded</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Reduced bond dimension to stay within budget&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Budget enforcement</strong>:</p>
+<ol class="arabic simple">
+<li><p>Before each gate: Check projected memory usage</p></li>
+<li><p>If over budget: Reduce χ at bonds furthest from entanglement center</p></li>
+<li><p>Track total truncation error from budget constraints</p></li>
+</ol>
+</section>
+<section id="memory-optimization-strategies">
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">Memory Optimization Strategies</a><a class="headerlink" href="#memory-optimization-strategies" title="Link to this heading">#</a></h3>
+<p><strong>1. Mixed Precision</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use complex64 instead of complex128 (50% memory reduction)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span>  <span class="c1"># Instead of complex128</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Accuracy impact: Typically &lt; 1e-6 for most simulations</span>
+</pre></div>
+</div>
+<p><strong>2. Gradient Checkpointing</strong> (for variational algorithms):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;L-BFGS-B&#39;</span><span class="p">,</span>
+    <span class="n">use_checkpointing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Trade compute for memory</span>
+    <span class="n">checkpoint_segments</span><span class="o">=</span><span class="mi">4</span>     <span class="c1"># Split circuit into 4 segments</span>
+<span class="p">)</span>
+
+<span class="c1"># Memory usage: 4× reduction</span>
+<span class="c1"># Compute time: 1.3× increase (acceptable tradeoff)</span>
+</pre></div>
+</div>
+<p><strong>3. In-Place Operations</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Avoid creating intermediate tensors</span>
+<span class="c1"># Good: In-place</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">factor</span><span class="p">)</span>
+
+<span class="c1"># Bad: Creates new tensor</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">factor</span>
+</pre></div>
+</div>
+<p><strong>4. Explicit Deletion</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete large intermediate tensors</span>
+<span class="n">large_tensor</span> <span class="o">=</span> <span class="n">some_expensive_computation</span><span class="p">()</span>
+<span class="c1"># ... use large_tensor ...</span>
+<span class="k">del</span> <span class="n">large_tensor</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">empty_cache</span><span class="p">()</span>  <span class="c1"># Release to CUDA</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="tensor-core-acceleration">
+<h2><a class="toc-backref" href="#id27" role="doc-backlink">Tensor Core Acceleration</a><a class="headerlink" href="#tensor-core-acceleration" title="Link to this heading">#</a></h2>
+<p>Tensor cores provide specialized hardware for matrix operations.</p>
+<section id="architecture-details">
+<h3><a class="toc-backref" href="#id28" role="doc-backlink">Architecture Details</a><a class="headerlink" href="#architecture-details" title="Link to this heading">#</a></h3>
+<p><strong>Tensor core operations</strong>:</p>
+<div class="math notranslate nohighlight">
+\[D = A \times B + C\]</div>
+<p>where A, B, C, D are matrices/tensors.</p>
+<p><strong>Precision modes</strong>:</p>
+<ul class="simple">
+<li><p><strong>FP64</strong>: Full 64-bit precision (19.5 TFLOPS on A100)</p></li>
+<li><p><strong>TF32</strong>: TensorFloat-32 (156 TFLOPS on A100) - 19-bit mantissa</p></li>
+<li><p><strong>FP16</strong>: Half precision (312 TFLOPS on A100)</p></li>
+<li><p><strong>BF16</strong>: Bfloat16 (312 TFLOPS on A100) - better range than FP16</p></li>
+</ul>
+<p><strong>Default in PyTorch</strong>: TF32 for FP32 matmuls (automatically enabled).</p>
+</section>
+<section id="enabling-tensor-cores">
+<h3><a class="toc-backref" href="#id29" role="doc-backlink">Enabling Tensor Cores</a><a class="headerlink" href="#enabling-tensor-cores" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Enable TF32 for matmul (default: True)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">matmul</span><span class="o">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># Enable TF32 for cuDNN convolutions (not relevant for ATLAS-Q)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># Use mixed precision for 2× speedup</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">autocast</span><span class="p">():</span>
+    <span class="c1"># All matmuls use FP16 tensor cores</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijk,jkl-&gt;ijl&#39;</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="optimal-matrix-sizes">
+<h3><a class="toc-backref" href="#id30" role="doc-backlink">Optimal Matrix Sizes</a><a class="headerlink" href="#optimal-matrix-sizes" title="Link to this heading">#</a></h3>
+<p>Tensor cores work on 16×16×16 (FP16) or 8×8×8 (FP32/TF32) tiles.</p>
+<p><strong>Padding for alignment</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bad: χ=63 (not divisible by 8)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">63</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Good: χ=64 (divisible by 8)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Speedup: ~20% just from alignment</span>
+</pre></div>
+</div>
+<p><strong>Recommended bond dimensions</strong> for tensor core efficiency:</p>
+<ul class="simple">
+<li><p>32, 64, 128, 256, 512 (powers of 2)</p></li>
+<li><p>48, 96, 192, 384 (multiples of 16)</p></li>
+<li><p>Avoid: 50, 63, 100, 150 (not tensor core friendly)</p></li>
+</ul>
+</section>
+<section id="performance-benchmarks">
+<h3><a class="toc-backref" href="#id31" role="doc-backlink">Performance Benchmarks</a><a class="headerlink" href="#performance-benchmarks" title="Link to this heading">#</a></h3>
+<p><strong>Einsum performance</strong> (A100, TF32 enabled):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Bond dim χ</p></th>
+<th class="head"><p>Without TC (ms)</p></th>
+<th class="head"><p>With TC (ms)</p></th>
+<th class="head"><p>Speedup</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>32</p></td>
+<td><p>0.12</p></td>
+<td><p>0.08</p></td>
+<td><p>1.5×</p></td>
+</tr>
+<tr class="row-odd"><td><p>64</p></td>
+<td><p>0.45</p></td>
+<td><p>0.18</p></td>
+<td><p>2.5×</p></td>
+</tr>
+<tr class="row-even"><td><p>128</p></td>
+<td><p>1.80</p></td>
+<td><p>0.55</p></td>
+<td><p>3.3×</p></td>
+</tr>
+<tr class="row-odd"><td><p>256</p></td>
+<td><p>7.20</p></td>
+<td><p>1.90</p></td>
+<td><p>3.8×</p></td>
+</tr>
+<tr class="row-even"><td><p>512</p></td>
+<td><p>28.5</p></td>
+<td><p>7.50</p></td>
+<td><p>3.8×</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="performance-profiling">
+<h2><a class="toc-backref" href="#id32" role="doc-backlink">Performance Profiling</a><a class="headerlink" href="#performance-profiling" title="Link to this heading">#</a></h2>
+<p>Identifying bottlenecks is essential for optimization.</p>
+<section id="pytorch-profiler">
+<h3><a class="toc-backref" href="#id33" role="doc-backlink">PyTorch Profiler</a><a class="headerlink" href="#pytorch-profiler" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Profile gate applications</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span>
+    <span class="n">activities</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">ProfilerActivity</span><span class="o">.</span><span class="n">CPU</span><span class="p">,</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">ProfilerActivity</span><span class="o">.</span><span class="n">CUDA</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">record_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">with_stack</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">prof</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">29</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Print summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prof</span><span class="o">.</span><span class="n">key_averages</span><span class="p">()</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">sort_by</span><span class="o">=</span><span class="s2">&quot;cuda_time_total&quot;</span><span class="p">,</span> <span class="n">row_limit</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Export for visualization</span>
+<span class="n">prof</span><span class="o">.</span><span class="n">export_chrome_trace</span><span class="p">(</span><span class="s2">&quot;profiler_trace.json&quot;</span><span class="p">)</span>
+<span class="c1"># View at chrome://tracing</span>
+</pre></div>
+</div>
+</section>
+<section id="nvidia-nsight-systems">
+<h3><a class="toc-backref" href="#id34" role="doc-backlink">NVIDIA Nsight Systems</a><a class="headerlink" href="#nvidia-nsight-systems" title="Link to this heading">#</a></h3>
+<p>For detailed GPU kernel analysis:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Profile ATLAS-Q script</span>
+nsys<span class="w"> </span>profile<span class="w"> </span>-o<span class="w"> </span>atlas_q_profile<span class="w"> </span>python<span class="w"> </span>my_simulation.py
+
+<span class="c1"># View profile</span>
+nsys-ui<span class="w"> </span>atlas_q_profile.qdrep
+</pre></div>
+</div>
+<p><strong>Key metrics</strong>:</p>
+<ul class="simple">
+<li><p><strong>Kernel duration</strong>: Time spent in each GPU kernel</p></li>
+<li><p><strong>Memory bandwidth</strong>: Actual vs peak bandwidth utilization</p></li>
+<li><p><strong>Occupancy</strong>: Active warps vs max warps per SM</p></li>
+<li><p><strong>Launch overhead</strong>: Time between kernel launches</p></li>
+</ul>
+</section>
+<section id="common-bottlenecks">
+<h3><a class="toc-backref" href="#id35" role="doc-backlink">Common Bottlenecks</a><a class="headerlink" href="#common-bottlenecks" title="Link to this heading">#</a></h3>
+<p><strong>1. SVD truncation</strong> (typically 40-60% of time):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Profile SVD</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+<span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SVD time: </span><span class="si">{</span><span class="n">elapsed</span><span class="o">*</span><span class="mi">1000</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ms&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Mitigation</strong>:
+- Use cuQuantum’s gesvdj (Jacobi SVD) for χ &lt; 512
+- Use complex64 instead of complex128 (2× faster SVD)
+- Reduce truncation frequency (e.g., every 10 gates)</p>
+<p><strong>2. Memory bandwidth</strong> (20-30% of time):</p>
+<p><strong>Mitigation</strong>:
+- Fuse operations to reduce intermediate tensors
+- Use Triton kernels for memory-bound operations
+- Increase arithmetic intensity (more compute per memory access)</p>
+<p><strong>3. Kernel launch overhead</strong> (5-10% for small operations):</p>
+<p><strong>Mitigation</strong>:
+- Batch operations when possible
+- Use CUDA streams for overlap</p>
+</section>
+</section>
+<section id="multi-gpu-scaling">
+<h2><a class="toc-backref" href="#id36" role="doc-backlink">Multi-GPU Scaling</a><a class="headerlink" href="#multi-gpu-scaling" title="Link to this heading">#</a></h2>
+<p>ATLAS-Q supports multi-GPU parallelism for large simulations.</p>
+<section id="bond-parallel-distribution">
+<h3><a class="toc-backref" href="#id37" role="doc-backlink">Bond-Parallel Distribution</a><a class="headerlink" href="#bond-parallel-distribution" title="Link to this heading">#</a></h3>
+<p>Partition MPS chain across GPUs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+
+<span class="c1"># Initialize distributed backend</span>
+<span class="n">dist</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span> <span class="n">init_method</span><span class="o">=</span><span class="s1">&#39;env://&#39;</span><span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span>        <span class="c1"># Split bond dimension across GPUs</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>                <span class="c1"># 4 GPUs</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># MPS with χ=512 split across 4 GPUs (128 per GPU)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Gate operations automatically handle inter-GPU communication</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">79</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># NCCL allreduce when crossing GPU boundaries</span>
+</pre></div>
+</div>
+<p><strong>Performance</strong>: Near-linear scaling up to 4-8 GPUs.</p>
+</section>
+<section id="data-parallel-distribution">
+<h3><a class="toc-backref" href="#id38" role="doc-backlink">Data-Parallel Distribution</a><a class="headerlink" href="#data-parallel-distribution" title="Link to this heading">#</a></h3>
+<p>Replicate MPS for parallel sampling:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;data_parallel&#39;</span><span class="p">,</span>        <span class="c1"># Replicate MPS across GPUs</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span>
+<span class="p">)</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Each GPU performs independent sampling</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n_shots</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>  <span class="c1"># 40,000 total samples across 4 GPUs</span>
+</pre></div>
+</div>
+<p><strong>Use cases</strong>: Variational algorithms needing many energy evaluations.</p>
+</section>
+</section>
+<section id="best-practices">
+<h2><a class="toc-backref" href="#id39" role="doc-backlink">Best Practices</a><a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<section id="gpu-usage-guidelines">
+<h3><a class="toc-backref" href="#id40" role="doc-backlink">GPU Usage Guidelines</a><a class="headerlink" href="#gpu-usage-guidelines" title="Link to this heading">#</a></h3>
+<p><strong>When to use GPU</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Bond dimension χ &gt; 32</strong>: GPU overhead amortized</p></li>
+<li><p><strong>Circuit depth &gt; 50 gates</strong>: Many operations to parallelize</p></li>
+<li><p><strong>Iterative algorithms</strong> (VQE, QAOA, TDVP): Hundreds of evaluations</p></li>
+<li><p><strong>Large qubit count</strong> (n &gt; 20): More parallelism</p></li>
+</ol>
+<p><strong>When CPU may be faster</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Small systems</strong> (n &lt; 15, χ &lt; 32): Overhead dominates</p></li>
+<li><p><strong>Single gate operations</strong>: Transfer time exceeds compute time</p></li>
+<li><p><strong>Memory-constrained</strong>: GPU memory &lt; required MPS size</p></li>
+</ol>
+</section>
+<section id="optimization-checklist">
+<h3><a class="toc-backref" href="#id41" role="doc-backlink">Optimization Checklist</a><a class="headerlink" href="#optimization-checklist" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Use power-of-2 bond dimensions</strong> (32, 64, 128, 256) for tensor core alignment</p></li>
+<li><p><strong>Enable TF32</strong>: <code class="docutils literal notranslate"><span class="pre">torch.backends.cuda.matmul.allow_tf32</span> <span class="pre">=</span> <span class="pre">True</span></code></p></li>
+<li><p><strong>Profile to find bottlenecks</strong>: PyTorch profiler or Nsight</p></li>
+<li><p><strong>Consider mixed precision</strong> (complex64) for 2× memory and speedup</p></li>
+<li><p><strong>Use cuQuantum for χ &gt; 128</strong>: 2-3× additional speedup</p></li>
+<li><p><strong>Batch operations</strong>: Apply multiple gates before synchronization</p></li>
+<li><p><strong>Monitor memory</strong>: Use budgets and clear cache when needed</p></li>
+<li><p><strong>Multi-GPU for large simulations</strong>: Bond-parallel for χ &gt; 512</p></li>
+</ol>
+</section>
+<section id="common-pitfalls">
+<h3><a class="toc-backref" href="#id42" role="doc-backlink">Common Pitfalls</a><a class="headerlink" href="#common-pitfalls" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Frequent CPU-GPU transfers</strong>: Keep tensors on GPU</p></li>
+<li><p><strong>Synchronization points</strong>: Avoid <code class="docutils literal notranslate"><span class="pre">tensor.item()</span></code>, <code class="docutils literal notranslate"><span class="pre">print(tensor)</span></code> in loops</p></li>
+<li><p><strong>Small batches</strong>: GPU underutilized</p></li>
+<li><p><strong>Non-aligned dimensions</strong>: Miss tensor core acceleration</p></li>
+<li><p><strong>Memory fragmentation</strong>: Clear cache periodically</p></li>
+<li><p><strong>Ignoring warmup</strong>: First run includes compilation overhead</p></li>
+</ol>
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id43" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>GPU acceleration in ATLAS-Q provides 10-1000× speedups through:</p>
+<p><strong>Hardware Utilization</strong>:</p>
+<ul class="simple">
+<li><p><strong>Tensor cores</strong>: 2-4× speedup on matrix operations (A100, H100)</p></li>
+<li><p><strong>High memory bandwidth</strong>: 1.5-3 TB/s for tensor operations</p></li>
+<li><p><strong>Massive parallelism</strong>: 1000s of threads executing simultaneously</p></li>
+</ul>
+<p><strong>Software Stack</strong>:</p>
+<ul class="simple">
+<li><p><strong>PyTorch CUDA backend</strong>: Automatic GPU execution for all tensor ops</p></li>
+<li><p><strong>cuBLAS/cuSOLVER</strong>: Optimized linear algebra (matmul, SVD, QR)</p></li>
+<li><p><strong>Custom Triton kernels</strong>: 1.5-3× additional speedup via fusion</p></li>
+<li><p><strong>cuQuantum</strong>: 2-10× speedup for large bond dimensions (optional)</p></li>
+</ul>
+<p><strong>Memory Management</strong>:</p>
+<ul class="simple">
+<li><p>Caching allocator for fast allocation/deallocation</p></li>
+<li><p>Memory budgets prevent OOM errors</p></li>
+<li><p>Mixed precision reduces memory by 50%</p></li>
+</ul>
+<p><strong>Multi-GPU Scaling</strong>:</p>
+<ul class="simple">
+<li><p>Bond-parallel: Split large bond dimensions across GPUs</p></li>
+<li><p>Data-parallel: Parallel sampling and energy evaluations</p></li>
+<li><p>Near-linear scaling up to 4-8 GPUs</p></li>
+</ul>
+<p><strong>Key Performance Factors</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Bond dimension</strong>: GPU beneficial for χ &gt; 32, essential for χ &gt; 128</p></li>
+<li><p><strong>Problem size</strong>: Larger systems amortize overhead better</p></li>
+<li><p><strong>Algorithm</strong>: Iterative algorithms (VQE, TDVP) see largest gains</p></li>
+<li><p><strong>Precision</strong>: TF32/FP16 provides 2-4× speedup with minimal accuracy loss</p></li>
+</ol>
+<p><strong>Recommended Configuration</strong> (A100 GPU):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">matmul</span><span class="o">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumBackend</span><span class="p">,</span> <span class="n">CuQuantumConfig</span>
+
+<span class="c1"># Configure cuQuantum</span>
+<span class="n">cuq_config</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span><span class="n">use_cutensornet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">workspace_size</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">(</span><span class="n">cuq_config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create MPS with optimal settings</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>                     <span class="c1"># Power of 2 for tensor cores</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span>            <span class="c1"># Mixed precision</span>
+    <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>                  <span class="c1"># cuQuantum acceleration</span>
+    <span class="n">budget_global_mb</span><span class="o">=</span><span class="mi">30</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span>       <span class="c1"># 30 GB budget</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>This configuration typically achieves 50-100× speedup over CPU execution for large quantum simulations.</p>
+<p>For detailed multi-GPU setup and advanced optimizations, see:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../howtos/parallel_computation.html"><span class="doc">Parallel Computation</span></a> - Multi-GPU parallelization guide</p></li>
+<li><p><a class="reference internal" href="../howtos/optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> - Performance optimization strategies</p></li>
+<li><p><a class="reference internal" href="../howtos/integrate_cuquantum.html"><span class="doc">Integrate cuQuantum</span></a> - cuQuantum integration details</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="algorithms.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Algorithms</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="numerical_stability.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Numerical Stability</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-gpu-acceleration-for-quantum-simulation">Why GPU Acceleration for Quantum Simulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-acceleration-strategies-in-atlas-q">Key Acceleration Strategies in ATLAS-Q</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gpu-architecture-fundamentals">GPU Architecture Fundamentals</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-hierarchy">Memory Hierarchy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-units">Compute Units</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor-cores">Tensor Cores</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-cuda-backend">PyTorch CUDA Backend</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#device-management">Device Management</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automatic-operation-fusion">Automatic Operation Fusion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cublas-integration">cuBLAS Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cusolver-integration">cuSOLVER Integration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-triton-kernels">Custom Triton Kernels</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-custom-kernels">Why Custom Kernels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#triton-kernel-mps-complex-py">Triton Kernel: mps_complex.py</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#triton-kernel-modpow-py">Triton Kernel: modpow.py</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#triton-kernel-tdvp-mpo-ops-py">Triton Kernel: tdvp_mpo_ops.py</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-and-setup">Installation and Setup</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cuquantum-integration">cuQuantum Integration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuquantum-components">cuQuantum Components</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas-q-integration">ATLAS-Q Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-characteristics">Performance Characteristics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gpu-memory-management">GPU Memory Management</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-caching-allocator">PyTorch Caching Allocator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-budgets-in-atlas-q">Memory Budgets in ATLAS-Q</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-optimization-strategies">Memory Optimization Strategies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor-core-acceleration">Tensor Core Acceleration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture-details">Architecture Details</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enabling-tensor-cores">Enabling Tensor Cores</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimal-matrix-sizes">Optimal Matrix Sizes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-benchmarks">Performance Benchmarks</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-profiling">Performance Profiling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-profiler">PyTorch Profiler</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nvidia-nsight-systems">NVIDIA Nsight Systems</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-bottlenecks">Common Bottlenecks</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-gpu-scaling">Multi-GPU Scaling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-parallel-distribution">Bond-Parallel Distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-parallel-distribution">Data-Parallel Distribution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpu-usage-guidelines">GPU Usage Guidelines</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-checklist">Optimization Checklist</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-pitfalls">Common Pitfalls</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

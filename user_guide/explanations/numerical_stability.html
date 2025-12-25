@@ -1,0 +1,1681 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Numerical Stability &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/explanations/numerical_stability';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Performance Model" href="performance_model.html" />
+    <link rel="prev" title="GPU Acceleration" href="gpu_acceleration.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tensor_networks.html">Tensor Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adaptive_truncation.html">Adaptive Truncation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu_acceleration.html">GPU Acceleration</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Numerical Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_model.html">Performance Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design_decisions.html">Design Decisions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparisons.html">Comparisons</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Explanations</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Numerical Stability</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="numerical-stability">
+<h1>Numerical Stability<a class="headerlink" href="#numerical-stability" title="Link to this heading">#</a></h1>
+<p>Numerical stability is critical for reliable quantum simulation with MPS. This document explains sources of numerical error, condition number analysis, robust linear algebra techniques, mixed precision strategies, and best practices for maintaining accuracy throughout long simulations.</p>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id2">Overview</a></p>
+<ul>
+<li><p><a class="reference internal" href="#why-numerical-stability-matters" id="id3">Why Numerical Stability Matters</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#floating-point-arithmetic" id="id4">Floating-Point Arithmetic</a></p>
+<ul>
+<li><p><a class="reference internal" href="#ieee-754-standard" id="id5">IEEE 754 Standard</a></p></li>
+<li><p><a class="reference internal" href="#rounding-errors" id="id6">Rounding Errors</a></p></li>
+<li><p><a class="reference internal" href="#loss-of-significance" id="id7">Loss of Significance</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#sources-of-numerical-error" id="id8">Sources of Numerical Error</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id1" id="id9">1. Floating-Point Arithmetic</a></p></li>
+<li><p><a class="reference internal" href="#ill-conditioned-matrices" id="id10">2. Ill-Conditioned Matrices</a></p></li>
+<li><p><a class="reference internal" href="#svd-truncation-error" id="id11">3. SVD Truncation Error</a></p></li>
+<li><p><a class="reference internal" href="#canonical-form-drift" id="id12">4. Canonical Form Drift</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#condition-numbers" id="id13">Condition Numbers</a></p>
+<ul>
+<li><p><a class="reference internal" href="#mathematical-definition" id="id14">Mathematical Definition</a></p></li>
+<li><p><a class="reference internal" href="#computing-condition-numbers" id="id15">Computing Condition Numbers</a></p></li>
+<li><p><a class="reference internal" href="#impact-on-linear-algebra" id="id16">Impact on Linear Algebra</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#canonical-forms-and-orthogonality" id="id17">Canonical Forms and Orthogonality</a></p>
+<ul>
+<li><p><a class="reference internal" href="#left-canonical-form" id="id18">Left-Canonical Form</a></p></li>
+<li><p><a class="reference internal" href="#right-canonical-form" id="id19">Right-Canonical Form</a></p></li>
+<li><p><a class="reference internal" href="#mixed-canonical-form" id="id20">Mixed-Canonical Form</a></p></li>
+<li><p><a class="reference internal" href="#importance-for-tdvp" id="id21">Importance for TDVP</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#truncation-error-analysis" id="id22">Truncation Error Analysis</a></p>
+<ul>
+<li><p><a class="reference internal" href="#local-truncation-error" id="id23">Local Truncation Error</a></p></li>
+<li><p><a class="reference internal" href="#global-error-bounds" id="id24">Global Error Bounds</a></p></li>
+<li><p><a class="reference internal" href="#error-mitigation-strategies" id="id25">Error Mitigation Strategies</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#robust-linear-algebra" id="id26">Robust Linear Algebra</a></p>
+<ul>
+<li><p><a class="reference internal" href="#robust-svd" id="id27">Robust SVD</a></p></li>
+<li><p><a class="reference internal" href="#robust-qr-decomposition" id="id28">Robust QR Decomposition</a></p></li>
+<li><p><a class="reference internal" href="#eigendecomposition-stability" id="id29">Eigendecomposition Stability</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#mixed-precision-strategies" id="id30">Mixed Precision Strategies</a></p>
+<ul>
+<li><p><a class="reference internal" href="#complex64-vs-complex128" id="id31">Complex64 vs Complex128</a></p></li>
+<li><p><a class="reference internal" href="#automatic-precision-promotion" id="id32">Automatic Precision Promotion</a></p></li>
+<li><p><a class="reference internal" href="#manual-precision-control" id="id33">Manual Precision Control</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#diagnostics-and-monitoring" id="id34">Diagnostics and Monitoring</a></p>
+<ul>
+<li><p><a class="reference internal" href="#built-in-diagnostics" id="id35">Built-in Diagnostics</a></p></li>
+<li><p><a class="reference internal" href="#energy-conservation-tdvp" id="id36">Energy Conservation (TDVP)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#best-practices" id="id37">Best Practices</a></p>
+<ul>
+<li><p><a class="reference internal" href="#general-guidelines" id="id38">General Guidelines</a></p></li>
+<li><p><a class="reference internal" href="#algorithm-specific-recommendations" id="id39">Algorithm-Specific Recommendations</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#common-issues-and-solutions" id="id40">Common Issues and Solutions</a></p>
+<ul>
+<li><p><a class="reference internal" href="#issue-1-svd-convergence-failure" id="id41">Issue 1: SVD Convergence Failure</a></p></li>
+<li><p><a class="reference internal" href="#issue-2-negative-probabilities" id="id42">Issue 2: Negative Probabilities</a></p></li>
+<li><p><a class="reference internal" href="#issue-3-norm-drift" id="id43">Issue 3: Norm Drift</a></p></li>
+<li><p><a class="reference internal" href="#issue-4-energy-not-conserved-tdvp" id="id44">Issue 4: Energy Not Conserved (TDVP)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#summary" id="id45">Summary</a></p></li>
+</ul>
+</nav>
+<section id="overview">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Overview</a><a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<section id="why-numerical-stability-matters">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Why Numerical Stability Matters</a><a class="headerlink" href="#why-numerical-stability-matters" title="Link to this heading">#</a></h3>
+<p>MPS simulations involve:</p>
+<ol class="arabic simple">
+<li><p><strong>Many operations</strong>: 1000+ gate applications in deep circuits</p></li>
+<li><p><strong>Ill-conditioned linear algebra</strong>: SVD of matrices with widely varying singular values</p></li>
+<li><p><strong>Error accumulation</strong>: Small errors compound over time</p></li>
+<li><p><strong>Truncation approximations</strong>: Discarding information must be controlled</p></li>
+</ol>
+<p><strong>Consequences of poor stability</strong>:</p>
+<ul class="simple">
+<li><p>SVD convergence failures (simulation crash)</p></li>
+<li><p>Negative probabilities in measurement</p></li>
+<li><p>Norm drift (<span class="math notranslate nohighlight">\(\|\psi\| \neq 1\)</span>)</p></li>
+<li><p>Unphysical results (energy not conserved in TDVP)</p></li>
+<li><p>Wrong ground state in VQE</p></li>
+</ul>
+<p><strong>Goals</strong>:</p>
+<ol class="arabic simple">
+<li><p>Maintain accuracy within user-specified tolerances</p></li>
+<li><p>Detect numerical issues early</p></li>
+<li><p>Apply corrective measures automatically when possible</p></li>
+<li><p>Provide diagnostics for debugging</p></li>
+</ol>
+</section>
+</section>
+<section id="floating-point-arithmetic">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Floating-Point Arithmetic</a><a class="headerlink" href="#floating-point-arithmetic" title="Link to this heading">#</a></h2>
+<section id="ieee-754-standard">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">IEEE 754 Standard</a><a class="headerlink" href="#ieee-754-standard" title="Link to this heading">#</a></h3>
+<p>Modern GPUs and CPUs use IEEE 754 floating-point representation:</p>
+<p><strong>Complex64 (single precision complex)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Real/Imag parts</strong>: 32-bit float (1 sign + 8 exponent + 23 mantissa bits)</p></li>
+<li><p><strong>Machine epsilon</strong>: <span class="math notranslate nohighlight">\(\epsilon \approx 1.2 \times 10^{-7}\)</span></p></li>
+<li><p><strong>Relative accuracy</strong>: ~7 decimal digits</p></li>
+<li><p><strong>Range</strong>: <span class="math notranslate nohighlight">\(\pm 10^{\pm 38}\)</span></p></li>
+</ul>
+<p><strong>Complex128 (double precision complex)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Real/Imag parts</strong>: 64-bit float (1 sign + 11 exponent + 52 mantissa bits)</p></li>
+<li><p><strong>Machine epsilon</strong>: <span class="math notranslate nohighlight">\(\epsilon \approx 2.2 \times 10^{-16}\)</span></p></li>
+<li><p><strong>Relative accuracy</strong>: ~16 decimal digits</p></li>
+<li><p><strong>Range</strong>: <span class="math notranslate nohighlight">\(\pm 10^{\pm 308}\)</span></p></li>
+</ul>
+</section>
+<section id="rounding-errors">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Rounding Errors</a><a class="headerlink" href="#rounding-errors" title="Link to this heading">#</a></h3>
+<p>Every floating-point operation introduces rounding error:</p>
+<div class="math notranslate nohighlight">
+\[\text{fl}(a \odot b) = (a \odot b)(1 + \delta), \quad |\delta| \leq \epsilon_{\text{mach}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\odot\)</span> is any arithmetic operation (+, -, ×, ÷).</p>
+<p><strong>Example</strong>: Sum of n numbers accumulates error <span class="math notranslate nohighlight">\(O(n \epsilon)\)</span>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Accumulation of rounding errors</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span>
+
+<span class="c1"># Exact sum should be 1.0</span>
+<span class="n">sum_forward</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Forward sum: </span><span class="si">{</span><span class="n">sum_forward</span><span class="si">:</span><span class="s2">.15f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># ~1.000000119</span>
+
+<span class="c1"># Better: Kahan summation (compensated summation)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.numerics</span><span class="w"> </span><span class="kn">import</span> <span class="n">kahan_sum</span>
+<span class="n">sum_compensated</span> <span class="o">=</span> <span class="n">kahan_sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Compensated sum: </span><span class="si">{</span><span class="n">sum_compensated</span><span class="si">:</span><span class="s2">.15f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Closer to 1.0</span>
+</pre></div>
+</div>
+</section>
+<section id="loss-of-significance">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Loss of Significance</a><a class="headerlink" href="#loss-of-significance" title="Link to this heading">#</a></h3>
+<p>Subtracting nearly equal numbers causes catastrophic cancellation:</p>
+<div class="math notranslate nohighlight">
+\[a - b = (1.23456789 - 1.23456780) \times 10^{8} = 9.0 \times 10^{1}\]</div>
+<p>Leading digits cancel, leaving only low-order (inaccurate) digits.</p>
+<p><strong>ATLAS-Q mitigation</strong>: Use numerically stable formulas. Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bad: Numerical cancellation when x ≈ 0</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bad_formula</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">x</span>
+
+<span class="c1"># Good: Use Taylor series for small |x|</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">stable_formula</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1"># exp(x) - 1 = x + x²/2 + x³/6 + ...</span>
+    <span class="c1"># (exp(x) - 1) / x = 1 + x/2 + x²/6 + ...</span>
+    <span class="n">small_x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-4</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">result</span><span class="p">[</span><span class="n">small_x</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="n">small_x</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="n">small_x</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mf">6.0</span>
+    <span class="n">result</span><span class="p">[</span><span class="o">~</span><span class="n">small_x</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">~</span><span class="n">small_x</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">x</span><span class="p">[</span><span class="o">~</span><span class="n">small_x</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sources-of-numerical-error">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Sources of Numerical Error</a><a class="headerlink" href="#sources-of-numerical-error" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">1. Floating-Point Arithmetic</a><a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p><strong>Magnitude</strong>: <span class="math notranslate nohighlight">\(O(\epsilon_{\text{mach}})\)</span> per operation</p>
+<p><strong>Accumulation</strong>: After <span class="math notranslate nohighlight">\(n\)</span> operations, error grows to <span class="math notranslate nohighlight">\(O(n \epsilon_{\text{mach}})\)</span></p>
+<p><strong>Example</strong>: Gate application involves ~10 tensor contractions</p>
+<ul class="simple">
+<li><p>Complex64: Error per gate ~ <span class="math notranslate nohighlight">\(10^{-6}\)</span></p></li>
+<li><p>Complex128: Error per gate ~ <span class="math notranslate nohighlight">\(10^{-15}\)</span></p></li>
+</ul>
+<p>For 1000 gates:
+- Complex64: Accumulated error ~ <span class="math notranslate nohighlight">\(10^{-3}\)</span> (may be significant)
+- Complex128: Accumulated error ~ <span class="math notranslate nohighlight">\(10^{-12}\)</span> (usually negligible)</p>
+</section>
+<section id="ill-conditioned-matrices">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">2. Ill-Conditioned Matrices</a><a class="headerlink" href="#ill-conditioned-matrices" title="Link to this heading">#</a></h3>
+<p><strong>Definition</strong>: Matrix <span class="math notranslate nohighlight">\(A\)</span> is ill-conditioned if small perturbations cause large changes in solutions.</p>
+<p><strong>Condition number</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\kappa(A) = \|A\| \|A^{-1}\| = \frac{\sigma_{\max}(A)}{\sigma_{\min}(A)}\]</div>
+<p><strong>Error amplification</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\|\Delta x\|}{\|x\|} \leq \kappa(A) \frac{\|\Delta b\|}{\|b\|}\]</div>
+<p>where <span class="math notranslate nohighlight">\(Ax = b\)</span>.</p>
+<p><strong>Example in MPS</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apply many gates - bond tensors become ill-conditioned</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">29</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Check condition number of a bond tensor</span>
+<span class="n">tensor</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">15</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">15</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">cond</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="n">S</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Condition number: </span><span class="si">{</span><span class="n">cond</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># May be 10^6 or higher</span>
+
+<span class="k">if</span> <span class="n">cond</span> <span class="o">&gt;</span> <span class="mf">1e6</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Ill-conditioned tensor - consider using complex128&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="svd-truncation-error">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">3. SVD Truncation Error</a><a class="headerlink" href="#svd-truncation-error" title="Link to this heading">#</a></h3>
+<p>Truncation discards small singular values:</p>
+<div class="math notranslate nohighlight">
+\[\|\Theta - \tilde{\Theta}\|_F = \sqrt{\sum_{i=\chi+1}^{r} \sigma_i^2}\]</div>
+<p><strong>Local error</strong> (single truncation): Typically <span class="math notranslate nohighlight">\(10^{-8}\)</span> to <span class="math notranslate nohighlight">\(10^{-12}\)</span></p>
+<p><strong>Global error</strong> (many truncations): Bounded by root-sum-square:</p>
+<div class="math notranslate nohighlight">
+\[\epsilon_{\text{global}} \leq \sqrt{\sum_{t=1}^{N} \epsilon_t^2}\]</div>
+<p><strong>Monitoring in ATLAS-Q</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Apply gates</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_h</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">40</span><span class="p">)</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">39</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">39</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Check accumulated error</span>
+<span class="n">global_error</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">total_truncation_error</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Global truncation error: </span><span class="si">{</span><span class="n">global_error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">global_error</span> <span class="o">&gt;</span> <span class="mf">1e-5</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Accumulated truncation error may affect results&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="canonical-form-drift">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">4. Canonical Form Drift</a><a class="headerlink" href="#canonical-form-drift" title="Link to this heading">#</a></h3>
+<p>MPS tensors should maintain orthonormality constraints (canonical form), but rounding errors cause drift:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{\alpha,s} A^{[i]}_{\alpha,s,\beta} (A^{[i]}_{\alpha,s,\beta'})^* \approx \delta_{\beta,\beta'}\]</div>
+<p><strong>Drift accumulation</strong>: After many operations without recanonicalizing, orthonormality is lost.</p>
+<p><strong>Consequences</strong>:</p>
+<ul class="simple">
+<li><p>Incorrect overlap calculations</p></li>
+<li><p>Norm drift (<span class="math notranslate nohighlight">\(\langle\psi|\psi\rangle \neq 1\)</span>)</p></li>
+<li><p>Unstable TDVP evolution</p></li>
+</ul>
+<p><strong>Mitigation</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recanonicalize periodically</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">step</span> <span class="o">%</span> <span class="mi">39</span><span class="p">,</span> <span class="p">(</span><span class="n">step</span> <span class="o">%</span> <span class="mi">39</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># Restore orthonormality</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>               <span class="c1"># Ensure unit norm</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="condition-numbers">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Condition Numbers</a><a class="headerlink" href="#condition-numbers" title="Link to this heading">#</a></h2>
+<section id="mathematical-definition">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Mathematical Definition</a><a class="headerlink" href="#mathematical-definition" title="Link to this heading">#</a></h3>
+<p>For a matrix <span class="math notranslate nohighlight">\(A\)</span>, the condition number in the 2-norm is:</p>
+<div class="math notranslate nohighlight">
+\[\kappa(A) = \|A\|_2 \|A^{-1}\|_2 = \frac{\sigma_{\max}(A)}{\sigma_{\min}(A)}\]</div>
+<p><strong>Interpretation</strong>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\kappa(A) = 1\)</span>: Perfectly conditioned (e.g., unitary matrices)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\kappa(A) &lt; 10^3\)</span>: Well-conditioned</p></li>
+<li><p><span class="math notranslate nohighlight">\(10^3 &lt; \kappa(A) &lt; 10^6\)</span>: Moderately conditioned</p></li>
+<li><p><span class="math notranslate nohighlight">\(\kappa(A) &gt; 10^6\)</span>: Ill-conditioned (numerical issues likely)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\kappa(A) &gt; 1/\epsilon_{\text{mach}}\)</span>: Effectively singular</p></li>
+</ul>
+</section>
+<section id="computing-condition-numbers">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Computing Condition Numbers</a><a class="headerlink" href="#computing-condition-numbers" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">condition_number</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute condition number of 2D tensor.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="n">S</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+<span class="c1"># Example: Check MPS tensor conditioning</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apply deep circuit</span>
+<span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">29</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Check conditioning at each site</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">tensor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">):</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">cond</span> <span class="o">=</span> <span class="n">condition_number</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cond</span> <span class="o">&gt;</span> <span class="mf">1e6</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Site </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: condition number = </span><span class="si">{</span><span class="n">cond</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> (ill-conditioned!)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="impact-on-linear-algebra">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Impact on Linear Algebra</a><a class="headerlink" href="#impact-on-linear-algebra" title="Link to this heading">#</a></h3>
+<p><strong>SVD stability</strong>: SVD is numerically stable even for ill-conditioned matrices. Small singular values are computed accurately (relative to their magnitude).</p>
+<p><strong>Matrix inversion</strong>: Inverting ill-conditioned matrix amplifies errors by factor <span class="math notranslate nohighlight">\(\kappa(A)\)</span>.</p>
+<p><strong>Linear solves</strong>: Solving <span class="math notranslate nohighlight">\(Ax = b\)</span> loses <span class="math notranslate nohighlight">\(\log_{10}(\kappa(A))\)</span> digits of accuracy.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ill-conditioned 4×4 Hilbert matrix</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+    <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">7</span><span class="p">]</span>
+<span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+<span class="n">cond</span> <span class="o">=</span> <span class="n">condition_number</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Condition number: </span><span class="si">{</span><span class="n">cond</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># ~15,514</span>
+
+<span class="c1"># Solve Hx = b</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="c1"># Check residual</span>
+<span class="n">residual</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">H</span> <span class="o">@</span> <span class="n">x</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Relative residual: </span><span class="si">{</span><span class="n">residual</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Should be small</span>
+
+<span class="c1"># Perturb b slightly</span>
+<span class="n">b_perturbed</span> <span class="o">=</span> <span class="n">b</span> <span class="o">+</span> <span class="mf">1e-10</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">x_perturbed</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">b_perturbed</span><span class="p">)</span>
+
+<span class="c1"># Large change in solution due to ill-conditioning</span>
+<span class="n">relative_change</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x_perturbed</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Relative change in x: </span><span class="si">{</span><span class="n">relative_change</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># ~ κ(H) * 1e-10</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="canonical-forms-and-orthogonality">
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Canonical Forms and Orthogonality</a><a class="headerlink" href="#canonical-forms-and-orthogonality" title="Link to this heading">#</a></h2>
+<p>Canonical forms maintain numerical stability by enforcing orthonormality constraints.</p>
+<section id="left-canonical-form">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">Left-Canonical Form</a><a class="headerlink" href="#left-canonical-form" title="Link to this heading">#</a></h3>
+<p>Site tensors satisfy:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{\alpha,s} A^{[i]}_{\alpha,s,\beta} (A^{[i]}_{\alpha,s,\beta'})^* = \delta_{\beta,\beta'}\]</div>
+<p><strong>Interpretation</strong>: Right indices of <span class="math notranslate nohighlight">\(A^{[i]}\)</span> form orthonormal basis.</p>
+<p><strong>Construction via QR decomposition</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">left_canonicalize_site</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Left-canonicalize MPS tensor via QR.</span>
+
+<span class="sd">    Input: tensor of shape (chi_left, d, chi_right)</span>
+<span class="sd">    Output: Q (left-canonical), R (to absorb into next site)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">chi_left</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">chi_right</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">chi_left</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="n">chi_right</span><span class="p">)</span>
+    <span class="n">Q</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+    <span class="n">Q_tensor</span> <span class="o">=</span> <span class="n">Q</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">chi_left</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Q_tensor</span><span class="p">,</span> <span class="n">R</span>
+
+<span class="c1"># Example: Left-canonicalize entire MPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apply some gates</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">19</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Left-canonicalize (sweep left-to-right)</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="c1"># Verify orthonormality</span>
+<span class="n">tensor</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="n">chi_left</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">chi_right</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">mat</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">chi_left</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="n">chi_right</span><span class="p">)</span>
+<span class="n">should_be_identity</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span> <span class="o">@</span> <span class="n">mat</span>
+<span class="n">error</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">should_be_identity</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">chi_right</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Orthonormality error: </span><span class="si">{</span><span class="n">error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Should be ~ 1e-7 (complex64)</span>
+</pre></div>
+</div>
+</section>
+<section id="right-canonical-form">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">Right-Canonical Form</a><a class="headerlink" href="#right-canonical-form" title="Link to this heading">#</a></h3>
+<p>Site tensors satisfy:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{\beta,s} A^{[i]}_{\alpha,s,\beta} (A^{[i]}_{\alpha',s,\beta})^* = \delta_{\alpha,\alpha'}\]</div>
+<p><strong>Interpretation</strong>: Left indices of <span class="math notranslate nohighlight">\(A^{[i]}\)</span> form orthonormal basis.</p>
+<p><strong>Construction via RQ decomposition</strong> (QR on transpose).</p>
+</section>
+<section id="mixed-canonical-form">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Mixed-Canonical Form</a><a class="headerlink" href="#mixed-canonical-form" title="Link to this heading">#</a></h3>
+<p>Combination of left and right canonical:</p>
+<ul class="simple">
+<li><p>Sites <span class="math notranslate nohighlight">\(i &lt; c\)</span>: Left-canonical</p></li>
+<li><p>Site <span class="math notranslate nohighlight">\(c\)</span>: Center (no constraint)</p></li>
+<li><p>Sites <span class="math notranslate nohighlight">\(i &gt; c\)</span>: Right-canonical</p></li>
+</ul>
+<p><strong>Benefits</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Efficient norm calculation</strong>: <span class="math notranslate nohighlight">\(\|\psi\|^2 = \text{Tr}(A^{[c]\dagger} A^{[c]})\)</span></p></li>
+<li><p><strong>Efficient overlap</strong>: <span class="math notranslate nohighlight">\(\langle\phi|\psi\rangle\)</span> computed via single contraction at center</p></li>
+<li><p><strong>TDVP stability</strong>: Tangent space projection requires canonical form</p></li>
+</ol>
+<p><strong>ATLAS-Q canonicalization</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apply gates (loses canonicalization)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">29</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">29</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Recanonicalize with center at site 15</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="c1"># Now sites 0-14 are left-canonical, 16-29 are right-canonical</span>
+</pre></div>
+</div>
+</section>
+<section id="importance-for-tdvp">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Importance for TDVP</a><a class="headerlink" href="#importance-for-tdvp" title="Link to this heading">#</a></h3>
+<p>TDVP requires canonical form for numerical stability:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="c1"># mps starts in canonical form</span>
+
+<span class="c1"># TDVP maintains canonicalization internally</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span>
+    <span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span>
+    <span class="n">hamiltonian</span><span class="o">=</span><span class="n">hamiltonian_mpo</span><span class="p">,</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;one_site&#39;</span><span class="p">,</span>
+    <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>       <span class="c1"># Renormalize each step</span>
+    <span class="n">check_canonical</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># Verify canonical form (debug mode)</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">evolve_step</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Check if canonicalization maintained</span>
+        <span class="n">orthogonality_error</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">check_orthogonality</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Step </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">: orthogonality error = </span><span class="si">{</span><span class="n">orthogonality_error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="truncation-error-analysis">
+<h2><a class="toc-backref" href="#id22" role="doc-backlink">Truncation Error Analysis</a><a class="headerlink" href="#truncation-error-analysis" title="Link to this heading">#</a></h2>
+<section id="local-truncation-error">
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">Local Truncation Error</a><a class="headerlink" href="#local-truncation-error" title="Link to this heading">#</a></h3>
+<p>Single truncation discards singular values <span class="math notranslate nohighlight">\(\sigma_{\chi+1}, \sigma_{\chi+2}, \ldots\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\epsilon_{\text{local}} = \|\Theta - \tilde{\Theta}\|_F = \sqrt{\sum_{i=\chi+1}^{r} \sigma_i^2}\]</div>
+<p><strong>Optimal approximation</strong> (Eckart-Young-Mirsky theorem): SVD truncation minimizes Frobenius norm error.</p>
+<p><strong>Energy-based truncation</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{\alpha=1}^{\chi} \sigma_\alpha^2 \geq (1 - \epsilon^2) \sum_{\alpha=1}^{r} \sigma_\alpha^2\]</div>
+<p>Retains singular values until target fraction of weight captured.</p>
+</section>
+<section id="global-error-bounds">
+<h3><a class="toc-backref" href="#id24" role="doc-backlink">Global Error Bounds</a><a class="headerlink" href="#global-error-bounds" title="Link to this heading">#</a></h3>
+<p>After <span class="math notranslate nohighlight">\(N\)</span> truncations with local errors <span class="math notranslate nohighlight">\(\epsilon_1, \epsilon_2, \ldots, \epsilon_N\)</span>:</p>
+<p><strong>Best-case bound</strong> (errors cancel):</p>
+<div class="math notranslate nohighlight">
+\[\epsilon_{\text{global}} \leq \sum_{i=1}^{N} \epsilon_i\]</div>
+<p><strong>Typical bound</strong> (root-sum-square):</p>
+<div class="math notranslate nohighlight">
+\[\epsilon_{\text{global}} \leq \sqrt{\sum_{i=1}^{N} \epsilon_i^2}\]</div>
+<p><strong>Conservative bound</strong>: Depends on circuit structure and error accumulation pattern.</p>
+<p><strong>ATLAS-Q tracking</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span>
+    <span class="n">track_error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Enable error tracking</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Apply 500 gates</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_h</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">40</span><span class="p">)</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">39</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">39</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Access error statistics</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">statistics</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total truncations: </span><span class="si">{</span><span class="n">stats</span><span class="o">.</span><span class="n">num_truncations</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max local error: </span><span class="si">{</span><span class="n">stats</span><span class="o">.</span><span class="n">max_truncation_error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average local error: </span><span class="si">{</span><span class="n">stats</span><span class="o">.</span><span class="n">avg_truncation_error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Global error (RSS): </span><span class="si">{</span><span class="n">stats</span><span class="o">.</span><span class="n">total_truncation_error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Per-bond error distribution</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">truncation_errors_per_bond</span><span class="p">)),</span>
+        <span class="n">stats</span><span class="o">.</span><span class="n">truncation_errors_per_bond</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Bond index&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Accumulated error&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Truncation Error Distribution&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="error-mitigation-strategies">
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">Error Mitigation Strategies</a><a class="headerlink" href="#error-mitigation-strategies" title="Link to this heading">#</a></h3>
+<p><strong>1. Adaptive truncation threshold</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start with aggressive truncation, tighten if error grows</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>  <span class="c1"># Initial threshold</span>
+    <span class="n">adaptive_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="n">max_global_error</span> <span class="o">=</span> <span class="mf">1e-5</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">49</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">49</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Check global error periodically</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">global_error</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">total_truncation_error</span>
+        <span class="k">if</span> <span class="n">global_error</span> <span class="o">&gt;</span> <span class="n">max_global_error</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">:</span>
+            <span class="c1"># Tighten threshold</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">truncation_threshold</span> <span class="o">*=</span> <span class="mf">0.1</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tightened truncation to </span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">truncation_threshold</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>2. Increase bond dimension</strong>:</p>
+<p>If global error exceeds tolerance despite tight truncation threshold, increase <span class="math notranslate nohighlight">\(\chi\)</span>.</p>
+<p><strong>3. Periodic compression</strong>:</p>
+<p>Apply truncation less frequently to reduce accumulated error:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Truncate every 10 gates instead of every gate</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="c1"># Apply 10 gates without truncation</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">gate_index</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">j</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">gate_index</span> <span class="o">%</span> <span class="mi">29</span><span class="p">,</span> <span class="p">(</span><span class="n">gate_index</span> <span class="o">%</span> <span class="mi">29</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                      <span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Single truncation after 10 gates</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">compress</span><span class="p">()</span>  <span class="c1"># Global compression</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="robust-linear-algebra">
+<h2><a class="toc-backref" href="#id26" role="doc-backlink">Robust Linear Algebra</a><a class="headerlink" href="#robust-linear-algebra" title="Link to this heading">#</a></h2>
+<section id="robust-svd">
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">Robust SVD</a><a class="headerlink" href="#robust-svd" title="Link to this heading">#</a></h3>
+<p>ATLAS-Q implements robust SVD with multiple fallback strategies:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.linalg_robust</span><span class="w"> </span><span class="kn">import</span> <span class="n">robust_svd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">robust_svd</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Robust SVD with automatic fallbacks.</span>
+
+<span class="sd">    Fallback sequence:</span>
+<span class="sd">    1. torch.linalg.svd on GPU</span>
+<span class="sd">    2. Add Tikhonov regularization if condition number high</span>
+<span class="sd">    3. Fallback to CPU if GPU fails</span>
+<span class="sd">    4. Try different LAPACK drivers (gesvd, gesvdj)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Try standard GPU SVD</span>
+        <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="c1"># GPU SVD failed - check for ill-conditioning</span>
+        <span class="k">if</span> <span class="s2">&quot;convergence&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="c1"># Add Tikhonov regularization</span>
+            <span class="n">reg</span> <span class="o">=</span> <span class="n">threshold</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                         <span class="n">device</span><span class="o">=</span><span class="n">tensor</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+                                         <span class="n">dtype</span><span class="o">=</span><span class="n">tensor</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="n">regularized</span> <span class="o">=</span> <span class="n">tensor</span> <span class="o">@</span> <span class="n">tensor</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span> <span class="o">+</span> <span class="n">reg</span>
+            <span class="n">U</span><span class="p">,</span> <span class="n">S_squared</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">regularized</span><span class="p">)</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">S_squared</span><span class="p">)</span>
+            <span class="n">Vh</span> <span class="o">=</span> <span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span> <span class="o">@</span> <span class="n">tensor</span><span class="p">)</span> <span class="o">/</span> <span class="n">S</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Fallback to CPU</span>
+            <span class="n">tensor_cpu</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+            <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">tensor_cpu</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">tensor</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">tensor</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">Vh</span> <span class="o">=</span> <span class="n">Vh</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">tensor</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Filter small singular values</span>
+    <span class="n">keep</span> <span class="o">=</span> <span class="n">S</span> <span class="o">&gt;</span> <span class="n">threshold</span>
+    <span class="k">return</span> <span class="n">U</span><span class="p">[:,</span> <span class="n">keep</span><span class="p">],</span> <span class="n">S</span><span class="p">[</span><span class="n">keep</span><span class="p">],</span> <span class="n">Vh</span><span class="p">[</span><span class="n">keep</span><span class="p">,</span> <span class="p">:]</span>
+</pre></div>
+</div>
+<p><strong>Usage in ATLAS-Q</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="c1"># robust_svd used automatically in adaptive truncation</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">use_robust_linalg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Enable robust linear algebra</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="robust-qr-decomposition">
+<h3><a class="toc-backref" href="#id28" role="doc-backlink">Robust QR Decomposition</a><a class="headerlink" href="#robust-qr-decomposition" title="Link to this heading">#</a></h3>
+<p>QR with column pivoting for rank-deficient matrices:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">robust_qr</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    QR decomposition with column pivoting for numerical stability.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reduced&#39;</span><span class="p">,</span> <span class="n">pivot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Truncate small diagonal elements of R</span>
+    <span class="n">diag_R</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+    <span class="n">keep</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">diag_R</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span>
+
+    <span class="n">Q_truncated</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[:,</span> <span class="n">keep</span><span class="p">]</span>
+    <span class="n">R_truncated</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="n">keep</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="c1"># Undo permutation</span>
+    <span class="n">P_inv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">R_truncated</span> <span class="o">=</span> <span class="n">R_truncated</span><span class="p">[:,</span> <span class="n">P_inv</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">Q_truncated</span><span class="p">,</span> <span class="n">R_truncated</span>
+</pre></div>
+</div>
+</section>
+<section id="eigendecomposition-stability">
+<h3><a class="toc-backref" href="#id29" role="doc-backlink">Eigendecomposition Stability</a><a class="headerlink" href="#eigendecomposition-stability" title="Link to this heading">#</a></h3>
+<p>For Hermitian matrices (e.g., density matrices, Hamiltonians):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">robust_eigh</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Robust eigendecomposition for Hermitian matrices.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Ensure Hermiticity (symmetrize)</span>
+    <span class="n">tensor_sym</span> <span class="o">=</span> <span class="p">(</span><span class="n">tensor</span> <span class="o">+</span> <span class="n">tensor</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="c1"># Eigendecomposition</span>
+    <span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">tensor_sym</span><span class="p">)</span>
+
+    <span class="c1"># Filter small/negative eigenvalues</span>
+    <span class="n">keep</span> <span class="o">=</span> <span class="n">eigenvalues</span> <span class="o">&gt;</span> <span class="n">threshold</span>
+    <span class="k">return</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="n">keep</span><span class="p">],</span> <span class="n">eigenvectors</span><span class="p">[:,</span> <span class="n">keep</span><span class="p">]</span>
+
+<span class="c1"># Example: Reduced density matrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Reduced density matrix for sites 0-9</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">reduced_density_matrix</span><span class="p">(</span><span class="n">sites</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Eigendecomposition</span>
+<span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">robust_eigh</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+
+<span class="c1"># Check: eigenvalues should sum to 1, all non-negative</span>
+<span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eigenvalues</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span>
+<span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">eigenvalues</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1e-10</span><span class="p">)</span>  <span class="c1"># Allow small numerical negative</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="mixed-precision-strategies">
+<h2><a class="toc-backref" href="#id30" role="doc-backlink">Mixed Precision Strategies</a><a class="headerlink" href="#mixed-precision-strategies" title="Link to this heading">#</a></h2>
+<section id="complex64-vs-complex128">
+<h3><a class="toc-backref" href="#id31" role="doc-backlink">Complex64 vs Complex128</a><a class="headerlink" href="#complex64-vs-complex128" title="Link to this heading">#</a></h3>
+<p><strong>Complex64</strong> (default):</p>
+<ul class="simple">
+<li><p><strong>Advantages</strong>: 2× faster, 2× less memory</p></li>
+<li><p><strong>Sufficient for</strong>: Most quantum circuits, VQE with shallow ansätze, QAOA</p></li>
+<li><p><strong>Limitations</strong>: Accumulates error faster, less stable for ill-conditioned problems</p></li>
+</ul>
+<p><strong>Complex128</strong>:</p>
+<ul class="simple">
+<li><p><strong>Advantages</strong>: Higher precision, better stability for long simulations</p></li>
+<li><p><strong>Required for</strong>: Long-time TDVP, deep circuits (&gt;1000 gates), high-precision chemistry</p></li>
+<li><p><strong>Cost</strong>: 2× slower, 2× more memory</p></li>
+</ul>
+</section>
+<section id="automatic-precision-promotion">
+<h3><a class="toc-backref" href="#id32" role="doc-backlink">Automatic Precision Promotion</a><a class="headerlink" href="#automatic-precision-promotion" title="Link to this heading">#</a></h3>
+<p>ATLAS-Q can automatically promote to higher precision when detecting instability:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span><span class="p">,</span> <span class="n">DTypePolicy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Configure automatic promotion policy</span>
+<span class="n">policy</span> <span class="o">=</span> <span class="n">DTypePolicy</span><span class="p">(</span>
+    <span class="n">default</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span>
+    <span class="n">promote_if_cond_gt</span><span class="o">=</span><span class="mf">1e6</span><span class="p">,</span>        <span class="c1"># Promote if condition number &gt; 10^6</span>
+    <span class="n">promote_if_error_gt</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>      <span class="c1"># Promote if global error &gt; 10^-5</span>
+    <span class="n">promote_to</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span>
+<span class="p">)</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">dtype_policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Simulation proceeds with complex64</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">39</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">39</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Automatic promotion if instability detected</span>
+    <span class="k">if</span> <span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">promoted_to_higher_precision</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Promoted to complex128 at gate </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">break</span>
+</pre></div>
+</div>
+</section>
+<section id="manual-precision-control">
+<h3><a class="toc-backref" href="#id33" role="doc-backlink">Manual Precision Control</a><a class="headerlink" href="#manual-precision-control" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Always use complex128 for maximum stability</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Or convert existing MPS</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="diagnostics-and-monitoring">
+<h2><a class="toc-backref" href="#id34" role="doc-backlink">Diagnostics and Monitoring</a><a class="headerlink" href="#diagnostics-and-monitoring" title="Link to this heading">#</a></h2>
+<section id="built-in-diagnostics">
+<h3><a class="toc-backref" href="#id35" role="doc-backlink">Built-in Diagnostics</a><a class="headerlink" href="#built-in-diagnostics" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.diagnostics</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPSDiagnostics</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apply circuit</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">29</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">29</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Run comprehensive diagnostics</span>
+<span class="n">diag</span> <span class="o">=</span> <span class="n">MPSDiagnostics</span><span class="p">(</span><span class="n">mps</span><span class="p">)</span>
+
+<span class="c1"># Check norm</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">diag</span><span class="o">.</span><span class="n">check_norm</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MPS norm: </span><span class="si">{</span><span class="n">norm</span><span class="si">:</span><span class="s2">.10f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Should be close to 1.0</span>
+<span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">norm</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Norm drift detected&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check orthogonality (if in canonical form)</span>
+<span class="n">orth_error</span> <span class="o">=</span> <span class="n">diag</span><span class="o">.</span><span class="n">check_orthogonality</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Orthogonality error: </span><span class="si">{</span><span class="n">orth_error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check for unphysical values</span>
+<span class="n">has_nan</span> <span class="o">=</span> <span class="n">diag</span><span class="o">.</span><span class="n">check_for_nan</span><span class="p">()</span>
+<span class="n">has_inf</span> <span class="o">=</span> <span class="n">diag</span><span class="o">.</span><span class="n">check_for_inf</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Contains NaN: </span><span class="si">{</span><span class="n">has_nan</span><span class="si">}</span><span class="s2">, Contains Inf: </span><span class="si">{</span><span class="n">has_inf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Condition numbers</span>
+<span class="n">max_cond</span> <span class="o">=</span> <span class="n">diag</span><span class="o">.</span><span class="n">max_condition_number</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max condition number: </span><span class="si">{</span><span class="n">max_cond</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Entanglement entropy sanity check</span>
+<span class="n">max_entropy</span> <span class="o">=</span> <span class="n">diag</span><span class="o">.</span><span class="n">max_entanglement_entropy</span><span class="p">()</span>
+<span class="n">theoretical_max</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span> <span class="o">*</span> <span class="mi">15</span>  <span class="c1"># For half-system</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max entropy: </span><span class="si">{</span><span class="n">max_entropy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, Theoretical max: </span><span class="si">{</span><span class="n">theoretical_max</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="energy-conservation-tdvp">
+<h3><a class="toc-backref" href="#id36" role="doc-backlink">Energy Conservation (TDVP)</a><a class="headerlink" href="#energy-conservation-tdvp" title="Link to this heading">#</a></h3>
+<p>For Hamiltonian time evolution, energy should be conserved:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP</span>
+
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span><span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="o">=</span><span class="n">hamiltonian_mpo</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;one_site&#39;</span><span class="p">)</span>
+
+<span class="n">energies</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">evolve_step</span><span class="p">()</span>
+    <span class="n">energies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">energy_drift</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">E</span> <span class="o">-</span> <span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Step </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">: E = </span><span class="si">{</span><span class="n">E</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">, drift = </span><span class="si">{</span><span class="n">energy_drift</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check energy conservation</span>
+<span class="n">max_drift</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">E</span> <span class="o">-</span> <span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">E</span> <span class="ow">in</span> <span class="n">energies</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">max_drift</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Energy drift </span><span class="si">{</span><span class="n">max_drift</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> exceeds tolerance&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Consider: reducing time step, using complex128, or 2-site TDVP&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="best-practices">
+<h2><a class="toc-backref" href="#id37" role="doc-backlink">Best Practices</a><a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<section id="general-guidelines">
+<h3><a class="toc-backref" href="#id38" role="doc-backlink">General Guidelines</a><a class="headerlink" href="#general-guidelines" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Start with complex64</strong>, promote to complex128 if needed</p></li>
+<li><p><strong>Monitor condition numbers</strong> periodically</p></li>
+<li><p><strong>Canonicalize regularly</strong> (every 100-500 gates)</p></li>
+<li><p><strong>Track truncation error</strong>, ensure global error acceptable</p></li>
+<li><p><strong>Check norm</strong> periodically (<span class="math notranslate nohighlight">\(\|\psi\| \approx 1\)</span>)</p></li>
+<li><p><strong>Use appropriate bond dimension</strong> (too small → large truncation error)</p></li>
+<li><p><strong>Enable robust linear algebra</strong> for production runs</p></li>
+<li><p><strong>Profile first</strong>, optimize second (don’t prematurely use complex128)</p></li>
+</ol>
+</section>
+<section id="algorithm-specific-recommendations">
+<h3><a class="toc-backref" href="#id39" role="doc-backlink">Algorithm-Specific Recommendations</a><a class="headerlink" href="#algorithm-specific-recommendations" title="Link to this heading">#</a></h3>
+<p><strong>TDVP</strong>:</p>
+<ul class="simple">
+<li><p>Use complex128 for long-time evolution (t &gt; 100)</p></li>
+<li><p>Monitor energy conservation</p></li>
+<li><p>Use 2-site TDVP for better accuracy</p></li>
+<li><p>Reduce time step if energy drifts</p></li>
+</ul>
+<p><strong>VQE</strong>:</p>
+<ul class="simple">
+<li><p>complex64 sufficient for most ansätze</p></li>
+<li><p>complex128 for chemical accuracy (kcal/mol precision)</p></li>
+<li><p>Monitor gradient norm (should decrease to near-zero at convergence)</p></li>
+</ul>
+<p><strong>QAOA</strong>:</p>
+<ul class="simple">
+<li><p>complex64 usually sufficient (shallow circuits)</p></li>
+<li><p>Check approximation ratio consistency across runs</p></li>
+</ul>
+</section>
+</section>
+<section id="common-issues-and-solutions">
+<h2><a class="toc-backref" href="#id40" role="doc-backlink">Common Issues and Solutions</a><a class="headerlink" href="#common-issues-and-solutions" title="Link to this heading">#</a></h2>
+<section id="issue-1-svd-convergence-failure">
+<h3><a class="toc-backref" href="#id41" role="doc-backlink">Issue 1: SVD Convergence Failure</a><a class="headerlink" href="#issue-1-svd-convergence-failure" title="Link to this heading">#</a></h3>
+<p><strong>Symptom</strong>: <code class="docutils literal notranslate"><span class="pre">RuntimeError:</span> <span class="pre">SVD</span> <span class="pre">did</span> <span class="pre">not</span> <span class="pre">converge</span></code></p>
+<p><strong>Causes</strong>:</p>
+<ul class="simple">
+<li><p>Ill-conditioned matrix (κ &gt; 10^10)</p></li>
+<li><p>NaN or Inf in tensor</p></li>
+<li><p>GPU numerical instability</p></li>
+</ul>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic simple">
+<li><p>Enable robust SVD: <code class="docutils literal notranslate"><span class="pre">use_robust_linalg=True</span></code></p></li>
+<li><p>Increase precision: <code class="docutils literal notranslate"><span class="pre">dtype=torch.complex128</span></code></p></li>
+<li><p>Add regularization (automatic in robust_svd)</p></li>
+<li><p>Fallback to CPU for this operation</p></li>
+</ol>
+</section>
+<section id="issue-2-negative-probabilities">
+<h3><a class="toc-backref" href="#id42" role="doc-backlink">Issue 2: Negative Probabilities</a><a class="headerlink" href="#issue-2-negative-probabilities" title="Link to this heading">#</a></h3>
+<p><strong>Symptom</strong>: Measurement probabilities &lt; 0</p>
+<p><strong>Causes</strong>:</p>
+<ul class="simple">
+<li><p>Truncation error accumulation</p></li>
+<li><p>Loss of canonicalization</p></li>
+<li><p>Numerical instability</p></li>
+</ul>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic simple">
+<li><p>Tighten truncation threshold</p></li>
+<li><p>Recanonicalize: <code class="docutils literal notranslate"><span class="pre">mps.canonicalize()</span></code></p></li>
+<li><p>Increase bond dimension</p></li>
+<li><p>Use complex128</p></li>
+</ol>
+</section>
+<section id="issue-3-norm-drift">
+<h3><a class="toc-backref" href="#id43" role="doc-backlink">Issue 3: Norm Drift</a><a class="headerlink" href="#issue-3-norm-drift" title="Link to this heading">#</a></h3>
+<p><strong>Symptom</strong>: <span class="math notranslate nohighlight">\(\|\psi\|^2 \neq 1\)</span></p>
+<p><strong>Causes</strong>:</p>
+<ul class="simple">
+<li><p>Rounding error accumulation</p></li>
+<li><p>Improper canonicalization</p></li>
+<li><p>Truncation without renormalization</p></li>
+</ul>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic simple">
+<li><p>Renormalize: <code class="docutils literal notranslate"><span class="pre">mps.normalize()</span></code></p></li>
+<li><p>Recanonicalize: <code class="docutils literal notranslate"><span class="pre">mps.canonicalize()</span></code></p></li>
+<li><p>Enable automatic renormalization in algorithm (e.g., TDVP <code class="docutils literal notranslate"><span class="pre">normalize=True</span></code>)</p></li>
+</ol>
+</section>
+<section id="issue-4-energy-not-conserved-tdvp">
+<h3><a class="toc-backref" href="#id44" role="doc-backlink">Issue 4: Energy Not Conserved (TDVP)</a><a class="headerlink" href="#issue-4-energy-not-conserved-tdvp" title="Link to this heading">#</a></h3>
+<p><strong>Symptom</strong>: Energy drifts over time</p>
+<p><strong>Causes</strong>:</p>
+<ul class="simple">
+<li><p>Time step too large</p></li>
+<li><p>Bond dimension insufficient</p></li>
+<li><p>Numerical instability (complex64)</p></li>
+</ul>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic simple">
+<li><p>Reduce time step: <code class="docutils literal notranslate"><span class="pre">dt</span> <span class="pre">=</span> <span class="pre">dt</span> <span class="pre">/</span> <span class="pre">2</span></code></p></li>
+<li><p>Use 2-site TDVP: <code class="docutils literal notranslate"><span class="pre">method='two_site'</span></code></p></li>
+<li><p>Increase bond dimension</p></li>
+<li><p>Use complex128</p></li>
+<li><p>Tighten truncation threshold</p></li>
+</ol>
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id45" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Numerical stability in MPS simulation requires careful attention to:</p>
+<p><strong>Error Sources</strong>:</p>
+<ul class="simple">
+<li><p><strong>Floating-point arithmetic</strong>: <span class="math notranslate nohighlight">\(O(\epsilon_{\text{mach}})\)</span> per operation</p></li>
+<li><p><strong>Ill-conditioned matrices</strong>: Amplify errors by factor <span class="math notranslate nohighlight">\(\kappa(A)\)</span></p></li>
+<li><p><strong>Truncation</strong>: Controllable via threshold and bond dimension</p></li>
+<li><p><strong>Accumulation</strong>: Errors compound over many operations</p></li>
+</ul>
+<p><strong>Key Techniques</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Canonical forms</strong>: Maintain orthonormality for stability</p></li>
+<li><p><strong>Robust linear algebra</strong>: Automatic fallbacks for ill-conditioned problems</p></li>
+<li><p><strong>Mixed precision</strong>: complex64 default, complex128 when needed</p></li>
+<li><p><strong>Error tracking</strong>: Monitor global truncation error</p></li>
+<li><p><strong>Diagnostics</strong>: Check norm, orthogonality, condition numbers</p></li>
+</ol>
+<p><strong>Practical Workflow</strong>:</p>
+<ol class="arabic simple">
+<li><p>Start with complex64, <span class="math notranslate nohighlight">\(\chi\)</span> = 64, <code class="docutils literal notranslate"><span class="pre">truncation_threshold</span></code> = <span class="math notranslate nohighlight">\(10^{-10}\)</span></p></li>
+<li><p>Monitor diagnostics (norm, energy conservation, global error)</p></li>
+<li><p>If issues arise: tighten threshold → increase <span class="math notranslate nohighlight">\(\chi\)</span> → use complex128</p></li>
+<li><p>Enable robust linear algebra for production runs</p></li>
+<li><p>Canonicalize periodically (every 100-500 operations)</p></li>
+</ol>
+<p><strong>When to Use Complex128</strong>:</p>
+<ul class="simple">
+<li><p>Long-time TDVP evolution (t &gt; 100)</p></li>
+<li><p>Deep circuits (&gt; 1000 gates)</p></li>
+<li><p>Chemical accuracy requirements (VQE for molecules)</p></li>
+<li><p>Condition numbers <span class="math notranslate nohighlight">\(&gt; 10^6\)</span> detected</p></li>
+<li><p>Persistent instability symptoms</p></li>
+</ul>
+<p>For algorithm-specific stability considerations, see:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="algorithms.html"><span class="doc">Algorithms</span></a> - TDVP, VQE, DMRG stability properties</p></li>
+<li><p><a class="reference internal" href="adaptive_truncation.html"><span class="doc">Adaptive Truncation</span></a> - Error control in truncation</p></li>
+<li><p><a class="reference internal" href="../howtos/debug_simulations.html"><span class="doc">Debug Simulations</span></a> - Debugging numerical issues</p></li>
+<li><p><a class="reference internal" href="../howtos/optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> - Performance vs accuracy tradeoffs</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="gpu_acceleration.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">GPU Acceleration</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="performance_model.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Performance Model</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-numerical-stability-matters">Why Numerical Stability Matters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#floating-point-arithmetic">Floating-Point Arithmetic</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ieee-754-standard">IEEE 754 Standard</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rounding-errors">Rounding Errors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-of-significance">Loss of Significance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sources-of-numerical-error">Sources of Numerical Error</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. Floating-Point Arithmetic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ill-conditioned-matrices">2. Ill-Conditioned Matrices</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#svd-truncation-error">3. SVD Truncation Error</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#canonical-form-drift">4. Canonical Form Drift</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condition-numbers">Condition Numbers</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-definition">Mathematical Definition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-condition-numbers">Computing Condition Numbers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#impact-on-linear-algebra">Impact on Linear Algebra</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#canonical-forms-and-orthogonality">Canonical Forms and Orthogonality</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#left-canonical-form">Left-Canonical Form</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#right-canonical-form">Right-Canonical Form</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-canonical-form">Mixed-Canonical Form</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-for-tdvp">Importance for TDVP</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#truncation-error-analysis">Truncation Error Analysis</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-truncation-error">Local Truncation Error</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#global-error-bounds">Global Error Bounds</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-mitigation-strategies">Error Mitigation Strategies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#robust-linear-algebra">Robust Linear Algebra</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#robust-svd">Robust SVD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#robust-qr-decomposition">Robust QR Decomposition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#eigendecomposition-stability">Eigendecomposition Stability</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-precision-strategies">Mixed Precision Strategies</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#complex64-vs-complex128">Complex64 vs Complex128</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automatic-precision-promotion">Automatic Precision Promotion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-precision-control">Manual Precision Control</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostics-and-monitoring">Diagnostics and Monitoring</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#built-in-diagnostics">Built-in Diagnostics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-conservation-tdvp">Energy Conservation (TDVP)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#general-guidelines">General Guidelines</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-specific-recommendations">Algorithm-Specific Recommendations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-issues-and-solutions">Common Issues and Solutions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#issue-1-svd-convergence-failure">Issue 1: SVD Convergence Failure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#issue-2-negative-probabilities">Issue 2: Negative Probabilities</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#issue-3-norm-drift">Issue 3: Norm Drift</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#issue-4-energy-not-conserved-tdvp">Issue 4: Energy Not Conserved (TDVP)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

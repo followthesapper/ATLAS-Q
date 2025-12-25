@@ -1,0 +1,1442 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>atlas_q.cuquantum_backend &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/cuquantum_backend';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="atlas_q.cuquantum_backend.CuQuantumConfig" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html" />
+    <link rel="prev" title="Distributed MPS" href="distributed_mps.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="adaptive_mps.html">atlas_q.adaptive_mps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mpo_ops.html">atlas_q.mpo_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPOBuilder.html">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tdvp.html">atlas_q.tdvp</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="vqe_qaoa.html">atlas_q.vqe_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="grover.html">atlas_q.grover</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="stabilizer_backend.html">atlas_q.stabilizer_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="noise_models.html">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planar_2d.html">2D/Planar Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributed_mps.html">Distributed MPS</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">atlas_q.cuquantum_backend</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="diagnostics.html">atlas_q.diagnostics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linalg_robust.html">atlas_q.linalg_robust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="truncation.html">atlas_q.truncation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.cuquantum_backend</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-atlas_q.cuquantum_backend">
+<span id="atlas-q-cuquantum-backend"></span><h1>atlas_q.cuquantum_backend<a class="headerlink" href="#module-atlas_q.cuquantum_backend" title="Link to this heading">#</a></h1>
+<p>cuQuantum Backend Integration</p>
+<p>Optional NVIDIA cuQuantum acceleration for MPS operations.
+Provides 2-10× speedup on compatible NVIDIA GPUs.</p>
+<p>Features:
+- cuTensorNet for tensor contractions and SVD
+- cuStateVec for state-vector operations
+- Automatic fallback to PyTorch if cuQuantum unavailable
+- Version compatibility handling</p>
+<p>Author: ATLAS-Q Contributors
+Date: October 2025</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuQuantumConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.cuquantum_backend.</span></span><span class="sig-name descname"><span class="pre">CuQuantumConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_cutensornet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_custatevec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workspace_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1073741824</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuQuantumConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.CuQuantumConfig" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Configuration for cuQuantum backend</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuQuantumConfig.use_cutensornet">
+<span class="sig-name descname"><span class="pre">use_cutensornet</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#atlas_q.cuquantum_backend.CuQuantumConfig.use_cutensornet" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuQuantumConfig.use_custatevec">
+<span class="sig-name descname"><span class="pre">use_custatevec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#atlas_q.cuquantum_backend.CuQuantumConfig.use_custatevec" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuQuantumConfig.workspace_size">
+<span class="sig-name descname"><span class="pre">workspace_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1073741824</span></em><a class="headerlink" href="#atlas_q.cuquantum_backend.CuQuantumConfig.workspace_size" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuQuantumConfig.algorithm">
+<span class="sig-name descname"><span class="pre">algorithm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'auto'</span></em><a class="headerlink" href="#atlas_q.cuquantum_backend.CuQuantumConfig.algorithm" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuQuantumConfig.device">
+<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cuda'</span></em><a class="headerlink" href="#atlas_q.cuquantum_backend.CuQuantumConfig.device" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuQuantumBackend">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.cuquantum_backend.</span></span><span class="sig-name descname"><span class="pre">CuQuantumBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuQuantumBackend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.CuQuantumBackend" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Optional cuQuantum backend for accelerated tensor operations.</p>
+<p>Automatically falls back to PyTorch if cuQuantum is not available.</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html#atlas_q.cuquantum_backend.CuQuantumBackend.contract" title="atlas_q.cuquantum_backend.CuQuantumBackend.contract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contract</span></code></a>(tensors, indices[, optimize])</p></td>
+<td><p>Tensor contraction with optional cuQuantum acceleration.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html#atlas_q.cuquantum_backend.CuQuantumBackend.svd" title="atlas_q.cuquantum_backend.CuQuantumBackend.svd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">svd</span></code></a>(tensor[, chi_max, cutoff])</p></td>
+<td><p>Compute SVD with optional cuQuantum acceleration.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuQuantumBackend.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuQuantumBackend.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.CuQuantumBackend.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize cuQuantum backend.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>config: Configuration options (uses defaults if None)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuQuantumBackend.svd">
+<span class="sig-name descname"><span class="pre">svd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-14</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuQuantumBackend.svd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.CuQuantumBackend.svd" title="Link to this definition">#</a></dt>
+<dd><p>Compute SVD with optional cuQuantum acceleration.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>tensor: Input tensor (2D after reshaping)
+chi_max: Maximum bond dimension (truncation)
+cutoff: Singular value cutoff threshold</p>
+</dd>
+<dt>Returns:</dt><dd><p>U, S, Vdagger tensors</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuQuantumBackend.contract">
+<span class="sig-name descname"><span class="pre">contract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuQuantumBackend.contract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.CuQuantumBackend.contract" title="Link to this definition">#</a></dt>
+<dd><p>Tensor contraction with optional cuQuantum acceleration.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>tensors: List of tensors to contract
+indices: Einsum-style index notation
+optimize: Contraction path optimization strategy</p>
+</dd>
+<dt>Returns:</dt><dd><p>Contracted tensor</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuQuantumBackend.__del__">
+<span class="sig-name descname"><span class="pre">__del__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuQuantumBackend.__del__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.CuQuantumBackend.__del__" title="Link to this definition">#</a></dt>
+<dd><p>Cleanup cuQuantum resources</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuStateVecBackend">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.cuquantum_backend.</span></span><span class="sig-name descname"><span class="pre">CuStateVecBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuStateVecBackend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.CuStateVecBackend" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Optional cuStateVec backend for state-vector operations.</p>
+<p>Provides accelerated gate application and measurements.</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.cuquantum_backend.CuStateVecBackend.apply_gate" title="atlas_q.cuquantum_backend.CuStateVecBackend.apply_gate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_gate</span></code></a>(state, gate, qubits)</p></td>
+<td><p>Apply quantum gate to state vector.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuStateVecBackend.apply_gate">
+<span class="sig-name descname"><span class="pre">apply_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuStateVecBackend.apply_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.CuStateVecBackend.apply_gate" title="Link to this definition">#</a></dt>
+<dd><p>Apply quantum gate to state vector.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>state: State vector (2^n complex amplitudes)
+gate: Gate matrix (2^k × 2^k)
+qubits: List of qubit indices</p>
+</dd>
+<dt>Returns:</dt><dd><p>Updated state vector</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.CuStateVecBackend.__del__">
+<span class="sig-name descname"><span class="pre">__del__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuStateVecBackend.__del__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.CuStateVecBackend.__del__" title="Link to this definition">#</a></dt>
+<dd><p>Cleanup cuStateVec resources</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.get_backend">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.cuquantum_backend.</span></span><span class="sig-name descname"><span class="pre">get_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#get_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.get_backend" title="Link to this definition">#</a></dt>
+<dd><p>Get global cuQuantum backend instance.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>config: Optional configuration (uses default if None)</p>
+</dd>
+<dt>Returns:</dt><dd><p>CuQuantumBackend instance</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.get_statevec_backend">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.cuquantum_backend.</span></span><span class="sig-name descname"><span class="pre">get_statevec_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#get_statevec_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.get_statevec_backend" title="Link to this definition">#</a></dt>
+<dd><p>Get global cuStateVec backend instance.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>config: Optional configuration</p>
+</dd>
+<dt>Returns:</dt><dd><p>CuStateVecBackend instance</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.is_cuquantum_available">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.cuquantum_backend.</span></span><span class="sig-name descname"><span class="pre">is_cuquantum_available</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#is_cuquantum_available"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.is_cuquantum_available" title="Link to this definition">#</a></dt>
+<dd><p>Check if cuQuantum is available</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.get_cuquantum_version">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.cuquantum_backend.</span></span><span class="sig-name descname"><span class="pre">get_cuquantum_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#get_cuquantum_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.get_cuquantum_version" title="Link to this definition">#</a></dt>
+<dd><p>Get cuQuantum version string</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.cuquantum_backend.benchmark_backend">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.cuquantum_backend.</span></span><span class="sig-name descname"><span class="pre">benchmark_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matrix_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#benchmark_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.cuquantum_backend.benchmark_backend" title="Link to this definition">#</a></dt>
+<dd><p>Benchmark cuQuantum vs PyTorch performance.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>n_trials: Number of benchmark trials
+matrix_size: Size of test matrices</p>
+</dd>
+<dt>Returns:</dt><dd><p>Dictionary with timing results</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">cuquantum_backend</span></code> module provides optional NVIDIA cuQuantum acceleration for tensor operations in ATLAS-Q. Key features include:</p>
+<ul class="simple">
+<li><p>cuTensorNet integration for accelerated tensor contractions and SVD</p></li>
+<li><p>cuStateVec support for state-vector operations</p></li>
+<li><p>Automatic fallback to PyTorch if cuQuantum is unavailable</p></li>
+<li><p>Version compatibility handling</p></li>
+<li><p>2-10× speedup on compatible NVIDIA GPUs</p></li>
+</ul>
+<p>This module is optional and ATLAS-Q functions normally without it, using PyTorch as the backend.</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>To enable cuQuantum acceleration:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cuquantum-python
+</pre></div>
+</div>
+<p>Requires NVIDIA GPU with CUDA support and cuQuantum library (typically ~320MB download).</p>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html#atlas_q.cuquantum_backend.CuQuantumConfig" title="atlas_q.cuquantum_backend.CuQuantumConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CuQuantumConfig</span></code></a></p></td>
+<td><p>Configuration for cuQuantum backend</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html#atlas_q.cuquantum_backend.CuQuantumBackend" title="atlas_q.cuquantum_backend.CuQuantumBackend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CuQuantumBackend</span></code></a></p></td>
+<td><p>Optional cuQuantum backend for accelerated tensor operations.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="cuquantumconfig">
+<h2>CuQuantumConfig<a class="headerlink" href="#cuquantumconfig" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.cuquantum_backend.</span></span><span class="sig-name descname"><span class="pre">CuQuantumConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_cutensornet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_custatevec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workspace_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1073741824</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuQuantumConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Configuration for cuQuantum backend</p>
+<p>Configuration dataclass for cuQuantum backend with the following options:</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">use_cutensornet</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#id1" title="Link to this definition">#</a></dt>
+<dd><p>Enable cuTensorNet for tensor contractions (default: True)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">use_custatevec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#id2" title="Link to this definition">#</a></dt>
+<dd><p>Enable cuStateVec for state vector operations (default: True)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">workspace_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#id3" title="Link to this definition">#</a></dt>
+<dd><p>GPU workspace memory in bytes (default: 1GB)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">algorithm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#id4" title="Link to this definition">#</a></dt>
+<dd><p>SVD algorithm selection: ‘auto’, ‘gesvd’, ‘gesvdj’, ‘gesvdp’ (default: ‘auto’)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#id5" title="Link to this definition">#</a></dt>
+<dd><p>Compute device (default: ‘cuda’)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">use_cutensornet</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id6" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">use_custatevec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id7" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">workspace_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1073741824</span></em><a class="headerlink" href="#id8" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">algorithm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'auto'</span></em><a class="headerlink" href="#id9" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cuda'</span></em><a class="headerlink" href="#id10" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cuquantumbackend">
+<h2>CuQuantumBackend<a class="headerlink" href="#cuquantumbackend" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id11">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.cuquantum_backend.</span></span><span class="sig-name descname"><span class="pre">CuQuantumBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuQuantumBackend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Optional cuQuantum backend for accelerated tensor operations.</p>
+<p>Automatically falls back to PyTorch if cuQuantum is not available.</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html#atlas_q.cuquantum_backend.CuQuantumBackend.contract" title="atlas_q.cuquantum_backend.CuQuantumBackend.contract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contract</span></code></a>(tensors, indices[, optimize])</p></td>
+<td><p>Tensor contraction with optional cuQuantum acceleration.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html#atlas_q.cuquantum_backend.CuQuantumBackend.svd" title="atlas_q.cuquantum_backend.CuQuantumBackend.svd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">svd</span></code></a>(tensor[, chi_max, cutoff])</p></td>
+<td><p>Compute SVD with optional cuQuantum acceleration.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Primary interface for cuQuantum-accelerated operations.</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html#id0" title="atlas_q.cuquantum_backend.CuQuantumBackend.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([config])</p></td>
+<td><p>Initialize cuQuantum backend.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html#atlas_q.cuquantum_backend.CuQuantumBackend.svd" title="atlas_q.cuquantum_backend.CuQuantumBackend.svd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">svd</span></code></a>(tensor[, chi_max, cutoff])</p></td>
+<td><p>Compute SVD with optional cuQuantum acceleration.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html#atlas_q.cuquantum_backend.CuQuantumBackend.contract" title="atlas_q.cuquantum_backend.CuQuantumBackend.contract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contract</span></code></a>(tensors, indices[, optimize])</p></td>
+<td><p>Tensor contraction with optional cuQuantum acceleration.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Automatically detects cuQuantum availability and falls back to PyTorch if:</p>
+<ul class="simple">
+<li><p>cuQuantum is not installed</p></li>
+<li><p>Initialization fails</p></li>
+<li><p>Individual operations fail</p></li>
+</ul>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuQuantumBackend.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition">#</a></dt>
+<dd><p>Initialize cuQuantum backend.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>config: Configuration options (uses defaults if None)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">svd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-14</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuQuantumBackend.svd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition">#</a></dt>
+<dd><p>Compute SVD with optional cuQuantum acceleration.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>tensor: Input tensor (2D after reshaping)
+chi_max: Maximum bond dimension (truncation)
+cutoff: Singular value cutoff threshold</p>
+</dd>
+<dt>Returns:</dt><dd><p>U, S, Vdagger tensors</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">contract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuQuantumBackend.contract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition">#</a></dt>
+<dd><p>Tensor contraction with optional cuQuantum acceleration.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>tensors: List of tensors to contract
+indices: Einsum-style index notation
+optimize: Contraction path optimization strategy</p>
+</dd>
+<dt>Returns:</dt><dd><p>Contracted tensor</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">__del__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/cuquantum_backend.html#CuQuantumBackend.__del__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition">#</a></dt>
+<dd><p>Cleanup cuQuantum resources</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<p>Basic usage with automatic detection:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumBackend</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Backend automatically detects cuQuantum</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">available</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cuQuantum </span><span class="si">{</span><span class="n">backend</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2"> detected&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using PyTorch backend&quot;</span><span class="p">)</span>
+
+<span class="c1"># Perform SVD (uses cuQuantum if available, else PyTorch)</span>
+<span class="n">tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vt</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">chi_max</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Truncated to </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="si">}</span><span class="s2"> singular values&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Custom configuration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumBackend</span><span class="p">,</span> <span class="n">CuQuantumConfig</span>
+
+<span class="c1"># Configure cuQuantum parameters</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span>
+    <span class="n">use_cutensornet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">use_custatevec</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">workspace_size</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>  <span class="c1"># 2GB workspace</span>
+    <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;gesvdj&#39;</span><span class="p">,</span>  <span class="c1"># Jacobi SVD</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda:0&#39;</span>
+<span class="p">)</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># SVD with custom config</span>
+<span class="n">tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vt</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">chi_max</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Integration with AdaptiveMPS:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumBackend</span>
+
+<span class="c1"># Initialize cuQuantum backend</span>
+<span class="n">cu_backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">()</span>
+
+<span class="c1"># Create MPS (automatically uses cuQuantum if available)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># AdaptiveMPS will use cuQuantum backend internally if available</span>
+<span class="c1"># Apply gates - operations accelerated by cuQuantum</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Tensor contraction:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumBackend</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">()</span>
+
+<span class="c1"># Create tensors</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Contract using Einstein notation</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">contract</span><span class="p">([</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">],</span> <span class="s1">&#39;ijk,klm-&gt;ijlm&#39;</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Contraction result shape: </span><span class="si">{</span><span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Checking cuQuantum availability:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CUQUANTUM_AVAILABLE</span><span class="p">,</span> <span class="n">CUQUANTUM_VERSION</span>
+
+<span class="k">if</span> <span class="n">CUQUANTUM_AVAILABLE</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cuQuantum version </span><span class="si">{</span><span class="n">CUQUANTUM_VERSION</span><span class="si">}</span><span class="s2"> is available&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;GPU-accelerated operations enabled&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cuQuantum not available&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Install with: pip install cuquantum-python&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-considerations">
+<h2>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading">#</a></h2>
+<section id="speedup-factors">
+<h3>Speedup Factors<a class="headerlink" href="#speedup-factors" title="Link to this heading">#</a></h3>
+<p>Expected speedup with cuQuantum:</p>
+<ul class="simple">
+<li><p>SVD operations: 2-5× for χ &gt; 64</p></li>
+<li><p>Tensor contractions: 3-10× for large tensors</p></li>
+<li><p>Overall MPS operations: 1.5-3× average</p></li>
+</ul>
+</section>
+<section id="gpu-requirements">
+<h3>GPU Requirements<a class="headerlink" href="#gpu-requirements" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>NVIDIA GPU with CUDA compute capability 7.0+ (Volta, Turing, Ampere, Hopper)</p></li>
+<li><p>CUDA Toolkit 11.0+</p></li>
+<li><p>Recommended: A100, H100, or RTX 4090</p></li>
+</ul>
+</section>
+<section id="memory-usage">
+<h3>Memory Usage<a class="headerlink" href="#memory-usage" title="Link to this heading">#</a></h3>
+<p>cuQuantum requires additional GPU workspace memory (configurable via <code class="docutils literal notranslate"><span class="pre">workspace_size</span></code>). Default is 1GB, but larger workspaces can improve performance for large tensors.</p>
+</section>
+</section>
+<section id="fallback-behavior">
+<h2>Fallback Behavior<a class="headerlink" href="#fallback-behavior" title="Link to this heading">#</a></h2>
+<p>The backend gracefully handles failures:</p>
+<ol class="arabic simple">
+<li><p>If cuQuantum is not installed: All operations use PyTorch</p></li>
+<li><p>If initialization fails: Falls back to PyTorch with warning</p></li>
+<li><p>If individual operations fail: Automatic PyTorch fallback for that operation</p></li>
+</ol>
+<p>Warnings are printed to help diagnose issues, but simulation continues.</p>
+</section>
+<section id="compatibility">
+<h2>Compatibility<a class="headerlink" href="#compatibility" title="Link to this heading">#</a></h2>
+<p>Tested with:</p>
+<ul class="simple">
+<li><p>cuQuantum 23.x - 25.x</p></li>
+<li><p>CUDA 11.8+</p></li>
+<li><p>PyTorch 2.0+</p></li>
+<li><p>NVIDIA A100, H100, RTX 4090</p></li>
+</ul>
+<p>Version-specific features are auto-detected and handled.</p>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="cuquantum-not-detected">
+<h3>cuQuantum not detected<a class="headerlink" href="#cuquantum-not-detected" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CUQUANTUM_AVAILABLE</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">CUQUANTUM_AVAILABLE</span><span class="p">:</span>
+    <span class="c1"># Try installing</span>
+    <span class="c1"># pip install cuquantum-python</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</section>
+<section id="out-of-memory-errors">
+<h3>Out of memory errors<a class="headerlink" href="#out-of-memory-errors" title="Link to this heading">#</a></h3>
+<p>Reduce workspace size:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumConfig</span><span class="p">,</span> <span class="n">CuQuantumBackend</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span><span class="n">workspace_size</span><span class="o">=</span><span class="mi">512</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 512MB</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="slower-than-pytorch">
+<h3>Slower than PyTorch<a class="headerlink" href="#slower-than-pytorch" title="Link to this heading">#</a></h3>
+<p>cuQuantum overhead is only worthwhile for larger tensors. For small systems (χ &lt; 32), PyTorch may be faster. Consider disabling cuQuantum for small simulations.</p>
+</section>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<p><strong>When to Use cuQuantum</strong></p>
+<ul class="simple">
+<li><p>χ &gt; 32: Significant speedup (1.5-3×)</p></li>
+<li><p>χ &gt; 64: Major speedup (2-5×)</p></li>
+<li><p>Long-running simulations: Reduced wall-clock time</p></li>
+<li><p>Multi-GPU: cuQuantum’s distributed capabilities</p></li>
+</ul>
+<p><strong>When to Use PyTorch</strong></p>
+<ul class="simple">
+<li><p>χ &lt; 32: Overhead dominates</p></li>
+<li><p>Rapid prototyping: Simpler setup</p></li>
+<li><p>CPU-only systems: cuQuantum requires NVIDIA GPU</p></li>
+</ul>
+<p><strong>Optimization Tips</strong></p>
+<ol class="arabic simple">
+<li><p>Increase workspace_size for better performance (2-4GB recommended)</p></li>
+<li><p>Use ‘gesvdj’ algorithm for moderate χ (32-128)</p></li>
+<li><p>Enable both cuTensorNet and cuStateVec for best results</p></li>
+<li><p>Monitor fallback rate - should be &lt; 1%</p></li>
+</ol>
+</section>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h2>
+<p><strong>Ideal Applications</strong></p>
+<ul class="simple">
+<li><p>Large-scale tensor network simulations (χ &gt; 64)</p></li>
+<li><p>Production systems requiring maximum performance</p></li>
+<li><p>Multi-hour simulations where 2× speedup matters</p></li>
+<li><p>Research requiring state-of-the-art performance</p></li>
+</ul>
+<p><strong>Not Recommended</strong></p>
+<ul class="simple">
+<li><p>Small systems (N &lt; 20, χ &lt; 32)</p></li>
+<li><p>Educational/tutorial code (unnecessary complexity)</p></li>
+<li><p>Systems without NVIDIA GPUs</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="adaptive_mps.html"><span class="doc">atlas_q.adaptive_mps</span></a> - MPS operations accelerated by cuQuantum</p></li>
+<li><p><a class="reference internal" href="linalg_robust.html"><span class="doc">atlas_q.linalg_robust</span></a> - Alternative robust linear algebra</p></li>
+<li><p><a class="reference internal" href="triton_kernels.html"><span class="doc">Triton GPU Kernels</span></a> - Custom GPU kernels for specific operations</p></li>
+<li><p><a class="reference internal" href="../user_guide/howtos/integrate_cuquantum.html"><span class="doc">Integrate cuQuantum</span></a> - Integration guide</p></li>
+<li><p><a class="reference internal" href="../user_guide/howtos/optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> - Performance optimization</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="cuquantum" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>cuQuantum<span class="fn-bracket">]</span></span>
+<p>NVIDIA cuQuantum SDK, <a class="reference external" href="https://developer.nvidia.com/cuquantum-sdk">https://developer.nvidia.com/cuquantum-sdk</a></p>
+</div>
+<div class="citation" id="cutensornet" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>cuTensorNet<span class="fn-bracket">]</span></span>
+<p>cuTensorNet Documentation, <a class="reference external" href="https://docs.nvidia.com/cuda/cuquantum/cutensornet/index.html">https://docs.nvidia.com/cuda/cuquantum/cutensornet/index.html</a></p>
+</div>
+<div class="citation" id="lykov22" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Lykov22<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="4">
+<li><p>Lykov et al., “Tensor network quantum simulator with step-dependent parallelization,” <em>arXiv:2212.14703</em> (2022).</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="distributed_mps.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Distributed MPS</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">atlas_q.cuquantum_backend.CuQuantumConfig</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuQuantumConfig"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuQuantumConfig.use_cutensornet"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.use_cutensornet</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuQuantumConfig.use_custatevec"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.use_custatevec</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuQuantumConfig.workspace_size"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.workspace_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuQuantumConfig.algorithm"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.algorithm</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuQuantumConfig.device"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.device</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuQuantumBackend"><code class="docutils literal notranslate"><span class="pre">CuQuantumBackend</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuQuantumBackend.__init__"><code class="docutils literal notranslate"><span class="pre">CuQuantumBackend.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuQuantumBackend.svd"><code class="docutils literal notranslate"><span class="pre">CuQuantumBackend.svd()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuQuantumBackend.contract"><code class="docutils literal notranslate"><span class="pre">CuQuantumBackend.contract()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuQuantumBackend.__del__"><code class="docutils literal notranslate"><span class="pre">CuQuantumBackend.__del__()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuStateVecBackend"><code class="docutils literal notranslate"><span class="pre">CuStateVecBackend</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuStateVecBackend.apply_gate"><code class="docutils literal notranslate"><span class="pre">CuStateVecBackend.apply_gate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.CuStateVecBackend.__del__"><code class="docutils literal notranslate"><span class="pre">CuStateVecBackend.__del__()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.get_statevec_backend"><code class="docutils literal notranslate"><span class="pre">get_statevec_backend()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.is_cuquantum_available"><code class="docutils literal notranslate"><span class="pre">is_cuquantum_available()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.get_cuquantum_version"><code class="docutils literal notranslate"><span class="pre">get_cuquantum_version()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.cuquantum_backend.benchmark_backend"><code class="docutils literal notranslate"><span class="pre">benchmark_backend()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cuquantumconfig">CuQuantumConfig</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.use_cutensornet</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.use_custatevec</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.workspace_size</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.algorithm</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.use_cutensornet</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.use_custatevec</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.workspace_size</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.algorithm</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10"><code class="docutils literal notranslate"><span class="pre">CuQuantumConfig.device</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cuquantumbackend">CuQuantumBackend</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11"><code class="docutils literal notranslate"><span class="pre">CuQuantumBackend</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id12"><code class="docutils literal notranslate"><span class="pre">CuQuantumBackend.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id13"><code class="docutils literal notranslate"><span class="pre">CuQuantumBackend.svd()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id14"><code class="docutils literal notranslate"><span class="pre">CuQuantumBackend.contract()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id15"><code class="docutils literal notranslate"><span class="pre">CuQuantumBackend.__del__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-considerations">Performance Considerations</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#speedup-factors">Speedup Factors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpu-requirements">GPU Requirements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-usage">Memory Usage</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fallback-behavior">Fallback Behavior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compatibility">Compatibility</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuquantum-not-detected">cuQuantum not detected</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#out-of-memory-errors">Out of memory errors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slower-than-pytorch">Slower than PyTorch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

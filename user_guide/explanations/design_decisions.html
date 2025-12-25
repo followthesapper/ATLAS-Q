@@ -1,0 +1,1514 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Design Decisions &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/explanations/design_decisions';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Comparisons" href="comparisons.html" />
+    <link rel="prev" title="Performance Model" href="performance_model.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tensor_networks.html">Tensor Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adaptive_truncation.html">Adaptive Truncation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu_acceleration.html">GPU Acceleration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_stability.html">Numerical Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_model.html">Performance Model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Design Decisions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparisons.html">Comparisons</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Explanations</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Design Decisions</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="design-decisions">
+<h1>Design Decisions<a class="headerlink" href="#design-decisions" title="Link to this heading">#</a></h1>
+<p>ATLAS-Q’s design reflects deliberate choices balancing performance, usability, extensibility, and numerical stability. This document explains the key architectural decisions, their rationale, and alternative approaches considered.</p>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id1">Overview</a></p>
+<ul>
+<li><p><a class="reference internal" href="#design-philosophy" id="id2">Design Philosophy</a></p></li>
+<li><p><a class="reference internal" href="#alternative-approaches-considered" id="id3">Alternative Approaches Considered</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#core-architecture" id="id4">Core Architecture</a></p>
+<ul>
+<li><p><a class="reference internal" href="#mps-representation" id="id5">MPS Representation</a></p></li>
+<li><p><a class="reference internal" href="#adaptive-vs-fixed-bond-dimension" id="id6">Adaptive vs Fixed Bond Dimension</a></p></li>
+<li><p><a class="reference internal" href="#statistics-and-diagnostics" id="id7">Statistics and Diagnostics</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#api-design" id="id8">API Design</a></p>
+<ul>
+<li><p><a class="reference internal" href="#device-agnostic-interface" id="id9">Device Agnostic Interface</a></p></li>
+<li><p><a class="reference internal" href="#lazy-vs-eager-imports" id="id10">Lazy vs Eager Imports</a></p></li>
+<li><p><a class="reference internal" href="#automatic-vs-manual-canonicalization" id="id11">Automatic vs Manual Canonicalization</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#backend-selection" id="id12">Backend Selection</a></p>
+<ul>
+<li><p><a class="reference internal" href="#pytorch-as-foundation" id="id13">PyTorch as Foundation</a></p></li>
+<li><p><a class="reference internal" href="#triton-for-custom-kernels" id="id14">Triton for Custom Kernels</a></p></li>
+<li><p><a class="reference internal" href="#cuquantum-integration" id="id15">cuQuantum Integration</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#numerical-stability" id="id16">Numerical Stability</a></p>
+<ul>
+<li><p><a class="reference internal" href="#robust-linear-algebra" id="id17">Robust Linear Algebra</a></p></li>
+<li><p><a class="reference internal" href="#mixed-precision-strategy" id="id18">Mixed Precision Strategy</a></p></li>
+<li><p><a class="reference internal" href="#canonical-form-management" id="id19">Canonical Form Management</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#memory-management" id="id20">Memory Management</a></p>
+<ul>
+<li><p><a class="reference internal" href="#adaptive-memory-budgets" id="id21">Adaptive Memory Budgets</a></p></li>
+<li><p><a class="reference internal" href="#pytorch-allocator-strategy" id="id22">PyTorch Allocator Strategy</a></p></li>
+<li><p><a class="reference internal" href="#in-place-operations" id="id23">In-Place Operations</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#modularity-and-extension" id="id24">Modularity and Extension</a></p>
+<ul>
+<li><p><a class="reference internal" href="#backend-interface" id="id25">Backend Interface</a></p></li>
+<li><p><a class="reference internal" href="#algorithm-plugin-architecture" id="id26">Algorithm Plugin Architecture</a></p></li>
+<li><p><a class="reference internal" href="#flexible-gate-interface" id="id27">Flexible Gate Interface</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#error-handling" id="id28">Error Handling</a></p>
+<ul>
+<li><p><a class="reference internal" href="#fail-fast-philosophy" id="id29">Fail-Fast Philosophy</a></p></li>
+<li><p><a class="reference internal" href="#warnings-for-numerical-issues" id="id30">Warnings for Numerical Issues</a></p></li>
+<li><p><a class="reference internal" href="#graceful-degradation" id="id31">Graceful Degradation</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#future-proofing" id="id32">Future-Proofing</a></p>
+<ul>
+<li><p><a class="reference internal" href="#extensibility-points" id="id33">Extensibility Points</a></p></li>
+<li><p><a class="reference internal" href="#version-compatibility" id="id34">Version Compatibility</a></p></li>
+<li><p><a class="reference internal" href="#configuration-system" id="id35">Configuration System</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#lessons-learned" id="id36">Lessons Learned</a></p>
+<ul>
+<li><p><a class="reference internal" href="#what-worked-well" id="id37">What Worked Well</a></p></li>
+<li><p><a class="reference internal" href="#what-we-d-change" id="id38">What We’d Change</a></p></li>
+<li><p><a class="reference internal" href="#trade-offs-we-accept" id="id39">Trade-Offs We Accept</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#summary" id="id40">Summary</a></p></li>
+</ul>
+</nav>
+<section id="overview">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Overview</a><a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<section id="design-philosophy">
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">Design Philosophy</a><a class="headerlink" href="#design-philosophy" title="Link to this heading">#</a></h3>
+<p>ATLAS-Q follows these core principles:</p>
+<ol class="arabic simple">
+<li><p><strong>Performance by default</strong>: GPU acceleration and optimized operations without configuration</p></li>
+<li><p><strong>Fail safely</strong>: Automatic numerical stability measures prevent silent errors</p></li>
+<li><p><strong>Extensibility</strong>: Modular architecture allows adding new algorithms and backends</p></li>
+<li><p><strong>User control</strong>: Override defaults when needed for advanced use cases</p></li>
+<li><p><strong>Research-friendly</strong>: Comprehensive diagnostics and statistics for debugging</p></li>
+</ol>
+<p><strong>Key challenges addressed</strong>:</p>
+<ul class="simple">
+<li><p><strong>Numerical instability</strong>: SVD failures, truncation errors, ill-conditioning</p></li>
+<li><p><strong>Memory constraints</strong>: Large bond dimensions exceed GPU memory</p></li>
+<li><p><strong>Performance bottlenecks</strong>: SVD dominates runtime for χ&gt;128</p></li>
+<li><p><strong>Usability</strong>: Quantum computing experts may not be system programmers</p></li>
+<li><p><strong>Heterogeneous hardware</strong>: CPUs, NVIDIA GPUs, future AMD/Intel GPUs</p></li>
+</ul>
+</section>
+<section id="alternative-approaches-considered">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Alternative Approaches Considered</a><a class="headerlink" href="#alternative-approaches-considered" title="Link to this heading">#</a></h3>
+<p><strong>Option 1: NumPy-based implementation</strong></p>
+<ul class="simple">
+<li><p>Pros: Simple, pure Python, widely understood</p></li>
+<li><p>Cons: Poor GPU support, manual batching, slow for production</p></li>
+<li><p><strong>Decision</strong>: Rejected due to GPU performance critical for &gt;30 qubits</p></li>
+</ul>
+<p><strong>Option 2: Custom CUDA kernels</strong></p>
+<ul class="simple">
+<li><p>Pros: Maximum performance control</p></li>
+<li><p>Cons: High development cost, maintenance burden, NVIDIA-only</p></li>
+<li><p><strong>Decision</strong>: Hybrid approach - PyTorch default, Triton for hot paths</p></li>
+</ul>
+<p><strong>Option 3: JAX-based</strong></p>
+<ul class="simple">
+<li><p>Pros: Excellent for automatic differentiation</p></li>
+<li><p>Cons: Less mature cuBLAS/cuSOLVER integration than PyTorch</p></li>
+<li><p><strong>Decision</strong>: PyTorch chosen for better GPU libraries, more stable</p></li>
+</ul>
+</section>
+</section>
+<section id="core-architecture">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Core Architecture</a><a class="headerlink" href="#core-architecture" title="Link to this heading">#</a></h2>
+<section id="mps-representation">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">MPS Representation</a><a class="headerlink" href="#mps-representation" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Store MPS as list of PyTorch tensors, not unified tensor</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AdaptiveMPS</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">bond_dim</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">chi_left</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">chi_right</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)</span>
+        <span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Heterogeneous bond dimensions</strong>: Each bond can have different χ</p></li>
+<li><p><strong>Memory efficiency</strong>: Only allocate needed dimensions</p></li>
+<li><p><strong>Parallelization</strong>: Operations on different sites can be independent</p></li>
+<li><p><strong>Compatibility</strong>: Standard format used by other MPS libraries</p></li>
+</ol>
+<p><strong>Alternative considered</strong>: Unified tensor with padding</p>
+<ul class="simple">
+<li><p>Pros: Single memory allocation, potential BLAS optimization</p></li>
+<li><p>Cons: Wasted memory for variable χ, complex indexing</p></li>
+<li><p><strong>Rejected</strong>: Memory waste significant for adaptive bond dimensions</p></li>
+</ul>
+</section>
+<section id="adaptive-vs-fixed-bond-dimension">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Adaptive vs Fixed Bond Dimension</a><a class="headerlink" href="#adaptive-vs-fixed-bond-dimension" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Adaptive bond dimension as default</p>
+<p><strong>AdaptiveMPS</strong> (default):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>           <span class="c1"># Initial χ</span>
+    <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>  <span class="c1"># Maximum allowed</span>
+    <span class="n">adaptive_mode</span><span class="o">=</span><span class="kc">True</span>     <span class="c1"># Enable adaptation</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Automatically adjusts χ based on truncation error.</p>
+<p><strong>MatrixProductStatePyTorch</strong> (fixed):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mps_pytorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatrixProductStatePyTorch</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">MatrixProductStatePyTorch</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Keeps χ=64 throughout simulation.</p>
+<p><strong>Rationale</strong>:</p>
+<ul class="simple">
+<li><p><strong>Adaptive</strong>: Better accuracy/performance tradeoff for most use cases</p></li>
+<li><p><strong>Fixed</strong>: Predictable memory usage, easier to reason about</p></li>
+<li><p><strong>Both</strong>: Different algorithms have different needs (QAOA→fixed, TDVP→adaptive)</p></li>
+</ul>
+</section>
+<section id="statistics-and-diagnostics">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Statistics and Diagnostics</a><a class="headerlink" href="#statistics-and-diagnostics" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Track statistics by default with minimal overhead</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apply gates</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">29</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">29</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Automatic statistics</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">statistics</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Truncations: </span><span class="si">{</span><span class="n">stats</span><span class="o">.</span><span class="n">num_truncations</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Global error: </span><span class="si">{</span><span class="n">stats</span><span class="o">.</span><span class="n">total_truncation_error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max bond dimension: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Observability</strong>: Users should know simulation accuracy</p></li>
+<li><p><strong>Research</strong>: Essential for debugging and understanding algorithms</p></li>
+<li><p><strong>Performance</strong>: &lt;1% overhead using lightweight counters</p></li>
+<li><p><strong>Optional</strong>: Can disable via <code class="docutils literal notranslate"><span class="pre">track_statistics=False</span></code> if needed</p></li>
+</ol>
+<p><strong>Alternative</strong>: No default tracking, require explicit requests</p>
+<ul class="simple">
+<li><p>Pros: Absolute minimum overhead</p></li>
+<li><p>Cons: Users unaware of errors, poor research experience</p></li>
+<li><p><strong>Rejected</strong>: Observability too important for quantum simulation</p></li>
+</ul>
+</section>
+</section>
+<section id="api-design">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">API Design</a><a class="headerlink" href="#api-design" title="Link to this heading">#</a></h2>
+<section id="device-agnostic-interface">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Device Agnostic Interface</a><a class="headerlink" href="#device-agnostic-interface" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Single API works on CPU and GPU</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Same code works on both devices</span>
+<span class="n">mps_gpu</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">mps_cpu</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+
+<span class="c1"># Automatic fallback if CUDA unavailable</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
+<span class="c1"># Falls back to CPU if no GPU</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Portability</strong>: Same code runs on laptops (CPU) and servers (GPU)</p></li>
+<li><p><strong>Testing</strong>: CI/CD can test on CPU without GPU runners</p></li>
+<li><p><strong>Development</strong>: Prototyping on CPU before scaling to GPU</p></li>
+<li><p><strong>Hybrid</strong>: Some operations better on CPU (e.g., small χ)</p></li>
+</ol>
+</section>
+<section id="lazy-vs-eager-imports">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Lazy vs Eager Imports</a><a class="headerlink" href="#lazy-vs-eager-imports" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Support both for compatibility</p>
+<p><strong>Direct imports</strong> (recommended):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP</span>
+</pre></div>
+</div>
+<p><strong>Lazy imports</strong> (legacy):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adaptive_mps</span><span class="p">,</span> <span class="n">get_vqe</span>
+
+<span class="n">AdaptiveMPS</span> <span class="o">=</span> <span class="n">get_adaptive_mps</span><span class="p">()[</span><span class="s1">&#39;AdaptiveMPS&#39;</span><span class="p">]</span>
+<span class="n">VQE</span> <span class="o">=</span> <span class="n">get_vqe</span><span class="p">()[</span><span class="s1">&#39;VQE&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ul class="simple">
+<li><p>Direct imports fail if dependencies missing (e.g., PySCF not installed)</p></li>
+<li><p>Lazy imports allow partial functionality (core MPS without chemistry)</p></li>
+<li><p>Both supported for backwards compatibility with existing code</p></li>
+</ul>
+<p><strong>Modern approach</strong>: Optional dependencies properly declared in setup.py</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">atlas</span><span class="o">-</span><span class="n">q</span>              <span class="c1"># Core only</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">atlas</span><span class="o">-</span><span class="n">q</span><span class="p">[</span><span class="n">chemistry</span><span class="p">]</span>   <span class="c1"># With PySCF</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">atlas</span><span class="o">-</span><span class="n">q</span><span class="p">[</span><span class="nb">all</span><span class="p">]</span>         <span class="c1"># Everything</span>
+</pre></div>
+</div>
+</section>
+<section id="automatic-vs-manual-canonicalization">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Automatic vs Manual Canonicalization</a><a class="headerlink" href="#automatic-vs-manual-canonicalization" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Automatic canonicalization before sensitive operations</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># TDVP automatically canonicalizes</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span><span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="n">tdvp</span><span class="o">.</span><span class="n">evolve_step</span><span class="p">()</span>  <span class="c1"># Automatic canonicalization ensures stability</span>
+
+<span class="c1"># Manual override if needed</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>  <span class="c1"># Explicit control</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Correctness</strong>: TDVP requires canonical form for numerical stability</p></li>
+<li><p><strong>User-friendly</strong>: Don’t require quantum algorithm knowledge</p></li>
+<li><p><strong>Performance</strong>: Only when needed (not after every gate)</p></li>
+<li><p><strong>Control</strong>: Advanced users can manage manually</p></li>
+</ol>
+<p><strong>Alternative</strong>: Always manual, never automatic</p>
+<ul class="simple">
+<li><p>Pros: Explicit control, no hidden operations</p></li>
+<li><p>Cons: Easy to forget, leads to numerical errors</p></li>
+<li><p><strong>Rejected</strong>: Too error-prone for non-expert users</p></li>
+</ul>
+</section>
+</section>
+<section id="backend-selection">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Backend Selection</a><a class="headerlink" href="#backend-selection" title="Link to this heading">#</a></h2>
+<section id="pytorch-as-foundation">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">PyTorch as Foundation</a><a class="headerlink" href="#pytorch-as-foundation" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: PyTorch for tensor operations and GPU support</p>
+<p><strong>Why PyTorch over alternatives</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>PyTorch</p></th>
+<th class="head"><p>NumPy</p></th>
+<th class="head"><p>JAX</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GPU Support</p></td>
+<td><p>Excellent</p></td>
+<td><p>Poor (CuPy)</p></td>
+<td><p>Good</p></td>
+</tr>
+<tr class="row-odd"><td><p>cuBLAS</p></td>
+<td><p>Native</p></td>
+<td><p>Via CuPy</p></td>
+<td><p>Via XLA</p></td>
+</tr>
+<tr class="row-even"><td><p>SVD</p></td>
+<td><p>cuSOLVER</p></td>
+<td><p>Slow</p></td>
+<td><p>Good</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ecosystem</p></td>
+<td><p>Large</p></td>
+<td><p>Largest</p></td>
+<td><p>Growing</p></td>
+</tr>
+<tr class="row-even"><td><p>Maturity</p></td>
+<td><p>Very mature</p></td>
+<td><p>Most mature</p></td>
+<td><p>Maturing</p></td>
+</tr>
+<tr class="row-odd"><td><p>Triton</p></td>
+<td><p>Compatible</p></td>
+<td><p>No</p></td>
+<td><p>Compatible</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>cuBLAS/cuSOLVER</strong>: PyTorch has best integration</p></li>
+<li><p><strong>Ecosystem</strong>: Largest deep learning ecosystem, many tools</p></li>
+<li><p><strong>GPU memory</strong>: Excellent allocator, memory pooling</p></li>
+<li><p><strong>JIT</strong>: TorchScript for optimization (not yet used, future)</p></li>
+<li><p><strong>Community</strong>: Large user base, extensive documentation</p></li>
+</ol>
+<p><strong>JAX consideration</strong>:</p>
+<p>JAX was seriously considered due to automatic differentiation for gradients. However:</p>
+<ul class="simple">
+<li><p>PyTorch autodiff sufficient for parameter-shift rule</p></li>
+<li><p>PyTorch’s cuSOLVER integration more mature (critical for SVD)</p></li>
+<li><p>Could add JAX backend in future if needed (modular design allows this)</p></li>
+</ul>
+</section>
+<section id="triton-for-custom-kernels">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Triton for Custom Kernels</a><a class="headerlink" href="#triton-for-custom-kernels" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Triton for performance-critical kernels, PyTorch fallback</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Automatically uses Triton if available and beneficial (χ&gt;64)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.triton_kernels.mps_complex</span><span class="w"> </span><span class="kn">import</span> <span class="n">fused_two_qubit_gate</span>
+
+<span class="c1"># Falls back to PyTorch if:</span>
+<span class="c1"># - Triton not installed</span>
+<span class="c1"># - χ too small (overhead dominates)</span>
+<span class="c1"># - Operation not implemented in Triton</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Performance</strong>: 1.5-3× speedup for χ&gt;64 via fusion</p></li>
+<li><p><strong>Maintainability</strong>: Python syntax easier than CUDA C++</p></li>
+<li><p><strong>Portability</strong>: Triton compiles for different GPUs</p></li>
+<li><p><strong>Optional</strong>: Not required, provides bonus performance</p></li>
+</ol>
+<p><strong>CUDA C++ consideration</strong>:</p>
+<p>Could achieve 10-20% more performance, but:</p>
+<ul class="simple">
+<li><p>Development time 5-10× longer</p></li>
+<li><p>Maintenance burden much higher</p></li>
+<li><p>NVIDIA-only (Triton compiles for AMD ROCm potentially)</p></li>
+</ul>
+</section>
+<section id="cuquantum-integration">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">cuQuantum Integration</a><a class="headerlink" href="#cuquantum-integration" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Optional cuQuantum backend for &gt;2× SVD speedup</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumConfig</span><span class="p">,</span> <span class="n">CuQuantumBackend</span>
+
+<span class="c1"># Optional: Use cuQuantum for better performance</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span><span class="n">svd_algorithm</span><span class="o">=</span><span class="s1">&#39;gesvdj&#39;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Performance</strong>: 2-3× faster SVD for χ&gt;128 (dominant bottleneck)</p></li>
+<li><p><strong>Optional</strong>: Works without cuQuantum (PyTorch fallback)</p></li>
+<li><p><strong>NVIDIA-specific</strong>: Leverages cutting-edge GPU tensor network research</p></li>
+<li><p><strong>Future-proof</strong>: Can add other backends (AMD, Intel) similarly</p></li>
+</ol>
+<p><strong>Alternative</strong>: Require cuQuantum</p>
+<ul class="simple">
+<li><p>Pros: Always maximum performance</p></li>
+<li><p>Cons: NVIDIA-only, complicates installation</p></li>
+<li><p><strong>Rejected</strong>: Portability and ease-of-install important</p></li>
+</ul>
+</section>
+</section>
+<section id="numerical-stability">
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">Numerical Stability</a><a class="headerlink" href="#numerical-stability" title="Link to this heading">#</a></h2>
+<section id="robust-linear-algebra">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Robust Linear Algebra</a><a class="headerlink" href="#robust-linear-algebra" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Automatic fallbacks for ill-conditioned operations</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.linalg_robust</span><span class="w"> </span><span class="kn">import</span> <span class="n">robust_svd</span>
+
+<span class="c1"># Automatic fallback sequence:</span>
+<span class="c1"># 1. Try torch.linalg.svd on GPU</span>
+<span class="c1"># 2. Add Tikhonov regularization if ill-conditioned</span>
+<span class="c1"># 3. Fall back to CPU if GPU fails</span>
+<span class="c1"># 4. Try different LAPACK drivers</span>
+
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span> <span class="o">=</span> <span class="n">robust_svd</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Reliability</strong>: SVD failures crash simulations</p></li>
+<li><p><strong>Automatic</strong>: Users shouldn’t debug linear algebra</p></li>
+<li><p><strong>Performance</strong>: Only use fallbacks when necessary</p></li>
+<li><p><strong>Transparency</strong>: Log warnings when using fallbacks</p></li>
+</ol>
+<p><strong>Alternative</strong>: Let SVD fail, user handles</p>
+<ul class="simple">
+<li><p>Pros: Explicit, no hidden behavior</p></li>
+<li><p>Cons: Most users can’t debug cuSOLVER failures</p></li>
+<li><p><strong>Rejected</strong>: Too difficult for typical users</p></li>
+</ul>
+</section>
+<section id="mixed-precision-strategy">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">Mixed Precision Strategy</a><a class="headerlink" href="#mixed-precision-strategy" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: complex64 default, complex128 for stability</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Default: complex64 (faster, sufficient for most)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span>
+
+<span class="c1"># High precision when needed</span>
+<span class="n">mps_precise</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+
+<span class="c1"># Automatic promotion policy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DTypePolicy</span>
+<span class="n">policy</span> <span class="o">=</span> <span class="n">DTypePolicy</span><span class="p">(</span>
+    <span class="n">default</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span>
+    <span class="n">promote_if_cond_gt</span><span class="o">=</span><span class="mf">1e6</span>  <span class="c1"># Auto-upgrade on ill-conditioning</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Performance</strong>: complex64 is 2× faster and uses half memory</p></li>
+<li><p><strong>Sufficient</strong>: Most simulations don’t need complex128 precision</p></li>
+<li><p><strong>Safety</strong>: Auto-promotion prevents silent errors</p></li>
+<li><p><strong>Control</strong>: Users can force complex128 if needed</p></li>
+</ol>
+</section>
+<section id="canonical-form-management">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">Canonical Form Management</a><a class="headerlink" href="#canonical-form-management" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Maintain canonical form lazily, enforce before TDVP</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Gates don&#39;t canonicalize (fast)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">29</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">29</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Algorithms canonicalize when needed</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span><span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>  <span class="c1"># Canonicalizes here</span>
+
+<span class="c1"># Manual if needed</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Performance</strong>: Canonicalization is <span class="math notranslate nohighlight">\(O(n \chi^3)\)</span> - expensive</p></li>
+<li><p><strong>Not always needed</strong>: Gate application doesn’t require it</p></li>
+<li><p><strong>Automatic for algorithms</strong>: TDVP, measurements require it</p></li>
+<li><p><strong>User control</strong>: Can force when needed</p></li>
+</ol>
+</section>
+</section>
+<section id="memory-management">
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">Memory Management</a><a class="headerlink" href="#memory-management" title="Link to this heading">#</a></h2>
+<section id="adaptive-memory-budgets">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Adaptive Memory Budgets</a><a class="headerlink" href="#adaptive-memory-budgets" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Global memory budgets with automatic χ reduction</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">budget_global_mb</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span>  <span class="c1"># 10 GB limit</span>
+    <span class="n">adaptive_mode</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Automatically reduces χ if budget exceeded</span>
+<span class="c1"># Tracks truncation error from budget constraints</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Prevent OOM</strong>: GPU out-of-memory crashes entire process</p></li>
+<li><p><strong>Graceful degradation</strong>: Reduce χ rather than crash</p></li>
+<li><p><strong>Transparency</strong>: Track error from budget reduction</p></li>
+<li><p><strong>Research</strong>: Can disable for maximum accuracy</p></li>
+</ol>
+<p><strong>Alternative</strong>: Crash on OOM</p>
+<ul class="simple">
+<li><p>Pros: Explicit failure</p></li>
+<li><p>Cons: Lose entire computation</p></li>
+<li><p><strong>Rejected</strong>: Graceful degradation better for long-running simulations</p></li>
+</ul>
+</section>
+<section id="pytorch-allocator-strategy">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">PyTorch Allocator Strategy</a><a class="headerlink" href="#pytorch-allocator-strategy" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Use PyTorch’s caching allocator, clear cache strategically</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># PyTorch caches freed memory (fast)</span>
+<span class="c1"># Manually clear when switching tasks</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">empty_cache</span><span class="p">()</span>  <span class="c1"># Return memory to CUDA</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Performance</strong>: Allocation ~100× faster with cache</p></li>
+<li><p><strong>Fragmentation</strong>: Large simulations fragment memory</p></li>
+<li><p><strong>Control</strong>: User can clear when needed</p></li>
+<li><p><strong>Automatic</strong>: PyTorch manages cache size</p></li>
+</ol>
+</section>
+<section id="in-place-operations">
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">In-Place Operations</a><a class="headerlink" href="#in-place-operations" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Use in-place operations for large tensors when safe</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In-place (good for memory)</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">factor</span><span class="p">)</span>
+
+<span class="c1"># Out-of-place (creates copy)</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">factor</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Memory</strong>: Avoid temporary copies for large tensors</p></li>
+<li><p><strong>Safety</strong>: Only when semantics allow (no dependencies)</p></li>
+<li><p><strong>Performance</strong>: Reduces memory traffic</p></li>
+</ol>
+</section>
+</section>
+<section id="modularity-and-extension">
+<h2><a class="toc-backref" href="#id24" role="doc-backlink">Modularity and Extension</a><a class="headerlink" href="#modularity-and-extension" title="Link to this heading">#</a></h2>
+<section id="backend-interface">
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">Backend Interface</a><a class="headerlink" href="#backend-interface" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Abstract backend interface for different implementations</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TensorBackend</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">svd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span> <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">qr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span> <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> <span class="o">...</span>
+
+<span class="c1"># Implementations</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PyTorchBackend</span><span class="p">(</span><span class="n">TensorBackend</span><span class="p">):</span> <span class="o">...</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CuQuantumBackend</span><span class="p">(</span><span class="n">TensorBackend</span><span class="p">):</span> <span class="o">...</span>
+<span class="c1"># Future: JAXBackend, NumPyBackend</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Extensibility</strong>: Add new backends (AMD, Intel) without touching core</p></li>
+<li><p><strong>Testing</strong>: Mock backend for unit tests</p></li>
+<li><p><strong>Comparison</strong>: Benchmark different backends easily</p></li>
+<li><p><strong>Future-proof</strong>: Quantum hardware may have custom backends</p></li>
+</ol>
+</section>
+<section id="algorithm-plugin-architecture">
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">Algorithm Plugin Architecture</a><a class="headerlink" href="#algorithm-plugin-architecture" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Algorithms are separate classes, not methods on MPS</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: Algorithm as separate class</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span><span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="n">tdvp</span><span class="o">.</span><span class="n">evolve_step</span><span class="p">()</span>
+
+<span class="c1"># Bad: Algorithm as MPS method</span>
+<span class="c1"># mps.tdvp_evolve(hamiltonian=H, dt=0.05)  # Not scalable</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Separation of concerns</strong>: MPS is data structure, algorithms use it</p></li>
+<li><p><strong>Extensibility</strong>: Add algorithms without modifying MPS class</p></li>
+<li><p><strong>Testing</strong>: Test algorithms independently</p></li>
+<li><p><strong>State</strong>: Algorithms maintain their own state (environment tensors, etc.)</p></li>
+</ol>
+<p><strong>Alternative</strong>: Algorithms as MPS methods</p>
+<ul class="simple">
+<li><p>Pros: Simpler API, fewer imports</p></li>
+<li><p>Cons: MPS class becomes huge, hard to extend</p></li>
+<li><p><strong>Rejected</strong>: Poor separation of concerns</p></li>
+</ul>
+</section>
+<section id="flexible-gate-interface">
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">Flexible Gate Interface</a><a class="headerlink" href="#flexible-gate-interface" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Support multiple gate specification formats</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matrix format</span>
+<span class="n">gate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">apply_one_site_gate</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">site</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># String format (convenience)</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">apply_h</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>     <span class="c1"># Hadamard</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>  <span class="c1"># CNOT</span>
+
+<span class="c1"># Batch format</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">apply_batch_single_gates</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Convenience</strong>: String format for common gates</p></li>
+<li><p><strong>Flexibility</strong>: Matrix for custom gates</p></li>
+<li><p><strong>Performance</strong>: Batch for many gates</p></li>
+<li><p><strong>Compatibility</strong>: Different use cases prefer different formats</p></li>
+</ol>
+</section>
+</section>
+<section id="error-handling">
+<h2><a class="toc-backref" href="#id28" role="doc-backlink">Error Handling</a><a class="headerlink" href="#error-handling" title="Link to this heading">#</a></h2>
+<section id="fail-fast-philosophy">
+<h3><a class="toc-backref" href="#id29" role="doc-backlink">Fail-Fast Philosophy</a><a class="headerlink" href="#fail-fast-philosophy" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Detect errors early, fail with clear messages</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+
+<span class="c1"># Fail fast on invalid input</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="mi">49</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>  <span class="c1"># Out of bounds</span>
+<span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>  <span class="c1"># &quot;qubit_b=50 out of range [0, 49]&quot;</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Debugging</strong>: Catch errors at source, not later</p></li>
+<li><p><strong>Clear messages</strong>: Include values and valid ranges</p></li>
+<li><p><strong>Type safety</strong>: Validate inputs before expensive operations</p></li>
+</ol>
+</section>
+<section id="warnings-for-numerical-issues">
+<h3><a class="toc-backref" href="#id30" role="doc-backlink">Warnings for Numerical Issues</a><a class="headerlink" href="#warnings-for-numerical-issues" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Warn on numerical instability, don’t crash</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="c1"># Warn on high condition number</span>
+<span class="k">if</span> <span class="n">condition_number</span> <span class="o">&gt;</span> <span class="mf">1e6</span><span class="p">:</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;High condition number </span><span class="si">{</span><span class="n">cond</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">, consider complex128&quot;</span><span class="p">)</span>
+
+<span class="c1"># Warn on large truncation error</span>
+<span class="k">if</span> <span class="n">global_error</span> <span class="o">&gt;</span> <span class="n">user_threshold</span><span class="p">:</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Global error </span><span class="si">{</span><span class="n">global_error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> exceeds threshold&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Don’t crash</strong>: Simulations can continue</p></li>
+<li><p><strong>Inform user</strong>: They can decide if error acceptable</p></li>
+<li><p><strong>Actionable</strong>: Message suggests fix (use complex128, increase χ)</p></li>
+</ol>
+</section>
+<section id="graceful-degradation">
+<h3><a class="toc-backref" href="#id31" role="doc-backlink">Graceful Degradation</a><a class="headerlink" href="#graceful-degradation" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Fall back to slower but correct operations</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Try fast path</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+    <span class="c1"># Fall back to CPU</span>
+    <span class="n">tensor_cpu</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+    <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">tensor_cpu</span><span class="p">)</span>
+    <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">cuda</span><span class="p">(),</span> <span class="n">S</span><span class="o">.</span><span class="n">cuda</span><span class="p">(),</span> <span class="n">Vh</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;SVD failed on GPU, fell back to CPU&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Reliability</strong>: Simulation completes even if GPU SVD fails</p></li>
+<li><p><strong>Transparency</strong>: User informed of performance degradation</p></li>
+<li><p><strong>Research</strong>: Don’t lose hours of computation to rare GPU glitch</p></li>
+</ol>
+</section>
+</section>
+<section id="future-proofing">
+<h2><a class="toc-backref" href="#id32" role="doc-backlink">Future-Proofing</a><a class="headerlink" href="#future-proofing" title="Link to this heading">#</a></h2>
+<section id="extensibility-points">
+<h3><a class="toc-backref" href="#id33" role="doc-backlink">Extensibility Points</a><a class="headerlink" href="#extensibility-points" title="Link to this heading">#</a></h3>
+<p><strong>Designed for extension</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Backends</strong>: Add JAX, NumPy, vendor-specific backends</p></li>
+<li><p><strong>Algorithms</strong>: Plugin new algorithms (MERA, PEPS evolution)</p></li>
+<li><p><strong>Gates</strong>: Custom gates via matrix interface</p></li>
+<li><p><strong>Noise models</strong>: Extensible noise model framework</p></li>
+<li><p><strong>Hamiltonians</strong>: Custom MPO construction</p></li>
+</ol>
+</section>
+<section id="version-compatibility">
+<h3><a class="toc-backref" href="#id34" role="doc-backlink">Version Compatibility</a><a class="headerlink" href="#version-compatibility" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Maintain backwards compatibility for 1.x releases</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Legacy APIs kept for compatibility</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adaptive_mps</span>  <span class="c1"># Old style</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>  <span class="c1"># New style</span>
+<span class="c1"># Both work</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>User trust</strong>: Breaking changes hurt adoption</p></li>
+<li><p><strong>Deprecation path</strong>: Warnings for 2 releases before removal</p></li>
+<li><p><strong>Documentation</strong>: Clear migration guides</p></li>
+<li><p><strong>Semantic versioning</strong>: Follow semver strictly</p></li>
+</ol>
+</section>
+<section id="configuration-system">
+<h3><a class="toc-backref" href="#id35" role="doc-backlink">Configuration System</a><a class="headerlink" href="#configuration-system" title="Link to this heading">#</a></h3>
+<p><strong>Decision</strong>: Dataclasses for configuration, not dicts</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">VQEConfig</span><span class="p">:</span>
+    <span class="n">max_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span>
+    <span class="n">optimizer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;L-BFGS-B&#39;</span>
+    <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span>
+    <span class="n">bond_dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span>
+
+<span class="c1"># Type-checked, autocomplete in IDEs</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Type safety</strong>: Catch typos at development time</p></li>
+<li><p><strong>Documentation</strong>: Self-documenting via type annotations</p></li>
+<li><p><strong>IDE support</strong>: Autocomplete, type checking</p></li>
+<li><p><strong>Validation</strong>: Can add validators to dataclass</p></li>
+</ol>
+</section>
+</section>
+<section id="lessons-learned">
+<h2><a class="toc-backref" href="#id36" role="doc-backlink">Lessons Learned</a><a class="headerlink" href="#lessons-learned" title="Link to this heading">#</a></h2>
+<section id="what-worked-well">
+<h3><a class="toc-backref" href="#id37" role="doc-backlink">What Worked Well</a><a class="headerlink" href="#what-worked-well" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>PyTorch choice</strong>: GPU support and ecosystem exceeded expectations</p></li>
+<li><p><strong>Adaptive bond dimension</strong>: Default for 90% of use cases</p></li>
+<li><p><strong>Statistics tracking</strong>: Essential for research, &lt;1% overhead</p></li>
+<li><p><strong>Modular backends</strong>: Made cuQuantum integration trivial</p></li>
+<li><p><strong>Device-agnostic API</strong>: Smooth development→production transition</p></li>
+</ol>
+</section>
+<section id="what-we-d-change">
+<h3><a class="toc-backref" href="#id38" role="doc-backlink">What We’d Change</a><a class="headerlink" href="#what-we-d-change" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Earlier cuQuantum integration</strong>: Should have been day-one priority</p></li>
+<li><p><strong>Dataclasses from start</strong>: Would have caught more bugs early</p></li>
+<li><p><strong>More aggressive in-place</strong>: Could save 10-20% memory</p></li>
+<li><p><strong>Benchmark suite</strong>: Should have built comprehensive benchmarks earlier</p></li>
+<li><p><strong>JAX exploration</strong>: Should pilot JAX backend for comparison</p></li>
+</ol>
+</section>
+<section id="trade-offs-we-accept">
+<h3><a class="toc-backref" href="#id39" role="doc-backlink">Trade-Offs We Accept</a><a class="headerlink" href="#trade-offs-we-accept" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>PyTorch dependency</strong>: Heavy, but worth it for GPU support</p></li>
+<li><p><strong>Statistics overhead</strong>: &lt;1% performance for essential observability</p></li>
+<li><p><strong>Automatic canonicalization</strong>: Hidden operation, but prevents errors</p></li>
+<li><p><strong>Memory for speed</strong>: Cache allocations rather than minimize memory</p></li>
+<li><p><strong>Complexity for performance</strong>: Triton kernels add complexity for 2-3× speedup</p></li>
+</ol>
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id40" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>ATLAS-Q’s design prioritizes:</p>
+<p><strong>Core Decisions</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>PyTorch foundation</strong>: Best GPU support and ecosystem</p></li>
+<li><p><strong>Adaptive by default</strong>: Better accuracy/performance balance</p></li>
+<li><p><strong>Fail safely</strong>: Automatic stability measures, graceful degradation</p></li>
+<li><p><strong>Modular architecture</strong>: Clean separation, extensible backends</p></li>
+<li><p><strong>Observable</strong>: Comprehensive statistics and diagnostics</p></li>
+</ol>
+<p><strong>Key Innovations</strong>:</p>
+<ul class="simple">
+<li><p>Adaptive bond dimensions with memory budgets</p></li>
+<li><p>Robust linear algebra with automatic fallbacks</p></li>
+<li><p>Mixed precision with automatic promotion</p></li>
+<li><p>Modular backend system for future extensibility</p></li>
+<li><p>Comprehensive statistics with minimal overhead</p></li>
+</ul>
+<p><strong>Trade-Offs</strong>:</p>
+<ul class="simple">
+<li><p>Heavy PyTorch dependency for GPU support</p></li>
+<li><p>Some hidden operations (canonicalization) for stability</p></li>
+<li><p>Memory overhead for performance (caching, statistics)</p></li>
+</ul>
+<p><strong>Design Principles</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Performance by default</strong>: Fast without configuration</p></li>
+<li><p><strong>Fail safely</strong>: Prevent silent numerical errors</p></li>
+<li><p><strong>User control</strong>: Override defaults when needed</p></li>
+<li><p><strong>Extensibility</strong>: Add new backends and algorithms easily</p></li>
+<li><p><strong>Research-friendly</strong>: Observe simulation internals</p></li>
+</ol>
+<p>These decisions enable ATLAS-Q to:</p>
+<ul class="simple">
+<li><p>Simulate 100+ qubits on single GPU</p></li>
+<li><p>Achieve 10-100× CPU speedup</p></li>
+<li><p>Maintain numerical stability automatically</p></li>
+<li><p>Support research with comprehensive diagnostics</p></li>
+<li><p>Extend to new hardware and algorithms</p></li>
+</ul>
+<p>For implementation details of specific design decisions, see:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="gpu_acceleration.html"><span class="doc">GPU Acceleration</span></a> - GPU backend implementation</p></li>
+<li><p><a class="reference internal" href="numerical_stability.html"><span class="doc">Numerical Stability</span></a> - Stability mechanisms</p></li>
+<li><p><a class="reference internal" href="performance_model.html"><span class="doc">Performance Model</span></a> - Performance implications of design choices</p></li>
+<li><p><a class="reference internal" href="comparisons.html"><span class="doc">Comparisons</span></a> - How ATLAS-Q compares to alternative designs</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="performance_model.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Performance Model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="comparisons.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Comparisons</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#design-philosophy">Design Philosophy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-approaches-considered">Alternative Approaches Considered</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-architecture">Core Architecture</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mps-representation">MPS Representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-vs-fixed-bond-dimension">Adaptive vs Fixed Bond Dimension</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistics-and-diagnostics">Statistics and Diagnostics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-design">API Design</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#device-agnostic-interface">Device Agnostic Interface</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lazy-vs-eager-imports">Lazy vs Eager Imports</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automatic-vs-manual-canonicalization">Automatic vs Manual Canonicalization</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-selection">Backend Selection</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-as-foundation">PyTorch as Foundation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#triton-for-custom-kernels">Triton for Custom Kernels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuquantum-integration">cuQuantum Integration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-stability">Numerical Stability</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#robust-linear-algebra">Robust Linear Algebra</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-precision-strategy">Mixed Precision Strategy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#canonical-form-management">Canonical Form Management</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-management">Memory Management</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-memory-budgets">Adaptive Memory Budgets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-allocator-strategy">PyTorch Allocator Strategy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#in-place-operations">In-Place Operations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modularity-and-extension">Modularity and Extension</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-interface">Backend Interface</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-plugin-architecture">Algorithm Plugin Architecture</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#flexible-gate-interface">Flexible Gate Interface</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-handling">Error Handling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fail-fast-philosophy">Fail-Fast Philosophy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#warnings-for-numerical-issues">Warnings for Numerical Issues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graceful-degradation">Graceful Degradation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#future-proofing">Future-Proofing</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extensibility-points">Extensibility Points</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#version-compatibility">Version Compatibility</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-system">Configuration System</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lessons-learned">Lessons Learned</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-worked-well">What Worked Well</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-we-d-change">What We’d Change</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trade-offs-we-accept">Trade-Offs We Accept</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

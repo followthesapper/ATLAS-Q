@@ -1,0 +1,1200 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>atlas_q.linalg_robust &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/linalg_robust';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="atlas_q.linalg_robust.robust_svd" href="generated/atlas_q.linalg_robust.robust_svd.html" />
+    <link rel="prev" title="atlas_q.diagnostics.MPSStatistics" href="generated/atlas_q.diagnostics.MPSStatistics.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="adaptive_mps.html">atlas_q.adaptive_mps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mpo_ops.html">atlas_q.mpo_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPOBuilder.html">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tdvp.html">atlas_q.tdvp</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="vqe_qaoa.html">atlas_q.vqe_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="grover.html">atlas_q.grover</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="stabilizer_backend.html">atlas_q.stabilizer_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="noise_models.html">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planar_2d.html">2D/Planar Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributed_mps.html">Distributed MPS</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cuquantum_backend.html">atlas_q.cuquantum_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="diagnostics.html">atlas_q.diagnostics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">atlas_q.linalg_robust</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="truncation.html">atlas_q.truncation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.linalg_robust</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-atlas_q.linalg_robust">
+<span id="atlas-q-linalg-robust"></span><h1>atlas_q.linalg_robust<a class="headerlink" href="#module-atlas_q.linalg_robust" title="Link to this heading">#</a></h1>
+<p>Robust Linear Algebra Operations with Fallback Cascade</p>
+<p>Provides GPU-first SVD with automatic fallback to CPU and jitter-based
+recovery for numerically unstable matrices.</p>
+<p>Author: ATLAS-Q Contributors
+Date: October 2025
+License: MIT</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.linalg_robust.robust_svd">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.linalg_robust.</span></span><span class="sig-name descname"><span class="pre">robust_svd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/linalg_robust.html#robust_svd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.linalg_robust.robust_svd" title="Link to this definition">#</a></dt>
+<dd><p>Robust SVD with fallback cascade: CUDA → jitter → CPU</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>X: Input tensor to decompose</p>
+</dd>
+<dt>Returns:</dt><dd><p>U, S, Vh, driver_used</p>
+</dd>
+</dl>
+<p>Strategy:
+1. Try torch.linalg.svd on GPU (cuSOLVER backend)
+2. If fails, add small jitter and retry on GPU
+3. If still fails, fall back to CPU SVD
+4. Return which driver succeeded for diagnostics</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.linalg_robust.robust_qr">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.linalg_robust.</span></span><span class="sig-name descname"><span class="pre">robust_qr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/linalg_robust.html#robust_qr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.linalg_robust.robust_qr" title="Link to this definition">#</a></dt>
+<dd><p>Robust QR decomposition with fallback</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>X: Input tensor to decompose</p>
+</dd>
+<dt>Returns:</dt><dd><p>Q, R, driver_used</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.linalg_robust.condition_number">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.linalg_robust.</span></span><span class="sig-name descname"><span class="pre">condition_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/linalg_robust.html#condition_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.linalg_robust.condition_number" title="Link to this definition">#</a></dt>
+<dd><p>Compute condition number from singular values</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values (sorted descending)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Condition number (σ_max / σ_min)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">linalg_robust</span></code> module provides GPU-accelerated linear algebra operations with automatic fallback mechanisms for numerical stability. Critical for reliable tensor network simulations where ill-conditioned matrices can arise from accumulated roundoff errors or singular configurations.</p>
+<p><strong>Numerical Challenges in MPS</strong></p>
+<p>Matrix Product State operations require frequent Singular Value Decompositions (SVD) and QR factorizations. Challenges include:</p>
+<ol class="arabic simple">
+<li><p><strong>Ill-conditioned matrices</strong>: Condition numbers κ &gt; 10⁶ cause numerical instabilities</p></li>
+<li><p><strong>Near-zero singular values</strong>: Singular values &lt; 10⁻¹⁴ (machine epsilon) can lead to convergence failures</p></li>
+<li><p><strong>GPU limitations</strong>: cuSOLVER occasionally fails on borderline cases that CPU LAPACK handles</p></li>
+<li><p><strong>Accumulated roundoff</strong>: Deep circuits accumulate floating-point errors</p></li>
+</ol>
+<p><strong>Fallback Cascade Strategy</strong></p>
+<p>The robust operations implement a three-tier strategy:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\text{SVD}(A) = \begin{cases}
+\text{cuSOLVER}(A) &amp; \text{if converges} \\
+\text{cuSOLVER}(A + \epsilon \cdot I) &amp; \text{if cuSOLVER fails, }\epsilon = 10^{-12} \\
+\text{LAPACK}(A) &amp; \text{if GPU fails (always succeeds)}
+\end{cases}\end{split}\]</div>
+<p>The jitter regularization adds a tiny diagonal perturbation <span class="math notranslate nohighlight">\(\epsilon I\)</span> to improve conditioning without significantly altering the decomposition.</p>
+<p><strong>Key Guarantees</strong></p>
+<ul class="simple">
+<li><p><strong>Always succeeds</strong>: Falls back to CPU if GPU fails</p></li>
+<li><p><strong>Minimal overhead</strong>: ~99% of operations succeed on GPU</p></li>
+<li><p><strong>Diagnostic tracking</strong>: Returns which driver succeeded</p></li>
+<li><p><strong>Automatic integration</strong>: Used transparently by AdaptiveMPS</p></li>
+</ul>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id0" title="atlas_q.linalg_robust.robust_svd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">robust_svd</span></code></a></p></td>
+<td><p>Robust SVD with fallback cascade: CUDA → jitter → CPU</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id1" title="atlas_q.linalg_robust.robust_qr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">robust_qr</span></code></a></p></td>
+<td><p>Robust QR decomposition with fallback</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id2" title="atlas_q.linalg_robust.condition_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">condition_number</span></code></a></p></td>
+<td><p>Compute condition number from singular values</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="robust-svd">
+<h2>robust_svd<a class="headerlink" href="#robust-svd" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.linalg_robust.</span></span><span class="sig-name descname"><span class="pre">robust_svd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/linalg_robust.html#robust_svd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dd><p>Robust SVD with fallback cascade: CUDA → jitter → CPU</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>X: Input tensor to decompose</p>
+</dd>
+<dt>Returns:</dt><dd><p>U, S, Vh, driver_used</p>
+</dd>
+</dl>
+<p>Strategy:
+1. Try torch.linalg.svd on GPU (cuSOLVER backend)
+2. If fails, add small jitter and retry on GPU
+3. If still fails, fall back to CPU SVD
+4. Return which driver succeeded for diagnostics</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<p>Performs singular value decomposition with a three-stage fallback cascade:</p>
+<ol class="arabic simple">
+<li><p>Direct CUDA SVD using cuSOLVER backend</p></li>
+<li><p>GPU SVD with small jitter added for numerical stability</p></li>
+<li><p>CPU fallback (always succeeds, slower)</p></li>
+</ol>
+<p>Returns the decomposition along with which driver succeeded for diagnostic purposes.</p>
+</section>
+<section id="robust-qr">
+<h2>robust_qr<a class="headerlink" href="#robust-qr" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.linalg_robust.</span></span><span class="sig-name descname"><span class="pre">robust_qr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/linalg_robust.html#robust_qr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition">#</a></dt>
+<dd><p>Robust QR decomposition with fallback</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>X: Input tensor to decompose</p>
+</dd>
+<dt>Returns:</dt><dd><p>Q, R, driver_used</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<p>Performs QR decomposition with fallback:</p>
+<ol class="arabic simple">
+<li><p>Direct CUDA QR</p></li>
+<li><p>CPU fallback if GPU fails</p></li>
+</ol>
+<p>Returns Q and R matrices along with driver information.</p>
+</section>
+<section id="condition-number">
+<h2>condition_number<a class="headerlink" href="#condition-number" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.linalg_robust.</span></span><span class="sig-name descname"><span class="pre">condition_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/linalg_robust.html#condition_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition">#</a></dt>
+<dd><p>Compute condition number from singular values</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values (sorted descending)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Condition number (σ_max / σ_min)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<p>Computes the condition number <span class="math notranslate nohighlight">\(\kappa = \sigma_{\text{max}} / \sigma_{\text{min}}\)</span> from singular values. Large condition numbers (&gt; 10⁶) indicate ill-conditioned matrices that may benefit from higher precision or regularization.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<p>Basic SVD with automatic fallback:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.linalg_robust</span><span class="w"> </span><span class="kn">import</span> <span class="n">robust_svd</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span><span class="p">,</span> <span class="n">driver</span> <span class="o">=</span> <span class="n">robust_svd</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SVD succeeded using: </span><span class="si">{</span><span class="n">driver</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Singular values: </span><span class="si">{</span><span class="n">S</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Checking condition number:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.linalg_robust</span><span class="w"> </span><span class="kn">import</span> <span class="n">robust_svd</span><span class="p">,</span> <span class="n">condition_number</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span><span class="p">,</span> <span class="n">driver</span> <span class="o">=</span> <span class="n">robust_svd</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">cond</span> <span class="o">=</span> <span class="n">condition_number</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Condition number: </span><span class="si">{</span><span class="n">cond</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">cond</span> <span class="o">&gt;</span> <span class="mf">1e6</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Matrix is ill-conditioned&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>QR decomposition:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.linalg_robust</span><span class="w"> </span><span class="kn">import</span> <span class="n">robust_qr</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">driver</span> <span class="o">=</span> <span class="n">robust_qr</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;QR succeeded using: </span><span class="si">{</span><span class="n">driver</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Verify orthogonality</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">Q</span><span class="p">)</span>
+<span class="n">error</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">I</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Orthogonality error: </span><span class="si">{</span><span class="n">error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Integration with AdaptiveMPS:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># AdaptiveMPS automatically uses robust_svd internally</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apply gates - robust SVD handles any numerical issues</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+
+<span class="c1"># Check statistics to see fallback usage</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">stats_summary</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU SVD usage: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;cuda_svd_pct&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CPU fallback usage: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;cpu_fallback_pct&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="error-handling">
+<h2>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading">#</a></h2>
+<p>The robust linear algebra routines never raise exceptions for numerical failures. Instead, they automatically fall back through strategies until one succeeds. This ensures simulations continue even with challenging numerical conditions.</p>
+<p>Driver Return Values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'torch_cuda'</span></code> - Successful GPU SVD/QR</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'torch_cuda_jitter'</span></code> - GPU SVD with jitter regularization</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'torch_cpu'</span></code> - CPU fallback was required</p></li>
+</ul>
+<p><strong>Example 4: Handling Ill-Conditioned Matrices</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.linalg_robust</span><span class="w"> </span><span class="kn">import</span> <span class="n">robust_svd</span><span class="p">,</span> <span class="n">condition_number</span>
+
+<span class="c1"># Create an ill-conditioned matrix</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">A</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-10</span>  <span class="c1"># Make first two columns nearly identical</span>
+
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span><span class="p">,</span> <span class="n">driver</span> <span class="o">=</span> <span class="n">robust_svd</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="n">cond</span> <span class="o">=</span> <span class="n">condition_number</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Condition number: </span><span class="si">{</span><span class="n">cond</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Driver used: </span><span class="si">{</span><span class="n">driver</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Even with κ ~ 10¹⁰, robust_svd succeeds</span>
+<span class="c1"># Likely falls back to jitter or CPU</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-considerations">
+<h2>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading">#</a></h2>
+<p><strong>Fallback Frequency</strong></p>
+<p>In typical MPS simulations:</p>
+<ul class="simple">
+<li><p><strong>torch_cuda</strong>: 98-99% of SVDs (fast GPU path)</p></li>
+<li><p><strong>torch_cuda_jitter</strong>: 0.5-1% (negligible overhead)</p></li>
+<li><p><strong>torch_cpu</strong>: 0.1-0.5% (2-10× slower but rare)</p></li>
+</ul>
+<p><strong>Timing Comparison</strong> (50×50 complex64 matrix)</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id5">
+<caption><span class="caption-text">SVD Performance</span><a class="headerlink" href="#id5" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 20.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Time (µs)</p></th>
+<th class="head"><p>Relative</p></th>
+<th class="head"><p>Success Rate</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>cuSOLVER (direct)</p></td>
+<td><p>45</p></td>
+<td><p>1.0×</p></td>
+<td><p>98%</p></td>
+</tr>
+<tr class="row-odd"><td><p>cuSOLVER + jitter</p></td>
+<td><p>48</p></td>
+<td><p>1.07×</p></td>
+<td><p>99.9%</p></td>
+</tr>
+<tr class="row-even"><td><p>CPU LAPACK</p></td>
+<td><p>320</p></td>
+<td><p>7.1×</p></td>
+<td><p>100%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The overhead of fallback logic is negligible (&lt; 1µs).</p>
+<p><strong>Memory Usage</strong></p>
+<ul class="simple">
+<li><p><strong>GPU path</strong>: Workspace O(mn) on GPU</p></li>
+<li><p><strong>CPU fallback</strong>: Temporary copy to CPU (8mn bytes for complex64)</p></li>
+<li><p>Jitter: No additional memory (in-place modification)</p></li>
+</ul>
+<p><strong>When Fallbacks Occur</strong></p>
+<p>Common scenarios triggering fallbacks:</p>
+<ol class="arabic simple">
+<li><p><strong>Deep circuits</strong> (&gt; 100 layers): Accumulated roundoff errors</p></li>
+<li><p><strong>Small singular values</strong>: σ_min &lt; 10⁻¹²</p></li>
+<li><p><strong>Highly entangled states</strong>: κ &gt; 10⁸</p></li>
+<li><p><strong>Malformed gates</strong>: Non-unitary or near-singular</p></li>
+</ol>
+<p><strong>Optimization Strategies</strong></p>
+<ol class="arabic">
+<li><p><strong>Use complex128 for deep circuits</strong>: Reduces roundoff accumulation</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Monitor condition numbers</strong>: Alert on κ &gt; 10⁶</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stats</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">stats_summary</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;max_condition_number&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1e6</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Ill-conditioned matrices detected&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><a href="#id3"><span class="problematic" id="id4">**</span></a>Periodic recanonical**ization: Reset numerical errors</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">chi_max</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>  <span class="c1"># Full SVD sweep</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Increase truncation threshold</strong>: eps_bond=1e-8 → 1e-6 for stability</p></li>
+</ol>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<p><strong>Development/Debugging</strong></p>
+<ul class="simple">
+<li><p>Enable verbose logging to track fallback frequency</p></li>
+<li><p>Plot condition numbers vs. circuit depth</p></li>
+<li><p>Test with both float32 and float64 to identify numerical issues</p></li>
+</ul>
+<p><strong>Production</strong></p>
+<ul class="simple">
+<li><p>Monitor CPU fallback rate (should be &lt; 1%)</p></li>
+<li><p>Alert if rate &gt; 5% (indicates systematic numerical problems)</p></li>
+<li><p>Use mixed precision: complex64 for most operations, complex128 for final result</p></li>
+</ul>
+<p><strong>Benchmarking</strong></p>
+<p>Compare GPU-only vs. robust implementations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># GPU-only (may fail)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">gpu_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="c1"># Robust (always succeeds)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.linalg_robust</span><span class="w"> </span><span class="kn">import</span> <span class="n">robust_svd</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vh</span><span class="p">,</span> <span class="n">driver</span> <span class="o">=</span> <span class="n">robust_svd</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">robust_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU: </span><span class="si">{</span><span class="n">gpu_time</span><span class="o">*</span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> µs&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Robust: </span><span class="si">{</span><span class="n">robust_time</span><span class="o">*</span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> µs (</span><span class="si">{</span><span class="n">robust_time</span><span class="o">/</span><span class="n">gpu_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">× overhead)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Driver: </span><span class="si">{</span><span class="n">driver</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Typical overhead: &lt; 5% for normal matrices.</p>
+</section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">#</a></h2>
+<p><strong>Complex128 Performance</strong></p>
+<ul class="simple">
+<li><p>~2× slower than complex64 on GPU</p></li>
+<li><p>Worth it for circuits &gt; 50 layers or κ &gt; 10⁸</p></li>
+</ul>
+<p><strong>CPU Fallback Latency</strong></p>
+<ul class="simple">
+<li><p>Can cause 10× slowdown if frequent (&gt; 10%)</p></li>
+<li><p>Consider cuQuantum backend for better GPU stability</p></li>
+</ul>
+<p><strong>Jitter Side Effects</strong></p>
+<ul class="simple">
+<li><p>Jitter ε = 10⁻¹² alters singular values by O(ε)</p></li>
+<li><p>Negligible for typical thresholds (&gt; 10⁻¹⁰)</p></li>
+<li><p>May affect very high-precision requirements</p></li>
+</ul>
+</section>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h2>
+<p><strong>Critical for:</strong></p>
+<ul class="simple">
+<li><p>Deep quantum circuits (&gt; 50 layers)</p></li>
+<li><p>High-entanglement states (χ &gt; 64)</p></li>
+<li><p>Long-running simulations (hours)</p></li>
+<li><p>Production systems requiring reliability</p></li>
+</ul>
+<p><strong>Optional for:</strong></p>
+<ul class="simple">
+<li><p>Shallow circuits (&lt; 20 layers)</p></li>
+<li><p>Low entanglement (χ &lt; 32)</p></li>
+<li><p>Exploratory development</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="adaptive_mps.html"><span class="doc">atlas_q.adaptive_mps</span></a> - MPS using robust linear algebra internally</p></li>
+<li><p><a class="reference internal" href="diagnostics.html"><span class="doc">atlas_q.diagnostics</span></a> - Condition number monitoring and statistics</p></li>
+<li><p><a class="reference internal" href="truncation.html"><span class="doc">atlas_q.truncation</span></a> - Truncation strategies for numerical stability</p></li>
+<li><p><a class="reference internal" href="cuquantum_backend.html"><span class="doc">atlas_q.cuquantum_backend</span></a> - Alternative GPU backend with different stability profile</p></li>
+<li><p><a class="reference internal" href="../user_guide/explanations/numerical_stability.html"><span class="doc">Numerical Stability</span></a> - Detailed numerical stability discussion</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="golub13" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Golub13<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="7">
+<li><ol class="upperalpha simple" start="8">
+<li><p>Golub &amp; C. F. Van Loan, <em>Matrix Computations</em>, 4th edition, Johns Hopkins University Press (2013).</p></li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="citation" id="higham02" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Higham02<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="14">
+<li><ol class="upperalpha simple" start="10">
+<li><p>Higham, <em>Accuracy and Stability of Numerical Algorithms</em>, 2nd edition, SIAM (2002).</p></li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="citation" id="dongarra03" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Dongarra03<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="10">
+<li><p>Dongarra et al., “The impact of multicore on computational science software,” <em>CTWatch Quarterly</em> 3, 1 (2007).</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="generated/atlas_q.diagnostics.MPSStatistics.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">atlas_q.diagnostics.MPSStatistics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="generated/atlas_q.linalg_robust.robust_svd.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">atlas_q.linalg_robust.robust_svd</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.linalg_robust.robust_svd"><code class="docutils literal notranslate"><span class="pre">robust_svd()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.linalg_robust.robust_qr"><code class="docutils literal notranslate"><span class="pre">robust_qr()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.linalg_robust.condition_number"><code class="docutils literal notranslate"><span class="pre">condition_number()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#robust-svd">robust_svd</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">robust_svd()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#robust-qr">robust_qr</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><code class="docutils literal notranslate"><span class="pre">robust_qr()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condition-number">condition_number</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><code class="docutils literal notranslate"><span class="pre">condition_number()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-handling">Error Handling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-considerations">Performance Considerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

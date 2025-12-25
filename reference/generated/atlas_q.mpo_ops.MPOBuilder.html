@@ -1,0 +1,993 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>atlas_q.mpo_ops.MPOBuilder &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/generated/atlas_q.mpo_ops.MPOBuilder';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="atlas_q.mpo_ops.expectation_value" href="atlas_q.mpo_ops.expectation_value.html" />
+    <link rel="prev" title="atlas_q.mpo_ops.MPO" href="atlas_q.mpo_ops.MPO.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../adaptive_mps.html">atlas_q.adaptive_mps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.adaptive_mps.AdaptiveMPS.html">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../mpo_ops.html">atlas_q.mpo_ops</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tdvp.html">atlas_q.tdvp</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../vqe_qaoa.html">atlas_q.vqe_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../grover.html">atlas_q.grover</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../stabilizer_backend.html">atlas_q.stabilizer_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../noise_models.html">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../planar_2d.html">2D/Planar Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributed_mps.html">Distributed MPS</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cuquantum_backend.html">atlas_q.cuquantum_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../diagnostics.html">atlas_q.diagnostics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../linalg_robust.html">atlas_q.linalg_robust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../truncation.html">atlas_q.truncation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../mpo_ops.html" class="nav-link">atlas_q.mpo_ops</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.mpo_ops.MPOBuilder</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="atlas-q-mpo-ops-mpobuilder">
+<h1>atlas_q.mpo_ops.MPOBuilder<a class="headerlink" href="#atlas-q-mpo-ops-mpobuilder" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.mpo_ops.MPOBuilder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.mpo_ops.</span></span><span class="sig-name descname"><span class="pre">MPOBuilder</span></span><a class="reference internal" href="../../_modules/atlas_q/mpo_ops.html#MPOBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.mpo_ops.MPOBuilder" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Helper class to build common MPOs</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../mpo_ops.html#id63" title="atlas_q.mpo_ops.MPOBuilder.from_local_terms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_local_terms</span></code></a>(n_sites, local_terms[, ...])</p></td>
+<td><p>Build Hamiltonian from local interaction terms</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../mpo_ops.html#id53" title="atlas_q.mpo_ops.MPOBuilder.heisenberg_hamiltonian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">heisenberg_hamiltonian</span></code></a>(n_sites[, Jx, Jy, ...])</p></td>
+<td><p>Heisenberg Hamiltonian: H = Σᵢ (Jₓ XᵢXᵢ₊₁ + Jᵧ YᵢYᵢ₊₁ + Jᵧ ZᵢZᵢ₊₁)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../mpo_ops.html#id49" title="atlas_q.mpo_ops.MPOBuilder.identity_mpo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">identity_mpo</span></code></a>(n_sites[, device, dtype])</p></td>
+<td><p>Create identity MPO (wrapper for MPO.identity)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../mpo_ops.html#id52" title="atlas_q.mpo_ops.MPOBuilder.ising_hamiltonian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ising_hamiltonian</span></code></a>(n_sites[, J, h, device, dtype])</p></td>
+<td><p>Transverse-field Ising Hamiltonian: H = -J Σᵢ ZᵢZᵢ₊₁ - h Σᵢ Xᵢ</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../mpo_ops.html#id50" title="atlas_q.mpo_ops.MPOBuilder.local_operator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_operator</span></code></a>(op, site, n_sites[, device, ...])</p></td>
+<td><p>Create MPO for a single-site operator at specified site</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../mpo_ops.html#id54" title="atlas_q.mpo_ops.MPOBuilder.maxcut_hamiltonian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maxcut_hamiltonian</span></code></a>(edges[, weights, ...])</p></td>
+<td><p>MaxCut QAOA Hamiltonian for graph optimization: H = Σ_{(i,j)∈E} w_{ij} (1 - ZᵢZⱼ) / 2</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../mpo_ops.html#id64" title="atlas_q.mpo_ops.MPOBuilder.molecular_hamiltonian_from_specs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">molecular_hamiltonian_from_specs</span></code></a>([molecule, ...])</p></td>
+<td><p>Build molecular Hamiltonian from molecular specifications using PySCF.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../mpo_ops.html#id51" title="atlas_q.mpo_ops.MPOBuilder.sum_local_operators"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum_local_operators</span></code></a>(n_sites, local_ops[, ...])</p></td>
+<td><p>Create MPO for sum of local operators: Σᵢ Oᵢ</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.mpo_ops.MPOBuilder.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.mpo_ops.MPOBuilder.__init__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.mpo_ops.MPOBuilder.__init__" title="atlas_q.mpo_ops.MPOBuilder.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../mpo_ops.html#id63" title="atlas_q.mpo_ops.MPOBuilder.from_local_terms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_local_terms</span></code></a>(n_sites, local_terms[, ...])</p></td>
+<td><p>Build Hamiltonian from local interaction terms</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../mpo_ops.html#id53" title="atlas_q.mpo_ops.MPOBuilder.heisenberg_hamiltonian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">heisenberg_hamiltonian</span></code></a>(n_sites[, Jx, Jy, ...])</p></td>
+<td><p>Heisenberg Hamiltonian: H = Σᵢ (Jₓ XᵢXᵢ₊₁ + Jᵧ YᵢYᵢ₊₁ + Jᵧ ZᵢZᵢ₊₁)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../mpo_ops.html#id49" title="atlas_q.mpo_ops.MPOBuilder.identity_mpo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">identity_mpo</span></code></a>(n_sites[, device, dtype])</p></td>
+<td><p>Create identity MPO (wrapper for MPO.identity)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../mpo_ops.html#id52" title="atlas_q.mpo_ops.MPOBuilder.ising_hamiltonian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ising_hamiltonian</span></code></a>(n_sites[, J, h, device, dtype])</p></td>
+<td><p>Transverse-field Ising Hamiltonian: H = -J Σᵢ ZᵢZᵢ₊₁ - h Σᵢ Xᵢ</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../mpo_ops.html#id50" title="atlas_q.mpo_ops.MPOBuilder.local_operator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_operator</span></code></a>(op, site, n_sites[, device, ...])</p></td>
+<td><p>Create MPO for a single-site operator at specified site</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../mpo_ops.html#id54" title="atlas_q.mpo_ops.MPOBuilder.maxcut_hamiltonian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maxcut_hamiltonian</span></code></a>(edges[, weights, ...])</p></td>
+<td><p>MaxCut QAOA Hamiltonian for graph optimization: H = Σ_{(i,j)∈E} w_{ij} (1 - ZᵢZⱼ) / 2</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../mpo_ops.html#id64" title="atlas_q.mpo_ops.MPOBuilder.molecular_hamiltonian_from_specs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">molecular_hamiltonian_from_specs</span></code></a>([molecule, ...])</p></td>
+<td><p>Build molecular Hamiltonian from molecular specifications using PySCF.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../mpo_ops.html#id51" title="atlas_q.mpo_ops.MPOBuilder.sum_local_operators"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum_local_operators</span></code></a>(n_sites, local_ops[, ...])</p></td>
+<td><p>Create MPO for sum of local operators: Σᵢ Oᵢ</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.mpo_ops.MPOBuilder.identity_mpo">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identity_mpo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_sites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/mpo_ops.html#MPOBuilder.identity_mpo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.mpo_ops.MPOBuilder.identity_mpo" title="Link to this definition">#</a></dt>
+<dd><p>Create identity MPO (wrapper for MPO.identity)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.mpo_ops.MPOBuilder.local_operator">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">local_operator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/mpo_ops.html#MPOBuilder.local_operator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.mpo_ops.MPOBuilder.local_operator" title="Link to this definition">#</a></dt>
+<dd><p>Create MPO for a single-site operator at specified site</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>op: 2x2 operator matrix
+site: Site index (0-indexed)
+n_sites: Total number of sites
+device: torch device
+dtype: data type</p>
+</dd>
+<dt>Returns:</dt><dd><p>MPO representing I ⊗ … ⊗ op ⊗ … ⊗ I</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.mpo_ops.MPOBuilder.sum_local_operators">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sum_local_operators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_sites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_ops</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/mpo_ops.html#MPOBuilder.sum_local_operators"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.mpo_ops.MPOBuilder.sum_local_operators" title="Link to this definition">#</a></dt>
+<dd><p>Create MPO for sum of local operators: Σᵢ Oᵢ</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>n_sites: Total number of sites
+local_ops: List of (site, operator) tuples
+device: torch device
+dtype: data type</p>
+</dd>
+<dt>Returns:</dt><dd><p>MPO representing sum of all operators</p>
+</dd>
+<dt>Example:</dt><dd><p># Build total magnetization Mz = Σ Zᵢ
+Z = torch.tensor([[1, 0], [0, -1]])
+ops = [(i, Z) for i in range(n_sites)]
+Mz = MPOBuilder.sum_local_operators(n_sites, ops)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.mpo_ops.MPOBuilder.ising_hamiltonian">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ising_hamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_sites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/mpo_ops.html#MPOBuilder.ising_hamiltonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.mpo_ops.MPOBuilder.ising_hamiltonian" title="Link to this definition">#</a></dt>
+<dd><p>Transverse-field Ising Hamiltonian:
+H = -J Σᵢ ZᵢZᵢ₊₁ - h Σᵢ Xᵢ</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>n_sites: Number of sites
+J: Coupling strength
+h: Transverse field</p>
+</dd>
+</dl>
+<p>Virtual bond structure (D=3):
+- 0→0: identity track
+- 0→1: emit Z (open ZZ term)
+- 1→2: close with -J Z
+- 2→2: identity tail
+- 0→2: local field -h X</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.mpo_ops.MPOBuilder.heisenberg_hamiltonian">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">heisenberg_hamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_sites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Jx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Jy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Jz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/mpo_ops.html#MPOBuilder.heisenberg_hamiltonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.mpo_ops.MPOBuilder.heisenberg_hamiltonian" title="Link to this definition">#</a></dt>
+<dd><p>Heisenberg Hamiltonian:
+H = Σᵢ (Jₓ XᵢXᵢ₊₁ + Jᵧ YᵢYᵢ₊₁ + Jᵧ ZᵢZᵢ₊₁)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.mpo_ops.MPOBuilder.maxcut_hamiltonian">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">maxcut_hamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edges</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sites</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/mpo_ops.html#MPOBuilder.maxcut_hamiltonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.mpo_ops.MPOBuilder.maxcut_hamiltonian" title="Link to this definition">#</a></dt>
+<dd><p>MaxCut QAOA Hamiltonian for graph optimization:
+H = Σ_{(i,j)∈E} w_{ij} (1 - ZᵢZⱼ) / 2</p>
+<p>This Hamiltonian encodes the MaxCut problem where we want to maximize
+the number of edges between two sets (minimize edges within sets).</p>
+<dl>
+<dt>Args:</dt><dd><p>edges: List of (i, j) tuples representing graph edges
+weights: Optional edge weights (default: all 1.0)
+n_sites: Number of nodes (inferred from edges if not provided)
+device: ‘cuda’ or ‘cpu’
+dtype: torch dtype</p>
+</dd>
+<dt>Returns:</dt><dd><p>MPO representation of MaxCut Hamiltonian</p>
+</dd>
+<dt>Example:</dt><dd><p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
+# Triangle graph (nodes 0, 1, 2)
+edges = [(0,1), (1,2), (0,2)]
+H = MPOBuilder.maxcut_hamiltonian(edges, device=’cuda’)</p>
+<p># Use with QAOA
+from atlas_q import get_vqe_qaoa
+qaoa = get_vqe_qaoa()
+config = qaoa[‘QAOAConfig’](p=2, max_iter=100)
+solver = qaoa[‘QAOA’](H, config)
+energy, params = solver.run()
+<a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.mpo_ops.MPOBuilder.from_local_terms">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_local_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_sites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_terms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/mpo_ops.html#MPOBuilder.from_local_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.mpo_ops.MPOBuilder.from_local_terms" title="Link to this definition">#</a></dt>
+<dd><p>Build Hamiltonian from local interaction terms</p>
+<dl>
+<dt>Args:</dt><dd><p>n_sites: Number of sites
+local_terms: List of (site1, site2, operator) tuples</p>
+<blockquote>
+<div><p>operator should be a 4x4 tensor for two-site interactions</p>
+</div></blockquote>
+<p>device: torch device
+dtype: data type</p>
+</dd>
+<dt>Returns:</dt><dd><p>MPO representing sum of local terms</p>
+</dd>
+<dt>Example:</dt><dd><p># Build ZZ interaction Hamiltonian
+Z = torch.tensor([[1, 0], [0, -1]], dtype=torch.complex64)
+local_terms = [(i, i+1, torch.kron(Z, Z)) for i in range(n_sites-1)]
+H = MPOBuilder.from_local_terms(n_sites, local_terms)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.mpo_ops.MPOBuilder.molecular_hamiltonian_from_specs">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">molecular_hamiltonian_from_specs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecule</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'H2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sto-3g'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'jordan_wigner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/mpo_ops.html#MPOBuilder.molecular_hamiltonian_from_specs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.mpo_ops.MPOBuilder.molecular_hamiltonian_from_specs" title="Link to this definition">#</a></dt>
+<dd><p>Build molecular Hamiltonian from molecular specifications using PySCF.</p>
+<p>This function computes the electronic Hamiltonian for a molecule and
+converts it to an MPO suitable for VQE or other quantum algorithms.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>molecule: Molecular formula or geometry string</dt><dd><p>Examples: ‘H2’, ‘LiH’, ‘H2O’, or geometry string</p>
+</dd>
+</dl>
+<p>basis: Gaussian basis set (sto-3g, 6-31g, cc-pvdz, etc.)
+charge: Total molecular charge
+spin: Spin multiplicity (2S, where S is total spin)
+mapping: Fermion-to-qubit mapping (‘jordan_wigner’, ‘bravyi_kitaev’, ‘parity’)
+device: ‘cuda’ or ‘cpu’
+dtype: torch dtype</p>
+</dd>
+<dt>Returns:</dt><dd><p>MPO representation of molecular Hamiltonian</p>
+</dd>
+<dt>Example:</dt><dd><p><a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a>python
+from atlas_q import get_mpo_ops, get_vqe_qaoa</p>
+<p># H2 molecule
+mpo_mod = get_mpo_ops()
+H = mpo_mod[‘MPOBuilder’].molecular_hamiltonian_from_specs(</p>
+<blockquote>
+<div><p>molecule=’H2’,
+basis=’sto-3g’,
+device=’cuda’</p>
+</div></blockquote>
+<p>)</p>
+<p># Run VQE
+vqe_mod = get_vqe_qaoa()
+config = vqe_mod[‘VQEConfig’](n_layers=2, max_iter=100)
+vqe = vqe_mod[‘VQE’](H, config)
+energy, params = vqe.run()
+print(f”Ground state energy: {energy:.6f} Ha”)
+<a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a></p>
+</dd>
+<dt>Note:</dt><dd><p>Requires pyscf package: pip install pyscf</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="atlas_q.mpo_ops.MPO.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">atlas_q.mpo_ops.MPO</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="atlas_q.mpo_ops.expectation_value.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">atlas_q.mpo_ops.expectation_value</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.mpo_ops.MPOBuilder"><code class="docutils literal notranslate"><span class="pre">MPOBuilder</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.mpo_ops.MPOBuilder.__init__"><code class="docutils literal notranslate"><span class="pre">MPOBuilder.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.mpo_ops.MPOBuilder.identity_mpo"><code class="docutils literal notranslate"><span class="pre">MPOBuilder.identity_mpo()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.mpo_ops.MPOBuilder.local_operator"><code class="docutils literal notranslate"><span class="pre">MPOBuilder.local_operator()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.mpo_ops.MPOBuilder.sum_local_operators"><code class="docutils literal notranslate"><span class="pre">MPOBuilder.sum_local_operators()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.mpo_ops.MPOBuilder.ising_hamiltonian"><code class="docutils literal notranslate"><span class="pre">MPOBuilder.ising_hamiltonian()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.mpo_ops.MPOBuilder.heisenberg_hamiltonian"><code class="docutils literal notranslate"><span class="pre">MPOBuilder.heisenberg_hamiltonian()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.mpo_ops.MPOBuilder.maxcut_hamiltonian"><code class="docutils literal notranslate"><span class="pre">MPOBuilder.maxcut_hamiltonian()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.mpo_ops.MPOBuilder.from_local_terms"><code class="docutils literal notranslate"><span class="pre">MPOBuilder.from_local_terms()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.mpo_ops.MPOBuilder.molecular_hamiltonian_from_specs"><code class="docutils literal notranslate"><span class="pre">MPOBuilder.molecular_hamiltonian_from_specs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

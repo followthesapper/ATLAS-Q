@@ -1,0 +1,1346 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>atlas_q.adaptive_mps.AdaptiveMPS &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/generated/atlas_q.adaptive_mps.AdaptiveMPS';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="atlas_q.adaptive_mps.DTypePolicy" href="atlas_q.adaptive_mps.DTypePolicy.html" />
+    <link rel="prev" title="atlas_q.adaptive_mps" href="../adaptive_mps.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../adaptive_mps.html">atlas_q.adaptive_mps</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../mpo_ops.html">atlas_q.mpo_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.mpo_ops.MPOBuilder.html">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tdvp.html">atlas_q.tdvp</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../vqe_qaoa.html">atlas_q.vqe_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../grover.html">atlas_q.grover</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../stabilizer_backend.html">atlas_q.stabilizer_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../noise_models.html">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../planar_2d.html">2D/Planar Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributed_mps.html">Distributed MPS</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cuquantum_backend.html">atlas_q.cuquantum_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../diagnostics.html">atlas_q.diagnostics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../linalg_robust.html">atlas_q.linalg_robust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../truncation.html">atlas_q.truncation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../adaptive_mps.html" class="nav-link">atlas_q.adaptive_mps</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.adaptive_mps.AdaptiveMPS</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="atlas-q-adaptive-mps-adaptivemps">
+<h1>atlas_q.adaptive_mps.AdaptiveMPS<a class="headerlink" href="#atlas-q-adaptive-mps-adaptivemps" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.adaptive_mps.</span></span><span class="sig-name descname"><span class="pre">AdaptiveMPS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_bond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max_per_bond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">budget_global_mb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DTypePolicy(default=torch.complex64,</span> <span class="pre">promote_if_cond_gt=1000000.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../mps_pytorch.html#atlas_q.mps_pytorch.MatrixProductStatePyTorch" title="atlas_q.mps_pytorch.MatrixProductStatePyTorch"><code class="xref py py-class docutils literal notranslate"><span class="pre">MatrixProductStatePyTorch</span></code></a></p>
+<p>Adaptive MPS for moderate-to-high entanglement simulation</p>
+<p>Key features:
+- Variable per-bond dimensions with adaptive truncation
+- Energy-based rank selection: keep k such that Σ_{i≤k} σ_i² ≥ (1-ε²) Σ_i σ_i²
+- Per-bond χ caps and global memory budget enforcement
+- Mixed precision with automatic promotion on numerical instability
+- Two-site gate application (TEBD-style)
+- Comprehensive statistics and error tracking</p>
+<dl>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">eps_bond</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span><span class="o">/</span><span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">CZ</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">mps</span><span class="o">.</span><span class="n">apply_two_site_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">CZ</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mps</span><span class="o">.</span><span class="n">stats_summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.apply_single_qubit_gate" title="atlas_q.adaptive_mps.AdaptiveMPS.apply_single_qubit_gate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_single_qubit_gate</span></code></a>(q, U2)</p></td>
+<td><p>Apply single-qubit gate (fast path, no truncation needed)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_two_qubit_gate</span></code>(qubit1, qubit2, gate)</p></td>
+<td><p>Apply two-qubit gate to adjacent qubits in MPS</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.apply_two_site_gate" title="atlas_q.adaptive_mps.AdaptiveMPS.apply_two_site_gate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_two_site_gate</span></code></a>(i, U4)</p></td>
+<td><p>Apply two-qubit gate with adaptive SVD truncation</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.canonicalize_left_to_right" title="atlas_q.adaptive_mps.AdaptiveMPS.canonicalize_left_to_right"><code class="xref py py-obj docutils literal notranslate"><span class="pre">canonicalize_left_to_right</span></code></a>()</p></td>
+<td><p>Alias for to_left_canonical() for compatibility</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">canonicalize_right_to_left</span></code>()</p></td>
+<td><p>Bring MPS into right-canonical form using QR decomposition</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.cnot" title="atlas_q.adaptive_mps.AdaptiveMPS.cnot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cnot</span></code></a>(control, target)</p></td>
+<td><p>CNOT gate (uses Triton-optimized two-site gate)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.cx" title="atlas_q.adaptive_mps.AdaptiveMPS.cx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cx</span></code></a>(control, target)</p></td>
+<td><p>Alias for CNOT</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.cy" title="atlas_q.adaptive_mps.AdaptiveMPS.cy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cy</span></code></a>(control, target)</p></td>
+<td><p>Controlled-Y gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.cz" title="atlas_q.adaptive_mps.AdaptiveMPS.cz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cz</span></code></a>(q0, q1)</p></td>
+<td><p>Controlled-Z gate</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_numpy_mps</span></code>(numpy_mps_dict[, device])</p></td>
+<td><p>Create PyTorch MPS from NumPy MPS dictionary</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_amplitude</span></code>(basis_state)</p></td>
+<td><p>Contract MPS to get amplitude - O(n × χ²)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.get_memory_usage" title="atlas_q.adaptive_mps.AdaptiveMPS.get_memory_usage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_memory_usage</span></code></a>()</p></td>
+<td><p>Get total memory usage in bytes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_probability</span></code>(basis_state)</p></td>
+<td><p>Get measurement probability for a basis state</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.global_error_bound" title="atlas_q.adaptive_mps.AdaptiveMPS.global_error_bound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">global_error_bound</span></code></a>()</p></td>
+<td><p>Get global error upper bound</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.h" title="atlas_q.adaptive_mps.AdaptiveMPS.h"><code class="xref py py-obj docutils literal notranslate"><span class="pre">h</span></code></a>(qubit)</p></td>
+<td><p>Hadamard gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.load_snapshot" title="atlas_q.adaptive_mps.AdaptiveMPS.load_snapshot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_snapshot</span></code></a>(path[, device])</p></td>
+<td><p>Load MPS from checkpoint file</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">measure</span></code>([num_shots])</p></td>
+<td><p>Simulate measurement with accurate MPS sampling</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">memory_usage</span></code>()</p></td>
+<td><p>Memory usage in bytes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.reset_stats" title="atlas_q.adaptive_mps.AdaptiveMPS.reset_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset_stats</span></code></a>()</p></td>
+<td><p>Reset statistics tracking</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.rx" title="atlas_q.adaptive_mps.AdaptiveMPS.rx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rx</span></code></a>(qubit, theta)</p></td>
+<td><p>Rotation around X axis</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.ry" title="atlas_q.adaptive_mps.AdaptiveMPS.ry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ry</span></code></a>(qubit, theta)</p></td>
+<td><p>Rotation around Y axis</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.rz" title="atlas_q.adaptive_mps.AdaptiveMPS.rz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rz</span></code></a>(qubit, theta)</p></td>
+<td><p>Rotation around Z axis</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.s" title="atlas_q.adaptive_mps.AdaptiveMPS.s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">s</span></code></a>(qubit)</p></td>
+<td><p>Phase gate (S gate)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.sample" title="atlas_q.adaptive_mps.AdaptiveMPS.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a>([num_shots])</p></td>
+<td><p>Sample measurement outcomes - delegates to parent class</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.sdg" title="atlas_q.adaptive_mps.AdaptiveMPS.sdg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdg</span></code></a>(qubit)</p></td>
+<td><p>S dagger gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.snapshot" title="atlas_q.adaptive_mps.AdaptiveMPS.snapshot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">snapshot</span></code></a>(path)</p></td>
+<td><p>Save MPS to file for checkpointing</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.stats_summary" title="atlas_q.adaptive_mps.AdaptiveMPS.stats_summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stats_summary</span></code></a>()</p></td>
+<td><p>Get summary statistics</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.swap" title="atlas_q.adaptive_mps.AdaptiveMPS.swap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swap</span></code></a>(q0, q1)</p></td>
+<td><p>SWAP gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">sweep_sample</span></code>([num_shots])</p></td>
+<td><p>Accurate MPS sampling using conditional probabilities sweep</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.t" title="atlas_q.adaptive_mps.AdaptiveMPS.t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">t</span></code></a>(qubit)</p></td>
+<td><p>T gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.tdg" title="atlas_q.adaptive_mps.AdaptiveMPS.tdg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tdg</span></code></a>(qubit)</p></td>
+<td><p>T dagger gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.to_left_canonical" title="atlas_q.adaptive_mps.AdaptiveMPS.to_left_canonical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_left_canonical</span></code></a>()</p></td>
+<td><p>Bring MPS into left-canonical form using QR</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.to_mixed_canonical" title="atlas_q.adaptive_mps.AdaptiveMPS.to_mixed_canonical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_mixed_canonical</span></code></a>(center)</p></td>
+<td><p>Bring MPS into mixed-canonical form with center at specified site</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_numpy_mps</span></code>()</p></td>
+<td><p>Convert to NumPy MPS for compatibility</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.to_statevector" title="atlas_q.adaptive_mps.AdaptiveMPS.to_statevector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_statevector</span></code></a>()</p></td>
+<td><p>Convert MPS to full statevector (ONLY for small systems!)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.x" title="atlas_q.adaptive_mps.AdaptiveMPS.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a>(qubit)</p></td>
+<td><p>Pauli X gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.y" title="atlas_q.adaptive_mps.AdaptiveMPS.y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y</span></code></a>(qubit)</p></td>
+<td><p>Pauli Y gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.z" title="atlas_q.adaptive_mps.AdaptiveMPS.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a>(qubit)</p></td>
+<td><p>Pauli Z gate</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_bond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max_per_bond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">budget_global_mb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DTypePolicy(default=torch.complex64,</span> <span class="pre">promote_if_cond_gt=1000000.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize Adaptive MPS</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>num_qubits: Number of qubits
+bond_dim: Initial bond dimension
+eps_bond: Energy tolerance for truncation (default 1e-6)
+chi_max_per_bond: Max χ per bond (int or list of ints)
+budget_global_mb: Global memory budget in MB (None = unlimited)
+dtype_policy: Mixed precision policy
+device: ‘cuda’ or ‘cpu’
+dtype: Explicit dtype (overrides dtype_policy.default if provided)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id0" title="atlas_q.adaptive_mps.AdaptiveMPS.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(num_qubits[, bond_dim, eps_bond, ...])</p></td>
+<td><p>Initialize Adaptive MPS</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.apply_single_qubit_gate" title="atlas_q.adaptive_mps.AdaptiveMPS.apply_single_qubit_gate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_single_qubit_gate</span></code></a>(q, U2)</p></td>
+<td><p>Apply single-qubit gate (fast path, no truncation needed)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_two_qubit_gate</span></code>(qubit1, qubit2, gate)</p></td>
+<td><p>Apply two-qubit gate to adjacent qubits in MPS</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.apply_two_site_gate" title="atlas_q.adaptive_mps.AdaptiveMPS.apply_two_site_gate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_two_site_gate</span></code></a>(i, U4)</p></td>
+<td><p>Apply two-qubit gate with adaptive SVD truncation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.canonicalize_left_to_right" title="atlas_q.adaptive_mps.AdaptiveMPS.canonicalize_left_to_right"><code class="xref py py-obj docutils literal notranslate"><span class="pre">canonicalize_left_to_right</span></code></a>()</p></td>
+<td><p>Alias for to_left_canonical() for compatibility</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">canonicalize_right_to_left</span></code>()</p></td>
+<td><p>Bring MPS into right-canonical form using QR decomposition</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.cnot" title="atlas_q.adaptive_mps.AdaptiveMPS.cnot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cnot</span></code></a>(control, target)</p></td>
+<td><p>CNOT gate (uses Triton-optimized two-site gate)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.cx" title="atlas_q.adaptive_mps.AdaptiveMPS.cx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cx</span></code></a>(control, target)</p></td>
+<td><p>Alias for CNOT</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.cy" title="atlas_q.adaptive_mps.AdaptiveMPS.cy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cy</span></code></a>(control, target)</p></td>
+<td><p>Controlled-Y gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.cz" title="atlas_q.adaptive_mps.AdaptiveMPS.cz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cz</span></code></a>(q0, q1)</p></td>
+<td><p>Controlled-Z gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_numpy_mps</span></code>(numpy_mps_dict[, device])</p></td>
+<td><p>Create PyTorch MPS from NumPy MPS dictionary</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_amplitude</span></code>(basis_state)</p></td>
+<td><p>Contract MPS to get amplitude - O(n × χ²)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.get_memory_usage" title="atlas_q.adaptive_mps.AdaptiveMPS.get_memory_usage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_memory_usage</span></code></a>()</p></td>
+<td><p>Get total memory usage in bytes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_probability</span></code>(basis_state)</p></td>
+<td><p>Get measurement probability for a basis state</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.global_error_bound" title="atlas_q.adaptive_mps.AdaptiveMPS.global_error_bound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">global_error_bound</span></code></a>()</p></td>
+<td><p>Get global error upper bound</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.h" title="atlas_q.adaptive_mps.AdaptiveMPS.h"><code class="xref py py-obj docutils literal notranslate"><span class="pre">h</span></code></a>(qubit)</p></td>
+<td><p>Hadamard gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.load_snapshot" title="atlas_q.adaptive_mps.AdaptiveMPS.load_snapshot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_snapshot</span></code></a>(path[, device])</p></td>
+<td><p>Load MPS from checkpoint file</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">measure</span></code>([num_shots])</p></td>
+<td><p>Simulate measurement with accurate MPS sampling</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">memory_usage</span></code>()</p></td>
+<td><p>Memory usage in bytes</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.reset_stats" title="atlas_q.adaptive_mps.AdaptiveMPS.reset_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset_stats</span></code></a>()</p></td>
+<td><p>Reset statistics tracking</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.rx" title="atlas_q.adaptive_mps.AdaptiveMPS.rx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rx</span></code></a>(qubit, theta)</p></td>
+<td><p>Rotation around X axis</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.ry" title="atlas_q.adaptive_mps.AdaptiveMPS.ry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ry</span></code></a>(qubit, theta)</p></td>
+<td><p>Rotation around Y axis</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.rz" title="atlas_q.adaptive_mps.AdaptiveMPS.rz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rz</span></code></a>(qubit, theta)</p></td>
+<td><p>Rotation around Z axis</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.s" title="atlas_q.adaptive_mps.AdaptiveMPS.s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">s</span></code></a>(qubit)</p></td>
+<td><p>Phase gate (S gate)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.sample" title="atlas_q.adaptive_mps.AdaptiveMPS.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a>([num_shots])</p></td>
+<td><p>Sample measurement outcomes - delegates to parent class</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.sdg" title="atlas_q.adaptive_mps.AdaptiveMPS.sdg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdg</span></code></a>(qubit)</p></td>
+<td><p>S dagger gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.snapshot" title="atlas_q.adaptive_mps.AdaptiveMPS.snapshot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">snapshot</span></code></a>(path)</p></td>
+<td><p>Save MPS to file for checkpointing</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.stats_summary" title="atlas_q.adaptive_mps.AdaptiveMPS.stats_summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stats_summary</span></code></a>()</p></td>
+<td><p>Get summary statistics</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.swap" title="atlas_q.adaptive_mps.AdaptiveMPS.swap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swap</span></code></a>(q0, q1)</p></td>
+<td><p>SWAP gate</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">sweep_sample</span></code>([num_shots])</p></td>
+<td><p>Accurate MPS sampling using conditional probabilities sweep</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.t" title="atlas_q.adaptive_mps.AdaptiveMPS.t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">t</span></code></a>(qubit)</p></td>
+<td><p>T gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.tdg" title="atlas_q.adaptive_mps.AdaptiveMPS.tdg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tdg</span></code></a>(qubit)</p></td>
+<td><p>T dagger gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.to_left_canonical" title="atlas_q.adaptive_mps.AdaptiveMPS.to_left_canonical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_left_canonical</span></code></a>()</p></td>
+<td><p>Bring MPS into left-canonical form using QR</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.to_mixed_canonical" title="atlas_q.adaptive_mps.AdaptiveMPS.to_mixed_canonical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_mixed_canonical</span></code></a>(center)</p></td>
+<td><p>Bring MPS into mixed-canonical form with center at specified site</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_numpy_mps</span></code>()</p></td>
+<td><p>Convert to NumPy MPS for compatibility</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.to_statevector" title="atlas_q.adaptive_mps.AdaptiveMPS.to_statevector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_statevector</span></code></a>()</p></td>
+<td><p>Convert MPS to full statevector (ONLY for small systems!)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.x" title="atlas_q.adaptive_mps.AdaptiveMPS.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a>(qubit)</p></td>
+<td><p>Pauli X gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.y" title="atlas_q.adaptive_mps.AdaptiveMPS.y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y</span></code></a>(qubit)</p></td>
+<td><p>Pauli Y gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.adaptive_mps.AdaptiveMPS.z" title="atlas_q.adaptive_mps.AdaptiveMPS.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a>(qubit)</p></td>
+<td><p>Pauli Z gate</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_bond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max_per_bond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">budget_global_mb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DTypePolicy(default=torch.complex64,</span> <span class="pre">promote_if_cond_gt=1000000.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dd><p>Initialize Adaptive MPS</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>num_qubits: Number of qubits
+bond_dim: Initial bond dimension
+eps_bond: Energy tolerance for truncation (default 1e-6)
+chi_max_per_bond: Max χ per bond (int or list of ints)
+budget_global_mb: Global memory budget in MB (None = unlimited)
+dtype_policy: Mixed precision policy
+device: ‘cuda’ or ‘cpu’
+dtype: Explicit dtype (overrides dtype_policy.default if provided)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.stats_summary">
+<span class="sig-name descname"><span class="pre">stats_summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.stats_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.stats_summary" title="Link to this definition">#</a></dt>
+<dd><p>Get summary statistics</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.global_error_bound">
+<span class="sig-name descname"><span class="pre">global_error_bound</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.global_error_bound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.global_error_bound" title="Link to this definition">#</a></dt>
+<dd><p>Get global error upper bound</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.reset_stats">
+<span class="sig-name descname"><span class="pre">reset_stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.reset_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.reset_stats" title="Link to this definition">#</a></dt>
+<dd><p>Reset statistics tracking</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.apply_single_qubit_gate">
+<span class="sig-name descname"><span class="pre">apply_single_qubit_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.apply_single_qubit_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.apply_single_qubit_gate" title="Link to this definition">#</a></dt>
+<dd><p>Apply single-qubit gate (fast path, no truncation needed)</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>q: Qubit index
+U2: 2x2 unitary gate</p>
+</dd>
+</dl>
+<p>Complexity: O(χ²)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.apply_two_site_gate">
+<span class="sig-name descname"><span class="pre">apply_two_site_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.apply_two_site_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.apply_two_site_gate" title="Link to this definition">#</a></dt>
+<dd><p>Apply two-qubit gate with adaptive SVD truncation</p>
+<p>This is the core TEBD operation for moderate entanglement.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>i: Bond index (applies to qubits i and i+1)
+U4: 4x4 unitary gate (or 2x2x2x2 tensor)</p>
+</dd>
+</dl>
+<p>Steps:
+1. Merge tensors at sites (i, i+1) into Θ
+2. Apply gate U
+3. SVD: Θ = U S V†
+4. Adaptively select rank k by energy criterion + caps
+5. Split back into two cores with updated χ</p>
+<p>Complexity: O(χ³) for SVD</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.to_left_canonical">
+<span class="sig-name descname"><span class="pre">to_left_canonical</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.to_left_canonical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.to_left_canonical" title="Link to this definition">#</a></dt>
+<dd><p>Bring MPS into left-canonical form using QR</p>
+<p>After this, each tensor A^[i] satisfies:
+Σ_s (A^[i]_s)† A^[i]_s = I</p>
+<p>Complexity: O(n · χ³)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.canonicalize_left_to_right">
+<span class="sig-name descname"><span class="pre">canonicalize_left_to_right</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.canonicalize_left_to_right"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.canonicalize_left_to_right" title="Link to this definition">#</a></dt>
+<dd><p>Alias for to_left_canonical() for compatibility</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.to_mixed_canonical">
+<span class="sig-name descname"><span class="pre">to_mixed_canonical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.to_mixed_canonical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.to_mixed_canonical" title="Link to this definition">#</a></dt>
+<dd><p>Bring MPS into mixed-canonical form with center at specified site</p>
+<p>Sites 0..center-1 are left-canonical
+Sites center+1..n-1 are right-canonical
+Site center holds the normalization</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>center: Center site index</p>
+</dd>
+</dl>
+<p>Complexity: O(n · χ³)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.snapshot">
+<span class="sig-name descname"><span class="pre">snapshot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.snapshot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.snapshot" title="Link to this definition">#</a></dt>
+<dd><p>Save MPS to file for checkpointing</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>path: File path to save to</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.load_snapshot">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_snapshot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.load_snapshot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.load_snapshot" title="Link to this definition">#</a></dt>
+<dd><p>Load MPS from checkpoint file</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>path: File path to load from
+device: Device to place tensors on</p>
+</dd>
+<dt>Returns:</dt><dd><p>Loaded AdaptiveMPS instance</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.get_memory_usage">
+<span class="sig-name descname"><span class="pre">get_memory_usage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.get_memory_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.get_memory_usage" title="Link to this definition">#</a></dt>
+<dd><p>Get total memory usage in bytes</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Total bytes used by all tensors</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.to_statevector">
+<span class="sig-name descname"><span class="pre">to_statevector</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.to_statevector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.to_statevector" title="Link to this definition">#</a></dt>
+<dd><p>Convert MPS to full statevector (ONLY for small systems!)</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Full statevector of size 2^n</p>
+</dd>
+<dt>Warning:</dt><dd><p>This scales as O(2^n) and should ONLY be used for testing
+small systems (n ≤ 20). For larger systems, use get_amplitude().</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.h">
+<span class="sig-name descname"><span class="pre">h</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.h"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.h" title="Link to this definition">#</a></dt>
+<dd><p>Hadamard gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.x">
+<span class="sig-name descname"><span class="pre">x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.x"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.x" title="Link to this definition">#</a></dt>
+<dd><p>Pauli X gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.y">
+<span class="sig-name descname"><span class="pre">y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.y"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.y" title="Link to this definition">#</a></dt>
+<dd><p>Pauli Y gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.z">
+<span class="sig-name descname"><span class="pre">z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.z" title="Link to this definition">#</a></dt>
+<dd><p>Pauli Z gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.s">
+<span class="sig-name descname"><span class="pre">s</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.s"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.s" title="Link to this definition">#</a></dt>
+<dd><p>Phase gate (S gate)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.sdg">
+<span class="sig-name descname"><span class="pre">sdg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.sdg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.sdg" title="Link to this definition">#</a></dt>
+<dd><p>S dagger gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.t">
+<span class="sig-name descname"><span class="pre">t</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.t"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.t" title="Link to this definition">#</a></dt>
+<dd><p>T gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.tdg">
+<span class="sig-name descname"><span class="pre">tdg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.tdg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.tdg" title="Link to this definition">#</a></dt>
+<dd><p>T dagger gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.rx">
+<span class="sig-name descname"><span class="pre">rx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.rx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.rx" title="Link to this definition">#</a></dt>
+<dd><p>Rotation around X axis</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.ry">
+<span class="sig-name descname"><span class="pre">ry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.ry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.ry" title="Link to this definition">#</a></dt>
+<dd><p>Rotation around Y axis</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.rz">
+<span class="sig-name descname"><span class="pre">rz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.rz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.rz" title="Link to this definition">#</a></dt>
+<dd><p>Rotation around Z axis</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.cnot">
+<span class="sig-name descname"><span class="pre">cnot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.cnot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.cnot" title="Link to this definition">#</a></dt>
+<dd><p>CNOT gate (uses Triton-optimized two-site gate)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.cx">
+<span class="sig-name descname"><span class="pre">cx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.cx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.cx" title="Link to this definition">#</a></dt>
+<dd><p>Alias for CNOT</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.cz">
+<span class="sig-name descname"><span class="pre">cz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.cz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.cz" title="Link to this definition">#</a></dt>
+<dd><p>Controlled-Z gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.cy">
+<span class="sig-name descname"><span class="pre">cy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.cy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.cy" title="Link to this definition">#</a></dt>
+<dd><p>Controlled-Y gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.swap">
+<span class="sig-name descname"><span class="pre">swap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.swap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.swap" title="Link to this definition">#</a></dt>
+<dd><p>SWAP gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.adaptive_mps.AdaptiveMPS.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/atlas_q/adaptive_mps.html#AdaptiveMPS.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.adaptive_mps.AdaptiveMPS.sample" title="Link to this definition">#</a></dt>
+<dd><p>Sample measurement outcomes - delegates to parent class</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../adaptive_mps.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">atlas_q.adaptive_mps</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="atlas_q.adaptive_mps.DTypePolicy.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">atlas_q.adaptive_mps.DTypePolicy</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.__init__"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.stats_summary"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.stats_summary()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.global_error_bound"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.global_error_bound()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.reset_stats"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.reset_stats()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.apply_single_qubit_gate"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.apply_single_qubit_gate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.apply_two_site_gate"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.apply_two_site_gate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.to_left_canonical"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.to_left_canonical()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.canonicalize_left_to_right"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.canonicalize_left_to_right()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.to_mixed_canonical"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.to_mixed_canonical()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.snapshot"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.snapshot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.load_snapshot"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.load_snapshot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.get_memory_usage"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.get_memory_usage()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.to_statevector"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.to_statevector()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.h"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.h()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.x"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.x()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.y"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.y()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.z"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.z()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.s"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.s()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.sdg"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.sdg()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.t"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.t()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.tdg"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.tdg()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.rx"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.rx()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.ry"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.ry()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.rz"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.rz()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.cnot"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.cnot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.cx"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.cx()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.cz"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.cz()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.cy"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.cy()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.swap"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.swap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.adaptive_mps.AdaptiveMPS.sample"><code class="docutils literal notranslate"><span class="pre">AdaptiveMPS.sample()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

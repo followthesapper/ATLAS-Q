@@ -1,0 +1,6 @@
+﻿atlas\_q.linalg\_robust.robust\_svd
+===================================
+
+.. currentmodule:: atlas_q.linalg_robust
+
+.. autofunction:: robust_svd

@@ -1,0 +1,25 @@
+﻿atlas\_q.quantum\_hybrid\_system.CompressedQuantumState
+=======================================================
+
+.. currentmodule:: atlas_q.quantum_hybrid_system
+
+.. autoclass:: CompressedQuantumState
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~CompressedQuantumState.__init__
+      ~CompressedQuantumState.get_amplitude
+      ~CompressedQuantumState.get_probability
+      ~CompressedQuantumState.measure
+   
+   
+
+   
+   
+   

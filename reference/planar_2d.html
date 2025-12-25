@@ -1,0 +1,1429 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2D/Planar Circuits &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/planar_2d';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Distributed MPS" href="distributed_mps.html" />
+    <link rel="prev" title="Circuit Cutting" href="circuit_cutting.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="adaptive_mps.html">atlas_q.adaptive_mps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mpo_ops.html">atlas_q.mpo_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPOBuilder.html">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tdvp.html">atlas_q.tdvp</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="vqe_qaoa.html">atlas_q.vqe_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="grover.html">atlas_q.grover</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="stabilizer_backend.html">atlas_q.stabilizer_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="noise_models.html">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2D/Planar Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributed_mps.html">Distributed MPS</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cuquantum_backend.html">atlas_q.cuquantum_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="diagnostics.html">atlas_q.diagnostics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linalg_robust.html">atlas_q.linalg_robust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="truncation.html">atlas_q.truncation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">2D/Planar Circuits</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="d-planar-circuits">
+<h1>2D/Planar Circuits<a class="headerlink" href="#d-planar-circuits" title="Link to this heading">#</a></h1>
+<p>Simulation of quantum circuits on 2D qubit layouts (superconducting, trapped-ion, neutral atom devices).</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>Most near-term quantum processors have qubits arranged in 2D geometries: square grids (superconducting qubits), triangular lattices (trapped ions), or arbitrary 2D patterns (neutral atoms). Simulating these circuits efficiently requires mapping the 2D layout to a 1D Matrix Product State while minimizing the entanglement cost.</p>
+<p><strong>The Challenge</strong></p>
+<p>MPS are inherently 1D: they efficiently represent states with nearest-neighbor entanglement on a chain. A 2D circuit must be “flattened” to 1D, but this mapping determines simulation cost:</p>
+<ul class="simple">
+<li><p><strong>Good mapping</strong>: Nearby qubits in 2D remain nearby in 1D → low bond dimension χ</p></li>
+<li><p><strong>Bad mapping</strong>: 2D-adjacent qubits far apart in 1D → high χ, expensive simulation</p></li>
+</ul>
+<p><strong>Snake Ordering</strong></p>
+<p>The snake (or boustrophedon) pattern is optimal for square grids <a class="reference internal" href="#markov08" id="id1"><span>[Markov08]</span></a>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>2D Grid (3×3):          1D MPS Ordering:
+
+0 - 1 - 2              0 → 1 → 2
+|   |   |                      ↓
+3 - 4 - 5              5 ← 4 ← 3
+|   |   |              ↓
+6 - 7 - 8              6 → 7 → 8
+</pre></div>
+</div>
+<p>This ensures:</p>
+<ul class="simple">
+<li><p>Horizontal neighbors: distance 1 in MPS</p></li>
+<li><p>Vertical neighbors: distance 1 in MPS (via snake wrap)</p></li>
+<li><p>Average distance: O(1) vs. O(√n) for row-major ordering</p></li>
+</ul>
+<p><strong>SWAP Network Synthesis</strong></p>
+<p>For gates between non-adjacent qubits (after 1D mapping), insert SWAP gates to move qubits together:</p>
+<div class="math notranslate nohighlight">
+\[\text{CX}(q_i, q_j) \to \text{SWAP}_i^{j-1} \cdot \text{CX}(q_{j-1}, q_j) \cdot \text{SWAP}_i^{j-1}\]</div>
+<p>Cost: O(<a href="#id5"><span class="problematic" id="id6">|i-j|</span></a>) SWAP gates, O(<a href="#id7"><span class="problematic" id="id8">|i-j|</span></a>) circuit depth increase.</p>
+<p><strong>Key Features</strong></p>
+<ul class="simple">
+<li><p><strong>Automatic mapping</strong>: Snake, Hilbert curve, or custom orderings</p></li>
+<li><p><strong>SWAP optimization</strong>: Minimize inserted SWAPs via A* search or greedy heuristics</p></li>
+<li><p><strong>Topology-aware</strong>: Supports square grid, heavy-hex (IBM), triangular, arbitrary</p></li>
+<li><p><strong>Adaptive χ</strong>: Increase bond dimension for entanglement hotspots</p></li>
+<li><p><strong>2D measurement</strong>: Correlations and observables in original 2D coordinates</p></li>
+</ul>
+</section>
+<section id="topologies">
+<h2>Topologies<a class="headerlink" href="#topologies" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.Topology">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.planar_2d.</span></span><span class="sig-name descname"><span class="pre">Topology</span></span><a class="reference internal" href="../_modules/atlas_q/planar_2d.html#Topology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.planar_2d.Topology" title="Link to this definition">#</a></dt>
+<dd><p>2D qubit layout topologies.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.Topology.SQUARE_GRID">
+<span class="sig-name descname"><span class="pre">SQUARE_GRID</span></span><a class="headerlink" href="#atlas_q.planar_2d.Topology.SQUARE_GRID" title="Link to this definition">#</a></dt>
+<dd><p>Regular square lattice</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.Topology.HEAVY_HEX">
+<span class="sig-name descname"><span class="pre">HEAVY_HEX</span></span><a class="headerlink" href="#atlas_q.planar_2d.Topology.HEAVY_HEX" title="Link to this definition">#</a></dt>
+<dd><p>IBM heavy-hex topology</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.Topology.TRIANGULAR">
+<span class="sig-name descname"><span class="pre">TRIANGULAR</span></span><a class="headerlink" href="#atlas_q.planar_2d.Topology.TRIANGULAR" title="Link to this definition">#</a></dt>
+<dd><p>Triangular lattice</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.Topology.CUSTOM">
+<span class="sig-name descname"><span class="pre">CUSTOM</span></span><a class="headerlink" href="#atlas_q.planar_2d.Topology.CUSTOM" title="Link to this definition">#</a></dt>
+<dd><p>User-defined topology</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="data-structures">
+<h2>Data Structures<a class="headerlink" href="#data-structures" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.Qubit2D">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.planar_2d.</span></span><span class="sig-name descname"><span class="pre">Qubit2D</span></span><a class="reference internal" href="../_modules/atlas_q/planar_2d.html#Qubit2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.planar_2d.Qubit2D" title="Link to this definition">#</a></dt>
+<dd><p>Represents a qubit in 2D layout.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Row index</p></li>
+<li><p><strong>col</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Column index</p></li>
+<li><p><strong>index_1d</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Index in 1D MPS ordering (optional)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.Layout2D">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.planar_2d.</span></span><span class="sig-name descname"><span class="pre">Layout2D</span></span><a class="reference internal" href="../_modules/atlas_q/planar_2d.html#Layout2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.planar_2d.Layout2D" title="Link to this definition">#</a></dt>
+<dd><p>2D qubit layout specification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rows</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Number of rows</p></li>
+<li><p><strong>cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Number of columns</p></li>
+<li><p><strong>topology</strong> (<a class="reference internal" href="#atlas_q.planar_2d.Topology" title="atlas_q.planar_2d.Topology"><em>Topology</em></a>) – Layout topology</p></li>
+<li><p><strong>coupling_map</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>) – List of connected qubit pairs</p></li>
+<li><p><strong>qubits</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – Dictionary mapping (row, col) to Qubit2D</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.MappingConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.planar_2d.</span></span><span class="sig-name descname"><span class="pre">MappingConfig</span></span><a class="reference internal" href="../_modules/atlas_q/planar_2d.html#MappingConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.planar_2d.MappingConfig" title="Link to this definition">#</a></dt>
+<dd><p>Configuration for 2D → 1D mapping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>strategy</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Mapping strategy (‘snake’, ‘row_major’, ‘col_major’, ‘hilbert’)</p></li>
+<li><p><strong>optimize_swaps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Optimize SWAP network</p></li>
+<li><p><strong>max_swap_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Maximum SWAP layers (default 100)</p></li>
+<li><p><strong>chi_schedule</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Bond dimension schedule (‘adaptive’, ‘fixed’, ‘exponential’)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.SnakeMapper">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.planar_2d.</span></span><span class="sig-name descname"><span class="pre">SnakeMapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/planar_2d.html#SnakeMapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.planar_2d.SnakeMapper" title="Link to this definition">#</a></dt>
+<dd><p>Maps 2D qubit grid to 1D MPS using snake pattern.</p>
+<p>Snake pattern minimizes long-range interactions:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>0 → 1 → 2
+        ↓
+5 ← 4 ← 3
+↓
+6 → 7 → 8
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rows</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Number of rows</p></li>
+<li><p><strong>cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Number of columns</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Methods:</strong></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.SnakeMapper.map_2d_to_1d">
+<span class="sig-name descname"><span class="pre">map_2d_to_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/planar_2d.html#SnakeMapper.map_2d_to_1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.planar_2d.SnakeMapper.map_2d_to_1d" title="Link to this definition">#</a></dt>
+<dd><p>Map (row, col) to 1D index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Row index</p></li>
+<li><p><strong>col</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Column index</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1D index in MPS ordering</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.SnakeMapper.map_1d_to_2d">
+<span class="sig-name descname"><span class="pre">map_1d_to_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_1d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/planar_2d.html#SnakeMapper.map_1d_to_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.planar_2d.SnakeMapper.map_1d_to_2d" title="Link to this definition">#</a></dt>
+<dd><p>Map 1D index back to (row, col).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index_1d</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – 1D index</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(row, col) tuple</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)">tuple</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.SnakeMapper.get_distance">
+<span class="sig-name descname"><span class="pre">get_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/planar_2d.html#SnakeMapper.get_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.planar_2d.SnakeMapper.get_distance" title="Link to this definition">#</a></dt>
+<dd><p>Compute Manhattan distance in snake ordering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – First row</p></li>
+<li><p><strong>col1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – First column</p></li>
+<li><p><strong>row2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Second row</p></li>
+<li><p><strong>col2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Second column</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Distance in 1D MPS ordering</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.SWAPRouter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.planar_2d.</span></span><span class="sig-name descname"><span class="pre">SWAPRouter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.planar_2d.SWAPRouter" title="Link to this definition">#</a></dt>
+<dd><p>SWAP network synthesis for non-nearest-neighbor gates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>layout</strong> (<a class="reference internal" href="#atlas_q.planar_2d.Layout2D" title="atlas_q.planar_2d.Layout2D"><em>Layout2D</em></a>) – 2D qubit layout</p>
+</dd>
+</dl>
+<p><strong>Methods:</strong></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.SWAPRouter.route_gate">
+<span class="sig-name descname"><span class="pre">route_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.planar_2d.SWAPRouter.route_gate" title="Link to this definition">#</a></dt>
+<dd><p>Find SWAP path to make qubits adjacent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – First qubit (1D index)</p></li>
+<li><p><strong>qubit2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Second qubit (1D index)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of SWAP operations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.SWAPRouter.optimize_swap_network">
+<span class="sig-name descname"><span class="pre">optimize_swap_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gates</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.planar_2d.SWAPRouter.optimize_swap_network" title="Link to this definition">#</a></dt>
+<dd><p>Optimize full SWAP network for gate sequence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gates</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>) – List of gates</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optimized gate sequence with SWAPs inserted</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.PlanarCircuitSimulator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.planar_2d.</span></span><span class="sig-name descname"><span class="pre">PlanarCircuitSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.planar_2d.PlanarCircuitSimulator" title="Link to this definition">#</a></dt>
+<dd><p>Simulator for 2D planar circuits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layout</strong> (<a class="reference internal" href="#atlas_q.planar_2d.Layout2D" title="atlas_q.planar_2d.Layout2D"><em>Layout2D</em></a>) – 2D qubit layout</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="#atlas_q.planar_2d.MappingConfig" title="atlas_q.planar_2d.MappingConfig"><em>MappingConfig</em></a>) – Mapping configuration</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Methods:</strong></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.PlanarCircuitSimulator.compile_circuit">
+<span class="sig-name descname"><span class="pre">compile_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gates_2d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.planar_2d.PlanarCircuitSimulator.compile_circuit" title="Link to this definition">#</a></dt>
+<dd><p>Compile 2D circuit to 1D MPS-compatible circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gates_2d</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>) – Gates with 2D qubit indices</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Gates with 1D indices and inserted SWAPs</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.planar_2d.PlanarCircuitSimulator.run_circuit">
+<span class="sig-name descname"><span class="pre">run_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gates_2d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.planar_2d.PlanarCircuitSimulator.run_circuit" title="Link to this definition">#</a></dt>
+<dd><p>Run 2D circuit using MPS backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gates_2d</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>) – Gates with 2D qubit indices</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Final MPS state</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html#atlas_q.adaptive_mps.AdaptiveMPS" title="atlas_q.adaptive_mps.AdaptiveMPS">AdaptiveMPS</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<p>Snake mapping for square grid:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.planar_2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">SnakeMapper</span>
+
+<span class="c1"># 4×4 grid</span>
+<span class="n">mapper</span> <span class="o">=</span> <span class="n">SnakeMapper</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Map 2D coordinates</span>
+<span class="n">idx_1d</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">map_2d_to_1d</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(1,2) → </span><span class="si">{</span><span class="n">idx_1d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Output: (1,2) → 5</span>
+
+<span class="c1"># Reverse mapping</span>
+<span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">map_1d_to_2d</span><span class="p">(</span><span class="n">idx_1d</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">idx_1d</span><span class="si">}</span><span class="s2"> → (</span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check distance</span>
+<span class="n">dist</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">get_distance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distance from (0,0) to (3,3): </span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Simulate 2D circuit:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.planar_2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Layout2D</span><span class="p">,</span> <span class="n">Topology</span><span class="p">,</span> <span class="n">PlanarCircuitSimulator</span><span class="p">,</span> <span class="n">MappingConfig</span>
+
+<span class="c1"># Create 5×5 square grid layout</span>
+<span class="n">layout</span> <span class="o">=</span> <span class="n">Layout2D</span><span class="p">(</span>
+    <span class="n">rows</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">cols</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">topology</span><span class="o">=</span><span class="n">Topology</span><span class="o">.</span><span class="n">SQUARE_GRID</span><span class="p">,</span>
+    <span class="n">coupling_map</span><span class="o">=</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">24</span><span class="p">)],</span>  <span class="c1"># Simplified</span>
+    <span class="n">qubits</span><span class="o">=</span><span class="p">{}</span>
+<span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">MappingConfig</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;snake&#39;</span><span class="p">,</span> <span class="n">optimize_swaps</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">PlanarCircuitSimulator</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># Define 2D circuit</span>
+<span class="n">gates_2d</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span> <span class="p">[]),</span>
+    <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="p">[]),</span>
+    <span class="p">(</span><span class="s1">&#39;CZ&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="p">[]),</span>  <span class="c1"># Adjacent in 2D</span>
+    <span class="p">(</span><span class="s1">&#39;CZ&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)],</span> <span class="p">[]),</span>  <span class="c1"># Non-adjacent, requires SWAPs</span>
+<span class="p">]</span>
+
+<span class="c1"># Compile and run</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run_circuit</span><span class="p">(</span><span class="n">gates_2d</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final bond dimensions: </span><span class="si">{</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">shape</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>SWAP routing:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.planar_2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">SWAPRouter</span>
+
+<span class="n">router</span> <span class="o">=</span> <span class="n">SWAPRouter</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+
+<span class="c1"># Route gate between distant qubits</span>
+<span class="n">swaps</span> <span class="o">=</span> <span class="n">router</span><span class="o">.</span><span class="n">route_gate</span><span class="p">(</span><span class="n">qubit1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qubit2</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>  <span class="c1"># Corners of 5×5 grid</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Required SWAPs: </span><span class="si">{</span><span class="n">swaps</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Optimize full circuit</span>
+<span class="n">optimized_gates</span> <span class="o">=</span> <span class="n">router</span><span class="o">.</span><span class="n">optimize_swap_network</span><span class="p">(</span><span class="n">gates_2d</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Adaptive bond dimension for 2D:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">MappingConfig</span><span class="p">(</span>
+    <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;snake&#39;</span><span class="p">,</span>
+    <span class="n">chi_schedule</span><span class="o">=</span><span class="s1">&#39;adaptive&#39;</span>  <span class="c1"># Increase χ for long-range gates</span>
+<span class="p">)</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">PlanarCircuitSimulator</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-notes">
+<h2>Performance Notes<a class="headerlink" href="#performance-notes" title="Link to this heading">#</a></h2>
+<p><strong>Mapping Quality Comparison</strong></p>
+<div class="pst-scrollable-table-container"><table class="table" id="id2">
+<caption><span class="caption-text">1D Mapping Strategies for 5×5 Grid</span><a class="headerlink" href="#id2" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 20.0%" />
+<col style="width: 25.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping</p></th>
+<th class="head"><p>Avg Distance</p></th>
+<th class="head"><p>Max Distance</p></th>
+<th class="head"><p>χ Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Row-major</p></td>
+<td><p>2.5</p></td>
+<td><p>8</p></td>
+<td><p>χ ~ 64-128</p></td>
+</tr>
+<tr class="row-odd"><td><p>Column-major</p></td>
+<td><p>2.5</p></td>
+<td><p>8</p></td>
+<td><p>χ ~ 64-128</p></td>
+</tr>
+<tr class="row-even"><td><p>Snake</p></td>
+<td><p>1.4</p></td>
+<td><p>4</p></td>
+<td><p>χ ~ 32-48</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hilbert curve</p></td>
+<td><p>1.2</p></td>
+<td><p>3</p></td>
+<td><p>χ ~ 24-32</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Snake and Hilbert curve mappings significantly reduce required bond dimension.</p>
+<p><strong>SWAP Overhead Scaling</strong></p>
+<p>For n×n grid with random gates:</p>
+<ul class="simple">
+<li><p><strong>No optimization</strong>: ~n² SWAPs per layer</p></li>
+<li><p><strong>Greedy optimization</strong>: ~n SWAPs per layer</p></li>
+<li><p><strong>Optimal (A*)</strong>: ~√n SWAPs per layer (NP-hard, only practical for small circuits)</p></li>
+</ul>
+<p><strong>Bond Dimension Requirements</strong></p>
+<div class="pst-scrollable-table-container"><table class="table" id="id3">
+<caption><span class="caption-text">χ for Various 2D Grid Sizes (Snake Mapping)</span><a class="headerlink" href="#id3" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 25.0%" />
+<col style="width: 30.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Grid Size</p></th>
+<th class="head"><p>Total Qubits</p></th>
+<th class="head"><p>Recommended χ</p></th>
+<th class="head"><p>Memory (GPU)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>3×3</p></td>
+<td><p>9</p></td>
+<td><p>16-24</p></td>
+<td><p>100 MB</p></td>
+</tr>
+<tr class="row-odd"><td><p>5×5</p></td>
+<td><p>25</p></td>
+<td><p>32-48</p></td>
+<td><p>500 MB</p></td>
+</tr>
+<tr class="row-even"><td><p>7×7</p></td>
+<td><p>49</p></td>
+<td><p>48-64</p></td>
+<td><p>2 GB</p></td>
+</tr>
+<tr class="row-odd"><td><p>10×10</p></td>
+<td><p>100</p></td>
+<td><p>64-96</p></td>
+<td><p>8 GB</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Simulation Time</strong> (per gate, NVIDIA A100)</p>
+<ul class="simple">
+<li><p>3×3 grid, χ=24: ~3 ms/gate</p></li>
+<li><p>5×5 grid, χ=32: ~12 ms/gate</p></li>
+<li><p>7×7 grid, χ=48: ~45 ms/gate</p></li>
+</ul>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<p><strong>Choosing Mapping Strategy</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Snake ordering</strong> (default): Best for square grids, simple and effective</p></li>
+<li><p><strong>Hilbert curve</strong>: Slightly better for very large grids (&gt;10×10), more complex</p></li>
+<li><p><strong>Row/column-major</strong>: Avoid unless specific hardware constraints require it</p></li>
+<li><p><strong>Custom</strong>: For irregular topologies (heavy-hex, triangular)</p></li>
+</ol>
+<p><strong>SWAP Optimization</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable SWAP optimization (recommended)</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">MappingConfig</span><span class="p">(</span>
+    <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;snake&#39;</span><span class="p">,</span>
+    <span class="n">optimize_swaps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>      <span class="c1"># Use greedy SWAP minimization</span>
+    <span class="n">max_swap_layers</span><span class="o">=</span><span class="mi">100</span>       <span class="c1"># Limit search depth</span>
+<span class="p">)</span>
+
+<span class="c1"># For small circuits, use optimal routing</span>
+<span class="k">if</span> <span class="n">num_gates</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">router_algorithm</span> <span class="o">=</span> <span class="s1">&#39;astar&#39;</span>  <span class="c1"># Optimal but slow</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">router_algorithm</span> <span class="o">=</span> <span class="s1">&#39;greedy&#39;</span>  <span class="c1"># Fast heuristic</span>
+</pre></div>
+</div>
+<p><strong>Adaptive Bond Dimension</strong></p>
+<p>For circuits with variable entanglement:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">MappingConfig</span><span class="p">(</span>
+    <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;snake&#39;</span><span class="p">,</span>
+    <span class="n">chi_schedule</span><span class="o">=</span><span class="s1">&#39;adaptive&#39;</span><span class="p">,</span>
+    <span class="n">chi_min</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">chi_max</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">chi_threshold</span><span class="o">=</span><span class="mf">1e-8</span>  <span class="c1"># Truncation threshold</span>
+<span class="p">)</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">PlanarCircuitSimulator</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>χ starts at chi_min and grows to chi_max based on entanglement.</p>
+<p><strong>Monitoring Performance</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run_circuit</span><span class="p">(</span><span class="n">gates_2d</span><span class="p">)</span>
+
+<span class="c1"># Check bond dimensions</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">stats_summary</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max χ: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;max_chi&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Avg χ: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;avg_chi&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Count inserted SWAPs</span>
+<span class="n">compiled_gates</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">gates_2d</span><span class="p">)</span>
+<span class="n">swap_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">compiled_gates</span> <span class="k">if</span> <span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;SWAP&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Inserted SWAPs: </span><span class="si">{</span><span class="n">swap_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># If too many SWAPs, circuit may not be 2D-local</span>
+<span class="k">if</span> <span class="n">swap_count</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">gates_2d</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: SWAP overhead &gt; gate count, consider circuit cutting&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Troubleshooting</strong></p>
+<ul class="simple">
+<li><p><strong>High χ required</strong>: Check if gates are truly local in 2D; consider circuit cutting for long-range gates</p></li>
+<li><p><strong>Too many SWAPs</strong>: Gates not respecting 2D locality; reorder operations or use different mapping</p></li>
+<li><p><strong>Memory errors</strong>: Reduce χ_max or use smaller grid sections</p></li>
+<li><p><strong>Slow compilation</strong>: Use ‘greedy’ router instead of ‘astar’ for large circuits</p></li>
+</ul>
+</section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">#</a></h2>
+<p><strong>MPS vs. PEPS for 2D</strong></p>
+<div class="pst-scrollable-table-container"><table class="table" id="id4">
+<caption><span class="caption-text">2D Simulation Method Comparison</span><a class="headerlink" href="#id4" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 35.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Advantages</p></th>
+<th class="head"><p>Limitations</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>MPS + Snake</strong></p></td>
+<td><p>Fast, standard tools, χ ~ 32-64</p></td>
+<td><p>SWAP overhead, χ grows with depth</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>PEPS</strong></p></td>
+<td><p>No SWAP, natural 2D, χ ~ 4-8</p></td>
+<td><p>Slower contractions, experimental</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Circuit Cutting</strong></p></td>
+<td><p>Handles arbitrary connectivity</p></td>
+<td><p>Exponential sampling cost</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Use MPS + Snake when</strong>:</p>
+<ul class="simple">
+<li><p>Grid is small to medium (≤ 10×10)</p></li>
+<li><p>Circuit depth moderate (≤ 20 layers)</p></li>
+<li><p>Gates mostly 2D-local</p></li>
+</ul>
+<p><strong>Use PEPS when</strong>:</p>
+<ul class="simple">
+<li><p>Grid is large (&gt; 10×10)</p></li>
+<li><p>Circuit has deep 2D structure</p></li>
+<li><p>Can tolerate slower per-gate cost for lower χ</p></li>
+</ul>
+<p><strong>Use Circuit Cutting when</strong>:</p>
+<ul class="simple">
+<li><p>Grid connectivity complex (heavy-hex, arbitrary)</p></li>
+<li><p>Long-range gates frequent</p></li>
+<li><p>Willing to pay classical sampling overhead</p></li>
+</ul>
+</section>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h2>
+<p><strong>Superconducting Qubit Devices</strong></p>
+<ul class="simple">
+<li><p>IBM Quantum processors (heavy-hex topology)</p></li>
+<li><p>Google Sycamore (54-qubit grid)</p></li>
+<li><p>Rigetti Aspen (square grid variants)</p></li>
+</ul>
+<p>Example: Simulating Google’s 53-qubit supremacy circuit on 7×8 grid with snake mapping, χ=48.</p>
+<p><strong>Trapped-Ion Systems</strong></p>
+<ul class="simple">
+<li><p>IonQ (all-to-all connectivity, but often use 2D layouts)</p></li>
+<li><p>Honeywell (linear chains, extendable to 2D)</p></li>
+</ul>
+<p>Example: 10×10 triangular lattice for quantum simulation of magnetic models.</p>
+<p><strong>Neutral Atom Processors</strong></p>
+<ul class="simple">
+<li><p>QuEra/Harvard (arbitrary 2D patterns)</p></li>
+<li><p>Pasqal (programmable geometries)</p></li>
+</ul>
+<p>Example: Custom 2D layout optimized for QAOA on MaxCut problems.</p>
+<p><strong>Quantum Simulation</strong></p>
+<ul class="simple">
+<li><p>2D Ising model dynamics</p></li>
+<li><p>Hubbard model on square lattice</p></li>
+<li><p>Surface code error correction</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="peps.html"><span class="doc">PEPS (2D Tensor Networks)</span></a> - True 2D tensor networks for lattice systems</p></li>
+<li><p><a class="reference internal" href="circuit_cutting.html"><span class="doc">Circuit Cutting</span></a> - Alternative for high-connectivity circuits</p></li>
+<li><p><a class="reference internal" href="distributed_mps.html"><span class="doc">Distributed MPS</span></a> - Multi-GPU for very large 2D grids</p></li>
+<li><p><a class="reference internal" href="../user_guide/howtos/handle_large_systems.html"><span class="doc">How to Handle Large Quantum Systems</span></a> - Scaling strategies</p></li>
+<li><p><a class="reference internal" href="../user_guide/explanations/tensor_networks.html"><span class="doc">Tensor Networks</span></a> - MPS theory</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="markov08" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Markov08</a><span class="fn-bracket">]</span></span>
+<ol class="upperroman simple">
+<li><ol class="upperalpha simple" start="12">
+<li><p>Markov &amp; Y. Shi, “Simulating quantum computation by contracting tensor networks,” <em>SIAM Journal on Computing</em> 38, 963 (2008).</p></li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="citation" id="pednault17" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Pednault17<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="5">
+<li><p>Pednault et al., “Breaking the 49-qubit barrier in the simulation of quantum circuits,” <em>arXiv:1710.05867</em> (2017).</p></li>
+</ol>
+</div>
+<div class="citation" id="boixo18" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Boixo18<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="19">
+<li><p>Boixo et al., “Characterizing quantum supremacy in near-term devices,” <em>Nature Physics</em> 14, 595 (2018).</p></li>
+</ol>
+</div>
+<div class="citation" id="daley22" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Daley22<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple">
+<li><ol class="upperalpha simple" start="10">
+<li><p>Daley et al., “Practical quantum advantage in quantum simulation,” <em>Nature</em> 607, 667 (2022).</p></li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="circuit_cutting.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Circuit Cutting</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="distributed_mps.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Distributed MPS</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topologies">Topologies</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.Topology"><code class="docutils literal notranslate"><span class="pre">Topology</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.Topology.SQUARE_GRID"><code class="docutils literal notranslate"><span class="pre">Topology.SQUARE_GRID</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.Topology.HEAVY_HEX"><code class="docutils literal notranslate"><span class="pre">Topology.HEAVY_HEX</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.Topology.TRIANGULAR"><code class="docutils literal notranslate"><span class="pre">Topology.TRIANGULAR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.Topology.CUSTOM"><code class="docutils literal notranslate"><span class="pre">Topology.CUSTOM</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-structures">Data Structures</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.Qubit2D"><code class="docutils literal notranslate"><span class="pre">Qubit2D</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.Layout2D"><code class="docutils literal notranslate"><span class="pre">Layout2D</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.MappingConfig"><code class="docutils literal notranslate"><span class="pre">MappingConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.SnakeMapper"><code class="docutils literal notranslate"><span class="pre">SnakeMapper</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.SnakeMapper.map_2d_to_1d"><code class="docutils literal notranslate"><span class="pre">SnakeMapper.map_2d_to_1d()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.SnakeMapper.map_1d_to_2d"><code class="docutils literal notranslate"><span class="pre">SnakeMapper.map_1d_to_2d()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.SnakeMapper.get_distance"><code class="docutils literal notranslate"><span class="pre">SnakeMapper.get_distance()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.SWAPRouter"><code class="docutils literal notranslate"><span class="pre">SWAPRouter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.SWAPRouter.route_gate"><code class="docutils literal notranslate"><span class="pre">SWAPRouter.route_gate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.SWAPRouter.optimize_swap_network"><code class="docutils literal notranslate"><span class="pre">SWAPRouter.optimize_swap_network()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.PlanarCircuitSimulator"><code class="docutils literal notranslate"><span class="pre">PlanarCircuitSimulator</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.PlanarCircuitSimulator.compile_circuit"><code class="docutils literal notranslate"><span class="pre">PlanarCircuitSimulator.compile_circuit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.planar_2d.PlanarCircuitSimulator.run_circuit"><code class="docutils literal notranslate"><span class="pre">PlanarCircuitSimulator.run_circuit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-notes">Performance Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

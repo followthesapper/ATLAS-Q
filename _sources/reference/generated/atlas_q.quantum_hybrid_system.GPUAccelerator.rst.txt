@@ -1,0 +1,28 @@
+﻿atlas\_q.quantum\_hybrid\_system.GPUAccelerator
+===============================================
+
+.. currentmodule:: atlas_q.quantum_hybrid_system
+
+.. autoclass:: GPUAccelerator
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GPUAccelerator.__init__
+      ~GPUAccelerator.accelerated_mps_contraction
+      ~GPUAccelerator.batched_period_check
+      ~GPUAccelerator.gpu_modular_exponentiation
+      ~GPUAccelerator.parallel_period_check
+      ~GPUAccelerator.to_cpu
+      ~GPUAccelerator.to_gpu
+   
+   
+
+   
+   
+   

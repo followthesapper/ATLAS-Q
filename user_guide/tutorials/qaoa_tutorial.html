@@ -1,0 +1,1607 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>QAOA Tutorial &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/tutorials/qaoa_tutorial';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Advanced Features Tutorial" href="advanced_features.html" />
+    <link rel="prev" title="Molecular VQE Tutorial" href="molecular_vqe.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="beginners.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_basics.html">MPS Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vqe_tutorial.html">VQE Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coherence_aware_vqe.html">Coherence-Aware Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tdvp_tutorial.html">TDVP Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="molecular_vqe.html">Molecular VQE Tutorial</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">QAOA Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_features.html">Advanced Features Tutorial</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">QAOA Tutorial</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="qaoa-tutorial">
+<h1>QAOA Tutorial<a class="headerlink" href="#qaoa-tutorial" title="Link to this heading">#</a></h1>
+<p>This tutorial demonstrates the Quantum Approximate Optimization Algorithm (QAOA) with ATLAS-Q, covering combinatorial optimization problems including MaxCut, graph coloring, and satisfiability problems with practical optimization strategies.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<p>Before starting this tutorial, you should:</p>
+<ul class="simple">
+<li><p>Understand variational quantum algorithms (see <a class="reference internal" href="vqe_tutorial.html"><span class="doc">VQE Tutorial</span></a>)</p></li>
+<li><p>Have familiarity with combinatorial optimization problems</p></li>
+<li><p>Know basics of graph theory (vertices, edges, cuts)</p></li>
+<li><p>Understand Hamiltonian formulation of optimization problems</p></li>
+<li><p>Be comfortable with NetworkX for graph manipulation</p></li>
+</ul>
+</section>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<p>By the end of this tutorial, you will be able to:</p>
+<ol class="arabic simple">
+<li><p>Formulate combinatorial optimization problems as QAOA instances</p></li>
+<li><p>Build problem and mixer Hamiltonians for various graph problems</p></li>
+<li><p>Optimize QAOA parameters for MaxCut, graph coloring, and satisfiability</p></li>
+<li><p>Understand the trade-off between circuit depth (p) and solution quality</p></li>
+<li><p>Interpret measurement outcomes and extract optimal solutions</p></li>
+<li><p>Apply warm-starting techniques to improve convergence</p></li>
+<li><p>Compare QAOA performance to classical heuristic algorithms</p></li>
+<li><p>Troubleshoot common QAOA optimization challenges</p></li>
+</ol>
+</section>
+<section id="part-1-fundamentals-of-qaoa">
+<h2>Part 1: Fundamentals of QAOA<a class="headerlink" href="#part-1-fundamentals-of-qaoa" title="Link to this heading">#</a></h2>
+<section id="what-is-qaoa">
+<h3>What is QAOA?<a class="headerlink" href="#what-is-qaoa" title="Link to this heading">#</a></h3>
+<p>The Quantum Approximate Optimization Algorithm (QAOA) is a variational quantum algorithm designed for solving combinatorial optimization problems. Given a problem encoded as a cost function <span class="math notranslate nohighlight">\(C(z)\)</span> over binary strings <span class="math notranslate nohighlight">\(z \in \{0,1\}^n\)</span>, QAOA prepares a quantum state that approximates the optimal solution.</p>
+<p>The algorithm constructs a parameterized quantum circuit alternating between two Hamiltonians:</p>
+<div class="math notranslate nohighlight">
+\[|\psi(\boldsymbol{\gamma}, \boldsymbol{\beta})\rangle = U_B(\beta_p) U_C(\gamma_p) \cdots U_B(\beta_1) U_C(\gamma_1) |+\rangle^{\otimes n}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(U_C(\gamma) = e^{-i \gamma H_C}\)</span> applies the <strong>problem Hamiltonian</strong> <span class="math notranslate nohighlight">\(H_C\)</span> encoding the cost function</p></li>
+<li><p><span class="math notranslate nohighlight">\(U_B(\beta) = e^{-i \beta H_B}\)</span> applies the <strong>mixer Hamiltonian</strong> <span class="math notranslate nohighlight">\(H_B\)</span> (typically <span class="math notranslate nohighlight">\(\sum_i X_i\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(p\)</span> is the number of layers (depth parameter)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\gamma} = (\gamma_1, \ldots, \gamma_p)\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\beta} = (\beta_1, \ldots, \beta_p)\)</span> are variational parameters</p></li>
+</ul>
+<p>The goal is to minimize the expectation value:</p>
+<div class="math notranslate nohighlight">
+\[F(\boldsymbol{\gamma}, \boldsymbol{\beta}) = \langle \psi(\boldsymbol{\gamma}, \boldsymbol{\beta}) | H_C | \psi(\boldsymbol{\gamma}, \boldsymbol{\beta}) \rangle\]</div>
+</section>
+<section id="why-qaoa-works">
+<h3>Why QAOA Works<a class="headerlink" href="#why-qaoa-works" title="Link to this heading">#</a></h3>
+<p>QAOA combines quantum superposition with classical optimization to explore the solution space efficiently:</p>
+<ul class="simple">
+<li><p><strong>Initialization</strong>: Start in uniform superposition <span class="math notranslate nohighlight">\(|+\rangle^{\otimes n}\)</span> (equal amplitude on all bit strings)</p></li>
+<li><p><strong>Problem phase</strong>: <span class="math notranslate nohighlight">\(U_C(\gamma)\)</span> phases basis states according to their cost, favoring low-cost solutions</p></li>
+<li><p><strong>Mixer phase</strong>: <span class="math notranslate nohighlight">\(U_B(\beta)\)</span> creates quantum tunneling between basis states, enabling exploration</p></li>
+<li><p><strong>Layering</strong>: Multiple layers (larger <span class="math notranslate nohighlight">\(p\)</span>) allow finer control and better approximations</p></li>
+<li><p><strong>Measurement</strong>: Final state has high probability of measuring near-optimal solutions</p></li>
+</ul>
+<p>As <span class="math notranslate nohighlight">\(p \to \infty\)</span>, QAOA becomes equivalent to quantum annealing and can reach the optimal solution. For practical <span class="math notranslate nohighlight">\(p\)</span>, QAOA provides approximate solutions with guarantees on approximation ratio.</p>
+</section>
+<section id="basic-qaoa-workflow">
+<h3>Basic QAOA Workflow<a class="headerlink" href="#basic-qaoa-workflow" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Formulate problem</strong>: Encode optimization as cost Hamiltonian <span class="math notranslate nohighlight">\(H_C\)</span></p></li>
+<li><p><strong>Choose depth</strong>: Select number of layers <span class="math notranslate nohighlight">\(p\)</span> (typically 1-5)</p></li>
+<li><p><strong>Initialize parameters</strong>: Set <span class="math notranslate nohighlight">\(\boldsymbol{\gamma}, \boldsymbol{\beta}\)</span> (random or heuristic)</p></li>
+<li><p><strong>Optimize</strong>: Use classical optimizer to minimize <span class="math notranslate nohighlight">\(\langle H_C \rangle\)</span></p></li>
+<li><p><strong>Measure</strong>: Sample bit strings from optimized state</p></li>
+<li><p><strong>Decode</strong>: Interpret bit strings as problem solutions</p></li>
+</ol>
+</section>
+</section>
+<section id="part-2-the-qaoa-ansatz">
+<h2>Part 2: The QAOA Ansatz<a class="headerlink" href="#part-2-the-qaoa-ansatz" title="Link to this heading">#</a></h2>
+<section id="problem-hamiltonian-cost-function">
+<h3>Problem Hamiltonian (Cost Function)<a class="headerlink" href="#problem-hamiltonian-cost-function" title="Link to this heading">#</a></h3>
+<p>The problem Hamiltonian <span class="math notranslate nohighlight">\(H_C\)</span> encodes the cost function. For a binary optimization problem with cost <span class="math notranslate nohighlight">\(C(z)\)</span>, we construct:</p>
+<div class="math notranslate nohighlight">
+\[H_C = \sum_z C(z) |z\rangle\langle z|\]</div>
+<p>For most problems, this simplifies to sums of Pauli operators. For example, MaxCut on a graph <span class="math notranslate nohighlight">\(G=(V,E)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[H_C = -\frac{1}{2} \sum_{(i,j) \in E} (I - Z_i Z_j)\]</div>
+<p>where <span class="math notranslate nohighlight">\(Z_i = \pm 1\)</span> indicates which partition vertex <span class="math notranslate nohighlight">\(i\)</span> belongs to. Minimizing <span class="math notranslate nohighlight">\(H_C\)</span> maximizes the cut.</p>
+</section>
+<section id="mixer-hamiltonian">
+<h3>Mixer Hamiltonian<a class="headerlink" href="#mixer-hamiltonian" title="Link to this heading">#</a></h3>
+<p>The mixer Hamiltonian <span class="math notranslate nohighlight">\(H_B\)</span> creates superpositions and enables transitions between basis states. The standard mixer is:</p>
+<div class="math notranslate nohighlight">
+\[H_B = \sum_{i=1}^n X_i\]</div>
+<p>This applies bit flips, allowing exploration of all <span class="math notranslate nohighlight">\(2^n\)</span> bit strings. For constrained problems, custom mixers preserve feasibility.</p>
+</section>
+<section id="layered-structure">
+<h3>Layered Structure<a class="headerlink" href="#layered-structure" title="Link to this heading">#</a></h3>
+<p>QAOA depth <span class="math notranslate nohighlight">\(p\)</span> controls the number of alternating applications:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">QAOA</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+
+<span class="c1"># Create graph</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span>
+
+<span class="c1"># Build MaxCut Hamiltonian</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">maxcut_hamiltonian</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Compare different depths</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">]:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p=</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">: Energy = </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">, Parameters: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Expected:</span>
+<span class="c1"># p=1: 2 parameters (γ₁, β₁)</span>
+<span class="c1"># p=2: 4 parameters (γ₁, β₁, γ₂, β₂)</span>
+<span class="c1"># p=4: 8 parameters</span>
+<span class="c1"># p=8: 16 parameters</span>
+</pre></div>
+</div>
+<p>Higher <span class="math notranslate nohighlight">\(p\)</span> provides more expressivity but increases optimization difficulty (more parameters, deeper circuit).</p>
+</section>
+<section id="parameter-landscape">
+<h3>Parameter Landscape<a class="headerlink" href="#parameter-landscape" title="Link to this heading">#</a></h3>
+<p>QAOA optimization landscapes exhibit interesting structure:</p>
+<ul class="simple">
+<li><p><strong>Concentration</strong>: For small <span class="math notranslate nohighlight">\(p\)</span>, optimal parameters concentrate near specific values</p></li>
+<li><p><strong>Barren plateaus</strong>: For large systems, gradients can vanish exponentially</p></li>
+<li><p><strong>Symmetries</strong>: Landscape often has periodic structure due to Hamiltonian symmetries</p></li>
+<li><p><strong>Local minima</strong>: Can trap optimizers, especially at higher <span class="math notranslate nohighlight">\(p\)</span></p></li>
+</ul>
+<p>Understanding landscape helps choose initialization and optimization strategies.</p>
+</section>
+</section>
+<section id="part-3-maxcut-problem">
+<h2>Part 3: MaxCut Problem<a class="headerlink" href="#part-3-maxcut-problem" title="Link to this heading">#</a></h2>
+<section id="graph-partitioning">
+<h3>Graph Partitioning<a class="headerlink" href="#graph-partitioning" title="Link to this heading">#</a></h3>
+<p>MaxCut partitions graph vertices into two sets to maximize edges between sets. This is NP-hard in general but has many applications: network design, statistical physics (Ising model), VLSI design.</p>
+<p>For a graph <span class="math notranslate nohighlight">\(G=(V,E)\)</span>, a cut <span class="math notranslate nohighlight">\(S \subset V\)</span> has value:</p>
+<div class="math notranslate nohighlight">
+\[\text{cut}(S) = |\{(i,j) \in E : i \in S, j \notin S\}|\]</div>
+</section>
+<section id="building-maxcut-hamiltonians">
+<h3>Building MaxCut Hamiltonians<a class="headerlink" href="#building-maxcut-hamiltonians" title="Link to this heading">#</a></h3>
+<p>ATLAS-Q provides convenient MaxCut Hamiltonian construction:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">QAOA</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+
+<span class="c1"># Create example graph (5-node cycle + diagonal)</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)])</span>
+
+<span class="c1"># Build MaxCut Hamiltonian</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">maxcut_hamiltonian</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Graph: </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span><span class="si">}</span><span class="s2"> vertices, </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">()</span><span class="si">}</span><span class="s2"> edges&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hamiltonian: </span><span class="si">{</span><span class="n">H</span><span class="o">.</span><span class="n">num_sites</span><span class="si">}</span><span class="s2"> qubits&quot;</span><span class="p">)</span>
+
+<span class="c1"># Run QAOA</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;COBYLA&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;QAOA energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MaxCut value (approx): </span><span class="si">{</span><span class="o">-</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The negative energy gives the approximate MaxCut value.</p>
+</section>
+<section id="solution-interpretation">
+<h3>Solution Interpretation<a class="headerlink" href="#solution-interpretation" title="Link to this heading">#</a></h3>
+<p>Extract partition from QAOA state by measurement:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get optimized state</span>
+<span class="n">mps_solution</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+
+<span class="c1"># Sample bit strings</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">bitstring</span> <span class="o">=</span> <span class="n">mps_solution</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+    <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bitstring</span><span class="p">)</span>
+
+<span class="c1"># Count occurrences</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+<span class="c1"># Get most frequent (likely optimal)</span>
+<span class="n">best_bitstring</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Most probable solution: </span><span class="si">{</span><span class="n">best_bitstring</span><span class="si">}</span><span class="s2"> (seen </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">/1000 times)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Compute actual cut value</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">bitstring</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute cut value for given bit string.&quot;&quot;&quot;</span>
+    <span class="n">cut_value</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">bitstring</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">bitstring</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">cut_value</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">cut_value</span>
+
+<span class="n">cut_val</span> <span class="o">=</span> <span class="n">compute_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">best_bitstring</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Actual cut value: </span><span class="si">{</span><span class="n">cut_val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="quality-metrics">
+<h3>Quality Metrics<a class="headerlink" href="#quality-metrics" title="Link to this heading">#</a></h3>
+<p>Evaluate QAOA performance:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Classical bound (Goemans-Williamson: 0.878 approximation)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">maxcut_bruteforce</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find exact MaxCut by brute force (small graphs only).&quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+    <span class="n">max_cut</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">best_partition</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">bitstring</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="n">j</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+        <span class="n">cut</span> <span class="o">=</span> <span class="n">compute_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">bitstring</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cut</span> <span class="o">&gt;</span> <span class="n">max_cut</span><span class="p">:</span>
+            <span class="n">max_cut</span> <span class="o">=</span> <span class="n">cut</span>
+            <span class="n">best_partition</span> <span class="o">=</span> <span class="n">bitstring</span>
+
+    <span class="k">return</span> <span class="n">max_cut</span><span class="p">,</span> <span class="n">best_partition</span>
+
+<span class="n">max_cut_exact</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">maxcut_bruteforce</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">max_cut_qaoa</span> <span class="o">=</span> <span class="n">cut_val</span>
+
+<span class="n">approximation_ratio</span> <span class="o">=</span> <span class="n">max_cut_qaoa</span> <span class="o">/</span> <span class="n">max_cut_exact</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exact MaxCut: </span><span class="si">{</span><span class="n">max_cut_exact</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;QAOA MaxCut: </span><span class="si">{</span><span class="n">max_cut_qaoa</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Approximation ratio: </span><span class="si">{</span><span class="n">approximation_ratio</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For well-tuned QAOA with sufficient <span class="math notranslate nohighlight">\(p\)</span>, ratios typically exceed 0.9 for small graphs.</p>
+</section>
+</section>
+<section id="part-4-other-combinatorial-problems">
+<h2>Part 4: Other Combinatorial Problems<a class="headerlink" href="#part-4-other-combinatorial-problems" title="Link to this heading">#</a></h2>
+<section id="graph-coloring">
+<h3>Graph Coloring<a class="headerlink" href="#graph-coloring" title="Link to this heading">#</a></h3>
+<p>Assign colors to vertices such that no adjacent vertices share colors:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">graph_coloring_hamiltonian</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">num_colors</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build Hamiltonian for graph coloring.</span>
+<span class="sd">    Each vertex has num_colors qubits (one-hot encoding).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+    <span class="n">n_vertices</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+    <span class="n">n_qubits</span> <span class="o">=</span> <span class="n">n_vertices</span> <span class="o">*</span> <span class="n">num_colors</span>
+
+    <span class="c1"># Penalty for adjacent vertices having same color</span>
+    <span class="c1"># H = sum_{(i,j) in E} sum_{c} (color_i^c AND color_j^c)</span>
+    <span class="c1"># Implement using Pauli operators...</span>
+
+    <span class="c1"># (Simplified - actual implementation in MPOBuilder)</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">graph_coloring_hamiltonian</span><span class="p">(</span>
+        <span class="n">G</span><span class="p">,</span>
+        <span class="n">num_colors</span><span class="o">=</span><span class="n">num_colors</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">H</span>
+
+<span class="c1"># Example: 3-coloring of Petersen graph</span>
+<span class="n">G_petersen</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">petersen_graph</span><span class="p">()</span>
+<span class="n">H_coloring</span> <span class="o">=</span> <span class="n">graph_coloring_hamiltonian</span><span class="p">(</span><span class="n">G_petersen</span><span class="p">,</span> <span class="n">num_colors</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H_coloring</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Coloring energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="vertex-cover">
+<h3>Vertex Cover<a class="headerlink" href="#vertex-cover" title="Link to this heading">#</a></h3>
+<p>Find minimum set of vertices such that every edge is incident to at least one vertex:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">vertex_cover_hamiltonian</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">penalty_weight</span><span class="o">=</span><span class="mf">5.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Hamiltonian for minimum vertex cover.</span>
+<span class="sd">    H = sum_{i} Z_i (minimize vertices) + penalty * sum_{(i,j)} (1-Z_i)(1-Z_j)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+
+    <span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">vertex_cover_hamiltonian</span><span class="p">(</span>
+        <span class="n">G</span><span class="p">,</span>
+        <span class="n">penalty_weight</span><span class="o">=</span><span class="n">penalty_weight</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">H</span>
+
+<span class="c1"># Example</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">)])</span>
+
+<span class="n">H_vc</span> <span class="o">=</span> <span class="n">vertex_cover_hamiltonian</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">penalty_weight</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H_vc</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="c1"># Extract vertex cover from bit string</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+<span class="n">bitstring</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+<span class="n">vertex_cover</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bitstring</span><span class="p">)</span> <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vertex cover: </span><span class="si">{</span><span class="n">vertex_cover</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cover size: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vertex_cover</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="satisfiability-3-sat">
+<h3>Satisfiability (3-SAT)<a class="headerlink" href="#satisfiability-3-sat" title="Link to this heading">#</a></h3>
+<p>Determine if Boolean formula in conjunctive normal form is satisfiable:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sat_hamiltonian</span><span class="p">(</span><span class="n">clauses</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build Hamiltonian for 3-SAT.</span>
+<span class="sd">    Each clause contributes penalty if unsatisfied.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># clauses: list of (var, var, var, negation_flags)</span>
+    <span class="c1"># Example: (x1 OR NOT x2 OR x3) represented as (0, 1, 2, (False, True, False))</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+
+    <span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">sat_hamiltonian</span><span class="p">(</span><span class="n">clauses</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">H</span>
+
+<span class="c1"># Example: (x1 OR x2 OR x3) AND (NOT x1 OR NOT x2 OR x3) AND (x1 OR NOT x3 OR NOT x4)</span>
+<span class="n">clauses</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
+    <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
+    <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+<span class="p">]</span>
+
+<span class="n">H_sat</span> <span class="o">=</span> <span class="n">sat_hamiltonian</span><span class="p">(</span><span class="n">clauses</span><span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H_sat</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">energy</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">:</span>  <span class="c1"># Near-zero energy indicates satisfiability</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Formula is satisfiable&quot;</span><span class="p">)</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+    <span class="n">assignment</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Satisfying assignment: </span><span class="si">{</span><span class="n">assignment</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Formula may be unsatisfiable or more layers needed&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-5-parameter-optimization">
+<h2>Part 5: Parameter Optimization<a class="headerlink" href="#part-5-parameter-optimization" title="Link to this heading">#</a></h2>
+<section id="classical-optimizers">
+<h3>Classical Optimizers<a class="headerlink" href="#classical-optimizers" title="Link to this heading">#</a></h3>
+<p>QAOA parameters are optimized classically. Different optimizers suit different regimes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">QAOA</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">maxcut_hamiltonian</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">optimizers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;COBYLA&#39;</span><span class="p">,</span> <span class="s1">&#39;L-BFGS-B&#39;</span><span class="p">,</span> <span class="s1">&#39;SLSQP&#39;</span><span class="p">,</span> <span class="s1">&#39;Nelder-Mead&#39;</span><span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">opt</span> <span class="ow">in</span> <span class="n">optimizers</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+        <span class="n">optimizer</span><span class="o">=</span><span class="n">opt</span><span class="p">,</span>
+        <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+        <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;optimizer&#39;</span><span class="p">:</span> <span class="n">opt</span><span class="p">,</span>
+        <span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="n">energy</span><span class="p">,</span>
+        <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">elapsed</span><span class="p">,</span>
+        <span class="s1">&#39;iterations&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">qaoa</span><span class="o">.</span><span class="n">get_history</span><span class="p">()[</span><span class="s1">&#39;energies&#39;</span><span class="p">])</span>
+    <span class="p">})</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">opt</span><span class="si">:</span><span class="s2">15s</span><span class="si">}</span><span class="s2">: E = </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">, time = </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s, iters = </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;iterations&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Typical output:</span>
+<span class="c1"># COBYLA:        E = -5.423, time = 12.3s, iters = 87</span>
+<span class="c1"># L-BFGS-B:      E = -5.421, time = 8.7s, iters = 45</span>
+<span class="c1"># SLSQP:         E = -5.422, time = 9.1s, iters = 52</span>
+<span class="c1"># Nelder-Mead:   E = -5.415, time = 18.4s, iters = 156</span>
+</pre></div>
+</div>
+<p>For QAOA, COBYLA (derivative-free) is robust for small <span class="math notranslate nohighlight">\(p\)</span>, while L-BFGS-B (gradient-based) is faster for larger <span class="math notranslate nohighlight">\(p\)</span>.</p>
+</section>
+<section id="parameter-initialization-strategies">
+<h3>Parameter Initialization Strategies<a class="headerlink" href="#parameter-initialization-strategies" title="Link to this heading">#</a></h3>
+<p>Good initialization accelerates convergence:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Strategy 1: Random initialization</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">random_init</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">gamma</span><span class="p">,</span> <span class="n">beta</span><span class="p">])</span>
+
+<span class="c1"># Strategy 2: Heuristic initialization</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">heuristic_init</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+    <span class="c1"># Start with parameters known to work well for p=1</span>
+    <span class="c1"># Extrapolate for higher p</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">gamma</span><span class="p">,</span> <span class="n">beta</span><span class="p">])</span>
+
+<span class="c1"># Strategy 3: Transfer from lower p</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">transfer_init</span><span class="p">(</span><span class="n">qaoa_prev</span><span class="p">,</span> <span class="n">p_new</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize p_new layer QAOA from optimized p_old parameters.&quot;&quot;&quot;</span>
+    <span class="n">params_old</span> <span class="o">=</span> <span class="n">qaoa_prev</span><span class="o">.</span><span class="n">optimal_params</span>
+    <span class="n">p_old</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">params_old</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+
+    <span class="c1"># Interpolate to p_new</span>
+    <span class="n">gamma_old</span> <span class="o">=</span> <span class="n">params_old</span><span class="p">[:</span><span class="n">p_old</span><span class="p">]</span>
+    <span class="n">beta_old</span> <span class="o">=</span> <span class="n">params_old</span><span class="p">[</span><span class="n">p_old</span><span class="p">:]</span>
+
+    <span class="n">gamma_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">p_old</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">p_new</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">p_old</span><span class="p">),</span>
+        <span class="n">gamma_old</span>
+    <span class="p">)</span>
+    <span class="n">beta_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">p_old</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">p_new</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">p_old</span><span class="p">),</span>
+        <span class="n">beta_old</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">gamma_new</span><span class="p">,</span> <span class="n">beta_new</span><span class="p">])</span>
+
+<span class="c1"># Compare strategies</span>
+<span class="k">for</span> <span class="n">init_name</span><span class="p">,</span> <span class="n">init_func</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">&#39;random&#39;</span><span class="p">,</span> <span class="n">random_init</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;heuristic&#39;</span><span class="p">,</span> <span class="n">heuristic_init</span><span class="p">)]:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">initial_params</span><span class="o">=</span><span class="n">init_func</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">init_name</span><span class="si">}</span><span class="s2"> init: final energy = </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="layer-by-layer-training">
+<h3>Layer-by-Layer Training<a class="headerlink" href="#layer-by-layer-training" title="Link to this heading">#</a></h3>
+<p>Optimize incrementally, transferring parameters between depths:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Layer-by-layer QAOA</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">qaoa_p1</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+<span class="n">energy_p1</span><span class="p">,</span> <span class="n">params_p1</span> <span class="o">=</span> <span class="n">qaoa_p1</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p=1: E = </span><span class="si">{</span><span class="n">energy_p1</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Use p=1 solution to initialize p=2</span>
+<span class="n">params_p2_init</span> <span class="o">=</span> <span class="n">transfer_init</span><span class="p">(</span><span class="n">qaoa_p1</span><span class="p">,</span> <span class="n">p_new</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">qaoa_p2</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">initial_params</span><span class="o">=</span><span class="n">params_p2_init</span><span class="p">)</span>
+<span class="n">energy_p2</span><span class="p">,</span> <span class="n">params_p2</span> <span class="o">=</span> <span class="n">qaoa_p2</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p=2: E = </span><span class="si">{</span><span class="n">energy_p2</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Continue to p=3</span>
+<span class="n">params_p3_init</span> <span class="o">=</span> <span class="n">transfer_init</span><span class="p">(</span><span class="n">qaoa_p2</span><span class="p">,</span> <span class="n">p_new</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">qaoa_p3</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">initial_params</span><span class="o">=</span><span class="n">params_p3_init</span><span class="p">)</span>
+<span class="n">energy_p3</span><span class="p">,</span> <span class="n">params_p3</span> <span class="o">=</span> <span class="n">qaoa_p3</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p=3: E = </span><span class="si">{</span><span class="n">energy_p3</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This approach often converges faster than directly optimizing high-<span class="math notranslate nohighlight">\(p\)</span> QAOA.</p>
+</section>
+</section>
+<section id="part-6-depth-vs-performance-trade-offs">
+<h2>Part 6: Depth vs Performance Trade-offs<a class="headerlink" href="#part-6-depth-vs-performance-trade-offs" title="Link to this heading">#</a></h2>
+<section id="effect-of-circuit-depth">
+<h3>Effect of Circuit Depth<a class="headerlink" href="#effect-of-circuit-depth" title="Link to this heading">#</a></h3>
+<p>Increasing <span class="math notranslate nohighlight">\(p\)</span> improves approximation quality but increases computational cost:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">maxcut_hamiltonian</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Exact solution</span>
+<span class="n">max_cut_exact</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">maxcut_bruteforce</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+<span class="n">p_values</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="n">energies</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">approx_ratios</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">times</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">p_values</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+    <span class="n">energies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">energy</span><span class="p">)</span>
+    <span class="n">approx_ratios</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">energy</span> <span class="o">/</span> <span class="n">max_cut_exact</span><span class="p">)</span>
+    <span class="n">times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elapsed</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p=</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">: cut = </span><span class="si">{</span><span class="o">-</span><span class="n">energy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, ratio = </span><span class="si">{</span><span class="n">approx_ratios</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, time = </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot results</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_values</span><span class="p">,</span> <span class="n">approx_ratios</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Optimal&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;QAOA depth p&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Approximation ratio&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Solution Quality vs Depth&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_values</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;QAOA depth p&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Optimization time (s)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Computational Cost vs Depth&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;qaoa_depth_tradeoff.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Typical behavior: approximation ratio improves with <span class="math notranslate nohighlight">\(p\)</span> but saturates, while time grows linearly or faster.</p>
+</section>
+<section id="approximation-guarantees">
+<h3>Approximation Guarantees<a class="headerlink" href="#approximation-guarantees" title="Link to this heading">#</a></h3>
+<p>For MaxCut, QAOA with <span class="math notranslate nohighlight">\(p=1\)</span> guarantees approximation ratio <span class="math notranslate nohighlight">\(\geq 0.6924\)</span> (worst case). Higher <span class="math notranslate nohighlight">\(p\)</span> improves this bound. In practice, <span class="math notranslate nohighlight">\(p=3-5\)</span> often achieves ratios &gt; 0.95 for random graphs.</p>
+</section>
+</section>
+<section id="part-7-advanced-qaoa-techniques">
+<h2>Part 7: Advanced QAOA Techniques<a class="headerlink" href="#part-7-advanced-qaoa-techniques" title="Link to this heading">#</a></h2>
+<section id="warm-starting-from-classical-solutions">
+<h3>Warm-Starting from Classical Solutions<a class="headerlink" href="#warm-starting-from-classical-solutions" title="Link to this heading">#</a></h3>
+<p>Initialize QAOA from classical heuristic solution:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get classical greedy solution</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">greedy_maxcut</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Greedy heuristic for MaxCut.&quot;&quot;&quot;</span>
+    <span class="n">partition</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+        <span class="c1"># Assign to partition maximizing cut</span>
+        <span class="n">cut_if_0</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="k">if</span> <span class="n">partition</span><span class="p">[</span><span class="n">neighbor</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">cut_if_1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="k">if</span> <span class="n">partition</span><span class="p">[</span><span class="n">neighbor</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">partition</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">cut_if_1</span> <span class="o">&gt;</span> <span class="n">cut_if_0</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">partition</span>
+
+<span class="n">classical_solution</span> <span class="o">=</span> <span class="n">greedy_maxcut</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">classical_cut</span> <span class="o">=</span> <span class="n">compute_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">classical_solution</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Classical greedy: cut = </span><span class="si">{</span><span class="n">classical_cut</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Initialize QAOA state to classical solution</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">warm_start_state</span><span class="p">(</span><span class="n">bitstring</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create MPS initialized to given bit string.&quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bitstring</span><span class="p">)</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Prepare computational basis state |bitstring⟩</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bitstring</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">bit</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mps</span>
+
+<span class="c1"># Use warm-started QAOA</span>
+<span class="n">mps_init</span> <span class="o">=</span> <span class="n">warm_start_state</span><span class="p">(</span><span class="n">classical_solution</span><span class="p">)</span>
+<span class="n">qaoa_warm</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="n">mps_init</span><span class="p">)</span>
+<span class="n">energy_warm</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">qaoa_warm</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warm-started QAOA: cut = </span><span class="si">{</span><span class="o">-</span><span class="n">energy_warm</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Warm-starting can significantly reduce optimization time for hard instances.</p>
+</section>
+<section id="custom-mixer-hamiltonians">
+<h3>Custom Mixer Hamiltonians<a class="headerlink" href="#custom-mixer-hamiltonians" title="Link to this heading">#</a></h3>
+<p>For constrained problems, design mixers preserving feasibility:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: MaxCut with constraint that partition sizes differ by at most 1</span>
+<span class="c1"># Use XY mixer instead of X mixer:</span>
+<span class="c1"># H_B = sum_{i &lt; j} (X_i X_j + Y_i Y_j)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">custom_mixer_qaoa</span><span class="p">(</span><span class="n">H_problem</span><span class="p">,</span> <span class="n">mixer_type</span><span class="o">=</span><span class="s1">&#39;XY&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;QAOA with custom mixer.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+
+    <span class="k">if</span> <span class="n">mixer_type</span> <span class="o">==</span> <span class="s1">&#39;XY&#39;</span><span class="p">:</span>
+        <span class="n">H_mixer</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">xy_mixer_hamiltonian</span><span class="p">(</span>
+            <span class="n">num_qubits</span><span class="o">=</span><span class="n">H_problem</span><span class="o">.</span><span class="n">num_sites</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Standard X mixer</span>
+        <span class="n">H_mixer</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">x_mixer_hamiltonian</span><span class="p">(</span>
+            <span class="n">num_qubits</span><span class="o">=</span><span class="n">H_problem</span><span class="o">.</span><span class="n">num_sites</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+        <span class="p">)</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span>
+        <span class="n">H_problem</span><span class="p">,</span>
+        <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+        <span class="n">mixer_hamiltonian</span><span class="o">=</span><span class="n">H_mixer</span>
+    <span class="p">)</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">energy</span><span class="p">,</span> <span class="n">params</span>
+
+<span class="n">energy_xy</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">custom_mixer_qaoa</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mixer_type</span><span class="o">=</span><span class="s1">&#39;XY&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;XY mixer energy: </span><span class="si">{</span><span class="n">energy_xy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Custom mixers can improve performance on structured problems.</p>
+</section>
+</section>
+<section id="part-8-interpreting-results">
+<h2>Part 8: Interpreting Results<a class="headerlink" href="#part-8-interpreting-results" title="Link to this heading">#</a></h2>
+<section id="measurement-and-sampling">
+<h3>Measurement and Sampling<a class="headerlink" href="#measurement-and-sampling" title="Link to this heading">#</a></h3>
+<p>Extract solutions from QAOA state:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Optimize QAOA</span>
+<span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="c1"># Get quantum state</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+
+<span class="c1"># Sample multiple bit strings</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+    <span class="n">bitstring</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+    <span class="n">cut_val</span> <span class="o">=</span> <span class="n">compute_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">bitstring</span><span class="p">)</span>
+    <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">bitstring</span><span class="p">,</span> <span class="n">cut_val</span><span class="p">))</span>
+
+<span class="c1"># Analyze distribution</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="n">cut_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">cut</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">cut</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
+<span class="n">cut_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">cut_values</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cut value distribution:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">cut_val</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">cut_counter</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="n">cut_counter</span><span class="p">[</span><span class="n">cut_val</span><span class="p">]</span> <span class="o">/</span> <span class="n">n_samples</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Cut </span><span class="si">{</span><span class="n">cut_val</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">prob</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+
+<span class="c1"># Best observed solution</span>
+<span class="n">best_sample</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Best sampled solution: cut = </span><span class="si">{</span><span class="n">best_sample</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="visualization-of-solutions">
+<h3>Visualization of Solutions<a class="headerlink" href="#visualization-of-solutions" title="Link to this heading">#</a></h3>
+<p>Visualize graph partitions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">visualize_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">bitstring</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw graph with colored partition.&quot;&quot;&quot;</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+    <span class="c1"># Color nodes by partition</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span> <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;blue&#39;</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bitstring</span><span class="p">]</span>
+
+    <span class="c1"># Draw</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_labels</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">font_color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">font_weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Color edges: green if cut, gray otherwise</span>
+    <span class="n">edge_colors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">bitstring</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">bitstring</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">edge_colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">edge_colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="n">edge_colors</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+
+    <span class="n">cut_val</span> <span class="o">=</span> <span class="n">compute_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">bitstring</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;MaxCut Solution (cut value = </span><span class="si">{</span><span class="n">cut_val</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;maxcut_solution.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+
+<span class="c1"># Visualize QAOA solution</span>
+<span class="n">best_bitstring</span> <span class="o">=</span> <span class="n">best_sample</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">visualize_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">best_bitstring</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="comparison-to-classical-heuristics">
+<h3>Comparison to Classical Heuristics<a class="headerlink" href="#comparison-to-classical-heuristics" title="Link to this heading">#</a></h3>
+<p>Benchmark against classical algorithms:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Classical algorithms for MaxCut</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">random_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Random partition.&quot;&quot;&quot;</span>
+    <span class="n">best_cut</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_trials</span><span class="p">):</span>
+        <span class="n">bitstring</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">())]</span>
+        <span class="n">cut</span> <span class="o">=</span> <span class="n">compute_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">bitstring</span><span class="p">)</span>
+        <span class="n">best_cut</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">best_cut</span><span class="p">,</span> <span class="n">cut</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">best_cut</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">simulated_annealing_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simulated annealing for MaxCut.&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+    <span class="n">current_cut</span> <span class="o">=</span> <span class="n">compute_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">current</span><span class="p">)</span>
+    <span class="n">best_cut</span> <span class="o">=</span> <span class="n">current_cut</span>
+
+    <span class="n">T</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iter</span><span class="p">):</span>
+        <span class="c1"># Flip random bit</span>
+        <span class="n">neighbor</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">flip_idx</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">neighbor</span><span class="p">[</span><span class="n">flip_idx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">neighbor</span><span class="p">[</span><span class="n">flip_idx</span><span class="p">]</span>
+        <span class="n">neighbor_cut</span> <span class="o">=</span> <span class="n">compute_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">)</span>
+
+        <span class="c1"># Accept with probability</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">neighbor_cut</span> <span class="o">-</span> <span class="n">current_cut</span>
+        <span class="k">if</span> <span class="n">delta</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">delta</span> <span class="o">/</span> <span class="n">T</span><span class="p">):</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">neighbor</span>
+            <span class="n">current_cut</span> <span class="o">=</span> <span class="n">neighbor_cut</span>
+            <span class="n">best_cut</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">best_cut</span><span class="p">,</span> <span class="n">current_cut</span><span class="p">)</span>
+
+        <span class="c1"># Cool down</span>
+        <span class="n">T</span> <span class="o">*=</span> <span class="mf">0.9995</span>
+
+    <span class="k">return</span> <span class="n">best_cut</span>
+
+<span class="c1"># Compare</span>
+<span class="n">max_cut_exact</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">maxcut_bruteforce</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">cut_random</span> <span class="o">=</span> <span class="n">random_cut</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">cut_greedy</span> <span class="o">=</span> <span class="n">classical_cut</span>
+<span class="n">cut_sa</span> <span class="o">=</span> <span class="n">simulated_annealing_cut</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">cut_qaoa</span> <span class="o">=</span> <span class="o">-</span><span class="n">energy</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Method&#39;</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Cut Value&#39;</span><span class="si">:</span><span class="s2">&lt;12s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Approximation&#39;</span><span class="si">:</span><span class="s2">&lt;15s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Random&#39;</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cut_random</span><span class="si">:</span><span class="s2">&lt;12.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cut_random</span><span class="o">/</span><span class="n">max_cut_exact</span><span class="si">:</span><span class="s2">&lt;15.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Greedy&#39;</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cut_greedy</span><span class="si">:</span><span class="s2">&lt;12.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cut_greedy</span><span class="o">/</span><span class="n">max_cut_exact</span><span class="si">:</span><span class="s2">&lt;15.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Simulated Annealing&#39;</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cut_sa</span><span class="si">:</span><span class="s2">&lt;12.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cut_sa</span><span class="o">/</span><span class="n">max_cut_exact</span><span class="si">:</span><span class="s2">&lt;15.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;QAOA (p=3)&#39;</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cut_qaoa</span><span class="si">:</span><span class="s2">&lt;12.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cut_qaoa</span><span class="o">/</span><span class="n">max_cut_exact</span><span class="si">:</span><span class="s2">&lt;15.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Exact&#39;</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">max_cut_exact</span><span class="si">:</span><span class="s2">&lt;12.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;1.000&#39;</span><span class="si">:</span><span class="s2">&lt;15s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-9-troubleshooting">
+<h2>Part 9: Troubleshooting<a class="headerlink" href="#part-9-troubleshooting" title="Link to this heading">#</a></h2>
+<section id="problem-qaoa-converges-to-poor-solutions">
+<h3>Problem: QAOA Converges to Poor Solutions<a class="headerlink" href="#problem-qaoa-converges-to-poor-solutions" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms</strong>: Approximation ratio &lt; 0.7, far from optimal</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Increase number of layers:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># Try p=5 instead of p=2</span>
+</pre></div>
+</div>
+</li>
+<li><p>Improve parameter initialization:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use heuristic or layer-by-layer initialization</span>
+<span class="n">params_init</span> <span class="o">=</span> <span class="n">heuristic_init</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">initial_params</span><span class="o">=</span><span class="n">params_init</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Try different optimizer:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="s1">&#39;L-BFGS-B&#39;</span>  <span class="c1"># Switch from COBYLA</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="problem-optimization-takes-too-long">
+<h3>Problem: Optimization Takes Too Long<a class="headerlink" href="#problem-optimization-takes-too-long" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms</strong>: Hours to converge, stuck in local minima</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Reduce number of optimizer iterations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">max_iter</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Instead of 300</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use faster (less accurate) QAOA:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># Lower p</span>
+</pre></div>
+</div>
+</li>
+<li><p>Warm-start from classical solution:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">classical_sol</span> <span class="o">=</span> <span class="n">greedy_maxcut</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">mps_init</span> <span class="o">=</span> <span class="n">warm_start_state</span><span class="p">(</span><span class="n">classical_sol</span><span class="p">)</span>
+<span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="n">mps_init</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="problem-sampled-solutions-don-t-match-energy">
+<h3>Problem: Sampled Solutions Don’t Match Energy<a class="headerlink" href="#problem-sampled-solutions-don-t-match-energy" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms</strong>: Low energy but samples give poor cuts</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Increase sampling count:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">n_samples</span> <span class="o">=</span> <span class="mi">100000</span>  <span class="c1"># More samples for rare good solutions</span>
+</pre></div>
+</div>
+</li>
+<li><p>Check for degenerate ground states:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Multiple near-optimal solutions may exist</span>
+<span class="c1"># Take best among top samples</span>
+<span class="n">top_samples</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="mi">100</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+<li><p>Post-process with local search:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">local_search</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">bitstring</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;1-flip local search to improve solution.&quot;&quot;&quot;</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">bitstring</span><span class="p">)</span>
+    <span class="n">improved</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">while</span> <span class="n">improved</span><span class="p">:</span>
+        <span class="n">improved</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">current</span><span class="p">)):</span>
+            <span class="n">current</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">current</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">compute_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">current</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">compute_cut</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">bitstring</span><span class="p">):</span>
+                <span class="n">bitstring</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">improved</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">current</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">current</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">bitstring</span>
+
+<span class="n">improved_sol</span> <span class="o">=</span> <span class="n">local_search</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">best_bitstring</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="problem-qaoa-worse-than-classical-for-small-graphs">
+<h3>Problem: QAOA Worse Than Classical for Small Graphs<a class="headerlink" href="#problem-qaoa-worse-than-classical-for-small-graphs" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms</strong>: Classical greedy outperforms QAOA</p>
+<p><strong>Solutions</strong>:</p>
+<p>This is expected. QAOA quantum advantage appears for:</p>
+<ul class="simple">
+<li><p>Larger graphs (50+ nodes)</p></li>
+<li><p>Dense graphs (high edge-to-node ratio)</p></li>
+<li><p>Structured problem instances (not random)</p></li>
+<li><p>Higher circuit depth (<span class="math notranslate nohighlight">\(p \geq 3\)</span>)</p></li>
+</ul>
+<p>For small graphs, classical algorithms are competitive. Use QAOA for regimes where classical methods struggle.</p>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>This tutorial covered QAOA with ATLAS-Q:</p>
+<p>✓ Formulated combinatorial problems (MaxCut, coloring, SAT) as QAOA Hamiltonians
+✓ Built problem and mixer Hamiltonians for various optimization tasks
+✓ Optimized QAOA parameters using classical optimizers
+✓ Explored depth-performance trade-offs with varying <span class="math notranslate nohighlight">\(p\)</span>
+✓ Sampled and interpreted solutions from QAOA states
+✓ Applied warm-starting and custom mixers for improved performance
+✓ Compared QAOA to classical heuristics (greedy, simulated annealing)
+✓ Troubleshot convergence and solution quality issues</p>
+<p>QAOA bridges quantum computation and classical optimization, providing a near-term quantum algorithm for combinatorial problems with practical applications.</p>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="vqe_tutorial.html"><span class="doc">VQE Tutorial</span></a> - Related variational algorithm principles</p></li>
+<li><p><a class="reference internal" href="advanced_features.html"><span class="doc">Advanced Features Tutorial</span></a> - Multi-objective optimization and constraints</p></li>
+<li><p><a class="reference internal" href="../howtos/custom_hamiltonians.html"><span class="doc">How to Build Custom Hamiltonians</span></a> - Build problem Hamiltonians</p></li>
+<li><p><a class="reference internal" href="../explanations/algorithms.html"><span class="doc">Algorithms</span></a> - QAOA theory and guarantees</p></li>
+</ul>
+</section>
+<section id="practice-exercises">
+<h2>Practice Exercises<a class="headerlink" href="#practice-exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Implement QAOA for weighted MaxCut where edges have different weights</p></li>
+<li><p>Compare approximation ratios for QAOA with <span class="math notranslate nohighlight">\(p=1,2,3,4,5\)</span> on a 20-node random graph</p></li>
+<li><p>Warm-start QAOA from a greedy solution and measure speedup</p></li>
+<li><p>Design a custom mixer for graph coloring that preserves one-hot constraints</p></li>
+<li><p>Implement tournament selection to combine multiple QAOA samples into best solution</p></li>
+</ol>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../reference/vqe_qaoa.html"><span class="doc">atlas_q.vqe_qaoa</span></a> - QAOA API reference</p></li>
+<li><p><a class="reference internal" href="../../reference/mpo_ops.html"><span class="doc">atlas_q.mpo_ops</span></a> - Problem Hamiltonian builders</p></li>
+<li><p><a class="reference internal" href="../explanations/algorithms.html"><span class="doc">Algorithms</span></a> - Theoretical foundations</p></li>
+<li><p><a class="reference internal" href="../howtos/optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> - Performance tuning for large instances</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="molecular_vqe.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Molecular VQE Tutorial</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="advanced_features.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Advanced Features Tutorial</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1-fundamentals-of-qaoa">Part 1: Fundamentals of QAOA</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-qaoa">What is QAOA?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-qaoa-works">Why QAOA Works</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-qaoa-workflow">Basic QAOA Workflow</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2-the-qaoa-ansatz">Part 2: The QAOA Ansatz</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-hamiltonian-cost-function">Problem Hamiltonian (Cost Function)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixer-hamiltonian">Mixer Hamiltonian</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layered-structure">Layered Structure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-landscape">Parameter Landscape</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3-maxcut-problem">Part 3: MaxCut Problem</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-partitioning">Graph Partitioning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-maxcut-hamiltonians">Building MaxCut Hamiltonians</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-interpretation">Solution Interpretation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-metrics">Quality Metrics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-4-other-combinatorial-problems">Part 4: Other Combinatorial Problems</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-coloring">Graph Coloring</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vertex-cover">Vertex Cover</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#satisfiability-3-sat">Satisfiability (3-SAT)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-5-parameter-optimization">Part 5: Parameter Optimization</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-optimizers">Classical Optimizers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-initialization-strategies">Parameter Initialization Strategies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer-by-layer-training">Layer-by-Layer Training</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-6-depth-vs-performance-trade-offs">Part 6: Depth vs Performance Trade-offs</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-circuit-depth">Effect of Circuit Depth</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#approximation-guarantees">Approximation Guarantees</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-7-advanced-qaoa-techniques">Part 7: Advanced QAOA Techniques</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#warm-starting-from-classical-solutions">Warm-Starting from Classical Solutions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-mixer-hamiltonians">Custom Mixer Hamiltonians</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-8-interpreting-results">Part 8: Interpreting Results</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#measurement-and-sampling">Measurement and Sampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization-of-solutions">Visualization of Solutions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-to-classical-heuristics">Comparison to Classical Heuristics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-9-troubleshooting">Part 9: Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-qaoa-converges-to-poor-solutions">Problem: QAOA Converges to Poor Solutions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-optimization-takes-too-long">Problem: Optimization Takes Too Long</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-sampled-solutions-don-t-match-energy">Problem: Sampled Solutions Don’t Match Energy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-qaoa-worse-than-classical-for-small-graphs">Problem: QAOA Worse Than Classical for Small Graphs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-exercises">Practice Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

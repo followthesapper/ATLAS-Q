@@ -1,0 +1,31 @@
+﻿atlas\_q.quantum\_hybrid\_system.PeriodResult
+=============================================
+
+.. currentmodule:: atlas_q.quantum_hybrid_system
+
+.. autoclass:: PeriodResult
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PeriodResult.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PeriodResult.attempts
+      ~PeriodResult.period
+      ~PeriodResult.method
+      ~PeriodResult.time_seconds
+   
+   

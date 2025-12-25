@@ -1,0 +1,1236 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Integrate cuQuantum &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/howtos/integrate_cuquantum';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Debug Simulations" href="debug_simulations.html" />
+    <link rel="prev" title="Configure Precision" href="configure_precision.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="optimize_performance.html">How to Optimize Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handle_large_systems.html">How to Handle Large Quantum Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configure_precision.html">Configure Precision</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Integrate cuQuantum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug_simulations.html">Debug Simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save_load_state.html">Save and Load State</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_hamiltonians.html">How to Build Custom Hamiltonians</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel_computation.html">Parallel Computation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark_comparison.html">Benchmark Comparison</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">How-To Guides</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Integrate cuQuantum</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="integrate-cuquantum">
+<h1>Integrate cuQuantum<a class="headerlink" href="#integrate-cuquantum" title="Link to this heading">#</a></h1>
+<section id="problem">
+<h2>Problem<a class="headerlink" href="#problem" title="Link to this heading">#</a></h2>
+<p>NVIDIA cuQuantum provides GPU-accelerated tensor network operations that can significantly
+speed up MPS simulations. Key benefits:</p>
+<ul class="simple">
+<li><p><strong>SVD acceleration</strong>: 2-5× faster than PyTorch for large bond dimensions (χ &gt; 64)</p></li>
+<li><p><strong>Tensor contractions</strong>: 2-10× faster for multi-dimensional contractions</p></li>
+<li><p><strong>Memory efficiency</strong>: Optimized workspace management for large tensors</p></li>
+<li><p><strong>Hardware utilization</strong>: Better use of modern GPU features (Tensor Cores, async ops)</p></li>
+<li><p><strong>Production-ready</strong>: Battle-tested on NVIDIA’s HPC systems</p></li>
+</ul>
+<p>This guide covers cuQuantum installation, configuration, and integration with ATLAS-Q
+to maximize MPS simulation performance on NVIDIA GPUs.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../explanations/gpu_acceleration.html"><span class="doc">GPU Acceleration</span></a> for GPU optimization theory,
+<a class="reference internal" href="optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> for general performance tuning,
+<a class="reference internal" href="handle_large_systems.html"><span class="doc">How to Handle Large Quantum Systems</span></a> for large-scale distributed simulations with cuQuantum.</p>
+</div>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<p>You need:</p>
+<ul class="simple">
+<li><p><strong>NVIDIA GPU</strong>: Volta (V100), Ampere (A100), or Hopper (H100) recommended</p></li>
+<li><p><strong>CUDA Toolkit</strong>: Version 11.8 or later (12.x recommended)</p></li>
+<li><p><strong>Python</strong>: 3.8-3.12</p></li>
+<li><p><strong>Storage</strong>: ~500 MB for cuQuantum libraries</p></li>
+<li><p><strong>System permissions</strong>: Ability to install CUDA-dependent packages</p></li>
+</ul>
+</section>
+<section id="strategies">
+<h2>Strategies<a class="headerlink" href="#strategies" title="Link to this heading">#</a></h2>
+<section id="strategy-1-installation-and-setup">
+<h3>Strategy 1: Installation and Setup<a class="headerlink" href="#strategy-1-installation-and-setup" title="Link to this heading">#</a></h3>
+<p>Install cuQuantum for GPU-accelerated tensor operations.</p>
+<p><strong>Standard installation via pip</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install cuQuantum Python bindings</span>
+pip<span class="w"> </span>install<span class="w"> </span>cuquantum-python
+
+<span class="c1"># Verify installation</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import cuquantum; print(f&#39;cuQuantum version: {cuquantum.__version__}&#39;)&quot;</span>
+</pre></div>
+</div>
+<p><strong>Expected output</strong>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>cuQuantum version: 24.03.0
+</pre></div>
+</div>
+<p><strong>Installation with specific CUDA version</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># If you have CUDA 11.8</span>
+pip<span class="w"> </span>install<span class="w"> </span>cuquantum-python-cu11
+
+<span class="c1"># If you have CUDA 12.x</span>
+pip<span class="w"> </span>install<span class="w"> </span>cuquantum-python-cu12
+</pre></div>
+</div>
+<p><strong>Verify GPU and CUDA compatibility</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cuquantum</span>
+
+<span class="c1"># Check CUDA availability</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PyTorch CUDA available: </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CUDA version (PyTorch): </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">cuda</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU: </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_name</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check cuQuantum version</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cuQuantum version: </span><span class="si">{</span><span class="n">cuquantum</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Test basic cuQuantum functionality</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cuquantum</span><span class="w"> </span><span class="kn">import</span> <span class="n">cutensornet</span> <span class="k">as</span> <span class="n">cutn</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="n">cutn</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cuQuantum successfully initialized&quot;</span><span class="p">)</span>
+<span class="n">cutn</span><span class="o">.</span><span class="n">destroy</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Expected output</strong>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>PyTorch CUDA available: True
+CUDA version (PyTorch): 12.1
+GPU: NVIDIA A100-SXM4-80GB
+cuQuantum version: 24.03.0
+cuQuantum successfully initialized
+</pre></div>
+</div>
+</section>
+<section id="strategy-2-automatic-cuquantum-detection">
+<h3>Strategy 2: Automatic cuQuantum Detection<a class="headerlink" href="#strategy-2-automatic-cuquantum-detection" title="Link to this heading">#</a></h3>
+<p>ATLAS-Q automatically detects and uses cuQuantum when available.</p>
+<p><strong>Check cuQuantum availability</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_cuquantum</span>
+
+<span class="c1"># Get cuQuantum info</span>
+<span class="n">cuq</span> <span class="o">=</span> <span class="n">get_cuquantum</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">cuq</span><span class="p">[</span><span class="s1">&#39;is_cuquantum_available&#39;</span><span class="p">]():</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">cuq</span><span class="p">[</span><span class="s1">&#39;get_cuquantum_version&#39;</span><span class="p">]()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cuQuantum </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2"> available&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ATLAS-Q will automatically use cuQuantum for:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - SVD operations (bond dimension truncation)&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - Large tensor contractions&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - QR decompositions&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cuQuantum not available&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ATLAS-Q will use PyTorch fallback implementations&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Performance will be ~2-5× slower for large bond dimensions&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Test cuQuantum with simple MPS</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1"># Create MPS - will automatically use cuQuantum if available</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span>
+    <span class="n">use_cuquantum</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># Explicitly enable (default is auto-detect)</span>
+<span class="p">)</span>
+
+<span class="c1"># Apply gates - SVD uses cuQuantum</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">29</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Applied 29 CNOTs in </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Backend: </span><span class="si">{</span><span class="s1">&#39;cuQuantum&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">mps</span><span class="o">.</span><span class="n">_using_cuquantum</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;PyTorch&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-3-manual-backend-configuration">
+<h3>Strategy 3: Manual Backend Configuration<a class="headerlink" href="#strategy-3-manual-backend-configuration" title="Link to this heading">#</a></h3>
+<p>Manually configure cuQuantum backend for fine-grained control.</p>
+<p><strong>Configure cuQuantum backend</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumBackend</span><span class="p">,</span> <span class="n">CuQuantumConfig</span>
+
+<span class="c1"># Configure cuQuantum with custom settings</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span>
+    <span class="n">use_cutensornet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>         <span class="c1"># Use cuTensorNet for tensor networks</span>
+    <span class="n">workspace_size</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>   <span class="c1"># 2 GB workspace (adjust based on GPU memory)</span>
+    <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>             <span class="c1"># Auto-select best algorithm</span>
+    <span class="n">svd_algorithm</span><span class="o">=</span><span class="s1">&#39;gesvdj&#39;</span><span class="p">,</span>       <span class="c1"># Jacobi SVD (fast, good for χ &lt; 512)</span>
+    <span class="c1"># svd_algorithm=&#39;gesvd&#39;,      # Standard SVD (more stable for large χ)</span>
+    <span class="n">enable_async</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>            <span class="c1"># Asynchronous operations</span>
+    <span class="n">num_streams</span><span class="o">=</span><span class="mi">4</span>                 <span class="c1"># CUDA streams for parallelism</span>
+<span class="p">)</span>
+
+<span class="c1"># Create backend</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cuQuantum backend initialized&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Workspace size: </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">workspace_size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  SVD algorithm: </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">svd_algorithm</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Async enabled: </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">enable_async</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Use cuQuantum backend explicitly</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="c1"># Create MPS with explicit cuQuantum backend</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="n">backend</span>  <span class="c1"># Use custom-configured backend</span>
+<span class="p">)</span>
+
+<span class="c1"># All tensor operations use cuQuantum</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">49</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MPS using cuQuantum backend: </span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">_backend_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-4-selective-backend-usage">
+<h3>Strategy 4: Selective Backend Usage<a class="headerlink" href="#strategy-4-selective-backend-usage" title="Link to this heading">#</a></h3>
+<p>Choose when to use cuQuantum vs PyTorch based on operation characteristics.</p>
+<p><strong>Hybrid backend strategy</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Small bond dimension: PyTorch is sufficient and may be faster</span>
+<span class="c1"># due to kernel launch overhead</span>
+<span class="n">mps_small</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span>
+    <span class="n">use_cuquantum</span><span class="o">=</span><span class="kc">False</span>  <span class="c1"># Disable cuQuantum for small χ</span>
+<span class="p">)</span>
+
+<span class="c1"># Large bond dimension: cuQuantum provides significant speedup</span>
+<span class="n">mps_large</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span>
+    <span class="n">use_cuquantum</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># Enable cuQuantum for large χ</span>
+<span class="p">)</span>
+
+<span class="c1"># Benchmark: Small bond dimension</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">29</span><span class="p">):</span>
+    <span class="n">mps_small</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">small_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="c1"># Benchmark: Large bond dimension</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">49</span><span class="p">):</span>
+    <span class="n">mps_large</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">large_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Small χ (32): </span><span class="si">{</span><span class="n">small_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s (PyTorch)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Large χ (256): </span><span class="si">{</span><span class="n">large_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s (cuQuantum)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Speedup for large χ: </span><span class="si">{</span><span class="n">small_time</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">large_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">×&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Adaptive backend selection</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">create_mps_with_optimal_backend</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">bond_dim</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create MPS with optimal backend based on bond dimension.</span>
+
+<span class="sd">    cuQuantum beneficial for χ &gt;= 64, especially for χ &gt;= 128.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">use_cuquantum</span> <span class="o">=</span> <span class="n">bond_dim</span> <span class="o">&gt;=</span> <span class="mi">64</span>
+
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+        <span class="n">bond_dim</span><span class="o">=</span><span class="n">bond_dim</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+        <span class="n">use_cuquantum</span><span class="o">=</span><span class="n">use_cuquantum</span>
+    <span class="p">)</span>
+
+    <span class="n">backend_name</span> <span class="o">=</span> <span class="s1">&#39;cuQuantum&#39;</span> <span class="k">if</span> <span class="n">use_cuquantum</span> <span class="k">else</span> <span class="s1">&#39;PyTorch&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created MPS with χ=</span><span class="si">{</span><span class="n">bond_dim</span><span class="si">}</span><span class="s2"> using </span><span class="si">{</span><span class="n">backend_name</span><span class="si">}</span><span class="s2"> backend&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mps</span>
+
+<span class="c1"># Usage</span>
+<span class="n">mps1</span> <span class="o">=</span> <span class="n">create_mps_with_optimal_backend</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>   <span class="c1"># Uses PyTorch</span>
+<span class="n">mps2</span> <span class="o">=</span> <span class="n">create_mps_with_optimal_backend</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>  <span class="c1"># Uses cuQuantum</span>
+<span class="n">mps3</span> <span class="o">=</span> <span class="n">create_mps_with_optimal_backend</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>  <span class="c1"># Uses cuQuantum</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-5-performance-tuning">
+<h3>Strategy 5: Performance Tuning<a class="headerlink" href="#strategy-5-performance-tuning" title="Link to this heading">#</a></h3>
+<p>Optimize cuQuantum performance by tuning workspace size and algorithm choices.</p>
+<p><strong>Workspace size optimization</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumConfig</span><span class="p">,</span> <span class="n">CuQuantumBackend</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Check available GPU memory</span>
+<span class="n">total_memory</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_properties</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">total_memory</span>
+<span class="n">available_memory</span> <span class="o">=</span> <span class="n">total_memory</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">memory_allocated</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total GPU memory: </span><span class="si">{</span><span class="n">total_memory</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Available memory: </span><span class="si">{</span><span class="n">available_memory</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+
+<span class="c1"># Allocate workspace: Use ~25-50% of available memory</span>
+<span class="c1"># More workspace → faster operations, but less room for MPS tensors</span>
+<span class="n">workspace_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.3</span> <span class="o">*</span> <span class="n">available_memory</span><span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span>
+    <span class="n">use_cutensornet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">workspace_size</span><span class="o">=</span><span class="n">workspace_size</span><span class="p">,</span>
+    <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span>
+<span class="p">)</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cuQuantum workspace: </span><span class="si">{</span><span class="n">workspace_size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>SVD algorithm selection</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Different SVD algorithms have different performance characteristics:</span>
+
+<span class="c1"># 1. gesvdj (Jacobi SVD) - Fast for χ &lt; 512, good accuracy</span>
+<span class="n">config_jacobi</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span>
+    <span class="n">svd_algorithm</span><span class="o">=</span><span class="s1">&#39;gesvdj&#39;</span><span class="p">,</span>
+    <span class="n">workspace_size</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>
+<span class="p">)</span>
+
+<span class="c1"># 2. gesvd (Standard SVD) - More stable for large χ, slower</span>
+<span class="n">config_standard</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span>
+    <span class="n">svd_algorithm</span><span class="o">=</span><span class="s1">&#39;gesvd&#39;</span><span class="p">,</span>
+    <span class="n">workspace_size</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>
+<span class="p">)</span>
+
+<span class="c1"># 3. gesvda (Approximate SVD) - Fastest, slight accuracy trade-off</span>
+<span class="n">config_approx</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span>
+    <span class="n">svd_algorithm</span><span class="o">=</span><span class="s1">&#39;gesvda&#39;</span><span class="p">,</span>
+    <span class="n">workspace_size</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>
+<span class="p">)</span>
+
+<span class="c1"># Recommendation:</span>
+<span class="c1"># - χ &lt;= 128: gesvdj (fast and accurate)</span>
+<span class="c1"># - 128 &lt; χ &lt;= 512: gesvd (stable)</span>
+<span class="c1"># - χ &gt; 512: gesvda (only if accuracy permits)</span>
+
+<span class="c1"># Example: TDVP with Jacobi SVD</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">backend_jacobi</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">(</span><span class="n">config_jacobi</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="n">backend_jacobi</span>
+<span class="p">)</span>
+
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># TDVP will use Jacobi SVD via cuQuantum</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">evolve_step</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Step </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">] E=</span><span class="si">{</span><span class="n">E</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-6-benchmarking-cuquantum-vs-pytorch">
+<h3>Strategy 6: Benchmarking cuQuantum vs PyTorch<a class="headerlink" href="#strategy-6-benchmarking-cuquantum-vs-pytorch" title="Link to this heading">#</a></h3>
+<p>Compare cuQuantum and PyTorch performance for your specific workload.</p>
+<p><strong>Comprehensive benchmark</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">benchmark_mps_gates</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">bond_dim</span><span class="p">,</span> <span class="n">num_gates</span><span class="p">,</span> <span class="n">use_cuquantum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Benchmark MPS gate application.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        Time in seconds</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+        <span class="n">bond_dim</span><span class="o">=</span><span class="n">bond_dim</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span>
+        <span class="n">use_cuquantum</span><span class="o">=</span><span class="n">use_cuquantum</span>
+    <span class="p">)</span>
+
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_gates</span><span class="p">):</span>
+        <span class="n">qubit</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="p">(</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">qubit</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+    <span class="k">return</span> <span class="n">elapsed</span>
+
+<span class="c1"># Benchmark different bond dimensions</span>
+<span class="n">bond_dims</span> <span class="o">=</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">]</span>
+<span class="n">num_qubits</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">num_gates</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Benchmarking </span><span class="si">{</span><span class="n">num_gates</span><span class="si">}</span><span class="s2"> CNOT gates on </span><span class="si">{</span><span class="n">num_qubits</span><span class="si">}</span><span class="s2"> qubits&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;χ&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;PyTorch (s)&#39;</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;cuQuantum (s)&#39;</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Speedup&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">chi</span> <span class="ow">in</span> <span class="n">bond_dims</span><span class="p">:</span>
+    <span class="n">time_pytorch</span> <span class="o">=</span> <span class="n">benchmark_mps_gates</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">chi</span><span class="p">,</span> <span class="n">num_gates</span><span class="p">,</span> <span class="n">use_cuquantum</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">time_cuquantum</span> <span class="o">=</span> <span class="n">benchmark_mps_gates</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">chi</span><span class="p">,</span> <span class="n">num_gates</span><span class="p">,</span> <span class="n">use_cuquantum</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">speedup</span> <span class="o">=</span> <span class="n">time_pytorch</span> <span class="o">/</span> <span class="n">time_cuquantum</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">chi</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">time_pytorch</span><span class="si">:</span><span class="s2">&lt;15.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">time_cuquantum</span><span class="si">:</span><span class="s2">&lt;15.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">speedup</span><span class="si">:</span><span class="s2">&lt;10.2f</span><span class="si">}</span><span class="s2">×&quot;</span><span class="p">)</span>
+
+<span class="c1"># Expected output (A100 GPU):</span>
+<span class="c1"># χ          PyTorch (s)     cuQuantum (s)   Speedup</span>
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># 32         0.245           0.198           1.24×</span>
+<span class="c1"># 64         0.512           0.301           1.70×</span>
+<span class="c1"># 128        1.234           0.487           2.53×</span>
+<span class="c1"># 256        3.567           0.892           4.00×</span>
+<span class="c1"># 512        9.123           1.987           4.59×</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-7-distributed-cuquantum">
+<h3>Strategy 7: Distributed cuQuantum<a class="headerlink" href="#strategy-7-distributed-cuquantum" title="Link to this heading">#</a></h3>
+<p>Use cuQuantum with distributed MPS across multiple GPUs.</p>
+<p><strong>Multi-GPU cuQuantum configuration</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumConfig</span><span class="p">,</span> <span class="n">CuQuantumBackend</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+
+<span class="c1"># Configure distributed environment</span>
+<span class="n">dist_config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span>
+    <span class="n">device_ids</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Each GPU gets its own cuQuantum backend</span>
+<span class="n">rank</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span>
+<span class="n">cuq_config</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span>
+    <span class="n">use_cutensornet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">workspace_size</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>  <span class="c1"># 2 GB per GPU</span>
+    <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+    <span class="n">svd_algorithm</span><span class="o">=</span><span class="s1">&#39;gesvdj&#39;</span>
+<span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">(</span><span class="n">cuq_config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create distributed MPS with cuQuantum</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>  <span class="c1"># Split across 4 GPUs = 128 per GPU</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">dist_config</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="n">backend</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: Distributed MPS with cuQuantum backend&quot;</span><span class="p">)</span>
+
+<span class="c1"># Operations use cuQuantum on each GPU</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">99</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">dist</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: Completed gate sequence&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="cuquantum-import-fails">
+<h3>cuQuantum Import Fails<a class="headerlink" href="#cuquantum-import-fails" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: <code class="docutils literal notranslate"><span class="pre">ImportError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'cuquantum'</span></code>.</p>
+<p><strong>Solution</strong>: Install cuquantum-python package.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install</span>
+pip<span class="w"> </span>install<span class="w"> </span>cuquantum-python
+
+<span class="c1"># If specific CUDA version needed</span>
+pip<span class="w"> </span>install<span class="w"> </span>cuquantum-python-cu12<span class="w">  </span><span class="c1"># For CUDA 12.x</span>
+
+<span class="c1"># Verify</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import cuquantum; print(cuquantum.__version__)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="cuda-compatibility-error">
+<h3>CUDA Compatibility Error<a class="headerlink" href="#cuda-compatibility-error" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: <code class="docutils literal notranslate"><span class="pre">RuntimeError:</span> <span class="pre">cuQuantum</span> <span class="pre">requires</span> <span class="pre">CUDA</span> <span class="pre">11.8</span> <span class="pre">or</span> <span class="pre">later</span></code>.</p>
+<p><strong>Solution</strong>: Update CUDA Toolkit or use compatible cuQuantum version.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check CUDA version</span>
+nvcc<span class="w"> </span>--version
+
+<span class="c1"># If CUDA &lt; 11.8, upgrade CUDA Toolkit</span>
+<span class="c1"># Or use older cuQuantum version</span>
+pip<span class="w"> </span>install<span class="w"> </span>cuquantum-python<span class="o">==</span><span class="m">23</span>.03.0<span class="w">  </span><span class="c1"># Compatible with CUDA 11.0+</span>
+</pre></div>
+</div>
+</section>
+<section id="workspace-size-too-large">
+<h3>Workspace Size Too Large<a class="headerlink" href="#workspace-size-too-large" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: <code class="docutils literal notranslate"><span class="pre">RuntimeError:</span> <span class="pre">Failed</span> <span class="pre">to</span> <span class="pre">allocate</span> <span class="pre">cuQuantum</span> <span class="pre">workspace:</span> <span class="pre">out</span> <span class="pre">of</span> <span class="pre">memory</span></code>.</p>
+<p><strong>Solution</strong>: Reduce workspace size.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Check available memory</span>
+<span class="n">available</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">mem_get_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Available GPU memory: </span><span class="si">{</span><span class="n">available</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+
+<span class="c1"># Reduce workspace size</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumConfig</span><span class="p">,</span> <span class="n">CuQuantumBackend</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span>
+    <span class="n">use_cutensornet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">workspace_size</span><span class="o">=</span><span class="mi">512</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># 512 MB instead of 2 GB</span>
+    <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span>
+<span class="p">)</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="cuquantum-slower-than-pytorch">
+<h3>cuQuantum Slower Than PyTorch<a class="headerlink" href="#cuquantum-slower-than-pytorch" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: cuQuantum backend slower than PyTorch for small problems.</p>
+<p><strong>Solution</strong>: Use cuQuantum only for large bond dimensions (χ ≥ 64).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Adaptive backend selection</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">optimal_backend</span><span class="p">(</span><span class="n">bond_dim</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return optimal backend based on bond dimension.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">bond_dim</span> <span class="o">&gt;=</span> <span class="mi">64</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>  <span class="c1"># Small χ</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span>
+    <span class="n">use_cuquantum</span><span class="o">=</span><span class="n">optimal_backend</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>  <span class="c1"># False, uses PyTorch</span>
+<span class="p">)</span>
+
+<span class="n">mps_large</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>  <span class="c1"># Large χ</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span>
+    <span class="n">use_cuquantum</span><span class="o">=</span><span class="n">optimal_backend</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>  <span class="c1"># True, uses cuQuantum</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="svd-convergence-issues-with-cuquantum">
+<h3>SVD Convergence Issues with cuQuantum<a class="headerlink" href="#svd-convergence-issues-with-cuquantum" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: <code class="docutils literal notranslate"><span class="pre">RuntimeError:</span> <span class="pre">cuQuantum</span> <span class="pre">SVD</span> <span class="pre">did</span> <span class="pre">not</span> <span class="pre">converge</span></code>.</p>
+<p><strong>Solution</strong>: Switch to more stable SVD algorithm or increase tolerance.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.cuquantum_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">CuQuantumConfig</span><span class="p">,</span> <span class="n">CuQuantumBackend</span>
+
+<span class="c1"># Use standard SVD (more stable)</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">CuQuantumConfig</span><span class="p">(</span>
+    <span class="n">use_cutensornet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">svd_algorithm</span><span class="o">=</span><span class="s1">&#39;gesvd&#39;</span><span class="p">,</span>  <span class="c1"># Was &#39;gesvdj&#39;</span>
+    <span class="n">workspace_size</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>
+<span class="p">)</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CuQuantumBackend</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Or increase truncation threshold</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span>  <span class="c1"># Was 1e-10</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="n">backend</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>cuQuantum integration strategies for ATLAS-Q:</p>
+<ol class="arabic simple">
+<li><p><strong>Installation</strong>: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">cuquantum-python</span></code> (requires CUDA 11.8+)</p></li>
+<li><p><strong>Automatic detection</strong>: ATLAS-Q auto-detects and uses cuQuantum when available</p></li>
+<li><p><strong>Manual configuration</strong>: Fine-tune workspace size and SVD algorithms</p></li>
+<li><p><strong>Selective usage</strong>: Use cuQuantum for χ ≥ 64, PyTorch for smaller bond dimensions</p></li>
+<li><p><strong>Performance tuning</strong>: Workspace size ~30% of GPU memory, choose SVD algorithm by χ</p></li>
+<li><p><strong>Benchmarking</strong>: Compare PyTorch vs cuQuantum for your specific workload</p></li>
+<li><p><strong>Distributed cuQuantum</strong>: Each GPU gets cuQuantum backend for multi-GPU systems</p></li>
+</ol>
+<p>Performance expectations:</p>
+<ul class="simple">
+<li><p><strong>SVD operations</strong>: 2-5× speedup (depends on χ and GPU)</p></li>
+<li><p><strong>Tensor contractions</strong>: 2-10× speedup (larger speedup for complex contractions)</p></li>
+<li><p><strong>Overall simulation</strong>: 1.5-3× speedup (depends on algorithm and problem)</p></li>
+<li><p><strong>Best speedup</strong>: Large bond dimensions (χ ≥ 128) on modern GPUs (A100, H100)</p></li>
+</ul>
+<p>cuQuantum is most beneficial for:</p>
+<ul class="simple">
+<li><p>Large bond dimensions (χ ≥ 64)</p></li>
+<li><p>Long simulations with many SVD operations (TDVP, VQE)</p></li>
+<li><p>Production workloads where performance is critical</p></li>
+<li><p>Modern NVIDIA GPUs (Ampere A100, Hopper H100)</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../explanations/gpu_acceleration.html"><span class="doc">GPU Acceleration</span></a>: GPU optimization theory and best practices</p></li>
+<li><p><a class="reference internal" href="optimize_performance.html"><span class="doc">How to Optimize Performance</span></a>: General performance tuning strategies</p></li>
+<li><p><a class="reference internal" href="handle_large_systems.html"><span class="doc">How to Handle Large Quantum Systems</span></a>: Distributed MPS with cuQuantum on multiple GPUs</p></li>
+<li><p><a class="reference internal" href="configure_precision.html"><span class="doc">Configure Precision</span></a>: Precision considerations with cuQuantum</p></li>
+<li><p><a class="reference internal" href="benchmark_comparison.html"><span class="doc">Benchmark Comparison</span></a>: Benchmarking ATLAS-Q with different backends</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="configure_precision.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Configure Precision</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="debug_simulations.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Debug Simulations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem">Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strategies">Strategies</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-1-installation-and-setup">Strategy 1: Installation and Setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-2-automatic-cuquantum-detection">Strategy 2: Automatic cuQuantum Detection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-3-manual-backend-configuration">Strategy 3: Manual Backend Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-4-selective-backend-usage">Strategy 4: Selective Backend Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-5-performance-tuning">Strategy 5: Performance Tuning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-6-benchmarking-cuquantum-vs-pytorch">Strategy 6: Benchmarking cuQuantum vs PyTorch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-7-distributed-cuquantum">Strategy 7: Distributed cuQuantum</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuquantum-import-fails">cuQuantum Import Fails</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuda-compatibility-error">CUDA Compatibility Error</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workspace-size-too-large">Workspace Size Too Large</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuquantum-slower-than-pytorch">cuQuantum Slower Than PyTorch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#svd-convergence-issues-with-cuquantum">SVD Convergence Issues with cuQuantum</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

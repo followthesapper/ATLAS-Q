@@ -1,0 +1,1050 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>atlas_q.circuit_cutting &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/atlas_q/circuit_cutting';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.circuit_cutting</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for atlas_q.circuit_cutting</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Circuit Cutting &amp; Entanglement Forging</span>
+
+<span class="sd">Enables simulation of circuits beyond MPS connectivity limits by:</span>
+<span class="sd">- Partitioning circuits into subcircuits</span>
+<span class="sd">- Classical stitching of results</span>
+<span class="sd">- Variance reduction techniques</span>
+
+<span class="sd">Features:</span>
+<span class="sd">- Coupling graph analysis</span>
+<span class="sd">- Min-cut partitioning algorithms</span>
+<span class="sd">- Cut-point operator insertion</span>
+<span class="sd">- Classical post-processing</span>
+<span class="sd">- Entanglement heatmap visualization</span>
+
+<span class="sd">Author: ATLAS-Q Contributors</span>
+<span class="sd">Date: October 2025</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+
+<div class="viewcode-block" id="CutPoint">
+<a class="viewcode-back" href="../../reference/circuit_cutting.html#atlas_q.circuit_cutting.CutPoint">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CutPoint</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a cut location in the circuit&quot;&quot;&quot;</span>
+
+    <span class="n">qubit1</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">qubit2</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">time_step</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># When in the circuit this cut occurs</span>
+    <span class="n">partition1</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># Which partition qubit1 belongs to</span>
+    <span class="n">partition2</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># Which partition qubit2 belongs to</span></div>
+
+
+
+<div class="viewcode-block" id="CircuitPartition">
+<a class="viewcode-back" href="../../reference/circuit_cutting.html#atlas_q.circuit_cutting.CircuitPartition">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CircuitPartition</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a partition of the circuit&quot;&quot;&quot;</span>
+
+    <span class="n">partition_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">qubits</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">gates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">]</span>  <span class="c1"># List of (gate_type, qubits, params)</span>
+    <span class="n">cut_points</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CutPoint</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="CuttingConfig">
+<a class="viewcode-back" href="../../reference/circuit_cutting.html#atlas_q.circuit_cutting.CuttingConfig">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CuttingConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for circuit cutting&quot;&quot;&quot;</span>
+
+    <span class="n">max_partition_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># Max qubits per partition</span>
+    <span class="n">max_cuts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># Maximum number of cuts</span>
+    <span class="n">algorithm</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;min_cut&quot;</span>  <span class="c1"># &#39;min_cut&#39;, &#39;spectral&#39;, &#39;manual&#39;</span>
+    <span class="n">variance_reduction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">samples_per_cut</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Classical samples per cut</span></div>
+
+
+
+<div class="viewcode-block" id="CouplingGraph">
+<a class="viewcode-back" href="../../reference/circuit_cutting.html#atlas_q.circuit_cutting.CouplingGraph">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CouplingGraph</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents the coupling/entanglement structure of a circuit.</span>
+
+<span class="sd">    Used for analyzing connectivity and finding optimal partitions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize coupling graph.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_qubits: Number of qubits in the circuit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">=</span> <span class="n">n_qubits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edges</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># (q1, q2) -&gt; weight (number of 2q gates)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adjacency</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CouplingGraph.add_two_qubit_gate">
+<a class="viewcode-back" href="../../reference/circuit_cutting.html#atlas_q.circuit_cutting.CouplingGraph.add_two_qubit_gate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_two_qubit_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit1</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a two-qubit gate to the coupling graph.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            qubit1: First qubit</span>
+<span class="sd">            qubit2: Second qubit</span>
+<span class="sd">            weight: Importance weight (default 1)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">edge</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">+=</span> <span class="n">weight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adjacency</span><span class="p">[</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">weight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adjacency</span><span class="p">[</span><span class="n">qubit2</span><span class="p">,</span> <span class="n">qubit1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">weight</span></div>
+
+
+<div class="viewcode-block" id="CouplingGraph.get_degree">
+<a class="viewcode-back" href="../../reference/circuit_cutting.html#atlas_q.circuit_cutting.CouplingGraph.get_degree">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get degree (number of connections) for a qubit&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacency</span><span class="p">[</span><span class="n">qubit</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="CouplingGraph.get_neighbors">
+<a class="viewcode-back" href="../../reference/circuit_cutting.html#atlas_q.circuit_cutting.CouplingGraph.get_neighbors">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get neighboring qubits&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacency</span><span class="p">[</span><span class="n">qubit</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="CouplingGraph.compute_entanglement_heatmap">
+<a class="viewcode-back" href="../../reference/circuit_cutting.html#atlas_q.circuit_cutting.CouplingGraph.compute_entanglement_heatmap">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_entanglement_heatmap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute entanglement heatmap (normalized adjacency matrix).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            n_qubits × n_qubits matrix of entanglement strengths</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">max_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacency</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">max_weight</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adjacency</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacency</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">max_weight</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_bottleneck_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the k edges with lowest weight (best candidates for cutting).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            k: Number of edges to return</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of (qubit1, qubit2, weight) tuples</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sorted_edges</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="ow">in</span> <span class="n">sorted_edges</span><span class="p">[:</span><span class="n">k</span><span class="p">]]</span></div>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MinCutPartitioner</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Partition circuit using min-cut algorithm.</span>
+
+<span class="sd">    Finds a partition that minimizes the number of edges (cuts) needed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">CuttingConfig</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">partition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">CouplingGraph</span><span class="p">,</span> <span class="n">n_partitions</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CircuitPartition</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Partition the coupling graph.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            graph: CouplingGraph to partition</span>
+<span class="sd">            n_partitions: Number of partitions to create</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of CircuitPartition objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">n_partitions</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partition_two_way</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partition_recursive</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">n_partitions</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_partition_two_way</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">CouplingGraph</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CircuitPartition</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Simple two-way partition using spectral bisection&quot;&quot;&quot;</span>
+        <span class="c1"># Compute Laplacian</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">adjacency</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">D</span> <span class="o">-</span> <span class="n">graph</span><span class="o">.</span><span class="n">adjacency</span>
+
+        <span class="c1"># Eigenvalue decomposition</span>
+        <span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+
+        <span class="c1"># Second smallest eigenvector (Fiedler vector)</span>
+        <span class="n">fiedler</span> <span class="o">=</span> <span class="n">eigenvectors</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Partition based on sign</span>
+        <span class="n">partition1_qubits</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">fiedler</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+        <span class="n">partition2_qubits</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">fiedler</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+        <span class="c1"># Create partitions</span>
+        <span class="n">partitions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">CircuitPartition</span><span class="p">(</span><span class="n">partition_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="n">partition1_qubits</span><span class="p">,</span> <span class="n">gates</span><span class="o">=</span><span class="p">[],</span> <span class="n">cut_points</span><span class="o">=</span><span class="p">[]),</span>
+            <span class="n">CircuitPartition</span><span class="p">(</span><span class="n">partition_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="n">partition2_qubits</span><span class="p">,</span> <span class="n">gates</span><span class="o">=</span><span class="p">[],</span> <span class="n">cut_points</span><span class="o">=</span><span class="p">[]),</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Find cut points</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">),</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">q1</span> <span class="ow">in</span> <span class="n">partition1_qubits</span> <span class="ow">and</span> <span class="n">q2</span> <span class="ow">in</span> <span class="n">partition2_qubits</span><span class="p">:</span>
+                <span class="n">cut</span> <span class="o">=</span> <span class="n">CutPoint</span><span class="p">(</span>
+                    <span class="n">qubit1</span><span class="o">=</span><span class="n">q1</span><span class="p">,</span>
+                    <span class="n">qubit2</span><span class="o">=</span><span class="n">q2</span><span class="p">,</span>
+                    <span class="n">time_step</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># Would need circuit structure to determine</span>
+                    <span class="n">partition1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">partition2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">partitions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cut_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cut</span><span class="p">)</span>
+                <span class="n">partitions</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">cut_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cut</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">partitions</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_partition_recursive</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">CouplingGraph</span><span class="p">,</span> <span class="n">n_partitions</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CircuitPartition</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recursive partitioning for n &gt; 2&quot;&quot;&quot;</span>
+        <span class="c1"># Start with 2-way partition</span>
+        <span class="n">partitions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partition_two_way</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+
+        <span class="c1"># Recursively partition largest partition until we have n_partitions</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">partitions</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">n_partitions</span><span class="p">:</span>
+            <span class="c1"># Find largest partition</span>
+            <span class="n">largest</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">partitions</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">qubits</span><span class="p">))</span>
+
+            <span class="c1"># Create subgraph</span>
+            <span class="n">subgraph</span> <span class="o">=</span> <span class="n">CouplingGraph</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">),</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">q1</span> <span class="ow">in</span> <span class="n">largest</span><span class="o">.</span><span class="n">qubits</span> <span class="ow">and</span> <span class="n">q2</span> <span class="ow">in</span> <span class="n">largest</span><span class="o">.</span><span class="n">qubits</span><span class="p">:</span>
+                    <span class="n">subgraph</span><span class="o">.</span><span class="n">add_two_qubit_gate</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span>
+
+            <span class="c1"># Split it</span>
+            <span class="n">sub_partitions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partition_two_way</span><span class="p">(</span><span class="n">subgraph</span><span class="p">)</span>
+
+            <span class="c1"># Replace largest with its splits</span>
+            <span class="n">partitions</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">largest</span><span class="p">)</span>
+            <span class="n">partitions</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sub_partitions</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">partitions</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CutOperator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a cut operator for circuit cutting.</span>
+
+<span class="sd">    Implements the wire-cutting protocol:</span>
+<span class="sd">    - Original gate G → sample from decomposition {I, X, Y, Z}</span>
+<span class="sd">    - Classical post-processing to reconstruct expectation values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cut_point</span><span class="p">:</span> <span class="n">CutPoint</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cut_point</span> <span class="o">=</span> <span class="n">cut_point</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decomposition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_pauli_decomposition</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_pauli_decomposition</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build Pauli decomposition for cut operator.</span>
+
+<span class="sd">        Returns dictionary of Pauli operators {I, X, Y, Z}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;I&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">),</span>
+            <span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">),</span>
+            <span class="s2">&quot;Y&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">),</span>
+            <span class="s2">&quot;Z&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">),</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sample a Pauli operator from the decomposition.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rng: Random number generator</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (operator_name, operator_matrix) tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Uniform sampling over Pauli group</span>
+        <span class="n">pauli_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">]</span>
+        <span class="n">choice</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">pauli_names</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">choice</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">decomposition</span><span class="p">[</span><span class="n">choice</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="CircuitCutter">
+<a class="viewcode-back" href="../../reference/circuit_cutting.html#atlas_q.circuit_cutting.CircuitCutter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CircuitCutter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main interface for circuit cutting and entanglement forging.</span>
+
+<span class="sd">    Handles:</span>
+<span class="sd">    - Circuit partitioning</span>
+<span class="sd">    - Subcircuit execution</span>
+<span class="sd">    - Classical stitching</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">CuttingConfig</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">partitioner</span> <span class="o">=</span> <span class="n">MinCutPartitioner</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CircuitCutter.analyze_circuit">
+<a class="viewcode-back" href="../../reference/circuit_cutting.html#atlas_q.circuit_cutting.CircuitCutter.analyze_circuit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">CouplingGraph</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analyze circuit and build coupling graph.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            gates: List of (gate_type, qubits, params) tuples</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            CouplingGraph representing circuit connectivity</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Determine number of qubits</span>
+        <span class="n">max_qubit</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="n">gates</span><span class="p">)</span>
+        <span class="n">n_qubits</span> <span class="o">=</span> <span class="n">max_qubit</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">graph</span> <span class="o">=</span> <span class="n">CouplingGraph</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)</span>
+
+        <span class="c1"># Build graph from gates</span>
+        <span class="k">for</span> <span class="n">gate_type</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">gates</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">graph</span><span class="o">.</span><span class="n">add_two_qubit_gate</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">graph</span></div>
+
+
+<div class="viewcode-block" id="CircuitCutter.partition_circuit">
+<a class="viewcode-back" href="../../reference/circuit_cutting.html#atlas_q.circuit_cutting.CircuitCutter.partition_circuit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">partition_circuit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">gates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">],</span> <span class="n">n_partitions</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CircuitPartition</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Partition circuit into subcircuits.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            gates: Circuit gates</span>
+<span class="sd">            n_partitions: Number of partitions</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of CircuitPartition objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyze_circuit</span><span class="p">(</span><span class="n">gates</span><span class="p">)</span>
+        <span class="n">partitions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partitioner</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">n_partitions</span><span class="p">)</span>
+
+        <span class="c1"># Assign gates to partitions</span>
+        <span class="k">for</span> <span class="n">partition</span> <span class="ow">in</span> <span class="n">partitions</span><span class="p">:</span>
+            <span class="n">partition</span><span class="o">.</span><span class="n">gates</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">gt</span><span class="p">,</span> <span class="n">qs</span><span class="p">,</span> <span class="n">ps</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">gt</span><span class="p">,</span> <span class="n">qs</span><span class="p">,</span> <span class="n">ps</span><span class="p">)</span> <span class="ow">in</span> <span class="n">gates</span> <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">q</span> <span class="ow">in</span> <span class="n">partition</span><span class="o">.</span><span class="n">qubits</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qs</span><span class="p">)</span>
+            <span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">partitions</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute_with_cuts</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">partitions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CircuitPartition</span><span class="p">],</span> <span class="n">observable</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute partitioned circuit and stitch results.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            partitions: Circuit partitions from partition_circuit()</span>
+<span class="sd">            observable: Observable to measure</span>
+<span class="sd">            device: Torch device</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (expectation_value, variance) tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+        <span class="c1"># Classical sampling over cut configurations</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">samples_per_cut</span> <span class="o">**</span> <span class="nb">len</span><span class="p">(</span><span class="n">partitions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cut_points</span><span class="p">)</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+            <span class="c1"># Sample cut operators</span>
+            <span class="n">cut_ops</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">cut_point</span> <span class="ow">in</span> <span class="n">partitions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cut_points</span><span class="p">:</span>
+                <span class="n">cut_op</span> <span class="o">=</span> <span class="n">CutOperator</span><span class="p">(</span><span class="n">cut_point</span><span class="p">)</span>
+                <span class="n">pauli_name</span><span class="p">,</span> <span class="n">pauli_mat</span> <span class="o">=</span> <span class="n">cut_op</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">rng</span><span class="p">)</span>
+                <span class="n">cut_ops</span><span class="p">[</span><span class="n">cut_point</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pauli_name</span><span class="p">,</span> <span class="n">pauli_mat</span><span class="p">)</span>
+
+            <span class="c1"># Execute each partition</span>
+            <span class="n">partition_results</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">partition</span> <span class="ow">in</span> <span class="n">partitions</span><span class="p">:</span>
+                <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">partition</span><span class="o">.</span><span class="n">qubits</span><span class="p">),</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+                <span class="c1"># Apply gates (simplified - would need full gate application logic)</span>
+                <span class="k">for</span> <span class="n">gate_type</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">partition</span><span class="o">.</span><span class="n">gates</span><span class="p">:</span>
+                    <span class="k">pass</span>  <span class="c1"># TODO: Apply gates</span>
+
+                <span class="c1"># Apply cut operators at boundaries</span>
+                <span class="c1"># ...</span>
+
+                <span class="c1"># Measure observable on this partition</span>
+                <span class="c1"># partition_exp = measure_observable(mps, observable)</span>
+                <span class="n">partition_exp</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># Placeholder</span>
+                <span class="n">partition_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">partition_exp</span><span class="p">)</span>
+
+            <span class="c1"># Classical post-processing: combine partition results</span>
+            <span class="n">total_result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">partition_results</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">total_result</span><span class="p">)</span>
+
+        <span class="c1"># Estimate expectation and variance</span>
+        <span class="n">expectation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        <span class="n">variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">expectation</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">visualize_entanglement_heatmap</span><span class="p">(</span>
+    <span class="n">graph</span><span class="p">:</span> <span class="n">CouplingGraph</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Visualize entanglement heatmap.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        graph: CouplingGraph to visualize</span>
+<span class="sd">        filename: Optional filename to save plot</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Heatmap matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">heatmap</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">compute_entanglement_heatmap</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">heatmap</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;hot&quot;</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Entanglement Strength&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Qubit&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Qubit&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Circuit Entanglement Heatmap&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matplotlib not available for visualization&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">heatmap</span>
+
+
+<span class="c1"># Example usage</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Circuit Cutting Example&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+
+    <span class="c1"># Example circuit: 8-qubit chain with entangling gates</span>
+    <span class="n">gates</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">[])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[(</span><span class="s2">&quot;CNOT&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">)]</span>
+
+    <span class="c1"># Create cutter</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">CuttingConfig</span><span class="p">(</span><span class="n">max_partition_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_cuts</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">cutter</span> <span class="o">=</span> <span class="n">CircuitCutter</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="c1"># Analyze and partition</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">cutter</span><span class="o">.</span><span class="n">analyze_circuit</span><span class="p">(</span><span class="n">gates</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Circuit has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span><span class="si">}</span><span class="s2"> two-qubit gates&quot;</span><span class="p">)</span>
+
+    <span class="n">partitions</span> <span class="o">=</span> <span class="n">cutter</span><span class="o">.</span><span class="n">partition_circuit</span><span class="p">(</span><span class="n">gates</span><span class="p">,</span> <span class="n">n_partitions</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Partitioned into </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">partitions</span><span class="p">)</span><span class="si">}</span><span class="s2"> subcircuits:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">partitions</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Partition </span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">partition_id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span><span class="si">}</span><span class="s2"> qubits, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">cut_points</span><span class="p">)</span><span class="si">}</span><span class="s2"> cuts&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Find bottleneck edges</span>
+    <span class="n">bottlenecks</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">find_bottleneck_edges</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Best cut candidates:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">bottlenecks</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Edge (</span><span class="si">{</span><span class="n">q1</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">q2</span><span class="si">}</span><span class="s2">) weight=</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

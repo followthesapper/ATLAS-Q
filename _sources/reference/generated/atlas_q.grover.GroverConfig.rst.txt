@@ -1,0 +1,36 @@
+﻿atlas\_q.grover.GroverConfig
+============================
+
+.. currentmodule:: atlas_q.grover
+
+.. autoclass:: GroverConfig
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GroverConfig.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GroverConfig.auto_iterations
+      ~GroverConfig.chi_max
+      ~GroverConfig.device
+      ~GroverConfig.dtype
+      ~GroverConfig.max_iterations
+      ~GroverConfig.measure_success_prob
+      ~GroverConfig.oracle_type
+      ~GroverConfig.verbose
+      ~GroverConfig.n_qubits
+   
+   

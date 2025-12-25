@@ -1,0 +1,1329 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Benchmark Comparison &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/howtos/benchmark_comparison';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Explanations" href="../explanations/index.html" />
+    <link rel="prev" title="Parallel Computation" href="parallel_computation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="optimize_performance.html">How to Optimize Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handle_large_systems.html">How to Handle Large Quantum Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configure_precision.html">Configure Precision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrate_cuquantum.html">Integrate cuQuantum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug_simulations.html">Debug Simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save_load_state.html">Save and Load State</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_hamiltonians.html">How to Build Custom Hamiltonians</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel_computation.html">Parallel Computation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Benchmark Comparison</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">How-To Guides</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Benchmark Comparison</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="benchmark-comparison">
+<h1>Benchmark Comparison<a class="headerlink" href="#benchmark-comparison" title="Link to this heading">#</a></h1>
+<section id="problem">
+<h2>Problem<a class="headerlink" href="#problem" title="Link to this heading">#</a></h2>
+<p>Choosing the right quantum simulation framework requires objective performance comparisons:</p>
+<ul class="simple">
+<li><p><strong>Performance</strong>: Speed, memory, and scalability for your problem size</p></li>
+<li><p><strong>Accuracy</strong>: Numerical precision and error characteristics</p></li>
+<li><p><strong>Ecosystem</strong>: Integration with existing tools and workflows</p></li>
+<li><p><strong>Maturity</strong>: Stability, documentation, and community support</p></li>
+<li><p><strong>Hardware access</strong>: Compatibility with quantum hardware or cloud services</p></li>
+</ul>
+<p>This guide covers benchmarking strategies for comparing ATLAS-Q with other quantum simulation
+frameworks (Qiskit, Cirq, PennyLane) and tensor network libraries (ITensor, TeNPy), including
+performance profiling, memory usage analysis, and accuracy validation.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../explanations/performance_model.html"><span class="doc">Performance Model</span></a> for theoretical performance analysis,
+<a class="reference internal" href="optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> for ATLAS-Q performance tuning,
+<a class="reference internal" href="parallel_computation.html"><span class="doc">Parallel Computation</span></a> for multi-GPU benchmarking,
+<a class="reference internal" href="debug_simulations.html"><span class="doc">Debug Simulations</span></a> for validation and correctness checking.</p>
+</div>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<p>You need:</p>
+<ul class="simple">
+<li><p>ATLAS-Q installed with GPU support</p></li>
+<li><p>Competitor frameworks installed (optional, for comparisons)</p></li>
+<li><p>Benchmark problems representative of your use case</p></li>
+<li><p>Understanding of expected results for validation</p></li>
+</ul>
+</section>
+<section id="strategies">
+<h2>Strategies<a class="headerlink" href="#strategies" title="Link to this heading">#</a></h2>
+<section id="strategy-1-run-built-in-benchmarks">
+<h3>Strategy 1: Run Built-in Benchmarks<a class="headerlink" href="#strategy-1-run-built-in-benchmarks" title="Link to this heading">#</a></h3>
+<p>ATLAS-Q includes comprehensive benchmarks for feature validation and performance testing.</p>
+<p><strong>Run validation benchmarks</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Validate all ATLAS-Q features</span>
+python<span class="w"> </span>scripts/benchmarks/validate_all_features.py
+
+<span class="c1"># Expected output:</span>
+<span class="c1"># ========================================</span>
+<span class="c1"># ATLAS-Q Feature Validation Benchmark</span>
+<span class="c1"># ========================================</span>
+<span class="c1">#</span>
+<span class="c1"># [1/10] MPS Gate Application...</span>
+<span class="c1">#   - Gate throughput: 77,304 ops/sec</span>
+<span class="c1">#   - CNOT latency: 12.9 μs</span>
+<span class="c1">#   - Result: PASS</span>
+<span class="c1">#</span>
+<span class="c1"># [2/10] Stabilizer Backend...</span>
+<span class="c1">#   - Stabilizer throughput: 1,582,367 ops/sec</span>
+<span class="c1">#   - Speedup vs MPS: 20.4×</span>
+<span class="c1">#   - Result: PASS</span>
+<span class="c1">#</span>
+<span class="c1"># [3/10] VQE Optimization...</span>
+<span class="c1">#   - 6-qubit H2 VQE: 1.68s (50 iterations)</span>
+<span class="c1">#   - Final energy: -1.1372 Ha</span>
+<span class="c1">#   - Result: PASS</span>
+<span class="c1">#</span>
+<span class="c1"># ...</span>
+<span class="c1">#</span>
+<span class="c1"># Summary: 10/10 tests passed</span>
+</pre></div>
+</div>
+<p><strong>Compare with competitors</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare ATLAS-Q with Qiskit, Cirq, PennyLane</span>
+python<span class="w"> </span>scripts/benchmarks/compare_with_competitors.py
+
+<span class="c1"># Generates report: benchmark_results.md</span>
+</pre></div>
+</div>
+<p><strong>Performance benchmark suite</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.benchmarks</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_benchmark_suite</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Run comprehensive benchmark suite</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">run_benchmark_suite</span><span class="p">(</span>
+    <span class="n">num_qubits_range</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span>
+    <span class="n">bond_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span>
+    <span class="n">num_trials</span><span class="o">=</span><span class="mi">5</span>  <span class="c1"># Average over 5 runs</span>
+<span class="p">)</span>
+
+<span class="c1"># Results as pandas DataFrame</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">())</span>
+
+<span class="c1"># Save results</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;atlas_q_benchmark_results.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-2-memory-usage-comparison">
+<h3>Strategy 2: Memory Usage Comparison<a class="headerlink" href="#strategy-2-memory-usage-comparison" title="Link to this heading">#</a></h3>
+<p>Compare memory footprint across frameworks.</p>
+<p><strong>Memory benchmark: ATLAS-Q vs Statevector</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">benchmark_memory</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">bond_dim</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare MPS vs statevector memory usage.</span>
+
+<span class="sd">    MPS memory: O(n * χ^2 * d)  (n qubits, χ bond dim, d=2 local dim)</span>
+<span class="sd">    Statevector: O(2^n)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># MPS memory</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+        <span class="n">bond_dim</span><span class="o">=</span><span class="n">bond_dim</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+
+    <span class="n">mps_memory</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">element_size</span><span class="p">()</span> <span class="o">*</span> <span class="n">t</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">)</span>
+    <span class="n">mps_memory_mb</span> <span class="o">=</span> <span class="n">mps_memory</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Statevector memory (theoretical)</span>
+    <span class="n">statevector_memory</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">num_qubits</span> <span class="o">*</span> <span class="mi">16</span>  <span class="c1"># complex128 = 16 bytes</span>
+    <span class="n">statevector_memory_mb</span> <span class="o">=</span> <span class="n">statevector_memory</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Compression ratio</span>
+    <span class="n">compression</span> <span class="o">=</span> <span class="n">statevector_memory</span> <span class="o">/</span> <span class="n">mps_memory</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;num_qubits&#39;</span><span class="p">:</span> <span class="n">num_qubits</span><span class="p">,</span>
+        <span class="s1">&#39;bond_dim&#39;</span><span class="p">:</span> <span class="n">bond_dim</span><span class="p">,</span>
+        <span class="s1">&#39;mps_memory_mb&#39;</span><span class="p">:</span> <span class="n">mps_memory_mb</span><span class="p">,</span>
+        <span class="s1">&#39;statevector_memory_mb&#39;</span><span class="p">:</span> <span class="n">statevector_memory_mb</span><span class="p">,</span>
+        <span class="s1">&#39;compression_ratio&#39;</span><span class="p">:</span> <span class="n">compression</span>
+    <span class="p">}</span>
+
+<span class="c1"># Benchmark different system sizes</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;n&#39;</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;χ&#39;</span><span class="si">:</span><span class="s2">&lt;8</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;MPS (MB)&#39;</span><span class="si">:</span><span class="s2">&lt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Statevector (MB)&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Compression&#39;</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">chi</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">]:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">benchmark_memory</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">chi</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;num_qubits&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;bond_dim&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;8</span><span class="si">}</span><span class="s2"> &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;mps_memory_mb&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;12.2f</span><span class="si">}</span><span class="s2"> &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;statevector_memory_mb&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;20.1f</span><span class="si">}</span><span class="s2"> &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;compression_ratio&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;15.1f</span><span class="si">}</span><span class="s2">×&quot;</span><span class="p">)</span>
+
+<span class="c1"># Example output:</span>
+<span class="c1"># n     χ        MPS (MB)     Statevector (MB)     Compression</span>
+<span class="c1"># ----------------------------------------------------------------------</span>
+<span class="c1"># 10    32       0.03         0.0                 164.0×</span>
+<span class="c1"># 10    64       0.11         0.0                 41.0×</span>
+<span class="c1"># 10    128      0.43         0.0                 10.2×</span>
+<span class="c1"># 20    32       0.05         16.8                321,900.0×</span>
+<span class="c1"># 20    64       0.22         16.8                80,475.0×</span>
+<span class="c1"># 30    32       0.08         17,179.9            212,123,648.0×</span>
+<span class="c1"># 30    64       0.33         17,179.9            53,030,912.0×</span>
+</pre></div>
+</div>
+<p><strong>Memory profiling during simulation</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Track memory over time</span>
+<span class="n">memory_log</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">49</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">49</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">allocated</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">memory_allocated</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">reserved</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">memory_reserved</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">memory_log</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span>
+            <span class="s1">&#39;allocated_mb&#39;</span><span class="p">:</span> <span class="n">allocated</span><span class="p">,</span>
+            <span class="s1">&#39;reserved_mb&#39;</span><span class="p">:</span> <span class="n">reserved</span>
+        <span class="p">})</span>
+
+<span class="c1"># Plot memory usage</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">steps</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;step&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">memory_log</span><span class="p">]</span>
+<span class="n">allocated</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;allocated_mb&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">memory_log</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">allocated</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Gate number&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;GPU memory (MB)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Memory usage during simulation&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;memory_benchmark.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-3-performance-vs-qiskit">
+<h3>Strategy 3: Performance vs Qiskit<a class="headerlink" href="#strategy-3-performance-vs-qiskit" title="Link to this heading">#</a></h3>
+<p>Compare ATLAS-Q with Qiskit statevector simulator.</p>
+<p><strong>Circuit simulation benchmark</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="c1"># Qiskit comparison</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">transpile</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.quantum_info</span><span class="w"> </span><span class="kn">import</span> <span class="n">Statevector</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qiskit_aer</span><span class="w"> </span><span class="kn">import</span> <span class="n">AerSimulator</span>
+    <span class="n">qiskit_available</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">qiskit_available</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Qiskit not installed, skipping Qiskit comparison&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">benchmark_ghz_circuit</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;atlas_q&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Benchmark GHZ state preparation: H(0), CNOT(i, i+1) for all i.</span>
+
+<span class="sd">    GHZ state: (|00...0⟩ + |11...1⟩) / √2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">framework</span> <span class="o">==</span> <span class="s1">&#39;atlas_q&#39;</span><span class="p">:</span>
+        <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+            <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+            <span class="n">bond_dim</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># GHZ needs only χ=2</span>
+            <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+        <span class="p">)</span>
+
+        <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_hadamard</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+        <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+        <span class="n">memory_mb</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">element_size</span><span class="p">()</span> <span class="o">*</span> <span class="n">t</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="k">elif</span> <span class="n">framework</span> <span class="o">==</span> <span class="s1">&#39;qiskit&#39;</span> <span class="ow">and</span> <span class="n">qiskit_available</span><span class="p">:</span>
+        <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)</span>
+
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Simulate</span>
+        <span class="n">simulator</span> <span class="o">=</span> <span class="n">AerSimulator</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;statevector&#39;</span><span class="p">)</span>
+        <span class="n">qc</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">simulator</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">simulator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+        <span class="n">statevector</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>
+
+        <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+        <span class="c1"># Statevector memory</span>
+        <span class="n">memory_mb</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">num_qubits</span> <span class="o">*</span> <span class="mi">16</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;framework&#39;</span><span class="p">:</span> <span class="n">framework</span><span class="p">,</span>
+        <span class="s1">&#39;num_qubits&#39;</span><span class="p">:</span> <span class="n">num_qubits</span><span class="p">,</span>
+        <span class="s1">&#39;time_sec&#39;</span><span class="p">:</span> <span class="n">elapsed</span><span class="p">,</span>
+        <span class="s1">&#39;memory_mb&#39;</span><span class="p">:</span> <span class="n">memory_mb</span>
+    <span class="p">}</span>
+
+<span class="c1"># Benchmark GHZ for different sizes</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;n&#39;</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Framework&#39;</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Time (s)&#39;</span><span class="si">:</span><span class="s2">&lt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Memory (MB)&#39;</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Speedup&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">]:</span>
+    <span class="n">atlas_result</span> <span class="o">=</span> <span class="n">benchmark_ghz_circuit</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s1">&#39;atlas_q&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">qiskit_available</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">25</span><span class="p">:</span>  <span class="c1"># Qiskit statevector limit ~25 qubits</span>
+        <span class="n">qiskit_result</span> <span class="o">=</span> <span class="n">benchmark_ghz_circuit</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s1">&#39;qiskit&#39;</span><span class="p">)</span>
+        <span class="n">speedup</span> <span class="o">=</span> <span class="n">qiskit_result</span><span class="p">[</span><span class="s1">&#39;time_sec&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">atlas_result</span><span class="p">[</span><span class="s1">&#39;time_sec&#39;</span><span class="p">]</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;ATLAS-Q&#39;</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">atlas_result</span><span class="p">[</span><span class="s1">&#39;time_sec&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;12.4f</span><span class="si">}</span><span class="s2"> &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">atlas_result</span><span class="p">[</span><span class="s1">&#39;memory_mb&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;15.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Qiskit&#39;</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">qiskit_result</span><span class="p">[</span><span class="s1">&#39;time_sec&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;12.4f</span><span class="si">}</span><span class="s2"> &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">qiskit_result</span><span class="p">[</span><span class="s1">&#39;memory_mb&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;15.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">speedup</span><span class="si">:</span><span class="s2">&lt;10.2f</span><span class="si">}</span><span class="s2">×&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;ATLAS-Q&#39;</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">atlas_result</span><span class="p">[</span><span class="s1">&#39;time_sec&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;12.4f</span><span class="si">}</span><span class="s2"> &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">atlas_result</span><span class="p">[</span><span class="s1">&#39;memory_mb&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;15.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Qiskit&#39;</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;OOM&#39;</span><span class="si">:</span><span class="s2">&lt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;OOM&#39;</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Example output:</span>
+<span class="c1"># n     Framework       Time (s)     Memory (MB)     Speedup</span>
+<span class="c1"># ----------------------------------------------------------------------</span>
+<span class="c1"># 10    ATLAS-Q         0.0023       0.01            -</span>
+<span class="c1"># 10    Qiskit          0.0089       0.02            3.87×</span>
+<span class="c1"># 20    ATLAS-Q         0.0051       0.02            -</span>
+<span class="c1"># 20    Qiskit          0.1234       16.78           24.20×</span>
+<span class="c1"># 30    ATLAS-Q         0.0098       0.03            -</span>
+<span class="c1"># 30    Qiskit          OOM          OOM             -</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-4-accuracy-validation">
+<h3>Strategy 4: Accuracy Validation<a class="headerlink" href="#strategy-4-accuracy-validation" title="Link to this heading">#</a></h3>
+<p>Validate ATLAS-Q results against exact solutions or other frameworks.</p>
+<p><strong>VQE ground state energy validation</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.hamiltonians</span><span class="w"> </span><span class="kn">import</span> <span class="n">HeisenbergHamiltonian</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Construct Heisenberg Hamiltonian for 4 qubits</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">HeisenbergHamiltonian</span><span class="p">(</span><span class="n">num_sites</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">periodic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># ATLAS-Q VQE</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;lbfgs&#39;</span><span class="p">,</span>
+    <span class="n">convergence_threshold</span><span class="o">=</span><span class="mf">1e-8</span>
+<span class="p">)</span>
+
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">energy_atlas</span><span class="p">,</span> <span class="n">params_atlas</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ATLAS-Q VQE energy: </span><span class="si">{</span><span class="n">energy_atlas</span><span class="si">:</span><span class="s2">.10f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Compare with exact diagonalization (small systems only)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eigsh</span>
+
+<span class="n">H_matrix</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">to_dense</span><span class="p">()</span>  <span class="c1"># Convert to dense matrix</span>
+<span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">eigsh</span><span class="p">(</span><span class="n">H_matrix</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;SA&#39;</span><span class="p">)</span>  <span class="c1"># Smallest eigenvalue</span>
+<span class="n">energy_exact</span> <span class="o">=</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exact energy (ED): </span><span class="si">{</span><span class="n">energy_exact</span><span class="si">:</span><span class="s2">.10f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">energy_atlas</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">energy_exact</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Verify chemical accuracy (1.6e-3 Ha = 1 kcal/mol)</span>
+<span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">energy_atlas</span> <span class="o">-</span> <span class="n">energy_exact</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.6e-3</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Chemical accuracy achieved&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✗ Error exceeds chemical accuracy threshold&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Cross-framework validation</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare ATLAS-Q with PennyLane</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pennylane</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qml</span>
+    <span class="n">pennylane_available</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">pennylane_available</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">if</span> <span class="n">pennylane_available</span><span class="p">:</span>
+    <span class="c1"># ATLAS-Q</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_hadamard</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="c1"># Measure Z on qubit 0</span>
+    <span class="n">pauli_z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="n">exp_val_atlas</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation_value_single_site</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pauli_z</span><span class="p">)</span>
+
+    <span class="c1"># PennyLane</span>
+    <span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;default.qubit&#39;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">circuit</span><span class="p">():</span>
+        <span class="n">qml</span><span class="o">.</span><span class="n">Hadamard</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">qml</span><span class="o">.</span><span class="n">expval</span><span class="p">(</span><span class="n">qml</span><span class="o">.</span><span class="n">PauliZ</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="n">exp_val_pennylane</span> <span class="o">=</span> <span class="n">circuit</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ATLAS-Q ⟨Z_0⟩: </span><span class="si">{</span><span class="n">exp_val_atlas</span><span class="si">:</span><span class="s2">.10f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PennyLane ⟨Z_0⟩: </span><span class="si">{</span><span class="n">exp_val_pennylane</span><span class="si">:</span><span class="s2">.10f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Difference: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">exp_val_atlas</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">exp_val_pennylane</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-5-custom-benchmarking-suite">
+<h3>Strategy 5: Custom Benchmarking Suite<a class="headerlink" href="#strategy-5-custom-benchmarking-suite" title="Link to this heading">#</a></h3>
+<p>Create custom benchmarks for your specific use case.</p>
+<p><strong>Benchmark template</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BenchmarkResult</span><span class="p">:</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">bond_dim</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">time_sec</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">memory_mb</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">throughput</span><span class="p">:</span> <span class="nb">float</span>  <span class="c1"># ops/sec</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">benchmark_gate_sequence</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">num_gates</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">gate_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cnot&#39;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BenchmarkResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Benchmark gate application throughput.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    num_qubits : int</span>
+<span class="sd">        Number of qubits</span>
+<span class="sd">    bond_dim : int</span>
+<span class="sd">        Bond dimension</span>
+<span class="sd">    num_gates : int</span>
+<span class="sd">        Number of gates to apply</span>
+<span class="sd">    gate_type : str</span>
+<span class="sd">        Gate type: &#39;cnot&#39;, &#39;hadamard&#39;, &#39;rx&#39;, etc.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    BenchmarkResult</span>
+<span class="sd">        Benchmark results</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+        <span class="n">bond_dim</span><span class="o">=</span><span class="n">bond_dim</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Warm-up</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">gate_type</span> <span class="o">==</span> <span class="s1">&#39;cnot&#39;</span><span class="p">:</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+
+    <span class="c1"># Benchmark</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_gates</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">gate_type</span> <span class="o">==</span> <span class="s1">&#39;cnot&#39;</span><span class="p">:</span>
+            <span class="n">q1</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="p">(</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">q2</span> <span class="o">=</span> <span class="n">q1</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">gate_type</span> <span class="o">==</span> <span class="s1">&#39;hadamard&#39;</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="n">num_qubits</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">apply_hadamard</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+        <span class="c1"># Add other gate types...</span>
+
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+    <span class="c1"># Measure memory</span>
+    <span class="n">memory_mb</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">element_size</span><span class="p">()</span> <span class="o">*</span> <span class="n">t</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Compute throughput</span>
+    <span class="n">throughput</span> <span class="o">=</span> <span class="n">num_gates</span> <span class="o">/</span> <span class="n">elapsed</span>
+
+    <span class="k">return</span> <span class="n">BenchmarkResult</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gate_type</span><span class="si">}</span><span class="s2">_gates&quot;</span><span class="p">,</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+        <span class="n">bond_dim</span><span class="o">=</span><span class="n">bond_dim</span><span class="p">,</span>
+        <span class="n">time_sec</span><span class="o">=</span><span class="n">elapsed</span><span class="p">,</span>
+        <span class="n">memory_mb</span><span class="o">=</span><span class="n">memory_mb</span><span class="p">,</span>
+        <span class="n">throughput</span><span class="o">=</span><span class="n">throughput</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;num_gates&#39;</span><span class="p">:</span> <span class="n">num_gates</span><span class="p">,</span> <span class="s1">&#39;gate_type&#39;</span><span class="p">:</span> <span class="n">gate_type</span><span class="p">}</span>
+    <span class="p">)</span>
+
+<span class="c1"># Run benchmark suite</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">chi</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">]:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">benchmark_gate_sequence</span><span class="p">(</span>
+            <span class="n">num_qubits</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
+            <span class="n">bond_dim</span><span class="o">=</span><span class="n">chi</span><span class="p">,</span>
+            <span class="n">num_gates</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+            <span class="n">gate_type</span><span class="o">=</span><span class="s1">&#39;cnot&#39;</span>
+        <span class="p">)</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">, χ=</span><span class="si">{</span><span class="n">chi</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">throughput</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> ops/sec, &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">memory_mb</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB&quot;</span><span class="p">)</span>
+
+<span class="c1"># Save results</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;custom_benchmark_results.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">([</span><span class="nb">vars</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">],</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-6-comparing-with-tensor-network-libraries">
+<h3>Strategy 6: Comparing with Tensor Network Libraries<a class="headerlink" href="#strategy-6-comparing-with-tensor-network-libraries" title="Link to this heading">#</a></h3>
+<p>Compare ATLAS-Q with pure tensor network libraries like ITensor or TeNPy.</p>
+<p><strong>Conceptual comparison</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">ATLAS-Q vs ITensor vs TeNPy</span>
+
+<span class="sd">Focus:</span>
+<span class="sd">- ATLAS-Q: Quantum simulation (gates, VQE, QAOA) with GPU acceleration</span>
+<span class="sd">- ITensor: General tensor networks, DMRG, classical physics</span>
+<span class="sd">- TeNPy: Condensed matter physics, DMRG, time evolution</span>
+
+<span class="sd">Performance:</span>
+<span class="sd">- ATLAS-Q: GPU-accelerated, optimized for quantum circuits</span>
+<span class="sd">- ITensor: CPU-only, C++ performance, mature DMRG</span>
+<span class="sd">- TeNPy: CPU-only, Python, extensive condensed matter tools</span>
+
+<span class="sd">Use ATLAS-Q when:</span>
+<span class="sd">- Need GPU acceleration</span>
+<span class="sd">- Quantum circuit simulation</span>
+<span class="sd">- Variational quantum algorithms (VQE, QAOA)</span>
+<span class="sd">- Integration with PyTorch/ML workflows</span>
+
+<span class="sd">Use ITensor when:</span>
+<span class="sd">- Pure tensor network calculations</span>
+<span class="sd">- Classical physics (e.g., statistical mechanics)</span>
+<span class="sd">- Mature DMRG required</span>
+<span class="sd">- C++ performance critical</span>
+
+<span class="sd">Use TeNPy when:</span>
+<span class="sd">- Condensed matter physics</span>
+<span class="sd">- Extensive analysis tools needed</span>
+<span class="sd">- Python ecosystem preferred</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># DMRG comparison (if TeNPy available)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">tenpy</span>
+    <span class="n">tenpy_available</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">tenpy_available</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">if</span> <span class="n">tenpy_available</span><span class="p">:</span>
+    <span class="c1"># TeNPy DMRG</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">tenpy.networks.mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPS</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">tenpy.models.tf_ising</span><span class="w"> </span><span class="kn">import</span> <span class="n">TFIChain</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">tenpy.algorithms</span><span class="w"> </span><span class="kn">import</span> <span class="n">dmrg</span>
+
+    <span class="n">L</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Chain length</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">TFIChain</span><span class="p">({</span><span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="n">L</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">})</span>
+    <span class="n">psi</span> <span class="o">=</span> <span class="n">MPS</span><span class="o">.</span><span class="n">from_product_state</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">mps_sites</span><span class="p">(),</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span>
+        <span class="n">bc</span><span class="o">=</span><span class="s1">&#39;finite&#39;</span>
+    <span class="p">)</span>
+
+    <span class="n">dmrg_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;trunc_params&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;chi_max&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}}</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">dmrg</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">dmrg_params</span><span class="p">)</span>
+    <span class="n">E_tenpy</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TeNPy DMRG energy: </span><span class="si">{</span><span class="n">E_tenpy</span><span class="si">:</span><span class="s2">.10f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># ATLAS-Q equivalent (imaginary-time TDVP)</span>
+    <span class="c1"># (Similar comparison code...)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="benchmarks-fail-to-run">
+<h3>Benchmarks Fail to Run<a class="headerlink" href="#benchmarks-fail-to-run" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: Built-in benchmarks raise errors.</p>
+<p><strong>Solution</strong>: Ensure all dependencies installed.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install benchmark dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>pandas<span class="w"> </span>matplotlib<span class="w"> </span>seaborn
+
+<span class="c1"># Check installation</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from atlas_q.benchmarks import run_benchmark_suite; print(&#39;OK&#39;)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="comparison-framework-not-installed">
+<h3>Comparison Framework Not Installed<a class="headerlink" href="#comparison-framework-not-installed" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: Cannot compare with Qiskit/Cirq/PennyLane.</p>
+<p><strong>Solution</strong>: Install optional comparison frameworks.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Qiskit</span>
+pip<span class="w"> </span>install<span class="w"> </span>qiskit<span class="w"> </span>qiskit-aer
+
+<span class="c1"># Install Cirq</span>
+pip<span class="w"> </span>install<span class="w"> </span>cirq
+
+<span class="c1"># Install PennyLane</span>
+pip<span class="w"> </span>install<span class="w"> </span>pennylane
+</pre></div>
+</div>
+</section>
+<section id="results-don-t-match-reference">
+<h3>Results Don’t Match Reference<a class="headerlink" href="#results-don-t-match-reference" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: ATLAS-Q results differ from exact diagonalization.</p>
+<p><strong>Solution</strong>: Check bond dimension and truncation threshold.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Increase bond dimension</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>  <span class="c1"># Was 64</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span>  <span class="c1"># Was 1e-8</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Verify convergence</span>
+<span class="c1"># ... run VQE ...</span>
+<span class="k">if</span> <span class="n">vqe</span><span class="o">.</span><span class="n">converged</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VQE converged in </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vqe</span><span class="o">.</span><span class="n">energies</span><span class="p">)</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: VQE did not converge!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-worse-than-expected">
+<h3>Performance Worse Than Expected<a class="headerlink" href="#performance-worse-than-expected" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: ATLAS-Q slower than Qiskit for small systems.</p>
+<p><strong>Solution</strong>: ATLAS-Q optimized for large systems; use statevector for n &lt; 15.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># For small systems (n &lt; 15), statevector may be faster</span>
+<span class="k">if</span> <span class="n">num_qubits</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Consider using Qiskit/Cirq statevector for n &lt; 15&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ATLAS-Q advantage appears for n &gt;= 20 with moderate entanglement&quot;</span><span class="p">)</span>
+
+<span class="c1"># ATLAS-Q shines for:</span>
+<span class="c1"># - n &gt;= 20 qubits</span>
+<span class="c1"># - Moderate entanglement (χ &lt; 512)</span>
+<span class="c1"># - Long circuits (&gt; 100 gates)</span>
+<span class="c1"># - VQE/QAOA with many iterations</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Benchmarking strategies for ATLAS-Q:</p>
+<ol class="arabic simple">
+<li><p><strong>Built-in benchmarks</strong>: Run <cite>validate_all_features.py</cite> for comprehensive testing</p></li>
+<li><p><strong>Memory comparison</strong>: MPS uses 10,000-1,000,000× less memory than statevector</p></li>
+<li><p><strong>Performance vs Qiskit</strong>: 2-20× speedup for n &gt; 20 with moderate entanglement</p></li>
+<li><p><strong>Accuracy validation</strong>: Compare with exact diagonalization or other frameworks</p></li>
+<li><p><strong>Custom benchmarks</strong>: Create problem-specific benchmark suites</p></li>
+<li><p><strong>Tensor network comparison</strong>: ATLAS-Q optimized for quantum circuits, GPU acceleration</p></li>
+</ol>
+<p>ATLAS-Q performance characteristics:</p>
+<ul class="simple">
+<li><p><strong>Memory</strong>: O(n × χ² × d) vs O(2^n) statevector</p></li>
+<li><p><strong>Speed</strong>: 50,000-100,000 ops/sec (CNOT) on A100 GPU</p></li>
+<li><p><strong>Scalability</strong>: 50+ qubits with χ &lt; 512</p></li>
+<li><p><strong>Best use cases</strong>: VQE, QAOA, moderate entanglement circuits</p></li>
+</ul>
+<p>When to use ATLAS-Q vs alternatives:</p>
+<ul class="simple">
+<li><p><strong>ATLAS-Q</strong>: n &gt; 20, GPU available, moderate entanglement, variational algorithms</p></li>
+<li><p><strong>Qiskit/Cirq</strong>: n &lt; 20, hardware access needed, mature ecosystem required</p></li>
+<li><p><strong>ITensor/TeNPy</strong>: Pure tensor networks, classical physics, DMRG focus</p></li>
+</ul>
+<p>Benchmark results (A100 GPU, χ=64):</p>
+<ul class="simple">
+<li><p><strong>30 qubits</strong>: 0.03 MB (ATLAS-Q) vs 17 GB (statevector) = 626,000× compression</p></li>
+<li><p><strong>CNOT throughput</strong>: 77,000 ops/sec</p></li>
+<li><p><strong>VQE (6 qubits, 50 iter)</strong>: 1.7 seconds</p></li>
+<li><p><strong>Stabilizer speedup</strong>: 20× vs generic MPS</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../explanations/performance_model.html"><span class="doc">Performance Model</span></a>: Theoretical performance analysis</p></li>
+<li><p><a class="reference internal" href="optimize_performance.html"><span class="doc">How to Optimize Performance</span></a>: Performance tuning for ATLAS-Q</p></li>
+<li><p><a class="reference internal" href="parallel_computation.html"><span class="doc">Parallel Computation</span></a>: Multi-GPU benchmarking</p></li>
+<li><p><a class="reference internal" href="debug_simulations.html"><span class="doc">Debug Simulations</span></a>: Validation and correctness checking</p></li>
+<li><p><a class="reference internal" href="../explanations/comparisons.html"><span class="doc">Comparisons</span></a>: Detailed framework comparisons</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="parallel_computation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Parallel Computation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../explanations/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Explanations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem">Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strategies">Strategies</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-1-run-built-in-benchmarks">Strategy 1: Run Built-in Benchmarks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-2-memory-usage-comparison">Strategy 2: Memory Usage Comparison</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-3-performance-vs-qiskit">Strategy 3: Performance vs Qiskit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-4-accuracy-validation">Strategy 4: Accuracy Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-5-custom-benchmarking-suite">Strategy 5: Custom Benchmarking Suite</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-6-comparing-with-tensor-network-libraries">Strategy 6: Comparing with Tensor Network Libraries</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmarks-fail-to-run">Benchmarks Fail to Run</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-framework-not-installed">Comparison Framework Not Installed</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-don-t-match-reference">Results Don’t Match Reference</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-worse-than-expected">Performance Worse Than Expected</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

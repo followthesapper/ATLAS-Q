@@ -1,0 +1,6 @@
+﻿atlas\_q.vqe\_qaoa.build\_molecular\_hamiltonian
+================================================
+
+.. currentmodule:: atlas_q.vqe_qaoa
+
+.. autofunction:: build_molecular_hamiltonian

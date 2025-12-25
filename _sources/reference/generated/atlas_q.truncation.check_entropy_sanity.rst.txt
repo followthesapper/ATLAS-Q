@@ -1,0 +1,6 @@
+﻿atlas\_q.truncation.check\_entropy\_sanity
+==========================================
+
+.. currentmodule:: atlas_q.truncation
+
+.. autofunction:: check_entropy_sanity

@@ -1,0 +1,6 @@
+﻿atlas\_q.mpo\_ops.expectation\_value
+====================================
+
+.. currentmodule:: atlas_q.mpo_ops
+
+.. autofunction:: expectation_value

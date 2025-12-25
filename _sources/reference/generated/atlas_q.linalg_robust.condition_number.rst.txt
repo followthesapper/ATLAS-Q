@@ -1,0 +1,6 @@
+﻿atlas\_q.linalg\_robust.condition\_number
+=========================================
+
+.. currentmodule:: atlas_q.linalg_robust
+
+.. autofunction:: condition_number

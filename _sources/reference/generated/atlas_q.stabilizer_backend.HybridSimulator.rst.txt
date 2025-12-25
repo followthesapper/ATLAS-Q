@@ -1,0 +1,31 @@
+﻿atlas\_q.stabilizer\_backend.HybridSimulator
+============================================
+
+.. currentmodule:: atlas_q.stabilizer_backend
+
+.. autoclass:: HybridSimulator
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~HybridSimulator.__init__
+      ~HybridSimulator.cnot
+      ~HybridSimulator.get_statistics
+      ~HybridSimulator.h
+      ~HybridSimulator.measure
+      ~HybridSimulator.s
+      ~HybridSimulator.swap
+      ~HybridSimulator.t
+      ~HybridSimulator.x
+      ~HybridSimulator.z
+   
+   
+
+   
+   
+   

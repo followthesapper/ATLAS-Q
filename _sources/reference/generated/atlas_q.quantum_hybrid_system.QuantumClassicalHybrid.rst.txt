@@ -1,0 +1,30 @@
+﻿atlas\_q.quantum\_hybrid\_system.QuantumClassicalHybrid
+=======================================================
+
+.. currentmodule:: atlas_q.quantum_hybrid_system
+
+.. autoclass:: QuantumClassicalHybrid
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~QuantumClassicalHybrid.__init__
+      ~QuantumClassicalHybrid.create_circuit
+      ~QuantumClassicalHybrid.create_mps_state
+      ~QuantumClassicalHybrid.create_periodic_state
+      ~QuantumClassicalHybrid.create_product_state
+      ~QuantumClassicalHybrid.execute_circuit
+      ~QuantumClassicalHybrid.factor_number
+      ~QuantumClassicalHybrid.find_period
+      ~QuantumClassicalHybrid.find_period_gpu
+   
+   
+
+   
+   
+   

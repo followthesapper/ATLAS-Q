@@ -1,0 +1,1324 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Parallel Computation &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/howtos/parallel_computation';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Benchmark Comparison" href="benchmark_comparison.html" />
+    <link rel="prev" title="How to Build Custom Hamiltonians" href="custom_hamiltonians.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="optimize_performance.html">How to Optimize Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handle_large_systems.html">How to Handle Large Quantum Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configure_precision.html">Configure Precision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrate_cuquantum.html">Integrate cuQuantum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug_simulations.html">Debug Simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save_load_state.html">Save and Load State</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_hamiltonians.html">How to Build Custom Hamiltonians</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Parallel Computation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark_comparison.html">Benchmark Comparison</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">How-To Guides</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Parallel Computation</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="parallel-computation">
+<h1>Parallel Computation<a class="headerlink" href="#parallel-computation" title="Link to this heading">#</a></h1>
+<section id="problem">
+<h2>Problem<a class="headerlink" href="#problem" title="Link to this heading">#</a></h2>
+<p>Quantum simulations are computationally expensive, but many tasks are parallelizable:</p>
+<ul class="simple">
+<li><p><strong>Large bond dimensions</strong>: Single GPU insufficient for χ &gt; 512</p></li>
+<li><p><strong>Parameter sweeps</strong>: VQE/QAOA hyperparameter optimization requires many trials</p></li>
+<li><p><strong>Statistical sampling</strong>: Need 10,000+ measurement shots for accurate distributions</p></li>
+<li><p><strong>Ensemble averaging</strong>: Molecular dynamics, noise averaging, ensemble studies</p></li>
+<li><p><strong>Multi-task workflows</strong>: Benchmark different algorithms or Hamiltonians simultaneously</p></li>
+</ul>
+<p>This guide covers parallel computation strategies for ATLAS-Q, including multi-GPU
+distributed MPS, data parallelism for independent simulations, and task parallelism
+for parameter sweeps and ensemble studies.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="handle_large_systems.html"><span class="doc">How to Handle Large Quantum Systems</span></a> for distributed MPS details,
+<a class="reference internal" href="integrate_cuquantum.html"><span class="doc">Integrate cuQuantum</span></a> for GPU-accelerated operations,
+<a class="reference internal" href="optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> for single-GPU performance tuning,
+<span class="xref std std-doc">../reference/distributed_mps</span> for API reference.</p>
+</div>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<p>You need:</p>
+<ul class="simple">
+<li><p><strong>Multiple GPUs</strong>: 2+ NVIDIA GPUs (same or different models)</p></li>
+<li><p><strong>PyTorch distributed</strong>: Installed with CUDA support</p></li>
+<li><p><strong>Network</strong>: For multi-node, InfiniBand or 10+ Gbps Ethernet</p></li>
+<li><p><strong>NCCL backend</strong>: For efficient GPU-to-GPU communication</p></li>
+<li><p><strong>Storage</strong>: Shared filesystem for multi-node checkpoints</p></li>
+</ul>
+</section>
+<section id="strategies">
+<h2>Strategies<a class="headerlink" href="#strategies" title="Link to this heading">#</a></h2>
+<section id="strategy-1-multi-gpu-distributed-mps-bond-parallel">
+<h3>Strategy 1: Multi-GPU Distributed MPS (Bond-Parallel)<a class="headerlink" href="#strategy-1-multi-gpu-distributed-mps-bond-parallel" title="Link to this heading">#</a></h3>
+<p>Split MPS bond dimension across multiple GPUs for large-scale simulations.</p>
+<p><strong>Bond-parallel MPS setup</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+
+<span class="c1"># Initialize distributed backend</span>
+<span class="n">dist</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span>
+    <span class="n">init_method</span><span class="o">=</span><span class="s1">&#39;env://&#39;</span><span class="p">,</span>  <span class="c1"># Use environment variables</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>          <span class="c1"># 4 GPUs</span>
+    <span class="n">rank</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;RANK&#39;</span><span class="p">])</span>
+<span class="p">)</span>
+
+<span class="c1"># Configure bond-parallel distribution</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span>   <span class="c1"># Split bond dimension</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span>
+    <span class="n">device_ids</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Create distributed MPS</span>
+<span class="c1"># Bond dimension 512 split across 4 GPUs = 128 per GPU</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">config</span>
+<span class="p">)</span>
+
+<span class="n">rank</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: Managing bond dim partition of </span><span class="si">{</span><span class="mi">512</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">4</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Apply gates - automatically distributed</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">79</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">dist</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>  <span class="c1"># Synchronize all processes</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: Completed distributed gate sequence&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Launch distributed job</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Single-node multi-GPU (4 GPUs)</span>
+torchrun<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--nproc_per_node<span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--master_port<span class="o">=</span><span class="m">29500</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>distributed_mps_script.py
+
+<span class="c1"># Multi-node (2 nodes, 4 GPUs each = 8 GPUs total)</span>
+<span class="c1"># On node 0:</span>
+torchrun<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--nproc_per_node<span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--nnodes<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--node_rank<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--master_addr<span class="o">=</span>node0.example.com<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--master_port<span class="o">=</span><span class="m">29500</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>distributed_mps_script.py
+
+<span class="c1"># On node 1:</span>
+torchrun<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--nproc_per_node<span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--nnodes<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--node_rank<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--master_addr<span class="o">=</span>node0.example.com<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--master_port<span class="o">=</span><span class="m">29500</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>distributed_mps_script.py
+</pre></div>
+</div>
+<p><strong>Distributed TDVP example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+
+<span class="c1"># Initialize distributed backend</span>
+<span class="n">dist</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span> <span class="n">init_method</span><span class="o">=</span><span class="s1">&#39;env://&#39;</span><span class="p">)</span>
+<span class="n">rank</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span>
+<span class="n">world_size</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">get_world_size</span><span class="p">()</span>
+
+<span class="c1"># Configure distributed MPS</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="n">world_size</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Create large distributed MPS</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>  <span class="c1"># Split across GPUs</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">config</span>
+<span class="p">)</span>
+
+<span class="c1"># TDVP time evolution on distributed MPS</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">evolve_step</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Step </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">] Energy: </span><span class="si">{</span><span class="n">E</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">dist</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+<span class="n">dist</span><span class="o">.</span><span class="n">destroy_process_group</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-2-data-parallelism-for-independent-simulations">
+<h3>Strategy 2: Data Parallelism for Independent Simulations<a class="headerlink" href="#strategy-2-data-parallelism-for-independent-simulations" title="Link to this heading">#</a></h3>
+<p>Run multiple independent simulations in parallel for parameter sweeps or ensemble averaging.</p>
+<p><strong>Parallel VQE hyperparameter search</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch.multiprocessing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_vqe_trial</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">learning_rates</span><span class="p">,</span> <span class="n">return_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run VQE with specific learning rate on assigned GPU.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rank : int</span>
+<span class="sd">        GPU index</span>
+<span class="sd">    H : Hamiltonian</span>
+<span class="sd">        Problem Hamiltonian</span>
+<span class="sd">    learning_rates : list</span>
+<span class="sd">        Learning rates to try (one per GPU)</span>
+<span class="sd">    return_dict : multiprocessing.Manager.dict</span>
+<span class="sd">        Shared dictionary for results</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_device</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span>
+
+    <span class="n">lr</span> <span class="o">=</span> <span class="n">learning_rates</span><span class="p">[</span><span class="n">rank</span><span class="p">]</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+        <span class="n">max_iterations</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+        <span class="n">learning_rate</span><span class="o">=</span><span class="n">lr</span>
+    <span class="p">)</span>
+
+    <span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+    <span class="c1"># Store results</span>
+    <span class="n">return_dict</span><span class="p">[</span><span class="n">rank</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="n">lr</span><span class="p">,</span>
+        <span class="s1">&#39;final_energy&#39;</span><span class="p">:</span> <span class="n">energy</span><span class="p">,</span>
+        <span class="s1">&#39;num_iterations&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">vqe</span><span class="o">.</span><span class="n">energies</span><span class="p">),</span>
+        <span class="s1">&#39;convergence&#39;</span><span class="p">:</span> <span class="n">vqe</span><span class="o">.</span><span class="n">energies</span>
+    <span class="p">}</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: lr=</span><span class="si">{</span><span class="n">lr</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, E=</span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Hyperparameter grid</span>
+    <span class="n">learning_rates</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]</span>  <span class="c1"># 4 trials for 4 GPUs</span>
+    <span class="n">num_gpus</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">learning_rates</span><span class="p">)</span>
+
+    <span class="c1"># Shared result storage</span>
+    <span class="n">manager</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+    <span class="n">return_dict</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+
+    <span class="c1"># Launch parallel VQE trials</span>
+    <span class="n">mp</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span>
+        <span class="n">run_vqe_trial</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">learning_rates</span><span class="p">,</span> <span class="n">return_dict</span><span class="p">),</span>
+        <span class="n">nprocs</span><span class="o">=</span><span class="n">num_gpus</span><span class="p">,</span>
+        <span class="n">join</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Analyze results</span>
+    <span class="n">best_energy</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+    <span class="n">best_lr</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">rank</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">return_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">lr</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">]</span>
+        <span class="n">energy</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;final_energy&#39;</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lr=</span><span class="si">{</span><span class="n">lr</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">: E=</span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">energy</span> <span class="o">&lt;</span> <span class="n">best_energy</span><span class="p">:</span>
+            <span class="n">best_energy</span> <span class="o">=</span> <span class="n">energy</span>
+            <span class="n">best_lr</span> <span class="o">=</span> <span class="n">lr</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Best learning rate: </span><span class="si">{</span><span class="n">best_lr</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (E=</span><span class="si">{</span><span class="n">best_energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Parallel QAOA with different ansatz depths</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">QAOA</span><span class="p">,</span> <span class="n">QAOAConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.multiprocessing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mp</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_qaoa_depth</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">depths</span><span class="p">,</span> <span class="n">results</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run QAOA with specific depth p.&quot;&quot;&quot;</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_device</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">depths</span><span class="p">[</span><span class="n">rank</span><span class="p">]</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">QAOAConfig</span><span class="p">(</span>
+        <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>
+        <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+        <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span>
+        <span class="n">max_iterations</span><span class="o">=</span><span class="mi">500</span>
+    <span class="p">)</span>
+
+    <span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+    <span class="n">results</span><span class="p">[</span><span class="n">rank</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="n">p</span><span class="p">,</span>
+        <span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="n">energy</span><span class="p">,</span>
+        <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="n">params</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: p=</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">, E=</span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Test different QAOA depths</span>
+    <span class="n">depths</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>  <span class="c1"># 8 trials for 8 GPUs</span>
+    <span class="n">num_gpus</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">())</span>
+
+    <span class="n">manager</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+
+    <span class="c1"># Run in parallel</span>
+    <span class="n">mp</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span>
+        <span class="n">run_qaoa_depth</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">H_maxcut</span><span class="p">,</span> <span class="n">depths</span><span class="p">[:</span><span class="n">num_gpus</span><span class="p">],</span> <span class="n">results</span><span class="p">),</span>
+        <span class="n">nprocs</span><span class="o">=</span><span class="n">num_gpus</span><span class="p">,</span>
+        <span class="n">join</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Plot depth vs energy</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+    <span class="n">ps</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;p&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_gpus</span><span class="p">)]</span>
+    <span class="n">energies</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_gpus</span><span class="p">)]</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span> <span class="n">energies</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;QAOA depth p&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Final energy&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;QAOA performance vs ansatz depth&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;qaoa_depth_comparison.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-3-task-parallelism-for-ensemble-studies">
+<h3>Strategy 3: Task Parallelism for Ensemble Studies<a class="headerlink" href="#strategy-3-task-parallelism-for-ensemble-studies" title="Link to this heading">#</a></h3>
+<p>Parallelize ensemble averaging or multi-molecule simulations.</p>
+<p><strong>Parallel molecular VQE ensemble</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.multiprocessing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mp</span>
+
+<span class="c1"># Molecular Hamiltonians (e.g., H2 at different bond lengths)</span>
+<span class="n">molecules</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;H2_0.5A&#39;</span><span class="p">,</span> <span class="n">H_h2_05</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;H2_0.7A&#39;</span><span class="p">,</span> <span class="n">H_h2_07</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;H2_0.9A&#39;</span><span class="p">,</span> <span class="n">H_h2_09</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;H2_1.1A&#39;</span><span class="p">,</span> <span class="n">H_h2_11</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_molecule_energy</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">molecule</span><span class="p">,</span> <span class="n">results</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute ground state energy for a molecule.&quot;&quot;&quot;</span>
+    <span class="n">name</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="n">molecule</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_device</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+        <span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;lbfgs&#39;</span><span class="p">,</span>
+        <span class="n">convergence_threshold</span><span class="o">=</span><span class="mf">1e-8</span>
+    <span class="p">)</span>
+
+    <span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+    <span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="n">energy</span><span class="p">,</span>
+        <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="n">params</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> on GPU </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: E=</span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.10f</span><span class="si">}</span><span class="s2"> Hartree&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">num_gpus</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">molecules</span><span class="p">)</span>
+    <span class="n">manager</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+
+    <span class="c1"># Compute all molecules in parallel</span>
+    <span class="n">processes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">rank</span><span class="p">,</span> <span class="n">molecule</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">molecules</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span>
+            <span class="n">target</span><span class="o">=</span><span class="n">compute_molecule_energy</span><span class="p">,</span>
+            <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">molecule</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">:</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+    <span class="c1"># Plot potential energy curve</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+    <span class="n">bond_lengths</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">]</span>
+    <span class="n">energies</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">molecules</span><span class="p">]</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bond_lengths</span><span class="p">,</span> <span class="n">energies</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Bond length (Å)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy (Hartree)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;H2 potential energy curve&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;h2_pes.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-4-parallel-measurement-sampling">
+<h3>Strategy 4: Parallel Measurement Sampling<a class="headerlink" href="#strategy-4-parallel-measurement-sampling" title="Link to this heading">#</a></h3>
+<p>Parallelize measurement shots across multiple GPUs for faster sampling.</p>
+<p><strong>Parallel shot sampling</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.multiprocessing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_on_gpu</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">mps_state</span><span class="p">,</span> <span class="n">num_shots</span><span class="p">,</span> <span class="n">results</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample from MPS on specific GPU.&quot;&quot;&quot;</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_device</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span>
+
+    <span class="c1"># Reconstruct MPS on this GPU</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="n">mps_state</span><span class="p">[</span><span class="s1">&#39;num_qubits&#39;</span><span class="p">],</span>
+        <span class="n">bond_dim</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">mps_state</span><span class="p">[</span><span class="s1">&#39;bond_dims&#39;</span><span class="p">]),</span>
+        <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="p">)</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">mps_state</span><span class="p">[</span><span class="s1">&#39;tensors&#39;</span><span class="p">]]</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span> <span class="o">=</span> <span class="n">mps_state</span><span class="p">[</span><span class="s1">&#39;bond_dims&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Sample num_shots on this GPU</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">num_shots</span><span class="o">=</span><span class="n">num_shots</span><span class="p">)</span>
+
+    <span class="n">results</span><span class="p">[</span><span class="n">rank</span><span class="p">]</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: Sampled </span><span class="si">{</span><span class="n">num_shots</span><span class="si">}</span><span class="s2"> shots&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Prepare MPS state</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
+    <span class="c1"># ... apply circuit ...</span>
+
+    <span class="c1"># Save state for distribution</span>
+    <span class="n">mps_state</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;num_qubits&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
+        <span class="s1">&#39;tensors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">],</span>
+        <span class="s1">&#39;bond_dims&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Parallel sampling: 40,000 shots across 4 GPUs = 10,000 per GPU</span>
+    <span class="n">total_shots</span> <span class="o">=</span> <span class="mi">40000</span>
+    <span class="n">num_gpus</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">shots_per_gpu</span> <span class="o">=</span> <span class="n">total_shots</span> <span class="o">//</span> <span class="n">num_gpus</span>
+
+    <span class="n">manager</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+
+    <span class="c1"># Launch sampling on each GPU</span>
+    <span class="n">mp</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span>
+        <span class="n">sample_on_gpu</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">mps_state</span><span class="p">,</span> <span class="n">shots_per_gpu</span><span class="p">,</span> <span class="n">results</span><span class="p">),</span>
+        <span class="n">nprocs</span><span class="o">=</span><span class="n">num_gpus</span><span class="p">,</span>
+        <span class="n">join</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Combine samples</span>
+    <span class="n">all_samples</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_gpus</span><span class="p">)],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total samples: </span><span class="si">{</span><span class="n">all_samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Compute expectation values from samples</span>
+    <span class="c1"># ... analysis ...</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-5-circuit-batching-across-gpus">
+<h3>Strategy 5: Circuit Batching Across GPUs<a class="headerlink" href="#strategy-5-circuit-batching-across-gpus" title="Link to this heading">#</a></h3>
+<p>Execute different circuits on different GPUs for benchmarking or algorithm comparison.</p>
+<p><strong>Parallel circuit execution</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.multiprocessing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mp</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">execute_circuit</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">circuit</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">bond_dim</span><span class="p">,</span> <span class="n">results</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute circuit on assigned GPU.&quot;&quot;&quot;</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_device</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span>
+
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+        <span class="n">bond_dim</span><span class="o">=</span><span class="n">bond_dim</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Apply circuit gates</span>
+    <span class="k">for</span> <span class="n">gate</span> <span class="ow">in</span> <span class="n">circuit</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">gate</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">apply_hadamard</span><span class="p">(</span><span class="n">gate</span><span class="p">[</span><span class="s1">&#39;qubit&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">gate</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;CNOT&#39;</span><span class="p">:</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">gate</span><span class="p">[</span><span class="s1">&#39;control&#39;</span><span class="p">],</span> <span class="n">gate</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">])</span>
+        <span class="c1"># ... other gates ...</span>
+
+    <span class="c1"># Compute final observables</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">num_shots</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation_value</span><span class="p">(</span><span class="n">hamiltonian</span><span class="p">)</span>
+
+    <span class="n">results</span><span class="p">[</span><span class="n">rank</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">samples</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span>
+        <span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="n">energy</span><span class="p">,</span>
+        <span class="s1">&#39;final_chi&#39;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: Circuit completed, E=</span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Different circuits to compare</span>
+    <span class="n">circuits</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">generate_qaoa_circuit</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">generate_qaoa_circuit</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">generate_vqe_circuit</span><span class="p">(</span><span class="n">layers</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+        <span class="n">generate_vqe_circuit</span><span class="p">(</span><span class="n">layers</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="n">num_gpus</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">circuits</span><span class="p">)</span>
+    <span class="n">manager</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+
+    <span class="c1"># Execute in parallel</span>
+    <span class="n">processes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">rank</span><span class="p">,</span> <span class="n">circuit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">circuits</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span>
+            <span class="n">target</span><span class="o">=</span><span class="n">execute_circuit</span><span class="p">,</span>
+            <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">circuit</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">:</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+    <span class="c1"># Compare results</span>
+    <span class="k">for</span> <span class="n">rank</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Circuit </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: E=</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">, χ_max=</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;final_chi&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-6-multi-node-distributed-computing">
+<h3>Strategy 6: Multi-Node Distributed Computing<a class="headerlink" href="#strategy-6-multi-node-distributed-computing" title="Link to this heading">#</a></h3>
+<p>Scale to multiple compute nodes with InfiniBand or high-speed network.</p>
+<p><strong>Multi-node setup</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># multi_node_simulation.py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Initialize distributed backend</span>
+    <span class="n">rank</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;RANK&#39;</span><span class="p">])</span>
+    <span class="n">world_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;WORLD_SIZE&#39;</span><span class="p">])</span>
+    <span class="n">master_addr</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MASTER_ADDR&#39;</span><span class="p">]</span>
+    <span class="n">master_port</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MASTER_PORT&#39;</span><span class="p">]</span>
+
+    <span class="n">dist</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span>
+        <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span>
+        <span class="n">init_method</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;tcp://</span><span class="si">{</span><span class="n">master_addr</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="n">master_port</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">world_size</span><span class="o">=</span><span class="n">world_size</span><span class="p">,</span>
+        <span class="n">rank</span><span class="o">=</span><span class="n">rank</span>
+    <span class="p">)</span>
+
+    <span class="n">local_rank</span> <span class="o">=</span> <span class="n">rank</span> <span class="o">%</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_device</span><span class="p">(</span><span class="n">local_rank</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">world_size</span><span class="si">}</span><span class="s2"> initialized on GPU </span><span class="si">{</span><span class="n">local_rank</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Configure distributed MPS</span>
+    <span class="c1"># 4 nodes × 4 GPUs/node = 16 GPUs total</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span>
+        <span class="n">world_size</span><span class="o">=</span><span class="n">world_size</span><span class="p">,</span>
+        <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Extremely large MPS: 150 qubits, χ=2048 split across 16 GPUs</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+        <span class="n">bond_dim</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span>  <span class="c1"># 128 per GPU</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span>
+    <span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: Created distributed MPS&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Run simulation</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP</span>
+    <span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">local_rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
+        <span class="n">E</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">evolve_step</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Step </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">] Energy: </span><span class="si">{</span><span class="n">E</span><span class="si">:</span><span class="s2">.10f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">dist</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="n">dist</span><span class="o">.</span><span class="n">destroy_process_group</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>SLURM job script for multi-node</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --job-name=atlas_q_multi_node</span>
+<span class="c1">#SBATCH --nodes=4</span>
+<span class="c1">#SBATCH --ntasks-per-node=4</span>
+<span class="c1">#SBATCH --gpus-per-node=4</span>
+<span class="c1">#SBATCH --time=24:00:00</span>
+
+<span class="c1"># Load modules</span>
+module<span class="w"> </span>load<span class="w"> </span>cuda/12.1
+module<span class="w"> </span>load<span class="w"> </span>nccl/2.18
+
+<span class="c1"># Set environment</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MASTER_ADDR</span><span class="o">=</span><span class="k">$(</span>scontrol<span class="w"> </span>show<span class="w"> </span>hostname<span class="w"> </span><span class="nv">$SLURM_NODELIST</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MASTER_PORT</span><span class="o">=</span><span class="m">29500</span>
+
+<span class="c1"># Launch distributed training</span>
+srun<span class="w"> </span>python<span class="w"> </span>multi_node_simulation.py
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="nccl-initialization-fails">
+<h3>NCCL Initialization Fails<a class="headerlink" href="#nccl-initialization-fails" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: <code class="docutils literal notranslate"><span class="pre">RuntimeError:</span> <span class="pre">NCCL</span> <span class="pre">error:</span> <span class="pre">unhandled</span> <span class="pre">system</span> <span class="pre">error</span></code>.</p>
+<p><strong>Solution</strong>: Check network connectivity and NCCL installation.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test NCCL</span>
+<span class="nv">$NCCL_ROOT</span>/bin/nccl-test<span class="w"> </span>-g<span class="w"> </span><span class="m">2</span><span class="w">  </span><span class="c1"># Test 2 GPUs</span>
+
+<span class="c1"># Check network</span>
+ping<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span><span class="w"> </span>&lt;other_node&gt;
+
+<span class="c1"># Verify NCCL environment</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">NCCL_DEBUG</span><span class="o">=</span>INFO
+<span class="nb">export</span><span class="w"> </span><span class="nv">NCCL_DEBUG_SUBSYS</span><span class="o">=</span>ALL
+
+<span class="c1"># Re-run with verbose logging</span>
+</pre></div>
+</div>
+</section>
+<section id="process-group-timeout">
+<h3>Process Group Timeout<a class="headerlink" href="#process-group-timeout" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: <code class="docutils literal notranslate"><span class="pre">RuntimeError:</span> <span class="pre">Timed</span> <span class="pre">out</span> <span class="pre">initializing</span> <span class="pre">process</span> <span class="pre">group</span></code>.</p>
+<p><strong>Solution</strong>: Increase timeout or check master address/port.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+
+<span class="c1"># Increase timeout to 30 minutes</span>
+<span class="n">dist</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span>
+    <span class="n">init_method</span><span class="o">=</span><span class="s1">&#39;env://&#39;</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="out-of-sync-errors">
+<h3>Out of Sync Errors<a class="headerlink" href="#out-of-sync-errors" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: GPUs out of sync, incorrect results.</p>
+<p><strong>Solution</strong>: Add explicit barriers and synchronization.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+
+<span class="c1"># Synchronize before and after critical sections</span>
+<span class="n">dist</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+<span class="c1"># ... perform distributed operation ...</span>
+<span class="n">dist</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+
+<span class="c1"># Ensure CUDA operations complete</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="memory-imbalance-across-gpus">
+<h3>Memory Imbalance Across GPUs<a class="headerlink" href="#memory-imbalance-across-gpus" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: Some GPUs run out of memory while others idle.</p>
+<p><strong>Solution</strong>: Balance workload or adjust partitioning.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check memory usage per GPU</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()):</span>
+    <span class="n">allocated</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">memory_allocated</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_properties</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">total_memory</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">allocated</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">total</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+
+<span class="c1"># Adjust bond dimension partitioning</span>
+<span class="c1"># E.g., assign more work to GPUs with more memory</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Parallel computation strategies for ATLAS-Q:</p>
+<ol class="arabic simple">
+<li><p><strong>Bond-parallel MPS</strong>: Split bond dimension across GPUs for χ &gt; 512</p></li>
+<li><p><strong>Data parallelism</strong>: Run independent simulations for hyperparameter search</p></li>
+<li><p><strong>Task parallelism</strong>: Parallelize ensemble studies or multi-molecule VQE</p></li>
+<li><p><strong>Parallel sampling</strong>: Distribute measurement shots across GPUs</p></li>
+<li><p><strong>Circuit batching</strong>: Execute different circuits on different GPUs</p></li>
+<li><p><strong>Multi-node</strong>: Scale to 10+ GPUs across multiple compute nodes</p></li>
+</ol>
+<p>Speedup expectations:</p>
+<ul class="simple">
+<li><p><strong>Bond-parallel MPS</strong>: Near-linear scaling up to communication overhead (~8 GPUs)</p></li>
+<li><p><strong>Data parallelism</strong>: Perfect linear scaling (N GPUs = N× throughput)</p></li>
+<li><p><strong>Parallel sampling</strong>: Linear scaling for large shot counts</p></li>
+<li><p><strong>Multi-node</strong>: 70-90% efficiency with InfiniBand, 40-60% with Ethernet</p></li>
+</ul>
+<p>When to use each strategy:</p>
+<ul class="simple">
+<li><p><strong>Bond-parallel</strong>: Single large simulation (n &gt; 80, χ &gt; 512)</p></li>
+<li><p><strong>Data parallelism</strong>: Hyperparameter search, ensemble averaging</p></li>
+<li><p><strong>Circuit batching</strong>: Algorithm comparison, benchmarking</p></li>
+<li><p><strong>Multi-node</strong>: Extremely large systems (n &gt; 100, χ &gt; 1024)</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="handle_large_systems.html"><span class="doc">How to Handle Large Quantum Systems</span></a>: Distributed MPS implementation details</p></li>
+<li><p><a class="reference internal" href="integrate_cuquantum.html"><span class="doc">Integrate cuQuantum</span></a>: GPU acceleration with cuQuantum</p></li>
+<li><p><a class="reference internal" href="optimize_performance.html"><span class="doc">How to Optimize Performance</span></a>: Single-GPU optimization before scaling</p></li>
+<li><p><span class="xref std std-doc">../reference/distributed_mps</span>: Distributed MPS API reference</p></li>
+<li><p><a class="reference internal" href="benchmark_comparison.html"><span class="doc">Benchmark Comparison</span></a>: Parallel benchmarking strategies</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="custom_hamiltonians.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How to Build Custom Hamiltonians</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="benchmark_comparison.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Benchmark Comparison</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem">Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strategies">Strategies</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-1-multi-gpu-distributed-mps-bond-parallel">Strategy 1: Multi-GPU Distributed MPS (Bond-Parallel)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-2-data-parallelism-for-independent-simulations">Strategy 2: Data Parallelism for Independent Simulations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-3-task-parallelism-for-ensemble-studies">Strategy 3: Task Parallelism for Ensemble Studies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-4-parallel-measurement-sampling">Strategy 4: Parallel Measurement Sampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-5-circuit-batching-across-gpus">Strategy 5: Circuit Batching Across GPUs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-6-multi-node-distributed-computing">Strategy 6: Multi-Node Distributed Computing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nccl-initialization-fails">NCCL Initialization Fails</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#process-group-timeout">Process Group Timeout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#out-of-sync-errors">Out of Sync Errors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-imbalance-across-gpus">Memory Imbalance Across GPUs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,2224 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>atlas_q.vqe_qaoa &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/vqe_qaoa';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="atlas_q.vqe_qaoa.VQE" href="generated/atlas_q.vqe_qaoa.VQE.html" />
+    <link rel="prev" title="atlas_q.tdvp.run_tdvp" href="generated/atlas_q.tdvp.run_tdvp.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="adaptive_mps.html">atlas_q.adaptive_mps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mpo_ops.html">atlas_q.mpo_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPOBuilder.html">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tdvp.html">atlas_q.tdvp</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">atlas_q.vqe_qaoa</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="grover.html">atlas_q.grover</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="stabilizer_backend.html">atlas_q.stabilizer_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="noise_models.html">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planar_2d.html">2D/Planar Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributed_mps.html">Distributed MPS</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cuquantum_backend.html">atlas_q.cuquantum_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="diagnostics.html">atlas_q.diagnostics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linalg_robust.html">atlas_q.linalg_robust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="truncation.html">atlas_q.truncation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.vqe_qaoa</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-atlas_q.vqe_qaoa">
+<span id="atlas-q-vqe-qaoa"></span><h1>atlas_q.vqe_qaoa<a class="headerlink" href="#module-atlas_q.vqe_qaoa" title="Link to this heading">#</a></h1>
+<p>Variational Quantum Eigensolver (VQE) and QAOA</p>
+<p>Implements variational algorithms for optimization and ground state finding:
+- VQE for chemistry and physics
+- QAOA for combinatorial optimization
+- Hardware-efficient ansätze
+- Parameter optimization</p>
+<p>Author: ATLAS-Q Contributors
+Date: October 2025
+License: MIT</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQEConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.vqe_qaoa.</span></span><span class="sig-name descname"><span class="pre">VQEConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ansatz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hardware_efficient'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'L-BFGS-B'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-09</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gradient_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'group'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#VQEConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.vqe_qaoa.VQEConfig" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Configuration for VQE</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQEConfig.ansatz">
+<span class="sig-name descname"><span class="pre">ansatz</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'hardware_efficient'</span></em><a class="headerlink" href="#atlas_q.vqe_qaoa.VQEConfig.ansatz" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQEConfig.n_layers">
+<span class="sig-name descname"><span class="pre">n_layers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#atlas_q.vqe_qaoa.VQEConfig.n_layers" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQEConfig.optimizer">
+<span class="sig-name descname"><span class="pre">optimizer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'L-BFGS-B'</span></em><a class="headerlink" href="#atlas_q.vqe_qaoa.VQEConfig.optimizer" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQEConfig.max_iter">
+<span class="sig-name descname"><span class="pre">max_iter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">200</span></em><a class="headerlink" href="#atlas_q.vqe_qaoa.VQEConfig.max_iter" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQEConfig.tol">
+<span class="sig-name descname"><span class="pre">tol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-09</span></em><a class="headerlink" href="#atlas_q.vqe_qaoa.VQEConfig.tol" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQEConfig.chi_max">
+<span class="sig-name descname"><span class="pre">chi_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">256</span></em><a class="headerlink" href="#atlas_q.vqe_qaoa.VQEConfig.chi_max" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQEConfig.gradient_method">
+<span class="sig-name descname"><span class="pre">gradient_method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'group'</span></em><a class="headerlink" href="#atlas_q.vqe_qaoa.VQEConfig.gradient_method" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQEConfig.device">
+<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cuda'</span></em><a class="headerlink" href="#atlas_q.vqe_qaoa.VQEConfig.device" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQEConfig.dtype">
+<span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.9)"><span class="pre">dtype</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">torch.complex128</span></em><a class="headerlink" href="#atlas_q.vqe_qaoa.VQEConfig.dtype" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.HardwareEfficientAnsatz">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.vqe_qaoa.</span></span><span class="sig-name descname"><span class="pre">HardwareEfficientAnsatz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#HardwareEfficientAnsatz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.vqe_qaoa.HardwareEfficientAnsatz" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Hardware-efficient ansatz for VQE.</p>
+<p>Layer = [Ry(θ) on all qubits] + [CZ on neighboring pairs]</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id26" title="atlas_q.vqe_qaoa.HardwareEfficientAnsatz.prepare_hf_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_hf_state</span></code></a>([chi_max])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>apply</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>get_param_shift</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.HardwareEfficientAnsatz.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#HardwareEfficientAnsatz.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.vqe_qaoa.HardwareEfficientAnsatz.apply" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.HardwareEfficientAnsatz.get_param_shift">
+<span class="sig-name descname"><span class="pre">get_param_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#HardwareEfficientAnsatz.get_param_shift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.vqe_qaoa.HardwareEfficientAnsatz.get_param_shift" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.HardwareEfficientAnsatz.prepare_hf_state">
+<span class="sig-name descname"><span class="pre">prepare_hf_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#HardwareEfficientAnsatz.prepare_hf_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.vqe_qaoa.HardwareEfficientAnsatz.prepare_hf_state" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQE">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.vqe_qaoa.</span></span><span class="sig-name descname"><span class="pre">VQE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_ansatz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#VQE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.vqe_qaoa.VQE" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="simple">
+<dt>VQE driver with:</dt><dd><ul class="simple">
+<li><p>Lightweight warm-start (1D/2D)</p></li>
+<li><p>Optional per-Pauli parameter-shift gradients</p></li>
+<li><p>Incremental JSONL progress + PNG plots in molecular_results/</p></li>
+<li><p>Quiet-by-default logging with heartbeat</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>run</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQE.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'molecule'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#VQE.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.vqe_qaoa.VQE.run" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.QAOAAnsatz">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.vqe_qaoa.</span></span><span class="sig-name descname"><span class="pre">QAOAAnsatz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cost_hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#QAOAAnsatz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.vqe_qaoa.QAOAAnsatz" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>QAOA ansatz for combinatorial optimization</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>apply</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.QAOAAnsatz.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#QAOAAnsatz.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.vqe_qaoa.QAOAAnsatz.apply" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.QAOA">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.vqe_qaoa.</span></span><span class="sig-name descname"><span class="pre">QAOA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cost_hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'COBYLA'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#QAOA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.vqe_qaoa.QAOA" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Quantum Approximate Optimization Algorithm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>n_params</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>run</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.QAOA.n_params">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#atlas_q.vqe_qaoa.QAOA.n_params" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.QAOA.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#QAOA.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.vqe_qaoa.QAOA.run" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.build_molecular_hamiltonian">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.vqe_qaoa.</span></span><span class="sig-name descname"><span class="pre">build_molecular_hamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'jordan_wigner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#build_molecular_hamiltonian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.vqe_qaoa.build_molecular_hamiltonian" title="Link to this definition">#</a></dt>
+<dd><p>Build molecular Hamiltonian MPO from 1- and 2-electron integrals</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>h1: One-electron integrals [n_orb, n_orb]
+h2: Two-electron integrals [n_orb, n_orb, n_orb, n_orb]
+mapping: ‘jordan_wigner’ or ‘bravyi_kitaev’
+device: torch device</p>
+</dd>
+<dt>Returns:</dt><dd><p>MPO representation of electronic Hamiltonian</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">vqe_qaoa</span></code> module implements variational quantum algorithms for optimization and ground state finding. These hybrid quantum-classical algorithms use parametrized quantum circuits (ansatze) optimized by classical optimization routines to solve computational problems.</p>
+<p><strong>Variational Quantum Eigensolver (VQE)</strong></p>
+<p>VQE <a class="reference internal" href="#peruzzo14" id="id1"><span>[Peruzzo14]</span></a> finds ground states of quantum Hamiltonians by minimizing:</p>
+<div class="math notranslate nohighlight">
+\[E(\boldsymbol{\theta}) = \langle\psi(\boldsymbol{\theta})|\hat{H}|\psi(\boldsymbol{\theta})\rangle\]</div>
+<p>where <span class="math notranslate nohighlight">\(|\psi(\boldsymbol{\theta})\rangle\)</span> is a parametrized quantum state (ansatz) and <span class="math notranslate nohighlight">\(\hat{H}\)</span> is the Hamiltonian. The variational principle guarantees <span class="math notranslate nohighlight">\(E(\boldsymbol{\theta}) \geq E_0\)</span>, where <span class="math notranslate nohighlight">\(E_0\)</span> is the true ground state energy.</p>
+<p><strong>Key applications</strong>:</p>
+<ul class="simple">
+<li><p>Quantum chemistry: Molecular ground state energies and geometries</p></li>
+<li><p>Condensed matter: Spin systems, strongly correlated materials</p></li>
+<li><p>Materials science: Band structure calculations, phase transitions</p></li>
+</ul>
+<p><strong>Quantum Approximate Optimization Algorithm (QAOA)</strong></p>
+<p>QAOA <a class="reference internal" href="#farhi14" id="id2"><span>[Farhi14]</span></a> solves combinatorial optimization by encoding the problem as a Hamiltonian <span class="math notranslate nohighlight">\(\hat{H}_C\)</span> (cost function) and alternating between problem and mixer Hamiltonians:</p>
+<div class="math notranslate nohighlight">
+\[|\psi(\boldsymbol{\gamma}, \boldsymbol{\beta})\rangle = \prod_{i=1}^{p} e^{-i\beta_i \hat{H}_M} e^{-i\gamma_i \hat{H}_C} |+\rangle^{\otimes n}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{H}_M\)</span> is typically <span class="math notranslate nohighlight">\(\sum_i X_i\)</span> (mixer Hamiltonian), and <span class="math notranslate nohighlight">\(p\)</span> is the circuit depth. The expectation value <span class="math notranslate nohighlight">\(\langle \hat{H}_C \rangle\)</span> approximates the optimal solution.</p>
+<p><strong>Key features of this implementation</strong>:</p>
+<ul class="simple">
+<li><p><strong>MPS backend</strong>: Simulate 50-100 qubit VQE/QAOA circuits efficiently using tensor networks</p></li>
+<li><p><strong>Automatic differentiation</strong>: PyTorch autograd for gradient-based optimization</p></li>
+<li><p><strong>Parameter-shift rule</strong>: Analytical gradients for gradient-free optimizers</p></li>
+<li><p><strong>Hardware-efficient ansatze</strong>: Optimized for near-term quantum devices (NISQ)</p></li>
+<li><p><strong>UCCSD ansatz</strong>: Unitary Coupled Cluster for quantum chemistry</p></li>
+<li><p><strong>Adaptive methods</strong>: Adapt-VQE for ansatz construction</p></li>
+<li><p><strong>Gradient grouping</strong>: Reduce measurement cost by O(n) using commuting Pauli groups</p></li>
+</ul>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id0" title="atlas_q.vqe_qaoa.VQE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VQE</span></code></a></p></td>
+<td><p>VQE driver with:</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id6" title="atlas_q.vqe_qaoa.QAOA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QAOA</span></code></a></p></td>
+<td><p>Quantum Approximate Optimization Algorithm</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id9" title="atlas_q.vqe_qaoa.VQEConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VQEConfig</span></code></a></p></td>
+<td><p>Configuration for VQE</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id19" title="atlas_q.vqe_qaoa.HardwareEfficientAnsatz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HardwareEfficientAnsatz</span></code></a></p></td>
+<td><p>Hardware-efficient ansatz for VQE.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id27" title="atlas_q.vqe_qaoa.QAOAAnsatz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QAOAAnsatz</span></code></a></p></td>
+<td><p>QAOA ansatz for combinatorial optimization</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.vqe_qaoa.build_molecular_hamiltonian" title="atlas_q.vqe_qaoa.build_molecular_hamiltonian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_molecular_hamiltonian</span></code></a></p></td>
+<td><p>Build molecular Hamiltonian MPO from 1- and 2-electron integrals</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="vqe">
+<h2>VQE<a class="headerlink" href="#vqe" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.vqe_qaoa.</span></span><span class="sig-name descname"><span class="pre">VQE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_ansatz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#VQE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="simple">
+<dt>VQE driver with:</dt><dd><ul class="simple">
+<li><p>Lightweight warm-start (1D/2D)</p></li>
+<li><p>Optional per-Pauli parameter-shift gradients</p></li>
+<li><p>Incremental JSONL progress + PNG plots in molecular_results/</p></li>
+<li><p>Quiet-by-default logging with heartbeat</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>run</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Variational Quantum Eigensolver for finding ground states of Hamiltonians.</p>
+<p>The VQE algorithm optimizes a parametrized quantum circuit (ansatz) to minimize the expectation value:</p>
+<div class="math notranslate nohighlight">
+\[E(\boldsymbol{\theta}) = \langle\psi(\boldsymbol{\theta})|\hat{H}|\psi(\boldsymbol{\theta})\rangle\]</div>
+<p><strong>Algorithm Overview</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Initialize</strong> parameters <span class="math notranslate nohighlight">\(\boldsymbol{\theta}_0\)</span> randomly or with heuristics</p></li>
+<li><p><strong>Prepare</strong> quantum state <span class="math notranslate nohighlight">\(|\psi(\boldsymbol{\theta})\rangle\)</span> using ansatz circuit</p></li>
+<li><p><strong>Measure</strong> expectation value <span class="math notranslate nohighlight">\(E(\boldsymbol{\theta}) = \langle \hat{H} \rangle\)</span></p></li>
+<li><p><strong>Optimize</strong> using classical optimizer to update <span class="math notranslate nohighlight">\(\boldsymbol{\theta} \to \boldsymbol{\theta}'\)</span></p></li>
+<li><p><strong>Repeat</strong> steps 2-4 until convergence</p></li>
+</ol>
+<p><strong>Gradient Computation</strong></p>
+<p>For gradient-based optimizers (L-BFGS, Adam), gradients can be computed via:</p>
+<ul class="simple">
+<li><p><strong>Automatic differentiation</strong>: PyTorch autograd through MPS operations (default, fastest)</p></li>
+<li><p><strong>Parameter-shift rule</strong>: <span class="math notranslate nohighlight">\(\frac{\partial E}{\partial \theta_i} = \frac{E(\theta_i + \pi/2) - E(\theta_i - \pi/2)}{2}\)</span></p></li>
+<li><p><strong>Finite differences</strong>: Numerical approximation (least accurate)</p></li>
+</ul>
+<p>Automatic differentiation is 10-50× faster than parameter-shift for MPS backends, as it leverages efficient backpropagation through tensor operations.</p>
+<p><strong>Initialization</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hamiltonian</strong> (<a class="reference internal" href="mpo_ops.html#id0" title="atlas_q.mpo_ops.MPO"><em>MPO</em></a>) – Hamiltonian as Matrix Product Operator</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="#id9" title="atlas_q.vqe_qaoa.VQEConfig"><em>VQEConfig</em></a>) – VQE configuration (ansatz, optimizer, device, etc.)</p></li>
+<li><p><strong>custom_ansatz</strong> – Optional custom ansatz object (if config.ansatz=’custom’)</p></li>
+<li><p><strong>initial_params</strong> – Optional initial parameter values (defaults to random)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Attributes</strong></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQE.hamiltonian">
+<span class="sig-name descname"><span class="pre">hamiltonian</span></span><a class="headerlink" href="#atlas_q.vqe_qaoa.VQE.hamiltonian" title="Link to this definition">#</a></dt>
+<dd><p>MPO representation of the Hamiltonian</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQE.ansatz">
+<span class="sig-name descname"><span class="pre">ansatz</span></span><a class="headerlink" href="#atlas_q.vqe_qaoa.VQE.ansatz" title="Link to this definition">#</a></dt>
+<dd><p>Ansatz circuit object (HardwareEfficientAnsatz, QAOAAnsatz, or custom)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQE.config">
+<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#atlas_q.vqe_qaoa.VQE.config" title="Link to this definition">#</a></dt>
+<dd><p>VQEConfig object with optimizer settings</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQE.energies">
+<span class="sig-name descname"><span class="pre">energies</span></span><a class="headerlink" href="#atlas_q.vqe_qaoa.VQE.energies" title="Link to this definition">#</a></dt>
+<dd><p>List of energy values at each optimization iteration</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQE.param_history">
+<span class="sig-name descname"><span class="pre">param_history</span></span><a class="headerlink" href="#atlas_q.vqe_qaoa.VQE.param_history" title="Link to this definition">#</a></dt>
+<dd><p>List of parameter vectors at each iteration</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQE.n_evaluations">
+<span class="sig-name descname"><span class="pre">n_evaluations</span></span><a class="headerlink" href="#atlas_q.vqe_qaoa.VQE.n_evaluations" title="Link to this definition">#</a></dt>
+<dd><p>Total number of energy evaluations (including gradient calls)</p>
+</dd></dl>
+
+<p><strong>Methods</strong></p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQE.html#atlas_q.vqe_qaoa.VQE.__init__" title="atlas_q.vqe_qaoa.VQE.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(hamiltonian, config[, ...])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQE.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.vqe_qaoa.VQE.optimize" title="Link to this definition">#</a></dt>
+<dd><p>Run VQE optimization to find ground state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>initial_params</strong> (<em>np.ndarray</em>) – Starting parameter values (default: random initialization)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple of (final_energy, optimal_params)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a>, np.ndarray]</p>
+</dd>
+</dl>
+<p>Internally calls scipy.optimize or PyTorch optimizers depending on config.optimizer. Stores convergence history in self.energies and self.param_history.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQE.evaluate_energy">
+<span class="sig-name descname"><span class="pre">evaluate_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.vqe_qaoa.VQE.evaluate_energy" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate energy for given parameters without optimization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>np.ndarray</em>) – Parameter vector</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Energy expectation value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></p>
+</dd>
+</dl>
+<p>Useful for post-processing, energy landscape visualization, or manual optimization loops.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQE.compute_gradients">
+<span class="sig-name descname"><span class="pre">compute_gradients</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.vqe_qaoa.VQE.compute_gradients" title="Link to this definition">#</a></dt>
+<dd><p>Compute energy gradient with respect to parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params</strong> (<em>np.ndarray</em>) – Parameter vector</p></li>
+<li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Gradient method (‘auto’, ‘parameter_shift’, ‘finite_diff’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Gradient vector ∂E/∂θ</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+<p>For ‘auto’, uses PyTorch autograd. For ‘parameter_shift’, uses analytical shift rule (2 energy evaluations per parameter). For ‘finite_diff’, uses numerical differentiation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.VQE.get_state">
+<span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.vqe_qaoa.VQE.get_state" title="Link to this definition">#</a></dt>
+<dd><p>Construct quantum state for given parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>np.ndarray</em>) – Parameter vector</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>MPS representation of <a href="#id3"><span class="problematic" id="id4">|</span></a>ψ(θ)⟩</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html#atlas_q.adaptive_mps.AdaptiveMPS" title="atlas_q.adaptive_mps.AdaptiveMPS">AdaptiveMPS</a></p>
+</dd>
+</dl>
+<p>Useful for analyzing the optimized state, computing additional observables, or visualizing entanglement structure.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'molecule'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#VQE.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="qaoa">
+<h2>QAOA<a class="headerlink" href="#qaoa" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id6">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.vqe_qaoa.</span></span><span class="sig-name descname"><span class="pre">QAOA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cost_hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'COBYLA'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#QAOA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Quantum Approximate Optimization Algorithm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>n_params</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>run</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Quantum Approximate Optimization Algorithm for combinatorial problems.</p>
+<p>QAOA is a specialized variational algorithm designed for solving discrete optimization problems encoded as Ising Hamiltonians. It alternates between applying the cost Hamiltonian <span class="math notranslate nohighlight">\(e^{-i\gamma \hat{H}_C}\)</span> and the mixer Hamiltonian <span class="math notranslate nohighlight">\(e^{-i\beta \hat{H}_M}\)</span>.</p>
+<p><strong>QAOA Ansatz Structure</strong></p>
+<p>Starting from the uniform superposition <span class="math notranslate nohighlight">\(|+\rangle^{\otimes n} = H^{\otimes n}|0\rangle^{\otimes n}\)</span>, apply p layers:</p>
+<div class="math notranslate nohighlight">
+\[|\psi(\boldsymbol{\gamma}, \boldsymbol{\beta})\rangle = U(\beta_p, \gamma_p) \cdots U(\beta_1, \gamma_1) |+\rangle^{\otimes n}\]</div>
+<p>where <span class="math notranslate nohighlight">\(U(\beta, \gamma) = e^{-i\beta \hat{H}_M} e^{-i\gamma \hat{H}_C}\)</span>.</p>
+<p><strong>Typical Problem Encodings</strong></p>
+<ul class="simple">
+<li><p><strong>MaxCut</strong>: <span class="math notranslate nohighlight">\(\hat{H}_C = -\sum_{(i,j) \in E} \frac{1 - Z_i Z_j}{2}\)</span> (maximize cut size)</p></li>
+<li><p><strong>Max Independent Set</strong>: <span class="math notranslate nohighlight">\(\hat{H}_C = -\sum_i (1 - Z_i)/2 + P \sum_{(i,j) \in E} \frac{(1-Z_i)(1-Z_j)}{4}\)</span> (penalty P for edges)</p></li>
+<li><p><strong>TSP</strong>: Distance-weighted Ising model with tour constraints</p></li>
+<li><p><strong>SAT</strong>: Clause satisfaction encoded as Pauli operators</p></li>
+</ul>
+<p><strong>Initialization</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cost_hamiltonian</strong> (<a class="reference internal" href="mpo_ops.html#id0" title="atlas_q.mpo_ops.MPO"><em>MPO</em></a>) – Cost Hamiltonian <span class="math notranslate nohighlight">\(\hat{H}_C\)</span> as MPO</p></li>
+<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Number of QAOA layers (typical: 1-10)</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="#id9" title="atlas_q.vqe_qaoa.VQEConfig"><em>VQEConfig</em></a>) – Configuration (optimizer, device, etc.)</p></li>
+<li><p><strong>mixer_hamiltonian</strong> (<a class="reference internal" href="mpo_ops.html#id0" title="atlas_q.mpo_ops.MPO"><em>MPO</em></a>) – Optional custom mixer (default: <span class="math notranslate nohighlight">\(\sum_i X_i\)</span>)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Attributes</strong></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.QAOA.cost_hamiltonian">
+<span class="sig-name descname"><span class="pre">cost_hamiltonian</span></span><a class="headerlink" href="#atlas_q.vqe_qaoa.QAOA.cost_hamiltonian" title="Link to this definition">#</a></dt>
+<dd><p>MPO for the cost function <span class="math notranslate nohighlight">\(\hat{H}_C\)</span></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.QAOA.mixer_hamiltonian">
+<span class="sig-name descname"><span class="pre">mixer_hamiltonian</span></span><a class="headerlink" href="#atlas_q.vqe_qaoa.QAOA.mixer_hamiltonian" title="Link to this definition">#</a></dt>
+<dd><p>MPO for the mixer <span class="math notranslate nohighlight">\(\hat{H}_M\)</span> (default: transverse field)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.QAOA.p">
+<span class="sig-name descname"><span class="pre">p</span></span><a class="headerlink" href="#atlas_q.vqe_qaoa.QAOA.p" title="Link to this definition">#</a></dt>
+<dd><p>QAOA depth (number of γ, β pairs)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.QAOA.ansatz">
+<span class="sig-name descname"><span class="pre">ansatz</span></span><a class="headerlink" href="#atlas_q.vqe_qaoa.QAOA.ansatz" title="Link to this definition">#</a></dt>
+<dd><p>QAOAAnsatz object implementing the alternating unitaries</p>
+</dd></dl>
+
+<p><strong>Methods</strong></p>
+<p>Inherits all methods from VQE (optimize, evaluate_energy, compute_gradients, get_state).</p>
+<p><strong>Performance</strong></p>
+<p>QAOA with MPS backend scales to 50-100 qubits for p ≤ 10 layers. Bond dimension typically grows as χ ~ 2^p for random graphs, but remains small (χ ≤ 32) for graphs with local structure (planar graphs, grids, trees).</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="id7">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#id7" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#QAOA.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="vqeconfig">
+<h2>VQEConfig<a class="headerlink" href="#vqeconfig" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id9">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.vqe_qaoa.</span></span><span class="sig-name descname"><span class="pre">VQEConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ansatz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hardware_efficient'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'L-BFGS-B'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-09</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gradient_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'group'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#VQEConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Configuration for VQE</p>
+<p>Configuration dataclass for VQE/QAOA optimization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ansatz</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Ansatz type (<code class="docutils literal notranslate"><span class="pre">'hardware_efficient'</span></code>, <code class="docutils literal notranslate"><span class="pre">'uccsd'</span></code>, <code class="docutils literal notranslate"><span class="pre">'qaoa'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'custom'</span></code>)</p></li>
+<li><p><strong>n_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Number of ansatz layers (default: 2)</p></li>
+<li><p><strong>optimizer</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Optimizer name (<code class="docutils literal notranslate"><span class="pre">'L-BFGS-B'</span></code>, <code class="docutils literal notranslate"><span class="pre">'COBYLA'</span></code>, <code class="docutils literal notranslate"><span class="pre">'BFGS'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Adam'</span></code>, <code class="docutils literal notranslate"><span class="pre">'SGD'</span></code>)</p></li>
+<li><p><strong>max_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Maximum optimization iterations (default: 200)</p></li>
+<li><p><strong>tol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Convergence tolerance on energy (default: 1e-6)</p></li>
+<li><p><strong>chi_max</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Maximum MPS bond dimension (default: 64)</p></li>
+<li><p><strong>truncation_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – SVD truncation threshold (default: 1e-10)</p></li>
+<li><p><strong>gradient_method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Gradient method (<code class="docutils literal notranslate"><span class="pre">'auto'</span></code>, <code class="docutils literal notranslate"><span class="pre">'parameter_shift'</span></code>, <code class="docutils literal notranslate"><span class="pre">'finite_diff'</span></code>, or <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p><strong>gradient_grouping</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Use commuting Pauli grouping for gradients (default: True)</p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Device for computation (<code class="docutils literal notranslate"><span class="pre">'cuda'</span></code>, <code class="docutils literal notranslate"><span class="pre">'cpu'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'cuda:0'</span></code>, <code class="docutils literal notranslate"><span class="pre">'cuda:1'</span></code>, etc.)</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.9)"><em>torch.dtype</em></a>) – Data type (<code class="docutils literal notranslate"><span class="pre">torch.complex64</span></code> or <code class="docutils literal notranslate"><span class="pre">torch.complex128</span></code>)</p></li>
+<li><p><strong>learning_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Learning rate for Adam/SGD optimizers (default: 0.01)</p></li>
+<li><p><strong>optimizer_options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – Additional optimizer-specific options</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Optimizer Comparison</strong></p>
+<div class="pst-scrollable-table-container"><table class="table" id="id33">
+<caption><span class="caption-text">Optimizer Performance</span><a class="headerlink" href="#id33" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Optimizer</p></th>
+<th class="head"><p>Convergence Speed</p></th>
+<th class="head"><p>Robustness</p></th>
+<th class="head"><p>Best For</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>L-BFGS-B</p></td>
+<td><p>Fast (10-50 iter)</p></td>
+<td><p>High</p></td>
+<td><p>Smooth landscapes, small-medium problems</p></td>
+</tr>
+<tr class="row-odd"><td><p>COBYLA</p></td>
+<td><p>Medium (50-200 iter)</p></td>
+<td><p>High</p></td>
+<td><p>Noisy gradients, constrained problems</p></td>
+</tr>
+<tr class="row-even"><td><p>Adam</p></td>
+<td><p>Medium (100-500 iter)</p></td>
+<td><p>Medium</p></td>
+<td><p>Large parameter counts, online learning</p></td>
+</tr>
+<tr class="row-odd"><td><p>BFGS</p></td>
+<td><p>Fast (10-50 iter)</p></td>
+<td><p>Medium</p></td>
+<td><p>Smooth landscapes, unconstrained</p></td>
+</tr>
+<tr class="row-even"><td><p>SGD</p></td>
+<td><p>Slow (500+ iter)</p></td>
+<td><p>Low</p></td>
+<td><p>Massive parameter counts (not typical for VQE)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Gradient Method Selection</strong></p>
+<ul class="simple">
+<li><p><strong>‘auto’ (recommended)</strong>: PyTorch autograd, 10-50× faster than parameter-shift</p></li>
+<li><p><strong>‘parameter_shift’</strong>: Analytical gradients, 2n energy evaluations for n parameters</p></li>
+<li><p><strong>‘finite_diff’</strong>: Numerical gradients, least accurate but works for any ansatz</p></li>
+<li><p><strong>None</strong>: Gradient-free optimization (use with COBYLA, Nelder-Mead)</p></li>
+</ul>
+<p><strong>Gradient Grouping</strong></p>
+<p>When enabled, groups Hamiltonian Pauli terms by commutativity to reduce measurements:</p>
+<ul class="simple">
+<li><p>Without grouping: O(m × n) energy evaluations for m Pauli terms, n parameters</p></li>
+<li><p>With grouping: O(g × n) evaluations where g is number of commuting groups (typically g ~ log(m))</p></li>
+</ul>
+<p>For molecular Hamiltonians, reduces gradient cost by 5-20×.</p>
+<p><strong>Device Selection</strong></p>
+<ul class="simple">
+<li><p><strong>‘cuda’</strong>: Use default GPU (fastest for χ &gt; 16)</p></li>
+<li><p><strong>‘cpu’</strong>: Use CPU (better for small χ ≤ 8, no CUDA overhead)</p></li>
+<li><p><strong>‘cuda:k’</strong>: Use specific GPU k in multi-GPU systems</p></li>
+</ul>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">ansatz</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'hardware_efficient'</span></em><a class="headerlink" href="#id10" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">n_layers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#id11" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">optimizer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'L-BFGS-B'</span></em><a class="headerlink" href="#id12" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">max_iter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">200</span></em><a class="headerlink" href="#id13" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">tol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-09</span></em><a class="headerlink" href="#id14" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">chi_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">256</span></em><a class="headerlink" href="#id15" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">gradient_method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'group'</span></em><a class="headerlink" href="#id16" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cuda'</span></em><a class="headerlink" href="#id17" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.9)"><span class="pre">dtype</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">torch.complex128</span></em><a class="headerlink" href="#id18" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="hardwareefficientansatz">
+<h2>HardwareEfficientAnsatz<a class="headerlink" href="#hardwareefficientansatz" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id19">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.vqe_qaoa.</span></span><span class="sig-name descname"><span class="pre">HardwareEfficientAnsatz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#HardwareEfficientAnsatz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Hardware-efficient ansatz for VQE.</p>
+<p>Layer = [Ry(θ) on all qubits] + [CZ on neighboring pairs]</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id26" title="atlas_q.vqe_qaoa.HardwareEfficientAnsatz.prepare_hf_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_hf_state</span></code></a>([chi_max])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>apply</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>get_param_shift</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Hardware-efficient ansatz optimized for near-term quantum devices.</p>
+<p>This ansatz alternates layers of single-qubit rotations and two-qubit entangling gates in a “brickwork” pattern. It is called “hardware-efficient” because it uses native gates on many NISQ platforms (e.g., IBM, Rigetti, IonQ).</p>
+<p><strong>Circuit Structure</strong></p>
+<p>Each layer l consists of:</p>
+<ol class="arabic simple">
+<li><p><strong>Rotation layer</strong>: Apply <span class="math notranslate nohighlight">\(R_y(\theta_{l,i})\)</span> to all qubits i</p></li>
+<li><p><strong>Even entangling layer</strong>: Apply CZ to pairs (0,1), (2,3), (4,5), …</p></li>
+<li><p><strong>Odd entangling layer</strong>: Apply CZ to pairs (1,2), (3,4), (5,6), …</p></li>
+</ol>
+<p>For L layers and n qubits, this gives:</p>
+<ul class="simple">
+<li><p><strong>Parameter count</strong>: L × n (one rotation parameter per qubit per layer)</p></li>
+<li><p><strong>Gate count</strong>: L × (n + 2(n-1)) = O(Ln) gates</p></li>
+<li><p><strong>Circuit depth</strong>: O(L) (constant-depth layers)</p></li>
+</ul>
+<p><strong>Expressibility</strong></p>
+<p>The hardware-efficient ansatz forms a 2-local circuit and can approximate any unitary to accuracy ε with L = O(n² log(1/ε)) layers <a class="reference internal" href="#sim19" id="id20"><span>[Sim19]</span></a>. In practice, L = 2-5 layers often suffice for small molecules and spin systems.</p>
+<p><strong>Initialization</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Number of qubits</p></li>
+<li><p><strong>n_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Number of circuit layers (default: 2)</p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Compute device</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.9)"><em>torch.dtype</em></a>) – Data type</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Methods</strong></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#HardwareEfficientAnsatz.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition">#</a></dt>
+<dd><p>Apply ansatz to MPS with given parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mps</strong> (<a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html#atlas_q.adaptive_mps.AdaptiveMPS" title="atlas_q.adaptive_mps.AdaptiveMPS"><em>AdaptiveMPS</em></a>) – Input MPS state (typically <a href="#id22"><span class="problematic" id="id23">|</span></a>0⟩ state)</p></li>
+<li><p><strong>params</strong> (<em>np.ndarray</em>) – Parameter vector of length n_layers × n_qubits</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.HardwareEfficientAnsatz.n_parameters">
+<span class="sig-name descname"><span class="pre">n_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.vqe_qaoa.HardwareEfficientAnsatz.n_parameters" title="Link to this definition">#</a></dt>
+<dd><p>Return number of parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>n_layers × n_qubits</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#HardwareEfficientAnsatz.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id24" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">get_param_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#HardwareEfficientAnsatz.get_param_shift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id25" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">prepare_hf_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#HardwareEfficientAnsatz.prepare_hf_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="qaoaansatz">
+<h2>QAOAAnsatz<a class="headerlink" href="#qaoaansatz" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id27">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.vqe_qaoa.</span></span><span class="sig-name descname"><span class="pre">QAOAAnsatz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cost_hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#QAOAAnsatz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>QAOA ansatz for combinatorial optimization</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>apply</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>QAOA ansatz alternating problem and mixer Hamiltonians.</p>
+<p>Implements the QAOA circuit structure:</p>
+<div class="math notranslate nohighlight">
+\[|\psi(\boldsymbol{\gamma}, \boldsymbol{\beta})\rangle = \prod_{k=1}^{p} e^{-i\beta_k \hat{H}_M} e^{-i\gamma_k \hat{H}_C} |+\rangle^{\otimes n}\]</div>
+<p><strong>Hamiltonian Exponentiation</strong></p>
+<p>For Ising-type Hamiltonians <span class="math notranslate nohighlight">\(\hat{H} = \sum_{i,j} J_{ij} Z_i Z_j + \sum_i h_i Z_i\)</span>, the exponential <span class="math notranslate nohighlight">\(e^{-i\gamma \hat{H}}\)</span> decomposes into single- and two-qubit gates:</p>
+<div class="math notranslate nohighlight">
+\[e^{-i\gamma \hat{H}} = \prod_{i,j} e^{-i\gamma J_{ij} Z_i Z_j} \prod_i e^{-i\gamma h_i Z_i}\]</div>
+<p>Each <span class="math notranslate nohighlight">\(e^{-i\gamma J_{ij} Z_i Z_j}\)</span> is implemented as CNOT-RZ-CNOT, and <span class="math notranslate nohighlight">\(e^{-i\gamma h_i Z_i}\)</span> is a single RZ gate.</p>
+<p><strong>Mixer Hamiltonian</strong></p>
+<p>The default mixer <span class="math notranslate nohighlight">\(\hat{H}_M = \sum_i X_i\)</span> implements:</p>
+<div class="math notranslate nohighlight">
+\[e^{-i\beta \hat{H}_M} = \prod_i e^{-i\beta X_i} = \prod_i R_x(2\beta)\]</div>
+<p><strong>Initialization</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cost_hamiltonian</strong> (<a class="reference internal" href="mpo_ops.html#id0" title="atlas_q.mpo_ops.MPO"><em>MPO</em></a>) – Cost Hamiltonian <span class="math notranslate nohighlight">\(\hat{H}_C\)</span></p></li>
+<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – QAOA depth</p></li>
+<li><p><strong>mixer_hamiltonian</strong> (<a class="reference internal" href="mpo_ops.html#id0" title="atlas_q.mpo_ops.MPO"><em>MPO</em></a>) – Mixer Hamiltonian (default: transverse field)</p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Compute device</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.9)"><em>torch.dtype</em></a>) – Data type</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Methods</strong></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id28">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#QAOAAnsatz.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id28" title="Link to this definition">#</a></dt>
+<dd><p>Apply QAOA circuit to MPS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mps</strong> (<a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html#atlas_q.adaptive_mps.AdaptiveMPS" title="atlas_q.adaptive_mps.AdaptiveMPS"><em>AdaptiveMPS</em></a>) – Input MPS (typically uniform superposition <a href="#id29"><span class="problematic" id="id30">|</span></a>+⟩⁺ⁿ)</p></li>
+<li><p><strong>params</strong> (<em>np.ndarray</em>) – Parameters [γ₁, β₁, γ₂, β₂, …, γₚ, βₚ] (length 2p)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.vqe_qaoa.QAOAAnsatz.n_parameters">
+<span class="sig-name descname"><span class="pre">n_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.vqe_qaoa.QAOAAnsatz.n_parameters" title="Link to this definition">#</a></dt>
+<dd><p>Return number of parameters: 2p.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2 × p</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id31">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/vqe_qaoa.html#QAOAAnsatz.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id31" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<p><strong>Example 1: VQE for Ising Model</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Build Ising Hamiltonian: H = -J Σ Z_i Z_{i+1} - h Σ Z_i</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Configure VQE with hardware-efficient ansatz</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span>
+    <span class="n">n_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>                    <span class="c1"># 3 layers of rotations + entanglers</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;L-BFGS-B&#39;</span><span class="p">,</span>          <span class="c1"># Quasi-Newton optimizer</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+    <span class="n">chi_max</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>                    <span class="c1"># MPS bond dimension</span>
+    <span class="n">gradient_method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>        <span class="c1"># Use PyTorch autograd</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Run VQE optimization</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ground state energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of parameters: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of energy evaluations: </span><span class="si">{</span><span class="n">vqe</span><span class="o">.</span><span class="n">n_evaluations</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Analyze convergence</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vqe</span><span class="o">.</span><span class="n">energies</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Iteration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;VQE Convergence&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Get final state and compute entanglement</span>
+<span class="n">final_state</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="n">bond_dims</span> <span class="o">=</span> <span class="p">[</span><span class="n">final_state</span><span class="o">.</span><span class="n">get_bond_dim</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">)]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">),</span> <span class="n">bond_dims</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Bond Index&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Bond Dimension&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Final State Entanglement Structure&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;vqe_ising_results.png&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Plots saved to vqe_ising_results.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 2: Molecular VQE with PySCF</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+
+<span class="c1"># Build molecular Hamiltonian for H2 at equilibrium</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span> <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.7414</span><span class="p">))],</span>  <span class="c1"># Bond length in Angstrom</span>
+    <span class="n">charge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">spin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Use hardware-efficient ansatz with gradient grouping</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span>
+    <span class="n">n_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;L-BFGS-B&#39;</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">gradient_method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+    <span class="n">gradient_grouping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>      <span class="c1"># Group commuting Pauli terms</span>
+    <span class="n">chi_max</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;H2 ground state energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exact FCI energy: -1.137283 Ha&quot;</span><span class="p">)</span>  <span class="c1"># Full CI reference</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">energy</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="mf">1.137283</span><span class="p">))</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converged in </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vqe</span><span class="o">.</span><span class="n">energies</span><span class="p">)</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
+
+<span class="c1"># Compute additional observables</span>
+<span class="n">final_state</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+<span class="c1"># Dipole moment operator (example)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="n">Z0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">Z0</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">Z0</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPO</span>
+<span class="n">dipole_mpo</span> <span class="o">=</span> <span class="n">MPO</span><span class="o">.</span><span class="n">from_local_operator</span><span class="p">(</span><span class="n">Z0</span><span class="p">,</span> <span class="n">site</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_sites</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">dipole</span> <span class="o">=</span> <span class="n">final_state</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">dipole_mpo</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dipole moment (arbitrary units): </span><span class="si">{</span><span class="n">dipole</span><span class="o">.</span><span class="n">real</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 3: QAOA for MaxCut</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">QAOA</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+
+<span class="c1"># Create graph (5-vertex cycle with diagonal)</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)])</span>
+
+<span class="c1"># Build MaxCut Hamiltonian: H_C = -Σ_{(i,j)∈E} (1 - Z_i Z_j) / 2</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">maxcut_hamiltonian</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Run QAOA with p=3 layers</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;COBYLA&#39;</span><span class="p">,</span>  <span class="c1"># Gradient-free optimizer (common for QAOA)</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="n">maxcut_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">energy</span>  <span class="c1"># Negate because H_C = -maxcut</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MaxCut value: </span><span class="si">{</span><span class="n">maxcut_value</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal parameters γ: </span><span class="si">{</span><span class="n">params</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal parameters β: </span><span class="si">{</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Sample bitstrings from final state</span>
+<span class="n">final_state</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">final_state</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n_shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># Find most common bitstring</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+<span class="n">best_bitstring</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Most probable bitstring: </span><span class="si">{</span><span class="n">best_bitstring</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">count</span><span class="o">/</span><span class="mi">1000</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Verify MaxCut value</span>
+<span class="n">cut_size</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span> <span class="k">if</span> <span class="n">best_bitstring</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">best_bitstring</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cut size from best bitstring: </span><span class="si">{</span><span class="n">cut_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 4: Comparing Optimizers</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1"># Build Heisenberg Hamiltonian</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">heisenberg_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">Jx</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jz</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">optimizers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;L-BFGS-B&#39;</span><span class="p">,</span> <span class="s1">&#39;COBYLA&#39;</span><span class="p">,</span> <span class="s1">&#39;Adam&#39;</span><span class="p">,</span> <span class="s1">&#39;BFGS&#39;</span><span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">opt</span> <span class="ow">in</span> <span class="n">optimizers</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Testing </span><span class="si">{</span><span class="n">opt</span><span class="si">}</span><span class="s2"> ===&quot;</span><span class="p">)</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+        <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span>
+        <span class="n">n_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">optimizer</span><span class="o">=</span><span class="n">opt</span><span class="p">,</span>
+        <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+        <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span> <span class="k">if</span> <span class="n">opt</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Adam&#39;</span><span class="p">,</span> <span class="s1">&#39;SGD&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">gradient_method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span> <span class="k">if</span> <span class="n">opt</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;L-BFGS-B&#39;</span><span class="p">,</span> <span class="s1">&#39;BFGS&#39;</span><span class="p">,</span> <span class="s1">&#39;Adam&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+
+    <span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+    <span class="n">results</span><span class="p">[</span><span class="n">opt</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="n">energy</span><span class="p">,</span>
+        <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">elapsed</span><span class="p">,</span>
+        <span class="s1">&#39;iterations&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">vqe</span><span class="o">.</span><span class="n">energies</span><span class="p">),</span>
+        <span class="s1">&#39;evaluations&#39;</span><span class="p">:</span> <span class="n">vqe</span><span class="o">.</span><span class="n">n_evaluations</span>
+    <span class="p">}</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Time: </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Iterations: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vqe</span><span class="o">.</span><span class="n">energies</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Total evaluations: </span><span class="si">{</span><span class="n">vqe</span><span class="o">.</span><span class="n">n_evaluations</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Summary table</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Summary ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Optimizer&#39;</span><span class="si">:</span><span class="s2">&lt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Energy&#39;</span><span class="si">:</span><span class="s2">&lt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Time (s)&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Iterations&#39;</span><span class="si">:</span><span class="s2">&lt;12</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">opt</span> <span class="ow">in</span> <span class="n">optimizers</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">opt</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">opt</span><span class="si">:</span><span class="s2">&lt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;12.6f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;10.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;iterations&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;12</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 5: Parameter-Shift Gradients</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Use parameter-shift rule for analytical gradients</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span>
+    <span class="n">n_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;L-BFGS-B&#39;</span><span class="p">,</span>
+    <span class="n">gradient_method</span><span class="o">=</span><span class="s1">&#39;parameter_shift&#39;</span><span class="p">,</span>  <span class="c1"># Analytical gradients via shift rule</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="c1"># Manually compute gradient for verification</span>
+<span class="n">manual_grad</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">compute_gradients</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;parameter_shift&#39;</span><span class="p">)</span>
+<span class="n">auto_grad</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">compute_gradients</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gradient comparison:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter-shift: </span><span class="si">{</span><span class="n">manual_grad</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Autograd:        </span><span class="si">{</span><span class="n">auto_grad</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Difference:      </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">manual_grad</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">auto_grad</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-notes">
+<h2>Performance Notes<a class="headerlink" href="#performance-notes" title="Link to this heading">#</a></h2>
+<p><strong>Scaling Characteristics</strong></p>
+<div class="pst-scrollable-table-container"><table class="table" id="id34">
+<caption><span class="caption-text">VQE/QAOA Performance on GPU</span><a class="headerlink" href="#id34" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 15.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 25.0%" />
+<col style="width: 20.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>System Size</p></th>
+<th class="head"><p>Ansatz Layers</p></th>
+<th class="head"><p>Parameters</p></th>
+<th class="head"><p>Time per Iteration</p></th>
+<th class="head"><p>Memory (GPU)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>6 qubits</p></td>
+<td><p>2</p></td>
+<td><p>12</p></td>
+<td><p>0.02s</p></td>
+<td><p>50 MB</p></td>
+</tr>
+<tr class="row-odd"><td><p>12 qubits</p></td>
+<td><p>3</p></td>
+<td><p>36</p></td>
+<td><p>0.08s</p></td>
+<td><p>150 MB</p></td>
+</tr>
+<tr class="row-even"><td><p>20 qubits</p></td>
+<td><p>3</p></td>
+<td><p>60</p></td>
+<td><p>0.3s</p></td>
+<td><p>400 MB</p></td>
+</tr>
+<tr class="row-odd"><td><p>30 qubits</p></td>
+<td><p>2</p></td>
+<td><p>60</p></td>
+<td><p>1.2s</p></td>
+<td><p>1.2 GB</p></td>
+</tr>
+<tr class="row-even"><td><p>50 qubits</p></td>
+<td><p>2</p></td>
+<td><p>100</p></td>
+<td><p>4.5s</p></td>
+<td><p>3.5 GB</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Timing assumes χ_max=32, hardware-efficient ansatz, NVIDIA A100 GPU.</p>
+<p><strong>Optimizer Performance</strong></p>
+<ul class="simple">
+<li><p><strong>L-BFGS-B</strong>: Fastest for smooth energy landscapes (10-50 iterations typical)</p></li>
+<li><p><strong>COBYLA</strong>: More robust for noisy gradients, 2-5× slower than L-BFGS-B</p></li>
+<li><p><strong>Adam</strong>: Good for large parameter counts (&gt;100), requires tuning learning rate</p></li>
+<li><p><strong>BFGS</strong>: Similar to L-BFGS-B but less memory-efficient</p></li>
+</ul>
+<p><strong>Gradient Method Comparison</strong></p>
+<div class="pst-scrollable-table-container"><table class="table" id="id35">
+<caption><span class="caption-text">Gradient Computation Time (10 qubits, 3 layers, 30 parameters)</span><a class="headerlink" href="#id35" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Time per Gradient</p></th>
+<th class="head"><p>Accuracy</p></th>
+<th class="head"><p>Use Case</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Autograd (default)</p></td>
+<td><p>0.05s</p></td>
+<td><p>Exact</p></td>
+<td><p>Always preferred for MPS</p></td>
+</tr>
+<tr class="row-odd"><td><p>Parameter-shift</p></td>
+<td><p>2.4s (60 evaluations)</p></td>
+<td><p>Exact</p></td>
+<td><p>Hardware compatibility testing</p></td>
+</tr>
+<tr class="row-even"><td><p>Finite differences</p></td>
+<td><p>1.5s (30 evaluations)</p></td>
+<td><p>Approximate</p></td>
+<td><p>Debugging only</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Autograd is 20-50× faster than parameter-shift due to efficient backpropagation through tensor operations.</p>
+<p><strong>Memory Optimization</strong></p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">chi_max</span></code> adaptively: start with 16, increase to 32-64 if needed</p></li>
+<li><p>Enable <code class="docutils literal notranslate"><span class="pre">gradient_grouping</span></code> for molecular Hamiltonians (5-20× fewer measurements)</p></li>
+<li><p>For large systems (&gt;30 qubits), use <code class="docutils literal notranslate"><span class="pre">dtype=torch.complex64</span></code> instead of <code class="docutils literal notranslate"><span class="pre">complex128</span></code></p></li>
+<li><p>Checkpoint intermediate states during long optimizations to enable restarts</p></li>
+</ul>
+<p><strong>Typical Convergence Times</strong></p>
+<ul class="simple">
+<li><p><strong>Small molecules (H2, LiH)</strong>: 10-30s for chemical accuracy (1 kcal/mol)</p></li>
+<li><p><strong>Medium spin systems (10-20 qubits)</strong>: 1-5 minutes for ground state</p></li>
+<li><p><strong>QAOA MaxCut (20-node graph, p=3)</strong>: 2-10 minutes depending on graph structure</p></li>
+</ul>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<p><strong>Ansatz Selection</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Hardware-efficient</strong>: General-purpose, good expressibility, works for most problems</p></li>
+<li><p><strong>UCCSD</strong>: Best for molecular systems, chemistry-inspired structure</p></li>
+<li><p><strong>QAOA</strong>: Specifically designed for combinatorial optimization</p></li>
+<li><p><strong>Custom</strong>: Use when problem structure suggests specific gate patterns</p></li>
+</ol>
+<p><strong>Initialization Strategies</strong></p>
+<ul class="simple">
+<li><p><strong>Random</strong>: Default, sample parameters from uniform(-π, π)</p></li>
+<li><p><strong>Zero initialization</strong>: For QAOA, often starts from reasonable state</p></li>
+<li><p><strong>Problem-specific</strong>: Use classical heuristics (e.g., MP2 amplitudes for UCCSD)</p></li>
+<li><p><strong>Transfer learning</strong>: Initialize from solution of similar problem</p></li>
+</ul>
+<p><strong>Avoiding Local Minima</strong></p>
+<ul class="simple">
+<li><p>Run multiple optimizations with different random seeds</p></li>
+<li><p>Use global optimizers (Basin-hopping, Differential Evolution) for rugged landscapes</p></li>
+<li><p>Gradually increase ansatz depth (start with 1-2 layers, add more if needed)</p></li>
+<li><p>Monitor variance: high variance in repeated runs indicates local minima issues</p></li>
+</ul>
+<p><strong>Convergence Monitoring</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check convergence quality</span>
+<span class="k">if</span> <span class="n">vqe</span><span class="o">.</span><span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">vqe</span><span class="o">.</span><span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1e-5</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: May not have converged&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check for overfitting (ansatz too flexible)</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_qubits</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Large parameter count may cause optimization difficulties&quot;</span><span class="p">)</span>
+
+<span class="c1"># Inspect gradient norm</span>
+<span class="n">final_grad</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">compute_gradients</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">final_grad</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.01</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Large gradient at convergence, may need more iterations&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Troubleshooting</strong></p>
+<ul class="simple">
+<li><p><strong>Optimization stuck</strong>: Try different optimizer (e.g., switch from L-BFGS-B to COBYLA)</p></li>
+<li><p><strong>Energy increases</strong>: Reduce learning rate (for Adam/SGD) or check gradient implementation</p></li>
+<li><p><strong>Memory errors</strong>: Reduce <code class="docutils literal notranslate"><span class="pre">chi_max</span></code> or use smaller bond dimensions</p></li>
+<li><p><strong>Slow convergence</strong>: Enable gradient grouping, use autograd instead of parameter-shift</p></li>
+<li><p><strong>Poor final energy</strong>: Increase <code class="docutils literal notranslate"><span class="pre">n_layers</span></code>, try different initialization, or check Hamiltonian</p></li>
+</ul>
+</section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">#</a></h2>
+<p><strong>Barren Plateaus</strong></p>
+<p>For deep circuits (&gt;10 layers) on large systems (&gt;20 qubits), gradients vanish exponentially <a class="reference internal" href="#mcclean18" id="id32"><span>[McClean18]</span></a>. Symptoms:</p>
+<ul class="simple">
+<li><p>Gradient norm &lt; 10⁻⁶ early in optimization</p></li>
+<li><p>Energy barely changes over many iterations</p></li>
+<li><p>Random parameter changes have no effect</p></li>
+</ul>
+<p><strong>Mitigation</strong>: Use shallow circuits, problem-inspired ansatze (UCCSD, QAOA), or local cost functions.</p>
+<p><strong>Expressibility vs. Trainability</strong></p>
+<p>More expressive ansatze (more layers, parameters) can represent more states but are harder to optimize:</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id36">
+<caption><span class="caption-text">Ansatz Trade-offs</span><a class="headerlink" href="#id36" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Layers</p></th>
+<th class="head"><p>Expressibility</p></th>
+<th class="head"><p>Trainability</p></th>
+<th class="head"><p>Recommendation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1-2</p></td>
+<td><p>Low</p></td>
+<td><p>Excellent</p></td>
+<td><p>Small molecules, quick tests</p></td>
+</tr>
+<tr class="row-odd"><td><p>3-5</p></td>
+<td><p>Medium</p></td>
+<td><p>Good</p></td>
+<td><p>Production use</p></td>
+</tr>
+<tr class="row-even"><td><p>6-10</p></td>
+<td><p>High</p></td>
+<td><p>Poor (barren plateaus)</p></td>
+<td><p>Avoid unless necessary</p></td>
+</tr>
+<tr class="row-odd"><td><p>&gt;10</p></td>
+<td><p>Very High</p></td>
+<td><p>Very Poor</p></td>
+<td><p>Not practical</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>System Size Limits</strong></p>
+<ul class="simple">
+<li><p><strong>MPS backend</strong>: 50-100 qubits with χ ≤ 32 (highly entangled circuits may require χ &gt; 64)</p></li>
+<li><p><strong>Memory</strong>: 8GB GPU handles ~40 qubits with χ=32</p></li>
+<li><p><strong>Time</strong>: 100-qubit VQE with 2 layers, 200 iterations: ~1-2 hours on A100</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="mpo_ops.html"><span class="doc">atlas_q.mpo_ops</span></a> - Hamiltonian construction and MPO operations</p></li>
+<li><p><a class="reference internal" href="adaptive_mps.html"><span class="doc">atlas_q.adaptive_mps</span></a> - Adaptive MPS for state representation</p></li>
+<li><p><a class="reference internal" href="mps_pytorch.html"><span class="doc">MPS PyTorch Backend</span></a> - PyTorch MPS backend</p></li>
+<li><p><a class="reference internal" href="../user_guide/tutorials/vqe_tutorial.html"><span class="doc">VQE Tutorial</span></a> - Step-by-step VQE tutorial</p></li>
+<li><p><a class="reference internal" href="../user_guide/tutorials/qaoa_tutorial.html"><span class="doc">QAOA Tutorial</span></a> - QAOA implementation guide</p></li>
+<li><p><a class="reference internal" href="../user_guide/tutorials/molecular_vqe.html"><span class="doc">Molecular VQE Tutorial</span></a> - Quantum chemistry applications</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="peruzzo14" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Peruzzo14</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple">
+<li><p>Peruzzo et al., “A variational eigenvalue solver on a photonic quantum processor,” <em>Nature Communications</em> 5, 4213 (2014).</p></li>
+</ol>
+</div>
+<div class="citation" id="farhi14" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Farhi14</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="5">
+<li><p>Farhi, J. Goldstone, &amp; S. Gutmann, “A quantum approximate optimization algorithm,” <em>arXiv:1411.4028</em> (2014).</p></li>
+</ol>
+</div>
+<div class="citation" id="mcclean18" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id32">McClean18</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="10">
+<li><ol class="upperalpha simple" start="18">
+<li><p>McClean et al., “Barren plateaus in quantum neural network training landscapes,” <em>Nature Communications</em> 9, 4812 (2018).</p></li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="citation" id="sim19" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id20">Sim19</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="19">
+<li><p>Sim et al., “Expressibility and entangling capability of parameterized quantum circuits for hybrid quantum-classical algorithms,” <em>Advanced Quantum Technologies</em> 2, 1900070 (2019).</p></li>
+</ol>
+</div>
+<div class="citation" id="grimsley19" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Grimsley19<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="8">
+<li><ol class="upperalpha simple" start="18">
+<li><p>Grimsley et al., “An adaptive variational algorithm for exact molecular simulations on a quantum computer,” <em>Nature Communications</em> 10, 3007 (2019).</p></li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="citation" id="cerezo21" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Cerezo21<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="13">
+<li><p>Cerezo et al., “Variational quantum algorithms,” <em>Nature Reviews Physics</em> 3, 625 (2021).</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="generated/atlas_q.tdvp.run_tdvp.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">atlas_q.tdvp.run_tdvp</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="generated/atlas_q.vqe_qaoa.VQE.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">atlas_q.vqe_qaoa.VQE</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQEConfig"><code class="docutils literal notranslate"><span class="pre">VQEConfig</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQEConfig.ansatz"><code class="docutils literal notranslate"><span class="pre">VQEConfig.ansatz</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQEConfig.n_layers"><code class="docutils literal notranslate"><span class="pre">VQEConfig.n_layers</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQEConfig.optimizer"><code class="docutils literal notranslate"><span class="pre">VQEConfig.optimizer</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQEConfig.max_iter"><code class="docutils literal notranslate"><span class="pre">VQEConfig.max_iter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQEConfig.tol"><code class="docutils literal notranslate"><span class="pre">VQEConfig.tol</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQEConfig.chi_max"><code class="docutils literal notranslate"><span class="pre">VQEConfig.chi_max</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQEConfig.gradient_method"><code class="docutils literal notranslate"><span class="pre">VQEConfig.gradient_method</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQEConfig.device"><code class="docutils literal notranslate"><span class="pre">VQEConfig.device</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQEConfig.dtype"><code class="docutils literal notranslate"><span class="pre">VQEConfig.dtype</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.HardwareEfficientAnsatz"><code class="docutils literal notranslate"><span class="pre">HardwareEfficientAnsatz</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.HardwareEfficientAnsatz.apply"><code class="docutils literal notranslate"><span class="pre">HardwareEfficientAnsatz.apply()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.HardwareEfficientAnsatz.get_param_shift"><code class="docutils literal notranslate"><span class="pre">HardwareEfficientAnsatz.get_param_shift()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.HardwareEfficientAnsatz.prepare_hf_state"><code class="docutils literal notranslate"><span class="pre">HardwareEfficientAnsatz.prepare_hf_state()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQE"><code class="docutils literal notranslate"><span class="pre">VQE</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQE.run"><code class="docutils literal notranslate"><span class="pre">VQE.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.QAOAAnsatz"><code class="docutils literal notranslate"><span class="pre">QAOAAnsatz</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.QAOAAnsatz.apply"><code class="docutils literal notranslate"><span class="pre">QAOAAnsatz.apply()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.QAOA"><code class="docutils literal notranslate"><span class="pre">QAOA</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.QAOA.n_params"><code class="docutils literal notranslate"><span class="pre">QAOA.n_params</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.QAOA.run"><code class="docutils literal notranslate"><span class="pre">QAOA.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.build_molecular_hamiltonian"><code class="docutils literal notranslate"><span class="pre">build_molecular_hamiltonian()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vqe">VQE</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">VQE</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQE.hamiltonian"><code class="docutils literal notranslate"><span class="pre">VQE.hamiltonian</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQE.ansatz"><code class="docutils literal notranslate"><span class="pre">VQE.ansatz</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQE.config"><code class="docutils literal notranslate"><span class="pre">VQE.config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQE.energies"><code class="docutils literal notranslate"><span class="pre">VQE.energies</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQE.param_history"><code class="docutils literal notranslate"><span class="pre">VQE.param_history</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQE.n_evaluations"><code class="docutils literal notranslate"><span class="pre">VQE.n_evaluations</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQE.optimize"><code class="docutils literal notranslate"><span class="pre">VQE.optimize()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQE.evaluate_energy"><code class="docutils literal notranslate"><span class="pre">VQE.evaluate_energy()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQE.compute_gradients"><code class="docutils literal notranslate"><span class="pre">VQE.compute_gradients()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.VQE.get_state"><code class="docutils literal notranslate"><span class="pre">VQE.get_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5"><code class="docutils literal notranslate"><span class="pre">VQE.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qaoa">QAOA</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6"><code class="docutils literal notranslate"><span class="pre">QAOA</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.QAOA.cost_hamiltonian"><code class="docutils literal notranslate"><span class="pre">QAOA.cost_hamiltonian</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.QAOA.mixer_hamiltonian"><code class="docutils literal notranslate"><span class="pre">QAOA.mixer_hamiltonian</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.QAOA.p"><code class="docutils literal notranslate"><span class="pre">QAOA.p</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.QAOA.ansatz"><code class="docutils literal notranslate"><span class="pre">QAOA.ansatz</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7"><code class="docutils literal notranslate"><span class="pre">QAOA.n_params</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8"><code class="docutils literal notranslate"><span class="pre">QAOA.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vqeconfig">VQEConfig</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9"><code class="docutils literal notranslate"><span class="pre">VQEConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10"><code class="docutils literal notranslate"><span class="pre">VQEConfig.ansatz</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id11"><code class="docutils literal notranslate"><span class="pre">VQEConfig.n_layers</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id12"><code class="docutils literal notranslate"><span class="pre">VQEConfig.optimizer</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id13"><code class="docutils literal notranslate"><span class="pre">VQEConfig.max_iter</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id14"><code class="docutils literal notranslate"><span class="pre">VQEConfig.tol</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id15"><code class="docutils literal notranslate"><span class="pre">VQEConfig.chi_max</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16"><code class="docutils literal notranslate"><span class="pre">VQEConfig.gradient_method</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id17"><code class="docutils literal notranslate"><span class="pre">VQEConfig.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id18"><code class="docutils literal notranslate"><span class="pre">VQEConfig.dtype</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardwareefficientansatz">HardwareEfficientAnsatz</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19"><code class="docutils literal notranslate"><span class="pre">HardwareEfficientAnsatz</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id21"><code class="docutils literal notranslate"><span class="pre">HardwareEfficientAnsatz.apply()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.HardwareEfficientAnsatz.n_parameters"><code class="docutils literal notranslate"><span class="pre">HardwareEfficientAnsatz.n_parameters()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id24"><code class="docutils literal notranslate"><span class="pre">HardwareEfficientAnsatz.apply()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id25"><code class="docutils literal notranslate"><span class="pre">HardwareEfficientAnsatz.get_param_shift()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id26"><code class="docutils literal notranslate"><span class="pre">HardwareEfficientAnsatz.prepare_hf_state()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qaoaansatz">QAOAAnsatz</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id27"><code class="docutils literal notranslate"><span class="pre">QAOAAnsatz</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id28"><code class="docutils literal notranslate"><span class="pre">QAOAAnsatz.apply()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.vqe_qaoa.QAOAAnsatz.n_parameters"><code class="docutils literal notranslate"><span class="pre">QAOAAnsatz.n_parameters()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id31"><code class="docutils literal notranslate"><span class="pre">QAOAAnsatz.apply()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-notes">Performance Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,2124 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>atlas_q.stabilizer_backend &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/stabilizer_backend';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="atlas_q.stabilizer_backend.StabilizerSimulator" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html" />
+    <link rel="prev" title="atlas_q.grover.calculate_grover_iterations" href="generated/atlas_q.grover.calculate_grover_iterations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="adaptive_mps.html">atlas_q.adaptive_mps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mpo_ops.html">atlas_q.mpo_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPOBuilder.html">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tdvp.html">atlas_q.tdvp</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="vqe_qaoa.html">atlas_q.vqe_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="grover.html">atlas_q.grover</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">atlas_q.stabilizer_backend</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="noise_models.html">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planar_2d.html">2D/Planar Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributed_mps.html">Distributed MPS</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cuquantum_backend.html">atlas_q.cuquantum_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="diagnostics.html">atlas_q.diagnostics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linalg_robust.html">atlas_q.linalg_robust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="truncation.html">atlas_q.truncation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.stabilizer_backend</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-atlas_q.stabilizer_backend">
+<span id="atlas-q-stabilizer-backend"></span><h1>atlas_q.stabilizer_backend<a class="headerlink" href="#module-atlas_q.stabilizer_backend" title="Link to this heading">#</a></h1>
+<p>Stabilizer Backend for Efficient Clifford Circuit Simulation</p>
+<p>Implements the Gottesman-Knill theorem: Clifford circuits can be simulated
+efficiently (polynomial time/space) using stabilizer tableaux.</p>
+<p>Key features:
+- O(n²) time per gate vs O(2ⁿ) for state-vector
+- Supports: H, S, CNOT, CZ, SWAP, measurements
+- Handoff to MPS when non-Clifford gates appear (T, Toffoli, etc.)</p>
+<p>References:
+- Gottesman (1998): “The Heisenberg Representation of Quantum Computers”
+- Aaronson &amp; Gottesman (2004): “Improved Simulation of Stabilizer Circuits”</p>
+<p>Author: ATLAS-Q Contributors
+Date: October 2025
+License: MIT</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerState">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.stabilizer_backend.</span></span><span class="sig-name descname"><span class="pre">StabilizerState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tableau</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerState" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Stabilizer state represented as a tableau</p>
+<p>A stabilizer state on n qubits is represented by a (2n+1) × 2n binary matrix:
+- First n rows: X part of stabilizer generators
+- Next n rows: Z part of stabilizer generators
+- Last column: phase bits (±1)</p>
+<p>Example for <a href="#id1"><span class="problematic" id="id2">|</span></a>0⟩: stabilizer is Z
+Example for <a href="#id3"><span class="problematic" id="id4">|</span></a>+⟩: stabilizer is X
+Example for Bell <a href="#id5"><span class="problematic" id="id6">|</span></a>Φ+⟩: stabilizers are XX and ZZ</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id49" title="atlas_q.stabilizer_backend.StabilizerState.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>()</p></td>
+<td><p>Create a copy of this state</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id46" title="atlas_q.stabilizer_backend.StabilizerState.init_plus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_plus</span></code></a>(n_qubits)</p></td>
+<td><p>Initialize <a href="#id7"><span class="problematic" id="id8">|</span></a>++...+⟩ state (stabilized by X on each qubit)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id43" title="atlas_q.stabilizer_backend.StabilizerState.init_zero"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_zero</span></code></a>(n_qubits)</p></td>
+<td><p>Initialize <a href="#id9"><span class="problematic" id="id10">|</span></a>00...0⟩ state (stabilized by Z on each qubit)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerState.n_qubits">
+<span class="sig-name descname"><span class="pre">n_qubits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerState.n_qubits" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerState.tableau">
+<span class="sig-name descname"><span class="pre">tableau</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></em><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerState.tableau" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerState.init_zero">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_zero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerState.init_zero"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerState.init_zero" title="Link to this definition">#</a></dt>
+<dd><p>Initialize <a href="#id11"><span class="problematic" id="id12">|</span></a>00…0⟩ state (stabilized by Z on each qubit)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerState.init_plus">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_plus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerState.init_plus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerState.init_plus" title="Link to this definition">#</a></dt>
+<dd><p>Initialize <a href="#id13"><span class="problematic" id="id14">|</span></a>++…+⟩ state (stabilized by X on each qubit)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerState.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerState.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerState.copy" title="Link to this definition">#</a></dt>
+<dd><p>Create a copy of this state</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.stabilizer_backend.</span></span><span class="sig-name descname"><span class="pre">StabilizerSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Efficient simulator for Clifford circuits using stabilizer formalism</p>
+<p>Complexity:
+- Space: O(n²) vs O(2ⁿ) for state-vector
+- Time per gate: O(n²) vs O(2ⁿ)</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>sim = StabilizerSimulator(n_qubits=100)
+sim.h(0)
+sim.cnot(0, 1)
+outcome = sim.measure(0)</p>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id21" title="atlas_q.stabilizer_backend.StabilizerSimulator.cnot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cnot</span></code></a>(control, target)</p></td>
+<td><p>CNOT gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id17" title="atlas_q.stabilizer_backend.StabilizerSimulator.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>()</p></td>
+<td><p>Fast copy using numpy array copy (much faster than deepcopy)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id22" title="atlas_q.stabilizer_backend.StabilizerSimulator.cz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cz</span></code></a>(qubit1, qubit2)</p></td>
+<td><p>CZ gate (symmetric)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id18" title="atlas_q.stabilizer_backend.StabilizerSimulator.h"><code class="xref py py-obj docutils literal notranslate"><span class="pre">h</span></code></a>(qubit)</p></td>
+<td><p>Hadamard gate: X ↔ Z</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id27" title="atlas_q.stabilizer_backend.StabilizerSimulator.measure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">measure</span></code></a>(qubit[, rng])</p></td>
+<td><p>Measure qubit in computational basis</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id19" title="atlas_q.stabilizer_backend.StabilizerSimulator.s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">s</span></code></a>(qubit)</p></td>
+<td><p>Phase gate: X → Y, Z → Z</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id20" title="atlas_q.stabilizer_backend.StabilizerSimulator.s_dag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">s_dag</span></code></a>(qubit)</p></td>
+<td><p>Inverse phase gate: X → -Y, Z → Z</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id23" title="atlas_q.stabilizer_backend.StabilizerSimulator.swap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swap</span></code></a>(qubit1, qubit2)</p></td>
+<td><p>SWAP gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id28" title="atlas_q.stabilizer_backend.StabilizerSimulator.to_mps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_mps</span></code></a>([device])</p></td>
+<td><p>Convert stabilizer state to MPS representation</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id29" title="atlas_q.stabilizer_backend.StabilizerSimulator.to_statevector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_statevector</span></code></a>()</p></td>
+<td><p>Convert stabilizer state to full statevector (SLOW! Only for small n)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id24" title="atlas_q.stabilizer_backend.StabilizerSimulator.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a>(qubit)</p></td>
+<td><p>Pauli-X gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id25" title="atlas_q.stabilizer_backend.StabilizerSimulator.y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y</span></code></a>(qubit)</p></td>
+<td><p>Pauli-Y gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id26" title="atlas_q.stabilizer_backend.StabilizerSimulator.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a>(qubit)</p></td>
+<td><p>Pauli-Z gate</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator.copy" title="Link to this definition">#</a></dt>
+<dd><p>Fast copy using numpy array copy (much faster than deepcopy)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator.h">
+<span class="sig-name descname"><span class="pre">h</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.h"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator.h" title="Link to this definition">#</a></dt>
+<dd><p>Hadamard gate: X ↔ Z</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator.s">
+<span class="sig-name descname"><span class="pre">s</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.s"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator.s" title="Link to this definition">#</a></dt>
+<dd><p>Phase gate: X → Y, Z → Z</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator.s_dag">
+<span class="sig-name descname"><span class="pre">s_dag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.s_dag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator.s_dag" title="Link to this definition">#</a></dt>
+<dd><p>Inverse phase gate: X → -Y, Z → Z</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator.cnot">
+<span class="sig-name descname"><span class="pre">cnot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.cnot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator.cnot" title="Link to this definition">#</a></dt>
+<dd><p>CNOT gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator.cz">
+<span class="sig-name descname"><span class="pre">cz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.cz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator.cz" title="Link to this definition">#</a></dt>
+<dd><p>CZ gate (symmetric)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator.swap">
+<span class="sig-name descname"><span class="pre">swap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.swap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator.swap" title="Link to this definition">#</a></dt>
+<dd><p>SWAP gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator.x">
+<span class="sig-name descname"><span class="pre">x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.x"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator.x" title="Link to this definition">#</a></dt>
+<dd><p>Pauli-X gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator.y">
+<span class="sig-name descname"><span class="pre">y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.y"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator.y" title="Link to this definition">#</a></dt>
+<dd><p>Pauli-Y gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator.z">
+<span class="sig-name descname"><span class="pre">z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator.z" title="Link to this definition">#</a></dt>
+<dd><p>Pauli-Z gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator.measure">
+<span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator.measure" title="Link to this definition">#</a></dt>
+<dd><p>Measure qubit in computational basis</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>0 or 1 (measurement outcome)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator.to_mps">
+<span class="sig-name descname"><span class="pre">to_mps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.to_mps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator.to_mps" title="Link to this definition">#</a></dt>
+<dd><p>Convert stabilizer state to MPS representation</p>
+<p>This is used when non-Clifford gates appear in the circuit.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>AdaptiveMPS instance</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.StabilizerSimulator.to_statevector">
+<span class="sig-name descname"><span class="pre">to_statevector</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.to_statevector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.StabilizerSimulator.to_statevector" title="Link to this definition">#</a></dt>
+<dd><p>Convert stabilizer state to full statevector (SLOW! Only for small n)</p>
+<p>This explicitly constructs the 2^n statevector.
+Only use for small systems (n ≤ 20).</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Statevector of shape (2^n,)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.is_clifford_gate">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.stabilizer_backend.</span></span><span class="sig-name descname"><span class="pre">is_clifford_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#is_clifford_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.is_clifford_gate" title="Link to this definition">#</a></dt>
+<dd><p>Check if a gate is in the Clifford group</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.HybridSimulator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.stabilizer_backend.</span></span><span class="sig-name descname"><span class="pre">HybridSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_stabilizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.HybridSimulator" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Hybrid simulator that uses stabilizer backend for Clifford parts
+and switches to MPS when non-Clifford gates appear</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>sim = HybridSimulator(n_qubits=100, use_stabilizer=True)
+sim.h(0)
+sim.cnot(0, 1)
+sim.t(0)  # Automatically switches to MPS here
+sim.measure_all()</p>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id55" title="atlas_q.stabilizer_backend.HybridSimulator.cnot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cnot</span></code></a>(control, target)</p></td>
+<td><p>CNOT gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id59" title="atlas_q.stabilizer_backend.HybridSimulator.get_statistics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_statistics</span></code></a>()</p></td>
+<td><p>Get simulation statistics</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id51" title="atlas_q.stabilizer_backend.HybridSimulator.h"><code class="xref py py-obj docutils literal notranslate"><span class="pre">h</span></code></a>(qubit)</p></td>
+<td><p>Hadamard gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id58" title="atlas_q.stabilizer_backend.HybridSimulator.measure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">measure</span></code></a>(qubit)</p></td>
+<td><p>Measure qubit</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id52" title="atlas_q.stabilizer_backend.HybridSimulator.s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">s</span></code></a>(qubit)</p></td>
+<td><p>Phase gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id57" title="atlas_q.stabilizer_backend.HybridSimulator.swap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swap</span></code></a>(qubit1, qubit2)</p></td>
+<td><p>SWAP gate (Clifford)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id56" title="atlas_q.stabilizer_backend.HybridSimulator.t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">t</span></code></a>(qubit)</p></td>
+<td><p>T gate (non-Clifford!)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id53" title="atlas_q.stabilizer_backend.HybridSimulator.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a>(qubit)</p></td>
+<td><p>Pauli-X gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id54" title="atlas_q.stabilizer_backend.HybridSimulator.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a>(qubit)</p></td>
+<td><p>Pauli-Z gate</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.HybridSimulator.h">
+<span class="sig-name descname"><span class="pre">h</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.h"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.HybridSimulator.h" title="Link to this definition">#</a></dt>
+<dd><p>Hadamard gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.HybridSimulator.s">
+<span class="sig-name descname"><span class="pre">s</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.s"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.HybridSimulator.s" title="Link to this definition">#</a></dt>
+<dd><p>Phase gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.HybridSimulator.x">
+<span class="sig-name descname"><span class="pre">x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.x"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.HybridSimulator.x" title="Link to this definition">#</a></dt>
+<dd><p>Pauli-X gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.HybridSimulator.z">
+<span class="sig-name descname"><span class="pre">z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.HybridSimulator.z" title="Link to this definition">#</a></dt>
+<dd><p>Pauli-Z gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.HybridSimulator.cnot">
+<span class="sig-name descname"><span class="pre">cnot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.cnot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.HybridSimulator.cnot" title="Link to this definition">#</a></dt>
+<dd><p>CNOT gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.HybridSimulator.t">
+<span class="sig-name descname"><span class="pre">t</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.t"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.HybridSimulator.t" title="Link to this definition">#</a></dt>
+<dd><p>T gate (non-Clifford!)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.HybridSimulator.swap">
+<span class="sig-name descname"><span class="pre">swap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.swap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.HybridSimulator.swap" title="Link to this definition">#</a></dt>
+<dd><p>SWAP gate (Clifford)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.HybridSimulator.measure">
+<span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.HybridSimulator.measure" title="Link to this definition">#</a></dt>
+<dd><p>Measure qubit</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.stabilizer_backend.HybridSimulator.get_statistics">
+<span class="sig-name descname"><span class="pre">get_statistics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.get_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.stabilizer_backend.HybridSimulator.get_statistics" title="Link to this definition">#</a></dt>
+<dd><p>Get simulation statistics</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">stabilizer_backend</span></code> module provides efficient simulation of <strong>Clifford circuits</strong> using the stabilizer formalism based on the <strong>Gottesman-Knill theorem</strong>. This enables polynomial-time simulation of an important subset of quantum circuits that would otherwise require exponential resources.</p>
+<section id="key-features">
+<h3>Key Features<a class="headerlink" href="#key-features" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Polynomial complexity</strong>: O(n²) time and O(n²) space for n-qubit systems</p></li>
+<li><p><strong>Exact simulation</strong>: No approximation errors unlike tensor network methods</p></li>
+<li><p><strong>Large-scale</strong>: Simulate 100+ qubits efficiently</p></li>
+<li><p><strong>Hybrid support</strong>: Automatic fallback to MPS for non-Clifford gates</p></li>
+<li><p><strong>Measurement tracking</strong>: Efficient sampling and measurement simulation</p></li>
+</ul>
+</section>
+<section id="the-gottesman-knill-theorem">
+<h3>The Gottesman-Knill Theorem<a class="headerlink" href="#the-gottesman-knill-theorem" title="Link to this heading">#</a></h3>
+<p>Circuits consisting only of Clifford gates (H, S, CNOT, Pauli gates) can be simulated efficiently on classical computers:</p>
+<div class="math notranslate nohighlight">
+\[\text{Time Complexity: } O(n^2 \cdot g) \text{ vs. } O(2^n \cdot g) \text{ for statevector}\]</div>
+<p>where n is the number of qubits and g is the number of gates.</p>
+<p><strong>Clifford gates preserve stabilizer states</strong>, allowing the state to be represented as a set of n independent stabilizer generators rather than 2ⁿ amplitudes.</p>
+</section>
+</section>
+<section id="mathematical-background">
+<h2>Mathematical Background<a class="headerlink" href="#mathematical-background" title="Link to this heading">#</a></h2>
+<section id="stabilizer-formalism">
+<h3>Stabilizer Formalism<a class="headerlink" href="#stabilizer-formalism" title="Link to this heading">#</a></h3>
+<p>A stabilizer state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> is uniquely defined by its <strong>stabilizer group</strong> S, a maximal Abelian subgroup of the n-qubit Pauli group:</p>
+<div class="math notranslate nohighlight">
+\[S = \langle g_1, g_2, \ldots, g_n \rangle\]</div>
+<p>where each generator <span class="math notranslate nohighlight">\(g_i \in \{I, X, Y, Z\}^{\otimes n}\)</span> with phase <span class="math notranslate nohighlight">\(\pm 1, \pm i\)</span>.</p>
+<p><strong>Property</strong>: <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> is the unique state satisfying:</p>
+<div class="math notranslate nohighlight">
+\[g_i |\psi\rangle = |\psi\rangle \quad \forall g_i \in S\]</div>
+</section>
+<section id="tableau-representation">
+<h3>Tableau Representation<a class="headerlink" href="#tableau-representation" title="Link to this heading">#</a></h3>
+<p>ATLAS-Q uses the <strong>stabilizer tableau</strong> representation (Aaronson-Gottesman):</p>
+<ul class="simple">
+<li><p><strong>Stabilizer generators</strong>: (n × 2n) binary matrix encoding X and Z components</p></li>
+<li><p><strong>Destabilizers</strong>: Additional n generators for measurement tracking</p></li>
+<li><p><strong>Phases</strong>: (2n,) array of {0, 1, 2, 3} representing {+1, +i, -1, -i}</p></li>
+</ul>
+<p>Total storage: O(n²) bits vs. O(2ⁿ) amplitudes for statevector.</p>
+</section>
+<section id="clifford-gate-set">
+<h3>Clifford Gate Set<a class="headerlink" href="#clifford-gate-set" title="Link to this heading">#</a></h3>
+<p><strong>Single-qubit Clifford gates</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}H = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 &amp; 1 \\ 1 &amp; -1 \end{pmatrix}, \quad
+S = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; i \end{pmatrix}\end{split}\]</div>
+<p><strong>Two-qubit Clifford gate</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\text{CNOT} = \begin{pmatrix} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 1 &amp; 0 \end{pmatrix}\end{split}\]</div>
+<p><strong>Pauli gates</strong>: X, Y, Z</p>
+<p><strong>Non-Clifford gates</strong> (require MPS fallback): T, Toffoli, rotation gates</p>
+</section>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id0" title="atlas_q.stabilizer_backend.StabilizerSimulator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StabilizerSimulator</span></code></a></p></td>
+<td><p>Efficient simulator for Clifford circuits using stabilizer formalism</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id30" title="atlas_q.stabilizer_backend.StabilizerState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StabilizerState</span></code></a></p></td>
+<td><p>Stabilizer state represented as a tableau</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id50" title="atlas_q.stabilizer_backend.HybridSimulator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HybridSimulator</span></code></a></p></td>
+<td><p>Hybrid simulator that uses stabilizer backend for Clifford parts and switches to MPS when non-Clifford gates appear</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id61" title="atlas_q.stabilizer_backend.is_clifford_gate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_clifford_gate</span></code></a></p></td>
+<td><p>Check if a gate is in the Clifford group</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="stabilizersimulator">
+<h2>StabilizerSimulator<a class="headerlink" href="#stabilizersimulator" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.stabilizer_backend.</span></span><span class="sig-name descname"><span class="pre">StabilizerSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Efficient simulator for Clifford circuits using stabilizer formalism</p>
+<p>Complexity:
+- Space: O(n²) vs O(2ⁿ) for state-vector
+- Time per gate: O(n²) vs O(2ⁿ)</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>sim = StabilizerSimulator(n_qubits=100)
+sim.h(0)
+sim.cnot(0, 1)
+outcome = sim.measure(0)</p>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id21" title="atlas_q.stabilizer_backend.StabilizerSimulator.cnot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cnot</span></code></a>(control, target)</p></td>
+<td><p>CNOT gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id17" title="atlas_q.stabilizer_backend.StabilizerSimulator.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>()</p></td>
+<td><p>Fast copy using numpy array copy (much faster than deepcopy)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id22" title="atlas_q.stabilizer_backend.StabilizerSimulator.cz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cz</span></code></a>(qubit1, qubit2)</p></td>
+<td><p>CZ gate (symmetric)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id18" title="atlas_q.stabilizer_backend.StabilizerSimulator.h"><code class="xref py py-obj docutils literal notranslate"><span class="pre">h</span></code></a>(qubit)</p></td>
+<td><p>Hadamard gate: X ↔ Z</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id27" title="atlas_q.stabilizer_backend.StabilizerSimulator.measure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">measure</span></code></a>(qubit[, rng])</p></td>
+<td><p>Measure qubit in computational basis</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id19" title="atlas_q.stabilizer_backend.StabilizerSimulator.s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">s</span></code></a>(qubit)</p></td>
+<td><p>Phase gate: X → Y, Z → Z</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id20" title="atlas_q.stabilizer_backend.StabilizerSimulator.s_dag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">s_dag</span></code></a>(qubit)</p></td>
+<td><p>Inverse phase gate: X → -Y, Z → Z</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id23" title="atlas_q.stabilizer_backend.StabilizerSimulator.swap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swap</span></code></a>(qubit1, qubit2)</p></td>
+<td><p>SWAP gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id28" title="atlas_q.stabilizer_backend.StabilizerSimulator.to_mps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_mps</span></code></a>([device])</p></td>
+<td><p>Convert stabilizer state to MPS representation</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id29" title="atlas_q.stabilizer_backend.StabilizerSimulator.to_statevector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_statevector</span></code></a>()</p></td>
+<td><p>Convert stabilizer state to full statevector (SLOW! Only for small n)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id24" title="atlas_q.stabilizer_backend.StabilizerSimulator.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a>(qubit)</p></td>
+<td><p>Pauli-X gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id25" title="atlas_q.stabilizer_backend.StabilizerSimulator.y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y</span></code></a>(qubit)</p></td>
+<td><p>Pauli-Y gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id26" title="atlas_q.stabilizer_backend.StabilizerSimulator.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a>(qubit)</p></td>
+<td><p>Pauli-Z gate</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Pure stabilizer simulator for Clifford circuits.</p>
+<p>Uses the tableau representation to efficiently track stabilizer generators through Clifford gate applications. Supports measurement with outcome sampling and wavefunction collapse.</p>
+<p><strong>Constructor</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">StabilizerSimulator</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Parameters</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n_qubits</span></code> (int): Number of qubits</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initial_state</span></code> (str, optional): Initial computational basis state (default: ‘0’<a href="#id15"><span class="problematic" id="id16">*</span></a>n)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Storage</strong>: O(n²) bits
+<strong>Gate complexity</strong>: O(n²) per gate</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html#atlas_q.stabilizer_backend.StabilizerSimulator.__init__" title="atlas_q.stabilizer_backend.StabilizerSimulator.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(n_qubits)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id18" title="atlas_q.stabilizer_backend.StabilizerSimulator.h"><code class="xref py py-obj docutils literal notranslate"><span class="pre">h</span></code></a>(qubit)</p></td>
+<td><p>Hadamard gate: X ↔ Z</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id19" title="atlas_q.stabilizer_backend.StabilizerSimulator.s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">s</span></code></a>(qubit)</p></td>
+<td><p>Phase gate: X → Y, Z → Z</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id24" title="atlas_q.stabilizer_backend.StabilizerSimulator.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a>(qubit)</p></td>
+<td><p>Pauli-X gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id25" title="atlas_q.stabilizer_backend.StabilizerSimulator.y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y</span></code></a>(qubit)</p></td>
+<td><p>Pauli-Y gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id26" title="atlas_q.stabilizer_backend.StabilizerSimulator.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a>(qubit)</p></td>
+<td><p>Pauli-Z gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id21" title="atlas_q.stabilizer_backend.StabilizerSimulator.cnot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cnot</span></code></a>(control, target)</p></td>
+<td><p>CNOT gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id22" title="atlas_q.stabilizer_backend.StabilizerSimulator.cz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cz</span></code></a>(qubit1, qubit2)</p></td>
+<td><p>CZ gate (symmetric)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id23" title="atlas_q.stabilizer_backend.StabilizerSimulator.swap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swap</span></code></a>(qubit1, qubit2)</p></td>
+<td><p>SWAP gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id27" title="atlas_q.stabilizer_backend.StabilizerSimulator.measure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">measure</span></code></a>(qubit[, rng])</p></td>
+<td><p>Measure qubit in computational basis</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Example Usage</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.stabilizer_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">StabilizerSimulator</span>
+
+<span class="c1"># Create 100-qubit Clifford circuit</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">StabilizerSimulator</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Bell state preparation</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># GHZ state (100 qubits)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">99</span><span class="p">):</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Measurement</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Qubit 0 measured: </span><span class="si">{</span><span class="n">outcome</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># All measurements collapse to same outcome for GHZ</span>
+<span class="n">all_outcomes</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;All qubits: </span><span class="si">{</span><span class="n">all_outcomes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># All 0s or all 1s</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition">#</a></dt>
+<dd><p>Fast copy using numpy array copy (much faster than deepcopy)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">h</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.h"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition">#</a></dt>
+<dd><p>Hadamard gate: X ↔ Z</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">s</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.s"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition">#</a></dt>
+<dd><p>Phase gate: X → Y, Z → Z</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">s_dag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.s_dag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id20" title="Link to this definition">#</a></dt>
+<dd><p>Inverse phase gate: X → -Y, Z → Z</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">cnot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.cnot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition">#</a></dt>
+<dd><p>CNOT gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">cz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.cz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id22" title="Link to this definition">#</a></dt>
+<dd><p>CZ gate (symmetric)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">swap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.swap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id23" title="Link to this definition">#</a></dt>
+<dd><p>SWAP gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.x"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id24" title="Link to this definition">#</a></dt>
+<dd><p>Pauli-X gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.y"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id25" title="Link to this definition">#</a></dt>
+<dd><p>Pauli-Y gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition">#</a></dt>
+<dd><p>Pauli-Z gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id27">
+<span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition">#</a></dt>
+<dd><p>Measure qubit in computational basis</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>0 or 1 (measurement outcome)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id28">
+<span class="sig-name descname"><span class="pre">to_mps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.to_mps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id28" title="Link to this definition">#</a></dt>
+<dd><p>Convert stabilizer state to MPS representation</p>
+<p>This is used when non-Clifford gates appear in the circuit.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>AdaptiveMPS instance</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id29">
+<span class="sig-name descname"><span class="pre">to_statevector</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerSimulator.to_statevector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id29" title="Link to this definition">#</a></dt>
+<dd><p>Convert stabilizer state to full statevector (SLOW! Only for small n)</p>
+<p>This explicitly constructs the 2^n statevector.
+Only use for small systems (n ≤ 20).</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Statevector of shape (2^n,)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="stabilizerstate">
+<h2>StabilizerState<a class="headerlink" href="#stabilizerstate" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id30">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.stabilizer_backend.</span></span><span class="sig-name descname"><span class="pre">StabilizerState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tableau</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id30" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Stabilizer state represented as a tableau</p>
+<p>A stabilizer state on n qubits is represented by a (2n+1) × 2n binary matrix:
+- First n rows: X part of stabilizer generators
+- Next n rows: Z part of stabilizer generators
+- Last column: phase bits (±1)</p>
+<p>Example for <a href="#id31"><span class="problematic" id="id32">|</span></a>0⟩: stabilizer is Z
+Example for <a href="#id33"><span class="problematic" id="id34">|</span></a>+⟩: stabilizer is X
+Example for Bell <a href="#id35"><span class="problematic" id="id36">|</span></a>Φ+⟩: stabilizers are XX and ZZ</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id49" title="atlas_q.stabilizer_backend.StabilizerState.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>()</p></td>
+<td><p>Create a copy of this state</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id46" title="atlas_q.stabilizer_backend.StabilizerState.init_plus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_plus</span></code></a>(n_qubits)</p></td>
+<td><p>Initialize <a href="#id37"><span class="problematic" id="id38">|</span></a>++...+⟩ state (stabilized by X on each qubit)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id43" title="atlas_q.stabilizer_backend.StabilizerState.init_zero"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_zero</span></code></a>(n_qubits)</p></td>
+<td><p>Initialize <a href="#id39"><span class="problematic" id="id40">|</span></a>00...0⟩ state (stabilized by Z on each qubit)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Low-level stabilizer state representation using tableau format.</p>
+<p>Stores stabilizer and destabilizer generators with phase information. Provides operations for:</p>
+<ul class="simple">
+<li><p>Gate application (updates tableau)</p></li>
+<li><p>Measurement (Pauli measurements with outcome probabilities)</p></li>
+<li><p>State verification (check if state is stabilizer state)</p></li>
+</ul>
+<p><strong>Internal representation</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stabilizers</span></code>: (n, 2n) binary array [X part | Z part]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">destabilizers</span></code>: (n, 2n) binary array</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">phases</span></code>: (2n,) phase array {0, 1, 2, 3} → {+1, +i, -1, -i}</p></li>
+</ul>
+<p><strong>Advanced Usage</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.stabilizer_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">StabilizerState</span>
+
+<span class="n">state</span> <span class="o">=</span> <span class="n">StabilizerState</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Apply gates by updating tableau</span>
+<span class="n">state</span><span class="o">.</span><span class="n">apply_h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Check stabilizer generators</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stabilizers:&quot;</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">stabilizers</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Phases:&quot;</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">phases</span><span class="p">)</span>
+
+<span class="c1"># Measure in Pauli basis</span>
+<span class="n">outcome</span><span class="p">,</span> <span class="n">prob</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">measure_pauli</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="n">qubit</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id41">
+<span class="sig-name descname"><span class="pre">n_qubits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#id41" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id42">
+<span class="sig-name descname"><span class="pre">tableau</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></em><a class="headerlink" href="#id42" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id43">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_zero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerState.init_zero"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id43" title="Link to this definition">#</a></dt>
+<dd><p>Initialize <a href="#id44"><span class="problematic" id="id45">|</span></a>00…0⟩ state (stabilized by Z on each qubit)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id46">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_plus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerState.init_plus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id46" title="Link to this definition">#</a></dt>
+<dd><p>Initialize <a href="#id47"><span class="problematic" id="id48">|</span></a>++…+⟩ state (stabilized by X on each qubit)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id49">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#StabilizerState.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id49" title="Link to this definition">#</a></dt>
+<dd><p>Create a copy of this state</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="hybridsimulator">
+<h2>HybridSimulator<a class="headerlink" href="#hybridsimulator" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id50">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.stabilizer_backend.</span></span><span class="sig-name descname"><span class="pre">HybridSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_stabilizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id50" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Hybrid simulator that uses stabilizer backend for Clifford parts
+and switches to MPS when non-Clifford gates appear</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>sim = HybridSimulator(n_qubits=100, use_stabilizer=True)
+sim.h(0)
+sim.cnot(0, 1)
+sim.t(0)  # Automatically switches to MPS here
+sim.measure_all()</p>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id55" title="atlas_q.stabilizer_backend.HybridSimulator.cnot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cnot</span></code></a>(control, target)</p></td>
+<td><p>CNOT gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id59" title="atlas_q.stabilizer_backend.HybridSimulator.get_statistics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_statistics</span></code></a>()</p></td>
+<td><p>Get simulation statistics</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id51" title="atlas_q.stabilizer_backend.HybridSimulator.h"><code class="xref py py-obj docutils literal notranslate"><span class="pre">h</span></code></a>(qubit)</p></td>
+<td><p>Hadamard gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id58" title="atlas_q.stabilizer_backend.HybridSimulator.measure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">measure</span></code></a>(qubit)</p></td>
+<td><p>Measure qubit</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id52" title="atlas_q.stabilizer_backend.HybridSimulator.s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">s</span></code></a>(qubit)</p></td>
+<td><p>Phase gate</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id57" title="atlas_q.stabilizer_backend.HybridSimulator.swap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swap</span></code></a>(qubit1, qubit2)</p></td>
+<td><p>SWAP gate (Clifford)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id56" title="atlas_q.stabilizer_backend.HybridSimulator.t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">t</span></code></a>(qubit)</p></td>
+<td><p>T gate (non-Clifford!)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id53" title="atlas_q.stabilizer_backend.HybridSimulator.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a>(qubit)</p></td>
+<td><p>Pauli-X gate</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id54" title="atlas_q.stabilizer_backend.HybridSimulator.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a>(qubit)</p></td>
+<td><p>Pauli-Z gate</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Automatic hybrid backend switching between stabilizer and MPS.</p>
+<p>Starts with stabilizer formalism for Clifford gates (20× speedup), then switches to MPS when non-Clifford gates (T, rotation gates) are encountered.</p>
+<p><strong>Strategy</strong>:</p>
+<ol class="arabic simple">
+<li><p>Use stabilizer backend while circuit is Clifford-only</p></li>
+<li><p>Convert to MPS state when first non-Clifford gate appears</p></li>
+<li><p>Continue with MPS for remaining gates</p></li>
+<li><p>Report hybrid statistics (Clifford gate count, conversion point)</p></li>
+</ol>
+<p><strong>Constructor</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">HybridSimulator</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>           <span class="c1"># MPS bond dimension (used after conversion)</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Parameters</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n_qubits</span></code> (int): Number of qubits</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bond_dim</span></code> (int): Bond dimension for MPS backend</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">device</span></code> (str): ‘cpu’ or ‘cuda’</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.stabilizer_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">HybridSimulator</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">HybridSimulator</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Clifford gates: stabilizer backend (fast)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">29</span><span class="p">):</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Backend: </span><span class="si">{</span><span class="n">sim</span><span class="o">.</span><span class="n">current_backend</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># &#39;stabilizer&#39;</span>
+
+<span class="c1"># Non-Clifford gate: automatic conversion to MPS</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Triggers conversion</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Backend: </span><span class="si">{</span><span class="n">sim</span><span class="o">.</span><span class="n">current_backend</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># &#39;mps&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Clifford gate count: </span><span class="si">{</span><span class="n">sim</span><span class="o">.</span><span class="n">clifford_gate_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Continue with MPS</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">measure_all</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Performance</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Circuit Type</p></th>
+<th class="head"><p>Hybrid Backend</p></th>
+<th class="head"><p>Pure MPS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>100% Clifford</p></td>
+<td><p>0.05s</p></td>
+<td><p>1.0s (20×)</p></td>
+</tr>
+<tr class="row-odd"><td><p>90% Clifford + 10% T</p></td>
+<td><p>0.12s</p></td>
+<td><p>1.0s (8×)</p></td>
+</tr>
+<tr class="row-even"><td><p>50% Clifford + 50% T</p></td>
+<td><p>0.55s</p></td>
+<td><p>1.0s (1.8×)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="id51">
+<span class="sig-name descname"><span class="pre">h</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.h"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id51" title="Link to this definition">#</a></dt>
+<dd><p>Hadamard gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id52">
+<span class="sig-name descname"><span class="pre">s</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.s"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id52" title="Link to this definition">#</a></dt>
+<dd><p>Phase gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id53">
+<span class="sig-name descname"><span class="pre">x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.x"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id53" title="Link to this definition">#</a></dt>
+<dd><p>Pauli-X gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id54">
+<span class="sig-name descname"><span class="pre">z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id54" title="Link to this definition">#</a></dt>
+<dd><p>Pauli-Z gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id55">
+<span class="sig-name descname"><span class="pre">cnot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.cnot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id55" title="Link to this definition">#</a></dt>
+<dd><p>CNOT gate</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id56">
+<span class="sig-name descname"><span class="pre">t</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.t"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id56" title="Link to this definition">#</a></dt>
+<dd><p>T gate (non-Clifford!)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id57">
+<span class="sig-name descname"><span class="pre">swap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.swap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id57" title="Link to this definition">#</a></dt>
+<dd><p>SWAP gate (Clifford)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id58">
+<span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id58" title="Link to this definition">#</a></dt>
+<dd><p>Measure qubit</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id59">
+<span class="sig-name descname"><span class="pre">get_statistics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#HybridSimulator.get_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id59" title="Link to this definition">#</a></dt>
+<dd><p>Get simulation statistics</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id60">
+<h2>Functions<a class="headerlink" href="#id60" title="Link to this heading">#</a></h2>
+<section id="is-clifford-gate">
+<h3>is_clifford_gate<a class="headerlink" href="#is-clifford-gate" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="id61">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.stabilizer_backend.</span></span><span class="sig-name descname"><span class="pre">is_clifford_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/stabilizer_backend.html#is_clifford_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id61" title="Link to this definition">#</a></dt>
+<dd><p>Check if a gate is in the Clifford group</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<p>Checks if a gate name or matrix is in the Clifford group.</p>
+<dl class="simple">
+<dt><strong>Parameters</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gate</span></code> (str or np.ndarray): Gate name (‘H’, ‘S’, ‘CNOT’, ‘CZ’, etc.) or gate matrix</p></li>
+</ul>
+</dd>
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bool</span></code>: True if gate is Clifford</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.stabilizer_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_clifford_gate</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">is_clifford_gate</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">))</span>      <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">is_clifford_gate</span><span class="p">(</span><span class="s1">&#39;CNOT&#39;</span><span class="p">))</span>   <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">is_clifford_gate</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">))</span>      <span class="c1"># False</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">is_clifford_gate</span><span class="p">(</span><span class="s1">&#39;RX&#39;</span><span class="p">))</span>     <span class="c1"># False</span>
+
+<span class="c1"># Check custom matrix</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">hadamard</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">is_clifford_gate</span><span class="p">(</span><span class="n">hadamard</span><span class="p">))</span>  <span class="c1"># True</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="performance-characteristics">
+<h2>Performance Characteristics<a class="headerlink" href="#performance-characteristics" title="Link to this heading">#</a></h2>
+<section id="complexity-analysis">
+<h3>Complexity Analysis<a class="headerlink" href="#complexity-analysis" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operation</p></th>
+<th class="head"><p>Stabilizer</p></th>
+<th class="head"><p>Statevector</p></th>
+<th class="head"><p>Speedup</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Time</strong></p></td>
+<td><p>O(n²)</p></td>
+<td><p>O(2ⁿ)</p></td>
+<td><p>Exponential</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Space</strong></p></td>
+<td><p>O(n²)</p></td>
+<td><p>O(2ⁿ)</p></td>
+<td><p>Exponential</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Gate (single)</strong></p></td>
+<td><p>O(n)</p></td>
+<td><p>O(2ⁿ)</p></td>
+<td><p>2ⁿ/n</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Gate (two)</strong></p></td>
+<td><p>O(n)</p></td>
+<td><p>O(2ⁿ)</p></td>
+<td><p>2ⁿ/n</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Measurement</strong></p></td>
+<td><p>O(n²)</p></td>
+<td><p>O(2ⁿ)</p></td>
+<td><p>2ⁿ/n²</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="benchmark-results">
+<h3>Benchmark Results<a class="headerlink" href="#benchmark-results" title="Link to this heading">#</a></h3>
+<p>From <code class="docutils literal notranslate"><span class="pre">scripts/benchmarks/validate_all_features.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 50-qubit Clifford circuit (1000 gates)</span>
+<span class="n">Stabilizer</span><span class="p">:</span> <span class="mf">0.08</span> <span class="n">sec</span>
+<span class="n">MPS</span> <span class="p">(</span><span class="n">χ</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span> <span class="mf">1.6</span> <span class="n">sec</span>
+<span class="n">Speedup</span><span class="p">:</span> <span class="mi">20</span><span class="err">×</span>
+
+<span class="c1"># 100-qubit Clifford circuit (2000 gates)</span>
+<span class="n">Stabilizer</span><span class="p">:</span> <span class="mf">0.35</span> <span class="n">sec</span>
+<span class="n">MPS</span> <span class="p">(</span><span class="n">χ</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span> <span class="mf">7.2</span> <span class="n">sec</span>
+<span class="n">Speedup</span><span class="p">:</span> <span class="mi">21</span><span class="err">×</span>
+
+<span class="c1"># Memory usage (100 qubits)</span>
+<span class="n">Stabilizer</span><span class="p">:</span> <span class="mf">0.02</span> <span class="n">MB</span>
+<span class="n">MPS</span> <span class="p">(</span><span class="n">χ</span><span class="o">=</span><span class="mi">64</span><span class="p">):</span> <span class="mf">1.2</span> <span class="n">MB</span>
+<span class="n">Statevector</span><span class="p">:</span> <span class="mi">32</span> <span class="n">PB</span> <span class="p">(</span><span class="n">impossible</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="use-cases">
+<h3>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h3>
+<p><strong>When to use stabilizer backend</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Clifford-only circuits</strong>: Error correction codes, syndrome extraction</p></li>
+<li><p><strong>Large-scale simulation</strong>: 100+ qubits where MPS bond dimension becomes prohibitive</p></li>
+<li><p><strong>Quantum error correction</strong>: Stabilizer codes (surface code, toric code)</p></li>
+<li><p><strong>Randomized benchmarking</strong>: Clifford group sampling</p></li>
+<li><p><strong>Graph state preparation</strong>: Cluster states for MBQC</p></li>
+</ol>
+<p><strong>When NOT to use</strong>:</p>
+<ol class="arabic simple">
+<li><p>Non-Clifford gates required (T, rotation gates) - use HybridSimulator instead</p></li>
+<li><p>Arbitrary quantum states - use MPS for general-purpose simulation</p></li>
+<li><p>Need approximate results - stabilizer is exact or fails</p></li>
+</ol>
+</section>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<section id="bell-state-creation-and-measurement">
+<h3>Bell State Creation and Measurement<a class="headerlink" href="#bell-state-creation-and-measurement" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.stabilizer_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">StabilizerSimulator</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">StabilizerSimulator</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Create Bell state |Φ⁺⟩ = (|00⟩ + |11⟩)/√2</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Measure both qubits (always same outcome)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">sim_copy</span> <span class="o">=</span> <span class="n">StabilizerSimulator</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">sim_copy</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">sim_copy</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">outcome0</span> <span class="o">=</span> <span class="n">sim_copy</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">outcome1</span> <span class="o">=</span> <span class="n">sim_copy</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">outcome0</span><span class="p">,</span> <span class="n">outcome1</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Measurement outcomes:&quot;</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+<span class="c1"># Output: [(0, 0), (1, 1), (0, 0), (1, 1), ...] - always correlated</span>
+</pre></div>
+</div>
+</section>
+<section id="ghz-state-100-qubits">
+<h3>GHZ State (100 qubits)<a class="headerlink" href="#ghz-state-100-qubits" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.stabilizer_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">StabilizerSimulator</span>
+
+<span class="n">n_qubits</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">StabilizerSimulator</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">)</span>
+
+<span class="c1"># GHZ state: |0...0⟩ + |1...1⟩</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Measure all qubits</span>
+<span class="n">outcomes</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;All </span><span class="si">{</span><span class="n">n_qubits</span><span class="si">}</span><span class="s2"> qubits measured:&quot;</span><span class="p">,</span> <span class="n">outcomes</span><span class="p">)</span>
+<span class="c1"># Output: Either all 0s or all 1s (maximally entangled)</span>
+
+<span class="c1"># Pauli expectation value</span>
+<span class="n">Z_exp</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">expectation_pauli</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span> <span class="o">*</span> <span class="n">n_qubits</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⟨Z⊗Z⊗...⊗Z⟩ = </span><span class="si">{</span><span class="n">Z_exp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># 0.0 (equal superposition)</span>
+</pre></div>
+</div>
+</section>
+<section id="quantum-error-correction-bit-flip-code">
+<h3>Quantum Error Correction (Bit Flip Code)<a class="headerlink" href="#quantum-error-correction-bit-flip-code" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.stabilizer_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">StabilizerSimulator</span>
+
+<span class="c1"># 3-qubit bit flip code: |ψ⟩ → |ψψψ⟩</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">StabilizerSimulator</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Encode: |ψ⟩|00⟩ → (α|000⟩ + β|111⟩)</span>
+<span class="c1"># Assume |ψ⟩ = (|0⟩ + |1⟩)/√2</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Simulate bit flip error on qubit 1</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Syndrome measurement (stabilizers: Z₀Z₁, Z₁Z₂)</span>
+<span class="c1"># Measure ancilla qubits to detect error</span>
+<span class="c1"># ... (error correction logic)</span>
+
+<span class="c1"># Decode: Correct error and recover |ψ⟩</span>
+</pre></div>
+</div>
+</section>
+<section id="hybrid-simulation-clifford-t-gates">
+<h3>Hybrid Simulation (Clifford + T gates)<a class="headerlink" href="#hybrid-simulation-clifford-t-gates" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.stabilizer_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">HybridSimulator</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">HybridSimulator</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Phase 1: Clifford gates (stabilizer backend)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">19</span><span class="p">):</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Backend: </span><span class="si">{</span><span class="n">sim</span><span class="o">.</span><span class="n">current_backend</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># &#39;stabilizer&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Clifford gates: </span><span class="si">{</span><span class="n">sim</span><span class="o">.</span><span class="n">clifford_gate_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Phase 2: Add T gate (non-Clifford) → automatic switch to MPS</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Backend: </span><span class="si">{</span><span class="n">sim</span><span class="o">.</span><span class="n">current_backend</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># &#39;mps&#39;</span>
+
+<span class="c1"># Phase 3: Continue with arbitrary gates</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+
+<span class="c1"># Measure</span>
+<span class="n">outcomes</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">measure_all</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Measurement histogram: </span><span class="si">{</span><span class="n">outcomes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cross-references">
+<h2>Cross-References<a class="headerlink" href="#cross-references" title="Link to this heading">#</a></h2>
+<section id="see-also">
+<h3>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference internal" href="../user_guide/explanations/algorithms.html"><span class="doc">Algorithms</span></a> - Stabilizer formalism theory</p></li>
+<li><p><a class="reference internal" href="../user_guide/howtos/optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> - Hybrid backend optimization</p></li>
+<li><p><a class="reference internal" href="quantum_hybrid_system.html"><span class="doc">atlas_q.quantum_hybrid_system</span></a> - Automatic backend selection</p></li>
+<li><p><a class="reference internal" href="../user_guide/tutorials/advanced_features.html"><span class="doc">Advanced Features Tutorial</span></a> - Hybrid simulation tutorial</p></li>
+</ul>
+</section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<p>Key papers:</p>
+<ol class="arabic simple">
+<li><p><strong>Gottesman, D.</strong> (1998). “The Heisenberg Representation of Quantum Computers.” arXiv:quant-ph/9807006</p></li>
+<li><p><strong>Aaronson, S. &amp; Gottesman, D.</strong> (2004). “Improved Simulation of Stabilizer Circuits.” Physical Review A, 70(5), 052328.</p></li>
+<li><p><strong>Nielsen, M. A. &amp; Chuang, I. L.</strong> (2010). “Quantum Computation and Quantum Information.” Cambridge University Press. Chapter 10.5.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="generated/atlas_q.grover.calculate_grover_iterations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">atlas_q.grover.calculate_grover_iterations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">atlas_q.stabilizer_backend.StabilizerSimulator</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerState"><code class="docutils literal notranslate"><span class="pre">StabilizerState</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerState.n_qubits"><code class="docutils literal notranslate"><span class="pre">StabilizerState.n_qubits</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerState.tableau"><code class="docutils literal notranslate"><span class="pre">StabilizerState.tableau</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerState.init_zero"><code class="docutils literal notranslate"><span class="pre">StabilizerState.init_zero()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerState.init_plus"><code class="docutils literal notranslate"><span class="pre">StabilizerState.init_plus()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerState.copy"><code class="docutils literal notranslate"><span class="pre">StabilizerState.copy()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator.copy"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.copy()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator.h"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.h()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator.s"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.s()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator.s_dag"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.s_dag()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator.cnot"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.cnot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator.cz"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.cz()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator.swap"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.swap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator.x"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.x()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator.y"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.y()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator.z"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.z()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator.measure"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.measure()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator.to_mps"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.to_mps()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.StabilizerSimulator.to_statevector"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.to_statevector()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.is_clifford_gate"><code class="docutils literal notranslate"><span class="pre">is_clifford_gate()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.HybridSimulator"><code class="docutils literal notranslate"><span class="pre">HybridSimulator</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.HybridSimulator.h"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.h()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.HybridSimulator.s"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.s()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.HybridSimulator.x"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.x()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.HybridSimulator.z"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.z()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.HybridSimulator.cnot"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.cnot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.HybridSimulator.t"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.t()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.HybridSimulator.swap"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.swap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.HybridSimulator.measure"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.measure()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.stabilizer_backend.HybridSimulator.get_statistics"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.get_statistics()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-features">Key Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gottesman-knill-theorem">The Gottesman-Knill Theorem</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-background">Mathematical Background</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stabilizer-formalism">Stabilizer Formalism</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tableau-representation">Tableau Representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clifford-gate-set">Clifford Gate Set</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stabilizersimulator">StabilizerSimulator</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id17"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.copy()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id18"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.h()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id19"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.s()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id20"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.s_dag()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id21"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.cnot()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id22"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.cz()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id23"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.swap()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id24"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.x()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id25"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.y()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id26"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.z()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id27"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.measure()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id28"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.to_mps()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id29"><code class="docutils literal notranslate"><span class="pre">StabilizerSimulator.to_statevector()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stabilizerstate">StabilizerState</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id30"><code class="docutils literal notranslate"><span class="pre">StabilizerState</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id41"><code class="docutils literal notranslate"><span class="pre">StabilizerState.n_qubits</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id42"><code class="docutils literal notranslate"><span class="pre">StabilizerState.tableau</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id43"><code class="docutils literal notranslate"><span class="pre">StabilizerState.init_zero()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id46"><code class="docutils literal notranslate"><span class="pre">StabilizerState.init_plus()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id49"><code class="docutils literal notranslate"><span class="pre">StabilizerState.copy()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hybridsimulator">HybridSimulator</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id50"><code class="docutils literal notranslate"><span class="pre">HybridSimulator</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id51"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.h()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id52"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.s()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id53"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.x()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id54"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.z()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id55"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.cnot()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id56"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.t()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id57"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.swap()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id58"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.measure()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id59"><code class="docutils literal notranslate"><span class="pre">HybridSimulator.get_statistics()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id60">Functions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-clifford-gate">is_clifford_gate</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id61"><code class="docutils literal notranslate"><span class="pre">is_clifford_gate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-characteristics">Performance Characteristics</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#complexity-analysis">Complexity Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-results">Benchmark Results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bell-state-creation-and-measurement">Bell State Creation and Measurement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ghz-state-100-qubits">GHZ State (100 qubits)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-error-correction-bit-flip-code">Quantum Error Correction (Bit Flip Code)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hybrid-simulation-clifford-t-gates">Hybrid Simulation (Clifford + T gates)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-references">Cross-References</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

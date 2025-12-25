@@ -1,0 +1,1182 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tensor Networks &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/explanations/tensor_networks';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Adaptive Truncation" href="adaptive_truncation.html" />
+    <link rel="prev" title="Explanations" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tensor Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adaptive_truncation.html">Adaptive Truncation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu_acceleration.html">GPU Acceleration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_stability.html">Numerical Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_model.html">Performance Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design_decisions.html">Design Decisions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparisons.html">Comparisons</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Explanations</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Tensor Networks</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="tensor-networks">
+<h1>Tensor Networks<a class="headerlink" href="#tensor-networks" title="Link to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>Tensor networks provide an efficient representation of quantum many-body states by decomposing
+the exponentially large wavefunction into a network of smaller tensors connected by contraction
+indices. This representation enables simulation of quantum systems that would be intractable
+using full statevector methods.</p>
+<p>Key advantages:</p>
+<ul class="simple">
+<li><p><strong>Memory efficiency</strong>: O(n·χ²·d) vs O(d^n) for statevector</p></li>
+<li><p><strong>Computational tractability</strong>: Polynomial vs exponential scaling</p></li>
+<li><p><strong>Physical insight</strong>: Explicitly captures entanglement structure</p></li>
+<li><p><strong>Scalability</strong>: 50+ qubits with moderate entanglement</p></li>
+</ul>
+<p>This document explains the theoretical foundations of tensor networks, their mathematical structure,
+and why they enable efficient quantum simulation.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../tutorials/mps_basics.html"><span class="doc">MPS Basics</span></a> for practical MPS usage,
+<a class="reference internal" href="adaptive_truncation.html"><span class="doc">Adaptive Truncation</span></a> for truncation theory,
+<a class="reference internal" href="algorithms.html"><span class="doc">Algorithms</span></a> for tensor network algorithms.</p>
+</div>
+</section>
+<section id="tensor-network-fundamentals">
+<h2>Tensor Network Fundamentals<a class="headerlink" href="#tensor-network-fundamentals" title="Link to this heading">#</a></h2>
+<section id="basic-tensor-representation">
+<h3>Basic Tensor Representation<a class="headerlink" href="#basic-tensor-representation" title="Link to this heading">#</a></h3>
+<p>A tensor is a multidimensional array with indices representing different physical or virtual degrees of freedom.</p>
+<p><strong>Rank-3 tensor</strong> (MPS building block):</p>
+<div class="math notranslate nohighlight">
+\[A^{[i]}_{α,s,β}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p>α, β: Virtual indices (bond dimensions) connecting to neighboring tensors</p></li>
+<li><p>s: Physical index representing local quantum state (s = 0, 1 for qubits)</p></li>
+<li><p>i: Tensor position in the chain</p></li>
+</ul>
+<p><strong>Graphical notation</strong>:</p>
+<p>Tensors are represented as shapes with legs for each index:</p>
+<ul class="simple">
+<li><p>Physical indices: Point up/down</p></li>
+<li><p>Virtual (bond) indices: Point left/right</p></li>
+<li><p>Contraction: Connect matching indices</p></li>
+</ul>
+<p><strong>Example</strong> - MPS for 3 qubits:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Physical:  |    |    |
+          [A¹] [A²] [A³]
+Virtual:  ─────────────
+</pre></div>
+</div>
+</section>
+<section id="tensor-contraction">
+<h3>Tensor Contraction<a class="headerlink" href="#tensor-contraction" title="Link to this heading">#</a></h3>
+<p>Tensor contraction is generalized matrix multiplication summing over shared indices.</p>
+<p><strong>Matrix multiplication</strong> as tensor contraction:</p>
+<div class="math notranslate nohighlight">
+\[C_{ij} = \sum_k A_{ik} B_{kj}\]</div>
+<p><strong>Tensor network contraction</strong>:</p>
+<div class="math notranslate nohighlight">
+\[|\psi\rangle = \sum_{α_1,α_2,...,s_1,s_2,...} A^{[1]}_{α_1,s_1,α_2} A^{[2]}_{α_2,s_2,α_3} \cdots A^{[n]}_{α_n,s_n,α_{n+1}} |s_1 s_2 \ldots s_n\rangle\]</div>
+<p>Computational complexity:</p>
+<ul class="simple">
+<li><p>Order matters: O(χ³) vs O(χ⁶) for different contraction orders</p></li>
+<li><p>Optimal order: NP-hard in general</p></li>
+<li><p>1D chains (MPS): Naturally efficient O(n·χ³) contraction</p></li>
+</ul>
+</section>
+</section>
+<section id="matrix-product-states-mps">
+<h2>Matrix Product States (MPS)<a class="headerlink" href="#matrix-product-states-mps" title="Link to this heading">#</a></h2>
+<section id="mps-representation">
+<h3>MPS Representation<a class="headerlink" href="#mps-representation" title="Link to this heading">#</a></h3>
+<p>An n-qubit quantum state in MPS form:</p>
+<div class="math notranslate nohighlight">
+\[|\psi\rangle = \sum_{s_1,s_2,\ldots,s_n=0}^{d-1} \text{Tr}(A^{[1]}_{s_1} A^{[2]}_{s_2} \cdots A^{[n]}_{s_n}) |s_1 s_2 \ldots s_n\rangle\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p>Each <span class="math notranslate nohighlight">\(A^{[i]}_{s_i}\)</span> is a <span class="math notranslate nohighlight">\(χ_{i-1} \times χ_i\)</span> matrix</p></li>
+<li><p><span class="math notranslate nohighlight">\(s_i \in \{0, 1, \ldots, d-1\}\)</span> is the physical index (d=2 for qubits)</p></li>
+<li><p><span class="math notranslate nohighlight">\(χ_i\)</span> is the bond dimension between sites i and i+1</p></li>
+<li><p>Boundary conditions: <span class="math notranslate nohighlight">\(χ_0 = χ_n = 1\)</span></p></li>
+</ul>
+<p><strong>Explicit form</strong> for 3 qubits:</p>
+<div class="math notranslate nohighlight">
+\[|\psi\rangle = \sum_{s_1,s_2,s_3=0}^{1} A^{[1]}_{s_1} A^{[2]}_{s_2} A^{[3]}_{s_3} |s_1 s_2 s_3\rangle\]</div>
+<p>where <span class="math notranslate nohighlight">\(A^{[1]}_{s_1}\)</span> is a <span class="math notranslate nohighlight">\(1 \times χ_1\)</span> matrix (row vector),
+<span class="math notranslate nohighlight">\(A^{[2]}_{s_2}\)</span> is a <span class="math notranslate nohighlight">\(χ_1 \times χ_2\)</span> matrix,
+and <span class="math notranslate nohighlight">\(A^{[3]}_{s_3}\)</span> is a <span class="math notranslate nohighlight">\(χ_2 \times 1\)</span> matrix (column vector).</p>
+</section>
+<section id="memory-scaling">
+<h3>Memory Scaling<a class="headerlink" href="#memory-scaling" title="Link to this heading">#</a></h3>
+<p><strong>Full statevector</strong>:</p>
+<ul class="simple">
+<li><p>Memory: <span class="math notranslate nohighlight">\(O(2^n)\)</span> complex numbers</p></li>
+<li><p>Example: 30 qubits = 1,073,741,824 amplitudes × 16 bytes = 17 GB</p></li>
+</ul>
+<p><strong>MPS representation</strong>:</p>
+<ul class="simple">
+<li><p>Memory: <span class="math notranslate nohighlight">\(O(n \cdot χ^2 \cdot d)\)</span> complex numbers</p></li>
+<li><p>Example: 30 qubits, χ=64 = 30 × 64² × 2 × 16 bytes ≈ 4 MB</p></li>
+</ul>
+<p><strong>Compression ratio</strong>: For n=30, χ=64: ~4,000× compression</p>
+</section>
+</section>
+<section id="canonical-forms">
+<h2>Canonical Forms<a class="headerlink" href="#canonical-forms" title="Link to this heading">#</a></h2>
+<p>MPS can be put into canonical forms that simplify operations and provide computational advantages.</p>
+<section id="left-canonical-form">
+<h3>Left-Canonical Form<a class="headerlink" href="#left-canonical-form" title="Link to this heading">#</a></h3>
+<p>In left-canonical form, tensors satisfy the orthonormality condition:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{α,s} A^{[i]}_{α,s,β} (A^{[i]}_{α,s,β'})^* = δ_{β,β'}\]</div>
+<p>Graphically, contracting a left-canonical tensor with its conjugate gives identity:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> |
+[A]─┬─ = ─┬─
+    │    │
+[A*]─┴─   └─ = Identity
+</pre></div>
+</div>
+<p><strong>Properties</strong>:</p>
+<ul class="simple">
+<li><p>Normalized: Inner product computation is O(χ²) instead of O(2^n)</p></li>
+<li><p>Efficient expectation values on left part of chain</p></li>
+<li><p>Singular values concentrated on right bond</p></li>
+</ul>
+</section>
+<section id="right-canonical-form">
+<h3>Right-Canonical Form<a class="headerlink" href="#right-canonical-form" title="Link to this heading">#</a></h3>
+<p>In right-canonical form, tensors satisfy:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{β,s} A^{[i]}_{α,s,β} (A^{[i]}_{α',s,β})^* = δ_{α,α'}\]</div>
+<p><strong>Properties</strong>:</p>
+<ul class="simple">
+<li><p>Normalized: Inner product computation is O(χ²)</p></li>
+<li><p>Efficient expectation values on right part of chain</p></li>
+<li><p>Singular values concentrated on left bond</p></li>
+</ul>
+</section>
+<section id="mixed-canonical-form">
+<h3>Mixed-Canonical Form<a class="headerlink" href="#mixed-canonical-form" title="Link to this heading">#</a></h3>
+<p>Mixed-canonical form has a partition point k where:</p>
+<ul class="simple">
+<li><p>Sites 1 to k-1 are left-canonical</p></li>
+<li><p>Sites k+1 to n are right-canonical</p></li>
+<li><p>Site k is the orthogonality center</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[|\psi\rangle = \sum \underbrace{L^{[1]} \cdots L^{[k-1]}}_{\text{left-canonical}} C^{[k]} \underbrace{R^{[k+1]} \cdots R^{[n]}}_{\text{right-canonical}} |s_1 \ldots s_n\rangle\]</div>
+<p><strong>Applications</strong>:</p>
+<ul class="simple">
+<li><p>DMRG: Sweep orthogonality center through chain</p></li>
+<li><p>TDVP: Time evolution at orthogonality center</p></li>
+<li><p>Truncation: SVD at orthogonality center gives optimal approximation</p></li>
+</ul>
+</section>
+</section>
+<section id="entanglement-and-bond-dimensions">
+<h2>Entanglement and Bond Dimensions<a class="headerlink" href="#entanglement-and-bond-dimensions" title="Link to this heading">#</a></h2>
+<section id="entanglement-entropy">
+<h3>Entanglement Entropy<a class="headerlink" href="#entanglement-entropy" title="Link to this heading">#</a></h3>
+<p>For a bipartition of the chain at bond i, the entanglement entropy is:</p>
+<div class="math notranslate nohighlight">
+\[S_i = -\sum_α λ_α^2 \log(λ_α^2)\]</div>
+<p>where <span class="math notranslate nohighlight">\(λ_α\)</span> are the Schmidt values (singular values) across bond i.</p>
+<p><strong>Bond dimension requirement</strong>:</p>
+<p>To exactly represent a state with entanglement entropy S:</p>
+<div class="math notranslate nohighlight">
+\[χ_i \geq e^{S_i}\]</div>
+<p><strong>Area law</strong>: For 1D systems with local interactions, <span class="math notranslate nohighlight">\(S \propto \log(n)\)</span>, so χ grows slowly.</p>
+<p><strong>Volume law</strong>: For highly entangled states, <span class="math notranslate nohighlight">\(S \propto n\)</span>, requiring exponential χ.</p>
+</section>
+<section id="when-mps-is-efficient">
+<h3>When MPS is Efficient<a class="headerlink" href="#when-mps-is-efficient" title="Link to this heading">#</a></h3>
+<p><strong>Efficient</strong> (χ polynomial in n):</p>
+<ul class="simple">
+<li><p>1D systems with local interactions</p></li>
+<li><p>Ground states of gapped Hamiltonians (area law)</p></li>
+<li><p>Short-time evolution of product states</p></li>
+<li><p>Shallow quantum circuits</p></li>
+<li><p>Thermal states at low temperature</p></li>
+</ul>
+<p><strong>Inefficient</strong> (χ exponential in n):</p>
+<ul class="simple">
+<li><p>Random quantum states (volume law)</p></li>
+<li><p>Deep quantum circuits with long-range gates</p></li>
+<li><p>Highly entangled states (GHZ, W states may have low entanglement)</p></li>
+<li><p>Critical systems at quantum phase transitions (logarithmic divergence)</p></li>
+</ul>
+</section>
+<section id="truncation-and-approximation">
+<h3>Truncation and Approximation<a class="headerlink" href="#truncation-and-approximation" title="Link to this heading">#</a></h3>
+<p>When χ exceeds a threshold, truncate by keeping largest singular values:</p>
+<p><strong>SVD truncation</strong>:</p>
+<div class="math notranslate nohighlight">
+\[A^{[i]}_{α,s,β} \approx \sum_{γ=1}^{χ_{\text{max}}} U_{α,γ} λ_γ V_{γ,β}^†\]</div>
+<p>where λ₁ ≥ λ₂ ≥ … ≥ λ_χ are sorted singular values.</p>
+<p><strong>Truncation error</strong>:</p>
+<div class="math notranslate nohighlight">
+\[ε = \sqrt{\sum_{γ &gt; χ_{\text{max}}} λ_γ^2}\]</div>
+<p>This is the Frobenius norm of the discarded part, minimizing distance to exact state.</p>
+</section>
+</section>
+<section id="matrix-product-operators-mpo">
+<h2>Matrix Product Operators (MPO)<a class="headerlink" href="#matrix-product-operators-mpo" title="Link to this heading">#</a></h2>
+<section id="mpo-structure">
+<h3>MPO Structure<a class="headerlink" href="#mpo-structure" title="Link to this heading">#</a></h3>
+<p>A matrix product operator represents an operator as:</p>
+<div class="math notranslate nohighlight">
+\[\hat{O} = \sum_{s_1,s_1',...,s_n,s_n'} W^{[1]}_{s_1,s_1'} W^{[2]}_{s_2,s_2'} \cdots W^{[n]}_{s_n,s_n'} |s_1 \ldots s_n\rangle \langle s_1' \ldots s_n'|\]</div>
+<p>Each <span class="math notranslate nohighlight">\(W^{[i]}\)</span> is a rank-4 tensor with shape <span class="math notranslate nohighlight">\([χ_L, d, d, χ_R]\)</span>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(χ_L, χ_R\)</span>: Virtual indices (operator bond dimension)</p></li>
+<li><p>First d: Output physical index (ket)</p></li>
+<li><p>Second d: Input physical index (bra)</p></li>
+</ul>
+</section>
+<section id="hamiltonian-as-mpo">
+<h3>Hamiltonian as MPO<a class="headerlink" href="#hamiltonian-as-mpo" title="Link to this heading">#</a></h3>
+<p><strong>Transverse-field Ising Hamiltonian</strong>:</p>
+<div class="math notranslate nohighlight">
+\[H = -J \sum_i Z_i Z_{i+1} - h \sum_i X_i\]</div>
+<p>Can be represented as MPO with bond dimension χ = 3:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}W^{[i]} = \begin{pmatrix}
+I &amp; 0 &amp; 0 \\
+Z &amp; 0 &amp; 0 \\
+hX &amp; -JZ &amp; I
+\end{pmatrix}\end{split}\]</div>
+<p><strong>Graphical representation</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> |  |
+[W¹][W²] ... [Wⁿ]
+ |  |
+</pre></div>
+</div>
+<p><strong>General nearest-neighbor Hamiltonians</strong>: χ = 3
+<strong>Long-range interactions</strong>: χ grows with range
+<strong>Time evolution operator</strong> <span class="math notranslate nohighlight">\(e^{-iHt}\)</span>: Can be approximated by MPO</p>
+</section>
+<section id="mpo-mps-operations">
+<h3>MPO-MPS Operations<a class="headerlink" href="#mpo-mps-operations" title="Link to this heading">#</a></h3>
+<p><strong>Applying MPO to MPS</strong> (W|ψ⟩):</p>
+<p>Contract MPO with MPS to get new MPS with bond dimension χ_new = χ_MPS × χ_MPO:</p>
+<div class="math notranslate nohighlight">
+\[|\phi\rangle = \hat{O} |\psi\rangle\]</div>
+<p>Computational cost: <span class="math notranslate nohighlight">\(O(n \cdot χ_{\text{MPS}}^2 \cdot χ_{\text{MPO}}^2 \cdot d^3)\)</span></p>
+<p><strong>Expectation value</strong> ⟨ψ|O|ψ⟩:</p>
+<p>Contract bra-MPO-ket network from left to right:</p>
+<div class="math notranslate nohighlight">
+\[\langle \psi | \hat{O} | \psi \rangle = \text{Tr}(E^{[1]} E^{[2]} \cdots E^{[n]})\]</div>
+<p>where <span class="math notranslate nohighlight">\(E^{[i]}\)</span> is the environment tensor at site i.</p>
+<p>Computational cost: <span class="math notranslate nohighlight">\(O(n \cdot χ_{\text{MPS}}^2 \cdot χ_{\text{MPO}} \cdot d^2)\)</span></p>
+</section>
+</section>
+<section id="tensor-network-contraction">
+<h2>Tensor Network Contraction<a class="headerlink" href="#tensor-network-contraction" title="Link to this heading">#</a></h2>
+<section id="contraction-order">
+<h3>Contraction Order<a class="headerlink" href="#contraction-order" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: Given a tensor network, in what order should indices be contracted?</p>
+<p><strong>Complexity</strong>: Depends critically on order
+- Bad order: <span class="math notranslate nohighlight">\(O(χ^6)\)</span> or worse
+- Good order: <span class="math notranslate nohighlight">\(O(χ^3)\)</span></p>
+<p><strong>Finding optimal order</strong>: NP-hard in general</p>
+<p><strong>For MPS/MPO chains</strong>: Natural left-to-right or right-to-left order is optimal</p>
+</section>
+<section id="efficient-contraction-algorithms">
+<h3>Efficient Contraction Algorithms<a class="headerlink" href="#efficient-contraction-algorithms" title="Link to this heading">#</a></h3>
+<p><strong>1. Sequential contraction</strong> (MPS):</p>
+<p>Contract tensors left-to-right:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>A¹ → (A¹·A²) → ((A¹·A²)·A³) → ...
+</pre></div>
+</div>
+<p>Cost per step: O(χ³·d)
+Total cost: O(n·χ³·d)</p>
+<p><strong>2. Binary tree contraction</strong>:</p>
+<p>Pair tensors and contract in tree structure:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Level 1: (A¹·A²), (A³·A⁴), ...
+Level 2: ((A¹·A²)·(A³·A⁴)), ...
+</pre></div>
+</div>
+<p>Can be more cache-efficient but same asymptotic cost for MPS.</p>
+<p><strong>3. GPU-accelerated einsum</strong>:</p>
+<p>Use optimized libraries (cuBLAS, cuTENSOR, Triton) for tensor contractions:
+- Batch operations when possible
+- Fuse contractions to reduce memory movement
+- Utilize Tensor Cores on modern GPUs</p>
+</section>
+</section>
+<section id="higher-dimensional-tensor-networks">
+<h2>Higher-Dimensional Tensor Networks<a class="headerlink" href="#higher-dimensional-tensor-networks" title="Link to this heading">#</a></h2>
+<section id="projected-entangled-pair-states-peps">
+<h3>Projected Entangled Pair States (PEPS)<a class="headerlink" href="#projected-entangled-pair-states-peps" title="Link to this heading">#</a></h3>
+<p>PEPS extend MPS to 2D and higher dimensions.</p>
+<p><strong>Structure</strong>: Each tensor has:
+- 1 physical index (qubit state)
+- 4 virtual indices (connecting to neighbors in 2D grid)</p>
+<div class="math notranslate nohighlight">
+\[T^{[i,j]}_{α,β,γ,δ,s}\]</div>
+<p>where α, β, γ, δ connect to left, right, up, down neighbors, and s is physical index.</p>
+<p><strong>Memory scaling</strong>: <span class="math notranslate nohighlight">\(O(L^2 \cdot χ^4 \cdot d)\)</span> for L×L grid</p>
+<p><strong>Contraction complexity</strong>: NP-hard in general
+- Approximate methods: boundary MPS, CTMRG
+- Exact contraction: exponential cost</p>
+<p><strong>Use cases in ATLAS-Q</strong>:
+- 2D quantum circuits
+- Qubit connectivity maps to 2D grid
+- Shallow circuits where contraction is tractable</p>
+</section>
+<section id="tree-tensor-networks-ttn">
+<h3>Tree Tensor Networks (TTN)<a class="headerlink" href="#tree-tensor-networks-ttn" title="Link to this heading">#</a></h3>
+<p>Organize tensors in a tree structure rather than 1D chain.</p>
+<p><strong>Advantages</strong>:
+- Flexible topology matching problem structure
+- Lower entanglement for some systems
+- Hierarchical decomposition</p>
+<p><strong>Disadvantages</strong>:
+- More complex algorithms
+- Less mature software support</p>
+</section>
+<section id="multi-scale-entanglement-renormalization-ansatz-mera">
+<h3>Multi-Scale Entanglement Renormalization Ansatz (MERA)<a class="headerlink" href="#multi-scale-entanglement-renormalization-ansatz-mera" title="Link to this heading">#</a></h3>
+<p>Hierarchical tensor network with entanglement renormalization:</p>
+<ul class="simple">
+<li><p>Isometry tensors: Coarse-grain system</p></li>
+<li><p>Disentangler tensors: Remove short-range entanglement</p></li>
+<li><p>Logarithmic bond dimension for critical systems</p></li>
+</ul>
+<p><strong>Use cases</strong>:
+- Critical systems
+- Scale-invariant states
+- Conformal field theories</p>
+</section>
+</section>
+<section id="computational-complexity">
+<h2>Computational Complexity<a class="headerlink" href="#computational-complexity" title="Link to this heading">#</a></h2>
+<section id="scaling-analysis">
+<h3>Scaling Analysis<a class="headerlink" href="#scaling-analysis" title="Link to this heading">#</a></h3>
+<p><strong>Full statevector</strong>:</p>
+<ul class="simple">
+<li><p>Memory: <span class="math notranslate nohighlight">\(O(2^n)\)</span></p></li>
+<li><p>Gate application: <span class="math notranslate nohighlight">\(O(2^n)\)</span> for 1-qubit, <span class="math notranslate nohighlight">\(O(2^{n+1})\)</span> for 2-qubit</p></li>
+<li><p>Exact up to ~30 qubits with 16 GB RAM</p></li>
+</ul>
+<p><strong>MPS (adaptive bond dimension)</strong>:</p>
+<ul class="simple">
+<li><p>Memory: <span class="math notranslate nohighlight">\(O(n \cdot χ^2 \cdot d)\)</span></p></li>
+<li><p>Gate application: <span class="math notranslate nohighlight">\(O(χ^3 \cdot d^2)\)</span> per gate</p></li>
+<li><p>Truncation: <span class="math notranslate nohighlight">\(O(χ^3 \cdot d)\)</span> (SVD)</p></li>
+<li><p>Scales to 50-100+ qubits with χ ≤ 512</p></li>
+</ul>
+<p><strong>Crossover</strong>: MPS advantageous when <span class="math notranslate nohighlight">\(n \cdot χ^2 \ll 2^n\)</span></p>
+<p>For χ=64: Crossover at n ≈ 15-20 qubits</p>
+</section>
+<section id="bottlenecks">
+<h3>Bottlenecks<a class="headerlink" href="#bottlenecks" title="Link to this heading">#</a></h3>
+<p><strong>For small χ (&lt; 128)</strong>:
+- Bottleneck: Gate application (tensor contractions)
+- Solution: GPU acceleration, Triton kernels</p>
+<p><strong>For large χ (≥ 256)</strong>:
+- Bottleneck: SVD truncation
+- Solution: cuQuantum, randomized SVD, truncation-free methods</p>
+<p><strong>For very large n (&gt; 100)</strong>:
+- Bottleneck: Memory bandwidth
+- Solution: Distributed MPS across multiple GPUs</p>
+</section>
+</section>
+<section id="connection-to-other-formalisms">
+<h2>Connection to Other Formalisms<a class="headerlink" href="#connection-to-other-formalisms" title="Link to this heading">#</a></h2>
+<section id="quantum-circuits">
+<h3>Quantum Circuits<a class="headerlink" href="#quantum-circuits" title="Link to this heading">#</a></h3>
+<p>MPS naturally represents quantum circuit evolution:</p>
+<ol class="arabic simple">
+<li><p>Initialize product state (χ=1)</p></li>
+<li><p>Apply gates sequentially</p></li>
+<li><p>Bond dimension grows with entanglement</p></li>
+<li><p>Truncate when χ exceeds threshold</p></li>
+</ol>
+<p><strong>Advantage</strong>: Automatic compression vs statevector</p>
+</section>
+<section id="density-matrices">
+<h3>Density Matrices<a class="headerlink" href="#density-matrices" title="Link to this heading">#</a></h3>
+<p>Purified density matrix as MPS:</p>
+<div class="math notranslate nohighlight">
+\[\rho = \text{Tr}_{\text{aux}}(|\psi\rangle \langle \psi|)\]</div>
+<p>where <a href="#id1"><span class="problematic" id="id2">|</span></a>ψ⟩ is MPS with doubled Hilbert space.</p>
+<p><strong>Matrix Product Density Operators (MPDO)</strong>: Direct representation of mixed states</p>
+</section>
+<section id="schmidt-decomposition">
+<h3>Schmidt Decomposition<a class="headerlink" href="#schmidt-decomposition" title="Link to this heading">#</a></h3>
+<p>For bipartition at bond i:</p>
+<div class="math notranslate nohighlight">
+\[|\psi\rangle = \sum_α λ_α |L_α\rangle |R_α\rangle\]</div>
+<p>where λ_α are Schmidt coefficients, <a href="#id3"><span class="problematic" id="id4">|</span></a>L_α⟩ and <a href="#id5"><span class="problematic" id="id6">|</span></a>R_α⟩ are orthonormal bases.</p>
+<p><strong>MPS connection</strong>: Bond dimension χ_i equals number of non-zero Schmidt values.</p>
+</section>
+<section id="wave-function-ansatze">
+<h3>Wave Function Ansätze<a class="headerlink" href="#wave-function-ansatze" title="Link to this heading">#</a></h3>
+<p>MPS is a variational ansatz for wave functions:</p>
+<ul class="simple">
+<li><p><strong>Variational principle</strong>: Minimize ⟨ψ|H|ψ⟩ over MPS manifold</p></li>
+<li><p><strong>Tangent space</strong>: Derivatives with respect to MPS tensors</p></li>
+<li><p><strong>Optimization</strong>: DMRG, TDVP, gradient descent</p></li>
+</ul>
+</section>
+</section>
+<section id="advantages-and-limitations">
+<h2>Advantages and Limitations<a class="headerlink" href="#advantages-and-limitations" title="Link to this heading">#</a></h2>
+<section id="when-to-use-mps">
+<h3>When to Use MPS<a class="headerlink" href="#when-to-use-mps" title="Link to this heading">#</a></h3>
+<p><strong>Ideal scenarios</strong>:
+- 1D systems or systems with 1D-like entanglement structure
+- Ground state search (DMRG)
+- Short-to-moderate time evolution (TDVP)
+- Moderate entanglement (χ &lt; 512)
+- Large system size (n &gt; 30)</p>
+<p><strong>Performance sweet spot</strong>: 30-80 qubits, χ=64-256</p>
+</section>
+<section id="when-not-to-use-mps">
+<h3>When Not to Use MPS<a class="headerlink" href="#when-not-to-use-mps" title="Link to this heading">#</a></h3>
+<p><strong>Poor performance</strong>:
+- Random quantum states (volume law entanglement)
+- Deep quantum circuits with all-to-all connectivity
+- Long-time evolution with entanglement spreading
+- Small systems (n &lt; 15): Statevector faster</p>
+<p><strong>Alternative methods</strong>:
+- Small n: Exact statevector
+- 2D systems: PEPS (more expensive)
+- Classical systems: Classical simulation
+- Highly entangled: Other methods or approximations</p>
+</section>
+<section id="comparison-with-other-methods">
+<h3>Comparison with Other Methods<a class="headerlink" href="#comparison-with-other-methods" title="Link to this heading">#</a></h3>
+<p><strong>vs Statevector</strong>:
+- MPS: Polynomial memory/time, approximate
+- Statevector: Exponential memory/time, exact</p>
+<p><strong>vs Monte Carlo</strong>:
+- MPS: Deterministic, coherent evolution
+- Monte Carlo: Stochastic, better for equilibrium properties</p>
+<p><strong>vs PEPS</strong>:
+- MPS: 1D, O(n·χ²), exact contraction
+- PEPS: 2D, O(n²·χ⁴), approximate contraction</p>
+<p><strong>vs Hardware</strong>:
+- MPS: Classical simulation, unlimited qubits (with compression)
+- Hardware: Real qubits, limited size, noisy</p>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Tensor networks, particularly Matrix Product States, provide:</p>
+<ol class="arabic simple">
+<li><p><strong>Efficient representation</strong>: O(n·χ²) vs O(2^n) memory</p></li>
+<li><p><strong>Physical insight</strong>: Entanglement structure explicitly encoded in bond dimensions</p></li>
+<li><p><strong>Scalability</strong>: 50-100+ qubits with moderate entanglement</p></li>
+<li><p><strong>Flexibility</strong>: MPS, MPO, PEPS for different problems</p></li>
+<li><p><strong>Approximation control</strong>: Truncation error bounds from SVD</p></li>
+</ol>
+<p><strong>Key concepts</strong>:
+- Tensor contraction and graphical notation
+- Canonical forms for efficient computation
+- Bond dimension χ controls accuracy vs cost
+- Area law entanglement enables efficiency
+- MPO for operators and Hamiltonians
+- Higher-dimensional generalizations (PEPS, TTN, MERA)</p>
+<p><strong>Computational complexity</strong>:
+- Memory: O(n·χ²·d)
+- Time: O(n·χ³·d²) per operation
+- Truncation: O(χ³·d) per site</p>
+<p><strong>Limitations</strong>:
+- Exponential χ for volume law entanglement
+- 1D structure limits 2D system efficiency
+- Truncation introduces controllable error</p>
+<p>Tensor networks are the foundation enabling ATLAS-Q to simulate quantum systems
+beyond the reach of exact statevector methods while maintaining accuracy control
+through adaptive truncation.</p>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../tutorials/mps_basics.html"><span class="doc">MPS Basics</span></a>: Practical MPS usage and examples</p></li>
+<li><p><a class="reference internal" href="adaptive_truncation.html"><span class="doc">Adaptive Truncation</span></a>: Theory of SVD truncation and error bounds</p></li>
+<li><p><a class="reference internal" href="algorithms.html"><span class="doc">Algorithms</span></a>: DMRG, TDVP, and other tensor network algorithms</p></li>
+<li><p><a class="reference internal" href="numerical_stability.html"><span class="doc">Numerical Stability</span></a>: Numerical considerations for tensor networks</p></li>
+<li><p><a class="reference internal" href="performance_model.html"><span class="doc">Performance Model</span></a>: Computational complexity and scaling analysis</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Explanations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="adaptive_truncation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Adaptive Truncation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor-network-fundamentals">Tensor Network Fundamentals</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-tensor-representation">Basic Tensor Representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor-contraction">Tensor Contraction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-product-states-mps">Matrix Product States (MPS)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mps-representation">MPS Representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-scaling">Memory Scaling</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#canonical-forms">Canonical Forms</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#left-canonical-form">Left-Canonical Form</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#right-canonical-form">Right-Canonical Form</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-canonical-form">Mixed-Canonical Form</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#entanglement-and-bond-dimensions">Entanglement and Bond Dimensions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entanglement-entropy">Entanglement Entropy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-mps-is-efficient">When MPS is Efficient</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#truncation-and-approximation">Truncation and Approximation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-product-operators-mpo">Matrix Product Operators (MPO)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mpo-structure">MPO Structure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hamiltonian-as-mpo">Hamiltonian as MPO</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mpo-mps-operations">MPO-MPS Operations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor-network-contraction">Tensor Network Contraction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contraction-order">Contraction Order</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#efficient-contraction-algorithms">Efficient Contraction Algorithms</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#higher-dimensional-tensor-networks">Higher-Dimensional Tensor Networks</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#projected-entangled-pair-states-peps">Projected Entangled Pair States (PEPS)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tree-tensor-networks-ttn">Tree Tensor Networks (TTN)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-scale-entanglement-renormalization-ansatz-mera">Multi-Scale Entanglement Renormalization Ansatz (MERA)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-complexity">Computational Complexity</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling-analysis">Scaling Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bottlenecks">Bottlenecks</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-other-formalisms">Connection to Other Formalisms</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-circuits">Quantum Circuits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#density-matrices">Density Matrices</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schmidt-decomposition">Schmidt Decomposition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wave-function-ansatze">Wave Function Ansätze</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advantages-and-limitations">Advantages and Limitations</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-mps">When to Use MPS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-not-to-use-mps">When Not to Use MPS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-other-methods">Comparison with Other Methods</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+﻿atlas\_q.truncation.compute\_global\_error\_bound
+=================================================
+
+.. currentmodule:: atlas_q.truncation
+
+.. autofunction:: compute_global_error_bound

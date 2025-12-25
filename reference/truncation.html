@@ -1,0 +1,1352 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>atlas_q.truncation &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/truncation';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="atlas_q.truncation.choose_rank_from_sigma" href="generated/atlas_q.truncation.choose_rank_from_sigma.html" />
+    <link rel="prev" title="atlas_q.linalg_robust.condition_number" href="generated/atlas_q.linalg_robust.condition_number.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="adaptive_mps.html">atlas_q.adaptive_mps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mpo_ops.html">atlas_q.mpo_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPOBuilder.html">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tdvp.html">atlas_q.tdvp</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="vqe_qaoa.html">atlas_q.vqe_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="grover.html">atlas_q.grover</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="stabilizer_backend.html">atlas_q.stabilizer_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="noise_models.html">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planar_2d.html">2D/Planar Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributed_mps.html">Distributed MPS</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cuquantum_backend.html">atlas_q.cuquantum_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="diagnostics.html">atlas_q.diagnostics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linalg_robust.html">atlas_q.linalg_robust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">atlas_q.truncation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.truncation</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-atlas_q.truncation">
+<span id="atlas-q-truncation"></span><h1>atlas_q.truncation<a class="headerlink" href="#module-atlas_q.truncation" title="Link to this heading">#</a></h1>
+<p>Adaptive Truncation Policy for MPS</p>
+<p>Implements energy-based rank selection with per-bond caps and budget enforcement.</p>
+<p>Mathematical foundation:
+- Keep smallest k such that Σ_{i≤k} σ_i² ≥ (1-ε²) Σ_i σ_i²
+- Local error: ε_local² = Σ_{i&gt;k} σ_i²
+- Entropy: S = -Σ_i p_i log(p_i) where p_i = σ_i² / Σ_j σ_j²</p>
+<p>Author: ATLAS-Q Contributors
+Date: October 2025
+License: MIT</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.truncation.choose_rank_from_sigma">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.truncation.</span></span><span class="sig-name descname"><span class="pre">choose_rank_from_sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_bond</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_cap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">budget_ok=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/truncation.html#choose_rank_from_sigma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.truncation.choose_rank_from_sigma" title="Link to this definition">#</a></dt>
+<dd><p>Adaptive rank selection from singular values</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values (sorted descending)
+eps_bond: Energy tolerance (truncation threshold)
+chi_cap: Maximum allowed rank for this bond
+budget_ok: Function that checks if rank k is within memory budget</p>
+</dd>
+<dt>Returns:</dt><dd><p>k: Selected rank
+eps_local: Local truncation error
+entropy: Entanglement entropy at this bond
+condS: Condition number (σ_max / σ_k)</p>
+</dd>
+</dl>
+<p>Strategy:
+1. Find k_tol from energy criterion: cumulative energy ≥ (1-ε²) * total
+2. Cap by chi_max_per_bond
+3. Reduce if budget violation
+4. Compute diagnostics (entropy, condition number, error)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.truncation.compute_global_error_bound">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.truncation.</span></span><span class="sig-name descname"><span class="pre">compute_global_error_bound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_errors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/truncation.html#compute_global_error_bound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.truncation.compute_global_error_bound" title="Link to this definition">#</a></dt>
+<dd><p>Compute global error bound from local truncation errors</p>
+<p>Using simple Frobenius norm bound:
+ε_global ≤ sqrt(Σ_b ε²_local,b)</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>local_errors: List of local truncation errors from each bond</p>
+</dd>
+<dt>Returns:</dt><dd><p>Upper bound on global state error</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.truncation.check_entropy_sanity">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.truncation.</span></span><span class="sig-name descname"><span class="pre">check_entropy_sanity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entropy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_right</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/truncation.html#check_entropy_sanity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.truncation.check_entropy_sanity" title="Link to this definition">#</a></dt>
+<dd><p>Verify entropy is within physical bounds</p>
+<p>For a bond with dimensions χ_L and χ_R, maximum entropy is:
+S_max = log₂(min(χ_L · 2, 2 · χ_R))</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>entropy: Measured entanglement entropy
+chi_left: Left bond dimension
+chi_right: Right bond dimension</p>
+</dd>
+<dt>Returns:</dt><dd><p>True if entropy is physically reasonable</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.truncation.analyze_truncation_regime">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.truncation.</span></span><span class="sig-name descname"><span class="pre">analyze_truncation_regime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_coherence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/truncation.html#analyze_truncation_regime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.truncation.analyze_truncation_regime" title="Link to this definition">#</a></dt>
+<dd><p>Analyze regime BEFORE truncation decision (IR-correct approach).</p>
+<p>This implements the key IR insight: regime determines representation,
+not the other way around. We diagnose first, then choose truncation.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values (sorted descending)
+site_index: Distance from preparation (for L5 decoherence)
+decoherence_rate: Decay rate α in R̄(D) = R₀ e^(-αD)
+initial_coherence: Initial coherence R₀</p>
+</dd>
+<dt>Returns:</dt><dd><p>RegimeAnalysis from ir_enhanced.regime_analyzer</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.truncation.choose_rank_with_regime">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.truncation.</span></span><span class="sig-name descname"><span class="pre">choose_rank_with_regime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_bond</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_cap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_index=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate=0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_coherence=1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">budget_ok=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/truncation.html#choose_rank_with_regime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.truncation.choose_rank_with_regime" title="Link to this definition">#</a></dt>
+<dd><p>IR-correct rank selection: Diagnose regime FIRST, then truncate.</p>
+<p>This is the proper IR approach:
+1. Analyze regime using L5 decoherence model
+2. Select epsilon based on regime (not the other way around)
+3. Truncate with regime-appropriate tolerance</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values (sorted descending)
+eps_bond: Base energy tolerance
+chi_cap: Maximum allowed rank
+site_index: Distance from preparation site
+decoherence_rate: Decay rate α
+initial_coherence: Initial coherence R₀
+budget_ok: Budget constraint function</p>
+</dd>
+<dt>Returns:</dt><dd><p>(k, eps_local, entropy, condS, regime_analysis)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.truncation.choose_rank_with_coherence">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.truncation.</span></span><span class="sig-name descname"><span class="pre">choose_rank_with_coherence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_bond</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_cap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coherence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">budget_ok=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2_threshold=0.135</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/truncation.html#choose_rank_with_coherence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.truncation.choose_rank_with_coherence" title="Link to this definition">#</a></dt>
+<dd><p>IR-enhanced rank selection incorporating coherence metrics.</p>
+<p>Implements IR Law L5 (Exponential Decoherence) insight:
+- High coherence (R̄ &gt; e^-2): Structure is observable, preserve it
+- Low coherence (R̄ &lt; e^-2): Structure is hidden, aggressive truncation OK</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values (sorted descending)
+eps_bond: Energy tolerance (truncation threshold)
+chi_cap: Maximum allowed rank for this bond
+coherence: Current coherence metric R̄ (0-1)
+budget_ok: Function that checks if rank k is within memory budget
+e2_threshold: e^-2 threshold (default: 0.135)</p>
+</dd>
+<dt>Returns:</dt><dd><p>k: Selected rank
+eps_local: Local truncation error
+entropy: Entanglement entropy at this bond
+condS: Condition number (σ_max / σ_k)
+coherence_adjusted: Whether coherence influenced the decision</p>
+</dd>
+</dl>
+<p>Strategy:
+1. Start with standard energy criterion
+2. If coherence &gt; e^-2: be conservative (preserve structure)
+3. If coherence &lt; e^-2: allow aggressive truncation (structure hidden anyway)
+4. Apply caps and budget constraints</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.truncation.choose_rank_with_decoherence">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.truncation.</span></span><span class="sig-name descname"><span class="pre">choose_rank_with_decoherence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_bond</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_cap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_coherence=1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">budget_ok=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2_threshold=0.135</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/truncation.html#choose_rank_with_decoherence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.truncation.choose_rank_with_decoherence" title="Link to this definition">#</a></dt>
+<dd><p>IR L5-based rank selection with exponential decoherence model.</p>
+<p>Implements IR Law L5: R̄(D) = R₀ e^(-αD)
+Coherence decays exponentially under perturbation/distance.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values (sorted descending)
+eps_bond: Energy tolerance (truncation threshold)
+chi_cap: Maximum allowed rank for this bond
+decoherence_rate: Decay rate α (higher = faster decay)
+site_index: Distance from preparation site D
+initial_coherence: Initial coherence R₀ (default: 1.0)
+budget_ok: Function that checks if rank k is within memory budget
+e2_threshold: e^-2 threshold (default: 0.135)</p>
+</dd>
+<dt>Returns:</dt><dd><p>k: Selected rank
+eps_local: Local truncation error
+entropy: Entanglement entropy
+condS: Condition number
+estimated_coherence: Estimated coherence at this site</p>
+</dd>
+<dt>References:</dt><dd><ul class="simple">
+<li><p>IR Paper Section 4.5: “L5: Exponential Decoherence Law”</p></li>
+<li><p>Formula: R̄(D) = R₀ e^(-αD)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.truncation.compute_spectral_coherence">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.truncation.</span></span><span class="sig-name descname"><span class="pre">compute_spectral_coherence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/truncation.html#compute_spectral_coherence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.truncation.compute_spectral_coherence" title="Link to this definition">#</a></dt>
+<dd><p>Compute spectral coherence from singular value distribution.</p>
+<p>High spectral coherence = power concentrated in dominant modes
+Low spectral coherence = power spread across many modes</p>
+<p>This can be used as a proxy for response field coherence when
+direct amplitude access is not available.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values (sorted descending)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Spectral coherence R̄ ∈ [0, 1]</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.truncation.adaptive_chi_from_coherence">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.truncation.</span></span><span class="sig-name descname"><span class="pre">adaptive_chi_from_coherence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coherence_history</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_chi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.135</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">growth_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shrink_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/truncation.html#adaptive_chi_from_coherence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.truncation.adaptive_chi_from_coherence" title="Link to this definition">#</a></dt>
+<dd><p>Four-layer hierarchy feedback: Observable → Structure adaptation.</p>
+<p>Adjusts bond dimension based on measured coherence to optimize
+the representation cost according to IR principles.</p>
+<p>IR insight:
+- Low coherence at observable layer → representation cost too high
+- Reduce χ to save resources (structure is hidden anyway)
+- High coherence → structure is valuable, allow χ growth</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>coherence_history: Recent coherence measurements (R̄ values)
+current_chi: Current bond dimension
+chi_min: Minimum allowed bond dimension
+chi_max: Maximum allowed bond dimension
+e2_threshold: e^-2 threshold
+growth_rate: Multiplier for chi growth (default: 1.2)
+shrink_rate: Multiplier for chi shrinkage (default: 0.8)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Adjusted bond dimension</p>
+</dd>
+<dt>References:</dt><dd><ul class="simple">
+<li><p>IR Paper Section 2: “The Four-Layer Framework”</p></li>
+<li><p>Observable layer feeds back to Structure layer</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.truncation.coherence_aware_truncation_policy">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.truncation.</span></span><span class="sig-name descname"><span class="pre">coherence_aware_truncation_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site_coherences</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_chi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.135</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/truncation.html#coherence_aware_truncation_policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.truncation.coherence_aware_truncation_policy" title="Link to this definition">#</a></dt>
+<dd><p>Generate per-site truncation policy based on coherence distribution.</p>
+<p>Sites with high coherence get tighter truncation (preserve structure).
+Sites with low coherence get looser truncation (save resources).</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>site_coherences: Coherence R̄ at each site
+base_eps: Base truncation tolerance
+base_chi: Base bond dimension
+e2_threshold: e^-2 threshold</p>
+</dd>
+<dt>Returns:</dt><dd><p>eps_per_site: Truncation tolerance for each site
+chi_per_site: Bond dimension cap for each site</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">truncation</span></code> module implements adaptive rank selection for Matrix Product States based on energy-based criteria. Key features include:</p>
+<ul class="simple">
+<li><p>Energy-based truncation with configurable tolerance</p></li>
+<li><p>Per-bond dimension caps (<code class="docutils literal notranslate"><span class="pre">chi_max_per_bond</span></code>)</p></li>
+<li><p>Global memory budget enforcement</p></li>
+<li><p>Entropy and condition number diagnostics</p></li>
+<li><p>Local and global error bound computation</p></li>
+</ul>
+</section>
+<section id="mathematical-foundation">
+<h2>Mathematical Foundation<a class="headerlink" href="#mathematical-foundation" title="Link to this heading">#</a></h2>
+<p>The module implements truncation based on energy retention:</p>
+<div class="math notranslate nohighlight">
+\[\text{Keep smallest } k \text{ such that } \sum_{i \leq k} \sigma_i^2 \geq (1 - \varepsilon^2) \sum_i \sigma_i^2\]</div>
+<p>Local truncation error:</p>
+<div class="math notranslate nohighlight">
+\[\varepsilon_{\text{local}}^2 = \sum_{i &gt; k} \sigma_i^2\]</div>
+<p>Global error bound (Frobenius norm):</p>
+<div class="math notranslate nohighlight">
+\[\varepsilon_{\text{global}} \leq \sqrt{\sum_b \varepsilon_{\text{local},b}^2}\]</div>
+<p>Entanglement entropy at a bond:</p>
+<div class="math notranslate nohighlight">
+\[S = -\sum_i p_i \log(p_i) \quad \text{where} \quad p_i = \frac{\sigma_i^2}{\sum_j \sigma_j^2}\]</div>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id0" title="atlas_q.truncation.choose_rank_from_sigma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">choose_rank_from_sigma</span></code></a></p></td>
+<td><p>Adaptive rank selection from singular values</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id1" title="atlas_q.truncation.compute_global_error_bound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_global_error_bound</span></code></a></p></td>
+<td><p>Compute global error bound from local truncation errors</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id2" title="atlas_q.truncation.check_entropy_sanity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_entropy_sanity</span></code></a></p></td>
+<td><p>Verify entropy is within physical bounds</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="choose-rank-from-sigma">
+<h2>choose_rank_from_sigma<a class="headerlink" href="#choose-rank-from-sigma" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.truncation.</span></span><span class="sig-name descname"><span class="pre">choose_rank_from_sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_bond</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_cap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">budget_ok=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/truncation.html#choose_rank_from_sigma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dd><p>Adaptive rank selection from singular values</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values (sorted descending)
+eps_bond: Energy tolerance (truncation threshold)
+chi_cap: Maximum allowed rank for this bond
+budget_ok: Function that checks if rank k is within memory budget</p>
+</dd>
+<dt>Returns:</dt><dd><p>k: Selected rank
+eps_local: Local truncation error
+entropy: Entanglement entropy at this bond
+condS: Condition number (σ_max / σ_k)</p>
+</dd>
+</dl>
+<p>Strategy:
+1. Find k_tol from energy criterion: cumulative energy ≥ (1-ε²) * total
+2. Cap by chi_max_per_bond
+3. Reduce if budget violation
+4. Compute diagnostics (entropy, condition number, error)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<p>Core adaptive truncation function that selects bond dimension from singular values. Applies multiple constraints in sequence:</p>
+<ol class="arabic simple">
+<li><p>Energy criterion: retain (1-ε²) of total energy</p></li>
+<li><p>Per-bond cap: enforce <code class="docutils literal notranslate"><span class="pre">chi_max_per_bond</span></code></p></li>
+<li><p>Memory budget: reduce rank if global memory exceeded</p></li>
+<li><p>Compute diagnostics: local error, entropy, condition number</p></li>
+</ol>
+<p>Returns selected rank k along with diagnostic information.</p>
+</section>
+<section id="compute-global-error-bound">
+<h2>compute_global_error_bound<a class="headerlink" href="#compute-global-error-bound" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.truncation.</span></span><span class="sig-name descname"><span class="pre">compute_global_error_bound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_errors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/truncation.html#compute_global_error_bound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition">#</a></dt>
+<dd><p>Compute global error bound from local truncation errors</p>
+<p>Using simple Frobenius norm bound:
+ε_global ≤ sqrt(Σ_b ε²_local,b)</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>local_errors: List of local truncation errors from each bond</p>
+</dd>
+<dt>Returns:</dt><dd><p>Upper bound on global state error</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<p>Computes upper bound on global state error from local truncation errors using Frobenius norm. This provides a certificate that the MPS approximation is within specified tolerance of the exact state.</p>
+</section>
+<section id="check-entropy-sanity">
+<h2>check_entropy_sanity<a class="headerlink" href="#check-entropy-sanity" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.truncation.</span></span><span class="sig-name descname"><span class="pre">check_entropy_sanity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entropy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_right</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/truncation.html#check_entropy_sanity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition">#</a></dt>
+<dd><p>Verify entropy is within physical bounds</p>
+<p>For a bond with dimensions χ_L and χ_R, maximum entropy is:
+S_max = log₂(min(χ_L · 2, 2 · χ_R))</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>entropy: Measured entanglement entropy
+chi_left: Left bond dimension
+chi_right: Right bond dimension</p>
+</dd>
+<dt>Returns:</dt><dd><p>True if entropy is physically reasonable</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<p>Validates that computed entanglement entropy is physically reasonable. Maximum entropy at a bond is bounded by the smaller Hilbert space dimension. This function checks if measured entropy exceeds theoretical maximum, which would indicate numerical issues.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<p>Basic truncation decision:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.truncation</span><span class="w"> </span><span class="kn">import</span> <span class="n">choose_rank_from_sigma</span>
+
+<span class="c1"># Singular values from SVD</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">])</span>
+
+<span class="c1"># Choose rank with ε=1e-3 tolerance, max χ=4</span>
+<span class="n">k</span><span class="p">,</span> <span class="n">eps_local</span><span class="p">,</span> <span class="n">entropy</span><span class="p">,</span> <span class="n">condS</span> <span class="o">=</span> <span class="n">choose_rank_from_sigma</span><span class="p">(</span>
+    <span class="n">S</span><span class="p">,</span>
+    <span class="n">eps_bond</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+    <span class="n">chi_cap</span><span class="o">=</span><span class="mi">4</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected rank: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Local error: </span><span class="si">{</span><span class="n">eps_local</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entropy: </span><span class="si">{</span><span class="n">entropy</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Condition number: </span><span class="si">{</span><span class="n">condS</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Truncation with memory budget:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.truncation</span><span class="w"> </span><span class="kn">import</span> <span class="n">choose_rank_from_sigma</span>
+
+<span class="n">current_memory</span> <span class="o">=</span> <span class="mi">2000</span>  <span class="c1"># MB</span>
+<span class="n">budget</span> <span class="o">=</span> <span class="mi">4096</span>  <span class="c1"># MB</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">budget_ok</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+    <span class="c1"># Estimate memory for rank k</span>
+    <span class="n">estimated_memory</span> <span class="o">=</span> <span class="n">current_memory</span> <span class="o">+</span> <span class="n">k</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="mi">16</span>  <span class="c1"># bytes per element</span>
+    <span class="k">return</span> <span class="n">estimated_memory</span> <span class="o">&lt;</span> <span class="n">budget</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>
+
+<span class="n">k</span><span class="p">,</span> <span class="n">eps_local</span><span class="p">,</span> <span class="n">entropy</span><span class="p">,</span> <span class="n">condS</span> <span class="o">=</span> <span class="n">choose_rank_from_sigma</span><span class="p">(</span>
+    <span class="n">S</span><span class="p">,</span>
+    <span class="n">eps_bond</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+    <span class="n">chi_cap</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">budget_ok</span><span class="o">=</span><span class="n">budget_ok</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected rank respecting budget: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Computing global error:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.truncation</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_global_error_bound</span>
+
+<span class="c1"># Local errors from multiple truncations</span>
+<span class="n">local_errors</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-6</span><span class="p">,</span> <span class="mf">2e-6</span><span class="p">,</span> <span class="mf">1.5e-6</span><span class="p">,</span> <span class="mf">3e-6</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">]</span>
+
+<span class="n">global_error</span> <span class="o">=</span> <span class="n">compute_global_error_bound</span><span class="p">(</span><span class="n">local_errors</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Global error bound: </span><span class="si">{</span><span class="n">global_error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check if within tolerance</span>
+<span class="n">target_error</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="k">if</span> <span class="n">global_error</span> <span class="o">&lt;</span> <span class="n">target_error</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulation within target accuracy&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Entropy validation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.truncation</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_entropy_sanity</span>
+
+<span class="c1"># Bond with dimensions χ_L=32, χ_R=64</span>
+<span class="n">entropy</span> <span class="o">=</span> <span class="mf">8.5</span>
+<span class="n">is_valid</span> <span class="o">=</span> <span class="n">check_entropy_sanity</span><span class="p">(</span><span class="n">entropy</span><span class="p">,</span> <span class="n">chi_left</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">chi_right</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">is_valid</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Entropy exceeds physical bound&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Integration with AdaptiveMPS:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="c1"># AdaptiveMPS uses truncation module internally</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">eps_bond</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>              <span class="c1"># Truncation tolerance</span>
+    <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>       <span class="c1"># Per-bond cap</span>
+    <span class="n">budget_global_mb</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>      <span class="c1"># Memory budget</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Apply gates - truncation automatically applied</span>
+<span class="c1"># ...</span>
+
+<span class="c1"># Check global error</span>
+<span class="n">global_error</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">global_error_bound</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total truncation error: </span><span class="si">{</span><span class="n">global_error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Access per-operation truncation data</span>
+<span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">eps</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;eps_local&#39;</span><span class="p">]):</span>
+    <span class="n">bond</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="s1">&#39;bond&#39;</span><span class="p">][</span><span class="n">step</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bond </span><span class="si">{</span><span class="n">bond</span><span class="si">}</span><span class="s2">: ε_local = </span><span class="si">{</span><span class="n">eps</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="advanced-usage-custom-truncation-strategy">
+<h2>Advanced Usage: Custom Truncation Strategy<a class="headerlink" href="#advanced-usage-custom-truncation-strategy" title="Link to this heading">#</a></h2>
+<p>Implement custom budget function for adaptive memory management:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.truncation</span><span class="w"> </span><span class="kn">import</span> <span class="n">choose_rank_from_sigma</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AdaptiveBudget</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total_bonds</span><span class="p">,</span> <span class="n">budget_mb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_bonds</span> <span class="o">=</span> <span class="n">total_bonds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">budget_mb</span> <span class="o">=</span> <span class="n">budget_mb</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_usage</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">total_bonds</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">budget_ok_for_bond</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bond_idx</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">checker</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+            <span class="c1"># Estimate if setting bond to rank k fits budget</span>
+            <span class="n">new_usage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_usage</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">new_usage</span><span class="p">[</span><span class="n">bond_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="mi">16</span>  <span class="c1"># bytes</span>
+            <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">new_usage</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">budget_mb</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>
+        <span class="k">return</span> <span class="n">checker</span>
+
+<span class="n">budget</span> <span class="o">=</span> <span class="n">AdaptiveBudget</span><span class="p">(</span><span class="n">total_bonds</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">budget_mb</span><span class="o">=</span><span class="mi">4096</span><span class="p">)</span>
+
+<span class="c1"># Per-bond truncation decisions</span>
+<span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>  <span class="c1"># Mock singular values</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">descending</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">k</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">entropy</span><span class="p">,</span> <span class="n">cond</span> <span class="o">=</span> <span class="n">choose_rank_from_sigma</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="n">eps_bond</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+        <span class="n">chi_cap</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+        <span class="n">budget_ok</span><span class="o">=</span><span class="n">budget</span><span class="o">.</span><span class="n">budget_ok_for_bond</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">budget</span><span class="o">.</span><span class="n">current_usage</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="mi">16</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bond </span><span class="si">{</span><span class="n">bond</span><span class="si">}</span><span class="s2">: χ=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">, ε=</span><span class="si">{</span><span class="n">eps</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-notes">
+<h2>Performance Notes<a class="headerlink" href="#performance-notes" title="Link to this heading">#</a></h2>
+<p><strong>Computational Cost</strong></p>
+<p>Truncation itself is O(χ):</p>
+<ul class="simple">
+<li><p>Sorting singular values: O(χ log χ)</p></li>
+<li><p>Computing cumulative sum: O(χ)</p></li>
+<li><p>Entropy calculation: O(χ)</p></li>
+</ul>
+<p>Total cost negligible compared to SVD (O(χ³)).</p>
+<p><strong>Memory-Efficient Strategies</strong></p>
+<p>For large systems, use per-bond caps to limit peak memory:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vary χ by position in chain</span>
+<span class="n">chi_max_per_bond</span> <span class="o">=</span> <span class="p">[</span><span class="mi">32</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="p">[</span><span class="mi">64</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="p">[</span><span class="mi">32</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span>  <span class="c1"># Higher in middle</span>
+</pre></div>
+</div>
+<p>This reduces memory by 2-4× for 1D chains with localized entanglement.</p>
+<p><strong>Adaptive vs. Fixed</strong></p>
+<ul class="simple">
+<li><p><strong>Fixed χ</strong>: Predictable memory, may over/under-provision</p></li>
+<li><p><strong>Adaptive with ε</strong>: Minimal χ for given accuracy, variable memory</p></li>
+<li><p><strong>Hybrid</strong>: Per-bond caps + energy threshold (recommended)</p></li>
+</ul>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<p><strong>Choosing ε_bond</strong></p>
+<ul class="simple">
+<li><p>ε = 10⁻⁸: High accuracy, larger χ</p></li>
+<li><p>ε = 10⁻⁶: Balanced (recommended)</p></li>
+<li><p>ε = 10⁻⁴: Fast but less accurate</p></li>
+</ul>
+<p>Monitor global error; if &gt; 0.01, decrease ε or increase χ_max.</p>
+<p><strong>Per-Bond Optimization</strong></p>
+<p>Analyze entropy profile to set per-bond budgets:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">entropies</span> <span class="o">=</span> <span class="p">[</span><span class="n">mps</span><span class="o">.</span><span class="n">get_entropy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">chi_max_per_bond</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">S</span><span class="p">))</span> <span class="k">for</span> <span class="n">S</span> <span class="ow">in</span> <span class="n">entropies</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Allocates χ proportional to local entanglement.</p>
+<p><strong>Troubleshooting</strong></p>
+<ul class="simple">
+<li><p><strong>χ always hits cap</strong>: Increase χ_max or use 2-site algorithm</p></li>
+<li><p><strong>High global error</strong>: Decrease ε_bond or check circuit structure</p></li>
+<li><p><strong>Memory overflow</strong>: Use per-bond caps or reduce χ_max</p></li>
+</ul>
+</section>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h2>
+<p><strong>Adaptive Truncation</strong></p>
+<p>Essential for:</p>
+<ul class="simple">
+<li><p>Unknown entanglement structure (exploratory simulations)</p></li>
+<li><p>Variable entanglement (quantum quenches, time evolution)</p></li>
+<li><p>Memory-constrained environments</p></li>
+</ul>
+<p><strong>Fixed Truncation</strong></p>
+<p>Sufficient for:</p>
+<ul class="simple">
+<li><p>Known entanglement (e.g., ground states of local Hamiltonians)</p></li>
+<li><p>Benchmarking (reproducible χ)</p></li>
+<li><p>Real-time applications (predictable performance)</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="adaptive_mps.html"><span class="doc">atlas_q.adaptive_mps</span></a> - MPS with adaptive truncation</p></li>
+<li><p><a class="reference internal" href="diagnostics.html"><span class="doc">atlas_q.diagnostics</span></a> - Entropy and spectral gap analysis</p></li>
+<li><p><a class="reference internal" href="linalg_robust.html"><span class="doc">atlas_q.linalg_robust</span></a> - SVD providing singular values for truncation</p></li>
+<li><p><a class="reference internal" href="../user_guide/explanations/adaptive_truncation.html"><span class="doc">Adaptive Truncation</span></a> - Truncation theory</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="vidal03" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Vidal03<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="7">
+<li><p>Vidal, “Efficient classical simulation of slightly entangled quantum computations,” <em>Physical Review Letters</em> 91, 147902 (2003).</p></li>
+</ol>
+</div>
+<div class="citation" id="white92" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>White92<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="19">
+<li><ol class="upperalpha simple" start="18">
+<li><p>White, “Density matrix formulation for quantum renormalization groups,” <em>Physical Review Letters</em> 69, 2863 (1992).</p></li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="citation" id="orus14" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Orus14<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="18">
+<li><p>Orús, “A practical introduction to tensor networks,” <em>Annals of Physics</em> 349, 117 (2014).</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="generated/atlas_q.linalg_robust.condition_number.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">atlas_q.linalg_robust.condition_number</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="generated/atlas_q.truncation.choose_rank_from_sigma.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">atlas_q.truncation.choose_rank_from_sigma</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.truncation.choose_rank_from_sigma"><code class="docutils literal notranslate"><span class="pre">choose_rank_from_sigma()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.truncation.compute_global_error_bound"><code class="docutils literal notranslate"><span class="pre">compute_global_error_bound()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.truncation.check_entropy_sanity"><code class="docutils literal notranslate"><span class="pre">check_entropy_sanity()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.truncation.analyze_truncation_regime"><code class="docutils literal notranslate"><span class="pre">analyze_truncation_regime()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.truncation.choose_rank_with_regime"><code class="docutils literal notranslate"><span class="pre">choose_rank_with_regime()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.truncation.choose_rank_with_coherence"><code class="docutils literal notranslate"><span class="pre">choose_rank_with_coherence()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.truncation.choose_rank_with_decoherence"><code class="docutils literal notranslate"><span class="pre">choose_rank_with_decoherence()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.truncation.compute_spectral_coherence"><code class="docutils literal notranslate"><span class="pre">compute_spectral_coherence()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.truncation.adaptive_chi_from_coherence"><code class="docutils literal notranslate"><span class="pre">adaptive_chi_from_coherence()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.truncation.coherence_aware_truncation_policy"><code class="docutils literal notranslate"><span class="pre">coherence_aware_truncation_policy()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-foundation">Mathematical Foundation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-rank-from-sigma">choose_rank_from_sigma</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">choose_rank_from_sigma()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-global-error-bound">compute_global_error_bound</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><code class="docutils literal notranslate"><span class="pre">compute_global_error_bound()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-entropy-sanity">check_entropy_sanity</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><code class="docutils literal notranslate"><span class="pre">check_entropy_sanity()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-usage-custom-truncation-strategy">Advanced Usage: Custom Truncation Strategy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-notes">Performance Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

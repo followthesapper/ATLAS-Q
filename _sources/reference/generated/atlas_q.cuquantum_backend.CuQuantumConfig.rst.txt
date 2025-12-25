@@ -1,0 +1,32 @@
+﻿atlas\_q.cuquantum\_backend.CuQuantumConfig
+===========================================
+
+.. currentmodule:: atlas_q.cuquantum_backend
+
+.. autoclass:: CuQuantumConfig
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~CuQuantumConfig.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CuQuantumConfig.algorithm
+      ~CuQuantumConfig.device
+      ~CuQuantumConfig.use_custatevec
+      ~CuQuantumConfig.use_cutensornet
+      ~CuQuantumConfig.workspace_size
+   
+   

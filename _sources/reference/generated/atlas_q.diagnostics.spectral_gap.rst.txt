@@ -1,0 +1,6 @@
+﻿atlas\_q.diagnostics.spectral\_gap
+==================================
+
+.. currentmodule:: atlas_q.diagnostics
+
+.. autofunction:: spectral_gap

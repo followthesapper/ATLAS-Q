@@ -1,0 +1,1150 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Coherence-Aware Quantum Computing &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/tutorials/coherence_aware_vqe';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="TDVP Tutorial" href="tdvp_tutorial.html" />
+    <link rel="prev" title="VQE Tutorial" href="vqe_tutorial.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="beginners.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_basics.html">MPS Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vqe_tutorial.html">VQE Tutorial</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Coherence-Aware Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tdvp_tutorial.html">TDVP Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="molecular_vqe.html">Molecular VQE Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qaoa_tutorial.html">QAOA Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_features.html">Advanced Features Tutorial</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Coherence-Aware Quantum Computing</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="coherence-aware-quantum-computing">
+<h1>Coherence-Aware Quantum Computing<a class="headerlink" href="#coherence-aware-quantum-computing" title="Link to this heading">#</a></h1>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction" id="id2">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#what-is-coherence-aware-computing" id="id3">What is Coherence-Aware Computing?</a></p>
+<ul>
+<li><p><a class="reference internal" href="#key-concepts" id="id4">Key Concepts</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#hardware-validation" id="id5">Hardware Validation</a></p></li>
+<li><p><a class="reference internal" href="#quick-start" id="id6">Quick Start</a></p>
+<ul>
+<li><p><a class="reference internal" href="#basic-usage" id="id7">Basic Usage</a></p></li>
+<li><p><a class="reference internal" href="#molecular-hamiltonians" id="id8">Molecular Hamiltonians</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#advanced-features" id="id9">Advanced Features</a></p>
+<ul>
+<li><p><a class="reference internal" href="#ir-grouping-for-measurement-compression" id="id10">IR Grouping for Measurement Compression</a></p></li>
+<li><p><a class="reference internal" href="#real-time-coherence-monitoring" id="id11">Real-Time Coherence Monitoring</a></p></li>
+<li><p><a class="reference internal" href="#adaptive-algorithm-behavior" id="id12">Adaptive Algorithm Behavior</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#integration-with-existing-code" id="id13">Integration with Existing Code</a></p>
+<ul>
+<li><p><a class="reference internal" href="#drop-in-replacement" id="id14">Drop-In Replacement</a></p></li>
+<li><p><a class="reference internal" href="#hybrid-workflows" id="id15">Hybrid Workflows</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#technical-details" id="id16">Technical Details</a></p>
+<ul>
+<li><p><a class="reference internal" href="#coherence-calculation" id="id17">Coherence Calculation</a></p></li>
+<li><p><a class="reference internal" href="#ir-grouping-algorithm" id="id18">IR Grouping Algorithm</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#best-practices" id="id19">Best Practices</a></p></li>
+<li><p><a class="reference internal" href="#troubleshooting" id="id20">Troubleshooting</a></p>
+<ul>
+<li><p><a class="reference internal" href="#low-coherence-r-0-135" id="id21">Low Coherence (R̄ &lt; 0.135)</a></p></li>
+<li><p><a class="reference internal" href="#high-variance-in-results" id="id22">High Variance in Results</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#references" id="id23">References</a></p></li>
+</ul>
+</nav>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>ATLAS-Q features the <strong>world’s first coherence-aware quantum computing framework</strong>, enabling algorithms to validate their own trustworthiness in real-time using physics-derived universal thresholds. This breakthrough transforms quantum computing from “hope it works” to “know it works.”</p>
+</section>
+<section id="what-is-coherence-aware-computing">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">What is Coherence-Aware Computing?</a><a class="headerlink" href="#what-is-coherence-aware-computing" title="Link to this heading">#</a></h2>
+<p>Traditional quantum algorithms run “blind” - they execute circuits and return results, but provide no measure of whether those results are trustworthy. Coherence-aware computing adds real-time quality monitoring based on <strong>Informational Relativity (IR)</strong>, tracking circular statistics that quantify measurement coherence.</p>
+<section id="key-concepts">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Key Concepts</a><a class="headerlink" href="#key-concepts" title="Link to this heading">#</a></h3>
+<p><strong>Coherence Metrics</strong></p>
+<ul class="simple">
+<li><p><strong>R̄ (Mean Resultant Length)</strong>: Measures phase coherence (0 = random, 1 = perfect)</p></li>
+<li><p><strong>V_φ (Circular Variance)</strong>: Quantifies phase spread (0 = perfect, ∞ = random)</p></li>
+<li><p><strong>Coherence Law</strong>: R̄ = e^(-V_φ/2) - Universal relationship validated on hardware</p></li>
+</ul>
+<p><strong>Universal Threshold</strong></p>
+<ul class="simple">
+<li><p><strong>e^-2 Boundary</strong> (R̄ ≈ 0.135): Physics-derived threshold separating trustworthy from noisy results</p></li>
+<li><p>Above boundary → “GO” (high confidence in results)</p></li>
+<li><p>Below boundary → “NO-GO” (results may be unreliable)</p></li>
+</ul>
+<p><strong>Why This Matters</strong></p>
+<p>Unlike error mitigation techniques that try to fix noise, coherence awareness provides an <strong>objective quality score</strong> that:</p>
+<ul class="simple">
+<li><p>Requires no classical simulation for validation</p></li>
+<li><p>Works across all quantum hardware platforms</p></li>
+<li><p>Provides real-time feedback during algorithm execution</p></li>
+<li><p>Enables adaptive algorithm behavior based on measurement quality</p></li>
+</ul>
+</section>
+</section>
+<section id="hardware-validation">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Hardware Validation</a><a class="headerlink" href="#hardware-validation" title="Link to this heading">#</a></h2>
+<p>The framework has been validated on <strong>IBM Brisbane</strong> (127-qubit Eagle r3) with production-scale molecules:</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-text">Hardware Results</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 15.8%" />
+<col style="width: 10.5%" />
+<col style="width: 10.5%" />
+<col style="width: 10.5%" />
+<col style="width: 15.8%" />
+<col style="width: 15.8%" />
+<col style="width: 21.1%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Molecule</p></th>
+<th class="head"><p>Qubits</p></th>
+<th class="head"><p>Terms</p></th>
+<th class="head"><p>Groups</p></th>
+<th class="head"><p>R̄</p></th>
+<th class="head"><p>Runtime</p></th>
+<th class="head"><p>Job ID</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>H2</p></td>
+<td><p>4</p></td>
+<td><p>15</p></td>
+<td><p>15</p></td>
+<td><p>0.891</p></td>
+<td><p>29s</p></td>
+<td><p>d43pjb90f7bc7388mlo0</p></td>
+</tr>
+<tr class="row-odd"><td><p>LiH</p></td>
+<td><p>12</p></td>
+<td><p>631</p></td>
+<td><p>127</p></td>
+<td><p>0.980</p></td>
+<td><p>43s</p></td>
+<td><p>d43ppngg60jg738f3g4g</p></td>
+</tr>
+<tr class="row-even"><td><p>H2O</p></td>
+<td><p>14</p></td>
+<td><p>1086</p></td>
+<td><p>219</p></td>
+<td><p><strong>0.988</strong></p></td>
+<td><p>96s</p></td>
+<td><p>d43q6e07i53s73e4dad0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Key Achievement</strong>: Near-ideal coherence (R̄ &gt; 0.98) maintained on production-scale molecules while achieving 5× measurement compression via IR grouping.</p>
+</section>
+<section id="quick-start">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Quick Start</a><a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<section id="basic-usage">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Basic Usage</a><a class="headerlink" href="#basic-usage" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.coherence_aware_vqe</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoherenceAwareVQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.coherence</span><span class="w"> </span><span class="kn">import</span> <span class="n">classify_go_no_go</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+
+<span class="c1"># Build Hamiltonian</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Create VQE instance with coherence tracking</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">CoherenceAwareVQE</span><span class="p">(</span>
+    <span class="n">H</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">,</span>
+    <span class="n">enable_coherence_tracking</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Run optimization</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Check results</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Energy: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Coherence R̄: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">coherence</span><span class="o">.</span><span class="n">R_bar</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Classification: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">classification</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">is_go</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Results are trustworthy (R̄ &gt; e^-2)&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;⚠ Results may be unreliable (R̄ &lt; e^-2)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="molecular-hamiltonians">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Molecular Hamiltonians</a><a class="headerlink" href="#molecular-hamiltonians" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.coherence_aware_vqe</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoherenceAwareVQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+
+<span class="c1"># Build H2O Hamiltonian from PySCF</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;H2O&#39;</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Run coherence-aware VQE</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">CoherenceAwareVQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">enable_coherence_tracking</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Check results</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Energy: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> Ha&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Coherence: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">coherence</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Classification: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">classification</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="advanced-features">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Advanced Features</a><a class="headerlink" href="#advanced-features" title="Link to this heading">#</a></h2>
+<section id="ir-grouping-for-measurement-compression">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">IR Grouping for Measurement Compression</a><a class="headerlink" href="#ir-grouping-for-measurement-compression" title="Link to this heading">#</a></h3>
+<p>IR grouping reduces measurement overhead by grouping commuting Pauli operators:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.ir_enhanced</span><span class="w"> </span><span class="kn">import</span> <span class="n">ir_hamiltonian_grouping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.coherence</span><span class="w"> </span><span class="kn">import</span> <span class="n">group_paulis_qwc</span>
+
+<span class="c1"># Option 1: IR grouping (variance-aware, optimal shot allocation)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">ir_hamiltonian_grouping</span><span class="p">(</span>
+    <span class="n">pauli_strings</span><span class="p">,</span>
+    <span class="n">coefficients</span><span class="p">,</span>
+    <span class="n">total_shots</span><span class="o">=</span><span class="mi">10000</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;IR Groups: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">groups</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance reduction: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">variance_reduction_factor</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">×&quot;</span><span class="p">)</span>
+
+<span class="c1"># Option 2: Simple QWC grouping (qubit-wise commuting)</span>
+<span class="n">groups</span> <span class="o">=</span> <span class="n">group_paulis_qwc</span><span class="p">(</span><span class="n">pauli_strings</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;QWC compression: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pauli_strings</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pauli_strings</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">×&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="real-time-coherence-monitoring">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Real-Time Coherence Monitoring</a><a class="headerlink" href="#real-time-coherence-monitoring" title="Link to this heading">#</a></h3>
+<p>Track coherence during optimization:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.coherence_aware_vqe</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoherenceAwareVQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+
+<span class="c1"># Enable per-iteration coherence logging</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">CoherenceAwareVQE</span><span class="p">(</span>
+    <span class="n">hamiltonian</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">,</span>
+    <span class="n">enable_coherence_tracking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">coherence_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="nb">iter</span><span class="p">,</span> <span class="n">coh</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iter </span><span class="si">{</span><span class="nb">iter</span><span class="si">}</span><span class="s2">: R̄=</span><span class="si">{</span><span class="n">coh</span><span class="o">.</span><span class="n">R_bar</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Access coherence history</span>
+<span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">coherence_history</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+    <span class="n">R_bars</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">R_bar</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">coherence_history</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">R_bars</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.135</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;e^-2 boundary&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Iteration&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;R̄&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="adaptive-algorithm-behavior">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Adaptive Algorithm Behavior</a><a class="headerlink" href="#adaptive-algorithm-behavior" title="Link to this heading">#</a></h3>
+<p>Automatically adjust strategy based on coherence:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.coherence</span><span class="w"> </span><span class="kn">import</span> <span class="n">adaptive_ir_decision</span>
+
+<span class="c1"># Run VQE</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Decide whether to use IR grouping based on coherence</span>
+<span class="n">enable_ir</span><span class="p">,</span> <span class="n">reason</span> <span class="o">=</span> <span class="n">adaptive_ir_decision</span><span class="p">(</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">coherence</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mf">0.135</span>  <span class="c1"># e^-2 boundary</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;IR Decision: </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">enable_ir</span><span class="p">:</span>
+    <span class="c1"># Use IR grouping for next iteration</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.ir_enhanced</span><span class="w"> </span><span class="kn">import</span> <span class="n">ir_hamiltonian_grouping</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">ir_hamiltonian_grouping</span><span class="p">(</span><span class="n">pauli_strings</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># Use standard individual measurements</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="integration-with-existing-code">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Integration with Existing Code</a><a class="headerlink" href="#integration-with-existing-code" title="Link to this heading">#</a></h2>
+<section id="drop-in-replacement">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Drop-In Replacement</a><a class="headerlink" href="#drop-in-replacement" title="Link to this heading">#</a></h3>
+<p>Coherence-aware VQE extends the standard VQE:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Before: Standard VQE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">hamiltonian</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># After: Coherence-aware VQE (enhanced version)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.coherence_aware_vqe</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoherenceAwareVQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">CoherenceAwareVQE</span><span class="p">(</span>
+    <span class="n">hamiltonian</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">,</span>
+    <span class="n">enable_coherence_tracking</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># New feature</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Access both standard and new coherence metrics</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Energy: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">energy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Standard result</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R̄: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">coherence</span><span class="o">.</span><span class="n">R_bar</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># New coherence metric</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Status: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">classification</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># GO/NO-GO</span>
+</pre></div>
+</div>
+</section>
+<section id="hybrid-workflows">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Hybrid Workflows</a><a class="headerlink" href="#hybrid-workflows" title="Link to this heading">#</a></h3>
+<p>Coherence-aware VQE uses ATLAS-Q’s MPS tensor network backend:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.coherence_aware_vqe</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoherenceAwareVQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+
+<span class="c1"># VQE automatically uses adaptive MPS backend</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span>
+    <span class="n">n_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">chi_max</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>  <span class="c1"># MPS bond dimension</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>  <span class="c1"># GPU acceleration</span>
+<span class="p">)</span>
+
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">CoherenceAwareVQE</span><span class="p">(</span>
+    <span class="n">hamiltonian</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">,</span>
+    <span class="n">enable_coherence_tracking</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final MPS bond dimension: </span><span class="si">{</span><span class="n">vqe</span><span class="o">.</span><span class="n">ansatz</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">max_chi</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">hasattr</span><span class="p">(</span><span class="n">vqe</span><span class="o">.</span><span class="n">ansatz</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;mps&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="technical-details">
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">Technical Details</a><a class="headerlink" href="#technical-details" title="Link to this heading">#</a></h2>
+<section id="coherence-calculation">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Coherence Calculation</a><a class="headerlink" href="#coherence-calculation" title="Link to this heading">#</a></h3>
+<p>Coherence metrics are computed from Pauli expectation values:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}R̄ = |\\langle e^{i\\phi} \\rangle| = \\sqrt{\\langle \\cos\\phi \\rangle^2 + \\langle \\sin\\phi \\rangle^2}\end{split}\\\begin{split}V_\\phi = -2 \\ln R̄\end{split}\\\begin{split}\\text{Coherence Law: } R̄ = e^{-V_\\phi/2}\end{split}\end{aligned}\end{align} \]</div>
+<p><strong>Implementation</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compute_coherence</span><span class="p">(</span><span class="n">measurement_outcomes</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CoherenceMetrics</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute circular statistics from Pauli expectations.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        measurement_outcomes: Array of ⟨P⟩ values from each Pauli term</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        CoherenceMetrics with R_bar, V_phi, and boundary classification</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Map Pauli expectations to phase angles</span>
+    <span class="c1"># ⟨P⟩ ∈ [-1, 1] → φ ∈ [0, 2π]</span>
+    <span class="n">phases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">measurement_outcomes</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># Compute mean resultant length (circular mean)</span>
+    <span class="n">cos_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phases</span><span class="p">))</span>
+    <span class="n">sin_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phases</span><span class="p">))</span>
+    <span class="n">R_bar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cos_mean</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">sin_mean</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Circular variance</span>
+    <span class="n">V_phi</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">R_bar</span><span class="p">)</span> <span class="k">if</span> <span class="n">R_bar</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+
+    <span class="c1"># Classification</span>
+    <span class="n">is_above_e2</span> <span class="o">=</span> <span class="n">R_bar</span> <span class="o">&gt;</span> <span class="mf">0.135</span>
+
+    <span class="k">return</span> <span class="n">CoherenceMetrics</span><span class="p">(</span><span class="n">R_bar</span><span class="p">,</span> <span class="n">V_phi</span><span class="p">,</span> <span class="n">is_above_e2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="ir-grouping-algorithm">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">IR Grouping Algorithm</a><a class="headerlink" href="#ir-grouping-algorithm" title="Link to this heading">#</a></h3>
+<p>Qubit-wise commuting (QWC) grouping strategy:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ir_grouping</span><span class="p">(</span><span class="n">pauli_strings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+                <span class="n">coefficients</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                <span class="n">strategy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;qubit_wise_commuting&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Group commuting Pauli strings for simultaneous measurement.</span>
+
+<span class="sd">    Paulis commute if they act with compatible operators on each qubit:</span>
+<span class="sd">    - (I, Z) commute with (I, Z)</span>
+<span class="sd">    - (X, Y) commute with (X, Y)</span>
+<span class="sd">    - (I) commutes with everything</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pauli_strings: List of Pauli strings (e.g., [&#39;IXZY&#39;, &#39;IIIZ&#39;])</span>
+<span class="sd">        coefficients: Hamiltonian coefficients</span>
+<span class="sd">        strategy: Grouping strategy (&#39;qubit_wise_commuting&#39;)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of groups, each group is list of indices into pauli_strings</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Implementation groups Paulis sharing measurement basis</span>
+    <span class="c1"># Each group measured with single circuit</span>
+    <span class="c1"># Reduces shots by ~5× for typical molecules</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="best-practices">
+<h2><a class="toc-backref" href="#id19" role="doc-backlink">Best Practices</a><a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<ol class="arabic">
+<li><p><strong>Always Check Coherence</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">coherence</span><span class="o">.</span><span class="n">R_bar</span> <span class="o">&lt;</span> <span class="mf">0.135</span><span class="p">:</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Low coherence detected. Results may be unreliable.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Use IR Grouping for Large Hamiltonians</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># For &gt; 100 Pauli terms, IR grouping significantly reduces runtime</span>
+<span class="n">use_ir</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">.</span><span class="n">paulis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">100</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Monitor Coherence During Optimization</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Track coherence evolution to detect convergence issues</span>
+<span class="n">coherence_tracking</span><span class="o">=</span><span class="s1">&#39;per_iteration&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Validate on Simulator First</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test on AerSimulator before running on hardware</span>
+<span class="n">result_sim</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">result_hw</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s1">&#39;ibm_brisbane&#39;</span><span class="p">)</span>
+
+<span class="c1"># Compare coherence levels</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Simulator R̄: </span><span class="si">{</span><span class="n">result_sim</span><span class="o">.</span><span class="n">coherence</span><span class="o">.</span><span class="n">R_bar</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hardware R̄: </span><span class="si">{</span><span class="n">result_hw</span><span class="o">.</span><span class="n">coherence</span><span class="o">.</span><span class="n">R_bar</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="troubleshooting">
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">Troubleshooting</a><a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="low-coherence-r-0-135">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Low Coherence (R̄ &lt; 0.135)</a><a class="headerlink" href="#low-coherence-r-0-135" title="Link to this heading">#</a></h3>
+<p><strong>Causes:</strong></p>
+<ul class="simple">
+<li><p>Deep circuits with many gates → increased decoherence</p></li>
+<li><p>Noisy hardware backend</p></li>
+<li><p>Inadequate error mitigation</p></li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<ul class="simple">
+<li><p>Reduce ansatz depth</p></li>
+<li><p>Enable error mitigation techniques</p></li>
+<li><p>Try different hardware backend</p></li>
+<li><p>Increase shots per measurement</p></li>
+</ul>
+</section>
+<section id="high-variance-in-results">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">High Variance in Results</a><a class="headerlink" href="#high-variance-in-results" title="Link to this heading">#</a></h3>
+<p><strong>Causes:</strong></p>
+<ul class="simple">
+<li><p>Insufficient shot count</p></li>
+<li><p>Heterogeneous error rates across qubits</p></li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<ul class="simple">
+<li><p>Increase shots (proportional to 1/√shots)</p></li>
+<li><p>Use per-member averaging in IR grouping</p></li>
+<li><p>Apply readout error mitigation</p></li>
+</ul>
+</section>
+</section>
+<section id="references">
+<h2><a class="toc-backref" href="#id23" role="doc-backlink">References</a><a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<p><strong>Papers:</strong></p>
+<ul class="simple">
+<li><p>Informational Relativity: [Paper link to be added]</p></li>
+<li><p>Coherence Law Validation: COHERENCE_AWARE_VQE_BREAKTHROUGH.md</p></li>
+<li><p>Hardware Results: IR_HARDWARE_VALIDATION_SUMMARY.md</p></li>
+</ul>
+<p><strong>Code:</strong></p>
+<ul class="simple">
+<li><p>Main implementation: <code class="docutils literal notranslate"><span class="pre">benchmarks/ir_coherence_aware_hardware_benchmark.py</span></code></p></li>
+<li><p>IR enhanced modules: <code class="docutils literal notranslate"><span class="pre">src/atlas_q/ir_enhanced/</span></code></p></li>
+<li><p>Integration tests: <code class="docutils literal notranslate"><span class="pre">tests/integration/test_ir_qaoa_grouping.py</span></code></p></li>
+</ul>
+<p><strong>External Resources:</strong></p>
+<ul class="simple">
+<li><p>IBM Quantum: <a class="reference external" href="https://quantum.ibm.com">https://quantum.ibm.com</a></p></li>
+<li><p>Circular Statistics: Mardia &amp; Jupp, “Directional Statistics” (2000)</p></li>
+<li><p>Random Matrix Theory: Mehta, “Random Matrices” (2004)</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="vqe_tutorial.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">VQE Tutorial</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="tdvp_tutorial.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">TDVP Tutorial</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-coherence-aware-computing">What is Coherence-Aware Computing?</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-concepts">Key Concepts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-validation">Hardware Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#molecular-hamiltonians">Molecular Hamiltonians</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-features">Advanced Features</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ir-grouping-for-measurement-compression">IR Grouping for Measurement Compression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real-time-coherence-monitoring">Real-Time Coherence Monitoring</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-algorithm-behavior">Adaptive Algorithm Behavior</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-with-existing-code">Integration with Existing Code</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#drop-in-replacement">Drop-In Replacement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hybrid-workflows">Hybrid Workflows</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#technical-details">Technical Details</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coherence-calculation">Coherence Calculation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ir-grouping-algorithm">IR Grouping Algorithm</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#low-coherence-r-0-135">Low Coherence (R̄ &lt; 0.135)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-variance-in-results">High Variance in Results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

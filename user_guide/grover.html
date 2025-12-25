@@ -1,0 +1,1202 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Grover’s Quantum Search &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/grover';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Grover’s Quantum Search</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="grover-s-quantum-search">
+<h1>Grover’s Quantum Search<a class="headerlink" href="#grover-s-quantum-search" title="Link to this heading">#</a></h1>
+<p>This guide introduces Grover’s quantum search algorithm and shows how to use it with ATLAS-Q for practical search problems.</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>Grover’s algorithm provides quadratic speedup for searching unstructured databases. While classical search requires <span class="math notranslate nohighlight">\(O(N)\)</span> queries on average, Grover’s algorithm finds marked items in <span class="math notranslate nohighlight">\(O(\sqrt{N})\)</span> queries.</p>
+<p><strong>When to use Grover’s algorithm:</strong></p>
+<ul class="simple">
+<li><p>Searching unstructured databases</p></li>
+<li><p>Finding solutions to constraint satisfaction problems</p></li>
+<li><p>Quantum amplitude amplification</p></li>
+<li><p>Pattern matching in large datasets</p></li>
+</ul>
+<p><strong>Key advantages:</strong></p>
+<ul class="simple">
+<li><p>Quadratic speedup: √N vs N queries</p></li>
+<li><p>Works on arbitrary search criteria</p></li>
+<li><p>Provably optimal quantum search algorithm</p></li>
+</ul>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<p>The simplest way to use Grover’s algorithm is with the convenience function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">grover_search</span>
+
+<span class="c1"># Search for state 7 in 4-qubit space (16 states)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">marked_states</span><span class="o">=</span><span class="p">{</span><span class="mi">7</span><span class="p">},</span>  <span class="c1"># Mark state |0111⟩</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found state: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Success probability: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;success_probability&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iterations used: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;iterations_used&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Found state: 7
+Success probability: 0.946
+Iterations used: 3
+</pre></div>
+</div>
+</section>
+<section id="basic-examples">
+<h2>Basic Examples<a class="headerlink" href="#basic-examples" title="Link to this heading">#</a></h2>
+<section id="example-1-finding-a-specific-item">
+<h3>Example 1: Finding a Specific Item<a class="headerlink" href="#example-1-finding-a-specific-item" title="Link to this heading">#</a></h3>
+<p>Search for a specific database entry:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">grover_search</span>
+
+<span class="c1"># Search 256-entry database (8 qubits) for entry 150</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">marked_states</span><span class="o">=</span><span class="p">{</span><span class="mi">150</span><span class="p">},</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">nFound entry: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Search took: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;runtime_ms&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ms&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Used </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;iterations_used&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-finding-multiple-items">
+<h3>Example 2: Finding Multiple Items<a class="headerlink" href="#example-2-finding-multiple-items" title="Link to this heading">#</a></h3>
+<p>Search for multiple marked items simultaneously:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">grover_search</span>
+
+<span class="c1"># Find any of {5, 10, 15, 20} in 5-qubit space</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">marked_states</span><span class="o">=</span><span class="p">{</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">},</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found one of the marked items: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Note:</strong> Grover finds <em>one</em> of the marked items with high probability.</p>
+</section>
+<section id="example-3-pattern-based-search">
+<h3>Example 3: Pattern-Based Search<a class="headerlink" href="#example-3-pattern-based-search" title="Link to this heading">#</a></h3>
+<p>Use a function to define search criteria:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">grover_search</span>
+
+<span class="c1"># Find numbers divisible by 3</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">divisible_by_3</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">marked_states</span><span class="o">=</span><span class="n">divisible_by_3</span><span class="p">,</span>  <span class="c1"># Function oracle</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</section>
+<section id="example-4-finding-prime-numbers">
+<h3>Example 4: Finding Prime Numbers<a class="headerlink" href="#example-4-finding-prime-numbers" title="Link to this heading">#</a></h3>
+<p>Search for prime numbers in a range:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">grover_search</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">is_prime</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+<span class="c1"># Find primes in range [0, 15]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">marked_states</span><span class="o">=</span><span class="n">is_prime</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found prime: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Likely: 2, 3, 5, 7, 11, or 13</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="advanced-usage">
+<h2>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Link to this heading">#</a></h2>
+<section id="using-the-full-api">
+<h3>Using the Full API<a class="headerlink" href="#using-the-full-api" title="Link to this heading">#</a></h3>
+<p>For more control, use the full <code class="docutils literal notranslate"><span class="pre">GroverSearch</span></code> class:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">GroverSearch</span><span class="p">,</span> <span class="n">GroverConfig</span><span class="p">,</span> <span class="n">BitmapOracle</span>
+<span class="p">)</span>
+
+<span class="c1"># Configure algorithm</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">GroverConfig</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="n">chi_max</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>  <span class="c1"># MPS bond dimension</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">measure_success_prob</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># Track probabilities</span>
+<span class="p">)</span>
+
+<span class="c1"># Create oracle</span>
+<span class="n">oracle</span> <span class="o">=</span> <span class="n">BitmapOracle</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="n">marked_states</span><span class="o">=</span><span class="p">{</span><span class="mi">42</span><span class="p">},</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Run search</span>
+<span class="n">grover</span> <span class="o">=</span> <span class="n">GroverSearch</span><span class="p">(</span><span class="n">oracle</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Access detailed statistics</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">stat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;iteration_stats&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iteration </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: P_success = </span><span class="si">{</span><span class="n">stat</span><span class="p">[</span><span class="s1">&#39;success_probability&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-iteration-count">
+<h3>Custom Iteration Count<a class="headerlink" href="#custom-iteration-count" title="Link to this heading">#</a></h3>
+<p>Override automatic iteration calculation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">grover_search</span><span class="p">,</span> <span class="n">calculate_grover_iterations</span>
+<span class="p">)</span>
+
+<span class="n">n_qubits</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">marked_states</span> <span class="o">=</span> <span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">}</span>
+
+<span class="c1"># Calculate optimal iterations</span>
+<span class="n">n_marked</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">marked_states</span><span class="p">)</span>
+<span class="n">optimal_k</span> <span class="o">=</span> <span class="n">calculate_grover_iterations</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">n_marked</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal iterations: </span><span class="si">{</span><span class="n">optimal_k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Use custom iteration count</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">,</span>
+    <span class="n">marked_states</span><span class="o">=</span><span class="n">marked_states</span><span class="p">,</span>
+    <span class="n">iterations</span><span class="o">=</span><span class="n">optimal_k</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># Experiment with more iterations</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="gpu-acceleration">
+<h3>GPU Acceleration<a class="headerlink" href="#gpu-acceleration" title="Link to this heading">#</a></h3>
+<p>Use CUDA for faster execution on larger systems:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">grover_search</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Check CUDA availability</span>
+<span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using GPU: </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cpu&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using CPU&quot;</span><span class="p">)</span>
+
+<span class="c1"># Run on GPU (much faster for n_qubits &gt;= 7)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>  <span class="c1"># 1024 states</span>
+    <span class="n">marked_states</span><span class="o">=</span><span class="p">{</span><span class="mi">512</span><span class="p">},</span>
+    <span class="n">device</span><span class="o">=</span><span class="n">device</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="practical-applications">
+<h2>Practical Applications<a class="headerlink" href="#practical-applications" title="Link to this heading">#</a></h2>
+<section id="application-1-sudoku-solver">
+<h3>Application 1: Sudoku Solver<a class="headerlink" href="#application-1-sudoku-solver" title="Link to this heading">#</a></h3>
+<p>Use Grover to find Sudoku solutions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">grover_search</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">is_valid_sudoku_solution</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if x encodes valid 4x4 Sudoku solution&quot;&quot;&quot;</span>
+    <span class="c1"># Encode solution as 16-bit integer</span>
+    <span class="c1"># Bits 0-3: top row, 4-7: second row, etc.</span>
+    <span class="c1"># This is simplified - real Sudoku needs more qubits</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">i</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mh">0xF</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+
+    <span class="c1"># Check each row has unique values</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">row</span> <span class="o">&gt;&gt;</span> <span class="n">i</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]))</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+<span class="c1"># Search for valid solution</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">marked_states</span><span class="o">=</span><span class="n">is_valid_sudoku_solution</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="application-2-3-sat-solver">
+<h3>Application 2: 3-SAT Solver<a class="headerlink" href="#application-2-3-sat-solver" title="Link to this heading">#</a></h3>
+<p>Find satisfying assignments for Boolean formulas:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">grover_search</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">satisfies_3sat</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if variable assignment satisfies formula&quot;&quot;&quot;</span>
+    <span class="c1"># Example: (x1 OR x2 OR ~x3) AND (~x1 OR x3 OR x4) AND ...</span>
+    <span class="c1"># Variables encoded in bits of x</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+    <span class="n">x3</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+    <span class="n">x4</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+
+    <span class="n">clause1</span> <span class="o">=</span> <span class="n">x1</span> <span class="ow">or</span> <span class="n">x2</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">x3</span><span class="p">)</span>
+    <span class="n">clause2</span> <span class="o">=</span> <span class="p">(</span><span class="ow">not</span> <span class="n">x1</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x3</span> <span class="ow">or</span> <span class="n">x4</span>
+    <span class="n">clause3</span> <span class="o">=</span> <span class="n">x2</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">x3</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">x4</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">clause1</span> <span class="ow">and</span> <span class="n">clause2</span> <span class="ow">and</span> <span class="n">clause3</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">marked_states</span><span class="o">=</span><span class="n">satisfies_3sat</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Satisfying assignment: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">04b</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="application-3-finding-collisions">
+<h3>Application 3: Finding Collisions<a class="headerlink" href="#application-3-finding-collisions" title="Link to this heading">#</a></h3>
+<p>Find hash collisions (for educational purposes):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">grover_search</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">simple_hash</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple hash function&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">31</span> <span class="o">+</span> <span class="mi">17</span><span class="p">)</span> <span class="o">%</span> <span class="mi">256</span>
+
+<span class="n">target_hash</span> <span class="o">=</span> <span class="n">simple_hash</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">has_collision</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if x hashes to target but x != 42&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">42</span> <span class="ow">and</span> <span class="n">simple_hash</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">target_hash</span>
+
+<span class="c1"># Search for collision</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>  <span class="c1"># Search 256 values</span>
+    <span class="n">marked_states</span><span class="o">=</span><span class="n">has_collision</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+
+<span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found collision: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hash: </span><span class="si">{</span><span class="n">simple_hash</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="performance-tuning">
+<h2>Performance Tuning<a class="headerlink" href="#performance-tuning" title="Link to this heading">#</a></h2>
+<section id="choosing-bond-dimension">
+<h3>Choosing Bond Dimension<a class="headerlink" href="#choosing-bond-dimension" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">chi_max</span></code> parameter controls MPS accuracy vs speed tradeoff:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroverSearch</span><span class="p">,</span> <span class="n">GroverConfig</span><span class="p">,</span> <span class="n">BitmapOracle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="n">n_qubits</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">marked_state</span> <span class="o">=</span> <span class="mi">42</span>
+
+<span class="k">for</span> <span class="n">chi_max</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">]:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">GroverConfig</span><span class="p">(</span>
+        <span class="n">n_qubits</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">,</span>
+        <span class="n">chi_max</span><span class="o">=</span><span class="n">chi_max</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+    <span class="p">)</span>
+
+    <span class="n">oracle</span> <span class="o">=</span> <span class="n">BitmapOracle</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="p">{</span><span class="n">marked_state</span><span class="p">},</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+    <span class="n">grover</span> <span class="o">=</span> <span class="n">GroverSearch</span><span class="p">(</span><span class="n">oracle</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">grover</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;χ=</span><span class="si">{</span><span class="n">chi_max</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s, &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;found=</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Guidelines:</strong></p>
+<ul class="simple">
+<li><p>Small systems (≤5 qubits): <code class="docutils literal notranslate"><span class="pre">chi_max=32</span></code> sufficient</p></li>
+<li><p>Medium systems (6-7 qubits): <code class="docutils literal notranslate"><span class="pre">chi_max=64-128</span></code></p></li>
+<li><p>Large systems (≥8 qubits): <code class="docutils literal notranslate"><span class="pre">chi_max=256-512</span></code></p></li>
+</ul>
+</section>
+<section id="benchmarking-your-search">
+<h3>Benchmarking Your Search<a class="headerlink" href="#benchmarking-your-search" title="Link to this heading">#</a></h3>
+<p>Use the benchmark suite to analyze performance:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run full benchmark suite</span>
+python<span class="w"> </span>benchmarks/benchmark_grover.py<span class="w"> </span>--device<span class="w"> </span>cpu
+
+<span class="c1"># Save results to file</span>
+python<span class="w"> </span>benchmarks/benchmark_grover.py<span class="w"> </span>--device<span class="w"> </span>cuda<span class="w"> </span>--save<span class="w"> </span>results.json
+</pre></div>
+</div>
+</section>
+<section id="visualizing-convergence">
+<h3>Visualizing Convergence<a class="headerlink" href="#visualizing-convergence" title="Link to this heading">#</a></h3>
+<p>Track and plot success probability over iterations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroverSearch</span><span class="p">,</span> <span class="n">GroverConfig</span><span class="p">,</span> <span class="n">BitmapOracle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">GroverConfig</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">measure_success_prob</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Enable tracking</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+
+<span class="n">oracle</span> <span class="o">=</span> <span class="n">BitmapOracle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">{</span><span class="mi">7</span><span class="p">},</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+<span class="n">grover</span> <span class="o">=</span> <span class="n">GroverSearch</span><span class="p">(</span><span class="n">oracle</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Plot convergence</span>
+<span class="n">grover</span><span class="o">.</span><span class="n">plot_convergence</span><span class="p">(</span><span class="n">save_path</span><span class="o">=</span><span class="s1">&#39;grover_convergence.png&#39;</span><span class="p">)</span>
+
+<span class="c1"># Or plot manually</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">grover</span><span class="o">.</span><span class="n">success_probabilities</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+         <span class="n">grover</span><span class="o">.</span><span class="n">success_probabilities</span><span class="p">,</span> <span class="s1">&#39;b-o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Iteration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Success Probability&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Grover&#39;s Algorithm Convergence&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="understanding-results">
+<h2>Understanding Results<a class="headerlink" href="#understanding-results" title="Link to this heading">#</a></h2>
+<section id="result-dictionary">
+<h3>Result Dictionary<a class="headerlink" href="#result-dictionary" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">grover_search()</span></code> and <code class="docutils literal notranslate"><span class="pre">GroverSearch.run()</span></code> methods return a dictionary:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;measured_state&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>         <span class="c1"># Found state index</span>
+    <span class="s1">&#39;success_probability&#39;</span><span class="p">:</span> <span class="mf">0.946</span><span class="p">,</span> <span class="c1"># P(measuring marked state)</span>
+    <span class="s1">&#39;iterations_used&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>         <span class="c1"># Number of Grover iterations</span>
+    <span class="s1">&#39;runtime_ms&#39;</span><span class="p">:</span> <span class="mf">12.5</span><span class="p">,</span>          <span class="c1"># Execution time (ms)</span>
+    <span class="s1">&#39;bond_dims&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>      <span class="c1"># MPS bond dimensions</span>
+    <span class="s1">&#39;iteration_stats&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>     <span class="c1"># Per-iteration statistics</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="interpreting-success-probability">
+<h3>Interpreting Success Probability<a class="headerlink" href="#interpreting-success-probability" title="Link to this heading">#</a></h3>
+<p>The success probability indicates confidence in the result:</p>
+<ul class="simple">
+<li><p><strong>&gt; 0.9</strong>: High confidence - likely correct</p></li>
+<li><p><strong>0.7 - 0.9</strong>: Moderate confidence - probably correct</p></li>
+<li><p><strong>&lt; 0.7</strong>: Low confidence - may need more iterations or higher chi_max</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">marked_states</span><span class="o">=</span><span class="p">{</span><span class="mi">20</span><span class="p">},</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;success_probability&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;High confidence: found </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;success_probability&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.7</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Moderate confidence: likely </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Low confidence - consider re-running with higher chi_max&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="multiple-runs-for-reliability">
+<h3>Multiple Runs for Reliability<a class="headerlink" href="#multiple-runs-for-reliability" title="Link to this heading">#</a></h3>
+<p>For critical applications, run multiple searches:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">grover_search</span>
+
+<span class="n">n_qubits</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">marked_states</span> <span class="o">=</span> <span class="p">{</span><span class="mi">7</span><span class="p">}</span>
+<span class="n">n_runs</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_runs</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span>
+        <span class="n">n_qubits</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">,</span>
+        <span class="n">marked_states</span><span class="o">=</span><span class="n">marked_states</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+    <span class="p">)</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">])</span>
+
+<span class="c1"># Take majority vote</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="n">most_common</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Most common result: </span><span class="si">{</span><span class="n">most_common</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;(appeared </span><span class="si">{</span><span class="n">most_common</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n_runs</span><span class="si">}</span><span class="s2"> times)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="problem-low-success-probability">
+<h3>Problem: Low Success Probability<a class="headerlink" href="#problem-low-success-probability" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms:</strong> <code class="docutils literal notranslate"><span class="pre">success_probability</span> <span class="pre">&lt;</span> <span class="pre">0.7</span></code></p>
+<p><strong>Solutions:</strong></p>
+<ol class="arabic">
+<li><p>Increase bond dimension:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">GroverConfig</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">chi_max</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>  <span class="c1"># Higher chi_max</span>
+</pre></div>
+</div>
+</li>
+<li><p>Verify marked states exist:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">calculate_grover_iterations</span>
+
+<span class="n">n_marked</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">marked_states</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">n_marked</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;No marked states!&quot;</span>
+
+<span class="n">k</span> <span class="o">=</span> <span class="n">calculate_grover_iterations</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">n_marked</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Will use </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> iterations for </span><span class="si">{</span><span class="n">n_marked</span><span class="si">}</span><span class="s2"> marked states&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Check oracle implementation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test oracle manually</span>
+<span class="n">oracle</span> <span class="o">=</span> <span class="n">BitmapOracle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">{</span><span class="mi">7</span><span class="p">},</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="mi">7</span> <span class="ow">in</span> <span class="n">oracle</span><span class="o">.</span><span class="n">marked_states</span>
+<span class="k">assert</span> <span class="n">oracle</span><span class="o">.</span><span class="n">n_marked</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="problem-slow-performance">
+<h3>Problem: Slow Performance<a class="headerlink" href="#problem-slow-performance" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms:</strong> Takes too long for your system size</p>
+<p><strong>Solutions:</strong></p>
+<ol class="arabic">
+<li><p>Use GPU:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Reduce bond dimension (trades accuracy for speed):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">GroverConfig</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">chi_max</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>  <span class="c1"># Lower chi_max</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use smaller systems or approximate search</p></li>
+</ol>
+</section>
+<section id="problem-incorrect-results">
+<h3>Problem: Incorrect Results<a class="headerlink" href="#problem-incorrect-results" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms:</strong> Consistently returns wrong state</p>
+<p><strong>Possible causes:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Oracle definition error</strong> - Double-check marking function</p></li>
+<li><p><strong>Too many iterations</strong> - Try optimal k* value</p></li>
+<li><p><strong>Marked state doesn’t exist</strong> - Verify constraints are satisfiable</p></li>
+</ol>
+<p><strong>Debug approach:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">FunctionOracle</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">mark_even</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="c1"># Test oracle</span>
+<span class="n">oracle</span> <span class="o">=</span> <span class="n">FunctionOracle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">mark_even</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Marked </span><span class="si">{</span><span class="n">oracle</span><span class="o">.</span><span class="n">n_marked</span><span class="si">}</span><span class="s2"> states&quot;</span><span class="p">)</span>
+
+<span class="c1"># Should mark 8 states: 0, 2, 4, 6, 8, 10, 12, 14</span>
+<span class="k">assert</span> <span class="n">oracle</span><span class="o">.</span><span class="n">n_marked</span> <span class="o">==</span> <span class="mi">8</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Start small:</strong> Test with 3-4 qubits before scaling up</p></li>
+<li><p><strong>Verify oracles:</strong> Test marking functions on small inputs first</p></li>
+<li><p><strong>Use optimal iterations:</strong> Let <code class="docutils literal notranslate"><span class="pre">auto_iterations=True</span></code> (default)</p></li>
+<li><p><strong>Monitor probabilities:</strong> Enable <code class="docutils literal notranslate"><span class="pre">measure_success_prob</span></code> for debugging</p></li>
+<li><p><strong>Benchmark first:</strong> Run benchmarks to understand your system’s limits</p></li>
+<li><p><strong>GPU for scale:</strong> Use CUDA for systems with ≥7 qubits</p></li>
+<li><p><strong>Multiple runs:</strong> For critical applications, run 5-10 times and vote</p></li>
+</ol>
+</section>
+<section id="further-reading">
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="../reference/grover.html">API Reference</a> - Complete API documentation</p></li>
+<li><p><a class="reference external" href="/benchmarks/benchmark_grover.py">Benchmarks</a> - Performance benchmarking suite</p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/quant-ph/9605043">Grover’s Original Paper</a> (1996)</p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/quant-ph/0005055">Quantum Amplitude Amplification</a> (2002)</p></li>
+</ul>
+</section>
+<section id="related-algorithms">
+<h2>Related Algorithms<a class="headerlink" href="#related-algorithms" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>QAOA</strong> (<span class="xref std std-doc">vqe_qaoa</span>) - Quantum approximate optimization</p></li>
+<li><p><strong>VQE</strong> (<span class="xref std std-doc">vqe_qaoa</span>) - Variational quantum eigensolver</p></li>
+<li><p><strong>Quantum Counting</strong> - Extension of Grover for counting solutions</p></li>
+</ul>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<p>Now that you understand Grover’s algorithm, try:</p>
+<ol class="arabic simple">
+<li><p>Implementing your own oracle for a specific problem</p></li>
+<li><p>Experimenting with different problem sizes</p></li>
+<li><p>Comparing classical vs quantum search times</p></li>
+<li><p>Combining with other quantum algorithms (hybrid approaches)</p></li>
+</ol>
+<p>Happy quantum searching!</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-examples">Basic Examples</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-finding-a-specific-item">Example 1: Finding a Specific Item</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-finding-multiple-items">Example 2: Finding Multiple Items</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-3-pattern-based-search">Example 3: Pattern-Based Search</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-4-finding-prime-numbers">Example 4: Finding Prime Numbers</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-usage">Advanced Usage</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-full-api">Using the Full API</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-iteration-count">Custom Iteration Count</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpu-acceleration">GPU Acceleration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-applications">Practical Applications</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-1-sudoku-solver">Application 1: Sudoku Solver</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-2-3-sat-solver">Application 2: 3-SAT Solver</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-3-finding-collisions">Application 3: Finding Collisions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-tuning">Performance Tuning</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-bond-dimension">Choosing Bond Dimension</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmarking-your-search">Benchmarking Your Search</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-convergence">Visualizing Convergence</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-results">Understanding Results</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#result-dictionary">Result Dictionary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-success-probability">Interpreting Success Probability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-runs-for-reliability">Multiple Runs for Reliability</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-low-success-probability">Problem: Low Success Probability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-slow-performance">Problem: Slow Performance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-incorrect-results">Problem: Incorrect Results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading">Further Reading</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-algorithms">Related Algorithms</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

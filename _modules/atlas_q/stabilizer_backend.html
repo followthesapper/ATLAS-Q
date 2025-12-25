@@ -1,0 +1,1215 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>atlas_q.stabilizer_backend &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/atlas_q/stabilizer_backend';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.stabilizer_backend</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for atlas_q.stabilizer_backend</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Stabilizer Backend for Efficient Clifford Circuit Simulation</span>
+
+<span class="sd">Implements the Gottesman-Knill theorem: Clifford circuits can be simulated</span>
+<span class="sd">efficiently (polynomial time/space) using stabilizer tableaux.</span>
+
+<span class="sd">Key features:</span>
+<span class="sd">- O(n²) time per gate vs O(2ⁿ) for state-vector</span>
+<span class="sd">- Supports: H, S, CNOT, CZ, SWAP, measurements</span>
+<span class="sd">- Handoff to MPS when non-Clifford gates appear (T, Toffoli, etc.)</span>
+
+<span class="sd">References:</span>
+<span class="sd">- Gottesman (1998): &quot;The Heisenberg Representation of Quantum Computers&quot;</span>
+<span class="sd">- Aaronson &amp; Gottesman (2004): &quot;Improved Simulation of Stabilizer Circuits&quot;</span>
+
+<span class="sd">Author: ATLAS-Q Contributors</span>
+<span class="sd">Date: October 2025</span>
+<span class="sd">License: MIT</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+
+<div class="viewcode-block" id="StabilizerState">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerState">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">StabilizerState</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Stabilizer state represented as a tableau</span>
+
+<span class="sd">    A stabilizer state on n qubits is represented by a (2n+1) × 2n binary matrix:</span>
+<span class="sd">    - First n rows: X part of stabilizer generators</span>
+<span class="sd">    - Next n rows: Z part of stabilizer generators</span>
+<span class="sd">    - Last column: phase bits (±1)</span>
+
+<span class="sd">    Example for |0⟩: stabilizer is Z</span>
+<span class="sd">    Example for |+⟩: stabilizer is X</span>
+<span class="sd">    Example for Bell |Φ+⟩: stabilizers are XX and ZZ</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">tableau</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>  <span class="c1"># Shape: (2n, 2n+1)</span>
+    <span class="c1"># tableau[:n, :] = X parts, tableau[n:, :] = Z parts</span>
+    <span class="c1"># tableau[:, -1] = phases</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<div class="viewcode-block" id="StabilizerState.init_zero">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerState.init_zero">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_zero</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;StabilizerState&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize |00...0⟩ state (stabilized by Z on each qubit)&quot;&quot;&quot;</span>
+        <span class="n">tableau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n_qubits</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_qubits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="c1"># Set destabilizers to X_i for each qubit i (rows 0:n, columns 0:n)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="n">tableau</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1"># Set stabilizers to Z_i for each qubit i (rows n:2n, columns n:2n)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="n">tableau</span><span class="p">[</span><span class="n">n_qubits</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">n_qubits</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">StabilizerState</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">tableau</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StabilizerState.init_plus">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerState.init_plus">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_plus</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;StabilizerState&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize |++...+⟩ state (stabilized by X on each qubit)&quot;&quot;&quot;</span>
+        <span class="n">tableau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n_qubits</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_qubits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="c1"># Set stabilizers to X_i for each qubit i</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="n">tableau</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">StabilizerState</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">tableau</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StabilizerState.copy">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerState.copy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;StabilizerState&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a copy of this state&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">StabilizerState</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tableau</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="StabilizerSimulator">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">StabilizerSimulator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Efficient simulator for Clifford circuits using stabilizer formalism</span>
+
+<span class="sd">    Complexity:</span>
+<span class="sd">    - Space: O(n²) vs O(2ⁿ) for state-vector</span>
+<span class="sd">    - Time per gate: O(n²) vs O(2ⁿ)</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">        sim = StabilizerSimulator(n_qubits=100)</span>
+<span class="sd">        sim.h(0)</span>
+<span class="sd">        sim.cnot(0, 1)</span>
+<span class="sd">        outcome = sim.measure(0)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="StabilizerSimulator.__init__">
+<a class="viewcode-back" href="../../reference/generated/atlas_q.stabilizer_backend.StabilizerSimulator.html#atlas_q.stabilizer_backend.StabilizerSimulator.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">=</span> <span class="n">n_qubits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">StabilizerState</span><span class="o">.</span><span class="n">init_zero</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measurement_outcomes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+
+<div class="viewcode-block" id="StabilizerSimulator.copy">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator.copy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;StabilizerSimulator&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fast copy using numpy array copy (much faster than deepcopy)&quot;&quot;&quot;</span>
+        <span class="n">new_sim</span> <span class="o">=</span> <span class="n">StabilizerSimulator</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">StabilizerSimulator</span><span class="p">)</span>
+        <span class="n">new_sim</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span>
+        <span class="n">new_sim</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">new_sim</span><span class="o">.</span><span class="n">measurement_outcomes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">measurement_outcomes</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">new_sim</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_rowsum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Multiply stabilizer generator h by generator i (Pauli group multiplication)</span>
+
+<span class="sd">        This implements the Pauli commutation relations:</span>
+<span class="sd">        XY = iZ, YZ = iX, ZX = iY</span>
+<span class="sd">        and tracks the phase</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tableau</span>
+
+        <span class="c1"># Extract X and Z parts</span>
+        <span class="n">x_h</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="p">:</span><span class="n">n</span><span class="p">]</span>
+        <span class="n">z_h</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">n</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">]</span>
+        <span class="n">x_i</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:</span><span class="n">n</span><span class="p">]</span>
+        <span class="n">z_i</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">]</span>
+
+        <span class="c1"># Phase update according to Pauli multiplication rules</span>
+        <span class="n">phase_update</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">x_h</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="n">z_h</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>  <span class="c1"># Y</span>
+                <span class="k">if</span> <span class="n">x_i</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">z_i</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>  <span class="c1"># X</span>
+                    <span class="n">phase_update</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># YX = -iZ → phase flip</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">x_i</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="n">z_i</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>  <span class="c1"># Z</span>
+                    <span class="n">phase_update</span> <span class="o">+=</span> <span class="mi">3</span>  <span class="c1"># YZ = iX → 3 phase flips = -i</span>
+            <span class="k">elif</span> <span class="n">x_h</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">z_h</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>  <span class="c1"># X</span>
+                <span class="k">if</span> <span class="n">x_i</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="n">z_i</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>  <span class="c1"># Y</span>
+                    <span class="n">phase_update</span> <span class="o">+=</span> <span class="mi">3</span>  <span class="c1"># XY = iZ → 3 phase flips</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">x_i</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="n">z_i</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>  <span class="c1"># Z</span>
+                    <span class="n">phase_update</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># XZ = -iY</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">x_h</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="n">z_h</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>  <span class="c1"># Z</span>
+                <span class="k">if</span> <span class="n">x_i</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="n">z_i</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>  <span class="c1"># Y</span>
+                    <span class="n">phase_update</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># ZY = -iX</span>
+                <span class="k">elif</span> <span class="n">x_i</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">z_i</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>  <span class="c1"># X</span>
+                    <span class="n">phase_update</span> <span class="o">+=</span> <span class="mi">3</span>  <span class="c1"># ZX = iY</span>
+
+        <span class="c1"># Update tableau</span>
+        <span class="n">tab</span><span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="p">:</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_h</span> <span class="o">+</span> <span class="n">x_i</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+        <span class="n">tab</span><span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">n</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">z_h</span> <span class="o">+</span> <span class="n">z_i</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+        <span class="n">tab</span><span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">phase_update</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span> <span class="o">%</span> <span class="mi">2</span>
+
+    <span class="c1"># Clifford gates</span>
+
+<div class="viewcode-block" id="StabilizerSimulator.h">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator.h">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">h</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Hadamard gate: X ↔ Z&quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tableau</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">):</span>
+            <span class="n">x_bit</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">qubit</span><span class="p">]</span>
+            <span class="n">z_bit</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">qubit</span><span class="p">]</span>
+
+            <span class="c1"># H: X ↔ Z, phase changes if both X and Z are present</span>
+            <span class="k">if</span> <span class="n">x_bit</span> <span class="ow">and</span> <span class="n">z_bit</span><span class="p">:</span>
+                <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>  <span class="c1"># Phase flip for Y → -Y</span>
+
+            <span class="c1"># Swap X and Z</span>
+            <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">=</span> <span class="n">z_bit</span>
+            <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_bit</span></div>
+
+
+<div class="viewcode-block" id="StabilizerSimulator.s">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator.s">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">s</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Phase gate: X → Y, Z → Z&quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tableau</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">):</span>
+            <span class="n">x_bit</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">qubit</span><span class="p">]</span>
+            <span class="n">z_bit</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">qubit</span><span class="p">]</span>
+
+            <span class="c1"># S transforms:</span>
+            <span class="c1"># X → Y: add Z bit, flip phase</span>
+            <span class="c1"># Y → -X: remove Z bit, flip phase</span>
+            <span class="c1"># Z → Z: unchanged</span>
+            <span class="k">if</span> <span class="n">x_bit</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">z_bit</span><span class="p">:</span>
+                <span class="c1"># X → Y</span>
+                <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+            <span class="k">elif</span> <span class="n">x_bit</span> <span class="ow">and</span> <span class="n">z_bit</span><span class="p">:</span>
+                <span class="c1"># Y → -X</span>
+                <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="StabilizerSimulator.s_dag">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator.s_dag">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">s_dag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inverse phase gate: X → -Y, Z → Z&quot;&quot;&quot;</span>
+        <span class="c1"># S†: Apply S three times (since S⁴ = I)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StabilizerSimulator.cnot">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator.cnot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cnot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">control</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;CNOT gate&quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tableau</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">):</span>
+            <span class="c1"># CNOT rules:</span>
+            <span class="c1"># X_c → X_c X_t</span>
+            <span class="c1"># Z_c → Z_c</span>
+            <span class="c1"># X_t → X_t</span>
+            <span class="c1"># Z_t → Z_c Z_t</span>
+
+            <span class="n">x_c</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">control</span><span class="p">]</span>
+            <span class="n">z_c</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">control</span><span class="p">]</span>
+            <span class="n">x_t</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">target</span><span class="p">]</span>
+            <span class="n">z_t</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">target</span><span class="p">]</span>
+
+            <span class="c1"># Phase: anticommutes if X_c Z_t but not (Z_c or X_t)</span>
+            <span class="k">if</span> <span class="n">x_c</span> <span class="ow">and</span> <span class="n">z_t</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">z_c</span> <span class="ow">or</span> <span class="n">x_t</span><span class="p">):</span>
+                <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+
+            <span class="c1"># Update X_t and Z_c</span>
+            <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">target</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_t</span> <span class="o">+</span> <span class="n">x_c</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+            <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">control</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">z_c</span> <span class="o">+</span> <span class="n">z_t</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="StabilizerSimulator.cz">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator.cz">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit1</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;CZ gate (symmetric)&quot;&quot;&quot;</span>
+        <span class="c1"># CZ = H₂ CNOT H₂</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qubit2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qubit2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StabilizerSimulator.swap">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator.swap">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">swap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit1</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;SWAP gate&quot;&quot;&quot;</span>
+        <span class="c1"># SWAP = CNOT₁₂ CNOT₂₁ CNOT₁₂</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">qubit2</span><span class="p">,</span> <span class="n">qubit1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StabilizerSimulator.x">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator.x">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pauli-X gate&quot;&quot;&quot;</span>
+        <span class="c1"># X flips Z ↔ -Z in stabilizers</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tableau</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">):</span>
+            <span class="c1"># If the row has Z on this qubit, flip the phase</span>
+            <span class="k">if</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="StabilizerSimulator.y">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator.y">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pauli-Y gate&quot;&quot;&quot;</span>
+        <span class="c1"># Y flips both X and Z in stabilizers</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tableau</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">):</span>
+            <span class="c1"># If the row has X or Z (or both) on this qubit, flip the phase</span>
+            <span class="k">if</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="StabilizerSimulator.z">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator.z">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pauli-Z gate&quot;&quot;&quot;</span>
+        <span class="c1"># Z flips X ↔ -X in stabilizers</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tableau</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">):</span>
+            <span class="c1"># If the row has X on this qubit, flip the phase</span>
+            <span class="k">if</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span></div>
+
+
+    <span class="c1"># Measurement</span>
+
+<div class="viewcode-block" id="StabilizerSimulator.measure">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator.measure">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Measure qubit in computational basis</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            0 or 1 (measurement outcome)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">()</span>
+
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tableau</span>
+
+        <span class="c1"># Check if any stabilizer has X on this qubit</span>
+        <span class="c1"># If so, measurement outcome is random</span>
+        <span class="n">x_column</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">n</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="n">qubit</span><span class="p">]</span>
+
+        <span class="c1"># Find first stabilizer with X on this qubit</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">x_column</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="n">i</span>  <span class="c1"># Actual row index in tableau</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Deterministic outcome</span>
+            <span class="c1"># Find which stabilizer row has Z (but not X) on this qubit</span>
+            <span class="n">outcome</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># default</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">):</span>  <span class="c1"># Only search stabilizer rows</span>
+                <span class="k">if</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="c1"># This row has Z but not X on this qubit</span>
+                    <span class="c1"># Phase bit encodes parity of ALL qubits with Z in this stabilizer</span>
+                    <span class="c1"># We need to account for other qubits already measured</span>
+                    <span class="n">phase</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+                    <span class="c1"># XOR with measurement outcomes of all OTHER qubits with Z in this stabilizer</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">qubit</span> <span class="ow">and</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Other qubit has Z</span>
+                            <span class="c1"># Get measurement outcome of qubit j</span>
+                            <span class="c1"># Check if qubit j has been measured (has Z but not X in some stabilizer)</span>
+                            <span class="n">measured_j</span> <span class="o">=</span> <span class="mi">0</span>
+                            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">):</span>
+                                <span class="k">if</span> <span class="n">tab</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">tab</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">tab</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                    <span class="c1"># Stabilizer k has Z on j but not on our target qubit</span>
+                                    <span class="c1"># This means j was measured with outcome = phase of k</span>
+                                    <span class="n">measured_j</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                                    <span class="k">break</span>
+                            <span class="n">phase</span> <span class="o">=</span> <span class="p">(</span><span class="n">phase</span> <span class="o">+</span> <span class="n">measured_j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+
+                    <span class="n">outcome</span> <span class="o">=</span> <span class="n">phase</span>
+
+                    <span class="c1"># Update tableau to make this measurement explicit for future measurements</span>
+                    <span class="c1"># Replace this stabilizer row with just Z on the target qubit</span>
+                    <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Clear X part</span>
+                    <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Clear Z part</span>
+                    <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Set Z on target qubit</span>
+                    <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">outcome</span>  <span class="c1"># Set phase</span>
+                    <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Random outcome</span>
+            <span class="n">outcome</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+            <span class="c1"># Update tableau to reflect post-measurement state</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">p</span> <span class="ow">and</span> <span class="n">tab</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># X on qubit</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_rowsum</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+            <span class="c1"># Set stabilizer p to Z (outcome 0) or -Z (outcome 1)</span>
+            <span class="n">tab</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">tab</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">qubit</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">tab</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">outcome</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">measurement_outcomes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outcome</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outcome</span></div>
+
+
+    <span class="c1"># Handoff to MPS</span>
+
+<div class="viewcode-block" id="StabilizerSimulator.to_mps">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator.to_mps">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_mps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert stabilizer state to MPS representation</span>
+
+<span class="sd">        This is used when non-Clifford gates appear in the circuit.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            AdaptiveMPS instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+        <span class="c1"># For now, convert to statevector then to MPS</span>
+        <span class="c1"># TODO: Direct stabilizer → MPS conversion is more efficient</span>
+        <span class="n">statevector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_statevector</span><span class="p">()</span>
+
+        <span class="c1"># Create MPS from statevector</span>
+        <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Set MPS tensors from statevector</span>
+        <span class="c1"># This is a simple inefficient method - proper conversion would use</span>
+        <span class="c1"># successive SVDs along the chain</span>
+        <span class="n">statevector_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">statevector</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Reshape to tensor train format and perform SVD decomposition</span>
+        <span class="c1"># For now, use a simplified approach</span>
+        <span class="c1"># TODO: Implement efficient SVD-based conversion</span>
+
+        <span class="k">return</span> <span class="n">mps</span></div>
+
+
+<div class="viewcode-block" id="StabilizerSimulator.to_statevector">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.StabilizerSimulator.to_statevector">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_statevector</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert stabilizer state to full statevector (SLOW! Only for small n)</span>
+
+<span class="sd">        This explicitly constructs the 2^n statevector.</span>
+<span class="sd">        Only use for small systems (n ≤ 20).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Statevector of shape (2^n,)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Cannot convert </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="si">}</span><span class="s2"> qubits to statevector &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;(would require </span><span class="si">{</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="si">}</span><span class="s2"> amplitudes)&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Start with |0...0⟩</span>
+        <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+        <span class="n">psi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+        <span class="c1"># Apply Clifford gates to generate the stabilizer state</span>
+        <span class="c1"># This is inefficient but correct</span>
+        <span class="c1"># TODO: Use stabilizer-to-graph-state conversion for efficiency</span>
+
+        <span class="k">return</span> <span class="n">psi</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="is_clifford_gate">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.is_clifford_gate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_clifford_gate</span><span class="p">(</span><span class="n">gate_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if a gate is in the Clifford group&quot;&quot;&quot;</span>
+    <span class="n">clifford_gates</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;CNOT&quot;</span><span class="p">,</span> <span class="s2">&quot;CZ&quot;</span><span class="p">,</span> <span class="s2">&quot;SWAP&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">,</span> <span class="s2">&quot;S_DAG&quot;</span><span class="p">,</span> <span class="s2">&quot;CX&quot;</span><span class="p">,</span> <span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="s2">&quot;I&quot;</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">gate_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">clifford_gates</span></div>
+
+
+
+<div class="viewcode-block" id="HybridSimulator">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.HybridSimulator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HybridSimulator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Hybrid simulator that uses stabilizer backend for Clifford parts</span>
+<span class="sd">    and switches to MPS when non-Clifford gates appear</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">        sim = HybridSimulator(n_qubits=100, use_stabilizer=True)</span>
+<span class="sd">        sim.h(0)</span>
+<span class="sd">        sim.cnot(0, 1)</span>
+<span class="sd">        sim.t(0)  # Automatically switches to MPS here</span>
+<span class="sd">        sim.measure_all()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="HybridSimulator.__init__">
+<a class="viewcode-back" href="../../reference/generated/atlas_q.stabilizer_backend.HybridSimulator.html#atlas_q.stabilizer_backend.HybridSimulator.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">use_stabilizer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">chi_max</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">=</span> <span class="n">n_qubits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_stabilizer</span> <span class="o">=</span> <span class="n">use_stabilizer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chi_max</span> <span class="o">=</span> <span class="n">chi_max</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+
+        <span class="c1"># Start with stabilizer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;stabilizer&quot;</span> <span class="k">if</span> <span class="n">use_stabilizer</span> <span class="k">else</span> <span class="s2">&quot;mps&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;stabilizer&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stabilizer_sim</span> <span class="o">=</span> <span class="n">StabilizerSimulator</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mps</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="n">chi_max</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stabilizer_sim</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;clifford&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;non_clifford&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_switch_to_mps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Switch from stabilizer to MPS representation&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;mps&quot;</span><span class="p">:</span>
+            <span class="k">return</span>  <span class="c1"># Already in MPS mode</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Switching to MPS after </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span><span class="p">[</span><span class="s1">&#39;clifford&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> Clifford gates&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Convert stabilizer state to MPS</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stabilizer_sim</span><span class="o">.</span><span class="n">to_mps</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stabilizer_sim</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;mps&quot;</span>
+
+<div class="viewcode-block" id="HybridSimulator.h">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.HybridSimulator.h">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">h</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Hadamard gate&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;stabilizer&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stabilizer_sim</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span><span class="p">[</span><span class="s2">&quot;clifford&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">H</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="HybridSimulator.s">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.HybridSimulator.s">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">s</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Phase gate&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;stabilizer&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stabilizer_sim</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span><span class="p">[</span><span class="s2">&quot;clifford&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="n">j</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="HybridSimulator.x">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.HybridSimulator.x">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pauli-X gate&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;stabilizer&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stabilizer_sim</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span><span class="p">[</span><span class="s2">&quot;clifford&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="HybridSimulator.z">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.HybridSimulator.z">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pauli-Z gate&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;stabilizer&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stabilizer_sim</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span><span class="p">[</span><span class="s2">&quot;clifford&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">Z</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="HybridSimulator.cnot">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.HybridSimulator.cnot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cnot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">control</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;CNOT gate&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;stabilizer&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stabilizer_sim</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">control</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span><span class="p">[</span><span class="s2">&quot;clifford&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">CNOT</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span>
+                <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">control</span> <span class="o">-</span> <span class="n">target</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">bond_idx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">control</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">apply_two_site_gate</span><span class="p">(</span><span class="n">bond_idx</span><span class="p">,</span> <span class="n">CNOT</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Need SWAP network for non-adjacent qubits</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;CNOT on non-adjacent qubits requires SWAP network&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HybridSimulator.t">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.HybridSimulator.t">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">t</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;T gate (non-Clifford!)&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;stabilizer&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_switch_to_mps</span><span class="p">()</span>
+
+        <span class="n">T</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span><span class="p">[</span><span class="s2">&quot;non_clifford&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="HybridSimulator.swap">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.HybridSimulator.swap">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">swap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit1</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;SWAP gate (Clifford)&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;stabilizer&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stabilizer_sim</span><span class="o">.</span><span class="n">swap</span><span class="p">(</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span><span class="p">[</span><span class="s2">&quot;clifford&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># For MPS, SWAP can be done with 3 CNOTs</span>
+            <span class="c1"># SWAP = CNOT(a,b) CNOT(b,a) CNOT(a,b)</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;SWAP in MPS mode not yet implemented&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HybridSimulator.measure">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.HybridSimulator.measure">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Measure qubit&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;stabilizer&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stabilizer_sim</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># MPS measurement</span>
+            <span class="c1"># TODO: Implement proper MPS measurement</span>
+            <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># Placeholder</span></div>
+
+
+<div class="viewcode-block" id="HybridSimulator.get_statistics">
+<a class="viewcode-back" href="../../reference/stabilizer_backend.html#atlas_q.stabilizer_backend.HybridSimulator.get_statistics">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get simulation statistics&quot;&quot;&quot;</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+            <span class="s2">&quot;clifford_gates&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span><span class="p">[</span><span class="s2">&quot;clifford&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;non_clifford_gates&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span><span class="p">[</span><span class="s2">&quot;non_clifford&quot;</span><span class="p">],</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;mps&quot;</span><span class="p">:</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;mps_stats&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">stats_summary</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">stats</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

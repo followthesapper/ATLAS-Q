@@ -1,0 +1,30 @@
+﻿atlas\_q.mpo\_ops.MPOBuilder
+============================
+
+.. currentmodule:: atlas_q.mpo_ops
+
+.. autoclass:: MPOBuilder
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~MPOBuilder.__init__
+      ~MPOBuilder.from_local_terms
+      ~MPOBuilder.heisenberg_hamiltonian
+      ~MPOBuilder.identity_mpo
+      ~MPOBuilder.ising_hamiltonian
+      ~MPOBuilder.local_operator
+      ~MPOBuilder.maxcut_hamiltonian
+      ~MPOBuilder.molecular_hamiltonian_from_specs
+      ~MPOBuilder.sum_local_operators
+   
+   
+
+   
+   
+   

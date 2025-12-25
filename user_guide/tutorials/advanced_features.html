@@ -1,0 +1,1547 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Advanced Features Tutorial &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/tutorials/advanced_features';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="How-To Guides" href="../howtos/index.html" />
+    <link rel="prev" title="QAOA Tutorial" href="qaoa_tutorial.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="beginners.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_basics.html">MPS Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vqe_tutorial.html">VQE Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coherence_aware_vqe.html">Coherence-Aware Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tdvp_tutorial.html">TDVP Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="molecular_vqe.html">Molecular VQE Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qaoa_tutorial.html">QAOA Tutorial</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Advanced Features Tutorial</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Advanced Features Tutorial</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="advanced-features-tutorial">
+<h1>Advanced Features Tutorial<a class="headerlink" href="#advanced-features-tutorial" title="Link to this heading">#</a></h1>
+<p>This tutorial covers advanced simulation techniques in ATLAS-Q including circuit cutting, PEPS for 2D systems, Clifford circuit simulation, distributed computing, noise modeling, and custom optimization strategies for research and production use.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<p>Before starting this tutorial, you should:</p>
+<ul class="simple">
+<li><p>Have completed basic MPS tutorials (see <a class="reference internal" href="mps_basics.html"><span class="doc">MPS Basics</span></a>)</p></li>
+<li><p>Understand variational algorithms (see <a class="reference internal" href="vqe_tutorial.html"><span class="doc">VQE Tutorial</span></a>, <a class="reference internal" href="qaoa_tutorial.html"><span class="doc">QAOA Tutorial</span></a>)</p></li>
+<li><p>Be familiar with multi-GPU or multi-node computing concepts</p></li>
+<li><p>Know tensor network basics and entanglement structure</p></li>
+<li><p>Have experience with Python profiling and performance analysis</p></li>
+</ul>
+</section>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<p>By the end of this tutorial, you will be able to:</p>
+<ol class="arabic simple">
+<li><p>Use circuit cutting to simulate large circuits with limited resources</p></li>
+<li><p>Apply PEPS to efficiently simulate 2D quantum systems</p></li>
+<li><p>Leverage stabilizer backend for fast Clifford circuit simulation</p></li>
+<li><p>Deploy distributed MPS across multiple GPUs or compute nodes</p></li>
+<li><p>Model realistic quantum noise with custom channels</p></li>
+<li><p>Implement constrained and multi-objective optimization</p></li>
+<li><p>Profile simulations to identify performance bottlenecks</p></li>
+<li><p>Troubleshoot advanced simulation issues</p></li>
+</ol>
+</section>
+<section id="part-1-circuit-cutting-and-distribution">
+<h2>Part 1: Circuit Cutting and Distribution<a class="headerlink" href="#part-1-circuit-cutting-and-distribution" title="Link to this heading">#</a></h2>
+<section id="what-is-circuit-cutting">
+<h3>What is Circuit Cutting?<a class="headerlink" href="#what-is-circuit-cutting" title="Link to this heading">#</a></h3>
+<p>Circuit cutting decomposes large quantum circuits into smaller subcircuits that fit on available hardware or simulation resources. This trades circuit depth for classical post-processing: instead of simulating one large circuit, we simulate many small circuits and combine results.</p>
+<p>For a circuit with <span class="math notranslate nohighlight">\(n\)</span> qubits cut into <span class="math notranslate nohighlight">\(k\)</span> partitions, the overhead is exponential in the number of cuts <span class="math notranslate nohighlight">\(c\)</span>: typically <span class="math notranslate nohighlight">\(O(4^c)\)</span> subcircuits. This is worthwhile when <span class="math notranslate nohighlight">\(n\)</span> is too large but <span class="math notranslate nohighlight">\(c\)</span> is small.</p>
+</section>
+<section id="why-cut-circuits">
+<h3>Why Cut Circuits?<a class="headerlink" href="#why-cut-circuits" title="Link to this heading">#</a></h3>
+<p>Circuit cutting is valuable when:</p>
+<ul class="simple">
+<li><p>Full circuit exceeds memory or qubit capacity</p></li>
+<li><p>Circuit has sparse connectivity (natural cutting points)</p></li>
+<li><p>Simulating on distributed hardware without direct qubit communication</p></li>
+<li><p>Prototyping algorithms before full-scale hardware is available</p></li>
+</ul>
+<p>The technique is particularly effective for modular circuits where subsystems have limited entanglement.</p>
+</section>
+<section id="implementing-circuit-cutting">
+<h3>Implementing Circuit Cutting<a class="headerlink" href="#implementing-circuit-cutting" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.circuit_cutting</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitCutter</span><span class="p">,</span> <span class="n">CuttingConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Define a large circuit (30 qubits)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_large_circuit</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Circuit too large for direct simulation.&quot;&quot;&quot;</span>
+    <span class="n">gates</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Layer 1: Local Hadamards</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+        <span class="n">gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">[]))</span>
+
+    <span class="c1"># Layer 2: Nearest-neighbor CNOTs (creates entanglement)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">29</span><span class="p">):</span>
+        <span class="n">gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;CNOT&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="p">[]))</span>
+
+    <span class="c1"># Layer 3: More local rotations</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+        <span class="n">gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;RZ&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]))</span>
+
+    <span class="c1"># Sparse long-range gates (cutting targets)</span>
+    <span class="n">gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;CNOT&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span> <span class="p">[]))</span>
+    <span class="n">gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;CNOT&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">29</span><span class="p">],</span> <span class="p">[]))</span>
+
+    <span class="k">return</span> <span class="n">gates</span>
+
+<span class="c1"># Configure circuit cutter</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">CuttingConfig</span><span class="p">(</span>
+    <span class="n">max_partition_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>  <span class="c1"># Each partition ≤ 10 qubits</span>
+    <span class="n">max_cuts</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>             <span class="c1"># Allow up to 2 cuts</span>
+    <span class="n">optimization</span><span class="o">=</span><span class="s1">&#39;min_cuts&#39;</span> <span class="c1"># Minimize number of cuts</span>
+<span class="p">)</span>
+
+<span class="n">cutter</span> <span class="o">=</span> <span class="n">CircuitCutter</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># Partition the circuit</span>
+<span class="n">gates</span> <span class="o">=</span> <span class="n">build_large_circuit</span><span class="p">()</span>
+<span class="n">partitions</span><span class="p">,</span> <span class="n">cut_locations</span> <span class="o">=</span> <span class="n">cutter</span><span class="o">.</span><span class="n">partition_circuit</span><span class="p">(</span><span class="n">gates</span><span class="p">,</span> <span class="n">n_partitions</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Original circuit: 30 qubits, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">gates</span><span class="p">)</span><span class="si">}</span><span class="s2"> gates&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Partitioned into </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">partitions</span><span class="p">)</span><span class="si">}</span><span class="s2"> subcircuits with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cut_locations</span><span class="p">)</span><span class="si">}</span><span class="s2"> cuts&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">partitions</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Partition </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">part</span><span class="o">.</span><span class="n">n_qubits</span><span class="si">}</span><span class="s2"> qubits, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">gates</span><span class="p">)</span><span class="si">}</span><span class="s2"> gates&quot;</span><span class="p">)</span>
+
+<span class="c1"># Simulate each partition independently</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">partition</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">partitions</span><span class="p">):</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="n">partition</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">gate_name</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">partition</span><span class="o">.</span><span class="n">gates</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">gate_name</span> <span class="o">==</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span>
+            <span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">H</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">gate_name</span> <span class="o">==</span> <span class="s1">&#39;CNOT&#39;</span><span class="p">:</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="c1"># ... other gates ...</span>
+
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mps</span><span class="p">)</span>
+
+<span class="c1"># Combine results (classical post-processing)</span>
+<span class="n">final_result</span> <span class="o">=</span> <span class="n">cutter</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">cut_locations</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final expectation value: </span><span class="si">{</span><span class="n">final_result</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="adaptive-cutting-strategies">
+<h3>Adaptive Cutting Strategies<a class="headerlink" href="#adaptive-cutting-strategies" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Different cutting strategies for different circuit structures</span>
+<span class="n">strategies</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;min_cuts&#39;</span><span class="p">,</span> <span class="s1">&#39;balanced_size&#39;</span><span class="p">,</span> <span class="s1">&#39;min_entanglement&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="n">strategies</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">CuttingConfig</span><span class="p">(</span>
+        <span class="n">max_partition_size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">max_cuts</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">optimization</span><span class="o">=</span><span class="n">strategy</span>
+    <span class="p">)</span>
+    <span class="n">cutter</span> <span class="o">=</span> <span class="n">CircuitCutter</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">partitions</span><span class="p">,</span> <span class="n">cuts</span> <span class="o">=</span> <span class="n">cutter</span><span class="o">.</span><span class="n">partition_circuit</span><span class="p">(</span><span class="n">gates</span><span class="p">,</span> <span class="n">n_partitions</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="n">overhead</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">**</span> <span class="nb">len</span><span class="p">(</span><span class="n">cuts</span><span class="p">)</span>  <span class="c1"># Classical overhead</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">strategy</span><span class="si">:</span><span class="s2">20s</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cuts</span><span class="p">)</span><span class="si">}</span><span class="s2"> cuts, overhead = </span><span class="si">{</span><span class="n">overhead</span><span class="si">}</span><span class="s2">x&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-2-peps-for-2d-systems">
+<h2>Part 2: PEPS for 2D Systems<a class="headerlink" href="#part-2-peps-for-2d-systems" title="Link to this heading">#</a></h2>
+<section id="projected-entangled-pair-states">
+<h3>Projected Entangled Pair States<a class="headerlink" href="#projected-entangled-pair-states" title="Link to this heading">#</a></h3>
+<p>PEPS generalize MPS to 2D lattices. Instead of a 1D chain of tensors, PEPS arrange tensors on a 2D grid where each tensor connects to 4 neighbors (up, down, left, right). This captures area-law entanglement scaling natural to 2D systems.</p>
+<p>PEPS are ideal for:</p>
+<ul class="simple">
+<li><p>2D materials and spin models</p></li>
+<li><p>Quantum error correction codes (surface code)</p></li>
+<li><p>Shallow circuits on 2D architectures</p></li>
+</ul>
+</section>
+<section id="implementing-2d-simulations">
+<h3>Implementing 2D Simulations<a class="headerlink" href="#implementing-2d-simulations" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.peps</span><span class="w"> </span><span class="kn">import</span> <span class="n">PatchPEPS</span>
+
+<span class="c1"># Simulate 4×4 qubit grid</span>
+<span class="n">patch</span> <span class="o">=</span> <span class="n">PatchPEPS</span><span class="p">(</span>
+    <span class="n">patch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Apply 2D circuit</span>
+<span class="c1"># Coordinates are (row, col)</span>
+<span class="n">gates_2d</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Layer 1: Hadamards on all qubits</span>
+    <span class="o">*</span><span class="p">[(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)],</span> <span class="p">[])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)],</span>
+
+    <span class="c1"># Layer 2: Horizontal CNOTs</span>
+    <span class="o">*</span><span class="p">[(</span><span class="s1">&#39;CZ&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span> <span class="p">[])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)],</span>
+
+    <span class="c1"># Layer 3: Vertical CNOTs</span>
+    <span class="o">*</span><span class="p">[(</span><span class="s1">&#39;CZ&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">)],</span> <span class="p">[])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+<span class="p">]</span>
+
+<span class="c1"># Apply gates</span>
+<span class="k">for</span> <span class="n">gate_name</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">gates_2d</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">gate_name</span> <span class="o">==</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span>
+        <span class="n">patch</span><span class="o">.</span><span class="n">apply_single_site_gate</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">gate_name</span> <span class="o">==</span> <span class="s1">&#39;CZ&#39;</span><span class="p">:</span>
+        <span class="n">patch</span><span class="o">.</span><span class="n">apply_two_site_gate</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;CZ&#39;</span><span class="p">)</span>
+
+<span class="c1"># Measure observable</span>
+<span class="n">magnetization</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">measure_magnetization</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total magnetization: </span><span class="si">{</span><span class="n">magnetization</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Sample final state</span>
+<span class="n">bitstring_2d</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample configuration:</span><span class="se">\n</span><span class="si">{</span><span class="n">bitstring_2d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="surface-code-simulation">
+<h3>Surface Code Simulation<a class="headerlink" href="#surface-code-simulation" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate distance-3 surface code (5×5 qubits)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">surface_code_stabilizers</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate stabilizer measurements for surface code.&quot;&quot;&quot;</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">distance</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">patch</span> <span class="o">=</span> <span class="n">PatchPEPS</span><span class="p">(</span><span class="n">patch_size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Initialize |+⟩ state</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">patch</span><span class="o">.</span><span class="n">apply_single_site_gate</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="s1">&#39;H&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Apply stabilizer measurements</span>
+    <span class="c1"># X-stabilizers (plaquettes)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">qubits</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+            <span class="n">syndrome_x</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">measure_stabilizer</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="n">pauli_type</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Z-stabilizers (vertices)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">qubits</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span>
+            <span class="n">syndrome_z</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">measure_stabilizer</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="n">pauli_type</span><span class="o">=</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">patch</span>
+
+<span class="c1"># Run surface code</span>
+<span class="n">patch_sc</span> <span class="o">=</span> <span class="n">surface_code_stabilizers</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">error_rate</span> <span class="o">=</span> <span class="n">patch_sc</span><span class="o">.</span><span class="n">estimate_logical_error_rate</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Logical error rate: </span><span class="si">{</span><span class="n">error_rate</span><span class="si">:</span><span class="s2">.4e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-3-stabilizer-backend">
+<h2>Part 3: Stabilizer Backend<a class="headerlink" href="#part-3-stabilizer-backend" title="Link to this heading">#</a></h2>
+<section id="clifford-circuits-and-stabilizers">
+<h3>Clifford Circuits and Stabilizers<a class="headerlink" href="#clifford-circuits-and-stabilizers" title="Link to this heading">#</a></h3>
+<p>The stabilizer formalism provides exponentially faster simulation for Clifford circuits (gates: H, S, CNOT, CZ). The Gottesman-Knill theorem states Clifford circuits can be simulated efficiently classically using stabilizer tableaux.</p>
+<p>Stabilizer simulation is <span class="math notranslate nohighlight">\(O(n^2)\)</span> per gate for <span class="math notranslate nohighlight">\(n\)</span> qubits, compared to <span class="math notranslate nohighlight">\(O(2^n)\)</span> for full statevector simulation. This enables simulation of 1000+ qubit Clifford circuits.</p>
+</section>
+<section id="fast-clifford-simulation">
+<h3>Fast Clifford Simulation<a class="headerlink" href="#fast-clifford-simulation" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.stabilizer_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">StabilizerSimulator</span>
+
+<span class="c1"># Simulate large Clifford circuit</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">StabilizerSimulator</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+
+<span class="c1"># Apply Clifford gates</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">):</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">199</span><span class="p">):</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="c1"># Measure in Z basis</span>
+<span class="n">outcomes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">):</span>
+    <span class="n">outcome</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">outcomes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outcome</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Measurement outcomes (first 20): </span><span class="si">{</span><span class="n">outcomes</span><span class="p">[:</span><span class="mi">20</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check stabilizers</span>
+<span class="n">stabilizers</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">get_stabilizers</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of independent stabilizers: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">stabilizers</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="use-cases">
+<h3>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h3>
+<p>Stabilizer backend is ideal for:</p>
+<ol class="arabic simple">
+<li><p><strong>Quantum error correction</strong>: Simulate encoding/decoding circuits</p></li>
+<li><p><strong>Circuit verification</strong>: Check if circuit is Clifford</p></li>
+<li><p><strong>Magic state distillation</strong>: Clifford part of fault-tolerant protocols</p></li>
+<li><p><strong>Debugging</strong>: Fast validation before expensive full simulation</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify circuit is Clifford before full simulation</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_clifford_circuit</span><span class="p">(</span><span class="n">gates</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if gate sequence contains only Clifford gates.&quot;&quot;&quot;</span>
+    <span class="n">clifford_gates</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="s1">&#39;CNOT&#39;</span><span class="p">,</span> <span class="s1">&#39;CZ&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">}</span>
+    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">clifford_gates</span> <span class="k">for</span> <span class="n">gate</span> <span class="ow">in</span> <span class="n">gates</span><span class="p">)</span>
+
+<span class="c1"># Example workflow</span>
+<span class="n">gates</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[]),</span> <span class="p">(</span><span class="s1">&#39;CNOT&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[]),</span> <span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[])]</span>
+
+<span class="k">if</span> <span class="n">is_clifford_circuit</span><span class="p">(</span><span class="n">gates</span><span class="p">):</span>
+    <span class="c1"># Use fast stabilizer simulation</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">StabilizerSimulator</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">gate_name</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">gates</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">gate_name</span> <span class="o">==</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span>
+            <span class="n">sim</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">gate_name</span> <span class="o">==</span> <span class="s1">&#39;CNOT&#39;</span><span class="p">:</span>
+            <span class="n">sim</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">gate_name</span> <span class="o">==</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span>
+            <span class="n">sim</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Used fast Clifford simulation&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># Use full MPS simulation</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="c1"># ... apply gates ...</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Used full MPS simulation&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-4-distributed-mps">
+<h2>Part 4: Distributed MPS<a class="headerlink" href="#part-4-distributed-mps" title="Link to this heading">#</a></h2>
+<section id="multi-gpu-and-multi-node-parallelism">
+<h3>Multi-GPU and Multi-Node Parallelism<a class="headerlink" href="#multi-gpu-and-multi-node-parallelism" title="Link to this heading">#</a></h3>
+<p>Distributed MPS partitions tensors across multiple devices to overcome single-device memory limits and accelerate computation through parallelism.</p>
+<p>Two distribution strategies:</p>
+<ul class="simple">
+<li><p><strong>Bond-parallel</strong>: Split along bond dimension, useful for large χ</p></li>
+<li><p><strong>Qubit-parallel</strong>: Split along qubit index, useful for many qubits</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span>
+
+<span class="c1"># Bond-parallel distribution (4 GPUs)</span>
+<span class="n">config_bond</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>           <span class="c1"># Use 4 devices</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span>         <span class="c1"># NCCL for GPU communication</span>
+    <span class="n">compression</span><span class="o">=</span><span class="kc">True</span>        <span class="c1"># Compress communications</span>
+<span class="p">)</span>
+
+<span class="n">mps_bond</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>          <span class="c1"># 256 split across 4 GPUs = 64 per GPU</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">config_bond</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bond dimension per device: </span><span class="si">{</span><span class="mi">256</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">4</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Qubit-parallel distribution</span>
+<span class="n">config_qubit</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;qubit_parallel&#39;</span><span class="p">,</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">4</span>
+<span class="p">)</span>
+
+<span class="n">mps_qubit</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>        <span class="c1"># 200 qubits split across 4 GPUs = 50 per GPU</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">config_qubit</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Qubits per device: </span><span class="si">{</span><span class="mi">200</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">4</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="communication-patterns">
+<h3>Communication Patterns<a class="headerlink" href="#communication-patterns" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1"># Apply gates and measure communication overhead</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config_bond</span><span class="p">)</span>
+
+<span class="c1"># Local gates (no communication)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_local_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">)</span>
+<span class="n">t_local</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="c1"># Two-qubit gates (require communication if qubits on different devices)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">99</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">t_two_qubit</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="c1"># Expectation values (global communication for reduction)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+<span class="n">t_expectation</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Local gates: </span><span class="si">{</span><span class="n">t_local</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Two-qubit gates: </span><span class="si">{</span><span class="n">t_two_qubit</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s (includes communication)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expectation value: </span><span class="si">{</span><span class="n">t_expectation</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s (includes reduction)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="scaling-analysis">
+<h3>Scaling Analysis<a class="headerlink" href="#scaling-analysis" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Benchmark scaling with number of devices</span>
+<span class="n">world_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="n">times</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">ws</span> <span class="ow">in</span> <span class="n">world_sizes</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span> <span class="n">world_size</span><span class="o">=</span><span class="n">ws</span><span class="p">)</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="c1"># Benchmark gate application</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">51</span><span class="p">)</span>  <span class="c1"># Central qubits</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+    <span class="n">times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elapsed</span><span class="p">)</span>
+    <span class="n">speedup</span> <span class="o">=</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">elapsed</span> <span class="k">if</span> <span class="n">ws</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mf">1.0</span>
+    <span class="n">efficiency</span> <span class="o">=</span> <span class="n">speedup</span> <span class="o">/</span> <span class="n">ws</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;World size </span><span class="si">{</span><span class="n">ws</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s, speedup </span><span class="si">{</span><span class="n">speedup</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">x, efficiency </span><span class="si">{</span><span class="n">efficiency</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Expected output:</span>
+<span class="c1"># World size 1: 5.23s, speedup 1.00x, efficiency 100%</span>
+<span class="c1"># World size 2: 2.87s, speedup 1.82x, efficiency 91%</span>
+<span class="c1"># World size 4: 1.65s, speedup 3.17x, efficiency 79%</span>
+<span class="c1"># World size 8: 1.12s, speedup 4.67x, efficiency 58%</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-5-noise-models">
+<h2>Part 5: Noise Models<a class="headerlink" href="#part-5-noise-models" title="Link to this heading">#</a></h2>
+<section id="depolarizing-noise">
+<h3>Depolarizing Noise<a class="headerlink" href="#depolarizing-noise" title="Link to this heading">#</a></h3>
+<p>Depolarizing channels model uniform errors: with probability <span class="math notranslate nohighlight">\(p\)</span>, apply random Pauli (X, Y, Z):</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{E}(\rho) = (1-p)\rho + \frac{p}{3}(X\rho X + Y\rho Y + Z\rho Z)\]</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.noise_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseModel</span>
+
+<span class="c1"># Depolarizing noise for single and two-qubit gates</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">depolarizing</span><span class="p">(</span>
+    <span class="n">p1q</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>   <span class="c1"># 0.1% error rate for single-qubit gates</span>
+    <span class="n">p2q</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>    <span class="c1"># 1% error rate for two-qubit gates</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Apply noisy gates to MPS</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">set_noise_model</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span>
+
+<span class="c1"># Gates are now automatically noisy</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>  <span class="c1"># Applied with 0.1% depolarizing noise</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>               <span class="c1"># Applied with 1% depolarizing noise</span>
+
+<span class="c1"># Measure fidelity degradation</span>
+<span class="n">ideal_mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">ideal_mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+<span class="n">ideal_mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">fidelity</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">fidelity</span><span class="p">(</span><span class="n">ideal_mps</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;State fidelity after noisy gates: </span><span class="si">{</span><span class="n">fidelity</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="amplitude-and-phase-damping">
+<h3>Amplitude and Phase Damping<a class="headerlink" href="#amplitude-and-phase-damping" title="Link to this heading">#</a></h3>
+<p>Model T1 and T2 decoherence:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Amplitude damping (T1 decay, energy relaxation)</span>
+<span class="n">noise_t1</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">amplitude_damping</span><span class="p">(</span>
+    <span class="n">gamma</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>  <span class="c1"># Decay rate</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Phase damping (T2 decay, dephasing)</span>
+<span class="n">noise_t2</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">phase_damping</span><span class="p">(</span>
+    <span class="n">lambda_</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span>  <span class="c1"># Dephasing rate</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Combined T1 and T2</span>
+<span class="n">noise_t1t2</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">t1_t2_noise</span><span class="p">(</span>
+    <span class="n">t1</span><span class="o">=</span><span class="mf">50e-6</span><span class="p">,</span>   <span class="c1"># T1 time (seconds)</span>
+    <span class="n">t2</span><span class="o">=</span><span class="mf">30e-6</span><span class="p">,</span>   <span class="c1"># T2 time (seconds)</span>
+    <span class="n">gate_time</span><span class="o">=</span><span class="mf">50e-9</span><span class="p">,</span>  <span class="c1"># Gate duration (nanoseconds)</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Apply to simulation</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">set_noise_model</span><span class="p">(</span><span class="n">noise_t1t2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-noise-channels">
+<h3>Custom Noise Channels<a class="headerlink" href="#custom-noise-channels" title="Link to this heading">#</a></h3>
+<p>Define arbitrary noise channels:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Custom noise: preferential X errors</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">x_biased_noise</span><span class="p">(</span><span class="n">p_x</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">p_y</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">p_z</span><span class="o">=</span><span class="mf">0.001</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Noise biased toward X errors.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">channel</span><span class="p">(</span><span class="n">rho</span><span class="p">):</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span>
+
+        <span class="n">p_total</span> <span class="o">=</span> <span class="n">p_x</span> <span class="o">+</span> <span class="n">p_y</span> <span class="o">+</span> <span class="n">p_z</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p_total</span><span class="p">)</span> <span class="o">*</span> <span class="n">rho</span> <span class="o">+</span> <span class="n">p_x</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">rho</span> <span class="o">@</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="n">p_y</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">@</span> <span class="n">rho</span> <span class="o">@</span> <span class="n">Y</span><span class="p">)</span> <span class="o">+</span> <span class="n">p_z</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">@</span> <span class="n">rho</span> <span class="o">@</span> <span class="n">Z</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">from_kraus_operators</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p_x</span> <span class="o">-</span> <span class="n">p_y</span> <span class="o">-</span> <span class="n">p_z</span><span class="p">))</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+         <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">p_x</span><span class="p">))</span> <span class="o">*</span> <span class="n">X</span><span class="p">,</span>
+         <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">p_y</span><span class="p">))</span> <span class="o">*</span> <span class="n">Y</span><span class="p">,</span>
+         <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">p_z</span><span class="p">))</span> <span class="o">*</span> <span class="n">Z</span><span class="p">],</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+
+<span class="n">noise_biased</span> <span class="o">=</span> <span class="n">x_biased_noise</span><span class="p">(</span><span class="n">p_x</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">p_y</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">p_z</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">set_noise_model</span><span class="p">(</span><span class="n">noise_biased</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-6-advanced-optimization-techniques">
+<h2>Part 6: Advanced Optimization Techniques<a class="headerlink" href="#part-6-advanced-optimization-techniques" title="Link to this heading">#</a></h2>
+<section id="constrained-optimization">
+<h3>Constrained Optimization<a class="headerlink" href="#constrained-optimization" title="Link to this heading">#</a></h3>
+<p>Optimize VQE subject to constraints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+
+<span class="c1"># Problem Hamiltonian</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">heisenberg_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">Jx</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jz</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Constraint: total spin Sz must be zero</span>
+<span class="n">Sz_total</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">total_spin_z</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Configure constrained VQE</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span>
+    <span class="n">n_layers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;SLSQP&#39;</span><span class="p">,</span>  <span class="c1"># Supports constraints</span>
+    <span class="n">constraints</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;eq&#39;</span><span class="p">,</span> <span class="s1">&#39;fun&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">params</span><span class="p">:</span> <span class="n">Sz_total</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">params</span><span class="p">)}</span>
+    <span class="p">],</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Constrained energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sz constraint violation: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">Sz_total</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">params</span><span class="p">))</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="multi-objective-vqe">
+<h3>Multi-Objective VQE<a class="headerlink" href="#multi-objective-vqe" title="Link to this heading">#</a></h3>
+<p>Optimize multiple objectives simultaneously:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Objectives: minimize energy AND maximize entanglement</span>
+<span class="n">H1</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">heisenberg_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">Jx</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jz</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">H2_entanglement</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">entanglement_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">multi_objective_loss</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Weighted combination of objectives.&quot;&quot;&quot;</span>
+    <span class="n">E1</span> <span class="o">=</span> <span class="n">vqe_obj1</span><span class="o">.</span><span class="n">energy</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">E2</span> <span class="o">=</span> <span class="o">-</span><span class="n">vqe_obj2</span><span class="o">.</span><span class="n">entanglement</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>  <span class="c1"># Maximize entanglement = minimize negative</span>
+    <span class="k">return</span> <span class="n">weights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">E1</span> <span class="o">+</span> <span class="n">weights</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">E2</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span>
+    <span class="n">n_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">custom_loss</span><span class="o">=</span><span class="n">multi_objective_loss</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="n">vqe_multi</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H1</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe_multi</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Energy: </span><span class="si">{</span><span class="n">H1</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entanglement: </span><span class="si">{</span><span class="o">-</span><span class="n">H2_entanglement</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="adaptive-circuits">
+<h3>Adaptive Circuits<a class="headerlink" href="#adaptive-circuits" title="Link to this heading">#</a></h3>
+<p>Dynamically adjust circuit structure during optimization:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start with shallow circuit, add layers if not converged</span>
+<span class="k">for</span> <span class="n">n_layers</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+        <span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span>
+        <span class="n">n_layers</span><span class="o">=</span><span class="n">n_layers</span><span class="p">,</span>
+        <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+    <span class="p">)</span>
+
+    <span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+    <span class="c1"># Check convergence</span>
+    <span class="n">gradient_norm</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">get_history</span><span class="p">()[</span><span class="s1">&#39;gradient_norms&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Layers </span><span class="si">{</span><span class="n">n_layers</span><span class="si">}</span><span class="s2">: E = </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">, grad_norm = </span><span class="si">{</span><span class="n">gradient_norm</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">gradient_norm</span> <span class="o">&lt;</span> <span class="mf">1e-6</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converged with </span><span class="si">{</span><span class="n">n_layers</span><span class="si">}</span><span class="s2"> layers&quot;</span><span class="p">)</span>
+        <span class="k">break</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-7-performance-profiling">
+<h2>Part 7: Performance Profiling<a class="headerlink" href="#part-7-performance-profiling" title="Link to this heading">#</a></h2>
+<section id="timing-analysis">
+<h3>Timing Analysis<a class="headerlink" href="#timing-analysis" title="Link to this heading">#</a></h3>
+<p>Identify computational bottlenecks:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.diagnostics</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPSStatistics</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">MPSStatistics</span><span class="p">()</span>
+
+<span class="c1"># Time gate operations</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+<span class="n">t_single</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">29</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">t_two_qubit</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">canonicalize</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+<span class="n">t_canonicalize</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Single-qubit gates: </span><span class="si">{</span><span class="n">t_single</span><span class="o">*</span><span class="mi">1000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> ms (</span><span class="si">{</span><span class="n">t_single</span><span class="o">/</span><span class="mi">30</span><span class="o">*</span><span class="mi">1000</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ms per gate)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Two-qubit gates: </span><span class="si">{</span><span class="n">t_two_qubit</span><span class="o">*</span><span class="mi">1000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> ms (</span><span class="si">{</span><span class="n">t_two_qubit</span><span class="o">/</span><span class="mi">29</span><span class="o">*</span><span class="mi">1000</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ms per gate)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Canonicalization: </span><span class="si">{</span><span class="n">t_canonicalize</span><span class="o">*</span><span class="mi">1000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> ms (</span><span class="si">{</span><span class="n">t_canonicalize</span><span class="o">/</span><span class="mi">30</span><span class="o">*</span><span class="mi">1000</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ms per site)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Use stats summary</span>
+<span class="n">summary</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">stats_summary</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Total operations: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;total_operations&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total time: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;total_time_ms&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> ms&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average operation time: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;total_time_ms&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;total_operations&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> ms&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="memory-profiling">
+<h3>Memory Profiling<a class="headerlink" href="#memory-profiling" title="Link to this heading">#</a></h3>
+<p>Track memory usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch.cuda</span>
+
+<span class="c1"># Monitor GPU memory</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">profile_memory</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Profile GPU memory usage of function.&quot;&quot;&quot;</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">reset_peak_memory_stats</span><span class="p">()</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+
+    <span class="n">initial_mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">memory_allocated</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>  <span class="c1"># GB</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+    <span class="n">final_mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">memory_allocated</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>
+    <span class="n">peak_mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">max_memory_allocated</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial memory: </span><span class="si">{</span><span class="n">initial_mem</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final memory: </span><span class="si">{</span><span class="n">final_mem</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Peak memory: </span><span class="si">{</span><span class="n">peak_mem</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Delta: </span><span class="si">{</span><span class="n">final_mem</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">initial_mem</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="c1"># Profile VQE optimization</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_vqe</span><span class="p">():</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">heisenberg_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">Jx</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jz</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">profile_memory</span><span class="p">(</span><span class="n">run_vqe</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="bottleneck-identification">
+<h3>Bottleneck Identification<a class="headerlink" href="#bottleneck-identification" title="Link to this heading">#</a></h3>
+<p>Use profiling to find slow operations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cProfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pstats</span>
+
+<span class="c1"># Profile VQE run</span>
+<span class="n">profiler</span> <span class="o">=</span> <span class="n">cProfile</span><span class="o">.</span><span class="n">Profile</span><span class="p">()</span>
+<span class="n">profiler</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span>
+
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">heisenberg_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">Jx</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jz</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">ansatz</span><span class="o">=</span><span class="s1">&#39;hardware_efficient&#39;</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="n">profiler</span><span class="o">.</span><span class="n">disable</span><span class="p">()</span>
+
+<span class="c1"># Print stats</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">pstats</span><span class="o">.</span><span class="n">Stats</span><span class="p">(</span><span class="n">profiler</span><span class="p">)</span>
+<span class="n">stats</span><span class="o">.</span><span class="n">sort_stats</span><span class="p">(</span><span class="s1">&#39;cumulative&#39;</span><span class="p">)</span>
+<span class="n">stats</span><span class="o">.</span><span class="n">print_stats</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># Top 20 functions</span>
+
+<span class="c1"># Expected bottlenecks:</span>
+<span class="c1"># - apply_two_site_gate (most time in entangling gates)</span>
+<span class="c1"># - svd (truncation overhead)</span>
+<span class="c1"># - expectation (Hamiltonian evaluation)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-8-troubleshooting">
+<h2>Part 8: Troubleshooting<a class="headerlink" href="#part-8-troubleshooting" title="Link to this heading">#</a></h2>
+<section id="problem-out-of-memory-errors">
+<h3>Problem: Out of Memory Errors<a class="headerlink" href="#problem-out-of-memory-errors" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms</strong>: CUDA out of memory, allocation failures</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Reduce bond dimension:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>  <span class="c1"># Instead of 128</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use CPU for large systems:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Enable distributed mode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span> <span class="n">world_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="problem-distributed-simulation-hangs">
+<h3>Problem: Distributed Simulation Hangs<a class="headerlink" href="#problem-distributed-simulation-hangs" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms</strong>: Process stuck, no progress, timeouts</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Check communication backend:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;qubit_parallel&#39;</span><span class="p">,</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span>  <span class="c1"># Try &#39;gloo&#39; if NCCL fails</span>
+    <span class="n">timeout</span><span class="o">=</span><span class="mi">300</span>      <span class="c1"># Increase timeout</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Verify device placement:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure each process uses different GPU</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">local_rank</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;LOCAL_RANK&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_device</span><span class="p">(</span><span class="n">local_rank</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Enable debug logging:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="c1"># Watch for communication deadlocks</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="problem-noise-simulation-is-too-slow">
+<h3>Problem: Noise Simulation is Too Slow<a class="headerlink" href="#problem-noise-simulation-is-too-slow" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms</strong>: Noisy simulation 100× slower than ideal</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Increase truncation tolerance for noisy states:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>  <span class="c1"># Less strict for noisy states</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use approximate noise models:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Depolarizing instead of full Kraus</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">depolarizing</span><span class="p">(</span><span class="n">p1q</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">p2q</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Apply noise only to critical gates:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply noise selectively</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>   <span class="c1"># Noisy two-qubit gate</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># Ideal single-qubit gate</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="problem-circuit-cutting-overhead-too-high">
+<h3>Problem: Circuit Cutting Overhead Too High<a class="headerlink" href="#problem-circuit-cutting-overhead-too-high" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms</strong>: 1000× overhead, impractical runtimes</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Minimize cuts:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">CuttingConfig</span><span class="p">(</span>
+    <span class="n">max_cuts</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># Strict limit</span>
+    <span class="n">optimization</span><span class="o">=</span><span class="s1">&#39;min_cuts&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Restructure circuit to reduce entanglement:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reorder gates to localize interactions</span>
+<span class="c1"># Use SWAP networks to bring interacting qubits together</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use hybrid simulation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cut only hard-to-simulate parts</span>
+<span class="c1"># Simulate easy parts with full MPS</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>This tutorial covered advanced ATLAS-Q features:</p>
+<p>✓ Circuit cutting to partition large circuits with controlled overhead
+✓ PEPS for efficient simulation of 2D quantum systems
+✓ Stabilizer backend for fast Clifford circuit simulation
+✓ Distributed MPS for multi-GPU and multi-node scaling
+✓ Noise models including depolarizing, amplitude damping, and custom channels
+✓ Constrained and multi-objective optimization for VQE
+✓ Performance profiling to identify and resolve bottlenecks
+✓ Troubleshooting techniques for advanced simulation challenges</p>
+<p>These techniques enable research-grade simulations of complex quantum systems beyond basic MPS capabilities.</p>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="mps_basics.html"><span class="doc">MPS Basics</span></a> - Review MPS fundamentals</p></li>
+<li><p><a class="reference internal" href="vqe_tutorial.html"><span class="doc">VQE Tutorial</span></a> - Apply advanced techniques to VQE</p></li>
+<li><p><a class="reference internal" href="../howtos/optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> - Deep dive into performance tuning</p></li>
+<li><p><a class="reference internal" href="../explanations/design_decisions.html"><span class="doc">Design Decisions</span></a> - Understand architectural choices</p></li>
+</ul>
+</section>
+<section id="practice-exercises">
+<h2>Practice Exercises<a class="headerlink" href="#practice-exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Cut a 50-qubit circuit into 5 partitions and measure overhead vs accuracy trade-off</p></li>
+<li><p>Simulate a 6×6 surface code using PEPS and estimate logical error rate</p></li>
+<li><p>Benchmark stabilizer vs full MPS simulation for random Clifford circuits up to 500 qubits</p></li>
+<li><p>Implement distributed VQE across 4 GPUs and measure scaling efficiency</p></li>
+<li><p>Design a custom noise model for specific hardware and validate against experimental data</p></li>
+</ol>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../reference/circuit_cutting.html"><span class="doc">Circuit Cutting</span></a> - Circuit cutting API</p></li>
+<li><p><a class="reference internal" href="../../reference/peps.html"><span class="doc">PEPS (2D Tensor Networks)</span></a> - PEPS API reference</p></li>
+<li><p><a class="reference internal" href="../../reference/stabilizer_backend.html"><span class="doc">atlas_q.stabilizer_backend</span></a> - Stabilizer simulator API</p></li>
+<li><p><a class="reference internal" href="../../reference/distributed_mps.html"><span class="doc">Distributed MPS</span></a> - Distributed computing API</p></li>
+<li><p><a class="reference internal" href="../../reference/noise_models.html"><span class="doc">Noise Models</span></a> - Noise modeling API</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="qaoa_tutorial.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">QAOA Tutorial</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../howtos/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How-To Guides</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1-circuit-cutting-and-distribution">Part 1: Circuit Cutting and Distribution</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-circuit-cutting">What is Circuit Cutting?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-cut-circuits">Why Cut Circuits?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-circuit-cutting">Implementing Circuit Cutting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-cutting-strategies">Adaptive Cutting Strategies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2-peps-for-2d-systems">Part 2: PEPS for 2D Systems</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#projected-entangled-pair-states">Projected Entangled Pair States</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-2d-simulations">Implementing 2D Simulations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surface-code-simulation">Surface Code Simulation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3-stabilizer-backend">Part 3: Stabilizer Backend</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clifford-circuits-and-stabilizers">Clifford Circuits and Stabilizers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fast-clifford-simulation">Fast Clifford Simulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-4-distributed-mps">Part 4: Distributed MPS</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-gpu-and-multi-node-parallelism">Multi-GPU and Multi-Node Parallelism</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#communication-patterns">Communication Patterns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling-analysis">Scaling Analysis</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-5-noise-models">Part 5: Noise Models</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#depolarizing-noise">Depolarizing Noise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#amplitude-and-phase-damping">Amplitude and Phase Damping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-noise-channels">Custom Noise Channels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-6-advanced-optimization-techniques">Part 6: Advanced Optimization Techniques</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constrained-optimization">Constrained Optimization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-objective-vqe">Multi-Objective VQE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-circuits">Adaptive Circuits</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-7-performance-profiling">Part 7: Performance Profiling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timing-analysis">Timing Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-profiling">Memory Profiling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bottleneck-identification">Bottleneck Identification</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-8-troubleshooting">Part 8: Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-out-of-memory-errors">Problem: Out of Memory Errors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-distributed-simulation-hangs">Problem: Distributed Simulation Hangs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-noise-simulation-is-too-slow">Problem: Noise Simulation is Too Slow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-circuit-cutting-overhead-too-high">Problem: Circuit Cutting Overhead Too High</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-exercises">Practice Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

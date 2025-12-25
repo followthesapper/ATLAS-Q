@@ -1,0 +1,6 @@
+﻿atlas\_q.grover.grover\_search
+==============================
+
+.. currentmodule:: atlas_q.grover
+
+.. autofunction:: grover_search

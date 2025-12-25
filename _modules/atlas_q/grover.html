@@ -1,0 +1,1329 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>atlas_q.grover &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/atlas_q/grover';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.grover</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for atlas_q.grover</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Grover&#39;s Search Algorithm for Quantum Database Search</span>
+
+<span class="sd">Implements Grover&#39;s amplitude amplification algorithm for searching unstructured</span>
+<span class="sd">databases with quadratic speedup over classical methods.</span>
+
+<span class="sd">Mathematical Background:</span>
+<span class="sd">- Search space: N = 2^n elements</span>
+<span class="sd">- Marked items: M items to find</span>
+<span class="sd">- Classical complexity: O(N)</span>
+<span class="sd">- Quantum complexity: O(√(N/M)) iterations</span>
+<span class="sd">- Optimal iterations: k* = π/4 * √(N/M)</span>
+
+<span class="sd">Features:</span>
+<span class="sd">- Oracle construction for various marking patterns</span>
+<span class="sd">- Amplitude amplification with diffusion operator</span>
+<span class="sd">- Automatic optimal iteration calculation</span>
+<span class="sd">- Integration with AdaptiveMPS for scalability</span>
+<span class="sd">- Support for multiple marked items</span>
+<span class="sd">- Flexible oracle types (function-based, bitmap, structured)</span>
+
+<span class="sd">Author: ATLAS-Q Contributors</span>
+<span class="sd">Date: November 2025</span>
+<span class="sd">License: MIT</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="c1"># Optional visualization</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+    <span class="n">MATPLOTLIB_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">MATPLOTLIB_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="GroverConfig">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.GroverConfig">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GroverConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configuration for Grover&#39;s algorithm</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        n_qubits: Number of qubits (search space size = 2^n_qubits)</span>
+<span class="sd">        oracle_type: Type of oracle (&#39;function&#39;, &#39;bitmap&#39;, &#39;structured&#39;)</span>
+<span class="sd">        auto_iterations: Automatically calculate optimal iterations</span>
+<span class="sd">        max_iterations: Maximum iterations (safety limit)</span>
+<span class="sd">        chi_max: Maximum bond dimension for MPS</span>
+<span class="sd">        device: &#39;cuda&#39; or &#39;cpu&#39;</span>
+<span class="sd">        dtype: torch.complex64 or torch.complex128</span>
+<span class="sd">        verbose: Print progress information</span>
+<span class="sd">        measure_success_prob: Track success probability after each iteration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">oracle_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;function&#39;</span>
+    <span class="n">auto_iterations</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">max_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="n">chi_max</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">256</span>
+    <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span>
+    <span class="n">dtype</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">complex128</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">measure_success_prob</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="OracleBase">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.OracleBase">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OracleBase</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for quantum oracles&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OracleBase.__init__">
+<a class="viewcode-back" href="../../reference/generated/atlas_q.grover.OracleBase.html#atlas_q.grover.OracleBase.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span><span class="p">,</span>
+                 <span class="n">dtype</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">=</span> <span class="n">n_qubits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_marked</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Number of marked items</span></div>
+
+
+<div class="viewcode-block" id="OracleBase.mark">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.OracleBase.mark">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mark</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mps</span><span class="p">:</span> <span class="n">AdaptiveMPS</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AdaptiveMPS</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mark a specific basis state by flipping its phase&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="OracleBase.apply">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.OracleBase.apply">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mps</span><span class="p">:</span> <span class="n">AdaptiveMPS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AdaptiveMPS</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply oracle to MPS (marks all target states)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            New MPS after oracle application</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="OracleBase.get_marked_count">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.OracleBase.get_marked_count">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_marked_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return number of marked items&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_marked</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="FunctionOracle">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.FunctionOracle">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FunctionOracle</span><span class="p">(</span><span class="n">OracleBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Oracle based on a marking function</span>
+
+<span class="sd">    Marks states where f(x) = True by applying phase flip.</span>
+<span class="sd">    Implements O_f |x⟩ = (-1)^f(x) |x⟩</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        # Mark state |5⟩</span>
+<span class="sd">        oracle = FunctionOracle(n_qubits=4, marking_fn=lambda x: x == 5)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FunctionOracle.__init__">
+<a class="viewcode-back" href="../../reference/generated/atlas_q.grover.FunctionOracle.html#atlas_q.grover.FunctionOracle.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">marking_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">bool</span><span class="p">],</span>
+                 <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">marking_fn</span> <span class="o">=</span> <span class="n">marking_fn</span>
+
+        <span class="c1"># Count marked items</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">n_qubits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_marked</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="k">if</span> <span class="n">marking_fn</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_marked</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Oracle marks zero items - Grover will not work&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FunctionOracle.apply">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.FunctionOracle.apply">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mps</span><span class="p">:</span> <span class="n">AdaptiveMPS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AdaptiveMPS</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply oracle by marking all states where marking_fn returns True</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            New MPS after oracle application</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span>
+        <span class="n">result_mps</span> <span class="o">=</span> <span class="n">mps</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">marking_fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                <span class="n">result_mps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mark_state</span><span class="p">(</span><span class="n">result_mps</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result_mps</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_mark_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mps</span><span class="p">:</span> <span class="n">AdaptiveMPS</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AdaptiveMPS</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mark a single state by applying phase flip using MPO</span>
+
+<span class="sd">        Builds an MPO that represents O = I - 2|state⟩⟨state|</span>
+<span class="sd">        This is exact and works for any marked state.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            New MPS after oracle application</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Import MPO operations</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPO</span><span class="p">,</span> <span class="n">apply_mpo_to_mps</span>
+
+        <span class="c1"># Build oracle MPO for marking this specific state</span>
+        <span class="n">oracle_mpo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_oracle_mpo</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+        <span class="c1"># Apply oracle to MPS - returns NEW MPS!</span>
+        <span class="k">return</span> <span class="n">apply_mpo_to_mps</span><span class="p">(</span><span class="n">oracle_mpo</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">chi_max</span><span class="o">=</span><span class="n">mps</span><span class="o">.</span><span class="n">chi_max_per_bond</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_oracle_mpo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MPO&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build MPO that marks a specific state</span>
+
+<span class="sd">        For state x with binary representation b_n...b_1:</span>
+<span class="sd">        Oracle = I - 2|x⟩⟨x|</span>
+
+<span class="sd">        This is implemented as an MPO with bond dimension 2 that applies</span>
+<span class="sd">        -1 phase to state |x⟩ and +1 to all others.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPO</span>
+
+        <span class="c1"># Get binary representation (MSB first to match MPS convention)</span>
+        <span class="c1"># MPS uses: bits[0] = MSB (leftmost), bits[n-1] = LSB (rightmost)</span>
+        <span class="n">bits</span> <span class="o">=</span> <span class="p">[(</span><span class="n">state</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">)]</span>
+
+        <span class="n">tensors</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># First site: bond dim [1, 2]</span>
+                <span class="c1"># Layout: [[I, P_i]] where P_i projects onto bit i</span>
+                <span class="n">W</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+                <span class="c1"># I channel (bond 0 -&gt; 0)</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+                <span class="c1"># P_i channel (bond 0 -&gt; 1): project onto bit value</span>
+                <span class="k">if</span> <span class="n">bits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># |0⟩⟨0|</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># |1⟩⟨1|</span>
+
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># Last site: bond dim [2, 1]</span>
+                <span class="c1"># Layout: [[I], [P_i]]</span>
+                <span class="n">W</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+                <span class="c1"># I channel (bond 0 -&gt; 0)</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+                <span class="c1"># Complete projector (bond 1 -&gt; 0): P_i - 2P_total</span>
+                <span class="c1"># This gives I - 2|x⟩⟨x| when combined</span>
+                <span class="k">if</span> <span class="n">bits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span>  <span class="c1"># |0⟩⟨0|</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span>  <span class="c1"># |1⟩⟨1|</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Middle sites: bond dim [2, 2]</span>
+                <span class="c1"># Layout: [[I, 0], [P_i, I]]</span>
+                <span class="n">W</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+                <span class="c1"># I channel (bond 0 -&gt; 0)</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+                <span class="c1"># Projector chain (bond 1 -&gt; 1)</span>
+                <span class="k">if</span> <span class="n">bits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># |0⟩⟨0|</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># |1⟩⟨1|</span>
+
+                <span class="c1"># Pass through identity (bond 1 -&gt; 0) - not used in this structure</span>
+
+            <span class="n">tensors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">MPO</span><span class="p">(</span><span class="n">tensors</span><span class="o">=</span><span class="n">tensors</span><span class="p">,</span> <span class="n">n_sites</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="BitmapOracle">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.BitmapOracle">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BitmapOracle</span><span class="p">(</span><span class="n">OracleBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Oracle based on explicit bitmap of marked states</span>
+
+<span class="sd">    More efficient than FunctionOracle for small marked sets.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        oracle = BitmapOracle(n_qubits=4, marked_states={3, 7, 11})</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BitmapOracle.__init__">
+<a class="viewcode-back" href="../../reference/generated/atlas_q.grover.BitmapOracle.html#atlas_q.grover.BitmapOracle.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">marked_states</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+                 <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+
+        <span class="c1"># Validate empty set</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">marked_states</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;marked_states must contain at least one state&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">marked_states</span> <span class="o">=</span> <span class="n">marked_states</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_marked</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">marked_states</span><span class="p">)</span>
+
+        <span class="c1"># Validate states are in range</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">n_qubits</span>
+        <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">marked_states</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">state</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">state</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;State </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2"> out of range [0, </span><span class="si">{</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BitmapOracle.apply">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.BitmapOracle.apply">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mps</span><span class="p">:</span> <span class="n">AdaptiveMPS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AdaptiveMPS</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply oracle by marking all states in bitmap</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            New MPS after oracle application</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Reuse FunctionOracle&#39;s marking strategy</span>
+        <span class="n">oracle</span> <span class="o">=</span> <span class="n">FunctionOracle</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">,</span>
+            <span class="n">marking_fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">marked_states</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">oracle</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mps</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DiffusionOperator">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.DiffusionOperator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiffusionOperator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Grover diffusion operator (inversion about average)</span>
+
+<span class="sd">    Implements: D = 2|ψ⟩⟨ψ| - I where |ψ⟩ = |+⟩^⊗n</span>
+
+<span class="sd">    Mathematical form:</span>
+<span class="sd">        D = H^⊗n (2|0⟩⟨0| - I) H^⊗n</span>
+
+<span class="sd">    This reflects amplitudes about their average, amplifying marked states.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiffusionOperator.__init__">
+<a class="viewcode-back" href="../../reference/generated/atlas_q.grover.DiffusionOperator.html#atlas_q.grover.DiffusionOperator.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span><span class="p">,</span>
+                 <span class="n">dtype</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">=</span> <span class="n">n_qubits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span></div>
+
+
+<div class="viewcode-block" id="DiffusionOperator.apply">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.DiffusionOperator.apply">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mps</span><span class="p">:</span> <span class="n">AdaptiveMPS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AdaptiveMPS</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply diffusion operator: 2|+⟩⟨+| - I</span>
+
+<span class="sd">        Decomposition:</span>
+<span class="sd">        1. H^⊗n  (transform to computational basis)</span>
+<span class="sd">        2. 2|0⟩⟨0| - I  (conditional phase shift using MPO)</span>
+<span class="sd">        3. H^⊗n  (transform back)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            New MPS after diffusion</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPO</span><span class="p">,</span> <span class="n">apply_mpo_to_mps</span>
+
+        <span class="c1"># Step 1: Apply Hadamard to all qubits</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hadamard_gate</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+
+        <span class="c1"># Step 2: Apply 2|0⟩⟨0| - I using MPO - returns NEW MPS!</span>
+        <span class="c1"># This is -(I - 2|0⟩⟨0|), so we mark state 0 and add global phase</span>
+        <span class="n">zero_oracle_mpo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_zero_oracle_mpo</span><span class="p">()</span>
+        <span class="n">mps</span> <span class="o">=</span> <span class="n">apply_mpo_to_mps</span><span class="p">(</span><span class="n">zero_oracle_mpo</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">chi_max</span><span class="o">=</span><span class="n">mps</span><span class="o">.</span><span class="n">chi_max_per_bond</span><span class="p">)</span>
+
+        <span class="c1"># Global phase -1 (absorbed into first tensor)</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Step 3: Apply Hadamard to all qubits again</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mps</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_hadamard_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Hadamard gate&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span>
+            <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_zero_oracle_mpo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MPO&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build MPO that applies I - 2|0⟩⟨0|</span>
+
+<span class="sd">        This marks the all-zero state |00...0⟩.</span>
+<span class="sd">        For the diffusion operator, we then add a global -1 phase to get 2|0⟩⟨0| - I.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPO</span>
+
+        <span class="n">tensors</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># First site: bond dim [1, 2]</span>
+                <span class="n">W</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+                <span class="c1"># I channel</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+                <span class="c1"># |0⟩⟨0| channel</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># Last site: bond dim [2, 1]</span>
+                <span class="n">W</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+                <span class="c1"># I channel</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+                <span class="c1"># Complete projector: -2|0⟩⟨0|</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Middle sites: bond dim [2, 2]</span>
+                <span class="n">W</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+                <span class="c1"># I channel</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+                <span class="c1"># |0⟩⟨0| chain</span>
+                <span class="n">W</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+            <span class="n">tensors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">MPO</span><span class="p">(</span><span class="n">tensors</span><span class="o">=</span><span class="n">tensors</span><span class="p">,</span> <span class="n">n_sites</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="GroverSearch">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.GroverSearch">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GroverSearch</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Grover&#39;s Search Algorithm Implementation</span>
+
+<span class="sd">    Performs quantum search on an unstructured database with O(√N) queries.</span>
+
+<span class="sd">    Algorithm:</span>
+<span class="sd">        1. Initialize to |+⟩^⊗n (uniform superposition)</span>
+<span class="sd">        2. Repeat k times:</span>
+<span class="sd">            a. Apply oracle O (mark target states)</span>
+<span class="sd">            b. Apply diffusion operator D (amplify marked states)</span>
+<span class="sd">        3. Measure to find marked item with high probability</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; config = GroverConfig(n_qubits=4)</span>
+<span class="sd">        &gt;&gt;&gt; oracle = FunctionOracle(4, lambda x: x == 7)</span>
+<span class="sd">        &gt;&gt;&gt; grover = GroverSearch(oracle, config)</span>
+<span class="sd">        &gt;&gt;&gt; result = grover.run()</span>
+<span class="sd">        &gt;&gt;&gt; print(f&quot;Found item: {result[&#39;measured_state&#39;]}&quot;)</span>
+<span class="sd">        Found item: 7</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GroverSearch.__init__">
+<a class="viewcode-back" href="../../reference/generated/atlas_q.grover.GroverSearch.html#atlas_q.grover.GroverSearch.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oracle</span><span class="p">:</span> <span class="n">OracleBase</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">GroverConfig</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oracle</span> <span class="o">=</span> <span class="n">oracle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">n_qubits</span>
+
+        <span class="c1"># Validate oracle matches config</span>
+        <span class="k">if</span> <span class="n">oracle</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">!=</span> <span class="n">config</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Oracle has </span><span class="si">{</span><span class="n">oracle</span><span class="o">.</span><span class="n">n_qubits</span><span class="si">}</span><span class="s2"> qubits but config specifies </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">n_qubits</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Initialize components</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diffusion</span> <span class="o">=</span> <span class="n">DiffusionOperator</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">dtype</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Statistics tracking</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iteration_stats</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">success_probabilities</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_initialize_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AdaptiveMPS</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize to uniform superposition |+⟩^⊗n&quot;&quot;&quot;</span>
+        <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+            <span class="n">num_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">,</span>
+            <span class="n">bond_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">chi_max</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">dtype</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Apply Hadamard to all qubits to create |+⟩^⊗n</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span>
+            <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">device</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mps</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_optimal_iterations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate optimal number of Grover iterations</span>
+
+<span class="sd">        Formula: k* = floor(π/4 * √(N/M))</span>
+<span class="sd">        where N = 2^n is search space size, M is number of marked items</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">get_marked_count</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">M</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No marked items - cannot run Grover&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="c1"># Optimal iterations</span>
+        <span class="n">k_opt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="n">M</span><span class="p">)))</span>
+
+        <span class="c1"># Cap at max_iterations</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">k_opt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">max_iterations</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Search space: N = </span><span class="si">{</span><span class="n">N</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Marked items: M = </span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal iterations: </span><span class="si">{</span><span class="n">k_opt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using iterations: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">k</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_measure_success_probability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mps</span><span class="p">:</span> <span class="n">AdaptiveMPS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Measure probability of finding a marked item</span>
+
+<span class="sd">        Computes: P_success = Σ_{x: f(x)=1} |⟨x|ψ⟩|²</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># For marked states, compute probability</span>
+        <span class="n">total_prob</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="c1"># If oracle is FunctionOracle or BitmapOracle, we know marked states</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="p">,</span> <span class="n">BitmapOracle</span><span class="p">):</span>
+            <span class="n">marked_states</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">marked_states</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="p">,</span> <span class="n">FunctionOracle</span><span class="p">):</span>
+            <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span>
+            <span class="n">marked_states</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">marking_fn</span><span class="p">(</span><span class="n">x</span><span class="p">)}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Unknown oracle type</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span>
+
+        <span class="c1"># Sum probabilities</span>
+        <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">marked_states</span><span class="p">:</span>
+            <span class="n">prob</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">get_probability</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+            <span class="n">total_prob</span> <span class="o">+=</span> <span class="n">prob</span>
+
+        <span class="k">return</span> <span class="n">total_prob</span>
+
+<div class="viewcode-block" id="GroverSearch.run">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.GroverSearch.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterations</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run Grover&#39;s algorithm</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            iterations: Number of iterations (None = auto-calculate optimal)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary with results:</span>
+<span class="sd">                - measured_state: Most likely measurement outcome</span>
+<span class="sd">                - success_probability: Probability of measuring marked item</span>
+<span class="sd">                - iterations_used: Number of iterations performed</span>
+<span class="sd">                - runtime_ms: Execution time in milliseconds</span>
+<span class="sd">                - bond_dims: Final MPS bond dimensions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="c1"># Determine iterations</span>
+        <span class="k">if</span> <span class="n">iterations</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">auto_iterations</span><span class="p">:</span>
+            <span class="n">iterations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_optimal_iterations</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">iterations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">iterations</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Default to 1 iteration</span>
+
+        <span class="k">if</span> <span class="n">iterations</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot run with 0 iterations&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Initialize state</span>
+        <span class="n">mps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_state</span><span class="p">()</span>
+
+        <span class="c1"># Grover iterations</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+            <span class="n">iter_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+            <span class="c1"># Apply oracle - returns NEW MPS!</span>
+            <span class="n">mps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mps</span><span class="p">)</span>
+
+            <span class="c1"># Apply diffusion - returns NEW MPS!</span>
+            <span class="n">mps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffusion</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mps</span><span class="p">)</span>
+
+            <span class="n">iter_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">iter_start</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+
+            <span class="c1"># Track statistics</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">measure_success_prob</span><span class="p">:</span>
+                <span class="n">success_prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measure_success_probability</span><span class="p">(</span><span class="n">mps</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">success_probabilities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">success_prob</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">success_prob</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">iteration_stats</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;iteration&#39;</span><span class="p">:</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s1">&#39;time_ms&#39;</span><span class="p">:</span> <span class="n">iter_time</span><span class="p">,</span>
+                <span class="s1">&#39;success_probability&#39;</span><span class="p">:</span> <span class="n">success_prob</span><span class="p">,</span>
+                <span class="s1">&#39;max_bond_dim&#39;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="s1">&#39;bond_dims&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">chi_max</span>
+            <span class="p">})</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iteration </span><span class="si">{</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">iterations</span><span class="si">}</span><span class="s2">: &quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;P_success = </span><span class="si">{</span><span class="n">success_prob</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, &quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;time = </span><span class="si">{</span><span class="n">iter_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">ms&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Measure final state (find most likely outcome)</span>
+        <span class="n">measured_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measure_most_likely</span><span class="p">(</span><span class="n">mps</span><span class="p">)</span>
+        <span class="n">final_success_prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measure_success_probability</span><span class="p">(</span><span class="n">mps</span><span class="p">)</span>
+
+        <span class="n">runtime_ms</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;measured_state&#39;</span><span class="p">:</span> <span class="n">measured_state</span><span class="p">,</span>
+            <span class="s1">&#39;success_probability&#39;</span><span class="p">:</span> <span class="n">final_success_prob</span><span class="p">,</span>
+            <span class="s1">&#39;iterations_used&#39;</span><span class="p">:</span> <span class="n">iterations</span><span class="p">,</span>
+            <span class="s1">&#39;runtime_ms&#39;</span><span class="p">:</span> <span class="n">runtime_ms</span><span class="p">,</span>
+            <span class="s1">&#39;bond_dims&#39;</span><span class="p">:</span> <span class="n">mps</span><span class="o">.</span><span class="n">bond_dims</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="s1">&#39;bond_dims&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">chi_max</span><span class="p">]</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span>
+            <span class="s1">&#39;iteration_stats&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_stats</span>
+        <span class="p">}</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_measure_most_likely</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mps</span><span class="p">:</span> <span class="n">AdaptiveMPS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find most likely measurement outcome&quot;&quot;&quot;</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span>
+
+        <span class="c1"># For small N, check all states</span>
+        <span class="k">if</span> <span class="n">N</span> <span class="o">&lt;=</span> <span class="mi">1024</span><span class="p">:</span>
+            <span class="n">max_prob</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">max_state</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+                <span class="n">prob</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">get_probability</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">prob</span> <span class="o">&gt;</span> <span class="n">max_prob</span><span class="p">:</span>
+                    <span class="n">max_prob</span> <span class="o">=</span> <span class="n">prob</span>
+                    <span class="n">max_state</span> <span class="o">=</span> <span class="n">state</span>
+
+            <span class="k">return</span> <span class="n">max_state</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># For large N, sample</span>
+            <span class="n">samples</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">sweep_sample</span><span class="p">(</span><span class="n">num_shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+            <span class="c1"># Return most common sample</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+            <span class="n">counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">counts</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<div class="viewcode-block" id="GroverSearch.plot_convergence">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.GroverSearch.plot_convergence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_convergence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot success probability vs iteration</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            save_path: Optional path to save figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">MATPLOTLIB_AVAILABLE</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Matplotlib not available, cannot plot&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">success_probabilities</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No success probability data to plot&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+        <span class="n">iterations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">success_probabilities</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">success_probabilities</span><span class="p">,</span> <span class="s1">&#39;b-o&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Iteration&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Success Probability&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Grover&#39;s Algorithm Convergence&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">save_path</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</div>
+
+
+
+<span class="c1"># Convenience functions</span>
+
+<div class="viewcode-block" id="grover_search">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.grover_search">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">grover_search</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">marked_states</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]],</span>
+    <span class="n">iterations</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convenience function to run Grover&#39;s search</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_qubits: Number of qubits</span>
+<span class="sd">        marked_states: Either set/list of marked states or marking function</span>
+<span class="sd">        iterations: Number of iterations (None = auto)</span>
+<span class="sd">        device: &#39;cuda&#39; or &#39;cpu&#39;</span>
+<span class="sd">        verbose: Print progress</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Results dictionary</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; result = grover_search(4, marked_states={7}, verbose=True)</span>
+<span class="sd">        &gt;&gt;&gt; print(f&quot;Found: {result[&#39;measured_state&#39;]}&quot;)</span>
+<span class="sd">        Found: 7</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">GroverConfig</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+                         <span class="n">auto_iterations</span><span class="o">=</span><span class="p">(</span><span class="n">iterations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">))</span>
+
+    <span class="c1"># Create oracle</span>
+    <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">marked_states</span><span class="p">):</span>
+        <span class="n">oracle</span> <span class="o">=</span> <span class="n">FunctionOracle</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">marked_states</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">marked_states</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">marked_states</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">marked_states</span><span class="p">)</span>
+        <span class="n">oracle</span> <span class="o">=</span> <span class="n">BitmapOracle</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">marked_states</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Run search</span>
+    <span class="n">grover</span> <span class="o">=</span> <span class="n">GroverSearch</span><span class="p">(</span><span class="n">oracle</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">grover</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">iterations</span><span class="o">=</span><span class="n">iterations</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="calculate_grover_iterations">
+<a class="viewcode-back" href="../../reference/grover.html#atlas_q.grover.calculate_grover_iterations">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_grover_iterations</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_marked</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate optimal number of Grover iterations</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_qubits: Number of qubits</span>
+<span class="sd">        n_marked: Number of marked items</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Optimal iteration count</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">n_qubits</span>
+    <span class="k">if</span> <span class="n">n_marked</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n_marked</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n_marked must be in range [1, </span><span class="si">{</span><span class="n">N</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+
+    <span class="n">k_opt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="n">n_marked</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">k_opt</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

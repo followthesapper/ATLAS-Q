@@ -1,0 +1,6 @@
+﻿atlas\_q.truncation.choose\_rank\_from\_sigma
+=============================================
+
+.. currentmodule:: atlas_q.truncation
+
+.. autofunction:: choose_rank_from_sigma

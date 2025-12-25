@@ -1,0 +1,1278 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Adaptive Truncation &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/explanations/adaptive_truncation';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Algorithms" href="algorithms.html" />
+    <link rel="prev" title="Tensor Networks" href="tensor_networks.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tensor_networks.html">Tensor Networks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Adaptive Truncation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu_acceleration.html">GPU Acceleration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_stability.html">Numerical Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_model.html">Performance Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design_decisions.html">Design Decisions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparisons.html">Comparisons</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Explanations</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Adaptive Truncation</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="adaptive-truncation">
+<h1>Adaptive Truncation<a class="headerlink" href="#adaptive-truncation" title="Link to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>Adaptive truncation is the key technique enabling efficient MPS simulation by dynamically
+adjusting bond dimensions based on entanglement structure. By truncating small singular values,
+MPS maintains controllable approximation error while keeping memory and computational costs
+polynomial in system size.</p>
+<p>Without truncation, bond dimensions grow exponentially: χ → 2χ after each two-site gate,
+quickly becoming intractable. With adaptive truncation, χ grows only as needed to capture
+physical entanglement, enabling simulation of 50+ qubit systems.</p>
+<p>Key concepts:</p>
+<ul class="simple">
+<li><p><strong>SVD truncation</strong>: Discard small singular values to reduce bond dimension</p></li>
+<li><p><strong>Optimal approximation</strong>: SVD minimizes distance to exact state</p></li>
+<li><p><strong>Error bounds</strong>: Truncation error quantified by discarded singular values</p></li>
+<li><p><strong>Adaptive growth</strong>: χ increases only when entanglement requires it</p></li>
+<li><p><strong>Memory budgets</strong>: Enforce global memory constraints across all bonds</p></li>
+</ul>
+<p>This document explains the theory of adaptive truncation, error analysis, and implementation
+strategies used in ATLAS-Q.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="tensor_networks.html"><span class="doc">Tensor Networks</span></a> for tensor network foundations,
+<a class="reference internal" href="numerical_stability.html"><span class="doc">Numerical Stability</span></a> for numerical considerations,
+<a class="reference internal" href="../tutorials/mps_basics.html"><span class="doc">MPS Basics</span></a> for practical truncation usage.</p>
+</div>
+</section>
+<section id="svd-and-optimal-truncation">
+<h2>SVD and Optimal Truncation<a class="headerlink" href="#svd-and-optimal-truncation" title="Link to this heading">#</a></h2>
+<section id="singular-value-decomposition">
+<h3>Singular Value Decomposition<a class="headerlink" href="#singular-value-decomposition" title="Link to this heading">#</a></h3>
+<p><strong>Schmidt decomposition</strong> of a bipartite quantum state:</p>
+<div class="math notranslate nohighlight">
+\[|\psi\rangle_{AB} = \sum_{i=1}^r λ_i |u_i\rangle_A \otimes |v_i\rangle_B\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p>λᵢ ≥ 0 are Schmidt coefficients (λ₁ ≥ λ₂ ≥ … ≥ λᵣ)</p></li>
+<li><p><a href="#id1"><span class="problematic" id="id2">|</span></a>uᵢ⟩, <a href="#id3"><span class="problematic" id="id4">|</span></a>vᵢ⟩ are orthonormal Schmidt bases</p></li>
+<li><p>r = min(dim A, dim B) is Schmidt rank</p></li>
+<li><p>Normalization: Σᵢ λᵢ² = 1</p></li>
+</ul>
+<p><strong>SVD</strong> is the computational realization of Schmidt decomposition:</p>
+<div class="math notranslate nohighlight">
+\[Θ_{α,s,β} = \sum_{γ=1}^r U_{α,γ} λ_γ V_{γ,β}^†\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p>Θ is the two-site tensor after gate application</p></li>
+<li><p>U, V† are unitary matrices</p></li>
+<li><p>λ are positive singular values (λ = Schmidt coefficients)</p></li>
+<li><p>r = χ_left × 2 × 2 × χ_right (before truncation)</p></li>
+</ul>
+</section>
+<section id="optimality-of-svd-truncation">
+<h3>Optimality of SVD Truncation<a class="headerlink" href="#optimality-of-svd-truncation" title="Link to this heading">#</a></h3>
+<p><strong>Theorem</strong> (Eckart-Young-Mirsky):</p>
+<p>Truncating SVD to keep k largest singular values minimizes the Frobenius norm error:</p>
+<div class="math notranslate nohighlight">
+\[\min_{\text{rank}(M)=k} \|Θ - M\|_F = \sqrt{\sum_{i=k+1}^r λ_i^2}\]</div>
+<p>This means SVD truncation gives the <strong>optimal rank-k approximation</strong> to the exact state.</p>
+<p><strong>Interpretation</strong>:</p>
+<ul class="simple">
+<li><p>Keeping k singular values: Best possible approximation with bond dimension χ = k</p></li>
+<li><p>No other truncation method can do better (in Frobenius norm)</p></li>
+<li><p>Error is simply sum of discarded singular values squared</p></li>
+</ul>
+</section>
+<section id="truncation-error">
+<h3>Truncation Error<a class="headerlink" href="#truncation-error" title="Link to this heading">#</a></h3>
+<p><strong>Local truncation error</strong> at bond i:</p>
+<div class="math notranslate nohighlight">
+\[ε_i = \sqrt{\sum_{α=χ_i+1}^r λ_{i,α}^2}\]</div>
+<p>where χᵢ is the chosen bond dimension after truncation.</p>
+<p><strong>Distance to exact state</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\| |\psi_{\text{approx}}\rangle - |\psi_{\text{exact}}\rangle \|^2 = ε_i^2\]</div>
+<p><strong>Fidelity</strong>:</p>
+<div class="math notranslate nohighlight">
+\[F = |\langle \psi_{\text{exact}} | \psi_{\text{approx}} \rangle|^2 \approx 1 - ε_i^2\]</div>
+<p>for small ε_i.</p>
+</section>
+</section>
+<section id="truncation-criteria">
+<h2>Truncation Criteria<a class="headerlink" href="#truncation-criteria" title="Link to this heading">#</a></h2>
+<section id="energy-based-truncation">
+<h3>Energy-Based Truncation<a class="headerlink" href="#energy-based-truncation" title="Link to this heading">#</a></h3>
+<p>Keep singular values until retained energy exceeds threshold:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{α=1}^{χ} λ_α^2 \geq (1 - ε^2) \sum_{α=1}^r λ_α^2\]</div>
+<p>where ε is the truncation tolerance (<code class="docutils literal notranslate"><span class="pre">truncation_threshold</span></code> in ATLAS-Q).</p>
+<p><strong>Algorithm</strong>:</p>
+<ol class="arabic simple">
+<li><p>Compute cumulative energy: <span class="math notranslate nohighlight">\(E_k = \sum_{α=1}^k λ_α^2\)</span></p></li>
+<li><p>Find smallest k such that <span class="math notranslate nohighlight">\(E_k \geq (1 - ε^2) E_r\)</span></p></li>
+<li><p>Truncate to χ = min(k, χ_max)</p></li>
+</ol>
+<p><strong>Interpretation</strong>: Retain at least (1-ε²) ≈ (1-2ε) of the wavefunction norm.</p>
+<p><strong>Typical values</strong>:</p>
+<ul class="simple">
+<li><p>ε = 1e-8: High accuracy, large χ</p></li>
+<li><p>ε = 1e-6: Good accuracy, moderate χ (recommended default)</p></li>
+<li><p>ε = 1e-4: Lower accuracy, small χ</p></li>
+</ul>
+</section>
+<section id="fixed-bond-dimension">
+<h3>Fixed Bond Dimension<a class="headerlink" href="#fixed-bond-dimension" title="Link to this heading">#</a></h3>
+<p>Simply keep the k largest singular values:</p>
+<div class="math notranslate nohighlight">
+\[χ = \min(k_{\text{fixed}}, r)\]</div>
+<p><strong>Advantages</strong>:</p>
+<ul class="simple">
+<li><p>Predictable memory usage</p></li>
+<li><p>Consistent computational cost</p></li>
+<li><p>Simple to implement</p></li>
+</ul>
+<p><strong>Disadvantages</strong>:</p>
+<ul class="simple">
+<li><p>May waste resources (too large χ for low entanglement)</p></li>
+<li><p>May lose accuracy (too small χ for high entanglement)</p></li>
+</ul>
+</section>
+<section id="combined-criterion">
+<h3>Combined Criterion<a class="headerlink" href="#combined-criterion" title="Link to this heading">#</a></h3>
+<p>Use both energy-based and fixed maximum:</p>
+<div class="math notranslate nohighlight">
+\[χ = \min(k_{\text{energy}}, χ_{\max})\]</div>
+<p>This ensures:</p>
+<ol class="arabic simple">
+<li><p>Accuracy: Retain enough singular values (energy criterion)</p></li>
+<li><p>Bounded cost: Never exceed χ_max (memory/time constraint)</p></li>
+</ol>
+<p><strong>ATLAS-Q implementation</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>                    <span class="c1"># Initial χ</span>
+    <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>           <span class="c1"># Maximum χ per bond</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>      <span class="c1"># Energy criterion (ε)</span>
+    <span class="n">adaptive_mode</span><span class="o">=</span><span class="kc">True</span>              <span class="c1"># Enable adaptive growth</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="error-accumulation-and-bounds">
+<h2>Error Accumulation and Bounds<a class="headerlink" href="#error-accumulation-and-bounds" title="Link to this heading">#</a></h2>
+<section id="global-error-accumulation">
+<h3>Global Error Accumulation<a class="headerlink" href="#global-error-accumulation" title="Link to this heading">#</a></h3>
+<p>Truncation errors at different bonds are independent, so total error accumulates:</p>
+<div class="math notranslate nohighlight">
+\[ε_{\text{global}}^2 = \sum_{i=1}^{n-1} ε_i^2\]</div>
+<p>where the sum is over all bonds in the MPS.</p>
+<p><strong>For N gate applications</strong>:</p>
+<div class="math notranslate nohighlight">
+\[ε_{\text{global}} \leq \sqrt{N} · ε_{\text{local}}\]</div>
+<p>assuming each gate introduces local error ε_local.</p>
+<p><strong>Example</strong>:</p>
+<ul class="simple">
+<li><p>100 gates, ε_local = 1e-6 per gate</p></li>
+<li><p>Global error ≤ √100 × 1e-6 = 1e-5</p></li>
+</ul>
+</section>
+<section id="worst-case-bound">
+<h3>Worst-Case Bound<a class="headerlink" href="#worst-case-bound" title="Link to this heading">#</a></h3>
+<p><strong>Theorem</strong>: After N two-site gates with local truncation error ε each:</p>
+<div class="math notranslate nohighlight">
+\[\| |\psi_N\rangle - |\psi_N^{\text{exact}}\rangle \| \leq \sqrt{N} · ε\]</div>
+<p><strong>Proof sketch</strong>:</p>
+<ol class="arabic simple">
+<li><p>Each gate introduces independent error ε</p></li>
+<li><p>Errors add in quadrature (triangle inequality)</p></li>
+<li><p>Total distance bounded by <span class="math notranslate nohighlight">\(\sqrt{\sum_i ε_i^2} \leq \sqrt{N} · ε\)</span></p></li>
+</ol>
+</section>
+<section id="practical-error-tracking">
+<h3>Practical Error Tracking<a class="headerlink" href="#practical-error-tracking" title="Link to this heading">#</a></h3>
+<p>ATLAS-Q automatically tracks global error:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apply gates</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">29</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">29</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Check accumulated error</span>
+<span class="n">global_error</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">total_truncation_error</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Global truncation error: </span><span class="si">{</span><span class="n">global_error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Per-bond error distribution</span>
+<span class="n">bond_errors</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">truncation_error_per_bond</span>
+<span class="n">max_error_bond</span> <span class="o">=</span> <span class="n">bond_errors</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Worst bond: </span><span class="si">{</span><span class="n">max_error_bond</span><span class="si">}</span><span class="s2">, error: </span><span class="si">{</span><span class="n">bond_errors</span><span class="p">[</span><span class="n">max_error_bond</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="tightening-error-bounds">
+<h3>Tightening Error Bounds<a class="headerlink" href="#tightening-error-bounds" title="Link to this heading">#</a></h3>
+<p>When global error exceeds tolerance:</p>
+<p><strong>Option 1</strong>: Reduce truncation threshold</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>  <span class="c1"># Was 1e-6</span>
+    <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="mi">512</span>        <span class="c1"># May need larger χ_max</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Option 2</strong>: Increase maximum bond dimension</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+    <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="mi">512</span>  <span class="c1"># Was 256</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Option 3</strong>: Checkpoint and restart with tighter tolerances</p>
+</section>
+</section>
+<section id="adaptive-truncation-strategies">
+<h2>Adaptive Truncation Strategies<a class="headerlink" href="#adaptive-truncation-strategies" title="Link to this heading">#</a></h2>
+<section id="entropy-based-adaptive-truncation">
+<h3>Entropy-Based Adaptive Truncation<a class="headerlink" href="#entropy-based-adaptive-truncation" title="Link to this heading">#</a></h3>
+<p>Adjust χ based on entanglement entropy:</p>
+<div class="math notranslate nohighlight">
+\[S_{\text{vN}} = -\sum_α λ_α^2 \log(λ_α^2)\]</div>
+<p><strong>Strategy</strong>:</p>
+<ol class="arabic simple">
+<li><p>Compute entanglement entropy S from singular values</p></li>
+<li><p>Set χ = min(2^S, χ_max) to capture entanglement</p></li>
+<li><p>Ensures bond dimension matches physical entanglement</p></li>
+</ol>
+<p><strong>When S is small</strong> (low entanglement):
+- Small χ sufficient
+- Memory savings</p>
+<p><strong>When S is large</strong> (high entanglement):
+- Large χ required
+- Automatic adaptation</p>
+</section>
+<section id="per-bond-adaptive-caps">
+<h3>Per-Bond Adaptive Caps<a class="headerlink" href="#per-bond-adaptive-caps" title="Link to this heading">#</a></h3>
+<p>Different bonds have different entanglement, so use different χ_max:</p>
+<div class="math notranslate nohighlight">
+\[χ_i = \min(k_{\text{energy},i}, χ_{\max,i})\]</div>
+<p><strong>ATLAS-Q implementation</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Heterogeneous bond dimension caps</span>
+<span class="n">num_qubits</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">chi_caps</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="mi">5</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">14</span><span class="p">:</span>
+        <span class="c1"># Center bonds: high entanglement</span>
+        <span class="n">chi_caps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Edge bonds: low entanglement</span>
+        <span class="n">chi_caps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="n">chi_caps</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>:</p>
+<ul class="simple">
+<li><p>Center of chain: Higher entanglement from accumulated gates</p></li>
+<li><p>Edges: Lower entanglement (boundary effects)</p></li>
+<li><p>Saves memory without sacrificing accuracy</p></li>
+</ul>
+</section>
+<section id="growth-rate-control">
+<h3>Growth Rate Control<a class="headerlink" href="#growth-rate-control" title="Link to this heading">#</a></h3>
+<p>Control how quickly χ grows during simulation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>                   <span class="c1"># Start small</span>
+    <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>         <span class="c1"># Can grow up to 256</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+    <span class="n">adaptive_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">growth_rate</span><span class="o">=</span><span class="s1">&#39;conservative&#39;</span>    <span class="c1"># &#39;aggressive&#39;, &#39;moderate&#39;, &#39;conservative&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Growth strategies</strong>:</p>
+<ul class="simple">
+<li><p><strong>Aggressive</strong>: Allow χ to double quickly, prioritize accuracy</p></li>
+<li><p><strong>Moderate</strong>: Balance between growth and memory</p></li>
+<li><p><strong>Conservative</strong>: Grow χ slowly, prioritize memory efficiency</p></li>
+</ul>
+</section>
+</section>
+<section id="memory-budget-management">
+<h2>Memory Budget Management<a class="headerlink" href="#memory-budget-management" title="Link to this heading">#</a></h2>
+<section id="global-memory-constraints">
+<h3>Global Memory Constraints<a class="headerlink" href="#global-memory-constraints" title="Link to this heading">#</a></h3>
+<p>Total MPS memory:</p>
+<div class="math notranslate nohighlight">
+\[M_{\text{total}} = \sum_{i=1}^n d · χ_{i-1} · χ_i · \text{sizeof}(\text{dtype})\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p>d = 2 for qubits (local dimension)</p></li>
+<li><p>χᵢ = bond dimension at bond i</p></li>
+<li><p>dtype = complex64 (8 bytes) or complex128 (16 bytes)</p></li>
+</ul>
+<p><strong>Memory budget</strong> enforcement:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">budget_global_mb</span><span class="o">=</span><span class="mi">8192</span><span class="p">,</span>  <span class="c1"># 8 GB maximum</span>
+    <span class="n">adaptive_mode</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>ATLAS-Q dynamically adjusts per-bond χ to respect the budget.</p>
+</section>
+<section id="budget-allocation-strategies">
+<h3>Budget Allocation Strategies<a class="headerlink" href="#budget-allocation-strategies" title="Link to this heading">#</a></h3>
+<p><strong>1. Uniform allocation</strong>:</p>
+<p>All bonds get equal budget:</p>
+<div class="math notranslate nohighlight">
+\[χ_i = \sqrt{\frac{M_{\text{budget}}}{n · d · \text{sizeof}(\text{dtype})}}\]</div>
+<p><strong>2. Entropy-proportional allocation</strong>:</p>
+<p>Allocate more memory to high-entanglement bonds:</p>
+<div class="math notranslate nohighlight">
+\[χ_i \propto e^{S_i}\]</div>
+<p>where Sᵢ is entanglement entropy at bond i.</p>
+<p><strong>3. Hierarchical allocation</strong>:</p>
+<p>Center bonds get more resources:</p>
+<div class="math notranslate nohighlight">
+\[χ_i = χ_{\max} · \exp\left(-\frac{|i - n/2|^2}{2σ^2}\right)\]</div>
+</section>
+<section id="dynamic-rebalancing">
+<h3>Dynamic Rebalancing<a class="headerlink" href="#dynamic-rebalancing" title="Link to this heading">#</a></h3>
+<p>As simulation progresses, entanglement redistributes. Periodically rebalance χ:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Every 100 gates, rebalance bond dimensions</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="c1"># Apply gates</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+    <span class="c1"># Rebalance based on current entanglement</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">rebalance_bond_dimensions</span><span class="p">(</span>
+        <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;entropy_based&#39;</span><span class="p">,</span>
+        <span class="n">total_budget_mb</span><span class="o">=</span><span class="mi">8192</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Rebalancing algorithm</strong>:</p>
+<ol class="arabic simple">
+<li><p>Measure entanglement entropy at each bond</p></li>
+<li><p>Redistribute total χ budget proportional to S_i</p></li>
+<li><p>Move to canonical form and re-truncate</p></li>
+</ol>
+</section>
+</section>
+<section id="special-cases-and-optimizations">
+<h2>Special Cases and Optimizations<a class="headerlink" href="#special-cases-and-optimizations" title="Link to this heading">#</a></h2>
+<section id="product-states">
+<h3>Product States<a class="headerlink" href="#product-states" title="Link to this heading">#</a></h3>
+<p><strong>Product state</strong>: <span class="math notranslate nohighlight">\(|\psi\rangle = |ψ_1\rangle \otimes |ψ_2\rangle \otimes \cdots \otimes |ψ_n\rangle\)</span></p>
+<p><strong>Entanglement</strong>: Zero, S = 0</p>
+<p><strong>Optimal χ</strong>: χ = 1 (no entanglement)</p>
+<p><strong>ATLAS-Q automatically recognizes</strong> product states:</p>
+<ul class="simple">
+<li><p>All singular values except one are zero</p></li>
+<li><p>Truncates to χ = 1</p></li>
+<li><p>Memory: O(n) instead of O(n·χ²)</p></li>
+</ul>
+</section>
+<section id="low-entanglement-states">
+<h3>Low-Entanglement States<a class="headerlink" href="#low-entanglement-states" title="Link to this heading">#</a></h3>
+<p><strong>Area law states</strong>: S ∝ log(n)</p>
+<p><strong>Examples</strong>:</p>
+<ul class="simple">
+<li><p>Ground states of gapped 1D Hamiltonians</p></li>
+<li><p>Short-time evolution from product states</p></li>
+<li><p>Thermal states at low temperature</p></li>
+</ul>
+<p><strong>Required χ</strong>: χ ∝ n^α for small α</p>
+<p><strong>Performance</strong>: Polynomial scaling in n</p>
+</section>
+<section id="critical-states">
+<h3>Critical States<a class="headerlink" href="#critical-states" title="Link to this heading">#</a></h3>
+<p><strong>Critical states</strong>: S ∝ log(L) where L is subsystem size</p>
+<p><strong>Examples</strong>:</p>
+<ul class="simple">
+<li><p>Ground states at quantum phase transitions</p></li>
+<li><p>Conformal field theory states</p></li>
+</ul>
+<p><strong>Required χ</strong>: χ ∝ L^α for small α</p>
+<p><strong>Challenge</strong>: Logarithmic growth of χ with system size</p>
+<p><strong>ATLAS-Q strategy</strong>:</p>
+<ul class="simple">
+<li><p>Use MERA for critical systems (if available)</p></li>
+<li><p>Or accept larger χ and tighter truncation thresholds</p></li>
+</ul>
+</section>
+<section id="volume-law-entanglement">
+<h3>Volume Law Entanglement<a class="headerlink" href="#volume-law-entanglement" title="Link to this heading">#</a></h3>
+<p><strong>Volume law</strong>: S ∝ n</p>
+<p><strong>Examples</strong>:</p>
+<ul class="simple">
+<li><p>Random quantum states</p></li>
+<li><p>Deep quantum circuits</p></li>
+<li><p>Highly entangled states</p></li>
+</ul>
+<p><strong>Required χ</strong>: χ ∝ 2^n (exponential!)</p>
+<p><strong>Performance</strong>: MPS inefficient, consider alternative methods</p>
+</section>
+</section>
+<section id="truncation-free-methods">
+<h2>Truncation-Free Methods<a class="headerlink" href="#truncation-free-methods" title="Link to this heading">#</a></h2>
+<section id="projected-time-evolution">
+<h3>Projected Time Evolution<a class="headerlink" href="#projected-time-evolution" title="Link to this heading">#</a></h3>
+<p>Avoid explicit SVD truncation by projecting onto low-bond-dimension manifold:</p>
+<div class="math notranslate nohighlight">
+\[|\psi(t + dt)\rangle = P_χ \left[ e^{-iH dt} |\psi(t)\rangle \right]\]</div>
+<p>where P_χ is projection onto χ-dimensional bond space.</p>
+<p><strong>Advantage</strong>: No SVD cost (O(χ³) → 0)</p>
+<p><strong>Disadvantage</strong>: More complex implementation</p>
+</section>
+<section id="time-dependent-variational-principle-tdvp">
+<h3>Time-Dependent Variational Principle (TDVP)<a class="headerlink" href="#time-dependent-variational-principle-tdvp" title="Link to this heading">#</a></h3>
+<p>Evolve MPS in tangent space of MPS manifold:</p>
+<div class="math notranslate nohighlight">
+\[\frac{d}{dt} |\psi(t)\rangle = -i P_{\text{MPS}} H |\psi(t)\rangle\]</div>
+<p><strong>Advantage</strong>: Automatic truncation without explicit SVD</p>
+<p><strong>Implementation</strong>: ATLAS-Q’s TDVP algorithm</p>
+<p><strong>See</strong>: <a class="reference internal" href="algorithms.html"><span class="doc">Algorithms</span></a> for TDVP details</p>
+</section>
+</section>
+<section id="implementation-in-atlas-q">
+<h2>Implementation in ATLAS-Q<a class="headerlink" href="#implementation-in-atlas-q" title="Link to this heading">#</a></h2>
+<section id="truncation-workflow">
+<h3>Truncation Workflow<a class="headerlink" href="#truncation-workflow" title="Link to this heading">#</a></h3>
+<p><strong>Step-by-step</strong> ATLAS-Q truncation:</p>
+<ol class="arabic">
+<li><p><strong>Gate application</strong>: Contract gate with two neighboring MPS tensors</p>
+<div class="math notranslate nohighlight">
+\[Θ_{α,s,s',β} = \sum_{γ} A^{[i]}_{α,s,γ} · G_{s,s',t,t'} · A^{[i+1]}_{γ,t,β}\]</div>
+</li>
+<li><p><strong>Reshape</strong>: Θ → matrix of shape (χ_left × d) × (d × χ_right)</p></li>
+<li><p><strong>SVD</strong>: Θ = U Σ V†</p></li>
+<li><p><strong>Energy criterion</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cumsum</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">singular_values</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">total</span> <span class="o">=</span> <span class="n">cumsum</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">eps</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">total</span>
+<span class="n">chi_energy</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">cumsum</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Apply caps</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">chi</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">chi_energy</span><span class="p">,</span> <span class="n">chi_max_per_bond</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Truncate</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">U_trunc</span> <span class="o">=</span> <span class="n">U</span><span class="p">[:,</span> <span class="p">:</span><span class="n">chi</span><span class="p">]</span>
+<span class="n">S_trunc</span> <span class="o">=</span> <span class="n">S</span><span class="p">[:</span><span class="n">chi</span><span class="p">]</span>
+<span class="n">Vt_trunc</span> <span class="o">=</span> <span class="n">Vt</span><span class="p">[:</span><span class="n">chi</span><span class="p">,</span> <span class="p">:]</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Split tensors</strong>: Form new MPS tensors A[i] and A[i+1]</p></li>
+<li><p><strong>Track error</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">truncation_error</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="n">chi</span><span class="p">:]</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">mps</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">total_truncation_error</span> <span class="o">+=</span> <span class="n">truncation_error</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="gpu-optimization">
+<h3>GPU Optimization<a class="headerlink" href="#gpu-optimization" title="Link to this heading">#</a></h3>
+<p><strong>ATLAS-Q optimizations</strong>:</p>
+<ul class="simple">
+<li><p>Use cuQuantum for large SVD (χ &gt; 128)</p></li>
+<li><p>Batch SVD operations when possible</p></li>
+<li><p>Fuse truncation with other operations</p></li>
+<li><p>Asynchronous SVD on GPU while CPU prepares next gate</p></li>
+</ul>
+<p><strong>Performance</strong>: 2-5× speedup for χ &gt; 128</p>
+</section>
+<section id="numerical-stability">
+<h3>Numerical Stability<a class="headerlink" href="#numerical-stability" title="Link to this heading">#</a></h3>
+<p><strong>Issues</strong>:</p>
+<ul class="simple">
+<li><p>Small singular values near machine precision</p></li>
+<li><p>Conditioning of SVD</p></li>
+<li><p>Accumulation of rounding errors</p></li>
+</ul>
+<p><strong>Solutions</strong>:</p>
+<ul class="simple">
+<li><p>Use relative thresholds: discard λ &lt; max(λ) × 1e-14</p></li>
+<li><p>Regularize ill-conditioned SVD</p></li>
+<li><p>Use higher precision (complex128) when needed</p></li>
+</ul>
+<p><strong>See</strong>: <a class="reference internal" href="numerical_stability.html"><span class="doc">Numerical Stability</span></a> for details</p>
+</section>
+</section>
+<section id="comparison-with-other-methods">
+<h2>Comparison with Other Methods<a class="headerlink" href="#comparison-with-other-methods" title="Link to this heading">#</a></h2>
+<section id="fixed-truncation">
+<h3>Fixed χ Truncation<a class="headerlink" href="#fixed-truncation" title="Link to this heading">#</a></h3>
+<p><strong>Method</strong>: Always truncate to fixed χ regardless of entanglement</p>
+<p><strong>Pros</strong>:
+- Predictable cost
+- Simple implementation</p>
+<p><strong>Cons</strong>:
+- Wastes resources (low entanglement)
+- Loses accuracy (high entanglement)</p>
+<p><strong>ATLAS-Q</strong>: Adaptive χ superior for most use cases</p>
+</section>
+<section id="randomized-svd">
+<h3>Randomized SVD<a class="headerlink" href="#randomized-svd" title="Link to this heading">#</a></h3>
+<p><strong>Method</strong>: Approximate SVD using randomized algorithms</p>
+<p><strong>Pros</strong>:
+- Faster for very large χ (&gt; 1000)
+- O(χ²) instead of O(χ³) for full SVD</p>
+<p><strong>Cons</strong>:
+- Approximate (additional error)
+- Complex implementation</p>
+<p><strong>ATLAS-Q</strong>: Uses for χ &gt; 512 when available</p>
+</section>
+<section id="density-matrix-truncation">
+<h3>Density Matrix Truncation<a class="headerlink" href="#density-matrix-truncation" title="Link to this heading">#</a></h3>
+<p><strong>Method</strong>: Form reduced density matrix, diagonalize, keep top eigenvectors</p>
+<p><strong>Pros</strong>:
+- Directly optimizes fidelity
+- Equivalent to SVD for pure states</p>
+<p><strong>Cons</strong>:
+- More expensive (O(χ⁴) vs O(χ³) for SVD)
+- Only applicable to pure states</p>
+<p><strong>ATLAS-Q</strong>: SVD preferred (equivalent, faster)</p>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Adaptive truncation enables efficient MPS simulation by:</p>
+<ol class="arabic simple">
+<li><p><strong>Optimal approximation</strong>: SVD minimizes distance to exact state</p></li>
+<li><p><strong>Error bounds</strong>: Truncation error quantified by discarded singular values</p></li>
+<li><p><strong>Adaptive growth</strong>: Bond dimension grows only when entanglement requires it</p></li>
+<li><p><strong>Memory budgets</strong>: Global constraints automatically enforced</p></li>
+<li><p><strong>Numerical stability</strong>: Robust implementation with error tracking</p></li>
+</ol>
+<p><strong>Key concepts</strong>:</p>
+<ul class="simple">
+<li><p>SVD truncation is optimal (Eckart-Young-Mirsky theorem)</p></li>
+<li><p>Energy criterion: Keep singular values until (1-ε²) norm retained</p></li>
+<li><p>Global error: <span class="math notranslate nohighlight">\(ε_{\text{global}} \leq \sqrt{N} · ε_{\text{local}}\)</span></p></li>
+<li><p>Adaptive strategies: Entropy-based, per-bond caps, memory budgets</p></li>
+<li><p>Special cases: Product states (χ=1), area law (small χ), volume law (large χ)</p></li>
+</ul>
+<p><strong>Truncation parameters</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">truncation_threshold</span></code>: Controls accuracy (1e-6 recommended)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chi_max_per_bond</span></code>: Caps maximum χ per bond</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">budget_global_mb</span></code>: Enforces total memory constraint</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">adaptive_mode</span></code>: Enables adaptive χ growth</p></li>
+</ul>
+<p><strong>Practical guidelines</strong>:</p>
+<ul class="simple">
+<li><p>Start with truncation_threshold = 1e-6, chi_max = 256</p></li>
+<li><p>Monitor global error with <code class="docutils literal notranslate"><span class="pre">mps.statistics.total_truncation_error</span></code></p></li>
+<li><p>Tighten thresholds if error exceeds tolerance</p></li>
+<li><p>Use per-bond caps to optimize memory allocation</p></li>
+<li><p>Consider memory budgets for very large systems</p></li>
+</ul>
+<p>Adaptive truncation is the algorithmic innovation enabling ATLAS-Q to simulate
+50-100+ qubit systems while maintaining controllable approximation error.</p>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="tensor_networks.html"><span class="doc">Tensor Networks</span></a>: Tensor network foundations</p></li>
+<li><p><a class="reference internal" href="algorithms.html"><span class="doc">Algorithms</span></a>: DMRG, TDVP, and other algorithms using truncation</p></li>
+<li><p><a class="reference internal" href="numerical_stability.html"><span class="doc">Numerical Stability</span></a>: Numerical considerations for truncation</p></li>
+<li><p><a class="reference internal" href="../tutorials/mps_basics.html"><span class="doc">MPS Basics</span></a>: Practical truncation usage</p></li>
+<li><p><a class="reference internal" href="../howtos/handle_large_systems.html"><span class="doc">How to Handle Large Quantum Systems</span></a>: Large-scale simulations with truncation</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="tensor_networks.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tensor Networks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="algorithms.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Algorithms</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#svd-and-optimal-truncation">SVD and Optimal Truncation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#singular-value-decomposition">Singular Value Decomposition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimality-of-svd-truncation">Optimality of SVD Truncation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#truncation-error">Truncation Error</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#truncation-criteria">Truncation Criteria</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-based-truncation">Energy-Based Truncation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixed-bond-dimension">Fixed Bond Dimension</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combined-criterion">Combined Criterion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-accumulation-and-bounds">Error Accumulation and Bounds</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#global-error-accumulation">Global Error Accumulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#worst-case-bound">Worst-Case Bound</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-error-tracking">Practical Error Tracking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tightening-error-bounds">Tightening Error Bounds</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-truncation-strategies">Adaptive Truncation Strategies</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entropy-based-adaptive-truncation">Entropy-Based Adaptive Truncation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#per-bond-adaptive-caps">Per-Bond Adaptive Caps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#growth-rate-control">Growth Rate Control</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-budget-management">Memory Budget Management</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#global-memory-constraints">Global Memory Constraints</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#budget-allocation-strategies">Budget Allocation Strategies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-rebalancing">Dynamic Rebalancing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#special-cases-and-optimizations">Special Cases and Optimizations</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#product-states">Product States</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#low-entanglement-states">Low-Entanglement States</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#critical-states">Critical States</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-law-entanglement">Volume Law Entanglement</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#truncation-free-methods">Truncation-Free Methods</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#projected-time-evolution">Projected Time Evolution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-dependent-variational-principle-tdvp">Time-Dependent Variational Principle (TDVP)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-in-atlas-q">Implementation in ATLAS-Q</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#truncation-workflow">Truncation Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpu-optimization">GPU Optimization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-stability">Numerical Stability</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-other-methods">Comparison with Other Methods</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixed-truncation">Fixed χ Truncation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#randomized-svd">Randomized SVD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#density-matrix-truncation">Density Matrix Truncation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,2042 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>atlas_q.grover &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/grover';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="atlas_q.grover.GroverSearch" href="generated/atlas_q.grover.GroverSearch.html" />
+    <link rel="prev" title="atlas_q.vqe_qaoa.build_molecular_hamiltonian" href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="adaptive_mps.html">atlas_q.adaptive_mps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mpo_ops.html">atlas_q.mpo_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPOBuilder.html">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tdvp.html">atlas_q.tdvp</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="vqe_qaoa.html">atlas_q.vqe_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">atlas_q.grover</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="stabilizer_backend.html">atlas_q.stabilizer_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="noise_models.html">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planar_2d.html">2D/Planar Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributed_mps.html">Distributed MPS</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cuquantum_backend.html">atlas_q.cuquantum_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="diagnostics.html">atlas_q.diagnostics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linalg_robust.html">atlas_q.linalg_robust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="truncation.html">atlas_q.truncation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.grover</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-atlas_q.grover">
+<span id="atlas-q-grover"></span><h1>atlas_q.grover<a class="headerlink" href="#module-atlas_q.grover" title="Link to this heading">#</a></h1>
+<p>Grover’s Search Algorithm for Quantum Database Search</p>
+<p>Implements Grover’s amplitude amplification algorithm for searching unstructured
+databases with quadratic speedup over classical methods.</p>
+<p>Mathematical Background:
+- Search space: N = 2^n elements
+- Marked items: M items to find
+- Classical complexity: O(N)
+- Quantum complexity: O(√(N/M)) iterations
+- Optimal iterations: k* = π/4 * √(N/M)</p>
+<p>Features:
+- Oracle construction for various marking patterns
+- Amplitude amplification with diffusion operator
+- Automatic optimal iteration calculation
+- Integration with AdaptiveMPS for scalability
+- Support for multiple marked items
+- Flexible oracle types (function-based, bitmap, structured)</p>
+<p>Author: ATLAS-Q Contributors
+Date: November 2025
+License: MIT</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.grover.GroverConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">GroverConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oracle_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'function'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measure_success_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#GroverConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.GroverConfig" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Configuration for Grover’s algorithm</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>n_qubits: Number of qubits (search space size = 2^n_qubits)
+oracle_type: Type of oracle (‘function’, ‘bitmap’, ‘structured’)
+auto_iterations: Automatically calculate optimal iterations
+max_iterations: Maximum iterations (safety limit)
+chi_max: Maximum bond dimension for MPS
+device: ‘cuda’ or ‘cpu’
+dtype: torch.complex64 or torch.complex128
+verbose: Print progress information
+measure_success_prob: Track success probability after each iteration</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.grover.GroverConfig.n_qubits">
+<span class="sig-name descname"><span class="pre">n_qubits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#atlas_q.grover.GroverConfig.n_qubits" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.grover.GroverConfig.oracle_type">
+<span class="sig-name descname"><span class="pre">oracle_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'function'</span></em><a class="headerlink" href="#atlas_q.grover.GroverConfig.oracle_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.grover.GroverConfig.auto_iterations">
+<span class="sig-name descname"><span class="pre">auto_iterations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#atlas_q.grover.GroverConfig.auto_iterations" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.grover.GroverConfig.max_iterations">
+<span class="sig-name descname"><span class="pre">max_iterations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1000</span></em><a class="headerlink" href="#atlas_q.grover.GroverConfig.max_iterations" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.grover.GroverConfig.chi_max">
+<span class="sig-name descname"><span class="pre">chi_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">256</span></em><a class="headerlink" href="#atlas_q.grover.GroverConfig.chi_max" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.grover.GroverConfig.device">
+<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cuda'</span></em><a class="headerlink" href="#atlas_q.grover.GroverConfig.device" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.grover.GroverConfig.dtype">
+<span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.9)"><span class="pre">dtype</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">torch.complex128</span></em><a class="headerlink" href="#atlas_q.grover.GroverConfig.dtype" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.grover.GroverConfig.verbose">
+<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#atlas_q.grover.GroverConfig.verbose" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.grover.GroverConfig.measure_success_prob">
+<span class="sig-name descname"><span class="pre">measure_success_prob</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#atlas_q.grover.GroverConfig.measure_success_prob" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.grover.OracleBase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">OracleBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#OracleBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.OracleBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Base class for quantum oracles</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id38" title="atlas_q.grover.OracleBase.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(mps)</p></td>
+<td><p>Apply oracle to MPS (marks all target states)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id39" title="atlas_q.grover.OracleBase.get_marked_count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_marked_count</span></code></a>()</p></td>
+<td><p>Return number of marked items</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id37" title="atlas_q.grover.OracleBase.mark"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mark</span></code></a>(mps, state)</p></td>
+<td><p>Mark a specific basis state by flipping its phase</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.grover.OracleBase.mark">
+<span class="sig-name descname"><span class="pre">mark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#OracleBase.mark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.OracleBase.mark" title="Link to this definition">#</a></dt>
+<dd><p>Mark a specific basis state by flipping its phase</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.grover.OracleBase.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#OracleBase.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.OracleBase.apply" title="Link to this definition">#</a></dt>
+<dd><p>Apply oracle to MPS (marks all target states)</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>New MPS after oracle application</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.grover.OracleBase.get_marked_count">
+<span class="sig-name descname"><span class="pre">get_marked_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#OracleBase.get_marked_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.OracleBase.get_marked_count" title="Link to this definition">#</a></dt>
+<dd><p>Return number of marked items</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.grover.FunctionOracle">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">FunctionOracle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marking_fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#FunctionOracle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.FunctionOracle" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#id36" title="atlas_q.grover.OracleBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">OracleBase</span></code></a></p>
+<p>Oracle based on a marking function</p>
+<p>Marks states where f(x) = True by applying phase flip.
+Implements O_f <a href="#id1"><span class="problematic" id="id2">|</span></a>x⟩ = (-1)^f(x) <a href="#id3"><span class="problematic" id="id4">|</span></a>x⟩</p>
+<dl class="simple">
+<dt>Example:</dt><dd><p># Mark state <a href="#id5"><span class="problematic" id="id6">|</span></a>5⟩
+oracle = FunctionOracle(n_qubits=4, marking_fn=lambda x: x == 5)</p>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id47" title="atlas_q.grover.FunctionOracle.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(mps)</p></td>
+<td><p>Apply oracle by marking all states where marking_fn returns True</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_marked_count</span></code>()</p></td>
+<td><p>Return number of marked items</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mark</span></code>(mps, state)</p></td>
+<td><p>Mark a specific basis state by flipping its phase</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.grover.FunctionOracle.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#FunctionOracle.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.FunctionOracle.apply" title="Link to this definition">#</a></dt>
+<dd><p>Apply oracle by marking all states where marking_fn returns True</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>New MPS after oracle application</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.grover.BitmapOracle">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">BitmapOracle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marked_states</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#BitmapOracle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.BitmapOracle" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#id36" title="atlas_q.grover.OracleBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">OracleBase</span></code></a></p>
+<p>Oracle based on explicit bitmap of marked states</p>
+<p>More efficient than FunctionOracle for small marked sets.</p>
+<dl class="simple">
+<dt>Example:</dt><dd><p>oracle = BitmapOracle(n_qubits=4, marked_states={3, 7, 11})</p>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id49" title="atlas_q.grover.BitmapOracle.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(mps)</p></td>
+<td><p>Apply oracle by marking all states in bitmap</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_marked_count</span></code>()</p></td>
+<td><p>Return number of marked items</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mark</span></code>(mps, state)</p></td>
+<td><p>Mark a specific basis state by flipping its phase</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.grover.BitmapOracle.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#BitmapOracle.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.BitmapOracle.apply" title="Link to this definition">#</a></dt>
+<dd><p>Apply oracle by marking all states in bitmap</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>New MPS after oracle application</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.grover.DiffusionOperator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">DiffusionOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#DiffusionOperator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.DiffusionOperator" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Grover diffusion operator (inversion about average)</p>
+<p>Implements: D = 2|ψ⟩⟨ψ| - I where <a href="#id7"><span class="problematic" id="id8">|</span></a>ψ⟩ = <a href="#id9"><span class="problematic" id="id10">|</span></a>+⟩^⊗n</p>
+<dl class="simple">
+<dt>Mathematical form:</dt><dd><p>D = H^⊗n (2|0⟩⟨0| - I) H^⊗n</p>
+</dd>
+</dl>
+<p>This reflects amplitudes about their average, amplifying marked states.</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id55" title="atlas_q.grover.DiffusionOperator.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(mps)</p></td>
+<td><p>Apply diffusion operator: 2|+⟩⟨+| - I</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.grover.DiffusionOperator.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#DiffusionOperator.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.DiffusionOperator.apply" title="Link to this definition">#</a></dt>
+<dd><p>Apply diffusion operator: 2|+⟩⟨+| - I</p>
+<p>Decomposition:
+1. H^⊗n  (transform to computational basis)
+2. 2|0⟩⟨0| - I  (conditional phase shift using MPO)
+3. H^⊗n  (transform back)</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>New MPS after diffusion</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.grover.GroverSearch">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">GroverSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oracle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#GroverSearch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.GroverSearch" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Grover’s Search Algorithm Implementation</p>
+<p>Performs quantum search on an unstructured database with O(√N) queries.</p>
+<dl>
+<dt>Algorithm:</dt><dd><ol class="arabic simple">
+<li><p>Initialize to <a href="#id11"><span class="problematic" id="id12">|</span></a>+⟩^⊗n (uniform superposition)</p></li>
+<li><dl class="simple">
+<dt>Repeat k times:</dt><dd><ol class="loweralpha simple">
+<li><p>Apply oracle O (mark target states)</p></li>
+<li><p>Apply diffusion operator D (amplify marked states)</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p>Measure to find marked item with high probability</p></li>
+</ol>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">GroverConfig</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">oracle</span> <span class="o">=</span> <span class="n">FunctionOracle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">grover</span> <span class="o">=</span> <span class="n">GroverSearch</span><span class="p">(</span><span class="n">oracle</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">grover</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found item: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">Found item: 7</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id16" title="atlas_q.grover.GroverSearch.plot_convergence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_convergence</span></code></a>([save_path])</p></td>
+<td><p>Plot success probability vs iteration</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id15" title="atlas_q.grover.GroverSearch.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>([iterations])</p></td>
+<td><p>Run Grover's algorithm</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.grover.GroverSearch.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#GroverSearch.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.GroverSearch.run" title="Link to this definition">#</a></dt>
+<dd><p>Run Grover’s algorithm</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>iterations: Number of iterations (None = auto-calculate optimal)</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Dictionary with results:</dt><dd><ul class="simple">
+<li><p>measured_state: Most likely measurement outcome</p></li>
+<li><p>success_probability: Probability of measuring marked item</p></li>
+<li><p>iterations_used: Number of iterations performed</p></li>
+<li><p>runtime_ms: Execution time in milliseconds</p></li>
+<li><p>bond_dims: Final MPS bond dimensions</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.grover.GroverSearch.plot_convergence">
+<span class="sig-name descname"><span class="pre">plot_convergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#GroverSearch.plot_convergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.GroverSearch.plot_convergence" title="Link to this definition">#</a></dt>
+<dd><p>Plot success probability vs iteration</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>save_path: Optional path to save figure</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.grover.grover_search">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">grover_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marked_states</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#grover_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.grover_search" title="Link to this definition">#</a></dt>
+<dd><p>Convenience function to run Grover’s search</p>
+<dl>
+<dt>Args:</dt><dd><p>n_qubits: Number of qubits
+marked_states: Either set/list of marked states or marking function
+iterations: Number of iterations (None = auto)
+device: ‘cuda’ or ‘cpu’
+verbose: Print progress</p>
+</dd>
+<dt>Returns:</dt><dd><p>Results dictionary</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">marked_states</span><span class="o">=</span><span class="p">{</span><span class="mi">7</span><span class="p">},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">Found: 7</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.grover.calculate_grover_iterations">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">calculate_grover_iterations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_marked</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#calculate_grover_iterations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.grover.calculate_grover_iterations" title="Link to this definition">#</a></dt>
+<dd><p>Calculate optimal number of Grover iterations</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>n_qubits: Number of qubits
+n_marked: Number of marked items</p>
+</dd>
+<dt>Returns:</dt><dd><p>Optimal iteration count</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">grover</span></code> module implements Grover’s quantum search algorithm for unstructured database search with quadratic speedup. This algorithm finds marked items in a search space of size <span class="math notranslate nohighlight">\(N\)</span> using <span class="math notranslate nohighlight">\(O(\sqrt{N})\)</span> queries, compared to <span class="math notranslate nohighlight">\(O(N)\)</span> classically.</p>
+<p>The implementation integrates with ATLAS-Q’s Matrix Product State (MPS) backend for scalable simulation of larger systems.</p>
+</section>
+<section id="mathematical-background">
+<h2>Mathematical Background<a class="headerlink" href="#mathematical-background" title="Link to this heading">#</a></h2>
+<p>Grover’s algorithm searches for marked items in an unstructured database using amplitude amplification:</p>
+<ol class="arabic simple">
+<li><p><strong>Initialize</strong> to uniform superposition <span class="math notranslate nohighlight">\(|s\rangle = H^{\otimes n}|0\rangle^{\otimes n}\)</span></p></li>
+<li><p><strong>Repeat</strong> <span class="math notranslate nohighlight">\(k^* = \lfloor\frac{\pi}{4}\sqrt{N/M}\rfloor\)</span> times:</p>
+<ol class="loweralpha simple">
+<li><p>Apply oracle <span class="math notranslate nohighlight">\(O_f|x\rangle = (-1)^{f(x)}|x\rangle\)</span> (marks target states)</p></li>
+<li><p>Apply diffusion operator <span class="math notranslate nohighlight">\(D = 2|s\rangle\langle s| - I\)</span> (amplifies marked states)</p></li>
+</ol>
+</li>
+<li><p><strong>Measure</strong> to find marked item with high probability (<span class="math notranslate nohighlight">\(\gtrsim 95\%\)</span>)</p></li>
+</ol>
+<dl class="simple">
+<dt>Where:</dt><dd><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(N = 2^n\)</span> is the search space size</p></li>
+<li><p><span class="math notranslate nohighlight">\(M\)</span> is the number of marked items</p></li>
+<li><p><span class="math notranslate nohighlight">\(k^*\)</span> is the optimal number of iterations</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id0" title="atlas_q.grover.GroverSearch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GroverSearch</span></code></a></p></td>
+<td><p>Grover's Search Algorithm Implementation</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id17" title="atlas_q.grover.GroverConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GroverConfig</span></code></a></p></td>
+<td><p>Configuration for Grover's algorithm</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id36" title="atlas_q.grover.OracleBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OracleBase</span></code></a></p></td>
+<td><p>Base class for quantum oracles</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id40" title="atlas_q.grover.FunctionOracle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FunctionOracle</span></code></a></p></td>
+<td><p>Oracle based on a marking function</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id48" title="atlas_q.grover.BitmapOracle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitmapOracle</span></code></a></p></td>
+<td><p>Oracle based on explicit bitmap of marked states</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id50" title="atlas_q.grover.DiffusionOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DiffusionOperator</span></code></a></p></td>
+<td><p>Grover diffusion operator (inversion about average)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id56" title="atlas_q.grover.grover_search"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grover_search</span></code></a></p></td>
+<td><p>Convenience function to run Grover's search</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id57" title="atlas_q.grover.calculate_grover_iterations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_grover_iterations</span></code></a></p></td>
+<td><p>Calculate optimal number of Grover iterations</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="groversearch">
+<h2>GroverSearch<a class="headerlink" href="#groversearch" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">GroverSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oracle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#GroverSearch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Grover’s Search Algorithm Implementation</p>
+<p>Performs quantum search on an unstructured database with O(√N) queries.</p>
+<dl>
+<dt>Algorithm:</dt><dd><ol class="arabic simple">
+<li><p>Initialize to <a href="#id13"><span class="problematic" id="id14">|</span></a>+⟩^⊗n (uniform superposition)</p></li>
+<li><dl class="simple">
+<dt>Repeat k times:</dt><dd><ol class="loweralpha simple">
+<li><p>Apply oracle O (mark target states)</p></li>
+<li><p>Apply diffusion operator D (amplify marked states)</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p>Measure to find marked item with high probability</p></li>
+</ol>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">GroverConfig</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">oracle</span> <span class="o">=</span> <span class="n">FunctionOracle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">grover</span> <span class="o">=</span> <span class="n">GroverSearch</span><span class="p">(</span><span class="n">oracle</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">grover</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found item: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">Found item: 7</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id16" title="atlas_q.grover.GroverSearch.plot_convergence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_convergence</span></code></a>([save_path])</p></td>
+<td><p>Plot success probability vs iteration</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id15" title="atlas_q.grover.GroverSearch.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>([iterations])</p></td>
+<td><p>Run Grover's algorithm</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Main implementation of Grover’s quantum search algorithm.</p>
+<p>The algorithm amplifies the probability amplitude of marked states through repeated
+application of the oracle and diffusion operators.</p>
+<p class="rubric">Constructor</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grover</span> <span class="o">=</span> <span class="n">GroverSearch</span><span class="p">(</span><span class="n">oracle</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Parameters:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">oracle</span></code> (OracleBase): Oracle that marks target states</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">config</span></code> (GroverConfig): Algorithm configuration</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.grover.GroverSearch.html#atlas_q.grover.GroverSearch.__init__" title="atlas_q.grover.GroverSearch.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(oracle, config)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id15" title="atlas_q.grover.GroverSearch.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>([iterations])</p></td>
+<td><p>Run Grover's algorithm</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id16" title="atlas_q.grover.GroverSearch.plot_convergence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_convergence</span></code></a>([save_path])</p></td>
+<td><p>Plot success probability vs iteration</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroverSearch</span><span class="p">,</span> <span class="n">GroverConfig</span><span class="p">,</span> <span class="n">BitmapOracle</span>
+
+<span class="c1"># Configure algorithm</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">GroverConfig</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create oracle marking state 7</span>
+<span class="n">oracle</span> <span class="o">=</span> <span class="n">BitmapOracle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">{</span><span class="mi">7</span><span class="p">},</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+
+<span class="c1"># Run search</span>
+<span class="n">grover</span> <span class="o">=</span> <span class="n">GroverSearch</span><span class="p">(</span><span class="n">oracle</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found state: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Success probability: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;success_probability&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#GroverSearch.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition">#</a></dt>
+<dd><p>Run Grover’s algorithm</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>iterations: Number of iterations (None = auto-calculate optimal)</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Dictionary with results:</dt><dd><ul class="simple">
+<li><p>measured_state: Most likely measurement outcome</p></li>
+<li><p>success_probability: Probability of measuring marked item</p></li>
+<li><p>iterations_used: Number of iterations performed</p></li>
+<li><p>runtime_ms: Execution time in milliseconds</p></li>
+<li><p>bond_dims: Final MPS bond dimensions</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">plot_convergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#GroverSearch.plot_convergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition">#</a></dt>
+<dd><p>Plot success probability vs iteration</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>save_path: Optional path to save figure</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="groverconfig">
+<h2>GroverConfig<a class="headerlink" href="#groverconfig" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id17">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">GroverConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oracle_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'function'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measure_success_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#GroverConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Configuration for Grover’s algorithm</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>n_qubits: Number of qubits (search space size = 2^n_qubits)
+oracle_type: Type of oracle (‘function’, ‘bitmap’, ‘structured’)
+auto_iterations: Automatically calculate optimal iterations
+max_iterations: Maximum iterations (safety limit)
+chi_max: Maximum bond dimension for MPS
+device: ‘cuda’ or ‘cpu’
+dtype: torch.complex64 or torch.complex128
+verbose: Print progress information
+measure_success_prob: Track success probability after each iteration</p>
+</dd>
+</dl>
+<p>Configuration for Grover’s algorithm.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">n_qubits</span></span><a class="headerlink" href="#id18" title="Link to this definition">#</a></dt>
+<dd><p>Number of qubits (search space size = <span class="math notranslate nohighlight">\(2^{\\text{n_qubits}}\)</span>).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">oracle_type</span></span><a class="headerlink" href="#id19" title="Link to this definition">#</a></dt>
+<dd><p>Oracle type: <code class="docutils literal notranslate"><span class="pre">'function'</span></code> or <code class="docutils literal notranslate"><span class="pre">'bitmap'</span></code> (default: <code class="docutils literal notranslate"><span class="pre">'function'</span></code>).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">auto_iterations</span></span><a class="headerlink" href="#id20" title="Link to this definition">#</a></dt>
+<dd><p>Automatically calculate optimal iterations (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">max_iterations</span></span><a class="headerlink" href="#id21" title="Link to this definition">#</a></dt>
+<dd><p>Maximum iterations safety limit (default: 1000).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">chi_max</span></span><a class="headerlink" href="#id22" title="Link to this definition">#</a></dt>
+<dd><p>Maximum MPS bond dimension (default: 256).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">device</span></span><a class="headerlink" href="#id23" title="Link to this definition">#</a></dt>
+<dd><p>Compute device: <code class="docutils literal notranslate"><span class="pre">'cuda'</span></code> or <code class="docutils literal notranslate"><span class="pre">'cpu'</span></code> (default: <code class="docutils literal notranslate"><span class="pre">'cuda'</span></code>).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">dtype</span></span><a class="headerlink" href="#id24" title="Link to this definition">#</a></dt>
+<dd><p>Data type: <code class="docutils literal notranslate"><span class="pre">torch.complex64</span></code> or <code class="docutils literal notranslate"><span class="pre">torch.complex128</span></code> (default: <code class="docutils literal notranslate"><span class="pre">torch.complex128</span></code>).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">verbose</span></span><a class="headerlink" href="#id25" title="Link to this definition">#</a></dt>
+<dd><p>Print progress information (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">measure_success_prob</span></span><a class="headerlink" href="#id26" title="Link to this definition">#</a></dt>
+<dd><p>Track success probability per iteration (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id27">
+<span class="sig-name descname"><span class="pre">n_qubits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#id27" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id28">
+<span class="sig-name descname"><span class="pre">oracle_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'function'</span></em><a class="headerlink" href="#id28" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id29">
+<span class="sig-name descname"><span class="pre">auto_iterations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id29" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id30">
+<span class="sig-name descname"><span class="pre">max_iterations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1000</span></em><a class="headerlink" href="#id30" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id31">
+<span class="sig-name descname"><span class="pre">chi_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">256</span></em><a class="headerlink" href="#id31" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id32">
+<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cuda'</span></em><a class="headerlink" href="#id32" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id33">
+<span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.9)"><span class="pre">dtype</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">torch.complex128</span></em><a class="headerlink" href="#id33" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id34">
+<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id34" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id35">
+<span class="sig-name descname"><span class="pre">measure_success_prob</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id35" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="oraclebase">
+<h2>OracleBase<a class="headerlink" href="#oraclebase" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id36">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">OracleBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#OracleBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id36" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Base class for quantum oracles</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id38" title="atlas_q.grover.OracleBase.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(mps)</p></td>
+<td><p>Apply oracle to MPS (marks all target states)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id39" title="atlas_q.grover.OracleBase.get_marked_count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_marked_count</span></code></a>()</p></td>
+<td><p>Return number of marked items</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id37" title="atlas_q.grover.OracleBase.mark"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mark</span></code></a>(mps, state)</p></td>
+<td><p>Mark a specific basis state by flipping its phase</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Abstract base class for quantum oracles.</p>
+<p>Oracles mark target states by applying a phase flip:</p>
+<div class="math notranslate nohighlight">
+\[O_f|x\rangle = (-1)^{f(x)}|x\rangle\]</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id38" title="atlas_q.grover.OracleBase.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(mps)</p></td>
+<td><p>Apply oracle to MPS (marks all target states)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id39" title="atlas_q.grover.OracleBase.get_marked_count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_marked_count</span></code></a>()</p></td>
+<td><p>Return number of marked items</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="id37">
+<span class="sig-name descname"><span class="pre">mark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#OracleBase.mark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id37" title="Link to this definition">#</a></dt>
+<dd><p>Mark a specific basis state by flipping its phase</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id38">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#OracleBase.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id38" title="Link to this definition">#</a></dt>
+<dd><p>Apply oracle to MPS (marks all target states)</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>New MPS after oracle application</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id39">
+<span class="sig-name descname"><span class="pre">get_marked_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#OracleBase.get_marked_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id39" title="Link to this definition">#</a></dt>
+<dd><p>Return number of marked items</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="functionoracle">
+<h2>FunctionOracle<a class="headerlink" href="#functionoracle" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id40">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">FunctionOracle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marking_fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#FunctionOracle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id40" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#id36" title="atlas_q.grover.OracleBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">OracleBase</span></code></a></p>
+<p>Oracle based on a marking function</p>
+<p>Marks states where f(x) = True by applying phase flip.
+Implements O_f <a href="#id41"><span class="problematic" id="id42">|</span></a>x⟩ = (-1)^f(x) <a href="#id43"><span class="problematic" id="id44">|</span></a>x⟩</p>
+<dl class="simple">
+<dt>Example:</dt><dd><p># Mark state <a href="#id45"><span class="problematic" id="id46">|</span></a>5⟩
+oracle = FunctionOracle(n_qubits=4, marking_fn=lambda x: x == 5)</p>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id47" title="atlas_q.grover.FunctionOracle.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(mps)</p></td>
+<td><p>Apply oracle by marking all states where marking_fn returns True</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_marked_count</span></code>()</p></td>
+<td><p>Return number of marked items</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mark</span></code>(mps, state)</p></td>
+<td><p>Mark a specific basis state by flipping its phase</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Oracle based on a marking function <span class="math notranslate nohighlight">\(f: \\{0,1\\}^n \\to \\{0,1\\}\)</span>.</p>
+<p>Marks states where <code class="docutils literal notranslate"><span class="pre">marking_fn(x)</span></code> returns <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p class="rubric">Constructor</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">oracle</span> <span class="o">=</span> <span class="n">FunctionOracle</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">marking_fn</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Parameters:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n_qubits</span></code> (int): Number of qubits</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">marking_fn</span></code> (callable): Function that returns <code class="docutils literal notranslate"><span class="pre">True</span></code> for marked states</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">device</span></code> (str): Compute device</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dtype</span></code> (torch.dtype): Data type</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">FunctionOracle</span>
+
+<span class="c1"># Mark even numbers</span>
+<span class="n">oracle</span> <span class="o">=</span> <span class="n">FunctionOracle</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">marking_fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Mark powers of two</span>
+<span class="n">is_power_of_two</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="n">oracle</span> <span class="o">=</span> <span class="n">FunctionOracle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">is_power_of_two</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="id47">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#FunctionOracle.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id47" title="Link to this definition">#</a></dt>
+<dd><p>Apply oracle by marking all states where marking_fn returns True</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>New MPS after oracle application</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="bitmaporacle">
+<h2>BitmapOracle<a class="headerlink" href="#bitmaporacle" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id48">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">BitmapOracle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marked_states</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#BitmapOracle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id48" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#id36" title="atlas_q.grover.OracleBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">OracleBase</span></code></a></p>
+<p>Oracle based on explicit bitmap of marked states</p>
+<p>More efficient than FunctionOracle for small marked sets.</p>
+<dl class="simple">
+<dt>Example:</dt><dd><p>oracle = BitmapOracle(n_qubits=4, marked_states={3, 7, 11})</p>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id49" title="atlas_q.grover.BitmapOracle.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(mps)</p></td>
+<td><p>Apply oracle by marking all states in bitmap</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_marked_count</span></code>()</p></td>
+<td><p>Return number of marked items</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mark</span></code>(mps, state)</p></td>
+<td><p>Mark a specific basis state by flipping its phase</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Oracle based on explicit bitmap of marked states.</p>
+<p>More efficient than <code class="docutils literal notranslate"><span class="pre">FunctionOracle</span></code> for small marked sets.</p>
+<p class="rubric">Constructor</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">oracle</span> <span class="o">=</span> <span class="n">BitmapOracle</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">marked_states</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Parameters:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n_qubits</span></code> (int): Number of qubits</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">marked_states</span></code> (Set[int]): Set of marked state indices</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">device</span></code> (str): Compute device</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dtype</span></code> (torch.dtype): Data type</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">BitmapOracle</span>
+
+<span class="c1"># Mark states 3, 7, and 11</span>
+<span class="n">oracle</span> <span class="o">=</span> <span class="n">BitmapOracle</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">marked_states</span><span class="o">=</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">},</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="id49">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#BitmapOracle.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id49" title="Link to this definition">#</a></dt>
+<dd><p>Apply oracle by marking all states in bitmap</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>New MPS after oracle application</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="diffusionoperator">
+<h2>DiffusionOperator<a class="headerlink" href="#diffusionoperator" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id50">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">DiffusionOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.complex128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#DiffusionOperator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id50" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Grover diffusion operator (inversion about average)</p>
+<p>Implements: D = 2|ψ⟩⟨ψ| - I where <a href="#id51"><span class="problematic" id="id52">|</span></a>ψ⟩ = <a href="#id53"><span class="problematic" id="id54">|</span></a>+⟩^⊗n</p>
+<dl class="simple">
+<dt>Mathematical form:</dt><dd><p>D = H^⊗n (2|0⟩⟨0| - I) H^⊗n</p>
+</dd>
+</dl>
+<p>This reflects amplitudes about their average, amplifying marked states.</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id55" title="atlas_q.grover.DiffusionOperator.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(mps)</p></td>
+<td><p>Apply diffusion operator: 2|+⟩⟨+| - I</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Grover diffusion operator (inversion about average).</p>
+<p>Implements <span class="math notranslate nohighlight">\(D = 2|s\rangle\langle s| - I\)</span> where <span class="math notranslate nohighlight">\(|s\rangle = H^{\otimes n}|0\rangle^{\otimes n}\)</span>.</p>
+<p>Mathematical form:</p>
+<div class="math notranslate nohighlight">
+\[D = H^{\otimes n}(2|0\rangle\langle 0| - I)H^{\otimes n}\]</div>
+<p>This reflects amplitudes about their average, amplifying marked states.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="id55">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#DiffusionOperator.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id55" title="Link to this definition">#</a></dt>
+<dd><p>Apply diffusion operator: 2|+⟩⟨+| - I</p>
+<p>Decomposition:
+1. H^⊗n  (transform to computational basis)
+2. 2|0⟩⟨0| - I  (conditional phase shift using MPO)
+3. H^⊗n  (transform back)</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>New MPS after diffusion</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="convenience-functions">
+<h2>Convenience Functions<a class="headerlink" href="#convenience-functions" title="Link to this heading">#</a></h2>
+<section id="grover-search">
+<h3>grover_search<a class="headerlink" href="#grover-search" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="id56">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">grover_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marked_states</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#grover_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id56" title="Link to this definition">#</a></dt>
+<dd><p>Convenience function to run Grover’s search</p>
+<dl>
+<dt>Args:</dt><dd><p>n_qubits: Number of qubits
+marked_states: Either set/list of marked states or marking function
+iterations: Number of iterations (None = auto)
+device: ‘cuda’ or ‘cpu’
+verbose: Print progress</p>
+</dd>
+<dt>Returns:</dt><dd><p>Results dictionary</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">marked_states</span><span class="o">=</span><span class="p">{</span><span class="mi">7</span><span class="p">},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">Found: 7</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Convenience function for quick Grover searches.</p>
+<dl class="simple">
+<dt><strong>Parameters:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n_qubits</span></code> (int): Number of qubits</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">marked_states</span></code> (Set[int], List[int], or callable): Marked states or marking function</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iterations</span></code> (Optional[int]): Number of iterations (<code class="docutils literal notranslate"><span class="pre">None</span></code> = auto)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">device</span></code> (str): <code class="docutils literal notranslate"><span class="pre">'cuda'</span></code> or <code class="docutils literal notranslate"><span class="pre">'cpu'</span></code> (default: <code class="docutils literal notranslate"><span class="pre">'cuda'</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">verbose</span></code> (bool): Print progress (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p></li>
+</ul>
+</dd>
+<dt><strong>Returns:</strong></dt><dd><p>Dictionary with search results</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">grover_search</span>
+
+<span class="c1"># Search for state 7 in 4-qubit space</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">marked_states</span><span class="o">=</span><span class="p">{</span><span class="mi">7</span><span class="p">},</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;measured_state&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Search using function</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover_search</span><span class="p">(</span>
+    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">marked_states</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Multiples of 3</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</section>
+<section id="calculate-grover-iterations">
+<h3>calculate_grover_iterations<a class="headerlink" href="#calculate-grover-iterations" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="id57">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.grover.</span></span><span class="sig-name descname"><span class="pre">calculate_grover_iterations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_marked</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/grover.html#calculate_grover_iterations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id57" title="Link to this definition">#</a></dt>
+<dd><p>Calculate optimal number of Grover iterations</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>n_qubits: Number of qubits
+n_marked: Number of marked items</p>
+</dd>
+<dt>Returns:</dt><dd><p>Optimal iteration count</p>
+</dd>
+</dl>
+<p>Calculate optimal number of Grover iterations.</p>
+<p>Formula: <span class="math notranslate nohighlight">\(k^* = \lfloor\frac{\pi}{4}\sqrt{N/M}\rfloor\)</span></p>
+<dl class="simple">
+<dt><strong>Parameters:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n_qubits</span></code> (int): Number of qubits</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_marked</span></code> (int): Number of marked items</p></li>
+</ul>
+</dd>
+<dt><strong>Returns:</strong></dt><dd><p>Optimal iteration count (int)</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.grover</span><span class="w"> </span><span class="kn">import</span> <span class="n">calculate_grover_iterations</span>
+
+<span class="c1"># For N=16, M=1</span>
+<span class="n">k</span> <span class="o">=</span> <span class="n">calculate_grover_iterations</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_marked</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal iterations: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Output: 3</span>
+
+<span class="c1"># For N=1024, M=4</span>
+<span class="n">k</span> <span class="o">=</span> <span class="n">calculate_grover_iterations</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_marked</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal iterations: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Output: 12</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="performance-considerations">
+<h2>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt><strong>Scaling:</strong></dt><dd><ul class="simple">
+<li><p>Classical complexity: <span class="math notranslate nohighlight">\(O(N)\)</span> where <span class="math notranslate nohighlight">\(N = 2^n\)</span></p></li>
+<li><p>Quantum complexity: <span class="math notranslate nohighlight">\(O(\sqrt{N/M})\)</span> iterations</p></li>
+<li><p>Each iteration: <span class="math notranslate nohighlight">\(O(n \cdot \chi^2)\)</span> where <span class="math notranslate nohighlight">\(\chi\)</span> is bond dimension</p></li>
+</ul>
+</dd>
+<dt><strong>Bond Dimension:</strong></dt><dd><p>Higher <code class="docutils literal notranslate"><span class="pre">chi_max</span></code> improves accuracy but increases computation time. Recommended values:</p>
+<ul class="simple">
+<li><p>Small systems (≤5 qubits): <code class="docutils literal notranslate"><span class="pre">chi_max=32</span></code></p></li>
+<li><p>Medium systems (6-8 qubits): <code class="docutils literal notranslate"><span class="pre">chi_max=64-128</span></code></p></li>
+<li><p>Large systems (≥9 qubits): <code class="docutils literal notranslate"><span class="pre">chi_max=256-512</span></code></p></li>
+</ul>
+</dd>
+<dt><strong>Device Selection:</strong></dt><dd><ul class="simple">
+<li><p>CPU: Better for small systems (≤6 qubits) or debugging</p></li>
+<li><p>CUDA: Significantly faster for larger systems (≥7 qubits)</p></li>
+</ul>
+</dd>
+<dt><strong>Oracle Choice:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">BitmapOracle</span></code>: Best for small explicit marked sets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FunctionOracle</span></code>: Best for pattern-based marking (e.g., “all even numbers”)</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="implementation-details">
+<h2>Implementation Details<a class="headerlink" href="#implementation-details" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt><strong>MPO-Based Oracles:</strong></dt><dd><p>The oracle implementation uses exact Matrix Product Operators (MPOs) to represent phase-flip
+operators. This provides:</p>
+<ul class="simple">
+<li><p>Exact oracle implementation (no approximations)</p></li>
+<li><p>Bond dimension 2 for single-state oracles</p></li>
+<li><p>Efficient contraction with MPS via <code class="docutils literal notranslate"><span class="pre">apply_mpo_to_mps</span></code></p></li>
+<li><p>94-100% success probability matching theoretical predictions</p></li>
+</ul>
+</dd>
+<dt><strong>MPS Representation:</strong></dt><dd><p>The quantum state is represented using Matrix Product States with controlled entanglement:</p>
+<ul class="simple">
+<li><p>Accuracy controlled by <code class="docutils literal notranslate"><span class="pre">chi_max</span></code> bond dimension parameter</p></li>
+<li><p>Recommended: <code class="docutils literal notranslate"><span class="pre">chi_max=64-128</span></code> for 4-6 qubits, <code class="docutils literal notranslate"><span class="pre">chi_max=256</span></code> for 7-8 qubits</p></li>
+<li><p>Higher <code class="docutils literal notranslate"><span class="pre">chi_max</span></code> improves accuracy at cost of performance</p></li>
+<li><p>For critical applications, run multiple searches and take majority vote</p></li>
+</ul>
+</dd>
+<dt><strong>Performance Characteristics:</strong></dt><dd><ul class="simple">
+<li><p>2-4 qubit systems: ~10-15 ms/iteration (CPU)</p></li>
+<li><p>5-7 qubit systems: ~20-25 ms/iteration (CPU)</p></li>
+<li><p>GPU acceleration available for larger systems (≥7 qubits)</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<p><strong>Optimal Iteration Count</strong></p>
+<p>For N items with M solutions, optimal iterations ≈ π/4 × √(N/M):</p>
+<ul class="simple">
+<li><p>Single solution: ~0.785√N iterations</p></li>
+<li><p>Monitor success probability to avoid over-rotation</p></li>
+<li><p>Can empirically tune by testing different iteration counts</p></li>
+</ul>
+<p><strong>Oracle Design</strong></p>
+<ul class="simple">
+<li><p>Keep oracle simple (few gates) to minimize circuit depth</p></li>
+<li><p>Use phase kickback for efficient implementation</p></li>
+<li><p>Test oracle independently before full Grover circuit</p></li>
+</ul>
+<p><strong>Performance Optimization</strong></p>
+<ol class="arabic simple">
+<li><p>Use χ=16-32 for up to 10 qubits (sufficient for Grover)</p></li>
+<li><p>Enable GPU for n ≥ 8 qubits</p></li>
+<li><p>Batch multiple searches if testing different oracles</p></li>
+<li><p>Use stabilizer backend for Clifford-only oracles (faster)</p></li>
+</ol>
+</section>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h2>
+<p><strong>Educational Applications</strong></p>
+<ul class="simple">
+<li><p>Teaching quantum algorithms and amplitude amplification</p></li>
+<li><p>Demonstrating quantum speedup vs. classical search</p></li>
+<li><p>Understanding oracle-based quantum algorithms</p></li>
+</ul>
+<p><strong>Research Applications</strong></p>
+<ul class="simple">
+<li><p>Benchmarking quantum simulators</p></li>
+<li><p>Studying entanglement in search algorithms</p></li>
+<li><p>Developing improved search variants</p></li>
+<li><p>Testing new oracle implementations</p></li>
+</ul>
+<p><strong>Practical Considerations</strong></p>
+<ul class="simple">
+<li><p>For small N (&lt; 100): Classical search faster</p></li>
+<li><p>For large N: Physical quantum computers needed for advantage</p></li>
+<li><p>Simulator useful for: algorithm development, education, benchmarking</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="adaptive_mps.html"><span class="doc">atlas_q.adaptive_mps</span></a> - MPS backend used by Grover’s algorithm</p></li>
+<li><p><a class="reference internal" href="vqe_qaoa.html"><span class="doc">atlas_q.vqe_qaoa</span></a> - Other variational quantum algorithms</p></li>
+<li><p><a class="reference internal" href="quantum_hybrid_system.html"><span class="doc">atlas_q.quantum_hybrid_system</span></a> - Period-finding and Shor’s algorithm</p></li>
+<li><p><a class="reference internal" href="stabilizer_backend.html"><span class="doc">atlas_q.stabilizer_backend</span></a> - Clifford circuit simulator</p></li>
+<li><p><a class="reference internal" href="../user_guide/tutorials/beginners.html"><span class="doc">Beginner’s Tutorial</span></a> - Grover algorithm tutorial</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="grover96" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Grover96<span class="fn-bracket">]</span></span>
+<p>L. K. Grover, “A fast quantum mechanical algorithm for database search,”
+Proceedings of the 28th Annual ACM Symposium on Theory of Computing (1996).
+<a class="reference external" href="https://arxiv.org/abs/quant-ph/9605043">https://arxiv.org/abs/quant-ph/9605043</a></p>
+</div>
+<div class="citation" id="nielsen00" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Nielsen00<span class="fn-bracket">]</span></span>
+<p>M. A. Nielsen and I. L. Chuang, “Quantum Computation and Quantum Information,”
+Cambridge University Press (2000), Section 6.1.</p>
+</div>
+<div class="citation" id="brassard02" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Brassard02<span class="fn-bracket">]</span></span>
+<p>G. Brassard, P. Høyer, M. Mosca, and A. Tapp, “Quantum Amplitude Amplification
+and Estimation,” Contemporary Mathematics, 305:53-74 (2002).
+<a class="reference external" href="https://arxiv.org/abs/quant-ph/0005055">https://arxiv.org/abs/quant-ph/0005055</a></p>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">atlas_q.vqe_qaoa.build_molecular_hamiltonian</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="generated/atlas_q.grover.GroverSearch.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">atlas_q.grover.GroverSearch</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.GroverConfig"><code class="docutils literal notranslate"><span class="pre">GroverConfig</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.GroverConfig.n_qubits"><code class="docutils literal notranslate"><span class="pre">GroverConfig.n_qubits</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.GroverConfig.oracle_type"><code class="docutils literal notranslate"><span class="pre">GroverConfig.oracle_type</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.GroverConfig.auto_iterations"><code class="docutils literal notranslate"><span class="pre">GroverConfig.auto_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.GroverConfig.max_iterations"><code class="docutils literal notranslate"><span class="pre">GroverConfig.max_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.GroverConfig.chi_max"><code class="docutils literal notranslate"><span class="pre">GroverConfig.chi_max</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.GroverConfig.device"><code class="docutils literal notranslate"><span class="pre">GroverConfig.device</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.GroverConfig.dtype"><code class="docutils literal notranslate"><span class="pre">GroverConfig.dtype</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.GroverConfig.verbose"><code class="docutils literal notranslate"><span class="pre">GroverConfig.verbose</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.GroverConfig.measure_success_prob"><code class="docutils literal notranslate"><span class="pre">GroverConfig.measure_success_prob</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.OracleBase"><code class="docutils literal notranslate"><span class="pre">OracleBase</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.OracleBase.mark"><code class="docutils literal notranslate"><span class="pre">OracleBase.mark()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.OracleBase.apply"><code class="docutils literal notranslate"><span class="pre">OracleBase.apply()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.OracleBase.get_marked_count"><code class="docutils literal notranslate"><span class="pre">OracleBase.get_marked_count()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.FunctionOracle"><code class="docutils literal notranslate"><span class="pre">FunctionOracle</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.FunctionOracle.apply"><code class="docutils literal notranslate"><span class="pre">FunctionOracle.apply()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.BitmapOracle"><code class="docutils literal notranslate"><span class="pre">BitmapOracle</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.BitmapOracle.apply"><code class="docutils literal notranslate"><span class="pre">BitmapOracle.apply()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.DiffusionOperator"><code class="docutils literal notranslate"><span class="pre">DiffusionOperator</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.DiffusionOperator.apply"><code class="docutils literal notranslate"><span class="pre">DiffusionOperator.apply()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.GroverSearch"><code class="docutils literal notranslate"><span class="pre">GroverSearch</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.GroverSearch.run"><code class="docutils literal notranslate"><span class="pre">GroverSearch.run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.GroverSearch.plot_convergence"><code class="docutils literal notranslate"><span class="pre">GroverSearch.plot_convergence()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.grover_search"><code class="docutils literal notranslate"><span class="pre">grover_search()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.grover.calculate_grover_iterations"><code class="docutils literal notranslate"><span class="pre">calculate_grover_iterations()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-background">Mathematical Background</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#groversearch">GroverSearch</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">GroverSearch</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id15"><code class="docutils literal notranslate"><span class="pre">GroverSearch.run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16"><code class="docutils literal notranslate"><span class="pre">GroverSearch.plot_convergence()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#groverconfig">GroverConfig</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17"><code class="docutils literal notranslate"><span class="pre">GroverConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id18"><code class="docutils literal notranslate"><span class="pre">GroverConfig.n_qubits</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id19"><code class="docutils literal notranslate"><span class="pre">GroverConfig.oracle_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id20"><code class="docutils literal notranslate"><span class="pre">GroverConfig.auto_iterations</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id21"><code class="docutils literal notranslate"><span class="pre">GroverConfig.max_iterations</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id22"><code class="docutils literal notranslate"><span class="pre">GroverConfig.chi_max</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id23"><code class="docutils literal notranslate"><span class="pre">GroverConfig.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id24"><code class="docutils literal notranslate"><span class="pre">GroverConfig.dtype</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id25"><code class="docutils literal notranslate"><span class="pre">GroverConfig.verbose</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id26"><code class="docutils literal notranslate"><span class="pre">GroverConfig.measure_success_prob</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id27"><code class="docutils literal notranslate"><span class="pre">GroverConfig.n_qubits</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id28"><code class="docutils literal notranslate"><span class="pre">GroverConfig.oracle_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id29"><code class="docutils literal notranslate"><span class="pre">GroverConfig.auto_iterations</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id30"><code class="docutils literal notranslate"><span class="pre">GroverConfig.max_iterations</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id31"><code class="docutils literal notranslate"><span class="pre">GroverConfig.chi_max</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id32"><code class="docutils literal notranslate"><span class="pre">GroverConfig.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id33"><code class="docutils literal notranslate"><span class="pre">GroverConfig.dtype</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id34"><code class="docutils literal notranslate"><span class="pre">GroverConfig.verbose</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id35"><code class="docutils literal notranslate"><span class="pre">GroverConfig.measure_success_prob</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#oraclebase">OracleBase</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id36"><code class="docutils literal notranslate"><span class="pre">OracleBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id37"><code class="docutils literal notranslate"><span class="pre">OracleBase.mark()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id38"><code class="docutils literal notranslate"><span class="pre">OracleBase.apply()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id39"><code class="docutils literal notranslate"><span class="pre">OracleBase.get_marked_count()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functionoracle">FunctionOracle</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id40"><code class="docutils literal notranslate"><span class="pre">FunctionOracle</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id47"><code class="docutils literal notranslate"><span class="pre">FunctionOracle.apply()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bitmaporacle">BitmapOracle</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id48"><code class="docutils literal notranslate"><span class="pre">BitmapOracle</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id49"><code class="docutils literal notranslate"><span class="pre">BitmapOracle.apply()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusionoperator">DiffusionOperator</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id50"><code class="docutils literal notranslate"><span class="pre">DiffusionOperator</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id55"><code class="docutils literal notranslate"><span class="pre">DiffusionOperator.apply()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convenience-functions">Convenience Functions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grover-search">grover_search</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id56"><code class="docutils literal notranslate"><span class="pre">grover_search()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-grover-iterations">calculate_grover_iterations</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id57"><code class="docutils literal notranslate"><span class="pre">calculate_grover_iterations()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-considerations">Performance Considerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-details">Implementation Details</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

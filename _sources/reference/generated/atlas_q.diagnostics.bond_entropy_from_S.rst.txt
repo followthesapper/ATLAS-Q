@@ -1,0 +1,6 @@
+﻿atlas\_q.diagnostics.bond\_entropy\_from\_S
+===========================================
+
+.. currentmodule:: atlas_q.diagnostics
+
+.. autofunction:: bond_entropy_from_S

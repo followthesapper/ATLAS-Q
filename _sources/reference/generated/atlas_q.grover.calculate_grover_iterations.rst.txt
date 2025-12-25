@@ -1,0 +1,6 @@
+﻿atlas\_q.grover.calculate\_grover\_iterations
+=============================================
+
+.. currentmodule:: atlas_q.grover
+
+.. autofunction:: calculate_grover_iterations

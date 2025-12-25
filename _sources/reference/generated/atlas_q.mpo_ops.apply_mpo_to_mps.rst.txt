@@ -1,0 +1,6 @@
+﻿atlas\_q.mpo\_ops.apply\_mpo\_to\_mps
+=====================================
+
+.. currentmodule:: atlas_q.mpo_ops
+
+.. autofunction:: apply_mpo_to_mps

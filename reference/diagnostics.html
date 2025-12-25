@@ -1,0 +1,1481 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>atlas_q.diagnostics &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/diagnostics';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="atlas_q.diagnostics.bond_entropy_from_S" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html" />
+    <link rel="prev" title="Triton GPU Kernels" href="triton_kernels.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="adaptive_mps.html">atlas_q.adaptive_mps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mpo_ops.html">atlas_q.mpo_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPOBuilder.html">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tdvp.html">atlas_q.tdvp</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="vqe_qaoa.html">atlas_q.vqe_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="grover.html">atlas_q.grover</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="stabilizer_backend.html">atlas_q.stabilizer_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="noise_models.html">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planar_2d.html">2D/Planar Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributed_mps.html">Distributed MPS</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cuquantum_backend.html">atlas_q.cuquantum_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">atlas_q.diagnostics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linalg_robust.html">atlas_q.linalg_robust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="truncation.html">atlas_q.truncation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.diagnostics</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-atlas_q.diagnostics">
+<span id="atlas-q-diagnostics"></span><h1>atlas_q.diagnostics<a class="headerlink" href="#module-atlas_q.diagnostics" title="Link to this heading">#</a></h1>
+<p>Diagnostics and Monitoring Utilities for MPS</p>
+<p>Provides entropy calculations, statistics tracking, and observability tools.</p>
+<p>Author: ATLAS-Q Contributors
+Date: October 2025
+License: MIT</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.diagnostics.bond_entropy_from_S">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.diagnostics.</span></span><span class="sig-name descname"><span class="pre">bond_entropy_from_S</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#bond_entropy_from_S"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.diagnostics.bond_entropy_from_S" title="Link to this definition">#</a></dt>
+<dd><p>Compute entanglement entropy from singular values</p>
+<p>S = -Σ_i p_i log(p_i) where p_i = σ_i² / Σ_j σ_j²</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values (sorted descending)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Entanglement entropy in bits (log base 2)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.diagnostics.effective_rank">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.diagnostics.</span></span><span class="sig-name descname"><span class="pre">effective_rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.99</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#effective_rank"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.diagnostics.effective_rank" title="Link to this definition">#</a></dt>
+<dd><p>Compute effective rank: smallest k where cumulative energy ≥ threshold</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values
+threshold: Energy retention threshold (default 99%)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Effective rank</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.diagnostics.spectral_gap">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.diagnostics.</span></span><span class="sig-name descname"><span class="pre">spectral_gap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#spectral_gap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.diagnostics.spectral_gap" title="Link to this definition">#</a></dt>
+<dd><p>Compute spectral gap σ_k / σ_{k+1}</p>
+<p>Large gaps indicate safe truncation points.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values
+k: Truncation point</p>
+</dd>
+<dt>Returns:</dt><dd><p>Spectral gap ratio (or inf if k+1 doesn’t exist or is zero)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.diagnostics.MPSStatistics">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.diagnostics.</span></span><span class="sig-name descname"><span class="pre">MPSStatistics</span></span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.diagnostics.MPSStatistics" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Track and aggregate MPS operation statistics</p>
+<p>Maintains per-operation logs and rolling aggregates for:
+- Bond dimensions (χ)
+- Truncation errors (ε_local)
+- Entanglement entropies (S)
+- SVD driver usage
+- Computation times</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics.global_error_bound" title="atlas_q.diagnostics.MPSStatistics.global_error_bound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">global_error_bound</span></code></a>()</p></td>
+<td><p>Compute global error upper bound</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics.record" title="atlas_q.diagnostics.MPSStatistics.record"><code class="xref py py-obj docutils literal notranslate"><span class="pre">record</span></code></a>(**kwargs)</p></td>
+<td><p>Record a single operation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics.reset" title="atlas_q.diagnostics.MPSStatistics.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>()</p></td>
+<td><p>Clear all logs</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics.summary" title="atlas_q.diagnostics.MPSStatistics.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summary</span></code></a>()</p></td>
+<td><p>Compute summary statistics</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.diagnostics.MPSStatistics.record">
+<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics.record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.diagnostics.MPSStatistics.record" title="Link to this definition">#</a></dt>
+<dd><p>Record a single operation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.diagnostics.MPSStatistics.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.diagnostics.MPSStatistics.summary" title="Link to this definition">#</a></dt>
+<dd><p>Compute summary statistics</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.diagnostics.MPSStatistics.global_error_bound">
+<span class="sig-name descname"><span class="pre">global_error_bound</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics.global_error_bound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.diagnostics.MPSStatistics.global_error_bound" title="Link to this definition">#</a></dt>
+<dd><p>Compute global error upper bound</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.diagnostics.MPSStatistics.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.diagnostics.MPSStatistics.reset" title="Link to this definition">#</a></dt>
+<dd><p>Clear all logs</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">diagnostics</span></code> module provides comprehensive monitoring and analysis tools for Matrix Product State simulations. It enables tracking of entanglement structure, truncation errors, and computational efficiency throughout MPS operations.</p>
+<p><strong>Entanglement Diagnostics</strong></p>
+<p>Entanglement entropy quantifies the entanglement between two subsystems in a quantum state. For an MPS, the entanglement entropy at bond i is computed from the Schmidt decomposition:</p>
+<div class="math notranslate nohighlight">
+\[|\psi\rangle = \sum_{\alpha=1}^{\chi} \sigma_\alpha |\phi_\alpha^L\rangle |\phi_\alpha^R\rangle\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma_\alpha\)</span> are Schmidt coefficients (singular values from SVD). The von Neumann entropy is:</p>
+<div class="math notranslate nohighlight">
+\[S = -\sum_{\alpha=1}^{\chi} p_\alpha \log_2(p_\alpha), \quad p_\alpha = \frac{\sigma_\alpha^2}{\sum_\beta \sigma_\beta^2}\]</div>
+<p><strong>Physical Interpretation</strong></p>
+<ul class="simple">
+<li><p><strong>S = 0</strong>: Product state (no entanglement)</p></li>
+<li><p><strong>S = log₂(χ)</strong>: Maximally entangled across bond (χ Schmidt states equally weighted)</p></li>
+<li><p><strong>S ≈ log₂(χ_eff)</strong>: Effective rank χ_eff &lt; χ indicates redundant bond dimension</p></li>
+</ul>
+<p><strong>Truncation Error Analysis</strong></p>
+<p>When truncating from χ to χ’ &lt; χ, the local truncation error is:</p>
+<div class="math notranslate nohighlight">
+\[\epsilon_{\text{local}} = \sqrt{\sum_{\alpha &gt; \chi'} \sigma_\alpha^2}\]</div>
+<p>The global error accumulates via the Vidal bound <a class="reference internal" href="truncation.html#vidal03" id="id1"><span>[Vidal03]</span></a>:</p>
+<div class="math notranslate nohighlight">
+\[\|\psi_{\text{exact}} - \psi_{\text{truncated}}\| \leq \sum_{i=1}^{N} \epsilon_i\]</div>
+<p>where ε_i is the truncation error at bond i.</p>
+<p><strong>Key Metrics</strong></p>
+<ul class="simple">
+<li><p><strong>Entanglement entropy</strong>: Measure of bipartite entanglement</p></li>
+<li><p><strong>Effective rank</strong>: Number of significant Schmidt values (captures 99% of weight)</p></li>
+<li><p><strong>Spectral gap</strong>: Ratio σ_k / σ_{k+1} indicating safe truncation points</p></li>
+<li><p><strong>Bond dimension evolution</strong>: Track χ growth during simulation</p></li>
+<li><p><strong>Truncation error bounds</strong>: Global error estimates from local errors</p></li>
+</ul>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html#atlas_q.diagnostics.bond_entropy_from_S" title="atlas_q.diagnostics.bond_entropy_from_S"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bond_entropy_from_S</span></code></a></p></td>
+<td><p>Compute entanglement entropy from singular values</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.effective_rank.html#atlas_q.diagnostics.effective_rank" title="atlas_q.diagnostics.effective_rank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">effective_rank</span></code></a></p></td>
+<td><p>Compute effective rank: smallest k where cumulative energy ≥ threshold</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.spectral_gap.html#atlas_q.diagnostics.spectral_gap" title="atlas_q.diagnostics.spectral_gap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_gap</span></code></a></p></td>
+<td><p>Compute spectral gap σ_k / σ_{k+1}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics" title="atlas_q.diagnostics.MPSStatistics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MPSStatistics</span></code></a></p></td>
+<td><p>Track and aggregate MPS operation statistics</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="bond-entropy-from-s">
+<h2>bond_entropy_from_S<a class="headerlink" href="#bond-entropy-from-s" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.diagnostics.</span></span><span class="sig-name descname"><span class="pre">bond_entropy_from_S</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#bond_entropy_from_S"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dd><p>Compute entanglement entropy from singular values</p>
+<p>S = -Σ_i p_i log(p_i) where p_i = σ_i² / Σ_j σ_j²</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values (sorted descending)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Entanglement entropy in bits (log base 2)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<p>Computes entanglement entropy from singular values using the formula:</p>
+<div class="math notranslate nohighlight">
+\[S = -\sum_i p_i \log_2(p_i)\]</div>
+<p>where <span class="math notranslate nohighlight">\(p_i = \sigma_i^2 / \sum_j \sigma_j^2\)</span>.</p>
+</section>
+<section id="effective-rank">
+<h2>effective_rank<a class="headerlink" href="#effective-rank" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.diagnostics.</span></span><span class="sig-name descname"><span class="pre">effective_rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.99</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#effective_rank"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition">#</a></dt>
+<dd><p>Compute effective rank: smallest k where cumulative energy ≥ threshold</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values
+threshold: Energy retention threshold (default 99%)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Effective rank</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<p>Computes the effective rank as the smallest k where cumulative energy retention exceeds a threshold (default 99%). Useful for determining how many singular values contain most of the energy.</p>
+</section>
+<section id="spectral-gap">
+<h2>spectral_gap<a class="headerlink" href="#spectral-gap" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.diagnostics.</span></span><span class="sig-name descname"><span class="pre">spectral_gap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#spectral_gap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition">#</a></dt>
+<dd><p>Compute spectral gap σ_k / σ_{k+1}</p>
+<p>Large gaps indicate safe truncation points.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>S: Singular values
+k: Truncation point</p>
+</dd>
+<dt>Returns:</dt><dd><p>Spectral gap ratio (or inf if k+1 doesn’t exist or is zero)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<p>Computes the spectral gap <span class="math notranslate nohighlight">\(\sigma_k / \sigma_{k+1}\)</span>. Large gaps indicate safe truncation points where discarding smaller singular values introduces minimal error.</p>
+</section>
+<section id="mpsstatistics">
+<h2>MPSStatistics<a class="headerlink" href="#mpsstatistics" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id4">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.diagnostics.</span></span><span class="sig-name descname"><span class="pre">MPSStatistics</span></span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Track and aggregate MPS operation statistics</p>
+<p>Maintains per-operation logs and rolling aggregates for:
+- Bond dimensions (χ)
+- Truncation errors (ε_local)
+- Entanglement entropies (S)
+- SVD driver usage
+- Computation times</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics.global_error_bound" title="atlas_q.diagnostics.MPSStatistics.global_error_bound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">global_error_bound</span></code></a>()</p></td>
+<td><p>Compute global error upper bound</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics.record" title="atlas_q.diagnostics.MPSStatistics.record"><code class="xref py py-obj docutils literal notranslate"><span class="pre">record</span></code></a>(**kwargs)</p></td>
+<td><p>Record a single operation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics.reset" title="atlas_q.diagnostics.MPSStatistics.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>()</p></td>
+<td><p>Clear all logs</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics.summary" title="atlas_q.diagnostics.MPSStatistics.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summary</span></code></a>()</p></td>
+<td><p>Compute summary statistics</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Comprehensive statistics tracker for MPS operations.</p>
+<p><strong>Tracked Metrics</strong></p>
+<p>For each operation (gate application, canonicalization, etc.):</p>
+<ul class="simple">
+<li><p><strong>step</strong>: Operation index</p></li>
+<li><p><strong>bond</strong>: Bond index where operation occurred</p></li>
+<li><p><strong>chi_before</strong>: Bond dimension before operation</p></li>
+<li><p><strong>chi_after</strong>: Bond dimension after truncation</p></li>
+<li><p><strong>eps_local</strong>: Local truncation error <span class="math notranslate nohighlight">\(\sqrt{\sum_{\alpha &gt; \chi} \sigma_\alpha^2}\)</span></p></li>
+<li><p><strong>entropy</strong>: Entanglement entropy <span class="math notranslate nohighlight">\(-\sum p_\alpha \log_2(p_\alpha)\)</span></p></li>
+<li><p><strong>svd_driver</strong>: Which SVD implementation used (‘torch_cuda’, ‘torch_cpu’, ‘numpy’)</p></li>
+<li><p><strong>time_ms</strong>: Operation duration in milliseconds</p></li>
+</ul>
+<p><strong>Aggregate Statistics</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">summary()</span></code> method computes:</p>
+<ul class="simple">
+<li><p><strong>max_chi</strong>: Maximum bond dimension encountered</p></li>
+<li><p><strong>mean_chi</strong>: Average bond dimension across all operations</p></li>
+<li><p><strong>max_entropy</strong>: Maximum entanglement entropy</p></li>
+<li><p><strong>mean_entropy</strong>: Average entanglement entropy</p></li>
+<li><p><strong>total_operations</strong>: Number of recorded operations</p></li>
+<li><p><strong>cuda_svd_pct</strong>: Percentage of SVDs on GPU</p></li>
+<li><p><strong>total_time_s</strong>: Total computation time in seconds</p></li>
+</ul>
+<p><strong>Global Error Bound</strong></p>
+<p>Computes cumulative truncation error via Vidal bound:</p>
+<div class="math notranslate nohighlight">
+\[\epsilon_{\text{global}} = \sum_{i=1}^{M} \epsilon_i\]</div>
+<p>where M is the number of truncation operations.</p>
+<p><strong>Methods</strong></p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics.__init__" title="atlas_q.diagnostics.MPSStatistics.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics.record" title="atlas_q.diagnostics.MPSStatistics.record"><code class="xref py py-obj docutils literal notranslate"><span class="pre">record</span></code></a>(**kwargs)</p></td>
+<td><p>Record a single operation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics.summary" title="atlas_q.diagnostics.MPSStatistics.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summary</span></code></a>()</p></td>
+<td><p>Compute summary statistics</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics.global_error_bound" title="atlas_q.diagnostics.MPSStatistics.global_error_bound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">global_error_bound</span></code></a>()</p></td>
+<td><p>Compute global error upper bound</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html#atlas_q.diagnostics.MPSStatistics.reset" title="atlas_q.diagnostics.MPSStatistics.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>()</p></td>
+<td><p>Clear all logs</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.diagnostics.MPSStatistics.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.diagnostics.MPSStatistics.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize empty statistics tracker.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_before</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_after</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_local</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entropy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">svd_driver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'torch_cuda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_ms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics.record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition">#</a></dt>
+<dd><p>Record statistics for a single operation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Operation index</p></li>
+<li><p><strong>bond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Bond index</p></li>
+<li><p><strong>chi_before</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Bond dimension before</p></li>
+<li><p><strong>chi_after</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Bond dimension after</p></li>
+<li><p><strong>eps_local</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Local truncation error</p></li>
+<li><p><strong>entropy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Entanglement entropy</p></li>
+<li><p><strong>svd_driver</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – SVD implementation used</p></li>
+<li><p><strong>time_ms</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Operation time in milliseconds</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition">#</a></dt>
+<dd><p>Compute aggregate statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary of summary statistics</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">global_error_bound</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics.global_error_bound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition">#</a></dt>
+<dd><p>Compute global truncation error bound.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sum of all local truncation errors</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition">#</a></dt>
+<dd><p>Clear all recorded statistics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.diagnostics.MPSStatistics.plot_entropies">
+<span class="sig-name descname"><span class="pre">plot_entropies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.diagnostics.MPSStatistics.plot_entropies" title="Link to this definition">#</a></dt>
+<dd><p>Plot entanglement entropy evolution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Optional path to save figure</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib Figure object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matplotlib.figure.Figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.diagnostics.MPSStatistics.plot_bond_dims">
+<span class="sig-name descname"><span class="pre">plot_bond_dims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.diagnostics.MPSStatistics.plot_bond_dims" title="Link to this definition">#</a></dt>
+<dd><p>Plot bond dimension evolution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Optional path to save figure</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib Figure object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matplotlib.figure.Figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics.record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition">#</a></dt>
+<dd><p>Record a single operation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition">#</a></dt>
+<dd><p>Compute summary statistics</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">global_error_bound</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics.global_error_bound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition">#</a></dt>
+<dd><p>Compute global error upper bound</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/diagnostics.html#MPSStatistics.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition">#</a></dt>
+<dd><p>Clear all logs</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<p>Computing entanglement entropy:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.diagnostics</span><span class="w"> </span><span class="kn">import</span> <span class="n">bond_entropy_from_S</span>
+
+<span class="c1"># Singular values from SVD</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
+
+<span class="n">entropy</span> <span class="o">=</span> <span class="n">bond_entropy_from_S</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entanglement entropy: </span><span class="si">{</span><span class="n">entropy</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> bits&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Analyzing effective rank:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.diagnostics</span><span class="w"> </span><span class="kn">import</span> <span class="n">effective_rank</span>
+
+<span class="c1"># Check how many singular values capture 99% of energy</span>
+<span class="n">k_eff</span> <span class="o">=</span> <span class="n">effective_rank</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.99</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Effective rank: </span><span class="si">{</span><span class="n">k_eff</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Tracking MPS statistics:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.diagnostics</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPSStatistics</span>
+
+<span class="n">stats</span> <span class="o">=</span> <span class="n">MPSStatistics</span><span class="p">()</span>
+
+<span class="c1"># Record operations</span>
+<span class="n">stats</span><span class="o">.</span><span class="n">record</span><span class="p">(</span>
+    <span class="n">step</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">bond</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">chi_before</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">chi_after</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span>
+    <span class="n">eps_local</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+    <span class="n">entropy</span><span class="o">=</span><span class="mf">3.2</span><span class="p">,</span>
+    <span class="n">svd_driver</span><span class="o">=</span><span class="s1">&#39;torch_cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Get summary</span>
+<span class="n">summary</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max χ: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;max_chi&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Global error bound: </span><span class="si">{</span><span class="n">stats</span><span class="o">.</span><span class="n">global_error_bound</span><span class="p">()</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU utilization: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;cuda_svd_pct&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Advanced usage with AdaptiveMPS:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apply gates...</span>
+
+<span class="c1"># Access statistics</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">stats_summary</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total operations: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;total_operations&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean χ: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;mean_chi&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean entropy: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;mean_entropy&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check global error</span>
+<span class="n">global_error</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">global_error_bound</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Global truncation error: </span><span class="si">{</span><span class="n">global_error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 4: Visualizing Entanglement Structure</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.diagnostics</span><span class="w"> </span><span class="kn">import</span> <span class="n">bond_entropy_from_S</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apply deep circuit</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">CNOT</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">CNOT</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">29</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_two_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">CNOT</span><span class="p">)</span>
+
+<span class="c1"># Compute entropies at all bonds</span>
+<span class="n">entropies</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">bond_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">29</span><span class="p">):</span>
+    <span class="c1"># Get singular values at bond</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">get_singular_values</span><span class="p">(</span><span class="n">bond_idx</span><span class="p">)</span>
+    <span class="n">entropy</span> <span class="o">=</span> <span class="n">bond_entropy_from_S</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+    <span class="n">entropies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entropy</span><span class="p">)</span>
+
+<span class="c1"># Plot entanglement profile</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">entropies</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Bond Index&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Entanglement Entropy (bits)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Entanglement Profile After 10 Layers&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;entanglement_profile.png&#39;</span><span class="p">)</span>
+
+<span class="c1"># Identify bottleneck bonds (high entanglement)</span>
+<span class="n">max_entropy_bond</span> <span class="o">=</span> <span class="n">entropies</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">entropies</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Maximum entanglement at bond </span><span class="si">{</span><span class="n">max_entropy_bond</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">entropies</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> bits&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 5: Analyzing Truncation Quality</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.diagnostics</span><span class="w"> </span><span class="kn">import</span> <span class="n">effective_rank</span><span class="p">,</span> <span class="n">spectral_gap</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Get singular values from some bond</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">get_singular_values</span><span class="p">(</span><span class="n">bond_idx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="c1"># Compute effective rank (99% threshold)</span>
+<span class="n">k_eff</span> <span class="o">=</span> <span class="n">effective_rank</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.99</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Effective rank: </span><span class="si">{</span><span class="n">k_eff</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="si">}</span><span class="s2"> (ratio: </span><span class="si">{</span><span class="n">k_eff</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># If ratio &lt; 0.5, bond dimension is overprovisioned</span>
+<span class="k">if</span> <span class="n">k_eff</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bond </span><span class="si">{</span><span class="n">bond_idx</span><span class="si">}</span><span class="s2"> has redundancy, could reduce χ&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check spectral gap</span>
+<span class="k">if</span> <span class="n">k_eff</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+    <span class="n">gap</span> <span class="o">=</span> <span class="n">spectral_gap</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k_eff</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Spectral gap at truncation point: </span><span class="si">{</span><span class="n">gap</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Large gap (&gt; 10) indicates safe truncation</span>
+    <span class="k">if</span> <span class="n">gap</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Safe to truncate at this point&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Small spectral gap, truncation may introduce error&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-notes">
+<h2>Performance Notes<a class="headerlink" href="#performance-notes" title="Link to this heading">#</a></h2>
+<p><strong>Entropy Computation Cost</strong></p>
+<ul class="simple">
+<li><p><strong>bond_entropy_from_S</strong>: O(χ) for χ singular values</p></li>
+<li><p>Dominated by log₂ evaluations, negligible compared to SVD cost</p></li>
+<li><p>Can compute for all N bonds in &lt; 1 ms for typical χ ≤ 64</p></li>
+</ul>
+<p><strong>Memory Overhead</strong></p>
+<p>MPSStatistics storage:</p>
+<ul class="simple">
+<li><p>Per operation: ~100 bytes (8 floats + metadata)</p></li>
+<li><p>10000 operations: ~1 MB</p></li>
+<li><p>Negligible compared to MPS tensors (MBs to GBs)</p></li>
+</ul>
+<p><strong>Typical Statistics Collection Cost</strong></p>
+<p>For 10000-gate circuit on 30 qubits:</p>
+<ul class="simple">
+<li><p>Without statistics: 12.3s</p></li>
+<li><p>With statistics: 12.5s</p></li>
+<li><p>Overhead: ~1.6% (acceptable for diagnostics)</p></li>
+</ul>
+<p><strong>Best Practices</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Enable statistics during development/debugging</strong>, disable in production if microseconds matter</p></li>
+<li><p><strong>Monitor global error bound</strong> to ensure simulation accuracy</p></li>
+<li><p><strong>Plot entropy profiles</strong> to identify entanglement bottlenecks</p></li>
+<li><p><strong>Check effective rank</strong> to detect over-provisioned bond dimensions</p></li>
+<li><p><strong>Track GPU utilization</strong> via svd_driver statistics</p></li>
+</ol>
+<p><strong>Interpreting Statistics</strong></p>
+<div class="pst-scrollable-table-container"><table class="table" id="id13">
+<caption><span class="caption-text">Entanglement Entropy Interpretation</span><a class="headerlink" href="#id13" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 30.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Entropy Range</p></th>
+<th class="head"><p>State Type</p></th>
+<th class="head"><p>Implications</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>S = 0</p></td>
+<td><p>Product state</p></td>
+<td><p>No entanglement, MPS exact with χ=1</p></td>
+</tr>
+<tr class="row-odd"><td><p>S = 1-3 bits</p></td>
+<td><p>Weakly entangled</p></td>
+<td><p>Small χ (4-8) sufficient</p></td>
+</tr>
+<tr class="row-even"><td><p>S = 4-6 bits</p></td>
+<td><p>Moderately entangled</p></td>
+<td><p>χ = 16-64 needed</p></td>
+</tr>
+<tr class="row-odd"><td><p>S = 6-10 bits</p></td>
+<td><p>Highly entangled</p></td>
+<td><p>χ = 64-512 required</p></td>
+</tr>
+<tr class="row-even"><td><p>S &gt; 10 bits</p></td>
+<td><p>Volume-law entanglement</p></td>
+<td><p>MPS may be inefficient</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Troubleshooting</strong></p>
+<ul class="simple">
+<li><p><strong>Global error &gt; 0.01</strong>: Increase χ_max or use tighter truncation threshold</p></li>
+<li><p><strong>Entropy saturates at log₂(χ)</strong>: Bond dimension limiting entanglement, increase χ</p></li>
+<li><p><strong>Many CPU fallbacks</strong>: GPU memory insufficient, reduce batch size or χ</p></li>
+<li><p><strong>Entropy decreases unexpectedly</strong>: Possible numerical instability, check condition numbers</p></li>
+</ul>
+</section>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h2>
+<p><strong>Research Applications</strong></p>
+<ul class="simple">
+<li><p>Studying entanglement growth in quantum circuits</p></li>
+<li><p>Benchmarking truncation strategies</p></li>
+<li><p>Identifying optimal bond dimension schedules</p></li>
+<li><p>Analyzing quantum advantage demonstrations</p></li>
+</ul>
+<p><strong>Production Monitoring</strong></p>
+<ul class="simple">
+<li><p>Real-time error estimation during simulation</p></li>
+<li><p>Performance profiling (GPU vs CPU SVD usage)</p></li>
+<li><p>Quality assurance for simulation results</p></li>
+<li><p>Automated alerts for excessive truncation errors</p></li>
+</ul>
+<p><strong>Algorithm Development</strong></p>
+<ul class="simple">
+<li><p>Comparing different MPS algorithms (TDVP, TEBD, etc.)</p></li>
+<li><p>Optimizing circuit compilation for MPS</p></li>
+<li><p>Developing adaptive χ strategies</p></li>
+<li><p>Testing new truncation heuristics</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="adaptive_mps.html"><span class="doc">atlas_q.adaptive_mps</span></a> - Adaptive MPS with integrated statistics</p></li>
+<li><p><a class="reference internal" href="truncation.html"><span class="doc">atlas_q.truncation</span></a> - Truncation strategies using entropy metrics</p></li>
+<li><p><a class="reference internal" href="linalg_robust.html"><span class="doc">atlas_q.linalg_robust</span></a> - Robust SVD providing singular values</p></li>
+<li><p><a class="reference internal" href="tdvp.html"><span class="doc">atlas_q.tdvp</span></a> - TDVP time evolution with entropy tracking</p></li>
+<li><p><a class="reference internal" href="vqe_qaoa.html"><span class="doc">atlas_q.vqe_qaoa</span></a> - Variational algorithms with convergence monitoring</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="vidal03" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Vidal03</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="7">
+<li><p>Vidal, “Efficient classical simulation of slightly entangled quantum computations,” <em>Physical Review Letters</em> 91, 147902 (2003).</p></li>
+</ol>
+</div>
+<div class="citation" id="schollwock11" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Schollwock11<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="21">
+<li><p>Schollwöck, “The density-matrix renormalization group in the age of matrix product states,” <em>Annals of Physics</em> 326, 96 (2011).</p></li>
+</ol>
+</div>
+<div class="citation" id="eisert10" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Eisert10<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="10">
+<li><p>Eisert, M. Cramer, &amp; M. B. Plenio, “Area laws for the entanglement entropy,” <em>Reviews of Modern Physics</em> 82, 277 (2010).</p></li>
+</ol>
+</div>
+<div class="citation" id="plenio05" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Plenio05<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="13">
+<li><ol class="upperalpha simple" start="2">
+<li><p>Plenio &amp; S. Virmani, “An introduction to entanglement measures,” <em>Quantum Information and Computation</em> 7, 1 (2007).</p></li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="triton_kernels.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Triton GPU Kernels</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="generated/atlas_q.diagnostics.bond_entropy_from_S.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">atlas_q.diagnostics.bond_entropy_from_S</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.diagnostics.bond_entropy_from_S"><code class="docutils literal notranslate"><span class="pre">bond_entropy_from_S()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.diagnostics.effective_rank"><code class="docutils literal notranslate"><span class="pre">effective_rank()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.diagnostics.spectral_gap"><code class="docutils literal notranslate"><span class="pre">spectral_gap()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.diagnostics.MPSStatistics"><code class="docutils literal notranslate"><span class="pre">MPSStatistics</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.diagnostics.MPSStatistics.record"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.record()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.diagnostics.MPSStatistics.summary"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.summary()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.diagnostics.MPSStatistics.global_error_bound"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.global_error_bound()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.diagnostics.MPSStatistics.reset"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.reset()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-entropy-from-s">bond_entropy_from_S</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">bond_entropy_from_S()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#effective-rank">effective_rank</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><code class="docutils literal notranslate"><span class="pre">effective_rank()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-gap">spectral_gap</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3"><code class="docutils literal notranslate"><span class="pre">spectral_gap()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mpsstatistics">MPSStatistics</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><code class="docutils literal notranslate"><span class="pre">MPSStatistics</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.diagnostics.MPSStatistics.__init__"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.record()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.summary()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.global_error_bound()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.reset()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.diagnostics.MPSStatistics.plot_entropies"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.plot_entropies()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.diagnostics.MPSStatistics.plot_bond_dims"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.plot_bond_dims()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.record()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.summary()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id11"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.global_error_bound()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id12"><code class="docutils literal notranslate"><span class="pre">MPSStatistics.reset()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-notes">Performance Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

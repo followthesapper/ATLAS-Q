@@ -1,0 +1,1244 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Configure Precision &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/howtos/configure_precision';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Integrate cuQuantum" href="integrate_cuquantum.html" />
+    <link rel="prev" title="How to Handle Large Quantum Systems" href="handle_large_systems.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="optimize_performance.html">How to Optimize Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handle_large_systems.html">How to Handle Large Quantum Systems</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Configure Precision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrate_cuquantum.html">Integrate cuQuantum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug_simulations.html">Debug Simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save_load_state.html">Save and Load State</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_hamiltonians.html">How to Build Custom Hamiltonians</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel_computation.html">Parallel Computation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark_comparison.html">Benchmark Comparison</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">How-To Guides</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Configure Precision</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="configure-precision">
+<h1>Configure Precision<a class="headerlink" href="#configure-precision" title="Link to this heading">#</a></h1>
+<section id="problem">
+<h2>Problem<a class="headerlink" href="#problem" title="Link to this heading">#</a></h2>
+<p>Numerical precision affects quantum simulation accuracy, performance, and memory usage.
+Choosing the right precision is critical for:</p>
+<ul class="simple">
+<li><p><strong>Accuracy</strong>: Chemical accuracy (10⁻³ Hartree) requires careful precision management</p></li>
+<li><p><strong>Performance</strong>: complex64 is 2-3× faster than complex128 on GPUs</p></li>
+<li><p><strong>Memory</strong>: complex64 uses half the memory of complex128</p></li>
+<li><p><strong>Stability</strong>: Long-time evolution or ill-conditioned problems need higher precision</p></li>
+<li><p><strong>Cost</strong>: Wasted compute from unnecessary precision or failed simulations from insufficient precision</p></li>
+</ul>
+<p>This guide covers precision configuration strategies for MPS simulations, variational algorithms,
+and time evolution, balancing accuracy against performance.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../explanations/numerical_stability.html"><span class="doc">Numerical Stability</span></a> for theoretical background,
+<a class="reference internal" href="optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> for performance implications,
+<a class="reference internal" href="../tutorials/tdvp_tutorial.html"><span class="doc">TDVP Tutorial</span></a> for TDVP-specific precision considerations.</p>
+</div>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<p>You need:</p>
+<ul class="simple">
+<li><p>ATLAS-Q with GPU support (precision choices matter most on GPUs)</p></li>
+<li><p>Understanding of your accuracy requirements (e.g., chemical accuracy, fidelity targets)</p></li>
+<li><p>Benchmark problem to validate precision choices</p></li>
+</ul>
+</section>
+<section id="strategies">
+<h2>Strategies<a class="headerlink" href="#strategies" title="Link to this heading">#</a></h2>
+<section id="strategy-1-choose-the-right-default-precision">
+<h3>Strategy 1: Choose the Right Default Precision<a class="headerlink" href="#strategy-1-choose-the-right-default-precision" title="Link to this heading">#</a></h3>
+<p>Start with the appropriate dtype for your application.</p>
+<p><strong>complex64 (default) - Fast, memory-efficient, sufficient for most cases</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="c1"># complex64: 32-bit float for real + 32-bit float for imag = 8 bytes per element</span>
+<span class="c1"># - 2-3× faster on GPUs than complex128</span>
+<span class="c1"># - 2× less memory than complex128</span>
+<span class="c1"># - ~7 decimal digits of precision</span>
+<span class="c1"># - Sufficient for most quantum chemistry, optimization, and circuit simulation</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span>  <span class="c1"># Default</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MPS dtype: </span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Memory per tensor: ~</span><span class="si">{</span><span class="mi">128</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">128</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>complex128 - Higher precision, needed for demanding applications</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># complex128: 64-bit float for real + 64-bit float for imag = 16 bytes per element</span>
+<span class="c1"># - ~16 decimal digits of precision</span>
+<span class="c1"># - 2-3× slower on GPUs than complex64</span>
+<span class="c1"># - 2× more memory than complex64</span>
+<span class="c1"># - Necessary for chemical accuracy, long-time evolution, tight tolerances</span>
+
+<span class="n">mps_high_precision</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;High-precision MPS dtype: </span><span class="si">{</span><span class="n">mps_high_precision</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Memory per tensor: ~</span><span class="si">{</span><span class="mi">128</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">128</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>When to use each precision</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use complex64 for:</span>
+<span class="c1"># - Most VQE, QAOA, circuit simulations</span>
+<span class="c1"># - Short-time TDVP (&lt;100 time units)</span>
+<span class="c1"># - Exploration and prototyping</span>
+<span class="c1"># - Large systems (n&gt;50, χ&gt;256) where memory is tight</span>
+
+<span class="c1"># Use complex128 for:</span>
+<span class="c1"># - Chemical accuracy requirements (ΔE &lt; 1e-3 Hartree)</span>
+<span class="c1"># - Long-time TDVP (&gt;1000 time units)</span>
+<span class="c1"># - Tight optimization tolerances (ΔE &lt; 1e-8)</span>
+<span class="c1"># - Systems with ill-conditioned Hamiltonians</span>
+<span class="c1"># - When complex64 simulations show numerical instability</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-2-mixed-precision-for-vqe">
+<h3>Strategy 2: Mixed Precision for VQE<a class="headerlink" href="#strategy-2-mixed-precision-for-vqe" title="Link to this heading">#</a></h3>
+<p>Use lower precision for ansatz preparation and higher precision for energy evaluation.</p>
+<p><strong>Mixed-precision VQE</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Configure VQE with mixed precision</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="c1"># Use complex64 for fast ansatz construction</span>
+    <span class="n">mps_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span>
+    <span class="c1"># Use complex128 for accurate energy evaluation</span>
+    <span class="n">hamiltonian_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span>
+<span class="p">)</span>
+
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">VQE</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># VQE will:</span>
+<span class="c1"># 1. Build ansatz in complex64 (fast)</span>
+<span class="c1"># 2. Convert to complex128 for &lt;ψ|H|ψ&gt; (accurate)</span>
+<span class="c1"># 3. Gradients computed in complex128 (stable)</span>
+<span class="c1"># 4. Convert back to complex64 for parameter update (fast)</span>
+
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.10f</span><span class="si">}</span><span class="s2"> (evaluated in complex128)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Speedup: ~1.5-2× vs pure complex128&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Memory savings: ~30-40% vs pure complex128&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>: Ansatz construction (gate applications) is the bottleneck, but energy
+evaluation determines accuracy. Mixed precision gives 80% of complex128 accuracy at
+60% of the cost.</p>
+</section>
+<section id="strategy-3-automatic-precision-promotion">
+<h3>Strategy 3: Automatic Precision Promotion<a class="headerlink" href="#strategy-3-automatic-precision-promotion" title="Link to this heading">#</a></h3>
+<p>Automatically promote to higher precision when numerical issues are detected.</p>
+<p><strong>Adaptive dtype policy</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span><span class="p">,</span> <span class="n">DTypePolicy</span>
+
+<span class="c1"># Define precision promotion policy</span>
+<span class="n">policy</span> <span class="o">=</span> <span class="n">DTypePolicy</span><span class="p">(</span>
+    <span class="n">default</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span>
+    <span class="n">promote_if_cond_gt</span><span class="o">=</span><span class="mf">1e6</span><span class="p">,</span>      <span class="c1"># Promote if condition number &gt; 10^6</span>
+    <span class="n">promote_if_truncation_gt</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>  <span class="c1"># Promote if truncation error &gt; 10^-4</span>
+    <span class="n">demote_if_stable_for</span><span class="o">=</span><span class="mi">100</span>      <span class="c1"># Demote back after 100 stable steps</span>
+<span class="p">)</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">dtype_policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Apply gates - MPS will automatically promote/demote precision</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">49</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Check if precision was promoted</span>
+<span class="k">if</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Precision was automatically promoted to complex128&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Remained at complex64&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Manual promotion on detection</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Start with complex64</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">energies</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">promoted</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">evolve_step</span><span class="p">()</span>
+    <span class="n">energies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+
+    <span class="c1"># Check for energy drift (sign of numerical instability)</span>
+    <span class="k">if</span> <span class="n">step</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
+        <span class="n">energy_drift</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:])</span>
+
+        <span class="k">if</span> <span class="n">energy_drift</span> <span class="o">&gt;</span> <span class="mf">1e-5</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">promoted</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Step </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">] Energy drift detected: </span><span class="si">{</span><span class="n">energy_drift</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Promoting to complex128...&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Convert MPS to complex128</span>
+            <span class="n">tdvp</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">]</span>
+
+            <span class="c1"># Recreate TDVP with new precision</span>
+            <span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span>
+                <span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span>
+                <span class="n">mps</span><span class="o">=</span><span class="n">tdvp</span><span class="o">.</span><span class="n">mps</span><span class="p">,</span>
+                <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+            <span class="p">)</span>
+
+            <span class="n">promoted</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">energies</span> <span class="o">=</span> <span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">:]</span>  <span class="c1"># Reset drift tracking</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-4-gpu-specific-precision-considerations">
+<h3>Strategy 4: GPU-Specific Precision Considerations<a class="headerlink" href="#strategy-4-gpu-specific-precision-considerations" title="Link to this heading">#</a></h3>
+<p>Different GPU architectures have different precision performance characteristics.</p>
+<p><strong>Tensor Core utilization (NVIDIA Ampere, Hopper)</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Tensor Cores accelerate complex64 on modern GPUs</span>
+<span class="c1"># Check if Tensor Cores are available</span>
+<span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+    <span class="n">device_name</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_name</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU: </span><span class="si">{</span><span class="n">device_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Ampere (A100), Hopper (H100) have Tensor Cores for complex64</span>
+    <span class="c1"># complex64 can be 5-10× faster than without Tensor Cores</span>
+    <span class="c1"># complex128 does NOT benefit from Tensor Cores</span>
+
+    <span class="k">if</span> <span class="s1">&#39;A100&#39;</span> <span class="ow">in</span> <span class="n">device_name</span> <span class="ow">or</span> <span class="s1">&#39;H100&#39;</span> <span class="ow">in</span> <span class="n">device_name</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tensor Cores available: complex64 strongly recommended&quot;</span><span class="p">)</span>
+        <span class="n">dtype_recommendation</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">complex64</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No Tensor Cores: complex64 vs complex128 speedup is ~2×&quot;</span><span class="p">)</span>
+        <span class="n">dtype_recommendation</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">complex64</span>  <span class="c1"># Still faster, but less dramatic</span>
+
+<span class="c1"># Configure MPS with GPU-optimized precision</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">dtype_recommendation</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>TF32 mode for complex64 (Ampere and later)</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># TF32 (TensorFloat-32) trades slight precision for speed</span>
+<span class="c1"># Effective precision: ~19 bits mantissa (between float16 and float32)</span>
+<span class="c1"># Speedup: 1.5-2× for complex64 operations</span>
+<span class="c1"># Accuracy: Still sufficient for most quantum simulations</span>
+
+<span class="c1"># Enable TF32 (default on Ampere+)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">matmul</span><span class="o">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Disable TF32 for maximum accuracy (no speedup)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">matmul</span><span class="o">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">mps_accurate</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TF32 gives ~1.5× speedup with negligible accuracy loss for most problems&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-5-precision-for-different-algorithms">
+<h3>Strategy 5: Precision for Different Algorithms<a class="headerlink" href="#strategy-5-precision-for-different-algorithms" title="Link to this heading">#</a></h3>
+<p>Different algorithms have different precision requirements.</p>
+<p><strong>VQE precision recommendations</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQE</span><span class="p">,</span> <span class="n">VQEConfig</span>
+
+<span class="c1"># VQE for molecular ground state (chemical accuracy required)</span>
+<span class="n">config_chemistry</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;lbfgs&#39;</span><span class="p">,</span>  <span class="c1"># Second-order optimizer needs stable gradients</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">mps_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">,</span>  <span class="c1"># Chemical accuracy demands high precision</span>
+    <span class="n">hamiltonian_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">,</span>
+    <span class="n">convergence_threshold</span><span class="o">=</span><span class="mf">1e-8</span>  <span class="c1"># Tight tolerance</span>
+<span class="p">)</span>
+
+<span class="c1"># VQE for MaxCut or optimization (relaxed accuracy acceptable)</span>
+<span class="n">config_optimization</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>  <span class="c1"># First-order optimizer more robust to noise</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">mps_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span>  <span class="c1"># Lower precision sufficient</span>
+    <span class="n">hamiltonian_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span>
+    <span class="n">convergence_threshold</span><span class="o">=</span><span class="mf">1e-5</span>  <span class="c1"># Relaxed tolerance</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>TDVP precision recommendations</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP</span>
+
+<span class="c1"># Short-time evolution (t &lt; 10): complex64 sufficient</span>
+<span class="n">mps_short</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">tdvp_short</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="o">=</span><span class="n">mps_short</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Long-time evolution (t &gt; 100): complex128 recommended</span>
+<span class="n">mps_long</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">tdvp_long</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="o">=</span><span class="n">mps_long</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>  <span class="c1"># Smaller dt too</span>
+
+<span class="c1"># Reasoning: Error accumulates over time steps</span>
+<span class="c1"># For t=1000 with dt=0.01, N=100,000 steps</span>
+<span class="c1"># Error per step ε_step, total error ~√N × ε_step</span>
+<span class="c1"># complex128 keeps total error manageable</span>
+</pre></div>
+</div>
+<p><strong>QAOA precision recommendations</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">QAOA</span><span class="p">,</span> <span class="n">QAOAConfig</span>
+
+<span class="c1"># QAOA typically less sensitive to precision than VQE</span>
+<span class="c1"># Combinatorial optimization often needs only approximate solutions</span>
+<span class="n">config_qaoa</span> <span class="o">=</span> <span class="n">QAOAConfig</span><span class="p">(</span>
+    <span class="n">p</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span>
+    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">500</span>
+<span class="p">)</span>
+
+<span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span>
+    <span class="n">hamiltonian</span><span class="o">=</span><span class="n">H_maxcut</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">config_qaoa</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span>  <span class="c1"># complex64 sufficient for QAOA</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-6-monitoring-numerical-stability">
+<h3>Strategy 6: Monitoring Numerical Stability<a class="headerlink" href="#strategy-6-monitoring-numerical-stability" title="Link to this heading">#</a></h3>
+<p>Track metrics to detect when precision is insufficient.</p>
+<p><strong>Comprehensive stability monitoring</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">monitor_stability</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">history_length</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Monitor numerical stability indicators.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Stability metrics</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># 1. Condition numbers of MPS tensors</span>
+    <span class="n">cond_numbers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">tensor</span> <span class="ow">in</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">:</span>
+        <span class="c1"># Reshape to matrix</span>
+        <span class="n">matrix</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="c1"># Compute condition number</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svdvals</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">cond_numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
+
+    <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;max_condition_number&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">cond_numbers</span><span class="p">)</span>
+    <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;mean_condition_number&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cond_numbers</span><span class="p">)</span>
+
+    <span class="c1"># 2. Normalization drift (should stay close to 1)</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">tensor</span> <span class="ow">in</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">norm</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;norm_drift&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">norm</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c1"># 3. Energy variance (for Hamiltonian eigenstates)</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation_value</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+    <span class="n">energy_sq</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation_value</span><span class="p">(</span><span class="n">H</span> <span class="o">@</span> <span class="n">H</span><span class="p">)</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="n">energy_sq</span> <span class="o">-</span> <span class="n">energy</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;energy_variance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variance</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">metrics</span>
+
+<span class="c1"># Usage: Monitor during TDVP evolution</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">evolve_step</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="n">monitor_stability</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Step </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">] E=</span><span class="si">{</span><span class="n">E</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Max condition number: </span><span class="si">{</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;max_condition_number&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Norm drift: </span><span class="si">{</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;norm_drift&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Energy variance: </span><span class="si">{</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;energy_variance&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Trigger warnings</span>
+        <span class="k">if</span> <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;max_condition_number&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1e7</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  WARNING: Ill-conditioned tensors detected!&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Consider promoting to complex128&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;norm_drift&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1e-3</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  WARNING: Normalization drift detected!&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Consider reducing dt or increasing precision&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="strategy-7-precision-for-distributed-systems">
+<h3>Strategy 7: Precision for Distributed Systems<a class="headerlink" href="#strategy-7-precision-for-distributed-systems" title="Link to this heading">#</a></h3>
+<p>Distributed MPS introduces additional precision considerations.</p>
+<p><strong>Distributed precision configuration</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span>
+
+<span class="c1"># Distributed MPS across multiple GPUs</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span>
+    <span class="n">device_ids</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Precision choices for distributed MPS:</span>
+<span class="c1"># - complex64: Less communication volume (2× less than complex128)</span>
+<span class="c1"># - complex128: Better stability for large-scale systems</span>
+<span class="c1">#</span>
+<span class="c1"># Recommendation: Start with complex64, promote if instability detected</span>
+
+<span class="n">mps_distributed</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span>  <span class="c1"># Lower communication overhead</span>
+<span class="p">)</span>
+
+<span class="c1"># Monitor for cross-device numerical issues</span>
+<span class="c1"># Distributed reductions (all-reduce, etc.) can accumulate errors</span>
+<span class="c1"># If energy drifts or strange behavior occurs, try complex128:</span>
+
+<span class="n">mps_distributed_highprec</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span>  <span class="c1"># More stable for distributed operations</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="energy-not-converging-in-vqe">
+<h3>Energy Not Converging in VQE<a class="headerlink" href="#energy-not-converging-in-vqe" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: VQE energy oscillates or fails to converge below 1e-5.</p>
+<p><strong>Solution</strong>: Increase precision or adjust optimizer settings.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Try 1: Increase precision</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;lbfgs&#39;</span><span class="p">,</span>
+    <span class="n">mps_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">,</span>        <span class="c1"># Was complex64</span>
+    <span class="n">hamiltonian_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span>  <span class="c1"># Was complex64</span>
+<span class="p">)</span>
+
+<span class="c1"># Try 2: Reduce learning rate (if using Adam)</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span>
+    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>  <span class="c1"># Was 0.01</span>
+    <span class="n">mps_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span>
+<span class="p">)</span>
+
+<span class="c1"># Try 3: Tighten truncation threshold</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span>  <span class="c1"># Was 1e-8</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="tdvp-energy-drifting-over-time">
+<h3>TDVP Energy Drifting Over Time<a class="headerlink" href="#tdvp-energy-drifting-over-time" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: Energy increases or oscillates during imaginary-time evolution.</p>
+<p><strong>Solution</strong>: Decrease time step or increase precision.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Decrease dt</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span>
+    <span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span>
+    <span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>  <span class="c1"># Was 0.01</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Increase precision</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">,</span>  <span class="c1"># Was complex64</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP</span><span class="p">(</span><span class="n">hamiltonian</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="o">=</span><span class="n">mps</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="ill-conditioned-matrix-warnings">
+<h3>Ill-Conditioned Matrix Warnings<a class="headerlink" href="#ill-conditioned-matrix-warnings" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: <code class="docutils literal notranslate"><span class="pre">RuntimeError:</span> <span class="pre">svd</span> <span class="pre">did</span> <span class="pre">not</span> <span class="pre">converge</span></code> or very large condition numbers.</p>
+<p><strong>Solution</strong>: Increase precision or regularize.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Solution 1: Use complex128</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="p">,</span>  <span class="c1"># More stable SVD</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Solution 2: Add regularization to SVD</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>  <span class="c1"># Regularize by truncating small singular values</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span>
+<span class="p">)</span>
+
+<span class="c1"># Solution 3: Reduce bond dimension (less ill-conditioning)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>  <span class="c1"># Was 128</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="complex64-vs-complex128-performance-not-as-expected">
+<h3>Complex64 vs Complex128 Performance Not as Expected<a class="headerlink" href="#complex64-vs-complex128-performance-not-as-expected" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: complex64 only 1.2× faster than complex128, expected 2-3×.</p>
+<p><strong>Solution</strong>: Check GPU, enable TF32, profile bottlenecks.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Check GPU and driver</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU: </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_name</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CUDA version: </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">cuda</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Ensure TF32 is enabled (Ampere+ GPUs)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">matmul</span><span class="o">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># Profile to find bottleneck</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span>
+    <span class="n">activities</span><span class="o">=</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">ProfilerActivity</span><span class="o">.</span><span class="n">CUDA</span><span class="p">],</span>
+    <span class="n">record_shapes</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">prof</span><span class="p">:</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">prof</span><span class="o">.</span><span class="n">key_averages</span><span class="p">()</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">sort_by</span><span class="o">=</span><span class="s2">&quot;cuda_time_total&quot;</span><span class="p">,</span> <span class="n">row_limit</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># If bottleneck is not matrix multiply (gemm), precision won&#39;t help much</span>
+<span class="c1"># Common non-matmul bottlenecks: data movement, small kernels, host-device sync</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Precision configuration strategies for ATLAS-Q:</p>
+<ol class="arabic simple">
+<li><p><strong>Default precision</strong>: complex64 for most cases, complex128 for chemical accuracy</p></li>
+<li><p><strong>Mixed precision VQE</strong>: complex64 for ansatz, complex128 for energy evaluation</p></li>
+<li><p><strong>Automatic promotion</strong>: Detect numerical issues and promote to higher precision</p></li>
+<li><p><strong>GPU-specific</strong>: Leverage Tensor Cores and TF32 on modern GPUs</p></li>
+<li><p><strong>Algorithm-specific</strong>: VQE/chemistry needs higher precision than QAOA/optimization</p></li>
+<li><p><strong>Stability monitoring</strong>: Track condition numbers, norm drift, energy variance</p></li>
+<li><p><strong>Distributed precision</strong>: Balance communication overhead vs stability</p></li>
+</ol>
+<p>Precision vs performance trade-offs:</p>
+<ul class="simple">
+<li><p><strong>complex64</strong>: 2-3× faster, 2× less memory, ~7 digits, sufficient for most problems</p></li>
+<li><p><strong>complex128</strong>: 2-3× slower, 2× more memory, ~16 digits, needed for demanding applications</p></li>
+<li><p><strong>Mixed precision</strong>: Best of both worlds for some algorithms (VQE)</p></li>
+<li><p><strong>TF32 mode</strong>: 1.5-2× speedup on Ampere+ GPUs with negligible accuracy loss</p></li>
+</ul>
+<p>When to use higher precision:</p>
+<ul class="simple">
+<li><p>Chemical accuracy requirements (ΔE &lt; 1e-3 Hartree)</p></li>
+<li><p>Long-time evolution (t &gt; 100)</p></li>
+<li><p>Tight convergence tolerances (ΔE &lt; 1e-8)</p></li>
+<li><p>Ill-conditioned Hamiltonians (condition number &gt; 1e6)</p></li>
+<li><p>Numerical instability detected (energy drift, SVD failures)</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../explanations/numerical_stability.html"><span class="doc">Numerical Stability</span></a>: Theory of numerical stability in MPS</p></li>
+<li><p><a class="reference internal" href="optimize_performance.html"><span class="doc">How to Optimize Performance</span></a>: Performance implications of precision choices</p></li>
+<li><p><a class="reference internal" href="../tutorials/vqe_tutorial.html"><span class="doc">VQE Tutorial</span></a>: VQE precision considerations</p></li>
+<li><p><a class="reference internal" href="../tutorials/tdvp_tutorial.html"><span class="doc">TDVP Tutorial</span></a>: TDVP time evolution numerical stability</p></li>
+<li><p><a class="reference internal" href="../tutorials/molecular_vqe.html"><span class="doc">Molecular VQE Tutorial</span></a>: Chemical accuracy and precision requirements</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="handle_large_systems.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How to Handle Large Quantum Systems</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="integrate_cuquantum.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Integrate cuQuantum</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem">Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strategies">Strategies</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-1-choose-the-right-default-precision">Strategy 1: Choose the Right Default Precision</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-2-mixed-precision-for-vqe">Strategy 2: Mixed Precision for VQE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-3-automatic-precision-promotion">Strategy 3: Automatic Precision Promotion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-4-gpu-specific-precision-considerations">Strategy 4: GPU-Specific Precision Considerations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-5-precision-for-different-algorithms">Strategy 5: Precision for Different Algorithms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-6-monitoring-numerical-stability">Strategy 6: Monitoring Numerical Stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-7-precision-for-distributed-systems">Strategy 7: Precision for Distributed Systems</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-not-converging-in-vqe">Energy Not Converging in VQE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tdvp-energy-drifting-over-time">TDVP Energy Drifting Over Time</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ill-conditioned-matrix-warnings">Ill-Conditioned Matrix Warnings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#complex64-vs-complex128-performance-not-as-expected">Complex64 vs Complex128 Performance Not as Expected</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

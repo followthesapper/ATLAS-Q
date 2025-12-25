@@ -1,0 +1,1245 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How to Build Custom Hamiltonians &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/howtos/custom_hamiltonians';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Parallel Computation" href="parallel_computation.html" />
+    <link rel="prev" title="Save and Load State" href="save_load_state.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="optimize_performance.html">How to Optimize Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handle_large_systems.html">How to Handle Large Quantum Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configure_precision.html">Configure Precision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrate_cuquantum.html">Integrate cuQuantum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug_simulations.html">Debug Simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save_load_state.html">Save and Load State</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">How to Build Custom Hamiltonians</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel_computation.html">Parallel Computation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark_comparison.html">Benchmark Comparison</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">How-To Guides</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How to Build Custom Hamiltonians</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="how-to-build-custom-hamiltonians">
+<h1>How to Build Custom Hamiltonians<a class="headerlink" href="#how-to-build-custom-hamiltonians" title="Link to this heading">#</a></h1>
+<p>This guide shows how to construct custom Hamiltonians for physics models, optimization problems, or molecular systems beyond the built-in options in ATLAS-Q.</p>
+<section id="problem">
+<h2>Problem<a class="headerlink" href="#problem" title="Link to this heading">#</a></h2>
+<p>You need to:</p>
+<ul class="simple">
+<li><p>Implement a physics model not provided by MPOBuilder</p></li>
+<li><p>Build Hamiltonians with custom interaction patterns</p></li>
+<li><p>Create problem Hamiltonians for QAOA on custom graphs</p></li>
+<li><p>Construct time-dependent Hamiltonians for driven systems</p></li>
+<li><p>Combine multiple Hamiltonian terms with different coefficients</p></li>
+</ul>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Understanding of MPO (Matrix Product Operator) representation</p></li>
+<li><p>Knowledge of Pauli operators and quantum mechanics notation</p></li>
+<li><p>Familiarity with torch tensors</p></li>
+<li><p>See <a class="reference internal" href="../tutorials/mps_basics.html"><span class="doc">MPS Basics</span></a> for MPS/MPO fundamentals</p></li>
+</ul>
+</section>
+<section id="build-from-local-operators">
+<h2>Build from Local Operators<a class="headerlink" href="#build-from-local-operators" title="Link to this heading">#</a></h2>
+<p>Create Hamiltonians from single-site operators.</p>
+<section id="simple-local-hamiltonian">
+<h3>Simple Local Hamiltonian<a class="headerlink" href="#simple-local-hamiltonian" title="Link to this heading">#</a></h3>
+<p>Sum of non-interacting single-site terms:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPO</span>
+
+<span class="c1"># Pauli operators</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># H = X₀ + Z₁ + X₂ + Z₃ + ...</span>
+<span class="n">n_sites</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">ops</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Z</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sites</span><span class="p">)]</span>
+
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPO</span><span class="o">.</span><span class="n">from_local_ops</span><span class="p">(</span><span class="n">ops</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Verify</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="n">n_sites</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Energy: </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="weighted-local-terms">
+<h3>Weighted Local Terms<a class="headerlink" href="#weighted-local-terms" title="Link to this heading">#</a></h3>
+<p>Apply different coefficients to each site:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># H = h₀X₀ + h₁Z₁ + h₂X₂ + ...</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+
+<span class="n">ops_weighted</span> <span class="o">=</span> <span class="p">[</span><span class="n">coeff</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Z</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)]</span>
+
+<span class="n">H_weighted</span> <span class="o">=</span> <span class="n">MPO</span><span class="o">.</span><span class="n">from_local_ops</span><span class="p">(</span><span class="n">ops_weighted</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="build-nearest-neighbor-interactions">
+<h2>Build Nearest-Neighbor Interactions<a class="headerlink" href="#build-nearest-neighbor-interactions" title="Link to this heading">#</a></h2>
+<section id="two-site-terms">
+<h3>Two-Site Terms<a class="headerlink" href="#two-site-terms" title="Link to this heading">#</a></h3>
+<p>Construct Hamiltonians with nearest-neighbor interactions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+
+<span class="c1"># Heisenberg model: H = Σᵢ (JₓXᵢXᵢ₊₁ + JᵧYᵢYᵢ₊₁ + JᵤZᵢZᵢ₊₁)</span>
+<span class="n">H_heisenberg</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">heisenberg_hamiltonian</span><span class="p">(</span>
+    <span class="n">n_sites</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+    <span class="n">Jx</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">Jy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">Jz</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Ising model: H = -J Σᵢ ZᵢZᵢ₊₁ - h Σᵢ Xᵢ</span>
+<span class="n">H_ising</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span>
+    <span class="n">n_sites</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+    <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">h</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># XY model: H = Σᵢ (JXᵢXᵢ₊₁ + JYᵢYᵢ₊₁)</span>
+<span class="n">H_xy</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">xy_hamiltonian</span><span class="p">(</span>
+    <span class="n">n_sites</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+    <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-two-site-interactions">
+<h3>Custom Two-Site Interactions<a class="headerlink" href="#custom-two-site-interactions" title="Link to this heading">#</a></h3>
+<p>Build arbitrary nearest-neighbor terms:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Custom interaction: H = Σᵢ (XᵢZᵢ₊₁ + ZᵢXᵢ₊₁)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_custom_nn_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="p">,</span> <span class="n">coupling</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build custom nearest-neighbor Hamiltonian.&quot;&quot;&quot;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Build MPO tensors</span>
+    <span class="n">W_first</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">W_first</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">I</span>
+    <span class="n">W_first</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">coupling</span> <span class="o">*</span> <span class="n">X</span>
+    <span class="n">W_first</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">coupling</span> <span class="o">*</span> <span class="n">Z</span>
+
+    <span class="n">W_middle</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">W_middle</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">I</span>
+    <span class="n">W_middle</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z</span>
+    <span class="n">W_middle</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span>
+    <span class="n">W_middle</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">coupling</span> <span class="o">*</span> <span class="n">X</span>
+    <span class="n">W_middle</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">coupling</span> <span class="o">*</span> <span class="n">Z</span>
+
+    <span class="n">W_last</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">W_last</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">I</span>
+    <span class="n">W_last</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z</span>
+    <span class="n">W_last</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span>
+
+    <span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">W_first</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">W_middle</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sites</span><span class="o">-</span><span class="mi">2</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">W_last</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">MPO</span><span class="p">(</span><span class="n">tensors</span><span class="p">)</span>
+
+<span class="n">H_custom</span> <span class="o">=</span> <span class="n">build_custom_nn_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">coupling</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sum-and-combine-hamiltonians">
+<h2>Sum and Combine Hamiltonians<a class="headerlink" href="#sum-and-combine-hamiltonians" title="Link to this heading">#</a></h2>
+<section id="linear-combination">
+<h3>Linear Combination<a class="headerlink" href="#linear-combination" title="Link to this heading">#</a></h3>
+<p>Add multiple Hamiltonian terms:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+
+<span class="c1"># H = H_ising + λ H_transverse</span>
+<span class="n">H_ising</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">H_transverse</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">lambda_coupling</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="n">H_total</span> <span class="o">=</span> <span class="n">H_ising</span> <span class="o">+</span> <span class="n">lambda_coupling</span> <span class="o">*</span> <span class="n">H_transverse</span>
+
+<span class="c1"># More complex combinations</span>
+<span class="n">H1</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">heisenberg_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">Jx</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jz</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">H2</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">H3</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">xy_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">H_combined</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">H1</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">H2</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">H3</span>
+</pre></div>
+</div>
+</section>
+<section id="weighted-sum">
+<h3>Weighted Sum<a class="headerlink" href="#weighted-sum" title="Link to this heading">#</a></h3>
+<p>Build Hamiltonians with many terms:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># H = Σᵢ cᵢ Hᵢ</span>
+<span class="n">terms</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">xy_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">heisenberg_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">Jx</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jz</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span>
+<span class="p">]</span>
+
+<span class="n">H_total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">H</span> <span class="k">for</span> <span class="n">coeff</span><span class="p">,</span> <span class="n">H</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="build-long-range-interactions">
+<h2>Build Long-Range Interactions<a class="headerlink" href="#build-long-range-interactions" title="Link to this heading">#</a></h2>
+<section id="power-law-interactions">
+<h3>Power-Law Interactions<a class="headerlink" href="#power-law-interactions" title="Link to this heading">#</a></h3>
+<p>Interactions decaying with distance:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># H = Σᵢ&lt;ⱼ (1/|i-j|^α) ZᵢZⱼ</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_long_range_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build long-range interaction Hamiltonian.&quot;&quot;&quot;</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Bond dimension grows with range</span>
+    <span class="n">max_bond_dim</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">n_sites</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span> <span class="mi">64</span><span class="p">)</span>  <span class="c1"># Cap to avoid explosion</span>
+
+    <span class="n">tensors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sites</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">bond_L</span><span class="p">,</span> <span class="n">bond_R</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">max_bond_dim</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">n_sites</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">bond_L</span><span class="p">,</span> <span class="n">bond_R</span> <span class="o">=</span> <span class="n">max_bond_dim</span><span class="p">,</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bond_L</span><span class="p">,</span> <span class="n">bond_R</span> <span class="o">=</span> <span class="n">max_bond_dim</span><span class="p">,</span> <span class="n">max_bond_dim</span>
+
+        <span class="n">W</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">bond_L</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">bond_R</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Implement interaction pattern</span>
+        <span class="c1"># (Simplified - full implementation requires careful MPO construction)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_sites</span><span class="p">):</span>
+            <span class="n">coupling</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="nb">abs</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span><span class="o">**</span><span class="n">alpha</span>
+            <span class="c1"># Add term to W encoding Zᵢ Zⱼ interaction</span>
+            <span class="c1"># ...</span>
+
+        <span class="n">tensors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">MPO</span><span class="p">(</span><span class="n">tensors</span><span class="p">)</span>
+
+<span class="n">H_long_range</span> <span class="o">=</span> <span class="n">build_long_range_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="all-to-all-connectivity">
+<h3>All-to-All Connectivity<a class="headerlink" href="#all-to-all-connectivity" title="Link to this heading">#</a></h3>
+<p>Every qubit interacts with every other:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dense coupling matrix</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">n_sites</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">coupling_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_sites</span><span class="p">,</span> <span class="n">n_sites</span><span class="p">)</span>
+<span class="n">coupling_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="n">coupling_matrix</span> <span class="o">+</span> <span class="n">coupling_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># Symmetrize</span>
+
+<span class="c1"># H = Σᵢ&lt;ⱼ Jᵢⱼ ZᵢZⱼ</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_all_to_all_hamiltonian</span><span class="p">(</span><span class="n">coupling_matrix</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build all-to-all coupling Hamiltonian.&quot;&quot;&quot;</span>
+    <span class="n">n_sites</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coupling_matrix</span><span class="p">)</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Build as sum of two-qubit terms</span>
+    <span class="n">H_total</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sites</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_sites</span><span class="p">):</span>
+            <span class="n">J_ij</span> <span class="o">=</span> <span class="n">coupling_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+            <span class="c1"># Create single term Hᵢⱼ = Jᵢⱼ ZᵢZⱼ</span>
+            <span class="n">ops</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sites</span><span class="p">)]</span>
+            <span class="n">ops</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z</span>
+            <span class="n">ops</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z</span>
+
+            <span class="n">H_ij</span> <span class="o">=</span> <span class="n">J_ij</span> <span class="o">*</span> <span class="n">MPO</span><span class="o">.</span><span class="n">from_local_ops</span><span class="p">(</span><span class="n">ops</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">H_total</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">H_total</span> <span class="o">=</span> <span class="n">H_ij</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">H_total</span> <span class="o">=</span> <span class="n">H_total</span> <span class="o">+</span> <span class="n">H_ij</span>
+
+    <span class="k">return</span> <span class="n">H_total</span>
+
+<span class="n">H_all_to_all</span> <span class="o">=</span> <span class="n">build_all_to_all_hamiltonian</span><span class="p">(</span><span class="n">coupling_matrix</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="build-graph-hamiltonians-for-qaoa">
+<h2>Build Graph Hamiltonians for QAOA<a class="headerlink" href="#build-graph-hamiltonians-for-qaoa" title="Link to this heading">#</a></h2>
+<section id="maxcut-hamiltonian">
+<h3>MaxCut Hamiltonian<a class="headerlink" href="#maxcut-hamiltonian" title="Link to this heading">#</a></h3>
+<p>Encode MaxCut problem as Hamiltonian:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+
+<span class="c1"># Create graph</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)])</span>
+
+<span class="c1"># Build MaxCut Hamiltonian: H = -½ Σ_{(i,j) ∈ E} (I - ZᵢZⱼ)</span>
+<span class="n">H_maxcut</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">maxcut_hamiltonian</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Verify: ground state maximizes cut</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.vqe_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">QAOA</span><span class="p">,</span> <span class="n">VQEConfig</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">VQEConfig</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">qaoa</span> <span class="o">=</span> <span class="n">QAOA</span><span class="p">(</span><span class="n">H_maxcut</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MaxCut value (approx): </span><span class="si">{</span><span class="o">-</span><span class="n">energy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-graph-problem">
+<h3>Custom Graph Problem<a class="headerlink" href="#custom-graph-problem" title="Link to this heading">#</a></h3>
+<p>General graph optimization Hamiltonians:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">build_vertex_cover_hamiltonian</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">penalty_weight</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Minimize vertex cover.</span>
+<span class="sd">    H = Σᵢ Zᵢ + penalty × Σ_{(i,j) ∈ E} (1-Zᵢ)(1-Zⱼ)/4</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_qubits</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Cost: sum of vertices</span>
+    <span class="n">ops_cost</span> <span class="o">=</span> <span class="p">[</span><span class="n">Z</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)]</span>
+    <span class="n">H_cost</span> <span class="o">=</span> <span class="n">MPO</span><span class="o">.</span><span class="n">from_local_ops</span><span class="p">(</span><span class="n">ops_cost</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Penalty: edges not covered</span>
+    <span class="n">H_penalty</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+        <span class="c1"># (1-Zᵢ)(1-Zⱼ)/4 = (I - Zᵢ - Zⱼ + ZᵢZⱼ)/4</span>
+        <span class="n">ops</span> <span class="o">=</span> <span class="p">[</span><span class="n">I</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)]</span>
+        <span class="n">H_term</span> <span class="o">=</span> <span class="n">MPO</span><span class="o">.</span><span class="n">from_local_ops</span><span class="p">(</span><span class="n">ops</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>  <span class="c1"># I⊗I⊗...</span>
+
+        <span class="n">ops_zi</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">ops_zi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z</span>
+        <span class="n">H_term</span> <span class="o">=</span> <span class="n">H_term</span> <span class="o">-</span> <span class="n">MPO</span><span class="o">.</span><span class="n">from_local_ops</span><span class="p">(</span><span class="n">ops_zi</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="n">ops_zj</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">ops_zj</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z</span>
+        <span class="n">H_term</span> <span class="o">=</span> <span class="n">H_term</span> <span class="o">-</span> <span class="n">MPO</span><span class="o">.</span><span class="n">from_local_ops</span><span class="p">(</span><span class="n">ops_zj</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="n">ops_zizj</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">ops_zizj</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z</span>
+        <span class="n">ops_zizj</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z</span>
+        <span class="n">H_term</span> <span class="o">=</span> <span class="n">H_term</span> <span class="o">+</span> <span class="n">MPO</span><span class="o">.</span><span class="n">from_local_ops</span><span class="p">(</span><span class="n">ops_zizj</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="n">H_term</span> <span class="o">=</span> <span class="n">H_term</span> <span class="o">*</span> <span class="mf">0.25</span>
+
+        <span class="k">if</span> <span class="n">H_penalty</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">H_penalty</span> <span class="o">=</span> <span class="n">H_term</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">H_penalty</span> <span class="o">=</span> <span class="n">H_penalty</span> <span class="o">+</span> <span class="n">H_term</span>
+
+    <span class="k">return</span> <span class="n">H_cost</span> <span class="o">+</span> <span class="n">penalty_weight</span> <span class="o">*</span> <span class="n">H_penalty</span>
+
+<span class="c1"># Example usage</span>
+<span class="n">G_vc</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">cycle_graph</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">H_vertex_cover</span> <span class="o">=</span> <span class="n">build_vertex_cover_hamiltonian</span><span class="p">(</span><span class="n">G_vc</span><span class="p">,</span> <span class="n">penalty_weight</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="build-time-dependent-hamiltonians">
+<h2>Build Time-Dependent Hamiltonians<a class="headerlink" href="#build-time-dependent-hamiltonians" title="Link to this heading">#</a></h2>
+<section id="periodic-driving">
+<h3>Periodic Driving<a class="headerlink" href="#periodic-driving" title="Link to this heading">#</a></h3>
+<p>Hamiltonians with sinusoidal time dependence:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP1Site</span><span class="p">,</span> <span class="n">TDVPConfig</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">time_dependent_H</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">H_static</span><span class="p">,</span> <span class="n">H_drive</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    H(t) = H_static + A sin(ωt) H_drive</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">H_static</span> <span class="o">+</span> <span class="n">amplitude</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">omega</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">H_drive</span>
+
+<span class="c1"># Static and drive Hamiltonians</span>
+<span class="n">H_static</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">H_drive</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Time evolution with periodic driving</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">omega</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>  <span class="c1"># Angular frequency</span>
+<span class="n">amplitude</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">t_final</span> <span class="o">=</span> <span class="mf">5.0</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">t_final</span><span class="o">=</span><span class="n">t_final</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t_final</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+    <span class="n">H_t</span> <span class="o">=</span> <span class="n">time_dependent_H</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">H_static</span><span class="p">,</span> <span class="n">H_drive</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">)</span>
+
+    <span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H_t</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">t_final</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span>
+    <span class="n">tdvp</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">t</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">energy</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">H_t</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t = </span><span class="si">{</span><span class="n">t</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, E(t) = </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="quench-dynamics">
+<h3>Quench Dynamics<a class="headerlink" href="#quench-dynamics" title="Link to this heading">#</a></h3>
+<p>Sudden change in Hamiltonian:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initial Hamiltonian (h = 0)</span>
+<span class="n">H_initial</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Prepare ground state</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">config_prep</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">t_final</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">imaginary_time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">tdvp_prep</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H_initial</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config_prep</span><span class="p">)</span>
+<span class="n">tdvp_prep</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>
+
+<span class="n">E_initial</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">H_initial</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial ground state energy: </span><span class="si">{</span><span class="n">E_initial</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Quench: suddenly change h=0 → h=2</span>
+<span class="n">H_final</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Real-time evolution after quench</span>
+<span class="n">config_quench</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">t_final</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">imaginary_time</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">tdvp_quench</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H_final</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config_quench</span><span class="p">)</span>
+
+<span class="n">times</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">energies</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">tdvp_quench</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">step</span> <span class="o">*</span> <span class="n">config_quench</span><span class="o">.</span><span class="n">dt</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">H_final</span><span class="p">)</span>
+    <span class="n">times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">energies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+
+<span class="c1"># Plot energy oscillations</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">energies</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Energy after quench&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;quench_dynamics.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="build-molecular-hamiltonians">
+<h2>Build Molecular Hamiltonians<a class="headerlink" href="#build-molecular-hamiltonians" title="Link to this heading">#</a></h2>
+<section id="custom-molecular-geometries">
+<h3>Custom Molecular Geometries<a class="headerlink" href="#custom-molecular-geometries" title="Link to this heading">#</a></h3>
+<p>Beyond built-in molecules:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+
+<span class="c1"># Custom molecule geometry</span>
+<span class="n">geometry</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+<span class="p">]</span>
+
+<span class="n">H_molecule</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">molecular_hamiltonian_from_specs</span><span class="p">(</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="s1">&#39;formaldehyde&#39;</span><span class="p">,</span>  <span class="c1"># Name for caching</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;sto-3g&#39;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span>
+    <span class="n">charge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">spin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">active_space</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>  <span class="c1"># 4 electrons in 4 orbitals</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-electronic-structure">
+<h3>Custom Electronic Structure<a class="headerlink" href="#custom-electronic-structure" title="Link to this heading">#</a></h3>
+<p>Direct Hamiltonian construction from integrals:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fermionic Hamiltonian from one- and two-electron integrals</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_fermionic_hamiltonian</span><span class="p">(</span><span class="n">h_pq</span><span class="p">,</span> <span class="n">h_pqrs</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build electronic Hamiltonian: H = Σ_{pq} h_{pq} a†_p a_q + ½ Σ_{pqrs} h_{pqrs} a†_p a†_q a_r a_s</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        h_pq: One-electron integrals (n_orbitals × n_orbitals)</span>
+<span class="sd">        h_pqrs: Two-electron integrals (n_orbitals^4)</span>
+<span class="sd">        n_qubits: Number of qubits (spin-orbitals)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Convert fermionic operators to Pauli via Jordan-Wigner</span>
+    <span class="c1"># (Simplified - use openfermion for full implementation)</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">openfermion</span><span class="w"> </span><span class="kn">import</span> <span class="n">FermionOperator</span><span class="p">,</span> <span class="n">jordan_wigner</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">openfermion</span>
+
+    <span class="c1"># Build fermionic operator</span>
+    <span class="n">ferm_op</span> <span class="o">=</span> <span class="n">FermionOperator</span><span class="p">()</span>
+    <span class="n">n_orbitals</span> <span class="o">=</span> <span class="n">n_qubits</span> <span class="o">//</span> <span class="mi">2</span>
+
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_orbitals</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_orbitals</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+                <span class="n">p_spin</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">p</span> <span class="o">+</span> <span class="n">spin</span>
+                <span class="n">q_spin</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">q</span> <span class="o">+</span> <span class="n">spin</span>
+                <span class="n">ferm_op</span> <span class="o">+=</span> <span class="n">FermionOperator</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">p_spin</span><span class="si">}</span><span class="s1">^ </span><span class="si">{</span><span class="n">q_spin</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">h_pq</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">])</span>
+
+    <span class="c1"># Add two-electron terms...</span>
+    <span class="c1"># (Full implementation omitted for brevity)</span>
+
+    <span class="c1"># Jordan-Wigner transformation</span>
+    <span class="n">qubit_op</span> <span class="o">=</span> <span class="n">jordan_wigner</span><span class="p">(</span><span class="n">ferm_op</span><span class="p">)</span>
+
+    <span class="c1"># Convert to MPO</span>
+    <span class="c1"># ... (implementation details)</span>
+
+    <span class="k">return</span> <span class="n">H_mpo</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="verification-and-testing">
+<h2>Verification and Testing<a class="headerlink" href="#verification-and-testing" title="Link to this heading">#</a></h2>
+<section id="validate-custom-hamiltonians">
+<h3>Validate Custom Hamiltonians<a class="headerlink" href="#validate-custom-hamiltonians" title="Link to this heading">#</a></h3>
+<p>Check Hamiltonian properties:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">validate_hamiltonian</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify Hamiltonian is valid.&quot;&quot;&quot;</span>
+    <span class="c1"># 1. Hermiticity check (H† = H)</span>
+    <span class="n">is_hermitian</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">is_hermitian</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hermitian: </span><span class="si">{</span><span class="n">is_hermitian</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 2. Real eigenvalues check</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Energy (should be real): </span><span class="si">{</span><span class="n">energy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">energy</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="s2">&quot;Energy has imaginary component!&quot;</span>
+
+    <span class="c1"># 3. Size check</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of sites: </span><span class="si">{</span><span class="n">H</span><span class="o">.</span><span class="n">num_sites</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bond dimensions: </span><span class="si">{</span><span class="n">H</span><span class="o">.</span><span class="n">bond_dimensions</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 4. Norm check</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hamiltonian norm: </span><span class="si">{</span><span class="n">norm</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">is_hermitian</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">energy</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span>
+
+<span class="c1"># Test custom Hamiltonian</span>
+<span class="n">H_custom</span> <span class="o">=</span> <span class="n">build_custom_nn_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">coupling</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">mps_test</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">valid</span> <span class="o">=</span> <span class="n">validate_hamiltonian</span><span class="p">(</span><span class="n">H_custom</span><span class="p">,</span> <span class="n">mps_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation passed: </span><span class="si">{</span><span class="n">valid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="compare-to-known-results">
+<h3>Compare to Known Results<a class="headerlink" href="#compare-to-known-results" title="Link to this heading">#</a></h3>
+<p>Benchmark against exact or known solutions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare custom Hamiltonian to built-in</span>
+<span class="n">H_custom</span> <span class="o">=</span> <span class="n">build_custom_nn_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">coupling</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">H_builtin</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">E_custom</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">H_custom</span><span class="p">)</span>
+<span class="n">E_builtin</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">H_builtin</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Custom H energy: </span><span class="si">{</span><span class="n">E_custom</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Built-in H energy: </span><span class="si">{</span><span class="n">E_builtin</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Difference: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">E_custom</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">E_builtin</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">E_custom</span> <span class="o">-</span> <span class="n">E_builtin</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="s2">&quot;Hamiltonians differ!&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>To build custom Hamiltonians:</p>
+<ol class="arabic simple">
+<li><p><strong>Local operators</strong>: Use <code class="docutils literal notranslate"><span class="pre">MPO.from_local_ops</span></code> for single-site terms</p></li>
+<li><p><strong>Nearest-neighbor</strong>: Extend built-in models or construct MPO tensors manually</p></li>
+<li><p><strong>Long-range</strong>: Build MPO with larger bond dimensions encoding non-local interactions</p></li>
+<li><p><strong>Combinations</strong>: Sum MPOs with <code class="docutils literal notranslate"><span class="pre">H_total</span> <span class="pre">=</span> <span class="pre">H1</span> <span class="pre">+</span> <span class="pre">coeff</span> <span class="pre">*</span> <span class="pre">H2</span></code></p></li>
+<li><p><strong>Graph problems</strong>: Convert graph structure to Pauli operators (MaxCut, vertex cover)</p></li>
+<li><p><strong>Time-dependent</strong>: Rebuild Hamiltonian at each timestep in TDVP</p></li>
+<li><p><strong>Molecular</strong>: Use PySCF integration or build from electronic structure integrals</p></li>
+<li><p><strong>Validation</strong>: Check Hermiticity, real eigenvalues, and compare to known results</p></li>
+</ol>
+<p>Custom Hamiltonians enable simulating arbitrary physics and optimization problems with ATLAS-Q.</p>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><span class="xref std std-doc">../reference/mpo_ops</span> - MPO and MPOBuilder API</p></li>
+<li><p><a class="reference internal" href="../tutorials/vqe_tutorial.html"><span class="doc">VQE Tutorial</span></a> - VQE with custom Hamiltonians</p></li>
+<li><p><a class="reference internal" href="../tutorials/qaoa_tutorial.html"><span class="doc">QAOA Tutorial</span></a> - Graph problem Hamiltonians</p></li>
+<li><p><a class="reference internal" href="../tutorials/molecular_vqe.html"><span class="doc">Molecular VQE Tutorial</span></a> - Molecular Hamiltonian construction</p></li>
+<li><p><a class="reference internal" href="../explanations/tensor_networks.html"><span class="doc">Tensor Networks</span></a> - MPO structure and properties</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="save_load_state.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Save and Load State</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="parallel_computation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Parallel Computation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem">Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-from-local-operators">Build from Local Operators</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-local-hamiltonian">Simple Local Hamiltonian</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-local-terms">Weighted Local Terms</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-nearest-neighbor-interactions">Build Nearest-Neighbor Interactions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-site-terms">Two-Site Terms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-two-site-interactions">Custom Two-Site Interactions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sum-and-combine-hamiltonians">Sum and Combine Hamiltonians</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-combination">Linear Combination</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-sum">Weighted Sum</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-long-range-interactions">Build Long-Range Interactions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#power-law-interactions">Power-Law Interactions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#all-to-all-connectivity">All-to-All Connectivity</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-graph-hamiltonians-for-qaoa">Build Graph Hamiltonians for QAOA</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maxcut-hamiltonian">MaxCut Hamiltonian</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-graph-problem">Custom Graph Problem</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-time-dependent-hamiltonians">Build Time-Dependent Hamiltonians</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic-driving">Periodic Driving</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quench-dynamics">Quench Dynamics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-molecular-hamiltonians">Build Molecular Hamiltonians</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-molecular-geometries">Custom Molecular Geometries</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-electronic-structure">Custom Electronic Structure</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verification-and-testing">Verification and Testing</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-custom-hamiltonians">Validate Custom Hamiltonians</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-to-known-results">Compare to Known Results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

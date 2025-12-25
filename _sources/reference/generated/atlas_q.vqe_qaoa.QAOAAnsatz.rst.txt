@@ -1,0 +1,23 @@
+﻿atlas\_q.vqe\_qaoa.QAOAAnsatz
+=============================
+
+.. currentmodule:: atlas_q.vqe_qaoa
+
+.. autoclass:: QAOAAnsatz
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~QAOAAnsatz.__init__
+      ~QAOAAnsatz.apply
+   
+   
+
+   
+   
+   

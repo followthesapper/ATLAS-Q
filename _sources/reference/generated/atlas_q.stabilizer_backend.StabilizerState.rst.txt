@@ -1,0 +1,32 @@
+﻿atlas\_q.stabilizer\_backend.StabilizerState
+============================================
+
+.. currentmodule:: atlas_q.stabilizer_backend
+
+.. autoclass:: StabilizerState
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~StabilizerState.__init__
+      ~StabilizerState.copy
+      ~StabilizerState.init_plus
+      ~StabilizerState.init_zero
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~StabilizerState.n_qubits
+      ~StabilizerState.tableau
+   
+   

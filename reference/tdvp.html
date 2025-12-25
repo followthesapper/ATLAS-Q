@@ -1,0 +1,2051 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>atlas_q.tdvp &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/tdvp';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="atlas_q.tdvp.TDVP1Site" href="generated/atlas_q.tdvp.TDVP1Site.html" />
+    <link rel="prev" title="atlas_q.mpo_ops.correlation_function" href="generated/atlas_q.mpo_ops.correlation_function.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="adaptive_mps.html">atlas_q.adaptive_mps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mpo_ops.html">atlas_q.mpo_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPOBuilder.html">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">atlas_q.tdvp</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="vqe_qaoa.html">atlas_q.vqe_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="grover.html">atlas_q.grover</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="stabilizer_backend.html">atlas_q.stabilizer_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="noise_models.html">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planar_2d.html">2D/Planar Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributed_mps.html">Distributed MPS</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cuquantum_backend.html">atlas_q.cuquantum_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="diagnostics.html">atlas_q.diagnostics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linalg_robust.html">atlas_q.linalg_robust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="truncation.html">atlas_q.truncation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">atlas_q.tdvp</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-atlas_q.tdvp">
+<span id="atlas-q-tdvp"></span><h1>atlas_q.tdvp<a class="headerlink" href="#module-atlas_q.tdvp" title="Link to this heading">#</a></h1>
+<p>Time-Dependent Variational Principle (TDVP) for MPS</p>
+<p>Implements efficient time evolution for Hamiltonian dynamics:
+- 1-site TDVP (conserves bond dimension)
+- 2-site TDVP (allows bond dimension growth)
+- Adaptive time-stepping
+- Mixed precision support</p>
+<p>Applications:
+- Quantum quenches
+- Real-time dynamics
+- Transport phenomena
+- Correlation functions</p>
+<p>References:
+- Haegeman et al. (2011): “Time-Dependent Variational Principle for Quantum Lattices”
+- Haegeman et al. (2016): “Unifying time evolution and optimization with MPS”</p>
+<p>Author: ATLAS-Q Contributors
+Date: October 2025
+License: MIT</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVPConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.tdvp.</span></span><span class="sig-name descname"><span class="pre">TDVPConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_final</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_bond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adaptive_dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">krylov_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gpu_optimized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVPConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.tdvp.TDVPConfig" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Configuration for TDVP simulation</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVPConfig.dt">
+<span class="sig-name descname"><span class="pre">dt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.01</span></em><a class="headerlink" href="#atlas_q.tdvp.TDVPConfig.dt" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVPConfig.t_final">
+<span class="sig-name descname"><span class="pre">t_final</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10.0</span></em><a class="headerlink" href="#atlas_q.tdvp.TDVPConfig.t_final" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVPConfig.order">
+<span class="sig-name descname"><span class="pre">order</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#atlas_q.tdvp.TDVPConfig.order" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVPConfig.chi_max">
+<span class="sig-name descname"><span class="pre">chi_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">128</span></em><a class="headerlink" href="#atlas_q.tdvp.TDVPConfig.chi_max" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVPConfig.eps_bond">
+<span class="sig-name descname"><span class="pre">eps_bond</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-08</span></em><a class="headerlink" href="#atlas_q.tdvp.TDVPConfig.eps_bond" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVPConfig.adaptive_dt">
+<span class="sig-name descname"><span class="pre">adaptive_dt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#atlas_q.tdvp.TDVPConfig.adaptive_dt" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVPConfig.dt_min">
+<span class="sig-name descname"><span class="pre">dt_min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-05</span></em><a class="headerlink" href="#atlas_q.tdvp.TDVPConfig.dt_min" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVPConfig.dt_max">
+<span class="sig-name descname"><span class="pre">dt_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.1</span></em><a class="headerlink" href="#atlas_q.tdvp.TDVPConfig.dt_max" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVPConfig.error_tol">
+<span class="sig-name descname"><span class="pre">error_tol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-06</span></em><a class="headerlink" href="#atlas_q.tdvp.TDVPConfig.error_tol" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVPConfig.normalize">
+<span class="sig-name descname"><span class="pre">normalize</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#atlas_q.tdvp.TDVPConfig.normalize" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVPConfig.krylov_dim">
+<span class="sig-name descname"><span class="pre">krylov_dim</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#atlas_q.tdvp.TDVPConfig.krylov_dim" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVPConfig.use_gpu_optimized">
+<span class="sig-name descname"><span class="pre">use_gpu_optimized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#atlas_q.tdvp.TDVPConfig.use_gpu_optimized" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP1Site">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.tdvp.</span></span><span class="sig-name descname"><span class="pre">TDVP1Site</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP1Site"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.tdvp.TDVP1Site" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>1-site TDVP: conserves bond dimension</p>
+<p>Advantages:
+- Fast
+- No bond dimension growth
+- Stable</p>
+<p>Disadvantages:
+- Less accurate for long times
+- Cannot capture entanglement growth</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id7" title="atlas_q.tdvp.TDVP1Site.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>()</p></td>
+<td><p>Run TDVP time evolution</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id6" title="atlas_q.tdvp.TDVP1Site.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(dt)</p></td>
+<td><p>Perform one TDVP time step using symmetric Trotter splitting.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id5" title="atlas_q.tdvp.TDVP1Site.sweep_backward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sweep_backward</span></code></a>(dt)</p></td>
+<td><p>Backward sweep: evolve sites n-1 → 0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id4" title="atlas_q.tdvp.TDVP1Site.sweep_forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sweep_forward</span></code></a>(dt)</p></td>
+<td><p>Forward sweep: evolve sites 0 → n-1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP1Site.sweep_forward">
+<span class="sig-name descname"><span class="pre">sweep_forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP1Site.sweep_forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.tdvp.TDVP1Site.sweep_forward" title="Link to this definition">#</a></dt>
+<dd><p>Forward sweep: evolve sites 0 → n-1</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP1Site.sweep_backward">
+<span class="sig-name descname"><span class="pre">sweep_backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP1Site.sweep_backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.tdvp.TDVP1Site.sweep_backward" title="Link to this definition">#</a></dt>
+<dd><p>Backward sweep: evolve sites n-1 → 0</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP1Site.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP1Site.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.tdvp.TDVP1Site.step" title="Link to this definition">#</a></dt>
+<dd><p>Perform one TDVP time step using symmetric Trotter splitting.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dt: Time step size</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP1Site.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP1Site.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.tdvp.TDVP1Site.run" title="Link to this definition">#</a></dt>
+<dd><p>Run TDVP time evolution</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>times: List of time points
+energies: List of energy expectation values</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP2Site">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.tdvp.</span></span><span class="sig-name descname"><span class="pre">TDVP2Site</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP2Site"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.tdvp.TDVP2Site" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>2-site TDVP: allows bond dimension growth</p>
+<p>Advantages:
+- More accurate
+- Captures entanglement growth
+- Adaptive truncation</p>
+<p>Disadvantages:
+- Slower than 1-site
+- Needs careful truncation management</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id12" title="atlas_q.tdvp.TDVP2Site.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>()</p></td>
+<td><p>Run 2-site TDVP evolution</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id11" title="atlas_q.tdvp.TDVP2Site.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(dt)</p></td>
+<td><p>Perform one 2-site TDVP time step.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP2Site.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP2Site.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.tdvp.TDVP2Site.step" title="Link to this definition">#</a></dt>
+<dd><p>Perform one 2-site TDVP time step.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dt: Time step size</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP2Site.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP2Site.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.tdvp.TDVP2Site.run" title="Link to this definition">#</a></dt>
+<dd><p>Run 2-site TDVP evolution</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="atlas_q.tdvp.run_tdvp">
+<span class="sig-prename descclassname"><span class="pre">atlas_q.tdvp.</span></span><span class="sig-name descname"><span class="pre">run_tdvp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#run_tdvp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.tdvp.run_tdvp" title="Link to this definition">#</a></dt>
+<dd><p>Convenience function to run TDVP</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>hamiltonian: MPO Hamiltonian
+initial_mps: Initial state
+config: TDVP configuration</p>
+</dd>
+<dt>Returns:</dt><dd><p>final_mps: Evolved state
+times: Time points
+energies: Energy at each time point</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">tdvp</span></code> module implements Time-Dependent Variational Principle (TDVP) for efficient time evolution of quantum states in the Matrix Product State (MPS) representation. TDVP provides a geometrically optimal way to evolve MPS while maintaining the tensor network structure.</p>
+<p><strong>Time-Dependent Schrödinger Equation</strong></p>
+<p>We aim to solve:</p>
+<div class="math notranslate nohighlight">
+\[i\hbar \frac{d}{dt}|\psi(t)\rangle = \hat{H}|\psi(t)\rangle\]</div>
+<p>where <span class="math notranslate nohighlight">\(|\psi(t)\rangle\)</span> is constrained to the MPS manifold with fixed or adaptive bond dimension.</p>
+<p><strong>Variational Principle</strong></p>
+<p>Rather than evolving in the full Hilbert space (<span class="math notranslate nohighlight">\(\dim = 2^N\)</span>), TDVP projects the time derivative onto the tangent space of the MPS manifold <a class="reference internal" href="#haegeman11" id="id1"><span>[Haegeman11]</span></a>:</p>
+<div class="math notranslate nohighlight">
+\[i\hbar \frac{d}{dt}|\psi\rangle = \mathcal{P}_T (\hat{H}|\psi\rangle)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathcal{P}_T\)</span> projects onto the tangent space at <span class="math notranslate nohighlight">\(|\psi\rangle\)</span>. This ensures the evolved state remains an MPS with controlled bond dimension.</p>
+<p><strong>Key Advantages</strong></p>
+<ul class="simple">
+<li><p><strong>Efficiency</strong>: Time complexity O(Nχ³d² + Nχ²D) per step (vs. O(2ᴺ) for exact evolution)</p></li>
+<li><p><strong>Controlled accuracy</strong>: Bond dimension χ directly controls approximation error</p></li>
+<li><p><strong>Unitarity</strong>: Evolution preserves norm to machine precision</p></li>
+<li><p><strong>GPU acceleration</strong>: Tensor contractions highly parallelizable</p></li>
+<li><p><strong>Adaptive methods</strong>: Bond dimension and time step adapt to local error</p></li>
+</ul>
+<p><strong>1-Site vs. 2-Site TDVP</strong></p>
+<div class="pst-scrollable-table-container"><table class="table" id="id26">
+<caption><span class="caption-text">Algorithm Comparison</span><a class="headerlink" href="#id26" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 35.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>1-Site TDVP</p></th>
+<th class="head"><p>2-Site TDVP</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bond dimension</p></td>
+<td><p>Fixed (χ constant)</p></td>
+<td><p>Adaptive (χ can grow)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Accuracy</p></td>
+<td><p>Good for short times</p></td>
+<td><p>Excellent for long times</p></td>
+</tr>
+<tr class="row-even"><td><p>Speed per step</p></td>
+<td><p>Fast (no SVD)</p></td>
+<td><p>Slower (SVD each step)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Memory</p></td>
+<td><p>O(Nχ²)</p></td>
+<td><p>O(Nχ²) + SVD workspace</p></td>
+</tr>
+<tr class="row-even"><td><p>Use case</p></td>
+<td><p>High-frequency dynamics, large χ</p></td>
+<td><p>Entanglement growth, quenches</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Implementation Features</strong></p>
+<ul class="simple">
+<li><p><strong>Krylov subspace methods</strong>: Efficient matrix exponential via Lanczos iteration</p></li>
+<li><p><strong>GPU-optimized contractions</strong>: Fused kernels for tensor operations</p></li>
+<li><p><strong>Adaptive time-stepping</strong>: Embedded error estimators (4th/5th order Runge-Kutta-Fehlberg)</p></li>
+<li><p><strong>Checkpoint/restart</strong>: Save intermediate states during long evolutions</p></li>
+<li><p><strong>Observable tracking</strong>: Compute expectation values without re-initialization</p></li>
+</ul>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id0" title="atlas_q.tdvp.TDVP1Site"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TDVP1Site</span></code></a></p></td>
+<td><p>1-site TDVP: conserves bond dimension</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id8" title="atlas_q.tdvp.TDVP2Site"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TDVP2Site</span></code></a></p></td>
+<td><p>2-site TDVP: allows bond dimension growth</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id13" title="atlas_q.tdvp.TDVPConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TDVPConfig</span></code></a></p></td>
+<td><p>Configuration for TDVP simulation</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.tdvp.run_tdvp" title="atlas_q.tdvp.run_tdvp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_tdvp</span></code></a></p></td>
+<td><p>Convenience function to run TDVP</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="tdvp1site">
+<h2>TDVP1Site<a class="headerlink" href="#tdvp1site" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.tdvp.</span></span><span class="sig-name descname"><span class="pre">TDVP1Site</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP1Site"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>1-site TDVP: conserves bond dimension</p>
+<p>Advantages:
+- Fast
+- No bond dimension growth
+- Stable</p>
+<p>Disadvantages:
+- Less accurate for long times
+- Cannot capture entanglement growth</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id7" title="atlas_q.tdvp.TDVP1Site.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>()</p></td>
+<td><p>Run TDVP time evolution</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id6" title="atlas_q.tdvp.TDVP1Site.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(dt)</p></td>
+<td><p>Perform one TDVP time step using symmetric Trotter splitting.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id5" title="atlas_q.tdvp.TDVP1Site.sweep_backward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sweep_backward</span></code></a>(dt)</p></td>
+<td><p>Backward sweep: evolve sites n-1 → 0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id4" title="atlas_q.tdvp.TDVP1Site.sweep_forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sweep_forward</span></code></a>(dt)</p></td>
+<td><p>Forward sweep: evolve sites 0 → n-1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>1-site TDVP algorithm with fixed bond dimension.</p>
+<p><strong>Algorithm Overview</strong></p>
+<p>The 1-site TDVP sweeps through the MPS, evolving one tensor at a time:</p>
+<ol class="arabic simple">
+<li><p><strong>Right sweep</strong> (i = 0 to N-1):</p>
+<ul class="simple">
+<li><p>Project Hamiltonian onto site i: <span class="math notranslate nohighlight">\(H^{[i]}_{\text{eff}} = L^{[i-1]} \otimes \hat{H}^{[i]} \otimes R^{[i+1]}\)</span></p></li>
+<li><p>Evolve tensor: <span class="math notranslate nohighlight">\(A^{[i]}(t+dt) = \exp(-i dt H^{[i]}_{\text{eff}}) A^{[i]}(t)\)</span></p></li>
+<li><p>Update environment tensors <span class="math notranslate nohighlight">\(L^{[i]}\)</span>, <span class="math notranslate nohighlight">\(R^{[i]}\)</span></p></li>
+</ul>
+</li>
+<li><p><strong>Left sweep</strong> (i = N-1 to 0):</p>
+<ul class="simple">
+<li><p>Evolve backwards to maintain time-reversibility</p></li>
+<li><p>Same projection and evolution steps</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Mathematical Details</strong></p>
+<p>The effective Hamiltonian at site i is a <span class="math notranslate nohighlight">\((\chi_{i-1} \times d \times \chi_i)\)</span> tensor formed by contracting:</p>
+<div class="math notranslate nohighlight">
+\[H^{[i]}_{\text{eff}} = \sum_{\alpha,\beta,\sigma,\sigma'} L^{[i-1]}_{\alpha\alpha'} W^{[i]}_{\alpha'\beta',\sigma\sigma'} R^{[i+1]}_{\beta\beta'} |\alpha\sigma\beta\rangle\langle\alpha'\sigma'\beta'|\]</div>
+<p>The time evolution operator <span class="math notranslate nohighlight">\(\exp(-i dt H^{[i]}_{\text{eff}})\)</span> is computed via:</p>
+<ul class="simple">
+<li><p><strong>Krylov subspace method</strong>: Lanczos iteration with Krylov dimension 10-30</p></li>
+<li><p><strong>Matrix exponential</strong>: Direct <code class="docutils literal notranslate"><span class="pre">expm</span></code> for small χ (&lt; 32)</p></li>
+<li><p><strong>Trotter decomposition</strong>: For structured Hamiltonians</p></li>
+</ul>
+<p><strong>Initialization</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hamiltonian</strong> (<a class="reference internal" href="mpo_ops.html#id0" title="atlas_q.mpo_ops.MPO"><em>MPO</em></a>) – Hamiltonian as Matrix Product Operator</p></li>
+<li><p><strong>mps</strong> (<a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html#atlas_q.adaptive_mps.AdaptiveMPS" title="atlas_q.adaptive_mps.AdaptiveMPS"><em>AdaptiveMPS</em></a>) – Initial MPS state (modified in-place during evolution)</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="#id13" title="atlas_q.tdvp.TDVPConfig"><em>TDVPConfig</em></a>) – TDVP configuration (time step, final time, etc.)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Attributes</strong></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP1Site.hamiltonian">
+<span class="sig-name descname"><span class="pre">hamiltonian</span></span><a class="headerlink" href="#atlas_q.tdvp.TDVP1Site.hamiltonian" title="Link to this definition">#</a></dt>
+<dd><p>MPO representation of <span class="math notranslate nohighlight">\(\hat{H}\)</span></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP1Site.mps">
+<span class="sig-name descname"><span class="pre">mps</span></span><a class="headerlink" href="#atlas_q.tdvp.TDVP1Site.mps" title="Link to this definition">#</a></dt>
+<dd><p>Current MPS state (updated during evolution)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP1Site.config">
+<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#atlas_q.tdvp.TDVP1Site.config" title="Link to this definition">#</a></dt>
+<dd><p>TDVPConfig object</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP1Site.time">
+<span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#atlas_q.tdvp.TDVP1Site.time" title="Link to this definition">#</a></dt>
+<dd><p>Current simulation time</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP1Site.left_envs">
+<span class="sig-name descname"><span class="pre">left_envs</span></span><a class="headerlink" href="#atlas_q.tdvp.TDVP1Site.left_envs" title="Link to this definition">#</a></dt>
+<dd><p>Left environment tensors [L⁰, L¹, …, Lᴺ⁻¹]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP1Site.right_envs">
+<span class="sig-name descname"><span class="pre">right_envs</span></span><a class="headerlink" href="#atlas_q.tdvp.TDVP1Site.right_envs" title="Link to this definition">#</a></dt>
+<dd><p>Right environment tensors [R¹, R², …, Rᴺ]</p>
+</dd></dl>
+
+<p><strong>Methods</strong></p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.tdvp.TDVP1Site.__init__" title="atlas_q.tdvp.TDVP1Site.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(hamiltonian, mps, config)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id7" title="atlas_q.tdvp.TDVP1Site.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>()</p></td>
+<td><p>Run TDVP time evolution</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id6" title="atlas_q.tdvp.TDVP1Site.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(dt)</p></td>
+<td><p>Perform one TDVP time step using symmetric Trotter splitting.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP1Site.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP1Site.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.tdvp.TDVP1Site.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize 1-site TDVP algorithm.</p>
+<p>Pre-computes left and right environment tensors by contracting MPS with MPO.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP1Site.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition">#</a></dt>
+<dd><p>Run TDVP evolution from t=0 to t=t_final.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple of (times, energies) where times is list of time points and energies is list of energy expectation values</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple[np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+<p>Automatically handles adaptive time-stepping if enabled in config.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP1Site.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition">#</a></dt>
+<dd><p>Perform one TDVP sweep (right + left).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Time step (uses config.dt if None)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Energy after step</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.14)">complex</a></p>
+</dd>
+</dl>
+<p><strong>Performance</strong>: O(Nχ³d² + Nχ²D) where D is MPO bond dimension, N is number of sites, χ is MPS bond dimension, d=2 is physical dimension.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP1Site.evolve_site">
+<span class="sig-name descname"><span class="pre">evolve_site</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'right'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.tdvp.TDVP1Site.evolve_site" title="Link to this definition">#</a></dt>
+<dd><p>Evolve single site tensor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>site</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Site index (0 to N-1)</p></li>
+<li><p><strong>dt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Time step</p></li>
+<li><p><strong>direction</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Sweep direction (‘right’ or ‘left’)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Internal method called by <code class="docutils literal notranslate"><span class="pre">step()</span></code>.</p>
+</dd></dl>
+
+<p><strong>Advantages</strong></p>
+<ul class="simple">
+<li><p><strong>Speed</strong>: ~2× faster than 2-site TDVP (no SVD overhead)</p></li>
+<li><p><strong>Stability</strong>: No truncation errors from SVD</p></li>
+<li><p><strong>Memory</strong>: Lower memory footprint (no temporary bond tensors)</p></li>
+<li><p><strong>Controlled χ</strong>: Bond dimension stays fixed, predictable resource usage</p></li>
+</ul>
+<p><strong>Disadvantages</strong></p>
+<ul class="simple">
+<li><p><strong>Accuracy limitation</strong>: Cannot capture entanglement growth beyond initial χ</p></li>
+<li><p><strong>Long-time errors</strong>: Accumulates errors for t &gt; 10/J (for typical spin models)</p></li>
+<li><p><strong>Quench dynamics</strong>: Poor for sudden Hamiltonian changes that increase entanglement</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">sweep_forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP1Site.sweep_forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition">#</a></dt>
+<dd><p>Forward sweep: evolve sites 0 → n-1</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">sweep_backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP1Site.sweep_backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition">#</a></dt>
+<dd><p>Backward sweep: evolve sites n-1 → 0</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP1Site.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition">#</a></dt>
+<dd><p>Perform one TDVP time step using symmetric Trotter splitting.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dt: Time step size</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP1Site.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition">#</a></dt>
+<dd><p>Run TDVP time evolution</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>times: List of time points
+energies: List of energy expectation values</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="tdvp2site">
+<h2>TDVP2Site<a class="headerlink" href="#tdvp2site" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id8">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.tdvp.</span></span><span class="sig-name descname"><span class="pre">TDVP2Site</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP2Site"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>2-site TDVP: allows bond dimension growth</p>
+<p>Advantages:
+- More accurate
+- Captures entanglement growth
+- Adaptive truncation</p>
+<p>Disadvantages:
+- Slower than 1-site
+- Needs careful truncation management</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id12" title="atlas_q.tdvp.TDVP2Site.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>()</p></td>
+<td><p>Run 2-site TDVP evolution</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id11" title="atlas_q.tdvp.TDVP2Site.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(dt)</p></td>
+<td><p>Perform one 2-site TDVP time step.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>2-site TDVP algorithm with adaptive bond dimension.</p>
+<p><strong>Algorithm Overview</strong></p>
+<p>The 2-site TDVP evolves pairs of adjacent tensors, allowing bond dimension to grow:</p>
+<ol class="arabic simple">
+<li><p><strong>Forward sweep</strong> (bond i = 0 to N-2):</p>
+<ul class="simple">
+<li><p>Merge tensors A⁽ⁱ⁾ and A⁽ⁱ⁺¹⁾ into two-site tensor Θ⁽ⁱ’ⁱ⁺¹⁾</p></li>
+<li><p>Project Hamiltonian: <span class="math notranslate nohighlight">\(H^{[i,i+1]}_{\text{eff}}\)</span></p></li>
+<li><p>Evolve: <span class="math notranslate nohighlight">\(\Theta(t+dt) = \exp(-i dt H_{\text{eff}}) \Theta(t)\)</span></p></li>
+<li><p>Split via SVD: <span class="math notranslate nohighlight">\(\Theta = A^{[i]} S^{[i]} A^{[i+1]}\)</span> with truncation to χ_max</p></li>
+<li><p>Evolve bond matrix backwards by dt/2 to maintain time-reversibility</p></li>
+</ul>
+</li>
+<li><p><strong>Backward sweep</strong> (bond i = N-2 to 0):</p>
+<ul class="simple">
+<li><p>Same process in reverse direction</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>SVD Truncation</strong></p>
+<p>After evolving the two-site tensor, SVD is performed:</p>
+<div class="math notranslate nohighlight">
+\[\Theta_{\alpha i j \beta} = \sum_{\gamma=1}^{\chi'} U_{\alpha i \gamma} S_\gamma V_{\gamma j \beta}\]</div>
+<p>where χ’ is the full SVD dimension. We truncate to χ ≤ χ_max by:</p>
+<ul class="simple">
+<li><p><strong>Fixed χ</strong>: Keep largest χ singular values</p></li>
+<li><p><strong>Adaptive χ</strong>: Keep singular values where <span class="math notranslate nohighlight">\(s_i &gt; \epsilon \times \max(s_j)\)</span></p></li>
+</ul>
+<p>Truncation error: <span class="math notranslate nohighlight">\(\delta = \sqrt{\sum_{\gamma &gt; \chi} s_\gamma^2}\)</span></p>
+<p><strong>Initialization</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hamiltonian</strong> (<a class="reference internal" href="mpo_ops.html#id0" title="atlas_q.mpo_ops.MPO"><em>MPO</em></a>) – Hamiltonian as MPO</p></li>
+<li><p><strong>mps</strong> (<a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html#atlas_q.adaptive_mps.AdaptiveMPS" title="atlas_q.adaptive_mps.AdaptiveMPS"><em>AdaptiveMPS</em></a>) – Initial state</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="#id13" title="atlas_q.tdvp.TDVPConfig"><em>TDVPConfig</em></a>) – Configuration including chi_max and eps_bond</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Attributes</strong></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP2Site.hamiltonian">
+<span class="sig-name descname"><span class="pre">hamiltonian</span></span><a class="headerlink" href="#atlas_q.tdvp.TDVP2Site.hamiltonian" title="Link to this definition">#</a></dt>
+<dd><p>MPO Hamiltonian</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP2Site.mps">
+<span class="sig-name descname"><span class="pre">mps</span></span><a class="headerlink" href="#atlas_q.tdvp.TDVP2Site.mps" title="Link to this definition">#</a></dt>
+<dd><p>Current MPS (updated in-place)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP2Site.config">
+<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#atlas_q.tdvp.TDVP2Site.config" title="Link to this definition">#</a></dt>
+<dd><p>TDVPConfig with 2-site settings</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP2Site.time">
+<span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#atlas_q.tdvp.TDVP2Site.time" title="Link to this definition">#</a></dt>
+<dd><p>Current time</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP2Site.truncation_errors">
+<span class="sig-name descname"><span class="pre">truncation_errors</span></span><a class="headerlink" href="#atlas_q.tdvp.TDVP2Site.truncation_errors" title="Link to this definition">#</a></dt>
+<dd><p>List of truncation errors from SVD at each step</p>
+</dd></dl>
+
+<p><strong>Methods</strong></p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#atlas_q.tdvp.TDVP2Site.__init__" title="atlas_q.tdvp.TDVP2Site.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(hamiltonian, mps, config)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id12" title="atlas_q.tdvp.TDVP2Site.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>()</p></td>
+<td><p>Run 2-site TDVP evolution</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id11" title="atlas_q.tdvp.TDVP2Site.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(dt)</p></td>
+<td><p>Perform one 2-site TDVP time step.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP2Site.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP2Site.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.tdvp.TDVP2Site.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize 2-site TDVP.</p>
+<p>Verifies config.order == 2 and config.chi_max is set.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP2Site.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition">#</a></dt>
+<dd><p>Run 2-site TDVP evolution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(times, energies, max_chi_history)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple[np.ndarray, np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+<p>Returns additional max_chi_history array tracking bond dimension growth.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP2Site.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition">#</a></dt>
+<dd><p>Perform one 2-site TDVP sweep.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Time step</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(energy, max_truncation_error)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.14)">complex</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a>]</p>
+</dd>
+</dl>
+<p><strong>Performance</strong>: O(Nχ³d² + Nχ³) where the χ³ term is from SVD. About 2× slower than 1-site TDVP due to SVD overhead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.tdvp.TDVP2Site.evolve_bond">
+<span class="sig-name descname"><span class="pre">evolve_bond</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bond</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'right'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.tdvp.TDVP2Site.evolve_bond" title="Link to this definition">#</a></dt>
+<dd><p>Evolve two-site tensor at bond.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Bond index (0 to N-2)</p></li>
+<li><p><strong>dt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Time step</p></li>
+<li><p><strong>direction</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – ‘right’ or ‘left’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Truncation error from SVD</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><strong>Advantages</strong></p>
+<ul class="simple">
+<li><p><strong>Accuracy</strong>: Can maintain accuracy for long times (t &gt; 100/J)</p></li>
+<li><p><strong>Entanglement growth</strong>: Automatically increases χ as entanglement grows</p></li>
+<li><p><strong>Quench dynamics</strong>: Handles sudden Hamiltonian changes well</p></li>
+<li><p><strong>Ground state search</strong>: Via imaginary time evolution with adaptive χ</p></li>
+</ul>
+<p><strong>Disadvantages</strong></p>
+<ul class="simple">
+<li><p><strong>Speed</strong>: ~2× slower than 1-site due to SVD cost</p></li>
+<li><p><strong>Memory</strong>: Requires O(χ³) workspace for SVD</p></li>
+<li><p><strong>Parameter tuning</strong>: Need to set χ_max and truncation threshold appropriately</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP2Site.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition">#</a></dt>
+<dd><p>Perform one 2-site TDVP time step.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dt: Time step size</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVP2Site.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition">#</a></dt>
+<dd><p>Run 2-site TDVP evolution</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="tdvpconfig">
+<h2>TDVPConfig<a class="headerlink" href="#tdvpconfig" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id13">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.tdvp.</span></span><span class="sig-name descname"><span class="pre">TDVPConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_final</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_bond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adaptive_dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">krylov_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gpu_optimized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/tdvp.html#TDVPConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Configuration for TDVP simulation</p>
+<p>Configuration dataclass for TDVP time evolution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Time step size (default: 0.01, typical range: 0.001-0.1)</p></li>
+<li><p><strong>t_final</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Final evolution time (default: 1.0)</p></li>
+<li><p><strong>order</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – TDVP order (1 for 1-site, 2 for 2-site, default: 1)</p></li>
+<li><p><strong>chi_max</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Maximum bond dimension (default: 64, required for order=2)</p></li>
+<li><p><strong>eps_bond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – SVD truncation threshold (default: 1e-10, used when order=2)</p></li>
+<li><p><strong>adaptive_dt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Enable adaptive time-stepping (default: False)</p></li>
+<li><p><strong>dt_min</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Minimum time step for adaptive mode (default: 1e-5)</p></li>
+<li><p><strong>dt_max</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Maximum time step for adaptive mode (default: 0.1)</p></li>
+<li><p><strong>error_tol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Local error tolerance for adaptive stepping (default: 1e-6)</p></li>
+<li><p><strong>normalize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Normalize MPS after each step (default: True)</p></li>
+<li><p><strong>krylov_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Krylov subspace dimension for exp(H) (default: 20, range: 10-50)</p></li>
+<li><p><strong>use_gpu_optimized</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Use fused GPU kernels (default: True if CUDA available)</p></li>
+<li><p><strong>checkpoint_every</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Save checkpoint every N steps (default: 0 = disabled)</p></li>
+<li><p><strong>checkpoint_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Directory for checkpoints (default: ‘./tdvp_checkpoints’)</p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Compute device (default: ‘cuda’ if available, else ‘cpu’)</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.9)"><em>torch.dtype</em></a>) – Data type (default: torch.complex64)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Time Step Selection</strong></p>
+<p>The time step dt should satisfy:</p>
+<ul class="simple">
+<li><p><strong>Stability</strong>: <span class="math notranslate nohighlight">\(dt \ll 1/\lambda_{\max}\)</span> where λ_max is largest Hamiltonian eigenvalue</p></li>
+<li><p><strong>Accuracy</strong>: <span class="math notranslate nohighlight">\(dt \ll 1/\Delta E\)</span> where ΔE is relevant energy scale</p></li>
+<li><p><strong>Practical guideline</strong>: Start with dt = 0.01-0.1 × (typical energy scale)⁻¹</p></li>
+</ul>
+<p>For Ising model with J = 1.0: dt ~ 0.01-0.05 works well.</p>
+<p><strong>Adaptive Time-Stepping</strong></p>
+<p>When <code class="docutils literal notranslate"><span class="pre">adaptive_dt=True</span></code>, uses embedded Runge-Kutta-Fehlberg (RKF45) error estimator:</p>
+<ol class="arabic simple">
+<li><p>Compute evolution with step dt (4th order)</p></li>
+<li><p>Compute evolution with step dt (5th order)</p></li>
+<li><p>Estimate local error: <span class="math notranslate nohighlight">\(\epsilon = \|\psi^{(4)} - \psi^{(5)}\|\)</span></p></li>
+<li><p>Adjust dt: <span class="math notranslate nohighlight">\(dt_{\text{new}} = dt \times (tol / \epsilon)^{1/5}\)</span></p></li>
+</ol>
+<p>Adaptive stepping reduces total steps by 2-5× while maintaining accuracy.</p>
+<p><strong>Krylov Dimension</strong></p>
+<p>The Krylov subspace method approximates <span class="math notranslate nohighlight">\(\exp(-i H dt) |v\rangle\)</span> by projecting into a k-dimensional subspace. Accuracy improves with k:</p>
+<ul class="simple">
+<li><p>k = 10: Rough approximation, fast</p></li>
+<li><p>k = 20: Standard (recommended)</p></li>
+<li><p>k = 30-50: High accuracy, slower</p></li>
+</ul>
+<p>For small χ &lt; 32, direct matrix exponential is faster than Krylov.</p>
+<p><strong>GPU Optimization</strong></p>
+<p>When <code class="docutils literal notranslate"><span class="pre">use_gpu_optimized=True</span></code>:</p>
+<ul class="simple">
+<li><p>Fused tensor contractions (reduce kernel launches)</p></li>
+<li><p>Optimized GEMM operations for environment updates</p></li>
+<li><p>Overlapped CPU-GPU transfers during checkpointing</p></li>
+</ul>
+<p>Speedup: 1.5-2× faster than non-optimized on NVIDIA A100.</p>
+<p><strong>Normalization</strong></p>
+<p>If <code class="docutils literal notranslate"><span class="pre">normalize=True</span></code>, MPS is normalized after each step via:</p>
+<div class="math notranslate nohighlight">
+\[|\psi\rangle \to \frac{|\psi\rangle}{\langle\psi|\psi\rangle^{1/2}}\]</div>
+<p>Usually enabled except for imaginary time evolution where norm naturally decays.</p>
+<p><strong>Checkpointing</strong></p>
+<p>Set <code class="docutils literal notranslate"><span class="pre">checkpoint_every</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> to periodically save MPS state. Useful for:</p>
+<ul class="simple">
+<li><p>Long simulations (t_final &gt; 100)</p></li>
+<li><p>Crash recovery</p></li>
+<li><p>Intermediate analysis</p></li>
+</ul>
+<p>Checkpoint files: <code class="docutils literal notranslate"><span class="pre">{checkpoint_dir}/tdvp_step_{n}.pt</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">dt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.01</span></em><a class="headerlink" href="#id14" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">t_final</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10.0</span></em><a class="headerlink" href="#id15" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">order</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#id16" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">chi_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">128</span></em><a class="headerlink" href="#id17" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">eps_bond</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-08</span></em><a class="headerlink" href="#id18" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">adaptive_dt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id19" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">dt_min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-05</span></em><a class="headerlink" href="#id20" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">dt_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.1</span></em><a class="headerlink" href="#id21" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">error_tol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-06</span></em><a class="headerlink" href="#id22" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">normalize</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id23" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">krylov_dim</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#id24" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">use_gpu_optimized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id25" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<p>Basic time evolution:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP1Site</span><span class="p">,</span> <span class="n">TDVPConfig</span>
+
+<span class="c1"># Create Hamiltonian and initial state</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Configure TDVP</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">t_final</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">use_gpu_optimized</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Run evolution</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Plot energy conservation</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">energies</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Energy Conservation&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;energy_vs_time.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>2-site TDVP with adaptive bond dimension:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP2Site</span>
+
+<span class="c1"># Configure 2-site TDVP</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">t_final</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">chi_max</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">eps_bond</span><span class="o">=</span><span class="mf">1e-8</span>
+<span class="p">)</span>
+
+<span class="c1"># Run with bond growth</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP2Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Check final bond dimensions</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">stats_summary</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final max χ: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;max_chi&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Quantum quench:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Initialize in ground state of H_initial</span>
+<span class="n">H_initial</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="c1"># (assume mps is prepared in ground state via imaginary time evolution or VQE)</span>
+
+<span class="c1"># Quench: evolve with H_final</span>
+<span class="n">H_final</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">t_final</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H_final</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Adaptive time-stepping:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">t_final</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">adaptive_dt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">dt_min</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">dt_max</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">error_tol</span><span class="o">=</span><span class="mf">1e-6</span>
+<span class="p">)</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Imaginary time evolution (ground state finding):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Imaginary time: t → -iτ</span>
+<span class="c1"># Multiply Hamiltonian by -i</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Create Hamiltonian tensors with factor -1j</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">tensors</span><span class="p">)):</span>
+    <span class="n">H</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">H</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+<span class="c1"># Evolve in imaginary time</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">t_final</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Final state approximates ground state</span>
+<span class="n">ground_energy</span> <span class="o">=</span> <span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ground state energy: </span><span class="si">{</span><span class="n">ground_energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Computing observables during evolution:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">expectation_value</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Define observable</span>
+<span class="n">Z_total</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">identity_mpo</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Z_total</span><span class="o">.</span><span class="n">tensors</span><span class="p">)):</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="n">Z_total</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z_total</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">Z</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Evolve and measure</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">magnetizations</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">t_final</span> <span class="o">/</span> <span class="n">config</span><span class="o">.</span><span class="n">dt</span><span class="p">)):</span>
+    <span class="n">tdvp</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">mag</span> <span class="o">=</span> <span class="n">expectation_value</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="n">Z_total</span><span class="p">)</span>
+    <span class="n">magnetizations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mag</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+
+<span class="c1"># Plot magnetization dynamics</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">magnetizations</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Magnetization&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;magnetization.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-notes">
+<h2>Performance Notes<a class="headerlink" href="#performance-notes" title="Link to this heading">#</a></h2>
+<p><strong>Computational Complexity</strong></p>
+<div class="pst-scrollable-table-container"><table class="table" id="id27">
+<caption><span class="caption-text">TDVP Performance Scaling</span><a class="headerlink" href="#id27" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 30.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Algorithm</p></th>
+<th class="head"><p>Time per Step</p></th>
+<th class="head"><p>Memory</p></th>
+<th class="head"><p>Best For</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1-site TDVP</p></td>
+<td><p>O(Nχ³d² + Nχ²D)</p></td>
+<td><p>O(Nχ²)</p></td>
+<td><p>Short times, fixed χ</p></td>
+</tr>
+<tr class="row-odd"><td><p>2-site TDVP</p></td>
+<td><p>O(Nχ³d² + Nχ³)</p></td>
+<td><p>O(Nχ² + χ³)</p></td>
+<td><p>Long times, adaptive χ</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Where N = number of sites, χ = bond dimension, d = physical dimension (2 for qubits), D = MPO bond dimension.</p>
+<p><strong>Benchmark Timings</strong> (NVIDIA A100, N=20, dt=0.01)</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id28">
+<caption><span class="caption-text">Time per TDVP Step</span><a class="headerlink" href="#id28" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Bond Dim χ</p></th>
+<th class="head"><p>1-Site (ms)</p></th>
+<th class="head"><p>2-Site (ms)</p></th>
+<th class="head"><p>Speedup Ratio</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>16</p></td>
+<td><p>2.3</p></td>
+<td><p>4.1</p></td>
+<td><p>1.8×</p></td>
+</tr>
+<tr class="row-odd"><td><p>32</p></td>
+<td><p>8.7</p></td>
+<td><p>18.2</p></td>
+<td><p>2.1×</p></td>
+</tr>
+<tr class="row-even"><td><p>64</p></td>
+<td><p>34.1</p></td>
+<td><p>71.5</p></td>
+<td><p>2.1×</p></td>
+</tr>
+<tr class="row-odd"><td><p>128</p></td>
+<td><p>135.2</p></td>
+<td><p>285.7</p></td>
+<td><p>2.1×</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>2-site TDVP is consistently ~2× slower due to SVD overhead.</p>
+<p><strong>Accuracy vs. Time Step</strong></p>
+<p>For Ising model (J=1.0, h=0.5), energy conservation error:</p>
+<ul class="simple">
+<li><p>dt = 0.001: Error ~ 10⁻¹⁰ (excellent, slow)</p></li>
+<li><p>dt = 0.01: Error ~ 10⁻⁷ (good, recommended)</p></li>
+<li><p>dt = 0.05: Error ~ 10⁻⁵ (acceptable for short times)</p></li>
+<li><p>dt = 0.1: Error ~ 10⁻³ (poor, unstable)</p></li>
+</ul>
+<p><strong>Memory Usage</strong></p>
+<p>For N = 50 qubits, χ = 64, complex64:</p>
+<ul class="simple">
+<li><p>MPS tensors: 50 × 64² × 2 × 8 bytes = 3.3 MB</p></li>
+<li><p>Environment tensors: 2 × 50 × 64² × D × 8 bytes (D = MPO bond dimension)</p></li>
+<li><p>Krylov workspace: k × χ² × 2 × 8 bytes (k = Krylov dimension)</p></li>
+</ul>
+<p>Total: ~100-500 MB depending on Hamiltonian structure.</p>
+<p><strong>Optimization Tips</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Use adaptive time-stepping</strong> for variable dynamics (quenches, oscillating Hamiltonians)</p></li>
+<li><p><strong>Start with 1-site TDVP</strong> for initial exploration, switch to 2-site if χ saturates</p></li>
+<li><p><strong>Increase krylov_dim</strong> (to 30-50) for higher accuracy without reducing dt</p></li>
+<li><p><strong>Enable GPU optimization</strong> for systems with χ &gt; 16</p></li>
+<li><p><strong>Checkpoint frequently</strong> for long evolutions (t_final &gt; 50)</p></li>
+</ol>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<p><strong>Choosing 1-Site vs. 2-Site</strong></p>
+<p>Use <strong>1-site</strong> when:</p>
+<ul class="simple">
+<li><p>Short evolution times (t &lt; 10/J)</p></li>
+<li><p>χ is already large (≥ 64) and captures entanglement</p></li>
+<li><p>Hamiltonian is local and doesn’t generate much entanglement</p></li>
+<li><p>Speed is critical</p></li>
+</ul>
+<p>Use <strong>2-site</strong> when:</p>
+<ul class="simple">
+<li><p>Long evolution times (t &gt; 10/J)</p></li>
+<li><p>Entanglement growth expected (quenches, non-equilibrium)</p></li>
+<li><p>Finding ground states via imaginary time</p></li>
+<li><p>Accuracy is more important than speed</p></li>
+</ul>
+<p><strong>Time Step Selection</strong></p>
+<p>Start with dt = 0.01 and monitor energy conservation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Check energy conservation</span>
+<span class="n">energy_drift</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">real</span>
+<span class="n">relative_drift</span> <span class="o">=</span> <span class="n">energy_drift</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">real</span>
+
+<span class="k">if</span> <span class="n">relative_drift</span> <span class="o">&gt;</span> <span class="mf">1e-5</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Energy drift </span><span class="si">{</span><span class="n">relative_drift</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">, reduce dt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If drift &gt; 10⁻⁵, reduce dt by factor of 2.</p>
+<p><strong>Imaginary Time Evolution</strong></p>
+<p>For ground state finding, multiply Hamiltonian by -1j and evolve:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ground state via imaginary time</span>
+<span class="n">H_imag</span> <span class="o">=</span> <span class="n">MPO</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">tensor</span> <span class="k">for</span> <span class="n">tensor</span> <span class="ow">in</span> <span class="n">H</span><span class="o">.</span><span class="n">tensors</span><span class="p">])</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>        <span class="c1"># Can use larger dt for imaginary time</span>
+    <span class="n">t_final</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>    <span class="c1"># Evolve until convergence</span>
+    <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1"># Must normalize each step</span>
+    <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>        <span class="c1"># Use 2-site for adaptive χ</span>
+    <span class="n">chi_max</span><span class="o">=</span><span class="mi">128</span>
+<span class="p">)</span>
+
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP2Site</span><span class="p">(</span><span class="n">H_imag</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="n">ground_energy</span> <span class="o">=</span> <span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ground state energy: </span><span class="si">{</span><span class="n">ground_energy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Troubleshooting</strong></p>
+<ul class="simple">
+<li><p><strong>Energy increases</strong>: Reduce dt, increase krylov_dim, or check Hamiltonian construction</p></li>
+<li><p><strong>Norm drifts from 1.0</strong>: Enable <code class="docutils literal notranslate"><span class="pre">normalize=True</span></code></p></li>
+<li><p><strong>Slow convergence (imaginary time)</strong>: Increase dt (can use 0.05-0.1 for imaginary time)</p></li>
+<li><p><strong>Memory errors</strong>: Reduce chi_max or use larger GPU</p></li>
+<li><p><strong>NaN/Inf values</strong>: dt too large or Hamiltonian has issues (check units, signs)</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="adaptive_mps.html"><span class="doc">atlas_q.adaptive_mps</span></a> - MPS representation and manipulation</p></li>
+<li><p><a class="reference internal" href="mpo_ops.html"><span class="doc">atlas_q.mpo_ops</span></a> - Hamiltonian construction as MPO</p></li>
+<li><p><a class="reference internal" href="vqe_qaoa.html"><span class="doc">atlas_q.vqe_qaoa</span></a> - Variational quantum algorithms</p></li>
+<li><p><a class="reference internal" href="mps_pytorch.html"><span class="doc">MPS PyTorch Backend</span></a> - PyTorch MPS backend</p></li>
+<li><p><a class="reference internal" href="../user_guide/tutorials/tdvp_tutorial.html"><span class="doc">TDVP Tutorial</span></a> - Step-by-step TDVP tutorial</p></li>
+<li><p><span class="xref std std-doc">../user_guide/howtos/time_evolution</span> - Time evolution guide</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="haegeman11" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Haegeman11</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="10">
+<li><p>Haegeman et al., “Time-dependent variational principle for quantum lattices,” <em>Physical Review Letters</em> 107, 070601 (2011).</p></li>
+</ol>
+</div>
+<div class="citation" id="haegeman16" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Haegeman16<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="10">
+<li><p>Haegeman et al., “Unifying time evolution and optimization with matrix product states,” <em>Physical Review B</em> 94, 165116 (2016).</p></li>
+</ol>
+</div>
+<div class="citation" id="paeckel19" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Paeckel19<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="19">
+<li><p>Paeckel et al., “Time-evolution methods for matrix-product states,” <em>Annals of Physics</em> 411, 167998 (2019).</p></li>
+</ol>
+</div>
+<div class="citation" id="schollwock11" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Schollwock11<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="21">
+<li><p>Schollwöck, “The density-matrix renormalization group in the age of matrix product states,” <em>Annals of Physics</em> 326, 96 (2011).</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="generated/atlas_q.mpo_ops.correlation_function.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">atlas_q.mpo_ops.correlation_function</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="generated/atlas_q.tdvp.TDVP1Site.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">atlas_q.tdvp.TDVP1Site</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVPConfig"><code class="docutils literal notranslate"><span class="pre">TDVPConfig</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVPConfig.dt"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.dt</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVPConfig.t_final"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.t_final</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVPConfig.order"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.order</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVPConfig.chi_max"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.chi_max</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVPConfig.eps_bond"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.eps_bond</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVPConfig.adaptive_dt"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.adaptive_dt</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVPConfig.dt_min"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.dt_min</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVPConfig.dt_max"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.dt_max</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVPConfig.error_tol"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.error_tol</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVPConfig.normalize"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.normalize</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVPConfig.krylov_dim"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.krylov_dim</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVPConfig.use_gpu_optimized"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.use_gpu_optimized</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP1Site"><code class="docutils literal notranslate"><span class="pre">TDVP1Site</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP1Site.sweep_forward"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.sweep_forward()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP1Site.sweep_backward"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.sweep_backward()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP1Site.step"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.step()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP1Site.run"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP2Site"><code class="docutils literal notranslate"><span class="pre">TDVP2Site</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP2Site.step"><code class="docutils literal notranslate"><span class="pre">TDVP2Site.step()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP2Site.run"><code class="docutils literal notranslate"><span class="pre">TDVP2Site.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.run_tdvp"><code class="docutils literal notranslate"><span class="pre">run_tdvp()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tdvp1site">TDVP1Site</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">TDVP1Site</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP1Site.hamiltonian"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.hamiltonian</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP1Site.mps"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.mps</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP1Site.config"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP1Site.time"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP1Site.left_envs"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.left_envs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP1Site.right_envs"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.right_envs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP1Site.__init__"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.step()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP1Site.evolve_site"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.evolve_site()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.sweep_forward()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.sweep_backward()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.step()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7"><code class="docutils literal notranslate"><span class="pre">TDVP1Site.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tdvp2site">TDVP2Site</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8"><code class="docutils literal notranslate"><span class="pre">TDVP2Site</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP2Site.hamiltonian"><code class="docutils literal notranslate"><span class="pre">TDVP2Site.hamiltonian</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP2Site.mps"><code class="docutils literal notranslate"><span class="pre">TDVP2Site.mps</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP2Site.config"><code class="docutils literal notranslate"><span class="pre">TDVP2Site.config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP2Site.time"><code class="docutils literal notranslate"><span class="pre">TDVP2Site.time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP2Site.truncation_errors"><code class="docutils literal notranslate"><span class="pre">TDVP2Site.truncation_errors</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP2Site.__init__"><code class="docutils literal notranslate"><span class="pre">TDVP2Site.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9"><code class="docutils literal notranslate"><span class="pre">TDVP2Site.run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10"><code class="docutils literal notranslate"><span class="pre">TDVP2Site.step()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.tdvp.TDVP2Site.evolve_bond"><code class="docutils literal notranslate"><span class="pre">TDVP2Site.evolve_bond()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id11"><code class="docutils literal notranslate"><span class="pre">TDVP2Site.step()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id12"><code class="docutils literal notranslate"><span class="pre">TDVP2Site.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tdvpconfig">TDVPConfig</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13"><code class="docutils literal notranslate"><span class="pre">TDVPConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id14"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.dt</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id15"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.t_final</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.order</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id17"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.chi_max</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id18"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.eps_bond</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id19"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.adaptive_dt</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id20"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.dt_min</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id21"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.dt_max</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id22"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.error_tol</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id23"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.normalize</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id24"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.krylov_dim</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id25"><code class="docutils literal notranslate"><span class="pre">TDVPConfig.use_gpu_optimized</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-notes">Performance Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

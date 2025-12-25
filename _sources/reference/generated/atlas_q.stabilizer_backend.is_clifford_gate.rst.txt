@@ -1,0 +1,6 @@
+﻿atlas\_q.stabilizer\_backend.is\_clifford\_gate
+===============================================
+
+.. currentmodule:: atlas_q.stabilizer_backend
+
+.. autofunction:: is_clifford_gate

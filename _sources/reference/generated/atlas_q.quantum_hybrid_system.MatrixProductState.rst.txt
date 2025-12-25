@@ -1,0 +1,29 @@
+﻿atlas\_q.quantum\_hybrid\_system.MatrixProductState
+===================================================
+
+.. currentmodule:: atlas_q.quantum_hybrid_system
+
+.. autoclass:: MatrixProductState
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~MatrixProductState.__init__
+      ~MatrixProductState.canonicalize_left_to_right
+      ~MatrixProductState.canonicalize_right_to_left
+      ~MatrixProductState.get_amplitude
+      ~MatrixProductState.get_probability
+      ~MatrixProductState.measure
+      ~MatrixProductState.memory_usage
+      ~MatrixProductState.sweep_sample
+   
+   
+
+   
+   
+   

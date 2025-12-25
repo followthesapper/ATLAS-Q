@@ -1,0 +1,25 @@
+﻿atlas\_q.grover.BitmapOracle
+============================
+
+.. currentmodule:: atlas_q.grover
+
+.. autoclass:: BitmapOracle
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BitmapOracle.__init__
+      ~BitmapOracle.apply
+      ~BitmapOracle.get_marked_count
+      ~BitmapOracle.mark
+   
+   
+
+   
+   
+   

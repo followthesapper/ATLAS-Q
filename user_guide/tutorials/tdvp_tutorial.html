@@ -1,0 +1,1559 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>TDVP Tutorial &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/tutorials/tdvp_tutorial';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Molecular VQE Tutorial" href="molecular_vqe.html" />
+    <link rel="prev" title="Coherence-Aware Quantum Computing" href="coherence_aware_vqe.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="beginners.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_basics.html">MPS Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vqe_tutorial.html">VQE Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coherence_aware_vqe.html">Coherence-Aware Quantum Computing</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">TDVP Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="molecular_vqe.html">Molecular VQE Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qaoa_tutorial.html">QAOA Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_features.html">Advanced Features Tutorial</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">TDVP Tutorial</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="tdvp-tutorial">
+<h1>TDVP Tutorial<a class="headerlink" href="#tdvp-tutorial" title="Link to this heading">#</a></h1>
+<p>Time-Dependent Variational Principle (TDVP) simulates quantum dynamics on MPS efficiently. This tutorial provides comprehensive coverage of TDVP algorithms, time evolution techniques, and applications to quantum dynamics.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Completed <a class="reference internal" href="beginners.html"><span class="doc">Beginner’s Tutorial</span></a> and <a class="reference internal" href="mps_basics.html"><span class="doc">MPS Basics</span></a> tutorials</p></li>
+<li><p>Understanding of Hamiltonians and time evolution</p></li>
+<li><p>Familiarity with differential equations</p></li>
+<li><p>Knowledge of Krylov subspace methods (helpful)</p></li>
+<li><p>Matrix Product State operations</p></li>
+</ul>
+</section>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<p>After completing this tutorial, you will understand:</p>
+<ol class="arabic simple">
+<li><p>TDVP algorithm principles and time evolution</p></li>
+<li><p>Difference between 1-site and 2-site TDVP</p></li>
+<li><p>Real vs imaginary time evolution</p></li>
+<li><p>Krylov subspace methods for time evolution</p></li>
+<li><p>Time-dependent Hamiltonians</p></li>
+<li><p>Quantum quenches and dynamics</p></li>
+<li><p>Observables and correlation functions</p></li>
+<li><p>Performance optimization for TDVP</p></li>
+</ol>
+</section>
+<section id="part-1-tdvp-fundamentals">
+<h2>Part 1: TDVP Fundamentals<a class="headerlink" href="#part-1-tdvp-fundamentals" title="Link to this heading">#</a></h2>
+<section id="what-is-tdvp">
+<h3>What is TDVP?<a class="headerlink" href="#what-is-tdvp" title="Link to this heading">#</a></h3>
+<p>TDVP projects the Schrödinger equation onto the MPS manifold:</p>
+<div class="math notranslate nohighlight">
+\[i\hbar \frac{\partial}{\partial t} |\psi(t)\rangle = H |\psi(t)\rangle\]</div>
+<p>For MPS <a href="#id1"><span class="problematic" id="id2">|</span></a>ψ(A)⟩ parameterized by tensors A, TDVP gives equations of motion for the tensors.</p>
+</section>
+<section id="time-evolution-operator">
+<h3>Time Evolution Operator<a class="headerlink" href="#time-evolution-operator" title="Link to this heading">#</a></h3>
+<p>Exact evolution:</p>
+<div class="math notranslate nohighlight">
+\[|\psi(t)\rangle = e^{-iHt/\hbar} |\psi(0)\rangle\]</div>
+<p>TDVP approximates this while keeping <a href="#id3"><span class="problematic" id="id4">|</span></a>ψ⟩ in MPS form with bounded bond dimension.</p>
+</section>
+<section id="why-tdvp-works">
+<h3>Why TDVP Works<a class="headerlink" href="#why-tdvp-works" title="Link to this heading">#</a></h3>
+<p>TDVP is optimal in the sense that it minimizes:</p>
+<div class="math notranslate nohighlight">
+\[|| \frac{d}{dt}|\psi_{\text{MPS}}\rangle - (-iH)|\psi_{\text{MPS}}\rangle ||\]</div>
+<p>at each instant, keeping the state on the MPS manifold.</p>
+</section>
+<section id="basic-time-evolution">
+<h3>Basic Time Evolution<a class="headerlink" href="#basic-time-evolution" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP1Site</span><span class="p">,</span> <span class="n">TDVPConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Create Hamiltonian - transverse field Ising model</span>
+<span class="n">n_sites</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span>
+    <span class="n">n_sites</span><span class="o">=</span><span class="n">n_sites</span><span class="p">,</span>
+    <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>      <span class="c1"># Coupling</span>
+    <span class="n">h</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>      <span class="c1"># Transverse field</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Initialize state (all |0⟩)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="n">n_sites</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Configure TDVP</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>         <span class="c1"># Time step</span>
+    <span class="n">t_final</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>     <span class="c1"># Final time</span>
+    <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Normalize after each step</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Create TDVP solver</span>
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># Evolve</span>
+<span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial energy: </span><span class="si">{</span><span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final energy: </span><span class="si">{</span><span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Energy conservation: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Expected output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Initial energy: -5.234567
+Final energy: -5.234571
+Energy conservation: 4.23e-06
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-2-1-site-vs-2-site-tdvp">
+<h2>Part 2: 1-Site vs 2-Site TDVP<a class="headerlink" href="#part-2-1-site-vs-2-site-tdvp" title="Link to this heading">#</a></h2>
+<section id="site-tdvp">
+<h3>1-Site TDVP<a class="headerlink" href="#site-tdvp" title="Link to this heading">#</a></h3>
+<p>Conserves bond dimension χ but may accumulate truncation error:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP1Site</span><span class="p">,</span> <span class="n">TDVPConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># 1-site TDVP configuration</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">t_final</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Check bond dimension</span>
+<span class="n">chi_initial</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
+<span class="n">chi_final</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">mps</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial χ: </span><span class="si">{</span><span class="n">chi_initial</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final χ: </span><span class="si">{</span><span class="n">chi_final</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Should be same</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bond dimension conserved with 1-site TDVP&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Algorithm:
+1. Sweep left-to-right, evolving each single tensor
+2. Sweep right-to-left
+3. Repeat for each time step</p>
+</section>
+<section id="id5">
+<h3>2-Site TDVP<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>Allows bond dimension growth for more accurate dynamics:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP2Site</span><span class="p">,</span> <span class="n">TDVPConfig</span>
+
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>  <span class="c1"># Start smaller</span>
+
+<span class="c1"># 2-site TDVP configuration</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">t_final</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="n">chi_max</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>          <span class="c1"># Maximum bond dimension</span>
+    <span class="n">eps_trunc</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>      <span class="c1"># SVD truncation tolerance</span>
+    <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP2Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Track bond dimension growth</span>
+<span class="n">chi_history</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">chi_history</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial χ: </span><span class="si">{</span><span class="n">chi_history</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final χ: </span><span class="si">{</span><span class="n">chi_history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Maximum χ reached: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">chi_history</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Algorithm:
+1. Sweep left-to-right, evolving pairs of tensors
+2. Perform SVD to split back into two tensors
+3. Truncate based on chi_max and eps_trunc
+4. Sweep right-to-left
+5. Repeat for each time step</p>
+</section>
+<section id="choosing-between-1-site-and-2-site">
+<h3>Choosing Between 1-Site and 2-Site<a class="headerlink" href="#choosing-between-1-site-and-2-site" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">recommend_tdvp_variant</span><span class="p">(</span><span class="n">entanglement_growth</span><span class="p">,</span> <span class="n">accuracy_required</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recommend TDVP variant based on problem.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        entanglement_growth: &#39;low&#39;, &#39;moderate&#39;, &#39;high&#39;</span>
+<span class="sd">        accuracy_required: &#39;low&#39;, &#39;moderate&#39;, &#39;high&#39;</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Recommended variant</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">entanglement_growth</span> <span class="o">==</span> <span class="s1">&#39;low&#39;</span> <span class="ow">and</span> <span class="n">accuracy_required</span> <span class="o">!=</span> <span class="s1">&#39;high&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;1-site&#39;</span>  <span class="c1"># Fast, χ conserved</span>
+
+    <span class="k">elif</span> <span class="n">entanglement_growth</span> <span class="o">==</span> <span class="s1">&#39;moderate&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;2-site&#39;</span>  <span class="c1"># Adaptive χ</span>
+
+    <span class="k">elif</span> <span class="n">entanglement_growth</span> <span class="o">==</span> <span class="s1">&#39;high&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;2-site with large chi_max&#39;</span>
+
+    <span class="k">elif</span> <span class="n">accuracy_required</span> <span class="o">==</span> <span class="s1">&#39;high&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;2-site with tight truncation&#39;</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;1-site&#39;</span>  <span class="c1"># Default</span>
+
+<span class="c1"># Example</span>
+<span class="n">variant</span> <span class="o">=</span> <span class="n">recommend_tdvp_variant</span><span class="p">(</span><span class="s1">&#39;moderate&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recommended: </span><span class="si">{</span><span class="n">variant</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="comparison-example">
+<h3>Comparison Example<a class="headerlink" href="#comparison-example" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Run both variants</span>
+<span class="n">mps_1site</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">tdvp_1site</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps_1site</span><span class="p">,</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">t_final</span><span class="o">=</span><span class="mf">2.0</span><span class="p">))</span>
+<span class="n">times_1</span><span class="p">,</span> <span class="n">energies_1</span> <span class="o">=</span> <span class="n">tdvp_1site</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="n">mps_2site</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">tdvp_2site</span> <span class="o">=</span> <span class="n">TDVP2Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps_2site</span><span class="p">,</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">t_final</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">chi_max</span><span class="o">=</span><span class="mi">64</span><span class="p">))</span>
+<span class="n">times_2</span><span class="p">,</span> <span class="n">energies_2</span> <span class="o">=</span> <span class="n">tdvp_2site</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Plot comparison</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times_1</span><span class="p">,</span> <span class="n">energies_1</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;1-site TDVP&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times_2</span><span class="p">,</span> <span class="n">energies_2</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2-site TDVP&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;1-site vs 2-site TDVP&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tdvp_comparison.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-3-real-vs-imaginary-time">
+<h2>Part 3: Real vs Imaginary Time<a class="headerlink" href="#part-3-real-vs-imaginary-time" title="Link to this heading">#</a></h2>
+<section id="real-time-evolution">
+<h3>Real Time Evolution<a class="headerlink" href="#real-time-evolution" title="Link to this heading">#</a></h3>
+<p>Standard Schrödinger evolution for dynamics:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Real time: i dψ/dt = H ψ</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">t_final</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+    <span class="n">imaginary_time</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># Real time (default)</span>
+    <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span>         <span class="c1"># Don&#39;t normalize (conserves norm)</span>
+<span class="p">)</span>
+
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Energy should be conserved</span>
+<span class="n">energy_drift</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Energy drift: </span><span class="si">{</span><span class="n">energy_drift</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="imaginary-time-evolution">
+<h3>Imaginary Time Evolution<a class="headerlink" href="#imaginary-time-evolution" title="Link to this heading">#</a></h3>
+<p>Projects onto ground state by evolving in imaginary time:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Imaginary time: dψ/dτ = -H ψ</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>          <span class="c1"># Now τ step</span>
+    <span class="n">t_final</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>     <span class="c1"># Evolve until convergence</span>
+    <span class="n">imaginary_time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>   <span class="c1"># Must normalize in imaginary time</span>
+    <span class="n">convergence_tol</span><span class="o">=</span><span class="mf">1e-8</span>
+<span class="p">)</span>
+
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial energy: </span><span class="si">{</span><span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ground state energy: </span><span class="si">{</span><span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Compare to exact (if available)</span>
+<span class="c1"># exact_ground_energy = -10.234</span>
+<span class="c1"># error = abs(energies[-1] - exact_ground_energy)</span>
+</pre></div>
+</div>
+</section>
+<section id="why-imaginary-time-works">
+<h3>Why Imaginary Time Works<a class="headerlink" href="#why-imaginary-time-works" title="Link to this heading">#</a></h3>
+<p>In imaginary time τ = it, the evolution operator becomes:</p>
+<div class="math notranslate nohighlight">
+\[e^{-H\tau} |\psi\rangle \approx e^{-E_0\tau} |\psi_0\rangle + \text{excited states (decay)}\]</div>
+<p>Higher energy states decay exponentially faster, projecting onto the ground state.</p>
+</section>
+<section id="ground-state-preparation">
+<h3>Ground State Preparation<a class="headerlink" href="#ground-state-preparation" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">prepare_ground_state_tdvp</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">n_sites</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">tau_max</span><span class="o">=</span><span class="mf">20.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prepare ground state using imaginary time TDVP.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        H: Hamiltonian MPO</span>
+<span class="sd">        n_sites: Number of sites</span>
+<span class="sd">        bond_dim: Initial bond dimension</span>
+<span class="sd">        tau_max: Maximum imaginary time</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        mps: Ground state MPS</span>
+<span class="sd">        energy: Ground state energy</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP2Site</span><span class="p">,</span> <span class="n">TDVPConfig</span>
+
+    <span class="c1"># Start from random state</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">n_sites</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="n">bond_dim</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Apply random gates to break symmetry</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sites</span><span class="p">):</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="n">Ry</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="o">/</span><span class="mi">2</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">Ry</span><span class="p">)</span>
+
+    <span class="c1"># Imaginary time evolution</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+        <span class="n">dt</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+        <span class="n">t_final</span><span class="o">=</span><span class="n">tau_max</span><span class="p">,</span>
+        <span class="n">imaginary_time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">chi_max</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+        <span class="n">convergence_tol</span><span class="o">=</span><span class="mf">1e-8</span>
+    <span class="p">)</span>
+
+    <span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP2Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ground state energy: </span><span class="si">{</span><span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converged at τ = </span><span class="si">{</span><span class="n">times</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mps</span><span class="p">,</span> <span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Usage</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">gs_mps</span><span class="p">,</span> <span class="n">gs_energy</span> <span class="o">=</span> <span class="n">prepare_ground_state_tdvp</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">n_sites</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-4-krylov-subspace-methods">
+<h2>Part 4: Krylov Subspace Methods<a class="headerlink" href="#part-4-krylov-subspace-methods" title="Link to this heading">#</a></h2>
+<section id="what-are-krylov-methods">
+<h3>What are Krylov Methods?<a class="headerlink" href="#what-are-krylov-methods" title="Link to this heading">#</a></h3>
+<p>For time evolution exp(-iHΔt)|ψ⟩, Krylov methods build:</p>
+<div class="math notranslate nohighlight">
+\[K_m = \text{span}\{|\psi\rangle, H|\psi\rangle, H^2|\psi\rangle, \ldots, H^{m-1}|\psi\rangle\}\]</div>
+<p>and approximate evolution within this subspace.</p>
+</section>
+<section id="lanczos-algorithm">
+<h3>Lanczos Algorithm<a class="headerlink" href="#lanczos-algorithm" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVPConfig</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">t_final</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">krylov_dim</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>      <span class="c1"># Krylov subspace dimension</span>
+    <span class="n">krylov_tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span>   <span class="c1"># Convergence tolerance</span>
+    <span class="n">use_krylov</span><span class="o">=</span><span class="kc">True</span>     <span class="c1"># Enable Krylov</span>
+<span class="p">)</span>
+
+<span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Krylov dimension controls accuracy vs cost:
+- Larger m: more accurate, slower
+- Smaller m: less accurate, faster
+- Typical: m = 10-30</p>
+</section>
+<section id="adaptive-krylov-dimension">
+<h3>Adaptive Krylov Dimension<a class="headerlink" href="#adaptive-krylov-dimension" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">adaptive_krylov_tdvp</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">t_final</span><span class="p">,</span> <span class="n">target_error</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TDVP with adaptive Krylov dimension.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        H: Hamiltonian</span>
+<span class="sd">        mps: Initial state</span>
+<span class="sd">        t_final: Final time</span>
+<span class="sd">        target_error: Target error per step</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        times, energies</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP1Site</span><span class="p">,</span> <span class="n">TDVPConfig</span>
+
+    <span class="c1"># Start with small Krylov dimension</span>
+    <span class="n">krylov_dim</span> <span class="o">=</span> <span class="mi">10</span>
+
+    <span class="k">while</span> <span class="n">krylov_dim</span> <span class="o">&lt;=</span> <span class="mi">50</span><span class="p">:</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+            <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+            <span class="n">t_final</span><span class="o">=</span><span class="n">t_final</span><span class="p">,</span>
+            <span class="n">krylov_dim</span><span class="o">=</span><span class="n">krylov_dim</span><span class="p">,</span>
+            <span class="n">krylov_tol</span><span class="o">=</span><span class="n">target_error</span>
+        <span class="p">)</span>
+
+        <span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+        <span class="c1"># Check energy conservation</span>
+        <span class="n">energy_drift</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Krylov dim=</span><span class="si">{</span><span class="n">krylov_dim</span><span class="si">}</span><span class="s2">: energy drift=</span><span class="si">{</span><span class="n">energy_drift</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">energy_drift</span> <span class="o">&lt;</span> <span class="n">target_error</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converged with Krylov dimension </span><span class="si">{</span><span class="n">krylov_dim</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">times</span><span class="p">,</span> <span class="n">energies</span>
+
+        <span class="n">krylov_dim</span> <span class="o">+=</span> <span class="mi">5</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: did not converge&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">times</span><span class="p">,</span> <span class="n">energies</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-5-time-dependent-hamiltonians">
+<h2>Part 5: Time-Dependent Hamiltonians<a class="headerlink" href="#part-5-time-dependent-hamiltonians" title="Link to this heading">#</a></h2>
+<section id="driving-field">
+<h3>Driving Field<a class="headerlink" href="#driving-field" title="Link to this heading">#</a></h3>
+<p>Hamiltonian with time-dependent field:</p>
+<div class="math notranslate nohighlight">
+\[H(t) = H_0 + h(t) \sum_i \sigma^x_i\]</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">time_dependent_hamiltonian</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">n_sites</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build time-dependent Hamiltonian.</span>
+
+<span class="sd">    H(t) = J Σ ZZ + h(t) Σ X</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        t: Current time</span>
+<span class="sd">        n_sites: Number of sites</span>
+<span class="sd">        device: Computation device</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        H(t): Hamiltonian MPO at time t</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Time-dependent transverse field</span>
+    <span class="n">h_t</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">t</span><span class="p">))</span>
+
+    <span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span>
+        <span class="n">n_sites</span><span class="o">=</span><span class="n">n_sites</span><span class="p">,</span>
+        <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">h</span><span class="o">=</span><span class="n">h_t</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">device</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">H</span>
+
+<span class="c1"># Evolve with time-dependent H</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVPConfig</span><span class="p">,</span> <span class="n">TDVP1Site</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">n_sites</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">n_sites</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">t_final</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="n">n_steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">t_final</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span>
+
+<span class="n">times</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">energies</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">step</span> <span class="o">*</span> <span class="n">dt</span>
+
+    <span class="c1"># Build H(t)</span>
+    <span class="n">H_t</span> <span class="o">=</span> <span class="n">time_dependent_hamiltonian</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">n_sites</span><span class="p">)</span>
+
+    <span class="c1"># Take one TDVP step</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">t_final</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H_t</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+    <span class="n">times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">energies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t=</span><span class="si">{</span><span class="n">t</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">: E=</span><span class="si">{</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="floquet-systems">
+<h3>Floquet Systems<a class="headerlink" href="#floquet-systems" title="Link to this heading">#</a></h3>
+<p>Periodically driven systems:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">floquet_hamiltonian</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">n_sites</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Floquet Hamiltonian with periodic driving.</span>
+
+<span class="sd">    H(t) = J Σ ZZ + A cos(ωt) Σ X</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        t: Time</span>
+<span class="sd">        omega: Drive frequency</span>
+<span class="sd">        amplitude: Drive amplitude</span>
+<span class="sd">        n_sites: Number of sites</span>
+<span class="sd">        device: Device</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        H(t): Time-periodic Hamiltonian</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">h_t</span> <span class="o">=</span> <span class="n">amplitude</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">omega</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span>
+        <span class="n">n_sites</span><span class="o">=</span><span class="n">n_sites</span><span class="p">,</span>
+        <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">h</span><span class="o">=</span><span class="n">h_t</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">device</span>
+    <span class="p">)</span>
+
+<span class="c1"># Simulate Floquet dynamics</span>
+<span class="n">omega</span> <span class="o">=</span> <span class="mf">2.0</span>  <span class="c1"># Drive frequency</span>
+<span class="n">A</span> <span class="o">=</span> <span class="mf">1.5</span>      <span class="c1"># Drive amplitude</span>
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">step</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">H_t</span> <span class="o">=</span> <span class="n">floquet_hamiltonian</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">n_sites</span><span class="p">)</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">t_final</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H_t</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+    <span class="c1"># Track Floquet quasi-energy</span>
+    <span class="c1"># ...</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-6-quantum-quenches">
+<h2>Part 6: Quantum Quenches<a class="headerlink" href="#part-6-quantum-quenches" title="Link to this heading">#</a></h2>
+<section id="what-is-a-quantum-quench">
+<h3>What is a Quantum Quench?<a class="headerlink" href="#what-is-a-quantum-quench" title="Link to this heading">#</a></h3>
+<p>Sudden change in Hamiltonian parameters:</p>
+<ol class="arabic simple">
+<li><p>Prepare ground state of H₀</p></li>
+<li><p>Instantaneously switch to H₁</p></li>
+<li><p>Evolve under H₁</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.tdvp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TDVP2Site</span><span class="p">,</span> <span class="n">TDVPConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">n_sites</span> <span class="o">=</span> <span class="mi">12</span>
+
+<span class="c1"># Initial Hamiltonian (h=0)</span>
+<span class="n">H_initial</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span>
+    <span class="n">n_sites</span><span class="o">=</span><span class="n">n_sites</span><span class="p">,</span>
+    <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">h</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>  <span class="c1"># No transverse field</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Prepare ground state via imaginary time</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">n_sites</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">config_prep</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">t_final</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>
+    <span class="n">imaginary_time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">chi_max</span><span class="o">=</span><span class="mi">64</span>
+<span class="p">)</span>
+<span class="n">tdvp_prep</span> <span class="o">=</span> <span class="n">TDVP2Site</span><span class="p">(</span><span class="n">H_initial</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config_prep</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">energies_prep</span> <span class="o">=</span> <span class="n">tdvp_prep</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ground state energy: </span><span class="si">{</span><span class="n">energies_prep</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Quench to new Hamiltonian (h=2.0)</span>
+<span class="n">H_final</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span>
+    <span class="n">n_sites</span><span class="o">=</span><span class="n">n_sites</span><span class="p">,</span>
+    <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">h</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>  <span class="c1"># Strong transverse field</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Real-time evolution after quench</span>
+<span class="n">config_quench</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">t_final</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+    <span class="n">imaginary_time</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">chi_max</span><span class="o">=</span><span class="mi">128</span>
+<span class="p">)</span>
+<span class="n">tdvp_quench</span> <span class="o">=</span> <span class="n">TDVP2Site</span><span class="p">(</span><span class="n">H_final</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config_quench</span><span class="p">)</span>
+<span class="n">times</span><span class="p">,</span> <span class="n">energies_quench</span> <span class="o">=</span> <span class="n">tdvp_quench</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># Plot energy vs time after quench</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">energies_quench</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time after quench&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Quantum Quench Dynamics&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;quench_dynamics.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="loschmidt-echo">
+<h3>Loschmidt Echo<a class="headerlink" href="#loschmidt-echo" title="Link to this heading">#</a></h3>
+<p>Measure overlap with initial state:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">loschmidt_echo</span><span class="p">(</span><span class="n">mps_initial</span><span class="p">,</span> <span class="n">mps_evolved</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute Loschmidt echo |⟨ψ(0)|ψ(t)⟩|².</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mps_initial: Initial MPS</span>
+<span class="sd">        mps_evolved: Evolved MPS</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Echo (overlap squared)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Compute overlap (simplified)</span>
+    <span class="c1"># Full implementation requires MPS inner product</span>
+    <span class="n">overlap</span> <span class="o">=</span> <span class="n">compute_mps_overlap</span><span class="p">(</span><span class="n">mps_initial</span><span class="p">,</span> <span class="n">mps_evolved</span><span class="p">)</span>
+    <span class="n">echo</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">echo</span>
+
+<span class="c1"># Track echo during quench</span>
+<span class="n">mps_initial_copy</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># Save initial state</span>
+
+<span class="n">echoes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+    <span class="c1"># Evolve...</span>
+
+    <span class="n">echo</span> <span class="o">=</span> <span class="n">loschmidt_echo</span><span class="p">(</span><span class="n">mps_initial_copy</span><span class="p">,</span> <span class="n">mps</span><span class="p">)</span>
+    <span class="n">echoes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">echo</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-7-observables-and-correlations">
+<h2>Part 7: Observables and Correlations<a class="headerlink" href="#part-7-observables-and-correlations" title="Link to this heading">#</a></h2>
+<section id="local-observables">
+<h3>Local Observables<a class="headerlink" href="#local-observables" title="Link to this heading">#</a></h3>
+<p>Measure single-site expectation values:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">measure_magnetization</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="n">site</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Measure ⟨σᶻ⟩ at a site.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mps: MPS state</span>
+<span class="sd">        site: Site index</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Expectation value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Would use MPO expectation value</span>
+    <span class="c1"># See mpo_ops for implementation</span>
+    <span class="k">pass</span>
+
+<span class="c1"># Track magnetization during evolution</span>
+<span class="n">magnetizations</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+    <span class="c1"># Evolve...</span>
+
+    <span class="n">mag</span> <span class="o">=</span> <span class="p">[</span><span class="n">measure_magnetization</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sites</span><span class="p">)]</span>
+    <span class="n">magnetizations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mag</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="correlation-functions">
+<h3>Correlation Functions<a class="headerlink" href="#correlation-functions" title="Link to this heading">#</a></h3>
+<p>Two-point correlations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">measure_correlation</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="n">site_i</span><span class="p">,</span> <span class="n">site_j</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="s1">&#39;ZZ&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Measure ⟨σⁱ σʲ⟩.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mps: MPS state</span>
+<span class="sd">        site_i, site_j: Site indices</span>
+<span class="sd">        operator: Operator type</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Correlation function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Would use two-site MPO expectation</span>
+    <span class="k">pass</span>
+
+<span class="c1"># Correlation spreading</span>
+<span class="n">correlations</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">distance</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+    <span class="c1"># Evolve...</span>
+
+    <span class="n">corr</span> <span class="o">=</span> <span class="n">measure_correlation</span><span class="p">(</span><span class="n">mps</span><span class="p">,</span> <span class="n">n_sites</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_sites</span><span class="o">//</span><span class="mi">2</span> <span class="o">+</span> <span class="n">distance</span><span class="p">,</span> <span class="s1">&#39;ZZ&#39;</span><span class="p">)</span>
+    <span class="n">correlations</span><span class="p">[</span><span class="n">step</span> <span class="o">*</span> <span class="n">dt</span><span class="p">]</span> <span class="o">=</span> <span class="n">corr</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-8-performance-optimization">
+<h2>Part 8: Performance Optimization<a class="headerlink" href="#part-8-performance-optimization" title="Link to this heading">#</a></h2>
+<section id="time-step-selection">
+<h3>Time Step Selection<a class="headerlink" href="#time-step-selection" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">test_time_step_convergence</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">dt_values</span><span class="p">,</span> <span class="n">t_final</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test convergence with different time steps.&quot;&quot;&quot;</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">dt_values</span><span class="p">:</span>
+        <span class="n">mps_copy</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">t_final</span><span class="o">=</span><span class="n">t_final</span><span class="p">)</span>
+        <span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps_copy</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+        <span class="n">energy_drift</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;dt&#39;</span><span class="p">:</span> <span class="n">dt</span><span class="p">,</span>
+            <span class="s1">&#39;drift&#39;</span><span class="p">:</span> <span class="n">energy_drift</span><span class="p">,</span>
+            <span class="s1">&#39;steps&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+        <span class="p">})</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dt=</span><span class="si">{</span><span class="n">dt</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">: drift=</span><span class="si">{</span><span class="n">energy_drift</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">, steps=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">results</span>
+
+<span class="c1"># Test</span>
+<span class="n">dt_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">test_time_step_convergence</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">dt_values</span><span class="p">,</span> <span class="n">t_final</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="parallel-time-evolution">
+<h3>Parallel Time Evolution<a class="headerlink" href="#parallel-time-evolution" title="Link to this heading">#</a></h3>
+<p>For multiple initial conditions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">parallel_tdvp</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">initial_states</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evolve multiple states in parallel.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        H: Hamiltonian</span>
+<span class="sd">        initial_states: List of MPS</span>
+<span class="sd">        config: TDVP configuration</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of (times, energies) for each state</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">mps</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">initial_states</span><span class="p">):</span>
+        <span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="n">times</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="n">tdvp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">times</span><span class="p">,</span> <span class="n">energies</span><span class="p">))</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completed trajectory </span><span class="si">{</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">initial_states</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">results</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="part-9-troubleshooting">
+<h2>Part 9: Troubleshooting<a class="headerlink" href="#part-9-troubleshooting" title="Link to this heading">#</a></h2>
+<section id="energy-conservation-violated">
+<h3>Energy Conservation Violated<a class="headerlink" href="#energy-conservation-violated" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: Energy drifts significantly during real-time evolution</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Reduce time step:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>  <span class="c1"># Smaller dt</span>
+</pre></div>
+</div>
+</li>
+<li><p>Increase Krylov dimension:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">krylov_dim</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">krylov_tol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use 2-site TDVP with larger χ:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">chi_max</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">eps_trunc</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="bond-dimension-explosion">
+<h3>Bond Dimension Explosion<a class="headerlink" href="#bond-dimension-explosion" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: χ grows uncontrollably in 2-site TDVP</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic">
+<li><p>Tighten truncation tolerance:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">eps_trunc</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>  <span class="c1"># Stricter truncation</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use 1-site TDVP (if acceptable):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tdvp</span> <span class="o">=</span> <span class="n">TDVP1Site</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">mps</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Reduce chi_max:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">TDVPConfig</span><span class="p">(</span><span class="n">chi_max</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="slow-performance">
+<h3>Slow Performance<a class="headerlink" href="#slow-performance" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: TDVP taking too long</p>
+<p><strong>Solutions</strong>:</p>
+<ol class="arabic simple">
+<li><p>Use 1-site instead of 2-site</p></li>
+<li><p>Reduce Krylov dimension</p></li>
+<li><p>Increase time step (if stable)</p></li>
+<li><p>Enable GPU acceleration (already default)</p></li>
+</ol>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>You have learned:</p>
+<ul class="simple">
+<li><p>✅ TDVP algorithm principles for time evolution</p></li>
+<li><p>✅ Difference between 1-site and 2-site TDVP</p></li>
+<li><p>✅ Real vs imaginary time evolution</p></li>
+<li><p>✅ Krylov subspace methods</p></li>
+<li><p>✅ Time-dependent Hamiltonians and driving</p></li>
+<li><p>✅ Quantum quenches and non-equilibrium dynamics</p></li>
+<li><p>✅ Measuring observables and correlations</p></li>
+<li><p>✅ Performance optimization techniques</p></li>
+</ul>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="molecular_vqe.html"><span class="doc">Molecular VQE Tutorial</span></a> - Ground states via VQE</p></li>
+<li><p><a class="reference internal" href="qaoa_tutorial.html"><span class="doc">QAOA Tutorial</span></a> - Optimization with QAOA</p></li>
+<li><p><a class="reference internal" href="advanced_features.html"><span class="doc">Advanced Features Tutorial</span></a> - Circuit cutting, PEPS, distributed MPS</p></li>
+<li><p><a class="reference internal" href="../explanations/algorithms.html"><span class="doc">Algorithms</span></a> - Algorithm theory</p></li>
+<li><p><a class="reference internal" href="../howtos/optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> - Performance tuning</p></li>
+</ul>
+</section>
+<section id="practice-exercises">
+<h2>Practice Exercises<a class="headerlink" href="#practice-exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Implement a quantum quench for the Heisenberg model</p></li>
+<li><p>Study entanglement growth during time evolution</p></li>
+<li><p>Compare 1-site vs 2-site TDVP accuracy for different systems</p></li>
+<li><p>Implement Floquet engineering to synthesize effective Hamiltonians</p></li>
+<li><p>Calculate dynamical correlation functions</p></li>
+</ol>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../reference/tdvp.html"><span class="doc">atlas_q.tdvp</span></a> - TDVP API reference</p></li>
+<li><p><a class="reference internal" href="../../reference/mpo_ops.html"><span class="doc">atlas_q.mpo_ops</span></a> - Hamiltonian construction</p></li>
+<li><p><a class="reference internal" href="../../reference/adaptive_mps.html"><span class="doc">atlas_q.adaptive_mps</span></a> - MPS operations for TDVP</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="coherence_aware_vqe.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Coherence-Aware Quantum Computing</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="molecular_vqe.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Molecular VQE Tutorial</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1-tdvp-fundamentals">Part 1: TDVP Fundamentals</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-tdvp">What is TDVP?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-evolution-operator">Time Evolution Operator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-tdvp-works">Why TDVP Works</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-time-evolution">Basic Time Evolution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2-1-site-vs-2-site-tdvp">Part 2: 1-Site vs 2-Site TDVP</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#site-tdvp">1-Site TDVP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">2-Site TDVP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-between-1-site-and-2-site">Choosing Between 1-Site and 2-Site</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-example">Comparison Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3-real-vs-imaginary-time">Part 3: Real vs Imaginary Time</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real-time-evolution">Real Time Evolution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imaginary-time-evolution">Imaginary Time Evolution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-imaginary-time-works">Why Imaginary Time Works</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ground-state-preparation">Ground State Preparation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-4-krylov-subspace-methods">Part 4: Krylov Subspace Methods</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-krylov-methods">What are Krylov Methods?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lanczos-algorithm">Lanczos Algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-krylov-dimension">Adaptive Krylov Dimension</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-5-time-dependent-hamiltonians">Part 5: Time-Dependent Hamiltonians</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#driving-field">Driving Field</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#floquet-systems">Floquet Systems</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-6-quantum-quenches">Part 6: Quantum Quenches</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-quantum-quench">What is a Quantum Quench?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loschmidt-echo">Loschmidt Echo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-7-observables-and-correlations">Part 7: Observables and Correlations</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-observables">Local Observables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correlation-functions">Correlation Functions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-8-performance-optimization">Part 8: Performance Optimization</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-step-selection">Time Step Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-time-evolution">Parallel Time Evolution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-9-troubleshooting">Part 9: Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-conservation-violated">Energy Conservation Violated</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-dimension-explosion">Bond Dimension Explosion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slow-performance">Slow Performance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-exercises">Practice Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+﻿atlas\_q.vqe\_qaoa.VQEConfig
+============================
+
+.. currentmodule:: atlas_q.vqe_qaoa
+
+.. autoclass:: VQEConfig
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~VQEConfig.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~VQEConfig.ansatz
+      ~VQEConfig.chi_max
+      ~VQEConfig.device
+      ~VQEConfig.dtype
+      ~VQEConfig.gradient_method
+      ~VQEConfig.max_iter
+      ~VQEConfig.n_layers
+      ~VQEConfig.optimizer
+      ~VQEConfig.tol
+   
+   

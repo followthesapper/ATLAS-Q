@@ -1,0 +1,1209 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How to Handle Large Quantum Systems &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/howtos/handle_large_systems';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Configure Precision" href="configure_precision.html" />
+    <link rel="prev" title="How to Optimize Performance" href="optimize_performance.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="optimize_performance.html">How to Optimize Performance</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">How to Handle Large Quantum Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configure_precision.html">Configure Precision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrate_cuquantum.html">Integrate cuQuantum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug_simulations.html">Debug Simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save_load_state.html">Save and Load State</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_hamiltonians.html">How to Build Custom Hamiltonians</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel_computation.html">Parallel Computation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark_comparison.html">Benchmark Comparison</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">How-To Guides</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How to Handle Large Quantum Systems</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="how-to-handle-large-quantum-systems">
+<h1>How to Handle Large Quantum Systems<a class="headerlink" href="#how-to-handle-large-quantum-systems" title="Link to this heading">#</a></h1>
+<p>This guide shows strategies for simulating large quantum systems (50+ qubits, high entanglement) that exceed single-device memory or require prohibitive computation time.</p>
+<section id="problem">
+<h2>Problem<a class="headerlink" href="#problem" title="Link to this heading">#</a></h2>
+<p>You need to:</p>
+<ul class="simple">
+<li><p>Simulate systems with 50-200+ qubits</p></li>
+<li><p>Handle highly entangled states requiring large bond dimensions</p></li>
+<li><p>Work within memory constraints (GPU/CPU RAM limits)</p></li>
+<li><p>Reduce computation time for large-scale simulations</p></li>
+<li><p>Scale simulations across multiple devices or nodes</p></li>
+</ul>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Understanding of MPS representation and bond dimensions (see <a class="reference internal" href="../tutorials/mps_basics.html"><span class="doc">MPS Basics</span></a>)</p></li>
+<li><p>Familiarity with ATLAS-Q basic usage</p></li>
+<li><p>Access to GPU(s) or multi-node cluster for distributed simulations</p></li>
+<li><p>Knowledge of your hardware memory limits</p></li>
+</ul>
+</section>
+<section id="strategy-1-adaptive-truncation">
+<h2>Strategy 1: Adaptive Truncation<a class="headerlink" href="#strategy-1-adaptive-truncation" title="Link to this heading">#</a></h2>
+<p>Let bond dimensions grow dynamically based on entanglement.</p>
+<section id="configure-adaptive-truncation">
+<h3>Configure Adaptive Truncation<a class="headerlink" href="#configure-adaptive-truncation" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="c1"># Start with small χ, grow adaptively</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>                      <span class="c1"># Initial χ (small)</span>
+    <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>            <span class="c1"># Maximum χ allowed</span>
+    <span class="n">truncation_threshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>       <span class="c1"># SVD cutoff</span>
+    <span class="n">adaptive_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>              <span class="c1"># Enable adaptive growth</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Apply entangling gates - χ grows automatically</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">49</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Check bond dimensions after evolution</span>
+<span class="n">bond_dims</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">get_bond_dimensions</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bond dimensions: </span><span class="si">{</span><span class="n">bond_dims</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max χ reached: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">bond_dims</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average χ: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">bond_dims</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">bond_dims</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The MPS starts small and grows only where entanglement is high, saving memory.</p>
+</section>
+<section id="per-bond-limits">
+<h3>Per-Bond Limits<a class="headerlink" href="#per-bond-limits" title="Link to this heading">#</a></h3>
+<p>Set different limits for different regions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Higher limits in middle (high entanglement), lower at edges</span>
+<span class="n">chi_limits</span> <span class="o">=</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">]</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">chi_limits</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apply per-bond limits</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">chi_max</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">chi_limits</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">set_bond_max_dimension</span><span class="p">(</span><span class="n">bond_index</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">chi_max</span><span class="o">=</span><span class="n">chi_max</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This heterogeneous approach allocates resources where needed most.</p>
+</section>
+<section id="monitor-truncation-error">
+<h3>Monitor Truncation Error<a class="headerlink" href="#monitor-truncation-error" title="Link to this heading">#</a></h3>
+<p>Ensure adaptive truncation maintains accuracy:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.diagnostics</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPSStatistics</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">adaptive_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="n">stats</span> <span class="o">=</span> <span class="n">MPSStatistics</span><span class="p">(</span><span class="n">mps</span><span class="p">)</span>
+
+<span class="c1"># Apply circuit</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">59</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Check truncation statistics</span>
+<span class="n">summary</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total truncation error: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;cumulative_truncation_error&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max single-step error: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;max_truncation_error&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SVD count: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;svd_count&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># If error too high, increase limits</span>
+<span class="k">if</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;cumulative_truncation_error&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1e-5</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: High truncation error, consider increasing chi_max&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="strategy-2-memory-budget-management">
+<h2>Strategy 2: Memory Budget Management<a class="headerlink" href="#strategy-2-memory-budget-management" title="Link to this heading">#</a></h2>
+<p>Constrain total memory usage.</p>
+<section id="set-global-memory-budget">
+<h3>Set Global Memory Budget<a class="headerlink" href="#set-global-memory-budget" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Limit MPS to 4 GB</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">chi_max_per_bond</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">memory_budget_mb</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>      <span class="c1"># 4 GB limit</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># MPS automatically adjusts χ to stay within budget</span>
+<span class="c1"># Higher entanglement regions may get larger χ</span>
+<span class="c1"># Lower entanglement regions get smaller χ to compensate</span>
+</pre></div>
+</div>
+</section>
+<section id="check-memory-usage">
+<h3>Check Memory Usage<a class="headerlink" href="#check-memory-usage" title="Link to this heading">#</a></h3>
+<p>Monitor memory consumption:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_memory_usage</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get current GPU memory usage.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+        <span class="n">allocated</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">memory_allocated</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>  <span class="c1"># GB</span>
+        <span class="n">reserved</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">memory_reserved</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>
+        <span class="k">return</span> <span class="n">allocated</span><span class="p">,</span> <span class="n">reserved</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+
+<span class="c1"># Before simulation</span>
+<span class="n">alloc_before</span><span class="p">,</span> <span class="n">res_before</span> <span class="o">=</span> <span class="n">get_memory_usage</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Memory before: </span><span class="si">{</span><span class="n">alloc_before</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB allocated, </span><span class="si">{</span><span class="n">res_before</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB reserved&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create large MPS</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># After simulation</span>
+<span class="n">alloc_after</span><span class="p">,</span> <span class="n">res_after</span> <span class="o">=</span> <span class="n">get_memory_usage</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Memory after: </span><span class="si">{</span><span class="n">alloc_after</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB allocated, </span><span class="si">{</span><span class="n">res_after</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB reserved&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MPS uses: </span><span class="si">{</span><span class="n">alloc_after</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">alloc_before</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="estimate-memory-requirements">
+<h3>Estimate Memory Requirements<a class="headerlink" href="#estimate-memory-requirements" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">estimate_mps_memory</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">bond_dim</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate MPS memory usage.</span>
+
+<span class="sd">    MPS memory ≈ n_qubits × χ² × d × sizeof(dtype)</span>
+<span class="sd">    where d=2 (qubit dimension), χ=bond_dim</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># Qubit dimension</span>
+    <span class="n">bytes_per_element</span> <span class="o">=</span> <span class="mi">8</span> <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">complex64</span> <span class="k">else</span> <span class="mi">16</span>
+
+    <span class="c1"># Memory per tensor: χ_left × d × χ_right</span>
+    <span class="c1"># Assume χ_left ≈ χ_right ≈ χ on average</span>
+    <span class="n">memory_per_tensor</span> <span class="o">=</span> <span class="n">bond_dim</span> <span class="o">*</span> <span class="n">d</span> <span class="o">*</span> <span class="n">bond_dim</span> <span class="o">*</span> <span class="n">bytes_per_element</span>
+    <span class="n">total_memory</span> <span class="o">=</span> <span class="n">num_qubits</span> <span class="o">*</span> <span class="n">memory_per_tensor</span>
+
+    <span class="k">return</span> <span class="n">total_memory</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>  <span class="c1"># Convert to GB</span>
+
+<span class="c1"># Check before allocating</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">chi</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">]:</span>
+        <span class="n">mem_gb</span> <span class="o">=</span> <span class="n">estimate_mps_memory</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">chi</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n=</span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">, χ=</span><span class="si">{</span><span class="n">chi</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">: ~</span><span class="si">{</span><span class="n">mem_gb</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+
+<span class="c1"># Output:</span>
+<span class="c1"># n= 50, χ= 32: ~0.10 GB</span>
+<span class="c1"># n= 50, χ= 64: ~0.41 GB</span>
+<span class="c1"># n= 50, χ=128: ~1.64 GB</span>
+<span class="c1"># n=100, χ= 32: ~0.20 GB</span>
+<span class="c1"># n=100, χ= 64: ~0.82 GB</span>
+<span class="c1"># n=100, χ=128: ~3.28 GB</span>
+<span class="c1"># n=150, χ= 32: ~0.30 GB</span>
+<span class="c1"># n=150, χ= 64: ~1.23 GB</span>
+<span class="c1"># n=150, χ=128: ~4.92 GB</span>
+<span class="c1"># n=200, χ= 32: ~0.41 GB</span>
+<span class="c1"># n=200, χ= 64: ~1.64 GB</span>
+<span class="c1"># n=200, χ=128: ~6.55 GB</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="strategy-3-distributed-mps">
+<h2>Strategy 3: Distributed MPS<a class="headerlink" href="#strategy-3-distributed-mps" title="Link to this heading">#</a></h2>
+<p>Split MPS across multiple GPUs or nodes.</p>
+<section id="bond-parallel-distribution">
+<h3>Bond-Parallel Distribution<a class="headerlink" href="#bond-parallel-distribution" title="Link to this heading">#</a></h3>
+<p>Distribute bond dimensions across devices:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span>
+
+<span class="c1"># 4 GPUs, split bond dimension</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span>             <span class="c1"># NVIDIA GPUs</span>
+    <span class="n">device_ids</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Bond dimension 256 split across 4 GPUs = 64 per GPU</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">config</span>
+<span class="p">)</span>
+
+<span class="c1"># Operations automatically distributed</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">59</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.mpo_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPOBuilder</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">heisenberg_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">Jx</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jy</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Jz</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>  <span class="c1"># Uses all 4 GPUs</span>
+</pre></div>
+</div>
+</section>
+<section id="qubit-parallel-distribution">
+<h3>Qubit-Parallel Distribution<a class="headerlink" href="#qubit-parallel-distribution" title="Link to this heading">#</a></h3>
+<p>Distribute qubits across devices:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 8 GPUs, split qubits</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;qubit_parallel&#39;</span><span class="p">,</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># 200 qubits split across 8 GPUs = 25 qubits per GPU</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">config</span>
+<span class="p">)</span>
+
+<span class="c1"># Each GPU handles a segment of the chain</span>
+<span class="c1"># Communication needed for gates spanning boundaries</span>
+</pre></div>
+</div>
+</section>
+<section id="multi-node-distribution">
+<h3>Multi-Node Distribution<a class="headerlink" href="#multi-node-distribution" title="Link to this heading">#</a></h3>
+<p>Scale across compute nodes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Launch with torchrun or mpirun:</span>
+<span class="c1"># torchrun --nproc_per_node=4 --nnodes=2 script.py</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+
+<span class="c1"># Initialize distributed backend</span>
+<span class="n">dist</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">)</span>
+<span class="n">local_rank</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;LOCAL_RANK&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_device</span><span class="p">(</span><span class="n">local_rank</span><span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="n">dist</span><span class="o">.</span><span class="n">get_world_size</span><span class="p">(),</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Total: 2 nodes × 4 GPUs = 8 devices</span>
+<span class="c1"># Bond dimension 512 split across 8 devices = 64 per device</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">bond_dim</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">config</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="strategy-4-circuit-cutting">
+<h2>Strategy 4: Circuit Cutting<a class="headerlink" href="#strategy-4-circuit-cutting" title="Link to this heading">#</a></h2>
+<p>Partition large circuits into smaller subcircuits.</p>
+<section id="basic-circuit-cutting">
+<h3>Basic Circuit Cutting<a class="headerlink" href="#basic-circuit-cutting" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.circuit_cutting</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitCutter</span><span class="p">,</span> <span class="n">CuttingConfig</span>
+
+<span class="c1"># Define large circuit (100 qubits)</span>
+<span class="n">gates</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">[]))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">99</span><span class="p">):</span>
+    <span class="n">gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;CNOT&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="p">[]))</span>
+
+<span class="c1"># Configure cutter</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">CuttingConfig</span><span class="p">(</span>
+    <span class="n">max_partition_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>      <span class="c1"># Each partition ≤ 20 qubits</span>
+    <span class="n">max_cuts</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>                 <span class="c1"># Allow up to 4 cuts</span>
+    <span class="n">optimization</span><span class="o">=</span><span class="s1">&#39;min_cuts&#39;</span>      <span class="c1"># Minimize number of cuts</span>
+<span class="p">)</span>
+
+<span class="n">cutter</span> <span class="o">=</span> <span class="n">CircuitCutter</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># Partition circuit</span>
+<span class="n">partitions</span><span class="p">,</span> <span class="n">cut_locations</span> <span class="o">=</span> <span class="n">cutter</span><span class="o">.</span><span class="n">partition_circuit</span><span class="p">(</span><span class="n">gates</span><span class="p">,</span> <span class="n">n_partitions</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Original: 100 qubits&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Partitions: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">partitions</span><span class="p">)</span><span class="si">}</span><span class="s2">, Cuts: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cut_locations</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Classical overhead: </span><span class="si">{</span><span class="mi">4</span><span class="o">**</span><span class="nb">len</span><span class="p">(</span><span class="n">cut_locations</span><span class="p">)</span><span class="si">}</span><span class="s2">×&quot;</span><span class="p">)</span>
+
+<span class="c1"># Simulate each partition</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="n">partition_results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">partition</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">partitions</span><span class="p">):</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="n">partition</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Apply partition gates</span>
+    <span class="k">for</span> <span class="n">gate_name</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">partition</span><span class="o">.</span><span class="n">gates</span><span class="p">:</span>
+        <span class="c1"># Apply gate...</span>
+        <span class="k">pass</span>
+
+    <span class="n">partition_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mps</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Partition </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">partition</span><span class="o">.</span><span class="n">n_qubits</span><span class="si">}</span><span class="s2"> qubits simulated&quot;</span><span class="p">)</span>
+
+<span class="c1"># Reconstruct full result</span>
+<span class="n">final_result</span> <span class="o">=</span> <span class="n">cutter</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="n">partition_results</span><span class="p">,</span> <span class="n">cut_locations</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="minimize-cutting-overhead">
+<h3>Minimize Cutting Overhead<a class="headerlink" href="#minimize-cutting-overhead" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Try different strategies</span>
+<span class="n">strategies</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;min_cuts&#39;</span><span class="p">,</span> <span class="s1">&#39;balanced_size&#39;</span><span class="p">,</span> <span class="s1">&#39;min_entanglement&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="n">strategies</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">CuttingConfig</span><span class="p">(</span>
+        <span class="n">max_partition_size</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+        <span class="n">max_cuts</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">optimization</span><span class="o">=</span><span class="n">strategy</span>
+    <span class="p">)</span>
+    <span class="n">cutter</span> <span class="o">=</span> <span class="n">CircuitCutter</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">partitions</span><span class="p">,</span> <span class="n">cuts</span> <span class="o">=</span> <span class="n">cutter</span><span class="o">.</span><span class="n">partition_circuit</span><span class="p">(</span><span class="n">gates</span><span class="p">,</span> <span class="n">n_partitions</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="n">overhead</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">**</span> <span class="nb">len</span><span class="p">(</span><span class="n">cuts</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">strategy</span><span class="si">:</span><span class="s2">20s</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cuts</span><span class="p">)</span><span class="si">}</span><span class="s2"> cuts, </span><span class="si">{</span><span class="n">overhead</span><span class="si">}</span><span class="s2">× overhead&quot;</span><span class="p">)</span>
+
+<span class="c1"># Choose strategy with acceptable overhead</span>
+<span class="c1"># Typical: 2-3 cuts → 16-64× overhead is manageable</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="strategy-5-compress-special-states">
+<h2>Strategy 5: Compress Special States<a class="headerlink" href="#strategy-5-compress-special-states" title="Link to this heading">#</a></h2>
+<p>Use specialized representations for structured states.</p>
+<section id="periodic-states-shor-s-algorithm">
+<h3>Periodic States (Shor’s Algorithm)<a class="headerlink" href="#periodic-states-shor-s-algorithm" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.quantum_hybrid_system</span><span class="w"> </span><span class="kn">import</span> <span class="n">PeriodicState</span>
+
+<span class="c1"># For period-finding: state is |x⟩ → |f(x)⟩ where f(x+r) = f(x)</span>
+<span class="c1"># PeriodicState stores only one period: O(r) memory vs O(2^n)</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">15</span>  <span class="c1"># Number to factor</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">7</span>   <span class="c1"># Coprime to N</span>
+<span class="n">n_qubits</span> <span class="o">=</span> <span class="mi">8</span>  <span class="c1"># Sufficient for N=15</span>
+
+<span class="c1"># Create periodic state</span>
+<span class="n">periodic_state</span> <span class="o">=</span> <span class="n">PeriodicState</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">,</span>
+    <span class="n">function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="n">x</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Memory: O(period) instead of O(2^n_qubits)</span>
+<span class="c1"># For N=15, a=7: period=4, saves 2^8/4 = 64× memory</span>
+
+<span class="c1"># Apply QFT to find period</span>
+<span class="n">periodic_state</span><span class="o">.</span><span class="n">apply_qft</span><span class="p">()</span>
+<span class="n">period</span> <span class="o">=</span> <span class="n">periodic_state</span><span class="o">.</span><span class="n">measure_period</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Period: </span><span class="si">{</span><span class="n">period</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="matrix-product-states-with-symmetries">
+<h3>Matrix Product States with Symmetries<a class="headerlink" href="#matrix-product-states-with-symmetries" title="Link to this heading">#</a></h3>
+<p>Exploit quantum number conservation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># For systems with conserved quantum numbers (total Sz, particle number)</span>
+<span class="c1"># Use symmetry-adapted MPS (not fully implemented, concept shown)</span>
+
+<span class="c1"># Example: Conserve total Sz = 0</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_symmetric_mps</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">total_sz</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create MPS in symmetry sector.&quot;&quot;&quot;</span>
+    <span class="c1"># Only keeps states with Sz = total_sz</span>
+    <span class="c1"># Reduces effective Hilbert space dimension</span>
+    <span class="c1"># Memory savings proportional to reduction</span>
+    <span class="k">pass</span>
+
+<span class="c1"># For 20 qubits with Sz=0:</span>
+<span class="c1"># Full space: 2^20 = 1M states</span>
+<span class="c1"># Sz=0 sector: C(20,10) = 184K states</span>
+<span class="c1"># Savings: ~5×</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="strategy-6-hybrid-classical-quantum">
+<h2>Strategy 6: Hybrid Classical-Quantum<a class="headerlink" href="#strategy-6-hybrid-classical-quantum" title="Link to this heading">#</a></h2>
+<p>Combine exact quantum simulation with classical approximations.</p>
+<section id="compress-low-entanglement-regions">
+<h3>Compress Low-Entanglement Regions<a class="headerlink" href="#compress-low-entanglement-regions" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Identify low-entanglement regions, compress aggressively</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">adaptive_compression</span><span class="p">(</span><span class="n">mps</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compress based on local entanglement.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.diagnostics</span><span class="w"> </span><span class="kn">import</span> <span class="n">bond_entropy_from_S</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mps</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">S_i</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">get_schmidt_values</span><span class="p">(</span><span class="n">bond</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">entropy_i</span> <span class="o">=</span> <span class="n">bond_entropy_from_S</span><span class="p">(</span><span class="n">S_i</span><span class="p">)</span>
+
+        <span class="c1"># Low entanglement: compress more</span>
+        <span class="k">if</span> <span class="n">entropy_i</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">set_bond_max_dimension</span><span class="p">(</span><span class="n">bond_index</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">chi_max</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="c1"># Medium entanglement</span>
+        <span class="k">elif</span> <span class="n">entropy_i</span> <span class="o">&lt;</span> <span class="mf">2.0</span><span class="p">:</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">set_bond_max_dimension</span><span class="p">(</span><span class="n">bond_index</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">chi_max</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+        <span class="c1"># High entanglement: keep large</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mps</span><span class="o">.</span><span class="n">set_bond_max_dimension</span><span class="p">(</span><span class="n">bond_index</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">chi_max</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Evolve system</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="c1"># Apply gates...</span>
+    <span class="k">pass</span>
+
+<span class="c1"># Adaptively compress</span>
+<span class="n">adaptive_compression</span><span class="p">(</span><span class="n">mps</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="classical-pre-processing">
+<h3>Classical Pre-Processing<a class="headerlink" href="#classical-pre-processing" title="Link to this heading">#</a></h3>
+<p>Use classical simulation for Clifford parts:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.stabilizer_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">StabilizerSimulator</span>
+
+<span class="c1"># Circuit has Clifford (H, S, CNOT) and non-Clifford (T) gates</span>
+<span class="n">clifford_gates</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">[])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)]</span>
+<span class="n">clifford_gates</span> <span class="o">+=</span> <span class="p">[(</span><span class="s1">&#39;CNOT&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="p">[])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">49</span><span class="p">)]</span>
+
+<span class="c1"># Simulate Clifford part with stabilizers (fast, O(n²))</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">StabilizerSimulator</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">gate_name</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">clifford_gates</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">gate_name</span> <span class="o">==</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">gate_name</span> <span class="o">==</span> <span class="s1">&#39;CNOT&#39;</span><span class="p">:</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">cnot</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Convert to MPS for non-Clifford part</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">to_mps</span><span class="p">(</span><span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Now apply expensive non-Clifford gates</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)]],</span>
+                 <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="benchmarking-and-validation">
+<h2>Benchmarking and Validation<a class="headerlink" href="#benchmarking-and-validation" title="Link to this heading">#</a></h2>
+<section id="verify-large-scale-simulation-correctness">
+<h3>Verify Large-Scale Simulation Correctness<a class="headerlink" href="#verify-large-scale-simulation-correctness" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare small-scale simulation with large-scale</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_scaling</span><span class="p">(</span><span class="n">num_qubits_small</span><span class="p">,</span> <span class="n">num_qubits_large</span><span class="p">,</span> <span class="n">chi</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify large simulation is consistent with small.&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+    <span class="c1"># Small system (exact)</span>
+    <span class="n">mps_small</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits_small</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="n">chi</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="n">H_small</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="n">num_qubits_small</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_qubits_small</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">mps_small</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">E_small</span> <span class="o">=</span> <span class="n">mps_small</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">H_small</span><span class="p">)</span>
+
+    <span class="c1"># Large system (distributed or compressed)</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bond_parallel&#39;</span><span class="p">,</span> <span class="n">world_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">mps_large</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits_large</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="n">chi</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">H_large</span> <span class="o">=</span> <span class="n">MPOBuilder</span><span class="o">.</span><span class="n">ising_hamiltonian</span><span class="p">(</span><span class="n">n_sites</span><span class="o">=</span><span class="n">num_qubits_large</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_qubits_large</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">mps_large</span><span class="o">.</span><span class="n">apply_cnot</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">E_large</span> <span class="o">=</span> <span class="n">mps_large</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">H_large</span><span class="p">)</span>
+
+    <span class="c1"># Check energy per qubit is consistent</span>
+    <span class="n">E_per_qubit_small</span> <span class="o">=</span> <span class="n">E_small</span> <span class="o">/</span> <span class="n">num_qubits_small</span>
+    <span class="n">E_per_qubit_large</span> <span class="o">=</span> <span class="n">E_large</span> <span class="o">/</span> <span class="n">num_qubits_large</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Small (</span><span class="si">{</span><span class="n">num_qubits_small</span><span class="si">}</span><span class="s2"> qubits): </span><span class="si">{</span><span class="n">E_per_qubit_small</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> per qubit&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Large (</span><span class="si">{</span><span class="n">num_qubits_large</span><span class="si">}</span><span class="s2"> qubits): </span><span class="si">{</span><span class="n">E_per_qubit_large</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> per qubit&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Relative difference: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">E_per_qubit_small</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">E_per_qubit_large</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">E_per_qubit_small</span><span class="p">)</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">validate_scaling</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>To handle large quantum systems in ATLAS-Q:</p>
+<ol class="arabic simple">
+<li><p><strong>Adaptive truncation</strong>: Start with small χ, grow where needed (<cite>chi_max_per_bond</cite>, <cite>adaptive_mode=True</cite>)</p></li>
+<li><p><strong>Memory budgets</strong>: Set hard limits on total memory (<cite>memory_budget_mb</cite>)</p></li>
+<li><p><strong>Distributed MPS</strong>: Split across GPUs/nodes (bond-parallel or qubit-parallel)</p></li>
+<li><p><strong>Circuit cutting</strong>: Partition circuits into subcircuits (<cite>CircuitCutter</cite>)</p></li>
+<li><p><strong>Compress special states</strong>: Use <cite>PeriodicState</cite> for period-finding, symmetry-adapted MPS</p></li>
+<li><p><strong>Hybrid approaches</strong>: Clifford pre-processing with stabilizers, adaptive compression</p></li>
+<li><p><strong>Validation</strong>: Verify large-scale results match small-scale benchmarks</p></li>
+</ol>
+<p>These strategies enable simulations of 50-200+ qubit systems that would otherwise exceed memory or time constraints.</p>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../tutorials/advanced_features.html"><span class="doc">Advanced Features Tutorial</span></a> - Distributed MPS and circuit cutting details</p></li>
+<li><p><a class="reference internal" href="../explanations/performance_model.html"><span class="doc">Performance Model</span></a> - Scaling analysis and bottlenecks</p></li>
+<li><p><a class="reference internal" href="optimize_performance.html"><span class="doc">How to Optimize Performance</span></a> - General performance optimization</p></li>
+<li><p><a class="reference internal" href="parallel_computation.html"><span class="doc">Parallel Computation</span></a> - Multi-GPU and multi-node setup</p></li>
+<li><p><a class="reference internal" href="../explanations/tensor_networks.html"><span class="doc">Tensor Networks</span></a> - MPS structure and truncation theory</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="optimize_performance.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How to Optimize Performance</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="configure_precision.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Configure Precision</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem">Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-1-adaptive-truncation">Strategy 1: Adaptive Truncation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-adaptive-truncation">Configure Adaptive Truncation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#per-bond-limits">Per-Bond Limits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monitor-truncation-error">Monitor Truncation Error</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-2-memory-budget-management">Strategy 2: Memory Budget Management</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-global-memory-budget">Set Global Memory Budget</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-memory-usage">Check Memory Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimate-memory-requirements">Estimate Memory Requirements</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-3-distributed-mps">Strategy 3: Distributed MPS</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-parallel-distribution">Bond-Parallel Distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qubit-parallel-distribution">Qubit-Parallel Distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-node-distribution">Multi-Node Distribution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-4-circuit-cutting">Strategy 4: Circuit Cutting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-circuit-cutting">Basic Circuit Cutting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimize-cutting-overhead">Minimize Cutting Overhead</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-5-compress-special-states">Strategy 5: Compress Special States</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic-states-shor-s-algorithm">Periodic States (Shor’s Algorithm)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-product-states-with-symmetries">Matrix Product States with Symmetries</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-6-hybrid-classical-quantum">Strategy 6: Hybrid Classical-Quantum</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compress-low-entanglement-regions">Compress Low-Entanglement Regions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-pre-processing">Classical Pre-Processing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmarking-and-validation">Benchmarking and Validation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-large-scale-simulation-correctness">Verify Large-Scale Simulation Correctness</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

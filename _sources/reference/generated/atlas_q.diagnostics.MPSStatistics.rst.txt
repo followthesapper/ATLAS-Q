@@ -1,0 +1,26 @@
+﻿atlas\_q.diagnostics.MPSStatistics
+==================================
+
+.. currentmodule:: atlas_q.diagnostics
+
+.. autoclass:: MPSStatistics
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~MPSStatistics.__init__
+      ~MPSStatistics.global_error_bound
+      ~MPSStatistics.record
+      ~MPSStatistics.reset
+      ~MPSStatistics.summary
+   
+   
+
+   
+   
+   

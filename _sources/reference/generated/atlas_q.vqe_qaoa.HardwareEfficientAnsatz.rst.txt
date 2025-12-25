@@ -1,0 +1,25 @@
+﻿atlas\_q.vqe\_qaoa.HardwareEfficientAnsatz
+==========================================
+
+.. currentmodule:: atlas_q.vqe_qaoa
+
+.. autoclass:: HardwareEfficientAnsatz
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~HardwareEfficientAnsatz.__init__
+      ~HardwareEfficientAnsatz.apply
+      ~HardwareEfficientAnsatz.get_param_shift
+      ~HardwareEfficientAnsatz.prepare_hf_state
+   
+   
+
+   
+   
+   

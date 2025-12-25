@@ -1,0 +1,29 @@
+﻿atlas\_q.adaptive\_mps.DTypePolicy
+==================================
+
+.. currentmodule:: atlas_q.adaptive_mps
+
+.. autoclass:: DTypePolicy
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DTypePolicy.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DTypePolicy.default
+      ~DTypePolicy.promote_if_cond_gt
+   
+   

@@ -1,0 +1,1454 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Noise Models &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/noise_models';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="PEPS (2D Tensor Networks)" href="peps.html" />
+    <link rel="prev" title="atlas_q.stabilizer_backend.is_clifford_gate" href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="adaptive_mps.html">atlas_q.adaptive_mps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mpo_ops.html">atlas_q.mpo_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPOBuilder.html">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tdvp.html">atlas_q.tdvp</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="vqe_qaoa.html">atlas_q.vqe_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="grover.html">atlas_q.grover</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="stabilizer_backend.html">atlas_q.stabilizer_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planar_2d.html">2D/Planar Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributed_mps.html">Distributed MPS</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cuquantum_backend.html">atlas_q.cuquantum_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="diagnostics.html">atlas_q.diagnostics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linalg_robust.html">atlas_q.linalg_robust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="truncation.html">atlas_q.truncation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Noise Models</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="noise-models">
+<h1>Noise Models<a class="headerlink" href="#noise-models" title="Link to this heading">#</a></h1>
+<p>NISQ-era quantum noise simulation with Kraus operators and density matrix evolution.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">noise_models</span></code> module implements realistic quantum noise channels for <strong>NISQ (Noisy Intermediate-Scale Quantum)</strong> device simulation. Noise is essential for understanding the behavior of real quantum hardware, which suffers from decoherence, gate errors, and measurement errors.</p>
+<section id="key-features">
+<h3>Key Features<a class="headerlink" href="#key-features" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Physical noise models</strong>: T1 relaxation, T2 dephasing, thermal noise</p></li>
+<li><p><strong>Gate error models</strong>: Depolarizing, bit flip, phase flip</p></li>
+<li><p><strong>Kraus representation</strong>: Efficient superoperator formulation</p></li>
+<li><p><strong>MPO compatibility</strong>: Noise channels as Matrix Product Operators</p></li>
+<li><p><strong>GPU acceleration</strong>: CUDA-enabled noise application</p></li>
+<li><p><strong>Stochastic sampling</strong>: Monte Carlo trajectory simulation</p></li>
+</ul>
+<p>NISQ devices are characterized by:</p>
+<ol class="arabic simple">
+<li><p><strong>Limited coherence</strong>: T1 (50-150 μs), T2 (30-100 μs)</p></li>
+<li><p><strong>Gate errors</strong>: 0.1-1% for single-qubit gates, 1-5% for two-qubit gates</p></li>
+<li><p><strong>Measurement errors</strong>: 1-5% readout error</p></li>
+<li><p><strong>No error correction</strong>: Too few qubits for QEC codes</p></li>
+</ol>
+<p>ATLAS-Q simulates these effects using <strong>quantum channels</strong> represented as Kraus operators.</p>
+</section>
+</section>
+<section id="mathematical-background">
+<h2>Mathematical Background<a class="headerlink" href="#mathematical-background" title="Link to this heading">#</a></h2>
+<section id="quantum-channels">
+<h3>Quantum Channels<a class="headerlink" href="#quantum-channels" title="Link to this heading">#</a></h3>
+<p>A quantum channel Φ maps density matrices to density matrices:</p>
+<div class="math notranslate nohighlight">
+\[\Phi: \rho \mapsto \sum_{i=1}^k K_i \rho K_i^\dagger\]</div>
+<p>where <span class="math notranslate nohighlight">\(\{K_i\}\)</span> are <strong>Kraus operators</strong> satisfying the completeness relation:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^k K_i^\dagger K_i = I\]</div>
+<p>This ensures trace preservation: <span class="math notranslate nohighlight">\(\text{Tr}(\Phi(\rho)) = \text{Tr}(\rho) = 1\)</span>.</p>
+</section>
+<section id="depolarizing-channel">
+<h3>Depolarizing Channel<a class="headerlink" href="#depolarizing-channel" title="Link to this heading">#</a></h3>
+<p>The depolarizing channel with probability p:</p>
+<div class="math notranslate nohighlight">
+\[\Phi_{\text{depol}}(\rho) = (1-p)\rho + \frac{p}{d}I\]</div>
+<p>For 1-qubit (d=2):</p>
+<div class="math notranslate nohighlight">
+\[\Phi(\rho) = (1-p)\rho + \frac{p}{4}(X\rho X + Y\rho Y + Z\rho Z + \rho)\]</div>
+<p><strong>Kraus operators</strong> (stochastic Pauli):</p>
+<div class="math notranslate nohighlight">
+\[K_0 = \sqrt{1-\frac{3p}{4}}I, \quad K_1 = \sqrt{\frac{p}{4}}X, \quad K_2 = \sqrt{\frac{p}{4}}Y, \quad K_3 = \sqrt{\frac{p}{4}}Z\]</div>
+</section>
+<section id="amplitude-damping-t1">
+<h3>Amplitude Damping (T1)<a class="headerlink" href="#amplitude-damping-t1" title="Link to this heading">#</a></h3>
+<p>Models energy relaxation from <a href="#id1"><span class="problematic" id="id2">|</span></a>1⟩ to <a href="#id3"><span class="problematic" id="id4">|</span></a>0⟩ with rate γ = 1/T1:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}K_0 = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; \sqrt{1-\gamma} \end{pmatrix}, \quad
+K_1 = \begin{pmatrix} 0 &amp; \sqrt{\gamma} \\ 0 &amp; 0 \end{pmatrix}\end{split}\]</div>
+<p>where γ = 1 - exp(-gate_time/T1).</p>
+</section>
+<section id="dephasing-t2">
+<h3>Dephasing (T2)<a class="headerlink" href="#dephasing-t2" title="Link to this heading">#</a></h3>
+<p>Models phase randomization without energy loss:</p>
+<div class="math notranslate nohighlight">
+\[K_0 = \sqrt{1-\lambda} I, \quad K_1 = \sqrt{\lambda} Z\]</div>
+<p>where λ = 1 - exp(-gate_time/T2).</p>
+</section>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+</section>
+<section id="noisechannel">
+<h2>NoiseChannel<a class="headerlink" href="#noisechannel" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseChannel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.noise_models.</span></span><span class="sig-name descname"><span class="pre">NoiseChannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kraus_ops</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_qubits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/noise_models.html#NoiseChannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.noise_models.NoiseChannel" title="Link to this definition">#</a></dt>
+<dd><p>A quantum noise channel represented as Kraus operators.</p>
+<p>Validates completeness relation and provides methods for applying noise to quantum states.</p>
+<p><strong>Constructor</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.noise_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseChannel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Bit flip channel: p·X + (1-p)·I</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">kraus_ops</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span> <span class="o">*</span> <span class="n">I</span><span class="p">,</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span> <span class="o">*</span> <span class="n">X</span>
+<span class="p">]</span>
+
+<span class="n">channel</span> <span class="o">=</span> <span class="n">NoiseChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;bit_flip&#39;</span><span class="p">,</span> <span class="n">kraus_ops</span><span class="o">=</span><span class="n">kraus_ops</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Parameters</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (str): Human-readable channel name</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kraus_ops</span></code> (list[torch.Tensor]): List of Kraus operator matrices</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_qubits</span></code> (int): Number of qubits (1 or 2)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Validation</strong>: Automatically checks <span class="math notranslate nohighlight">\(\sum_i K_i^\dagger K_i = I\)</span> (warns if violated)</p>
+<p><strong>Attributes</strong>:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseChannel.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#atlas_q.noise_models.NoiseChannel.name" title="Link to this definition">#</a></dt>
+<dd><p>Channel name (str)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseChannel.kraus_ops">
+<span class="sig-name descname"><span class="pre">kraus_ops</span></span><a class="headerlink" href="#atlas_q.noise_models.NoiseChannel.kraus_ops" title="Link to this definition">#</a></dt>
+<dd><p>List of Kraus operator tensors (list[torch.Tensor])</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseChannel.num_qubits">
+<span class="sig-name descname"><span class="pre">num_qubits</span></span><a class="headerlink" href="#atlas_q.noise_models.NoiseChannel.num_qubits" title="Link to this definition">#</a></dt>
+<dd><p>Number of qubits affected (int)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseChannel.is_valid">
+<span class="sig-name descname"><span class="pre">is_valid</span></span><a class="headerlink" href="#atlas_q.noise_models.NoiseChannel.is_valid" title="Link to this definition">#</a></dt>
+<dd><p>Whether completeness relation is satisfied (bool)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="noisemodel">
+<h2>NoiseModel<a class="headerlink" href="#noisemodel" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseModel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.noise_models.</span></span><span class="sig-name descname"><span class="pre">NoiseModel</span></span><a class="reference internal" href="../_modules/atlas_q/noise_models.html#NoiseModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.noise_models.NoiseModel" title="Link to this definition">#</a></dt>
+<dd><p>Collection of noise channels applied to quantum circuits.</p>
+<p>Manages multiple noise channels for different gate types and provides factory methods for common NISQ noise models.</p>
+<p><strong>Constructor</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.noise_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseModel</span>
+
+<span class="n">noise</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Attributes</strong>:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseModel.channels_1q">
+<span class="sig-name descname"><span class="pre">channels_1q</span></span><a class="headerlink" href="#atlas_q.noise_models.NoiseModel.channels_1q" title="Link to this definition">#</a></dt>
+<dd><p>Dictionary of 1-qubit noise channels: <code class="docutils literal notranslate"><span class="pre">{name:</span> <span class="pre">NoiseChannel}</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseModel.channels_2q">
+<span class="sig-name descname"><span class="pre">channels_2q</span></span><a class="headerlink" href="#atlas_q.noise_models.NoiseModel.channels_2q" title="Link to this definition">#</a></dt>
+<dd><p>Dictionary of 2-qubit noise channels: <code class="docutils literal notranslate"><span class="pre">{name:</span> <span class="pre">NoiseChannel}</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseModel.custom_channels">
+<span class="sig-name descname"><span class="pre">custom_channels</span></span><a class="headerlink" href="#atlas_q.noise_models.NoiseModel.custom_channels" title="Link to this definition">#</a></dt>
+<dd><p>Dictionary mapping qubit tuples to custom channels: <code class="docutils literal notranslate"><span class="pre">{(q1,</span> <span class="pre">q2):</span> <span class="pre">NoiseChannel}</span></code></p>
+</dd></dl>
+
+<p><strong>Methods</strong>:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseModel.set_seed">
+<span class="sig-name descname"><span class="pre">set_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/noise_models.html#NoiseModel.set_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.noise_models.NoiseModel.set_seed" title="Link to this definition">#</a></dt>
+<dd><p>Set random seed for stochastic Kraus operator sampling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Random seed</p>
+</dd>
+</dl>
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">noise</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># Reproducible noise</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseModel.add_1q_channel">
+<span class="sig-name descname"><span class="pre">add_1q_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/noise_models.html#NoiseModel.add_1q_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.noise_models.NoiseModel.add_1q_channel" title="Link to this definition">#</a></dt>
+<dd><p>Add a 1-qubit noise channel to the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Channel name</p></li>
+<li><p><strong>channel</strong> (<a class="reference internal" href="#atlas_q.noise_models.NoiseChannel" title="atlas_q.noise_models.NoiseChannel"><em>NoiseChannel</em></a>) – Noise channel</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">noise</span><span class="o">.</span><span class="n">add_1q_channel</span><span class="p">(</span><span class="s1">&#39;custom_depol&#39;</span><span class="p">,</span> <span class="n">my_channel</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseModel.add_2q_channel">
+<span class="sig-name descname"><span class="pre">add_2q_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/noise_models.html#NoiseModel.add_2q_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.noise_models.NoiseModel.add_2q_channel" title="Link to this definition">#</a></dt>
+<dd><p>Add a 2-qubit noise channel to the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Channel name</p></li>
+<li><p><strong>channel</strong> (<a class="reference internal" href="#atlas_q.noise_models.NoiseChannel" title="atlas_q.noise_models.NoiseChannel"><em>NoiseChannel</em></a>) – Noise channel</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseModel.depolarizing">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">depolarizing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/noise_models.html#NoiseModel.depolarizing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.noise_models.NoiseModel.depolarizing" title="Link to this definition">#</a></dt>
+<dd><p>Create depolarizing noise model.</p>
+<p>Applies uniform noise: ρ → (1-p)ρ + p·I/d</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p1q</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Single-qubit depolarizing probability (default: 0.001)</p></li>
+<li><p><strong>p2q</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Two-qubit depolarizing probability (default: 0.01)</p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Torch device (‘cuda’ or ‘cpu’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>NoiseModel with depolarizing channels</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#atlas_q.noise_models.NoiseModel" title="atlas_q.noise_models.NoiseModel">NoiseModel</a></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt><strong>Typical values</strong>:</dt><dd><ul class="simple">
+<li><p>IBM Quantum: p1q ≈ 0.001, p2q ≈ 0.01</p></li>
+<li><p>Google Sycamore: p1q ≈ 0.0015, p2q ≈ 0.005</p></li>
+<li><p>Ion traps: p1q ≈ 0.0001, p2q ≈ 0.001</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.noise_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseModel</span>
+
+<span class="c1"># IBM quantum device noise</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">depolarizing</span><span class="p">(</span><span class="n">p1q</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">p2q</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseModel.dephasing">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dephasing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/noise_models.html#NoiseModel.dephasing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.noise_models.NoiseModel.dephasing" title="Link to this definition">#</a></dt>
+<dd><p>Create dephasing noise model (T2 decoherence).</p>
+<p>Models pure dephasing without energy relaxation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Dephasing time (μs)</p></li>
+<li><p><strong>gate_time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Gate duration (μs)</p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Torch device</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>NoiseModel with dephasing channels</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#atlas_q.noise_models.NoiseModel" title="atlas_q.noise_models.NoiseModel">NoiseModel</a></p>
+</dd>
+</dl>
+<p><strong>Formula</strong>: λ = 1 - exp(-gate_time/T2)</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># T2 = 80 μs, 50 ns gates</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">dephasing</span><span class="p">(</span><span class="n">T2</span><span class="o">=</span><span class="mf">80.0</span><span class="p">,</span> <span class="n">gate_time</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseModel.amplitude_damping">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">amplitude_damping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/noise_models.html#NoiseModel.amplitude_damping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.noise_models.NoiseModel.amplitude_damping" title="Link to this definition">#</a></dt>
+<dd><p>Create amplitude damping model (T1 relaxation).</p>
+<p>Models energy relaxation from <a href="#id5"><span class="problematic" id="id6">|</span></a>1⟩ to <a href="#id7"><span class="problematic" id="id8">|</span></a>0⟩.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Relaxation time (μs)</p></li>
+<li><p><strong>gate_time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Gate duration (μs)</p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Torch device</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>NoiseModel with amplitude damping</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#atlas_q.noise_models.NoiseModel" title="atlas_q.noise_models.NoiseModel">NoiseModel</a></p>
+</dd>
+</dl>
+<p><strong>Formula</strong>: γ = 1 - exp(-gate_time/T1)</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># T1 = 100 μs, 50 ns gates</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">amplitude_damping</span><span class="p">(</span><span class="n">T1</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">gate_time</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.noise_models.NoiseModel.thermal_relaxation">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">thermal_relaxation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/noise_models.html#NoiseModel.thermal_relaxation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.noise_models.NoiseModel.thermal_relaxation" title="Link to this definition">#</a></dt>
+<dd><p>Combined T1 and T2 noise model.</p>
+<p>Realistic NISQ device noise combining amplitude damping and dephasing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Relaxation time (μs)</p></li>
+<li><p><strong>T2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Dephasing time (μs, must satisfy T2 ≤ 2T1)</p></li>
+<li><p><strong>gate_time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Gate duration (μs)</p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Torch device</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>NoiseModel combining T1 and T2 effects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#atlas_q.noise_models.NoiseModel" title="atlas_q.noise_models.NoiseModel">NoiseModel</a></p>
+</dd>
+</dl>
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># IBM quantum device</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">thermal_relaxation</span><span class="p">(</span><span class="n">T1</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">T2</span><span class="o">=</span><span class="mf">80.0</span><span class="p">,</span> <span class="n">gate_time</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="performance-characteristics">
+<h2>Performance Characteristics<a class="headerlink" href="#performance-characteristics" title="Link to this heading">#</a></h2>
+<section id="computational-complexity">
+<h3>Computational Complexity<a class="headerlink" href="#computational-complexity" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operation</p></th>
+<th class="head"><p>Complexity</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Apply 1-qubit channel</p></td>
+<td><p>O(k χ²)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apply 2-qubit channel</p></td>
+<td><p>O(k χ³)</p></td>
+</tr>
+<tr class="row-even"><td><p>Stochastic sampling</p></td>
+<td><p>O(k)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Completeness check</p></td>
+<td><p>O(k d²)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>where k is number of Kraus operators, χ is bond dimension, d is local dimension.</p>
+</section>
+<section id="memory-overhead">
+<h3>Memory Overhead<a class="headerlink" href="#memory-overhead" title="Link to this heading">#</a></h3>
+<p>Noise simulation increases memory usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Noiseless MPS: O(n χ²)</span>
+<span class="c1"># Noisy MPS: O(n χ² + k·d²) per channel</span>
+
+<span class="c1"># Example: 50 qubits, χ=128, 4 Kraus operators</span>
+<span class="n">Noiseless</span><span class="p">:</span> <span class="mi">78</span> <span class="n">MB</span>
+<span class="n">Noisy</span><span class="p">:</span> <span class="mi">78</span> <span class="n">MB</span> <span class="o">+</span> <span class="mf">0.001</span> <span class="n">MB</span> <span class="p">(</span><span class="n">negligible</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Result</strong>: Kraus operator storage is negligible compared to MPS tensors.</p>
+</section>
+<section id="benchmark-results">
+<h3>Benchmark Results<a class="headerlink" href="#benchmark-results" title="Link to this heading">#</a></h3>
+<p>From <code class="docutils literal notranslate"><span class="pre">scripts/benchmarks/validate_all_features.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 50-qubit circuit with 1000 gates</span>
+<span class="n">Noiseless</span><span class="p">:</span> <span class="mf">2.5</span> <span class="n">sec</span>
+<span class="n">Depolarizing</span> <span class="p">(</span><span class="n">p1q</span><span class="o">=</span><span class="mf">0.001</span><span class="p">):</span> <span class="mf">2.8</span> <span class="n">sec</span> <span class="p">(</span><span class="mi">12</span><span class="o">%</span> <span class="n">overhead</span><span class="p">)</span>
+<span class="n">Thermal</span> <span class="p">(</span><span class="n">T1</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">T2</span><span class="o">=</span><span class="mi">80</span><span class="p">):</span> <span class="mf">3.1</span> <span class="n">sec</span> <span class="p">(</span><span class="mi">24</span><span class="o">%</span> <span class="n">overhead</span><span class="p">)</span>
+
+<span class="c1"># Memory usage</span>
+<span class="n">Noiseless</span><span class="p">:</span> <span class="mi">78</span> <span class="n">MB</span>
+<span class="n">Noisy</span><span class="p">:</span> <span class="mf">78.2</span> <span class="n">MB</span> <span class="p">(</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">%</span> <span class="n">increase</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Conclusion</strong>: Noise simulation adds 10-30% computational overhead with minimal memory impact.</p>
+</section>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<section id="depolarizing-noise">
+<h3>Depolarizing Noise<a class="headerlink" href="#depolarizing-noise" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.noise_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Create noise model (IBM quantum device parameters)</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">depolarizing</span><span class="p">(</span><span class="n">p1q</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">p2q</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create MPS</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apply gates with noise</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="c1"># Apply Hadamard gate</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+
+    <span class="c1"># Apply noise after gate</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_noise_channel</span><span class="p">(</span><span class="n">noise</span><span class="o">.</span><span class="n">channels_1q</span><span class="p">[</span><span class="s1">&#39;depolarizing_1q&#39;</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+
+<span class="c1"># Apply two-qubit gates with noise</span>
+<span class="n">CNOT</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span>
+                    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_two_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">CNOT</span><span class="p">)</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_noise_channel</span><span class="p">(</span><span class="n">noise</span><span class="o">.</span><span class="n">channels_2q</span><span class="p">[</span><span class="s1">&#39;depolarizing_2q&#39;</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="thermal-relaxation-t1-and-t2">
+<h3>Thermal Relaxation (T1 and T2)<a class="headerlink" href="#thermal-relaxation-t1-and-t2" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.noise_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+
+<span class="c1"># IBM quantum device parameters (approximate)</span>
+<span class="n">T1</span> <span class="o">=</span> <span class="mf">100.0</span>       <span class="c1"># Relaxation time (μs)</span>
+<span class="n">T2</span> <span class="o">=</span> <span class="mf">80.0</span>        <span class="c1"># Dephasing time (μs)</span>
+<span class="n">gate_time</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="c1"># Gate duration (50 ns)</span>
+
+<span class="n">noise</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">thermal_relaxation</span><span class="p">(</span><span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">,</span> <span class="n">gate_time</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Simulate noisy circuit</span>
+<span class="c1"># ... apply gates with noise ...</span>
+
+<span class="c1"># Compare fidelity with noiseless simulation</span>
+<span class="n">fidelity</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mps_noisy</span><span class="o">.</span><span class="n">inner_product</span><span class="p">(</span><span class="n">mps_ideal</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fidelity: </span><span class="si">{</span><span class="n">fidelity</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-pauli-channel">
+<h3>Custom Pauli Channel<a class="headerlink" href="#custom-pauli-channel" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.noise_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseChannel</span><span class="p">,</span> <span class="n">NoiseModel</span>
+
+<span class="c1"># Create custom Pauli channel: p_x X + p_y Y + p_z Z</span>
+<span class="n">p_x</span><span class="p">,</span> <span class="n">p_y</span><span class="p">,</span> <span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span>
+
+<span class="n">I</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">kraus_ops</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p_x</span> <span class="o">-</span> <span class="n">p_y</span> <span class="o">-</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span> <span class="o">*</span> <span class="n">I</span><span class="p">,</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">p_x</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span> <span class="o">*</span> <span class="n">X</span><span class="p">,</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p_y</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span> <span class="o">*</span> <span class="n">Y</span><span class="p">,</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">p_z</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span> <span class="o">*</span> <span class="n">Z</span>
+<span class="p">]</span>
+
+<span class="n">channel</span> <span class="o">=</span> <span class="n">NoiseChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;custom_pauli&#39;</span><span class="p">,</span> <span class="n">kraus_ops</span><span class="o">=</span><span class="n">kraus_ops</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add_1q_channel</span><span class="p">(</span><span class="s1">&#39;custom&#39;</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="bit-flip-and-phase-flip">
+<h3>Bit Flip and Phase Flip<a class="headerlink" href="#bit-flip-and-phase-flip" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.noise_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseChannel</span><span class="p">,</span> <span class="n">NoiseModel</span>
+
+<span class="c1"># Bit flip channel: p·X + (1-p)·I</span>
+<span class="n">p_bit</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">bit_flip</span> <span class="o">=</span> <span class="n">NoiseChannel</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bit_flip&#39;</span><span class="p">,</span>
+    <span class="n">kraus_ops</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p_bit</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span> <span class="o">*</span> <span class="n">I</span><span class="p">,</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">p_bit</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span> <span class="o">*</span> <span class="n">X</span>
+    <span class="p">],</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="c1"># Phase flip channel: p·Z + (1-p)·I</span>
+<span class="n">p_phase</span> <span class="o">=</span> <span class="mf">0.005</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">phase_flip</span> <span class="o">=</span> <span class="n">NoiseChannel</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;phase_flip&#39;</span><span class="p">,</span>
+    <span class="n">kraus_ops</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p_phase</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span> <span class="o">*</span> <span class="n">I</span><span class="p">,</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">p_phase</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span> <span class="o">*</span> <span class="n">Z</span>
+    <span class="p">],</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="c1"># Combine into noise model</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="p">()</span>
+<span class="n">noise</span><span class="o">.</span><span class="n">add_1q_channel</span><span class="p">(</span><span class="s1">&#39;bit_flip&#39;</span><span class="p">,</span> <span class="n">bit_flip</span><span class="p">)</span>
+<span class="n">noise</span><span class="o">.</span><span class="n">add_1q_channel</span><span class="p">(</span><span class="s1">&#39;phase_flip&#39;</span><span class="p">,</span> <span class="n">phase_flip</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="comparing-noisy-vs-noiseless">
+<h3>Comparing Noisy vs. Noiseless<a class="headerlink" href="#comparing-noisy-vs-noiseless" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.noise_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Create two MPS: noiseless and noisy</span>
+<span class="n">mps_ideal</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">mps_noisy</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">noise</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">depolarizing</span><span class="p">(</span><span class="n">p1q</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">p2q</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Apply same gates to both</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="c1"># Noiseless</span>
+    <span class="n">mps_ideal</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+
+    <span class="c1"># Noisy</span>
+    <span class="n">mps_noisy</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+    <span class="n">mps_noisy</span><span class="o">.</span><span class="n">apply_noise_channel</span><span class="p">(</span><span class="n">noise</span><span class="o">.</span><span class="n">channels_1q</span><span class="p">[</span><span class="s1">&#39;depolarizing_1q&#39;</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+
+<span class="c1"># Compute fidelity</span>
+<span class="n">fidelity</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mps_noisy</span><span class="o">.</span><span class="n">inner_product</span><span class="p">(</span><span class="n">mps_ideal</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fidelity after 10 noisy gates: </span><span class="si">{</span><span class="n">fidelity</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Expected: ~0.99 for p=0.001, 10 gates</span>
+</pre></div>
+</div>
+</section>
+<section id="stochastic-trajectory-simulation">
+<h3>Stochastic Trajectory Simulation<a class="headerlink" href="#stochastic-trajectory-simulation" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.noise_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.adaptive_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveMPS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Monte Carlo: sample Kraus operators stochastically</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">depolarizing</span><span class="p">(</span><span class="n">p1q</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">p2q</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">noise</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># Reproducible</span>
+
+<span class="n">n_trajectories</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">outcomes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">traj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_trajectories</span><span class="p">):</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">AdaptiveMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Apply gates with stochastic noise</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="c1"># Gate</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+
+        <span class="c1"># Stochastically sample Kraus operator</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_stochastic_noise</span><span class="p">(</span><span class="n">noise</span><span class="o">.</span><span class="n">channels_1q</span><span class="p">[</span><span class="s1">&#39;depolarizing_1q&#39;</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="c1"># Measure</span>
+    <span class="n">outcome</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+    <span class="n">outcomes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outcome</span><span class="p">)</span>
+
+<span class="c1"># Analyze distribution</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="n">histogram</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">outcomes</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Top 10 outcomes: </span><span class="si">{</span><span class="n">histogram</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h2>
+<section id="when-to-use-noise-models">
+<h3>When to Use Noise Models<a class="headerlink" href="#when-to-use-noise-models" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>NISQ algorithm validation</strong>: Test VQE, QAOA on realistic hardware</p></li>
+<li><p><strong>Error mitigation research</strong>: Study effect of noise on quantum algorithms</p></li>
+<li><p><strong>Hardware comparison</strong>: Compare IBM, Google, IonQ noise characteristics</p></li>
+<li><p><strong>Variational training</strong>: Include noise during VQE optimization for robustness</p></li>
+<li><p><strong>Quantum error correction</strong>: Simulate logical qubit noise rates</p></li>
+</ol>
+</section>
+<section id="nisq-device-parameters">
+<h3>NISQ Device Parameters<a class="headerlink" href="#nisq-device-parameters" title="Link to this heading">#</a></h3>
+<p><strong>IBM Quantum</strong> (superconducting qubits):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">noise_ibm</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">thermal_relaxation</span><span class="p">(</span>
+    <span class="n">T1</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span>      <span class="c1"># 100 μs</span>
+    <span class="n">T2</span><span class="o">=</span><span class="mf">80.0</span><span class="p">,</span>       <span class="c1"># 80 μs</span>
+    <span class="n">gate_time</span><span class="o">=</span><span class="mf">0.05</span> <span class="c1"># 50 ns</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Google Sycamore</strong> (superconducting qubits):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">noise_google</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">thermal_relaxation</span><span class="p">(</span>
+    <span class="n">T1</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>       <span class="c1"># 20 μs (shorter than IBM)</span>
+    <span class="n">T2</span><span class="o">=</span><span class="mf">15.0</span><span class="p">,</span>       <span class="c1"># 15 μs</span>
+    <span class="n">gate_time</span><span class="o">=</span><span class="mf">0.025</span> <span class="c1"># 25 ns (faster gates)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>IonQ</strong> (trapped ions):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">noise_ionq</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="o">.</span><span class="n">thermal_relaxation</span><span class="p">(</span>
+    <span class="n">T1</span><span class="o">=</span><span class="mf">100000.0</span><span class="p">,</span>   <span class="c1"># ~100 ms (much longer!)</span>
+    <span class="n">T2</span><span class="o">=</span><span class="mf">50000.0</span><span class="p">,</span>    <span class="c1"># ~50 ms</span>
+    <span class="n">gate_time</span><span class="o">=</span><span class="mf">0.1</span>  <span class="c1"># 100 ns (slower gates)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Comparison</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Platform</p></th>
+<th class="head"><p>T1 (μs)</p></th>
+<th class="head"><p>T2 (μs)</p></th>
+<th class="head"><p>p1q</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>IBM Quantum</p></td>
+<td><p>100</p></td>
+<td><p>80</p></td>
+<td><p>0.001</p></td>
+</tr>
+<tr class="row-odd"><td><p>Google Sycamore</p></td>
+<td><p>20</p></td>
+<td><p>15</p></td>
+<td><p>0.0015</p></td>
+</tr>
+<tr class="row-even"><td><p>IonQ</p></td>
+<td><p>100,000</p></td>
+<td><p>50,000</p></td>
+<td><p>0.0001</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="cross-references">
+<h2>Cross-References<a class="headerlink" href="#cross-references" title="Link to this heading">#</a></h2>
+<section id="see-also">
+<h3>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference internal" href="adaptive_mps.html"><span class="doc">atlas_q.adaptive_mps</span></a> - Applying noise channels to MPS</p></li>
+<li><p><a class="reference internal" href="../user_guide/howtos/debug_simulations.html"><span class="doc">Debug Simulations</span></a> - Debugging noisy simulations</p></li>
+<li><p><a class="reference internal" href="../user_guide/explanations/algorithms.html"><span class="doc">Algorithms</span></a> - Noise channel theory</p></li>
+<li><p><a class="reference internal" href="vqe_qaoa.html"><span class="doc">atlas_q.vqe_qaoa</span></a> - Variational algorithms with noise</p></li>
+</ul>
+</section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<p>Key papers on quantum noise:</p>
+<ol class="arabic simple">
+<li><p><strong>Preskill, J.</strong> (2018). “Quantum Computing in the NISQ era and beyond.” Quantum, 2, 79.</p></li>
+<li><p><strong>Nielsen, M. A. &amp; Chuang, I. L.</strong> (2010). “Quantum Computation and Quantum Information.” Chapter 8: Quantum Noise.</p></li>
+<li><p><strong>Kraus, K.</strong> (1983). “States, Effects, and Operations: Fundamental Notions of Quantum Theory.” Lecture Notes in Physics.</p></li>
+<li><p><strong>Choi, M.</strong> (1975). “Completely positive linear maps on complex matrices.” Linear Algebra and its Applications, 10(3), 285-290.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">atlas_q.stabilizer_backend.is_clifford_gate</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="peps.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">PEPS (2D Tensor Networks)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-features">Key Features</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-background">Mathematical Background</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-channels">Quantum Channels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#depolarizing-channel">Depolarizing Channel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#amplitude-damping-t1">Amplitude Damping (T1)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dephasing-t2">Dephasing (T2)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#noisechannel">NoiseChannel</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseChannel"><code class="docutils literal notranslate"><span class="pre">NoiseChannel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseChannel.name"><code class="docutils literal notranslate"><span class="pre">NoiseChannel.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseChannel.kraus_ops"><code class="docutils literal notranslate"><span class="pre">NoiseChannel.kraus_ops</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseChannel.num_qubits"><code class="docutils literal notranslate"><span class="pre">NoiseChannel.num_qubits</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseChannel.is_valid"><code class="docutils literal notranslate"><span class="pre">NoiseChannel.is_valid</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#noisemodel">NoiseModel</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseModel"><code class="docutils literal notranslate"><span class="pre">NoiseModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseModel.channels_1q"><code class="docutils literal notranslate"><span class="pre">NoiseModel.channels_1q</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseModel.channels_2q"><code class="docutils literal notranslate"><span class="pre">NoiseModel.channels_2q</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseModel.custom_channels"><code class="docutils literal notranslate"><span class="pre">NoiseModel.custom_channels</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseModel.set_seed"><code class="docutils literal notranslate"><span class="pre">NoiseModel.set_seed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseModel.add_1q_channel"><code class="docutils literal notranslate"><span class="pre">NoiseModel.add_1q_channel()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseModel.add_2q_channel"><code class="docutils literal notranslate"><span class="pre">NoiseModel.add_2q_channel()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseModel.depolarizing"><code class="docutils literal notranslate"><span class="pre">NoiseModel.depolarizing()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseModel.dephasing"><code class="docutils literal notranslate"><span class="pre">NoiseModel.dephasing()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseModel.amplitude_damping"><code class="docutils literal notranslate"><span class="pre">NoiseModel.amplitude_damping()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.noise_models.NoiseModel.thermal_relaxation"><code class="docutils literal notranslate"><span class="pre">NoiseModel.thermal_relaxation()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-characteristics">Performance Characteristics</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-complexity">Computational Complexity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-overhead">Memory Overhead</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-results">Benchmark Results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#depolarizing-noise">Depolarizing Noise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#thermal-relaxation-t1-and-t2">Thermal Relaxation (T1 and T2)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-pauli-channel">Custom Pauli Channel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bit-flip-and-phase-flip">Bit Flip and Phase Flip</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-noisy-vs-noiseless">Comparing Noisy vs. Noiseless</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-trajectory-simulation">Stochastic Trajectory Simulation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-noise-models">When to Use Noise Models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nisq-device-parameters">NISQ Device Parameters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-references">Cross-References</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1613 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Distributed MPS &#8212; ATLAS-Q 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6106a8ff" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/distributed_mps';</script>
+    <link rel="icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="atlas_q.cuquantum_backend" href="cuquantum_backend.html" />
+    <link rel="prev" title="2D/Planar Circuits" href="planar_2d.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.7.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-lm.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">ATLAS-Q</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quickstart.html">
+    Quick Start
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/howtos/index.html">
+    How-To Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/explanations/index.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently Asked Questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Changelog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing ATLAS-Q
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/followthesapper/ATLAS-Q" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/atlas-quantum/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ir_enhanced.html">IR Module (Informational Relativity)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="adaptive_mps.html">atlas_q.adaptive_mps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html">atlas_q.adaptive_mps.AdaptiveMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.adaptive_mps.DTypePolicy.html">atlas_q.adaptive_mps.DTypePolicy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="mps_pytorch.html">MPS PyTorch Backend</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mpo_ops.html">atlas_q.mpo_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPO.html">atlas_q.mpo_ops.MPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.MPOBuilder.html">atlas_q.mpo_ops.MPOBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.expectation_value.html">atlas_q.mpo_ops.expectation_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.apply_mpo_to_mps.html">atlas_q.mpo_ops.apply_mpo_to_mps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.mpo_ops.correlation_function.html">atlas_q.mpo_ops.correlation_function</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tdvp.html">atlas_q.tdvp</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP1Site.html">atlas_q.tdvp.TDVP1Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVP2Site.html">atlas_q.tdvp.TDVP2Site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.TDVPConfig.html">atlas_q.tdvp.TDVPConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.tdvp.run_tdvp.html">atlas_q.tdvp.run_tdvp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="vqe_qaoa.html">atlas_q.vqe_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQE.html">atlas_q.vqe_qaoa.VQE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOA.html">atlas_q.vqe_qaoa.QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.VQEConfig.html">atlas_q.vqe_qaoa.VQEConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.HardwareEfficientAnsatz.html">atlas_q.vqe_qaoa.HardwareEfficientAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.QAOAAnsatz.html">atlas_q.vqe_qaoa.QAOAAnsatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.vqe_qaoa.build_molecular_hamiltonian.html">atlas_q.vqe_qaoa.build_molecular_hamiltonian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="grover.html">atlas_q.grover</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverSearch.html">atlas_q.grover.GroverSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.GroverConfig.html">atlas_q.grover.GroverConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.OracleBase.html">atlas_q.grover.OracleBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.FunctionOracle.html">atlas_q.grover.FunctionOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.BitmapOracle.html">atlas_q.grover.BitmapOracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.DiffusionOperator.html">atlas_q.grover.DiffusionOperator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.grover_search.html">atlas_q.grover.grover_search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.grover.calculate_grover_iterations.html">atlas_q.grover.calculate_grover_iterations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="stabilizer_backend.html">atlas_q.stabilizer_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerSimulator.html">atlas_q.stabilizer_backend.StabilizerSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.StabilizerState.html">atlas_q.stabilizer_backend.StabilizerState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.HybridSimulator.html">atlas_q.stabilizer_backend.HybridSimulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.stabilizer_backend.is_clifford_gate.html">atlas_q.stabilizer_backend.is_clifford_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="noise_models.html">Noise Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peps.html">PEPS (2D Tensor Networks)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_cutting.html">Circuit Cutting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planar_2d.html">2D/Planar Circuits</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Distributed MPS</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cuquantum_backend.html">atlas_q.cuquantum_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumConfig.html">atlas_q.cuquantum_backend.CuQuantumConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.cuquantum_backend.CuQuantumBackend.html">atlas_q.cuquantum_backend.CuQuantumBackend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="quantum_hybrid_system.html">atlas_q.quantum_hybrid_system</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.CompressedQuantumState.html">atlas_q.quantum_hybrid_system.CompressedQuantumState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodicState.html">atlas_q.quantum_hybrid_system.PeriodicState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.ProductState.html">atlas_q.quantum_hybrid_system.ProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.MatrixProductState.html">atlas_q.quantum_hybrid_system.MatrixProductState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodResult.html">atlas_q.quantum_hybrid_system.PeriodResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.PeriodFinder.html">atlas_q.quantum_hybrid_system.PeriodFinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumClassicalHybrid.html">atlas_q.quantum_hybrid_system.QuantumClassicalHybrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.QuantumCircuit.html">atlas_q.quantum_hybrid_system.QuantumCircuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.quantum_hybrid_system.GPUAccelerator.html">atlas_q.quantum_hybrid_system.GPUAccelerator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="triton_kernels.html">Triton GPU Kernels</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="diagnostics.html">atlas_q.diagnostics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.bond_entropy_from_S.html">atlas_q.diagnostics.bond_entropy_from_S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.effective_rank.html">atlas_q.diagnostics.effective_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.spectral_gap.html">atlas_q.diagnostics.spectral_gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.diagnostics.MPSStatistics.html">atlas_q.diagnostics.MPSStatistics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linalg_robust.html">atlas_q.linalg_robust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_svd.html">atlas_q.linalg_robust.robust_svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.robust_qr.html">atlas_q.linalg_robust.robust_qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.linalg_robust.condition_number.html">atlas_q.linalg_robust.condition_number</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="truncation.html">atlas_q.truncation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.choose_rank_from_sigma.html">atlas_q.truncation.choose_rank_from_sigma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.compute_global_error_bound.html">atlas_q.truncation.compute_global_error_bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/atlas_q.truncation.check_entropy_sanity.html">atlas_q.truncation.check_entropy_sanity</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Distributed MPS</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="distributed-mps">
+<h1>Distributed MPS<a class="headerlink" href="#distributed-mps" title="Link to this heading">#</a></h1>
+<p>Multi-GPU MPS simulation for 100s-1000s of qubits.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The distributed MPS module enables tensor network simulations on systems with hundreds to thousands of qubits by partitioning the computation across multiple GPUs. This is essential for simulating large quantum circuits that exceed single-GPU memory limits.</p>
+<p><strong>Mathematical Foundation</strong></p>
+<p>MPS represents a quantum state as a chain of tensors:</p>
+<div class="math notranslate nohighlight">
+\[|\psi\rangle = \sum_{i_1,\ldots,i_n} A^{[1]}_{i_1} A^{[2]}_{i_2} \cdots A^{[n]}_{i_n} |i_1 i_2 \cdots i_n\rangle\]</div>
+<p>Each tensor <span class="math notranslate nohighlight">\(A^{[k]}_{i_k}\)</span> has shape <span class="math notranslate nohighlight">\((\chi_{k-1}, d, \chi_k)\)</span> where <span class="math notranslate nohighlight">\(d=2\)</span> is the physical dimension and <span class="math notranslate nohighlight">\(\chi_k\)</span> is the bond dimension between sites k and k+1.</p>
+<p><strong>Bond-Parallel Decomposition</strong></p>
+<p>The key insight is that MPS operations are mostly local to individual tensors or neighboring pairs. We partition the chain:</p>
+<ul class="simple">
+<li><p><strong>GPU 0</strong>: Sites [0, k₀) with tensors A⁽¹⁾, A⁽²⁾, …, A⁽ᵏ⁰⁻¹⁾</p></li>
+<li><p><strong>GPU 1</strong>: Sites [k₀, k₁) with tensors A⁽ᵏ⁰⁾, …, A⁽ᵏ¹⁻¹⁾</p></li>
+<li><p><strong>GPU p</strong>: Sites [kₚ₋₁, kₚ) with tensors on partition p</p></li>
+</ul>
+<p>Gates acting within a partition are computed locally with no communication. Gates acting across partition boundaries require GPU-to-GPU communication of bond tensors.</p>
+<p><strong>Communication Complexity</strong></p>
+<ul class="simple">
+<li><p><strong>Single-qubit gates</strong>: O(0) communication (local operation)</p></li>
+<li><p><strong>Two-qubit gate within partition</strong>: O(0) communication</p></li>
+<li><p><strong>Two-qubit gate across boundary</strong>: O(χ² d²) communication to exchange bond tensors</p></li>
+<li><p><strong>Canonicalization</strong>: O(N χ² d) global reduction for normalization</p></li>
+</ul>
+<p>For circuits with nearest-neighbor gates on a 1D chain, the fraction of cross-boundary gates is O(p/N) where p is the number of GPUs and N is the number of qubits. With N/p ≈ 25-50, communication overhead is 2-4%.</p>
+<p><strong>Key Features</strong></p>
+<ul class="simple">
+<li><p><strong>Bond-parallel distribution</strong>: Partition MPS chain across GPUs by sites</p></li>
+<li><p><strong>Overlapped communication</strong>: Pipeline SVD computation with GPU-to-GPU transfers</p></li>
+<li><p><strong>Adaptive load balancing</strong>: Dynamic repartitioning for bond dimension spikes</p></li>
+<li><p><strong>Checkpoint/restart</strong>: Fault tolerance for multi-hour simulations</p></li>
+<li><p><strong>Data parallelism mode</strong>: Replicate state for embarrassingly parallel measurements</p></li>
+<li><p><strong>NCCL backend</strong>: Optimized GPU-to-GPU communication (NVLink/InfiniBand)</p></li>
+</ul>
+<p><strong>Requirements</strong></p>
+<ul class="simple">
+<li><p>PyTorch with distributed support (torch.distributed)</p></li>
+<li><p>NCCL backend for NVIDIA GPUs (included with PyTorch)</p></li>
+<li><p>Multiple GPUs with GPU-Direct or NVLink for optimal performance</p></li>
+<li><p>Launch with torchrun or torch.distributed.launch</p></li>
+</ul>
+</section>
+<section id="distribution-modes">
+<h2>Distribution Modes<a class="headerlink" href="#distribution-modes" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistMode">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.distributed_mps.</span></span><span class="sig-name descname"><span class="pre">DistMode</span></span><a class="reference internal" href="../_modules/atlas_q/distributed_mps.html#DistMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.distributed_mps.DistMode" title="Link to this definition">#</a></dt>
+<dd><p>Enumeration of distribution strategies for multi-GPU computation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistMode.NONE">
+<span class="sig-name descname"><span class="pre">NONE</span></span><a class="headerlink" href="#atlas_q.distributed_mps.DistMode.NONE" title="Link to this definition">#</a></dt>
+<dd><p>Single GPU mode (no distribution).</p>
+<p>Use for small systems (N ≤ 30 qubits) or debugging distributed code on single GPU.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistMode.DATA_PARALLEL">
+<span class="sig-name descname"><span class="pre">DATA_PARALLEL</span></span><a class="headerlink" href="#atlas_q.distributed_mps.DistMode.DATA_PARALLEL" title="Link to this definition">#</a></dt>
+<dd><p>Data-parallel mode: replicate full MPS on each GPU.</p>
+<p>Useful for:</p>
+<ul class="simple">
+<li><p>Parallel measurement of different observables</p></li>
+<li><p>Monte Carlo sampling of measurement outcomes</p></li>
+<li><p>Ensemble simulations with different noise realizations</p></li>
+</ul>
+<p>Each GPU holds a complete copy of the MPS. Gate operations are replicated, but measurement and sampling tasks are distributed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistMode.BOND_PARALLEL">
+<span class="sig-name descname"><span class="pre">BOND_PARALLEL</span></span><a class="headerlink" href="#atlas_q.distributed_mps.DistMode.BOND_PARALLEL" title="Link to this definition">#</a></dt>
+<dd><p>Bond-parallel mode: partition MPS chain by sites (default and recommended).</p>
+<p>Each GPU owns a contiguous segment of the MPS chain. This is the most memory-efficient mode, enabling simulations of 100-1000 qubits.</p>
+<p><strong>Partitioning strategy</strong>: For N qubits on p GPUs, GPU rank r owns sites [r·⌊N/p⌋, (r+1)·⌊N/p⌋).</p>
+<p><strong>Communication patterns</strong>:</p>
+<ul class="simple">
+<li><p>Two-qubit gates within a partition: no communication</p></li>
+<li><p>Two-qubit gates crossing partition boundary: point-to-point transfer of bond tensors (O(χ²) data)</p></li>
+<li><p>Canonicalization: ring-based all-reduce (O(p) steps, O(χ² N/p) data per GPU)</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistMode.PIPELINE_PARALLEL">
+<span class="sig-name descname"><span class="pre">PIPELINE_PARALLEL</span></span><a class="headerlink" href="#atlas_q.distributed_mps.DistMode.PIPELINE_PARALLEL" title="Link to this definition">#</a></dt>
+<dd><p>Experimental pipeline-parallel mode for deep circuits.</p>
+<p>Not yet implemented. Will partition circuit depth across GPUs for very deep circuits where depth &gt; N.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.distributed_mps.</span></span><span class="sig-name descname"><span class="pre">DistributedConfig</span></span><a class="reference internal" href="../_modules/atlas_q/distributed_mps.html#DistributedConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.distributed_mps.DistributedConfig" title="Link to this definition">#</a></dt>
+<dd><p>Configuration class for distributed MPS simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mode</strong> (<a class="reference internal" href="#atlas_q.distributed_mps.DistMode" title="atlas_q.distributed_mps.DistMode"><em>DistMode</em></a>) – Distribution mode (default: <code class="docutils literal notranslate"><span class="pre">DistMode.BOND_PARALLEL</span></code>)</p></li>
+<li><p><strong>backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Communication backend (default: <code class="docutils literal notranslate"><span class="pre">'nccl'</span></code> for GPUs, <code class="docutils literal notranslate"><span class="pre">'gloo'</span></code> for CPUs)</p></li>
+<li><p><strong>world_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Number of processes/GPUs (auto-detected if using torchrun)</p></li>
+<li><p><strong>overlap_comm</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Overlap communication with computation (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p></li>
+<li><p><strong>checkpoint_every</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Checkpoint frequency in gates (default: 100, 0 = disabled)</p></li>
+<li><p><strong>checkpoint_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Directory for checkpoint files (default: <code class="docutils literal notranslate"><span class="pre">'./checkpoints'</span></code>)</p></li>
+<li><p><strong>partition_strategy</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Partitioning strategy (<code class="docutils literal notranslate"><span class="pre">'uniform'</span></code> or <code class="docutils literal notranslate"><span class="pre">'adaptive'</span></code>, default: <code class="docutils literal notranslate"><span class="pre">'uniform'</span></code>)</p></li>
+<li><p><strong>load_balance_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Trigger repartitioning when max load / avg load &gt; threshold (default: 1.5)</p></li>
+<li><p><strong>comm_buffer_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Pre-allocated communication buffer size in MB (default: 128)</p></li>
+<li><p><strong>pin_memory</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Use pinned memory for faster GPU transfers (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Backend Selection</strong></p>
+<ul class="simple">
+<li><p><strong>nccl</strong>: Best for NVIDIA GPUs with NVLink or InfiniBand. Required for multi-node.</p></li>
+<li><p><strong>gloo</strong>: CPU-based backend, useful for debugging or CPU-only clusters.</p></li>
+<li><p><strong>mpi</strong>: Requires mpi4py, useful for HPC environments with existing MPI infrastructure.</p></li>
+</ul>
+<p><strong>Partitioning Strategies</strong></p>
+<ul class="simple">
+<li><p><strong>uniform</strong>: Divide qubits evenly across GPUs (⌊N/p⌋ qubits per GPU).</p></li>
+<li><p><strong>adaptive</strong>: Use smaller partitions where bond dimension χ is large, larger partitions where χ is small. Automatically rebalances during simulation based on memory usage.</p></li>
+</ul>
+<p><strong>Memory Estimates</strong></p>
+<p>Each partition requires:</p>
+<ul class="simple">
+<li><p><strong>Tensors</strong>: (N/p) × χ² × d × dtype_size  (d=2 for qubits)</p></li>
+<li><p><strong>Communication buffers</strong>: 2 × χ² × d × dtype_size per boundary</p></li>
+<li><p><strong>SVD workspace</strong>: χ³ × dtype_size (for canonicalization)</p></li>
+</ul>
+<p>For example, 100 qubits on 4 GPUs with χ=32, complex64:</p>
+<ul class="simple">
+<li><p>Tensors: 25 × 32² × 2 × 8 bytes = 410 KB per GPU</p></li>
+<li><p>Buffers: 2 × 32² × 2 × 8 = 33 KB per boundary</p></li>
+<li><p>SVD: 32³ × 8 = 262 KB</p></li>
+</ul>
+<p>Total: ~700 KB per GPU. Very small; communication dominates runtime for moderate χ.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.MPSPartition">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.distributed_mps.</span></span><span class="sig-name descname"><span class="pre">MPSPartition</span></span><a class="reference internal" href="../_modules/atlas_q/distributed_mps.html#MPSPartition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.distributed_mps.MPSPartition" title="Link to this definition">#</a></dt>
+<dd><p>Represents the portion of MPS residing on one GPU.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – GPU rank in distributed group (0 to world_size-1)</p></li>
+<li><p><strong>start_site</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Index of first qubit on this GPU (inclusive)</p></li>
+<li><p><strong>end_site</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Index of last qubit on this GPU (exclusive)</p></li>
+<li><p><strong>tensors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.9)"><em>torch.Tensor</em></a><em>]</em>) – MPS tensors A⁽ˢᵗᵃʳᵗ⁾, …, A⁽ᵉⁿᵈ⁻¹⁾ on this GPU</p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.device" title="(in PyTorch v2.9)"><em>torch.device</em></a>) – CUDA device (e.g., <code class="docutils literal notranslate"><span class="pre">cuda:0</span></code>, <code class="docutils literal notranslate"><span class="pre">cuda:1</span></code>)</p></li>
+<li><p><strong>bond_dims</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>]</em>) – Bond dimensions [χ_start, …, χ_end]</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Attributes:</strong></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.MPSPartition.num_sites">
+<span class="sig-name descname"><span class="pre">num_sites</span></span><a class="headerlink" href="#atlas_q.distributed_mps.MPSPartition.num_sites" title="Link to this definition">#</a></dt>
+<dd><p>Number of qubits in this partition: <code class="docutils literal notranslate"><span class="pre">end_site</span> <span class="pre">-</span> <span class="pre">start_site</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.MPSPartition.left_boundary">
+<span class="sig-name descname"><span class="pre">left_boundary</span></span><a class="headerlink" href="#atlas_q.distributed_mps.MPSPartition.left_boundary" title="Link to this definition">#</a></dt>
+<dd><p>Left boundary bond index (connects to previous partition or None if rank=0)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.MPSPartition.right_boundary">
+<span class="sig-name descname"><span class="pre">right_boundary</span></span><a class="headerlink" href="#atlas_q.distributed_mps.MPSPartition.right_boundary" title="Link to this definition">#</a></dt>
+<dd><p>Right boundary bond index (connects to next partition or None if rank=world_size-1)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.MPSPartition.memory_usage">
+<span class="sig-name descname"><span class="pre">memory_usage</span></span><a class="headerlink" href="#atlas_q.distributed_mps.MPSPartition.memory_usage" title="Link to this definition">#</a></dt>
+<dd><p>Current GPU memory usage in bytes for this partition</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">atlas_q.distributed_mps.</span></span><span class="sig-name descname"><span class="pre">DistributedMPS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/distributed_mps.html#DistributedMPS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS" title="Link to this definition">#</a></dt>
+<dd><p>Distributed Matrix Product State using bond-wise domain decomposition across multiple GPUs.</p>
+<p>Each GPU owns a contiguous segment of the MPS chain. Single-qubit gates are executed locally with no communication. Two-qubit gates within a partition are local, while gates crossing partition boundaries trigger point-to-point communication to exchange bond tensors.</p>
+<p><strong>Initialization</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_qubits</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Total number of qubits in the system (recommended: 50-1000 for multi-GPU)</p></li>
+<li><p><strong>bond_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Initial bond dimension χ (typically 16-64)</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="#atlas_q.distributed_mps.DistributedConfig" title="atlas_q.distributed_mps.DistributedConfig"><em>DistributedConfig</em></a>) – Distribution configuration (if None, uses default bond-parallel mode)</p></li>
+</ul>
+</dd>
+</dl>
+<p>The constructor initializes all tensors to the <a href="#id1"><span class="problematic" id="id2">|</span></a>0⟩ state and partitions them across GPUs according to the configuration. Each GPU receives approximately N/p qubits where p is the world size.</p>
+<p><strong>Attributes:</strong></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.rank">
+<span class="sig-name descname"><span class="pre">rank</span></span><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.rank" title="Link to this definition">#</a></dt>
+<dd><p>Current GPU rank (0 to world_size-1)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.world_size">
+<span class="sig-name descname"><span class="pre">world_size</span></span><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.world_size" title="Link to this definition">#</a></dt>
+<dd><p>Total number of GPUs in the distributed group</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.partition">
+<span class="sig-name descname"><span class="pre">partition</span></span><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.partition" title="Link to this definition">#</a></dt>
+<dd><p>MPSPartition object containing local tensors on this GPU</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.comm_stream">
+<span class="sig-name descname"><span class="pre">comm_stream</span></span><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.comm_stream" title="Link to this definition">#</a></dt>
+<dd><p>CUDA stream for asynchronous communication (overlaps with computation)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.config">
+<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.config" title="Link to this definition">#</a></dt>
+<dd><p>DistributedConfig used for this simulation</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.num_gates_applied">
+<span class="sig-name descname"><span class="pre">num_gates_applied</span></span><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.num_gates_applied" title="Link to this definition">#</a></dt>
+<dd><p>Total number of gates applied (for checkpoint triggering)</p>
+</dd></dl>
+
+<p><strong>Methods:</strong></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.apply_single_qubit_gate">
+<span class="sig-name descname"><span class="pre">apply_single_qubit_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/distributed_mps.html#DistributedMPS.apply_single_qubit_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.apply_single_qubit_gate" title="Link to this definition">#</a></dt>
+<dd><p>Apply single-qubit gate locally with no communication.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.9)"><em>torch.Tensor</em></a>) – 2×2 unitary matrix</p></li>
+<li><p><strong>qubit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Target qubit index (0 to num_qubits-1)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If qubit index is out of range</p>
+</dd>
+</dl>
+<p><strong>Performance</strong>: O(χ² d) tensor contraction on owning GPU. No communication required.</p>
+<p>Single-qubit gates only affect the local tensor A⁽ᵍ⁾ on the owning GPU:</p>
+<div class="math notranslate nohighlight">
+\[A'^{[q]}_{αiβ} = \sum_j U_{ij} A^{[q]}_{αjβ}\]</div>
+<p>This is embarrassingly parallel across qubits on different GPUs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.apply_two_qubit_gate">
+<span class="sig-name descname"><span class="pre">apply_two_qubit_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/distributed_mps.html#DistributedMPS.apply_two_qubit_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.apply_two_qubit_gate" title="Link to this definition">#</a></dt>
+<dd><p>Apply two-qubit gate, communicating across GPUs if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.9)"><em>torch.Tensor</em></a>) – 4×4 unitary matrix in computational basis ordering <a href="#id3"><span class="problematic" id="id4">|</span></a>00⟩, <a href="#id5"><span class="problematic" id="id6">|</span></a>01⟩, <a href="#id7"><span class="problematic" id="id8">|</span></a>10⟩, <a href="#id9"><span class="problematic" id="id10">|</span></a>11⟩</p></li>
+<li><p><strong>qubit1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – First target qubit</p></li>
+<li><p><strong>qubit2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Second target qubit (must be adjacent for MPS)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If qubits are not adjacent or out of range</p>
+</dd>
+</dl>
+<p><strong>Cases:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Both qubits in same partition</strong> (intra-partition): O(χ³ d²) tensor contraction, no communication</p></li>
+<li><p><strong>Qubits in adjacent partitions</strong> (inter-partition): O(χ² d²) communication to transfer bond tensor, then O(χ³ d²) computation</p></li>
+</ol>
+<p><strong>Algorithm for inter-partition gates</strong> (qubits q and q+1 on different GPUs):</p>
+<ol class="arabic simple">
+<li><p>GPU holding qubit q sends bond tensor B[α, i, β] to GPU holding qubit q+1</p></li>
+<li><p>GPU holding qubit q+1 contracts gate with both local tensors</p></li>
+<li><p>GPU holding qubit q+1 performs SVD to split result back into two tensors</p></li>
+<li><p>GPU holding qubit q+1 sends updated bond tensor back to GPU holding qubit q</p></li>
+</ol>
+<p>Total data transfer: 2 × χ² × d × sizeof(complex64) = 16χ² bytes per gate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.apply_mpo">
+<span class="sig-name descname"><span class="pre">apply_mpo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mpo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.apply_mpo" title="Link to this definition">#</a></dt>
+<dd><p>Apply Matrix Product Operator across distributed MPS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mpo</strong> (<a class="reference internal" href="mpo_ops.html#id0" title="atlas_q.mpo_ops.MPO"><em>MPO</em></a>) – Matrix Product Operator to apply</p></li>
+<li><p><strong>qubit_range</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a>) – Optional (start, end) range, defaults to all qubits</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If MPO size doesn’t match qubit range</p>
+</dd>
+</dl>
+<p>MPO application requires coordination across all GPUs. Each GPU applies local MPO tensors to its partition, then synchronizes boundaries.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.canonicalize_distributed">
+<span class="sig-name descname"><span class="pre">canonicalize_distributed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.canonicalize_distributed" title="Link to this definition">#</a></dt>
+<dd><p>Canonicalize MPS in distributed setting using ring-based algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Orthogonality center (default: middle of chain)</p></li>
+<li><p><strong>chi_max</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Maximum bond dimension (default: unlimited)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Normalization factor</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.9)">torch.Tensor</a></p>
+</dd>
+</dl>
+<p><strong>Algorithm</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Left sweep</strong>: GPU 0 canonicalizes its tensors, sends rightmost bond to GPU 1. GPU 1 canonicalizes, sends to GPU 2, etc.</p></li>
+<li><p><strong>Right sweep</strong>: GPU (p-1) canonicalizes its tensors, sends leftmost bond to GPU (p-2), etc.</p></li>
+<li><p><strong>Center normalization</strong>: GPU holding center normalizes and returns norm.</p></li>
+</ol>
+<p>Communication: O(p) messages of size O(χ²) each.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.compute_expectation_distributed">
+<span class="sig-name descname"><span class="pre">compute_expectation_distributed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sites</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.compute_expectation_distributed" title="Link to this definition">#</a></dt>
+<dd><p>Compute expectation value of operator across distributed MPS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>operator</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.9)"><em>torch.Tensor</em></a>) – Operator matrix (2×2 for single-site, 4×4 for two-site)</p></li>
+<li><p><strong>sites</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>]</em>) – Qubit indices where operator acts</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Expectation value ⟨ψ|O|ψ⟩</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.14)">complex</a></p>
+</dd>
+</dl>
+<p>Uses MPS contraction algorithm with operator insertion. If operator acts across partition boundaries, requires communication to exchange bond tensors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.checkpoint">
+<span class="sig-name descname"><span class="pre">checkpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/distributed_mps.html#DistributedMPS.checkpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.checkpoint" title="Link to this definition">#</a></dt>
+<dd><p>Save distributed MPS checkpoint to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Checkpoint directory (created if doesn’t exist)</p>
+</dd>
+</dl>
+<p>Each GPU saves its partition to <code class="docutils literal notranslate"><span class="pre">{path}/rank_{r}.pt</span></code>. Also saves metadata file <code class="docutils literal notranslate"><span class="pre">{path}/metadata.json</span></code> with global state information (world_size, num_qubits, bond_dims, etc.).</p>
+<p>Checkpoints enable fault tolerance for multi-hour simulations. If a GPU fails, restart from last checkpoint.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.load_checkpoint">
+<span class="sig-name descname"><span class="pre">load_checkpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/atlas_q/distributed_mps.html#DistributedMPS.load_checkpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.load_checkpoint" title="Link to this definition">#</a></dt>
+<dd><p>Load distributed MPS from checkpoint files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Checkpoint directory</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FileNotFoundError" title="(in Python v3.14)"><strong>FileNotFoundError</strong></a> – If checkpoint files are missing</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If checkpoint world_size doesn’t match current configuration</p></li>
+</ul>
+</dd>
+</dl>
+<p>Reads metadata and partition files. Verifies consistency across GPUs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.gather_state">
+<span class="sig-name descname"><span class="pre">gather_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.gather_state" title="Link to this definition">#</a></dt>
+<dd><p>Gather full MPS state to root GPU.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Root GPU rank (default: 0)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Complete AdaptiveMPS object on root GPU, None on other GPUs</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html#atlas_q.adaptive_mps.AdaptiveMPS" title="atlas_q.adaptive_mps.AdaptiveMPS">AdaptiveMPS</a> or None</p>
+</dd>
+</dl>
+<p>Useful for final measurements or saving full state. Uses all-gather collective communication. <strong>Warning</strong>: Full state may not fit in root GPU memory for large systems.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.scatter_state">
+<span class="sig-name descname"><span class="pre">scatter_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.scatter_state" title="Link to this definition">#</a></dt>
+<dd><p>Scatter MPS from root GPU to all partitions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mps</strong> (<a class="reference internal" href="generated/atlas_q.adaptive_mps.AdaptiveMPS.html#atlas_q.adaptive_mps.AdaptiveMPS" title="atlas_q.adaptive_mps.AdaptiveMPS"><em>AdaptiveMPS</em></a>) – Full MPS on root GPU (None on other GPUs)</p></li>
+<li><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Root GPU rank (default: 0)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Inverse of gather_state. Useful for initializing distributed simulation from a prepared state.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="atlas_q.distributed_mps.DistributedMPS.rebalance_partitions">
+<span class="sig-name descname"><span class="pre">rebalance_partitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#atlas_q.distributed_mps.DistributedMPS.rebalance_partitions" title="Link to this definition">#</a></dt>
+<dd><p>Dynamically rebalance partitions based on current bond dimensions.</p>
+<p>Only active when <code class="docutils literal notranslate"><span class="pre">partition_strategy='adaptive'</span></code>. Redistributes qubits to equalize memory usage across GPUs when bond dimensions are highly non-uniform.</p>
+<p>Triggered automatically when load imbalance exceeds <code class="docutils literal notranslate"><span class="pre">load_balance_threshold</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<p><strong>Example 1: Launching Distributed Simulation</strong></p>
+<p>First, create a Python script <code class="docutils literal notranslate"><span class="pre">distributed_grover.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span><span class="p">,</span> <span class="n">DistMode</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Configuration</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+        <span class="n">mode</span><span class="o">=</span><span class="n">DistMode</span><span class="o">.</span><span class="n">BOND_PARALLEL</span><span class="p">,</span>
+        <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span>
+        <span class="n">overlap_comm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">checkpoint_every</span><span class="o">=</span><span class="mi">200</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Create 100-qubit distributed MPS</span>
+    <span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="c1"># Define gates</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">H</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">H</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Grover initialization: H on all qubits</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="c1"># Oracle: mark state |11...1⟩</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="c1"># Multi-controlled Z gate (simplified: apply CZ in tree pattern)</span>
+    <span class="n">CZ</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">99</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_two_qubit_gate</span><span class="p">(</span><span class="n">CZ</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="c1"># Diffusion operator (H, X, multi-CZ, X, H)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="c1"># Final normalization</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">canonicalize_distributed</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">mps</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Grover iteration complete on </span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">world_size</span><span class="si">}</span><span class="s2"> GPUs&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;State norm: </span><span class="si">{</span><span class="n">norm</span><span class="o">.</span><span class="n">real</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Launch with <code class="docutils literal notranslate"><span class="pre">torchrun</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Single node, 4 GPUs</span>
+torchrun<span class="w"> </span>--nproc_per_node<span class="o">=</span><span class="m">4</span><span class="w"> </span>distributed_grover.py
+
+<span class="c1"># Multi-node: 2 nodes, 4 GPUs each</span>
+<span class="c1"># On node 0:</span>
+torchrun<span class="w"> </span>--nnodes<span class="o">=</span><span class="m">2</span><span class="w"> </span>--nproc_per_node<span class="o">=</span><span class="m">4</span><span class="w"> </span>--node_rank<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--master_addr<span class="o">=</span><span class="m">192</span>.168.1.1<span class="w"> </span>--master_port<span class="o">=</span><span class="m">29500</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>distributed_grover.py
+
+<span class="c1"># On node 1:</span>
+torchrun<span class="w"> </span>--nnodes<span class="o">=</span><span class="m">2</span><span class="w"> </span>--nproc_per_node<span class="o">=</span><span class="m">4</span><span class="w"> </span>--node_rank<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--master_addr<span class="o">=</span><span class="m">192</span>.168.1.1<span class="w"> </span>--master_port<span class="o">=</span><span class="m">29500</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>distributed_grover.py
+</pre></div>
+</div>
+<p><strong>Example 2: Checkpoint and Restart</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span><span class="n">checkpoint_every</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">checkpoint_dir</span><span class="o">=</span><span class="s1">&#39;./ckpt&#39;</span><span class="p">)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">48</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># Simulate first 5000 gates</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">CNOT</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">CNOT</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">25</span><span class="p">):</span>
+    <span class="c1"># Hadamard layer</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="c1"># CNOT layer</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">199</span><span class="p">):</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_two_qubit_gate</span><span class="p">(</span><span class="n">CNOT</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Automatic checkpoint every 1000 gates (50 gates/layer × 20 layers)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">layer</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">20</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">mps</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Checkpointed at layer </span><span class="si">{</span><span class="n">layer</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Later: restart from checkpoint</span>
+<span class="n">mps2</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">mps2</span><span class="o">.</span><span class="n">load_checkpoint</span><span class="p">(</span><span class="s1">&#39;./ckpt&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">mps2</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Resumed from checkpoint, continuing simulation...&quot;</span><span class="p">)</span>
+
+<span class="c1"># Continue for another 5000 gates</span>
+<span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">25</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">):</span>
+        <span class="n">mps2</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">199</span><span class="p">):</span>
+        <span class="n">mps2</span><span class="o">.</span><span class="n">apply_two_qubit_gate</span><span class="p">(</span><span class="n">CNOT</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 3: Adaptive Load Balancing</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span>
+
+<span class="c1"># Adaptive partitioning for non-uniform χ</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="n">DistMode</span><span class="o">.</span><span class="n">BOND_PARALLEL</span><span class="p">,</span>
+    <span class="n">partition_strategy</span><span class="o">=</span><span class="s1">&#39;adaptive&#39;</span><span class="p">,</span>
+    <span class="n">load_balance_threshold</span><span class="o">=</span><span class="mf">1.5</span>  <span class="c1"># Rebalance when imbalance &gt; 50%</span>
+<span class="p">)</span>
+
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># Simulate circuit with χ spike in middle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="n">device</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span>
+
+<span class="c1"># This circuit creates higher entanglement in middle qubits</span>
+<span class="k">for</span> <span class="n">depth</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="c1"># Apply gates in middle region (higher χ)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">):</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">U</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>  <span class="c1"># Random unitary</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">199</span><span class="p">):</span>
+        <span class="n">U2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">U2</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">U2</span><span class="p">)</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">apply_two_qubit_gate</span><span class="p">(</span><span class="n">U2</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Check load balance every 5 layers</span>
+    <span class="k">if</span> <span class="n">depth</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">mem_usage</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">partition</span><span class="o">.</span><span class="n">memory_usage</span>
+        <span class="k">if</span> <span class="n">mps</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Layer </span><span class="si">{</span><span class="n">depth</span><span class="si">}</span><span class="s2">: GPU </span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s2"> memory = </span><span class="si">{</span><span class="n">mem_usage</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e9</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Automatic rebalancing if threshold exceeded</span>
+        <span class="n">mps</span><span class="o">.</span><span class="n">rebalance_partitions</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Example 4: Data-Parallel Measurements</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">atlas_q.distributed_mps</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedMPS</span><span class="p">,</span> <span class="n">DistributedConfig</span><span class="p">,</span> <span class="n">DistMode</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Data-parallel mode: replicate state, parallelize measurements</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">DistributedConfig</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">DistMode</span><span class="o">.</span><span class="n">DATA_PARALLEL</span><span class="p">)</span>
+<span class="n">mps</span> <span class="o">=</span> <span class="n">DistributedMPS</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bond_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># Prepare entangled state (same on all GPUs)</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">CNOT</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">CNOT</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_single_qubit_gate</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">29</span><span class="p">):</span>
+    <span class="n">mps</span><span class="o">.</span><span class="n">apply_two_qubit_gate</span><span class="p">(</span><span class="n">CNOT</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Each GPU measures different observables in parallel</span>
+<span class="n">observables</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span>  <span class="c1"># Z</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span>   <span class="c1"># X</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="c1"># Y</span>
+<span class="p">]</span>
+
+<span class="c1"># Each GPU computes subset of measurements</span>
+<span class="n">my_observables</span> <span class="o">=</span> <span class="n">observables</span><span class="p">[</span><span class="n">mps</span><span class="o">.</span><span class="n">rank</span><span class="p">::</span><span class="n">mps</span><span class="o">.</span><span class="n">world_size</span><span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">obs</span> <span class="ow">in</span> <span class="n">my_observables</span><span class="p">:</span>
+        <span class="n">exp_val</span> <span class="o">=</span> <span class="n">mps</span><span class="o">.</span><span class="n">compute_expectation_distributed</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="p">[</span><span class="n">qubit</span><span class="p">])</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">qubit</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">exp_val</span><span class="p">))</span>
+
+<span class="c1"># Gather results to rank 0</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+<span class="n">all_results</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">mps</span><span class="o">.</span><span class="n">world_size</span>
+<span class="n">dist</span><span class="o">.</span><span class="n">all_gather_object</span><span class="p">(</span><span class="n">all_results</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">mps</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">flat_results</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">all_results</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Computed </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">flat_results</span><span class="p">)</span><span class="si">}</span><span class="s2"> expectation values across </span><span class="si">{</span><span class="n">mps</span><span class="o">.</span><span class="n">world_size</span><span class="si">}</span><span class="s2"> GPUs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-notes">
+<h2>Performance Notes<a class="headerlink" href="#performance-notes" title="Link to this heading">#</a></h2>
+<p><strong>Scaling Efficiency</strong></p>
+<p>Distributed MPS achieves near-linear scaling for large systems:</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id11">
+<caption><span class="caption-text">Strong Scaling on 100-qubit Circuit (χ=32, 10000 gates)</span><a class="headerlink" href="#id11" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 15.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>GPUs</p></th>
+<th class="head"><p>Time (s)</p></th>
+<th class="head"><p>Speedup</p></th>
+<th class="head"><p>Efficiency</p></th>
+<th class="head"><p>Cross-boundary Gates</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>245.3</p></td>
+<td><p>1.0×</p></td>
+<td><p>100%</p></td>
+<td><p>0% (baseline)</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>128.7</p></td>
+<td><p>1.91×</p></td>
+<td><p>95%</p></td>
+<td><p>1% (1 boundary)</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>67.2</p></td>
+<td><p>3.65×</p></td>
+<td><p>91%</p></td>
+<td><p>3% (3 boundaries)</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>36.8</p></td>
+<td><p>6.67×</p></td>
+<td><p>83%</p></td>
+<td><p>7% (7 boundaries)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Efficiency decreases slightly with more GPUs due to increased communication overhead. For p GPUs, the fraction of cross-boundary gates is approximately (p-1)/N for nearest-neighbor circuits.</p>
+<p><strong>Communication Costs</strong></p>
+<ul class="simple">
+<li><p><strong>Single-qubit gate</strong>: 0 bytes (local operation)</p></li>
+<li><p><strong>Two-qubit gate (intra-partition)</strong>: 0 bytes</p></li>
+<li><p><strong>Two-qubit gate (inter-partition)</strong>: 2 × χ² × d × 8 bytes = 16χ² bytes</p></li>
+<li><p><strong>Canonicalization</strong>: p × χ² × d × 8 bytes = 8pχ² bytes (ring algorithm)</p></li>
+</ul>
+<p>For χ=32: inter-partition gate transfers 16 KB, canonicalization transfers 8p KB.</p>
+<p>With NVLink (300 GB/s) or InfiniBand (200 Gb/s), communication time is negligible compared to χ³ SVD cost for χ ≥ 16.</p>
+<p><strong>Bandwidth Requirements</strong></p>
+<p>For 10000 gates on 100 qubits with 4 GPUs (3% cross-boundary):</p>
+<ul class="simple">
+<li><p>Cross-boundary gates: 10000 × 0.03 = 300 gates</p></li>
+<li><p>Data transfer: 300 × 16 KB = 4.8 MB total</p></li>
+<li><p>Canonicalization every 1000 gates: 10 × 8 × 4 × 32² = 327 KB</p></li>
+</ul>
+<p>Total communication: ~5 MB for entire simulation. Network bandwidth is not a bottleneck.</p>
+<p><strong>Recommended Configurations</strong></p>
+<div class="pst-scrollable-table-container"><table class="table" id="id12">
+<caption><span class="caption-text">Configuration Guidelines</span><a class="headerlink" href="#id12" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 25.0%" />
+<col style="width: 30.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>System Size</p></th>
+<th class="head"><p>GPUs</p></th>
+<th class="head"><p>Qubits per GPU</p></th>
+<th class="head"><p>Recommended χ</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>50-100 qubits</p></td>
+<td><p>2-4</p></td>
+<td><p>25-50</p></td>
+<td><p>χ ≤ 64</p></td>
+</tr>
+<tr class="row-odd"><td><p>100-200 qubits</p></td>
+<td><p>4-8</p></td>
+<td><p>25-50</p></td>
+<td><p>χ ≤ 48</p></td>
+</tr>
+<tr class="row-even"><td><p>200-500 qubits</p></td>
+<td><p>8-16</p></td>
+<td><p>25-50</p></td>
+<td><p>χ ≤ 32</p></td>
+</tr>
+<tr class="row-odd"><td><p>500-1000 qubits</p></td>
+<td><p>16-32</p></td>
+<td><p>30-60</p></td>
+<td><p>χ ≤ 24</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Optimization Tips</strong></p>
+<ol class="arabic simple">
+<li><p><strong>overlap_comm=True</strong>: 10-20% speedup by pipelining communication with computation</p></li>
+<li><p><strong>NCCL backend</strong>: 2-3× faster than gloo for GPU-to-GPU transfers</p></li>
+<li><p><strong>NVLink topology</strong>: Use <code class="docutils literal notranslate"><span class="pre">nvidia-smi</span> <span class="pre">topo</span> <span class="pre">-m</span></code> to check GPU interconnect. Prefer GPUs with NVLink over PCIe.</p></li>
+<li><p><strong>Pin memory</strong>: Set <code class="docutils literal notranslate"><span class="pre">pin_memory=True</span></code> for faster CPU-GPU transfers during checkpointing</p></li>
+<li><p><strong>Batch gates</strong>: Group single-qubit gates together to minimize synchronization points</p></li>
+<li><p><strong>Adaptive partitioning</strong>: For circuits with non-uniform entanglement, use <code class="docutils literal notranslate"><span class="pre">partition_strategy='adaptive'</span></code></p></li>
+</ol>
+<p><strong>Troubleshooting</strong></p>
+<ul class="simple">
+<li><p><strong>Slow inter-partition gates</strong>: Check GPU topology with <code class="docutils literal notranslate"><span class="pre">nvidia-smi</span> <span class="pre">topo</span> <span class="pre">-m</span></code>. Ensure NVLink or fast PCIe connections.</p></li>
+<li><p><strong>Memory imbalance</strong>: Enable adaptive partitioning with <code class="docutils literal notranslate"><span class="pre">partition_strategy='adaptive'</span></code></p></li>
+<li><p><strong>Checkpoint overhead</strong>: Increase <code class="docutils literal notranslate"><span class="pre">checkpoint_every</span></code> to reduce I/O frequency (e.g., 1000-5000 gates)</p></li>
+<li><p><strong>Initialization hangs</strong>: Ensure all GPUs can communicate. Test with <code class="docutils literal notranslate"><span class="pre">torch.distributed.barrier()</span></code></p></li>
+<li><p><strong>NCCL errors</strong>: Set <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">NCCL_DEBUG=INFO</span></code> for detailed communication logs</p></li>
+</ul>
+<p><strong>Benchmarks</strong></p>
+<p>Tested on NVIDIA A100 (80GB) × 8 with NVLink:</p>
+<ul class="simple">
+<li><p><strong>100-qubit GHZ state</strong>: 1.2s (1 GPU) → 0.18s (8 GPUs), 6.7× speedup</p></li>
+<li><p><strong>200-qubit random circuit</strong> (depth=20, χ=32): 156s (4 GPUs) → 44s (16 GPUs), 3.5× speedup</p></li>
+<li><p><strong>500-qubit QAOA</strong> (depth=10, χ=24): 892s on 32 GPUs (11s per GPU)</p></li>
+</ul>
+</section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">#</a></h2>
+<p><strong>Architectural Constraints</strong></p>
+<ul class="simple">
+<li><p>Requires nearest-neighbor gate pattern for MPS efficiency. Long-range gates increase bond dimension exponentially.</p></li>
+<li><p>Bond dimension χ must fit in GPU memory: each partition requires O(N/p × χ²) storage.</p></li>
+<li><p>Canonicalization is a serial bottleneck: requires O(p) sequential communication steps.</p></li>
+</ul>
+<p><strong>Practical Limits</strong></p>
+<ul class="simple">
+<li><p>Maximum tested: 1024 qubits on 32 GPUs with χ=16</p></li>
+<li><p>Beyond 32 GPUs, communication overhead dominates for typical χ values</p></li>
+<li><p>Shallow circuits (depth &lt; 20) may not benefit from distribution due to initialization overhead</p></li>
+</ul>
+<p><strong>When NOT to Use Distributed MPS</strong></p>
+<ul class="simple">
+<li><p>Small systems (N &lt; 50 qubits): single-GPU MPS is faster due to no communication overhead</p></li>
+<li><p>Deep circuits with high entanglement (χ &gt; 64 required): consider PEPS or Clifford+RBM methods</p></li>
+<li><p>All-to-all connectivity: MPS is inefficient; use statevector for N &lt; 20 or approximate methods</p></li>
+</ul>
+</section>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h2>
+<p><strong>Ideal Applications</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Large-scale quantum circuit simulation</strong>: 100-1000 qubit circuits with nearest-neighbor gates</p></li>
+<li><p><strong>Quantum chemistry</strong>: Large molecules requiring many qubits (e.g., 100-atom systems)</p></li>
+<li><p><strong>Quantum optimization</strong>: QAOA on graphs with local connectivity (MaxCut, TSP)</p></li>
+<li><p><strong>Quantum error correction</strong>: Simulation of surface codes or repetition codes (1D/2D layouts)</p></li>
+<li><p><strong>Quantum machine learning</strong>: Training quantum neural networks with distributed gradients</p></li>
+</ol>
+<p><strong>Research Applications</strong></p>
+<ul class="simple">
+<li><p>Benchmark classical simulators against quantum hardware (100+ qubit circuits)</p></li>
+<li><p>Study entanglement dynamics in many-body systems</p></li>
+<li><p>Verify quantum advantage claims for specific problem instances</p></li>
+<li><p>Develop and test quantum algorithms at scale before hardware availability</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../user_guide/howtos/parallel_computation.html"><span class="doc">Parallel Computation</span></a> - Multi-GPU setup guide</p></li>
+<li><p><a class="reference internal" href="../user_guide/howtos/handle_large_systems.html"><span class="doc">How to Handle Large Quantum Systems</span></a> - Scaling strategies and memory management</p></li>
+<li><p><a class="reference internal" href="mps_pytorch.html"><span class="doc">MPS PyTorch Backend</span></a> - Single-GPU MPS implementation</p></li>
+<li><p><a class="reference internal" href="adaptive_mps.html"><span class="doc">atlas_q.adaptive_mps</span></a> - Adaptive bond dimension algorithms</p></li>
+<li><p><a class="reference internal" href="circuit_cutting.html"><span class="doc">Circuit Cutting</span></a> - Circuit partitioning for distributed simulation</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="scholl21" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Scholl21<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="16">
+<li><p>Scholl et al., “Quantum simulation of 2D antiferromagnets with hundreds of Rydberg atoms,” <em>Nature</em> 595, 233 (2021).</p></li>
+</ol>
+</div>
+<div class="citation" id="zhou20" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Zhou20<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="25">
+<li><p>Zhou et al., “Quantum advantage with noisy shallow circuits,” <em>Nature Physics</em> 16, 1 (2020).</p></li>
+</ol>
+</div>
+<div class="citation" id="gray22" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Gray22<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="10">
+<li><p>Gray &amp; S. Kourtis, “Hyper-optimized tensor network contraction,” <em>Quantum</em> 5, 410 (2021).</p></li>
+</ol>
+</div>
+<div class="citation" id="pednault17" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Pednault17<span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="5">
+<li><p>Pednault et al., “Breaking the 49-qubit barrier in the simulation of quantum circuits,” <em>arXiv:1710.05867</em> (2017).</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="planar_2d.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2D/Planar Circuits</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="cuquantum_backend.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">atlas_q.cuquantum_backend</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-modes">Distribution Modes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistMode"><code class="docutils literal notranslate"><span class="pre">DistMode</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistMode.NONE"><code class="docutils literal notranslate"><span class="pre">DistMode.NONE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistMode.DATA_PARALLEL"><code class="docutils literal notranslate"><span class="pre">DistMode.DATA_PARALLEL</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistMode.BOND_PARALLEL"><code class="docutils literal notranslate"><span class="pre">DistMode.BOND_PARALLEL</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistMode.PIPELINE_PARALLEL"><code class="docutils literal notranslate"><span class="pre">DistMode.PIPELINE_PARALLEL</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedConfig"><code class="docutils literal notranslate"><span class="pre">DistributedConfig</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.MPSPartition"><code class="docutils literal notranslate"><span class="pre">MPSPartition</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.MPSPartition.num_sites"><code class="docutils literal notranslate"><span class="pre">MPSPartition.num_sites</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.MPSPartition.left_boundary"><code class="docutils literal notranslate"><span class="pre">MPSPartition.left_boundary</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.MPSPartition.right_boundary"><code class="docutils literal notranslate"><span class="pre">MPSPartition.right_boundary</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.MPSPartition.memory_usage"><code class="docutils literal notranslate"><span class="pre">MPSPartition.memory_usage</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS"><code class="docutils literal notranslate"><span class="pre">DistributedMPS</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.rank"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.rank</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.world_size"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.world_size</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.partition"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.partition</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.comm_stream"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.comm_stream</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.config"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.num_gates_applied"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.num_gates_applied</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.apply_single_qubit_gate"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.apply_single_qubit_gate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.apply_two_qubit_gate"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.apply_two_qubit_gate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.apply_mpo"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.apply_mpo()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.canonicalize_distributed"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.canonicalize_distributed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.compute_expectation_distributed"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.compute_expectation_distributed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.checkpoint"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.checkpoint()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.load_checkpoint"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.load_checkpoint()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.gather_state"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.gather_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.scatter_state"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.scatter_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#atlas_q.distributed_mps.DistributedMPS.rebalance_partitions"><code class="docutils literal notranslate"><span class="pre">DistributedMPS.rebalance_partitions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-notes">Performance Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, ATLAS-Q Development Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

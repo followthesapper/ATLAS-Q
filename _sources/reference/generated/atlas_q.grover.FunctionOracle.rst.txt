@@ -1,0 +1,25 @@
+﻿atlas\_q.grover.FunctionOracle
+==============================
+
+.. currentmodule:: atlas_q.grover
+
+.. autoclass:: FunctionOracle
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~FunctionOracle.__init__
+      ~FunctionOracle.apply
+      ~FunctionOracle.get_marked_count
+      ~FunctionOracle.mark
+   
+   
+
+   
+   
+   
